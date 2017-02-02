@@ -12,7 +12,18 @@ namespace MonoTests.Monodoc
 	[TestFixture]
 	public class TreeTest
 	{
-		const string BaseDir = "../../class/monodoc/Test/monodoc_test/";
+		string BaseDir
+		{
+			get
+			{
+				var baseDir = "../../monodoc_test/";
+				var assemblyLocation = this.GetType ().Assembly.Location;
+				return Path.GetFullPath (
+					Path.Combine (
+						Path.GetDirectoryName (assemblyLocation),
+						baseDir));
+			}
+		}
 
 		[Test]
 		public void TestLoadingTree_2_10 ()

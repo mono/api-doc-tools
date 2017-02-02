@@ -14,14 +14,26 @@ namespace MonoTests.Monodoc.Generators
 	[TestFixture]
 	public class RawGeneratorTests
 	{
-		const string BaseDir = "../../class/monodoc/Test/monodoc_test/";
+		string BaseDir
+		{
+			get
+			{
+				var baseDir = "../../monodoc_test/";
+				var assemblyLocation = this.GetType ().Assembly.Location;
+				return Path.GetFullPath (
+					Path.Combine (
+						Path.GetDirectoryName (assemblyLocation),
+						baseDir));
+			}
+		}
+
 		RootTree rootTree;
 		RawGenerator generator = new RawGenerator ();
 
 		[SetUp]
 		public void Setup ()
 		{
-			rootTree = RootTree.LoadTree (Path.GetFullPath (BaseDir), false);
+			rootTree = RootTree.LoadTree (BaseDir, false);
 		}
 
 		void AssertValidXml (string xml)

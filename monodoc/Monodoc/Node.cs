@@ -110,6 +110,7 @@ namespace Monodoc
 				childrenLookup[child.element] = child;
 		}
 
+		#if LEGACY_MODE
 		[Obsolete ("Use ChildNodes")]
 		public ArrayList Nodes {
 			get {
@@ -118,6 +119,7 @@ namespace Monodoc
 				return legacyNodes;
 			}
 		}
+		#endif
 
 		public IList<Node> ChildNodes {
 			get {

@@ -1,0 +1,9 @@
+[submodule "external/SharpZipLib"]
+	path = external/SharpZipLib
+	url = https://github.com/icsharpcode/SharpZipLib.git
+[submodule "external/Lucene.Net.Light"]
+	path = external/Lucene.Net.Light
+	url = https://github.com/mono/Lucene.Net.Light.git
+[submodule "external/Mono.Cecil"]
+	path = external/Mono.Cecil
+	url = https://github.com/mono/cecil.git
