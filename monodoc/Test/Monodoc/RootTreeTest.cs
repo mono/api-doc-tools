@@ -13,7 +13,18 @@ namespace MonoTests.Monodoc
 	[TestFixture]
 	public class RootTreeTest
 	{
-		const string BaseDir = "../../class/monodoc/Test/monodoc_test/";
+		string BaseDir
+		{
+			get
+			{
+				var baseDir = "../../monodoc_test/";
+				var assemblyLocation = this.GetType().Assembly.Location;
+				return Path.GetFullPath(
+					Path.Combine(
+						Path.GetDirectoryName(assemblyLocation),
+						baseDir));
+			}
+		}
 
 		RootTree root;
 		HtmlGenerator generator;

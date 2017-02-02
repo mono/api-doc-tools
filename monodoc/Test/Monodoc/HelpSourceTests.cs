@@ -17,7 +17,18 @@ namespace MonoTests.Monodoc
 	[TestFixture]
 	public class HelpSourceTest
 	{
-		const string BaseDir = "../../class/monodoc/Test/monodoc_test/";
+		string BaseDir
+		{
+			get
+			{
+				var baseDir = "../../monodoc_test/";
+				var assemblyLocation = this.GetType ().Assembly.Location;
+				return Path.GetFullPath (
+					Path.Combine (
+						Path.GetDirectoryName (assemblyLocation), 
+						baseDir));
+			}
+		}
 
 		class CheckGenerator : IDocGenerator<bool>
 		{
@@ -67,7 +78,7 @@ namespace MonoTests.Monodoc
 		[Test]
 		public void ReachabilityTest ()
 		{
-			var rootTree = RootTree.LoadTree (Path.GetFullPath (BaseDir), false);
+			var rootTree = RootTree.LoadTree (BaseDir, false);
 			Node result;
 			var generator = new CheckGenerator ();
 			int errorCount = 0;
@@ -108,7 +119,7 @@ namespace MonoTests.Monodoc
 		[Test]
 		public void ReachabilityWithShortGenericNotationTest ()
 		{
-			var rootTree = RootTree.LoadTree (Path.GetFullPath (BaseDir), false);
+			var rootTree = RootTree.LoadTree (BaseDir, false);
 			Node result;
 			var generator = new CheckGenerator ();
 
@@ -142,7 +153,7 @@ namespace MonoTests.Monodoc
 		[Test]
 		public void AspNetStyleUrlReachabilityTest ()
 		{
-			var rootTree = RootTree.LoadTree (Path.GetFullPath (BaseDir), false);
+			var rootTree = RootTree.LoadTree (BaseDir, false);
 			Node result;
 			var generator = new CheckGenerator ();
 
@@ -159,7 +170,7 @@ namespace MonoTests.Monodoc
 		{
 			// Unattached help source have no root:/ URL attributed
 			var hs = new EcmaHelpSource (Path.Combine (BaseDir, "sources", "netdocs"), false);
-			var rootTree = RootTree.LoadTree (Path.GetFullPath (BaseDir), false);
+			var rootTree = RootTree.LoadTree (BaseDir, false);
 			hs.RootTree = rootTree;
 			Assert.IsNull (hs.Tree.RootNode.PublicUrl);
 			var nsChildUrl = hs.Tree.RootNode.ChildNodes.First ().PublicUrl;

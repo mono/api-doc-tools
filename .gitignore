@@ -3,3 +3,10 @@
 /Test/DocTest.*
 /.v2.txt
 /.v0.txt
+packages
+NUnit.*
+TestResult.xml
+*.userprefs
+*.user
+bin
+obj

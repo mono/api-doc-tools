@@ -12,7 +12,18 @@ namespace MonoTests.Monodoc
 	[TestFixture]
 	public class NodeTest
 	{
-		const string BaseDir = "../../class/monodoc/Test/monodoc_test/";
+		string BaseDir
+		{
+			get
+			{
+				var baseDir = "../../monodoc_test/";
+				var assemblyLocation = this.GetType ().Assembly.Location;
+				return Path.GetFullPath (
+					Path.Combine (
+						Path.GetDirectoryName (assemblyLocation),
+						baseDir));
+			}
+		}
 
 		[Test]
 		public void LegacyNodesTest_30 ()

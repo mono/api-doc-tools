@@ -15,7 +15,7 @@
     <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;NET_4_5</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -25,7 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>none</DebugType>
     <Optimize>False</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -37,21 +37,21 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="ICSharpCode.SharpZipLib" />
     <Reference Include="System.Xml" />
-    <Reference Include="monodoc">
-      <HintPath>..\..\class\lib\net_4_x\monodoc.dll</HintPath>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\bin\$(Configuration)\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\bin\$(Configuration)\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\bin\$(Configuration)\Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
-      <HintPath>..\..\class\lib\net_4_x\Mono.Cecil.dll</HintPath>
+      <HintPath>..\bin\$(Configuration)\Mono.Cecil.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="..\..\build\common\Consts.cs">
-      <Link>Build\Common\Consts.cs</Link>
-    </Compile>
-    <Compile Include="..\..\class\Mono.Options\Mono.Options\Options.cs">
-      <Link>Mono.Options\Options.cs</Link>
-    </Compile>
     <Compile Include="Mono.Rocks\ObjectRocks.cs" />
     <Compile Include="Mono.Rocks\StreamRocks.cs" />
     <Compile Include="Mono.Documentation\assembler.cs" />
@@ -70,6 +70,8 @@
     <Compile Include="Mono.Documentation\exceptions.cs" />
     <Compile Include="Mono.Documentation\index.cs" />
     <Compile Include="Mono.Documentation\preserver.cs" />
+    <Compile Include="Consts.cs" />
+    <Compile Include="Options.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\defaulttemplate.xsl">
@@ -101,5 +103,11 @@
     <None Include="..\..\class\monodoc\Resources\mono-ecma-css.xsl">
       <Link>Resources\mono-ecma-css.xsl</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\monodoc\monodoc.csproj">
+      <Project>{6E644802-B579-4037-9809-9CF4C7172C9D}</Project>
+      <Name>monodoc</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
