@@ -205,6 +205,7 @@ class MDocUpdater : MDocCommand
 
 	/// <summary>Path which contains multiple folders with assemblies. Each folder contained will represent one framework.</summary>
 	string FrameworksPath = string.Empty;
+	Dictionary<string, List<string>> frameworksIndex = new Dictionary<string, StringList> ();
 	
 	static List<string> droppedAssemblies = new List<string>();
 
@@ -301,6 +302,16 @@ class MDocUpdater : MDocCommand
 		var assemblies = Parse (p, args, "update", 
 				"[OPTIONS]+ ASSEMBLIES",
 				"Create or update documentation from ASSEMBLIES.");
+
+		if (!string.IsNullOrWhiteSpace (FrameworksPath))
+		{
+			// Load the list of frameworks
+			var frameworks = Directory.GetDirectories (FrameworksPath);
+			assemblies.AddRange (frameworks.SelectMany (d => Directory.GetFiles (d, "*.dll")));
+
+			frameworksIndex = frameworks.ToDictionary (d => d, d => new List<string> (Directory.GetFiles (d, "*.dll")));
+		}
+
 		if (assemblies == null)
 			return;
 		if (assemblies.Count == 0)
