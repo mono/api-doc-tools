@@ -132,7 +132,7 @@ class MDocUpdater : MDocCommand
 	string srcPath;
 	List<AssemblyDefinition> assemblies;
 	readonly DefaultAssemblyResolver assemblyResolver = new DefaultAssemblyResolver();
-	
+
 	string apistyle = string.Empty;
 	bool isClassicRun;
 	
@@ -202,6 +202,9 @@ class MDocUpdater : MDocCommand
 			return apistyle == "classic" || apistyle == "unified";
 		}
 	}
+
+	/// <summary>Path which contains multiple folders with assemblies. Each folder contained will represent one framework.</summary>
+	string FrameworksPath = string.Empty;
 	
 	static List<string> droppedAssemblies = new List<string>();
 
@@ -290,7 +293,10 @@ class MDocUpdater : MDocCommand
 				v => PreserveTag = "true" },
 			{ "api-style=",
 				"Denotes the apistyle. Currently, only `classic` and `unified` are supported. `classic` set of assemblies should be run first, immediately followed by 'unified' assemblies with the `dropns` parameter.",
-				v => { apistyle = v.ToLowerInvariant (); }},
+				v => apistyle = v.ToLowerInvariant () },
+			{ "fx|frameworks=",
+				"Folder which contains library that spans multiple frameworks. Each folder will represent one framework and the folder name will be used as the framework name.",
+				v => FrameworksPath = v },
 		};
 		var assemblies = Parse (p, args, "update", 
 				"[OPTIONS]+ ASSEMBLIES",
