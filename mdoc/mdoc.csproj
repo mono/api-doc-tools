@@ -72,6 +72,7 @@
     <Compile Include="Mono.Documentation\preserver.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Options.cs" />
+    <Compile Include="Mono.Documentation\Frameworks\FrameworkIndex.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\defaulttemplate.xsl">
@@ -109,5 +110,8 @@
       <Project>{6E644802-B579-4037-9809-9CF4C7172C9D}</Project>
       <Name>monodoc</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mono.Documentation\Frameworks\" />
   </ItemGroup>
 </Project>
