@@ -1,25 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
 using Mono.Cecil;
 
 namespace Mono.Documentation
 {
 	public class FrameworkTypeEntry
 	{
-		List<string> members = new List<string> ();
+		SortedSet<string> members = new SortedSet<string> ();
+		FrameworkEntry fx;
+
+		public FrameworkTypeEntry (FrameworkEntry fx) {
+			this.fx = fx;
+		}
 
 		public string Name { get; set; }
 
-		public IList<string> Members
-		{
-			get
-			{
+		public ISet<string> Members {
+			get {
 				return this.members;
 			}
 		}
 
 		public void ProcessMember (IEnumerable<string> signatures) {
+			foreach (var sig in signatures) {
+				members.Add (sig);
+			}
+		}
 
+		public override string ToString () {
+			return $"{this.Name} in {this.fx.Name}";
 		}
 	}
 
@@ -35,19 +47,29 @@ namespace Mono.Documentation
 			}
 		}
 
-		public FrameworkTypeEntry ProcessType (TypeDefinition type)
-		{
-			throw new NotImplementedException ();
+		public FrameworkTypeEntry ProcessType (TypeDefinition type) {
+			
+			var entry = types.FirstOrDefault (t => t.Name.Equals (type.FullName));
+			if (entry == null)
+			{
+				entry = new FrameworkTypeEntry (this) { Name = type.FullName };
+				types.Add (entry);
+			}
+			return entry;
 		}
 
+		public override string ToString () {
+			return this.Name;
+		}
 }
 
 	public class FrameworkIndex
 	{
 		List<FrameworkEntry> frameworks = new List<FrameworkEntry> ();
+		string path;
 
-		public FrameworkIndex ()
-		{
+		public FrameworkIndex (string pathToFrameworks) {
+			path = pathToFrameworks;
 		}
 
 		public IList<FrameworkEntry> Frameworks {
@@ -56,15 +78,25 @@ namespace Mono.Documentation
 			}
 		}
 
-		public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly)
-		{
+		public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly) {
+			string assemblyPath = assembly.MainModule.FileName;
+			string relativePath = assemblyPath.Replace (this.path, string.Empty);
+			string shortPath = Path.GetDirectoryName (relativePath);
+			if (shortPath.StartsWith (Path.DirectorySeparatorChar.ToString (), StringComparison.InvariantCultureIgnoreCase))
+				shortPath = shortPath.Substring (1, shortPath.Length - 1);
+			
+
+			var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
+			if (entry == null) {
+				entry = new FrameworkEntry { Name = shortPath };
+				frameworks.Add (entry);
+			}
+			return entry;
+		}
+
+		public void Write (string path) {
 			throw new NotImplementedException ();
 		}
 
-		public void Write ()
-		{
-			throw new NotImplementedException ();
-		}
-
-}
+	}
 }
