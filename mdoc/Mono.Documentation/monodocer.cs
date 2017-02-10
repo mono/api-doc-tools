@@ -205,7 +205,7 @@ class MDocUpdater : MDocCommand
 
 	/// <summary>Path which contains multiple folders with assemblies. Each folder contained will represent one framework.</summary>
 	string FrameworksPath = string.Empty;
-	Dictionary<string, List<string>> frameworksIndex = new Dictionary<string, StringList> ();
+	FrameworkIndex frameworks = new FrameworkIndex ();
 	
 	static List<string> droppedAssemblies = new List<string>();
 
@@ -306,10 +306,10 @@ class MDocUpdater : MDocCommand
 		if (!string.IsNullOrWhiteSpace (FrameworksPath))
 		{
 			// Load the list of frameworks
-			var frameworks = Directory.GetDirectories (FrameworksPath);
-			assemblies.AddRange (frameworks.SelectMany (d => Directory.GetFiles (d, "*.dll")));
+			var fx = Directory.GetDirectories (FrameworksPath);
+			assemblies.AddRange (fx.SelectMany (d => Directory.GetFiles (d, "*.dll")));
 
-			frameworksIndex = frameworks.ToDictionary (d => d, d => new List<string> (Directory.GetFiles (d, "*.dll")));
+			//frameworksIndex = frameworks.ToDictionary (d => d, d => new List<string> (Directory.GetFiles (d, "*.dll")));
 		}
 
 		if (assemblies == null)
@@ -357,6 +357,8 @@ class MDocUpdater : MDocCommand
 #endif
 		else
 			DoUpdateAssemblies (srcPath, srcPath);
+
+		frameworks.Write ();
 
 		Console.WriteLine("Members Added: {0}, Members Deleted: {1}", additions, deletions);
 	}
@@ -552,8 +554,13 @@ class MDocUpdater : MDocCommand
 
 		var found = new HashSet<string> ();
 		foreach (AssemblyDefinition assembly in assemblies) {
+				
+			var frameworkEntry = frameworks.StartProcessingAssembly (assembly);
+
 			foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, typenames)) {
-				string relpath = DoUpdateType (type, basepath, dest);
+				var typeEntry = frameworkEntry.ProcessType (type);
+
+				string relpath = DoUpdateType (type, typeEntry, basepath, dest);
 				if (relpath == null)
 					continue;
 
@@ -639,7 +646,7 @@ class MDocUpdater : MDocCommand
 		return file.Exists;
 	}
 	
-	public string DoUpdateType (TypeDefinition type, string basepath, string dest)
+	public string DoUpdateType (TypeDefinition type, FrameworkTypeEntry typeEntry, string basepath, string dest)
 	{
 		if (type.Namespace == null)
 			Warning ("warning: The type `{0}' is in the root namespace.  This may cause problems with display within monodoc.",
@@ -712,7 +719,7 @@ class MDocUpdater : MDocCommand
 				throw new InvalidOperationException("Error loading " + typefile + ": " + e.Message, e);
 			}
 			
-			DoUpdateType2("Updating", basefile, type, output, false);
+			DoUpdateType2("Updating", basefile, type, typeEntry, output, false);
 		} else {
 			// Stub
 			XmlElement td = StubType(type, output);
@@ -750,10 +757,13 @@ class MDocUpdater : MDocCommand
 						}
 					}
 					//--
-			}			
+			}
+
+			var frameworkEntry = frameworks.StartProcessingAssembly (assembly);
+			var typeEntry = frameworkEntry.ProcessType (type);
 
 			seenTypes[type] = seenTypes;
-			DoUpdateType2("Updating", basefile, type, Path.Combine(outpath, file.Name), false);
+			DoUpdateType2("Updating", basefile, type, typeEntry, Path.Combine(outpath, file.Name), false);
 		}
 		
 		// Stub types not in the directory
@@ -880,7 +890,7 @@ class MDocUpdater : MDocCommand
 		} else {
 			index = CreateIndexStub();
 		}
-		
+
 		string defaultTitle = "Untitled";
 		if (assemblies.Count == 1)
 			defaultTitle = assemblies[0].Name.Name;
@@ -907,18 +917,29 @@ class MDocUpdater : MDocCommand
 
 		WriteFile (indexfile, FileMode.Create, 
 				writer => WriteXml(index.DocumentElement, writer));
+
+
+		if (!string.IsNullOrWhiteSpace (FrameworksPath))
+		{
+				// write the framework index files
+				frameworks.Write ();
+		}
 	}
 		
 	private static char[] InvalidFilenameChars = {'\\', '/', ':', '*', '?', '"', '<', '>', '|'};
 
 	private void DoUpdateAssembly (AssemblyDefinition assembly, XmlElement index_types, string source, string dest, HashSet<string> goodfiles) 
 	{
+		var frameworkEntry = frameworks.StartProcessingAssembly (assembly);
+
 		foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null)) {
+			var typeEntry = frameworkEntry.ProcessType (type);
+
 			string typename = GetTypeFileName(type);
 			if (!IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0 || forwardedTypes.Contains (type.FullName))
 				continue;
 
-			string reltypepath = DoUpdateType (type, source, dest);
+			string reltypepath = DoUpdateType (type, typeEntry, source, dest);
 			if (reltypepath == null)
 				continue;
 			
@@ -1194,7 +1215,7 @@ class MDocUpdater : MDocCommand
 
 	static readonly XmlNodeComparer DefaultExtensionMethodComparer = new ExtensionMethodComparer ();
 		
-	public void DoUpdateType2 (string message, XmlDocument basefile, TypeDefinition type, string output, bool insertSince)
+	public void DoUpdateType2 (string message, XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry, string output, bool insertSince)
 	{
 		Console.WriteLine(message + ": " + type.FullName);
 		
@@ -1257,9 +1278,13 @@ class MDocUpdater : MDocCommand
 				.Where (x => x.GetAttribute ("Language") == "C#" && !seenmembers.ContainsKey(x.GetAttribute("Value")))
 				.Select (x => x.GetAttribute ("Value"));
 
+			typeEntry.ProcessMember (styles);
+
 			foreach (var stylesig in styles) {
 				seenmembers.Add (stylesig, oldmember);
 			}
+
+
 		}
 		foreach (XmlElement oldmember in todelete)
 			oldmember.ParentNode.RemoveChild (oldmember);
@@ -1553,7 +1578,9 @@ class MDocUpdater : MDocCommand
 		XmlElement root = doc.CreateElement("Type");
 		doc.AppendChild (root);
 
-		DoUpdateType2 ("New Type", doc, type, output, true);
+		var frameworkEntry = frameworks.StartProcessingAssembly (type.Module.Assembly);
+		var typeEntry = frameworkEntry.ProcessType (type);
+		DoUpdateType2 ("New Type", doc, type, typeEntry, output, true);
 		
 		return root;
 	}
