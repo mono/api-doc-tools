@@ -205,7 +205,7 @@ class MDocUpdater : MDocCommand
 
 	/// <summary>Path which contains multiple folders with assemblies. Each folder contained will represent one framework.</summary>
 	string FrameworksPath = string.Empty;
-	FrameworkIndex frameworks = new FrameworkIndex ();
+	FrameworkIndex frameworks;
 	
 	static List<string> droppedAssemblies = new List<string>();
 
@@ -346,9 +346,10 @@ class MDocUpdater : MDocCommand
 		GatherForwardedTypes ();
 
 		docEnum = docEnum ?? new DocumentationEnumerator ();
-		
+
 		// PERFORM THE UPDATES
-		
+		frameworks = new FrameworkIndex (FrameworksPath);
+
 		if (types.Count > 0) {
 			types.Sort ();
 			DoUpdateTypes (srcPath, types, srcPath);
@@ -936,11 +937,11 @@ class MDocUpdater : MDocCommand
 		var frameworkEntry = frameworks.StartProcessingAssembly (assembly);
 
 		foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null)) {
-			var typeEntry = frameworkEntry.ProcessType (type);
-
 			string typename = GetTypeFileName(type);
 			if (!IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0 || forwardedTypes.Contains (type.FullName))
 				continue;
+
+			var typeEntry = frameworkEntry.ProcessType (type);
 
 			string reltypepath = DoUpdateType (type, typeEntry, source, dest);
 			if (reltypepath == null)

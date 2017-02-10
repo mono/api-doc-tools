@@ -55,6 +55,16 @@ endif
 cleanup:
 	-rm -Rf Test/en.actual Test/html.actual
 
+Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll
+	rm -rf Test/FrameworkTestData
+	mkdir Test/FrameworkTestData
+	mkdir Test/FrameworkTestData/One
+	mkdir Test/FrameworkTestData/Two
+	cp Test/DocTest-addNonGeneric.dll Test/FrameworkTestData/One/
+	cp Test/DocTest-DropNS-classic.dll Test/FrameworkTestData/One/
+	cp Test/DocTest-addNonGeneric.dll Test/FrameworkTestData/Two/
+	cp Test/DocTest-DropNS-classic-secondary.dll Test/FrameworkTestData/Two/
+
 Test/DocTest-addNonGeneric.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-addNonGeneric.cs
 
@@ -117,6 +127,10 @@ Test/DocTest.dll-v2:
 
 Test/DocTest-enumerations.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-enumerations.cs
+
+check-monodocer-frameworks: Test/FrameworkTestData
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
 
 check-monodocer-addNonGeneric: 
 	-rm -Rf Test/en.actual
