@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
 
 using Mono.Cecil;
 
@@ -95,7 +97,32 @@ namespace Mono.Documentation
 		}
 
 		public void Write (string path) {
-			throw new NotImplementedException ();
+			string outputPath = Path.Combine (path, "FrameworksIndex");
+			if (!Directory.Exists (outputPath))
+				Directory.CreateDirectory (outputPath);
+			
+			foreach (var fx in this.frameworks) {
+
+				XDocument doc = new XDocument (
+					new XElement("Framework",
+						new XAttribute ("Name", fx.Name),
+				             fx.Types.Select(t => new XElement("Type",
+                                   new XAttribute("Name", t.Name),
+                                   t.Members.Select(m => 
+	                                	new XElement("Member", 
+			                                 new XAttribute("Sig", m)))))));
+
+				// now save the document
+				string filePath = Path.Combine (outputPath, fx.Name + ".xml");
+
+				if (File.Exists (filePath))
+					File.Delete (filePath);
+
+				var settings = new XmlWriterSettings { Indent = true };
+				using (var writer = XmlWriter.Create (filePath, settings)) {
+					doc.WriteTo (writer);
+				}
+			}
 		}
 
 	}
