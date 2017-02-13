@@ -921,13 +921,6 @@ class MDocUpdater : MDocCommand
 
 		WriteFile (indexfile, FileMode.Create, 
 				writer => WriteXml(index.DocumentElement, writer));
-
-
-		if (!string.IsNullOrWhiteSpace (FrameworksPath))
-		{
-				// write the framework index files
-				frameworks.Write (dest);
-		}
 	}
 		
 	private static char[] InvalidFilenameChars = {'\\', '/', ':', '*', '?', '"', '<', '>', '|'};
@@ -1069,7 +1062,7 @@ class MDocUpdater : MDocCommand
 	private void CleanupFiles (string dest, HashSet<string> goodfiles)
 	{
 		// Look for files that no longer correspond to types
-		foreach (System.IO.DirectoryInfo nsdir in new System.IO.DirectoryInfo(dest).GetDirectories("*")) {
+		foreach (System.IO.DirectoryInfo nsdir in new System.IO.DirectoryInfo(dest).GetDirectories("*").Where(d => Path.GetFileName(d.FullName) != "FrameworksIndex")) {
 			foreach (System.IO.FileInfo typefile in nsdir.GetFiles("*.xml")) {
 				string relTypeFile = Path.Combine(nsdir.Name, typefile.Name);
 				if (!goodfiles.Contains (relTypeFile)) {
