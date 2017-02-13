@@ -26,9 +26,13 @@ namespace Mono.Documentation
 			}
 		}
 
+		public void ProcessMember (string sig) {
+			members.Add (sig);
+		}
+
 		public void ProcessMember (IEnumerable<string> signatures) {
 			foreach (var sig in signatures) {
-				members.Add (sig);
+				ProcessMember (sig);
 			}
 		}
 

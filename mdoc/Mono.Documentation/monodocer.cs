@@ -1268,7 +1268,7 @@ class MDocUpdater : MDocCommand
 			}
 			
 			// Update signature information
-			UpdateMember(info);
+			UpdateMember(info, typeEntry);
 
 			// get all apistyles of sig from info.Node
 			var styles = oldmember.GetElementsByTagName ("MemberSignature").Cast<XmlElement> ()
@@ -1320,7 +1320,7 @@ class MDocUpdater : MDocCommand
 					})
 					.ToArray();
 			foreach (MemberReference m in typemembers) {
-				XmlElement mm = MakeMember(basefile, new DocsNodeInfo (null, m));
+				XmlElement mm = MakeMember(basefile, new DocsNodeInfo (null, m), typeEntry);
 				if (mm == null) continue;
 
 				if (MDocUpdater.SwitchingToMagicTypes || MDocUpdater.HasDroppedNamespace (m)) {
@@ -1330,7 +1330,7 @@ class MDocUpdater : MDocCommand
 				}
 
 				members.AppendChild( mm );
-	
+				
 				Console.WriteLine("Member Added: " + mm.SelectSingleNode("MemberSignature/@Value").InnerText);
 				additions++;
 			}
@@ -1784,7 +1784,7 @@ class MDocUpdater : MDocCommand
 		return l;
 	}
 
-	private void UpdateMember (DocsNodeInfo info)
+	private void UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry)
 	{
 		XmlElement me = (XmlElement) info.Node;
 		MemberReference mi = info.Member;
@@ -1793,6 +1793,9 @@ class MDocUpdater : MDocCommand
 			string element = "MemberSignature[@Language='" + f.Language + "']";
 
 			var valueToUse = f.GetDeclaration (mi);
+
+			if (f.Language == "C#")
+				typeEntry.ProcessMember (valueToUse);
 
 			AddXmlNode (
 				me.SelectNodes (element).Cast<XmlElement> ().ToArray(), 
@@ -2791,7 +2794,7 @@ class MDocUpdater : MDocCommand
 			throw new ArgumentException(mi + " is a " + mi.GetType().FullName);
 	}
 	
-	private XmlElement MakeMember(XmlDocument doc, DocsNodeInfo info)
+	private XmlElement MakeMember(XmlDocument doc, DocsNodeInfo info, FrameworkTypeEntry typeEntry)
 	{
 		MemberReference mi = info.Member;
 		if (mi is TypeDefinition) return null;
@@ -2810,7 +2813,7 @@ class MDocUpdater : MDocCommand
 		me.SetAttribute("MemberName", GetMemberName (mi));
 
 		info.Node = me;
-		UpdateMember(info);
+		UpdateMember(info, typeEntry);
 		if (exceptions.HasValue && 
 				(exceptions.Value & ExceptionLocations.AddedMembers) != 0)
 			UpdateExceptions (info.Node, info.Member);
