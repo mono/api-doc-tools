@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="Two">
+  <Type Name="MyFramework.MyOtherNamespace.MyOtherClass">
+    <Member Sig="public float Hello (int value);" />
+    <Member Sig="public MyOtherClass ();" />
+    <Member Sig="public string MyProperty { get; set; }" />
+  </Type>
+  <Type Name="MyNamespace.MyClass">
+    <Member Sig="public MyClass ();" />
+    <Member Sig="public string SomeMethod&lt;T&gt; ();" />
+  </Type>
+</Framework>

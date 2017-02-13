@@ -359,7 +359,8 @@ class MDocUpdater : MDocCommand
 		else
 			DoUpdateAssemblies (srcPath, srcPath);
 
-		frameworks.Write (srcPath);
+		if (!string.IsNullOrWhiteSpace (FrameworksPath))
+			frameworks.Write (srcPath);
 
 		Console.WriteLine("Members Added: {0}, Members Deleted: {1}", additions, deletions);
 	}
