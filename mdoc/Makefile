@@ -131,6 +131,7 @@ Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-class
 check-monodocer-frameworks: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-frameworks Test/en.actual
 
 check-monodocer-addNonGeneric: 
 	-rm -Rf Test/en.actual

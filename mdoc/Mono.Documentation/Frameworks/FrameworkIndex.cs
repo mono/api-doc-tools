@@ -9,10 +9,12 @@ using Mono.Cecil;
 
 namespace Mono.Documentation
 {
-	public class FrameworkTypeEntry
+	public class FrameworkTypeEntry : IComparable<FrameworkTypeEntry>
 	{
 		SortedSet<string> members = new SortedSet<string> ();
 		FrameworkEntry fx;
+
+		public static FrameworkTypeEntry Empty = new EmptyTypeEntry (FrameworkEntry.Empty) { Name = "Empty" };
 
 		public FrameworkTypeEntry (FrameworkEntry fx) {
 			this.fx = fx;
@@ -26,11 +28,11 @@ namespace Mono.Documentation
 			}
 		}
 
-		public void ProcessMember (string sig) {
+		public virtual void ProcessMember (string sig) {
 			members.Add (sig);
 		}
 
-		public void ProcessMember (IEnumerable<string> signatures) {
+		public virtual void ProcessMember (IEnumerable<string> signatures) {
 			foreach (var sig in signatures) {
 				ProcessMember (sig);
 			}
@@ -39,21 +41,38 @@ namespace Mono.Documentation
 		public override string ToString () {
 			return $"{this.Name} in {this.fx.Name}";
 		}
+
+		public int CompareTo (FrameworkTypeEntry other)
+		{
+			if (other == null) return -1;
+			if (this.Name == null) return 1;
+
+			return string.Compare (this.Name, other.Name, StringComparison.CurrentCulture);
+		}
+
+		class EmptyTypeEntry : FrameworkTypeEntry
+		{
+			public EmptyTypeEntry (FrameworkEntry fx) : base (fx) { }
+			public override void ProcessMember (IEnumerable<string> signatures) { }
+			public override void ProcessMember (string sig) { }
+		}
 	}
 
 	public class FrameworkEntry
 	{
-		List<FrameworkTypeEntry> types = new List<FrameworkTypeEntry> ();
+		SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
 		public string Name { get; set; }
 
-		public IList<FrameworkTypeEntry> Types {
+		public ISet<FrameworkTypeEntry> Types {
 			get {
 				return this.types;
 			}
 		}
 
-		public FrameworkTypeEntry ProcessType (TypeDefinition type) {
+		public static readonly FrameworkEntry Empty = new EmptyFrameworkEntry () { Name = "Empty" };
+
+		public virtual FrameworkTypeEntry ProcessType (TypeDefinition type) {
 			
 			var entry = types.FirstOrDefault (t => t.Name.Equals (type.FullName));
 			if (entry == null)
@@ -66,6 +85,11 @@ namespace Mono.Documentation
 
 		public override string ToString () {
 			return this.Name;
+		}
+
+		class EmptyFrameworkEntry : FrameworkEntry
+		{
+			public override FrameworkTypeEntry ProcessType (TypeDefinition type) { return FrameworkTypeEntry.Empty; }
 		}
 }
 
@@ -85,6 +109,9 @@ namespace Mono.Documentation
 		}
 
 		public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly) {
+			if (string.IsNullOrWhiteSpace (this.path))
+				return FrameworkEntry.Empty;
+
 			string assemblyPath = assembly.MainModule.FileName;
 			string relativePath = assemblyPath.Replace (this.path, string.Empty);
 			string shortPath = Path.GetDirectoryName (relativePath);
@@ -101,6 +128,9 @@ namespace Mono.Documentation
 		}
 
 		public void Write (string path) {
+			if (string.IsNullOrWhiteSpace (this.path))
+				return;
+			
 			string outputPath = Path.Combine (path, "FrameworksIndex");
 			if (!Directory.Exists (outputPath))
 				Directory.CreateDirectory (outputPath);
