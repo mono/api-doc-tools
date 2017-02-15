@@ -185,5 +185,38 @@
         <Link Type="Mono.DocTest.Generic.Extensions" Member="M:Mono.DocTest.Generic.Extensions.ToEnumerable``1(``0)" />
       </Member>
     </ExtensionMethod>
+    <ExtensionMethod>
+      <Targets>
+        <Target Type="T:System.Array" />
+      </Targets>
+      <Member MemberName="IsAligned&lt;T&gt;">
+        <MemberSignature Language="C#" Value="public static bool IsAligned&lt;T&gt; (this T[] vect, int index) where T : struct;" />
+        <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool IsAligned&lt;struct .ctor (class System.ValueType) T&gt;(!!T[] vect, int32 index) cil managed" />
+        <MemberType>ExtensionMethod</MemberType>
+        <ReturnValue>
+          <ReturnType>System.Boolean</ReturnType>
+        </ReturnValue>
+        <TypeParameters>
+          <TypeParameter Name="T">
+            <Constraints>
+              <ParameterAttribute>DefaultConstructorConstraint</ParameterAttribute>
+              <ParameterAttribute>NotNullableValueTypeConstraint</ParameterAttribute>
+              <BaseTypeName>System.ValueType</BaseTypeName>
+            </Constraints>
+          </TypeParameter>
+        </TypeParameters>
+        <Parameters>
+          <Parameter Name="vect" Type="T[]" RefType="this" />
+          <Parameter Name="index" Type="System.Int32" />
+        </Parameters>
+        <Docs>
+          <typeparam name="T">To be added.</typeparam>
+          <param name="vect">To be added.</param>
+          <param name="index">To be added.</param>
+          <summary>To be added.</summary>
+        </Docs>
+        <Link Type="System.Environment" Member="M:System.Environment.IsAligned``1(``0[],System.Int32)" />
+      </Member>
+    </ExtensionMethod>
   </ExtensionMethods>
 </Overview>

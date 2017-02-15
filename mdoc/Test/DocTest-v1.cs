@@ -30,6 +30,12 @@ namespace System {
 		{
 			throw new NotSupportedException ();
 		}
+
+		// Testing whether this extension method shows up for System.Array
+        public static bool IsAligned<T> (this T[] vect, int index) where T : struct 
+        {
+            return false;
+        }
 	}
 
 	// to test ECMA doc importing...
