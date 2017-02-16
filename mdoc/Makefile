@@ -272,6 +272,13 @@ check-monodocer-delete:
 	$(MONO) $(PROGRAM) --debug update -fno-assembly-versions --delete --exceptions=all -o Test/en.actual Test/DocTest.dll
 	$(DIFF) Test/en.expected.delete Test/en.actual
 
+check-monodocer-ignore-invalid-assemblies: Test/DocTest-addNonGeneric.dll Test/DocTest-addNonGeneric-v2.dll
+	-rm -Rf Test/en.actual
+	touch Test/notActuallyA.dll
+	$(MONO) $(PROGRAM) --debug update -o Test/en.actual Test/DocTest-addNonGeneric.dll Test/notActuallyA.dll
+	$(MONO) $(PROGRAM) --debug update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll Test/notActuallyA.dll
+	$(DIFF) Test/en.expected-addNonGeneric Test/en.actual
+
 check-monodocer-importslashdoc-update: 
 	find Test/en.expected.importslashdoc -name \*.xml -exec rm "{}" \;
 	$(MAKE) Test/DocTest.dll-v1 TEST_CSCFLAGS=-doc:Test/DocTest.xml
@@ -377,6 +384,8 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-dropns-classic-withsecondary \
 	check-monodocer-dropns-delete \
 	check-monodocer-internal-interface \
+	check-monodocer-addNonGeneric \
+	check-monodocer-ignore-invalid-assemblies \
 	check-monodocer-enumerations \
 	check-monodocer-dropns-multi \
 	check-monodocer-dropns-multi-withexisting

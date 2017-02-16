@@ -320,8 +320,11 @@ class MDocUpdater : MDocCommand
 		if (srcPath == null)
 			throw new InvalidOperationException("The --out option is required.");
 		
-		this.assemblies = assemblies.Select (a => LoadAssembly (a)).ToList ();
-
+		this.assemblies = assemblies.Select (a => LoadAssembly (a)).Where(a => a != null).ToList ();
+		
+		if (assemblies.Count == 0)
+			Error ("No valid assemblies specified.");
+			
 		// Store types that have been forwarded to avoid duplicate generation
 		GatherForwardedTypes ();
 
@@ -408,10 +411,10 @@ class MDocUpdater : MDocCommand
 		AssemblyDefinition assembly = null;
 		try {
 			assembly = AssemblyDefinition.ReadAssembly (name, new ReaderParameters { AssemblyResolver = assemblyResolver });
-		} catch (System.IO.FileNotFoundException) { }
-
-		if (assembly == null)
-			throw new InvalidOperationException("Assembly " + name + " not found.");
+		} 
+		catch (Exception ex) {
+			Warning ($"Unable to load assembly '{name}': {ex.Message}");
+		}
 
 		return assembly;
 	}
