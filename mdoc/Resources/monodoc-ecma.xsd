@@ -251,6 +251,8 @@ add masterdoc support?
       </xs:choice>
     </xs:complexType>
   </xs:element>
+  
+  <xs:element name="forInternalUseOnly" />
 
   <xs:element name="Docs">
     <xs:complexType>
@@ -271,6 +273,7 @@ add masterdoc support?
         <xs:element ref="typeparam" />
         <xs:element ref="filterpriority" />
         <xs:element ref="related" />
+        <xs:element ref="forInternalUseOnly" />
       </xs:choice>
     </xs:complexType>
   </xs:element>
