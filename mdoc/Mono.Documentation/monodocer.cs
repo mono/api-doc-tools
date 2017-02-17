@@ -4353,6 +4353,12 @@ public abstract class MemberFormatter {
 	
 	public string GetDeclaration (MemberReference mreference)
 	{
+		var typeSpec = mreference as TypeSpecification;
+		if (typeSpec != null && typeSpec.Resolve() == null && typeSpec.IsArray && typeSpec.ContainsGenericParameter) {
+			//HACK: there's really no good reference for a generic parameter array, so we're going to use object
+			return "T:System.Array";
+		}
+
 		return GetDeclaration (mreference.Resolve ());
 	}
 

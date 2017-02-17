@@ -14,4 +14,11 @@ namespace MyNamespace {
 		bool MyInternalInterface.Foo {get;set;}
 		void MyInternalInterface.FooMeth () {}
 	}
+
+    public static class ArrayX10 {
+        public static bool IsAligned<T> (this T[] vect, int index) where T : struct 
+        {
+            return false;
+        }
+    }
 }

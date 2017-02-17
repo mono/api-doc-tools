@@ -1745,6 +1745,14 @@ class Example {
             <exception cref="T:System.NotSupportedException">To be added; from:
           <see cref="M:System.Environment.GetFolderPath(System.Environment.SpecialFolder)" /></exception>
         </member>
+        <member name="M:System.Environment.IsAligned``1(``0[],System.Int32)">
+            <typeparam name="T">To be added.</typeparam>
+            <param name="vect">To be added.</param>
+            <param name="index">To be added.</param>
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>To be added.</remarks>
+        </member>
         <member name="T:System.Environment+SpecialFolder">
             <summary>To be added.</summary>
             <remarks>

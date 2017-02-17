@@ -314,6 +314,13 @@ check-mdoc-export-html-update:
 	$(MONO) $(PROGRAM) export-html -o Test/html.expected \
 		Test/en.expected.importslashdoc 
 
+check-mdoc-export-html-with-array-extension: 
+	rm -Rf Test/html.actual
+	$(MAKE) check-monodocer
+	$(MONO) $(PROGRAM) export-html -o Test/html.actual \
+		Test/en.actual
+	$(DIFF) Test/html.expected-with-array-extension Test/html.actual
+
 check-mdoc-export-html: check-monodocer 
 	rm -Rf Test/html.actual
 	$(MONO) $(PROGRAM) export-html -o Test/html.actual \
@@ -378,6 +385,7 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-delete \
 	check-mdoc-export-html \
 	check-mdoc-export-html-with-version \
+	check-mdoc-export-html-with-array-extension \
 	check-mdoc-export-msxdoc \
 	check-mdoc-validate \
 	check-monodocer-dropns-classic \
