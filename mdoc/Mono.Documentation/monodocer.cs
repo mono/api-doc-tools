@@ -199,7 +199,7 @@ class MDocUpdater : MDocCommand
 	/// assemblies for a given type/method.</summary>
 	public bool IsMultiAssembly {
 		get { 
-			return apistyle == "classic" || apistyle == "unified";
+			return apistyle == "classic" || apistyle == "unified" || !string.IsNullOrWhiteSpace(FrameworksPath);
 		}
 	}
 
