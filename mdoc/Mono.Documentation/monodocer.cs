@@ -2090,8 +2090,13 @@ class MDocUpdater : MDocCommand
 		XmlElement targets = member.OwnerDocument.CreateElement ("Targets");
 		member.PrependChild (targets);
 		if (!(info.Parameters [0].ParameterType is GenericParameter)) {
-			AppendElementAttributeText (targets, "Target", "Type",
-				slashdocFormatter.GetDeclaration (info.Parameters [0].ParameterType));
+			var reference = info.Parameters[0].ParameterType;
+			TypeReference typeReference = reference as TypeReference;
+			var declaration = reference != null ?
+				slashdocFormatter.GetDeclaration (typeReference) :
+				slashdocFormatter.GetDeclaration (reference); 
+				
+			AppendElementAttributeText (targets, "Target", "Type", declaration);
 		}
 		else {
 			GenericParameter gp = (GenericParameter) info.Parameters [0].ParameterType;
@@ -4392,15 +4397,22 @@ public abstract class MemberFormatter {
 	{
 		return e.Name;
 	}
-	
-	public string GetDeclaration (MemberReference mreference)
-	{
-		var typeSpec = mreference as TypeSpecification;
-		if (typeSpec != null && typeSpec.Resolve() == null && typeSpec.IsArray && typeSpec.ContainsGenericParameter) {
+
+	public string GetDeclaration (TypeReference tref) {
+		var typeSpec = tref as TypeSpecification;
+		if (typeSpec != null && typeSpec.Resolve () == null && typeSpec.IsArray && typeSpec.ContainsGenericParameter) {
 			//HACK: there's really no good reference for a generic parameter array, so we're going to use object
 			return "T:System.Array";
 		}
+		TypeDefinition def = tref.Resolve ();
+		if (def != null)
+			return GetTypeDeclaration (def);
+		else
+			return GetTypeName (tref);
+	}
 
+	public string GetDeclaration (MemberReference mreference)
+	{
 		return GetDeclaration (mreference.Resolve ());
 	}
 
