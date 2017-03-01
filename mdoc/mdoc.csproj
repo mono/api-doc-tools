@@ -69,7 +69,7 @@
     <Compile Include="Mono.Documentation\XhtmlWriter.cs" />
     <Compile Include="Mono.Documentation\exceptions.cs" />
     <Compile Include="Mono.Documentation\index.cs" />
-    <Compile Include="Mono.Documentation\preserver.cs" />
+    <Compile Include="Mono.Documentation\frameworksbootstrapper.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Mono.Documentation\Frameworks\FrameworkIndex.cs" />

@@ -53,6 +53,8 @@ namespace Mono.Documentation
 			return assemblyPaths.Any (p => Path.GetFileName (p) == name);
 		}
 
+		/// <summary>Tells whether an already enumerated AssemblyDefinition, contains the type.</summary>
+		/// <param name="name">Type name</param>
 		public bool ContainsForwardedType (string name)
 		{
 			return forwardedTypes.Contains (name);

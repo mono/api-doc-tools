@@ -296,7 +296,7 @@ class MDocUpdater : MDocCommand
 				"Denotes the apistyle. Currently, only `classic` and `unified` are supported. `classic` set of assemblies should be run first, immediately followed by 'unified' assemblies with the `dropns` parameter.",
 				v => apistyle = v.ToLowerInvariant () },
 			{ "fx|frameworks=",
-				"Folder which contains library that spans multiple frameworks. Each folder will represent one framework and the folder name will be used as the framework name.",
+				"Configuration XML file, that points to directories which contain libraries that span multiple frameworks.",
 				v => FrameworksPath = v },
 		};
 		var assemblyPaths = Parse (p, args, "update", 
