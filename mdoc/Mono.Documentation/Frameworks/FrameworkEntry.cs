@@ -27,7 +27,7 @@ namespace Mono.Documentation
 			var entry = types.FirstOrDefault (t => t.Name.Equals (type.FullName));
 			if (entry == null)
 			{
-				entry = new FrameworkTypeEntry (this) { Name = type.FullName };
+				entry = new FrameworkTypeEntry (this) { Name = type.FullName, Namespace = type.Namespace };
 				types.Add (entry);
 			}
 			return entry;
