@@ -127,6 +127,7 @@ Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-class
 	cp Test/DocTest-DropNS-classic.dll Test/FrameworkTestData/One/
 	cp Test/DocTest-addNonGeneric.dll Test/FrameworkTestData/Two/
 	cp Test/DocTest-DropNS-classic-secondary.dll Test/FrameworkTestData/Two/
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData
 
 check-monodocer-frameworks: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
@@ -411,7 +412,8 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-ignore-invalid-assemblies \
 	check-monodocer-enumerations \
 	check-monodocer-dropns-multi \
-	check-monodocer-dropns-multi-withexisting
+	check-monodocer-dropns-multi-withexisting \
+	check-monodocer-frameworks
 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \

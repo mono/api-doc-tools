@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.XPath;
 
 using Mono.Cecil;
@@ -304,15 +305,32 @@ class MDocUpdater : MDocCommand
 				"Create or update documentation from ASSEMBLIES.");
 
 		if (!string.IsNullOrWhiteSpace (FrameworksPath)) {
-			// Load the list of frameworks
-			var fx = Directory.GetDirectories (FrameworksPath);
+			var configPath = FrameworksPath;
+			var frameworksDir = FrameworksPath;
+			if (!configPath.EndsWith ("frameworks.xml", StringComparison.InvariantCultureIgnoreCase))
+				configPath = Path.Combine (configPath, "frameworks.xml");
+			else
+				frameworksDir = Path.GetDirectoryName (configPath);
+			
+			var fxconfig = XDocument.Load (configPath);
+			var fxd = fxconfig.Root
+			                  .Elements ("Framework")
+			                  .Select (f => new
+							  {
+								Name = f.Attribute ("Name").Value,
+								Path = Path.Combine(frameworksDir,f.Attribute("Source").Value),
+								SearchPaths = f.Elements("assemblySearchPath")
+					                           .Select(a => Path.Combine(frameworksDir, a.Value))
+					                           .ToArray()
+							  });
 
-			// TODO: combine globalSearchPaths with searchpath from config file for a given FX
-			var sets = fx.Select (d => new AssemblySet (
-				Path.GetFileName(d),
-				Directory.GetFiles (d, "*.dll"),
-				this.globalSearchPaths
+			var sets = fxd.Select (d => new AssemblySet (
+				d.Name,
+				Directory.GetFiles (d.Path, "*.dll"),
+				this.globalSearchPaths.Union(d.SearchPaths)
 			));
+			this.assemblies.AddRange (sets);
+			assemblyPaths.AddRange(sets.SelectMany (s => s.AssemblyPaths));
 		}
 		else {
 			this.assemblies.Add (new AssemblySet ("Default", assemblyPaths, this.globalSearchPaths));

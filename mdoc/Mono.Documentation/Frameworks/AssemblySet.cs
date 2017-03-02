@@ -43,8 +43,7 @@ namespace Mono.Documentation
 		public string Name { get; private set; }
 
 		public IEnumerable<AssemblyDefinition> Assemblies { get { return this.LoadAllAssemblies ().Where(a => a != null); } }
-
-		public int PathCount { get { return assemblyPaths.Count; } }
+		public IEnumerable<string> AssemblyPaths { get { return this.assemblyPaths; } }
 
 		/// <returns><c>true</c>, if in set was contained in the set of assemblies, <c>false</c> otherwise.</returns>
 		/// <param name="name">An assembly file name</param>
@@ -63,6 +62,11 @@ namespace Mono.Documentation
 		public void Dispose ()
 		{
 			resolver.Dispose ();
+		}
+
+		public override string ToString ()
+		{
+			return string.Format ("[AssemblySet: Name={0}, Assemblies={1}]", Name, assemblyPaths.Count);
 		}
 
 		IEnumerable<AssemblyDefinition> LoadAllAssemblies ()
