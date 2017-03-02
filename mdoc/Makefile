@@ -134,6 +134,11 @@ check-monodocer-frameworks: Test/FrameworkTestData
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
 	$(DIFF) Test/en.expected-frameworks Test/en.actual
 
+check-monodocer-docid: Test/FrameworkTestData
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -use-docid -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-docid Test/en.actual
+
 check-monodocer-addNonGeneric: 
 	-rm -Rf Test/en.actual
 	# first, make a docset with the generic method
@@ -413,7 +418,8 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-enumerations \
 	check-monodocer-dropns-multi \
 	check-monodocer-dropns-multi-withexisting \
-	check-monodocer-frameworks
+	check-monodocer-frameworks \
+	check-monodocer-docid
 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \

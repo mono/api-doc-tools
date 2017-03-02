@@ -300,11 +300,18 @@ class MDocUpdater : MDocCommand
 			{ "fx|frameworks=",
 				"Configuration XML file, that points to directories which contain libraries that span multiple frameworks.",
 				v => FrameworksPath = v },
+			{ "use-docid",
+				"Add 'DocId' to the list of type and member signatures",
+					v => 
+					{
+						typeFormatters = typeFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
+						memberFormatters = memberFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
+					} },	
 		};
 		var assemblyPaths = Parse (p, args, "update", 
 				"[OPTIONS]+ ASSEMBLIES",
 				"Create or update documentation from ASSEMBLIES.");
-
+			
 		if (!string.IsNullOrWhiteSpace (FrameworksPath)) {
 			var configPath = FrameworksPath;
 			var frameworksDir = FrameworksPath;
@@ -4362,7 +4369,7 @@ public abstract class MemberFormatter {
 		return e.Name;
 	}
 
-	public string GetDeclaration (TypeReference tref) {
+	public virtual string GetDeclaration (TypeReference tref) {
 		var typeSpec = tref as TypeSpecification;
 		if (typeSpec != null && typeSpec.Resolve () == null && typeSpec.IsArray && typeSpec.ContainsGenericParameter) {
 			//HACK: there's really no good reference for a generic parameter array, so we're going to use object
@@ -4375,7 +4382,7 @@ public abstract class MemberFormatter {
 			return GetTypeName (tref);
 	}
 
-	public string GetDeclaration (MemberReference mreference)
+	public virtual string GetDeclaration (MemberReference mreference)
 	{
 		return GetDeclaration (mreference.Resolve ());
 	}
@@ -4497,6 +4504,23 @@ public abstract class MemberFormatter {
 	protected virtual string GetEventDeclaration (EventDefinition e)
 	{
 		return GetEventName (e);
+	}
+}
+
+class DocIdFormatter : MemberFormatter
+{
+	public override string Language
+	{
+		get { return "DocId"; }
+	}
+
+	public override string GetDeclaration (TypeReference tref)
+	{
+		return DocCommentId.GetDocCommentId (tref.Resolve ());
+	}
+	public override string GetDeclaration (MemberReference mreference)
+	{
+		return DocCommentId.GetDocCommentId (mreference.Resolve ());
 	}
 }
 

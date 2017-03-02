@@ -57,7 +57,7 @@ namespace Mono.Documentation
 		class EmptyTypeEntry : FrameworkTypeEntry
 		{
 			public EmptyTypeEntry (FrameworkEntry fx) : base (fx) { }
-			public override void ProcessMember (MemberReference sig) { }
+			public override void ProcessMember (MemberReference member) { }
 		}
 	}
 }

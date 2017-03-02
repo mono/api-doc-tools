@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="Two">
+  <Namespace Name="MyFramework.MyOtherNamespace">
+    <Type Name="MyFramework.MyOtherNamespace.MyOtherClass" Id="T:MyFramework.MyOtherNamespace.MyOtherClass">
+      <Member Id="M:MyFramework.MyOtherNamespace.MyOtherClass.#ctor" />
+      <Member Id="M:MyFramework.MyOtherNamespace.MyOtherClass.Hello(System.Int32)" />
+      <Member Id="P:MyFramework.MyOtherNamespace.MyOtherClass.MyProperty" />
+    </Type>
+  </Namespace>
+  <Namespace Name="MyNamespace">
+    <Type Name="MyNamespace.MyClass" Id="T:MyNamespace.MyClass">
+      <Member Id="M:MyNamespace.MyClass.#ctor" />
+      <Member Id="M:MyNamespace.MyClass.SomeMethod``1" />
+    </Type>
+  </Namespace>
+</Framework>
