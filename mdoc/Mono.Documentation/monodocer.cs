@@ -16,12 +16,13 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 
 using Mono.Cecil;
+using Mono.Cecil.Rocks;
 using Mono.Options;
 
-using MyXmlNodeList        = System.Collections.Generic.List<System.Xml.XmlNode>;
-using StringList           = System.Collections.Generic.List<string>;
-using StringToStringMap    = System.Collections.Generic.Dictionary<string, string>;
-using StringToXmlNodeMap   = System.Collections.Generic.Dictionary<string, System.Xml.XmlNode>;
+using MyXmlNodeList = System.Collections.Generic.List<System.Xml.XmlNode>;
+using StringList = System.Collections.Generic.List<string>;
+using StringToStringMap = System.Collections.Generic.Dictionary<string, string>;
+using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.Xml.XmlNode>;
 
 namespace Mono.Documentation {
 	static class NativeTypeManager {
@@ -1242,7 +1243,8 @@ class MDocUpdater : MDocCommand
 				.Where (x => x.GetAttribute ("Language") == "C#" && !seenmembers.ContainsKey(x.GetAttribute("Value")))
 				.Select (x => x.GetAttribute ("Value"));
 
-			typeEntry.ProcessMember (styles);
+
+			typeEntry.ProcessMember (info.Member);
 
 			foreach (var stylesig in styles) {
 				seenmembers.Add (stylesig, oldmember);
@@ -1755,14 +1757,11 @@ class MDocUpdater : MDocCommand
 	{
 		XmlElement me = (XmlElement) info.Node;
 		MemberReference mi = info.Member;
-
+		typeEntry.ProcessMember (mi);
 		foreach (MemberFormatter f in memberFormatters) {
 			string element = "MemberSignature[@Language='" + f.Language + "']";
 
 			var valueToUse = f.GetDeclaration (mi);
-
-			if (f.Language == "C#")
-				typeEntry.ProcessMember (valueToUse);
 
 			AddXmlNode (
 				me.SelectNodes (element).Cast<XmlElement> ().ToArray(), 
@@ -1774,7 +1773,6 @@ class MDocUpdater : MDocCommand
 					return newNode;
 				},
 				mi);
-
 		}
 
 		WriteElementText(me, "MemberType", GetMemberType(mi));

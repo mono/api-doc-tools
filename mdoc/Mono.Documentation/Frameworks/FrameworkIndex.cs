@@ -63,9 +63,10 @@ namespace Mono.Documentation
 	                           new XAttribute("Name", g.Key),
 	                           g.Select (t => new XElement ("Type",
 							    	new XAttribute ("Name", t.Name),
-										t.Members.Select (m =>
-								  			new XElement ("Member",
-									   		new XAttribute ("Sig", m)))))))));
+                                    new XAttribute("Id", t.Id),
+									t.Members.Select (m =>
+							  			new XElement ("Member",
+								   		new XAttribute ("Id", m)))))))));
 
 				// now save the document
 				string filePath = Path.Combine (outputPath, fx.Name + ".xml");

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mono.Cecil;
+using Mono.Cecil.Rocks;
 
 namespace Mono.Documentation
 {
@@ -15,6 +17,7 @@ namespace Mono.Documentation
 			this.fx = fx;
 		}
 
+		public string Id { get; set; }
 		public string Name { get; set; }
 		public string Namespace { get; set; }
 
@@ -26,17 +29,16 @@ namespace Mono.Documentation
 			}
 		}
 
-		public virtual void ProcessMember (string sig)
+		public virtual void ProcessMember (MemberReference member)
 		{
-			members.Add (sig);
-		}
-
-		public virtual void ProcessMember (IEnumerable<string> signatures)
-		{
-			foreach (var sig in signatures)
+			var resolvedMember = member.Resolve ();
+			if (resolvedMember != null)
 			{
-				ProcessMember (sig);
+				var docid = DocCommentId.GetDocCommentId (resolvedMember);
+				members.Add (docid);
 			}
+			else 
+				members.Add (member.FullName);
 		}
 
 		public override string ToString ()
@@ -55,8 +57,7 @@ namespace Mono.Documentation
 		class EmptyTypeEntry : FrameworkTypeEntry
 		{
 			public EmptyTypeEntry (FrameworkEntry fx) : base (fx) { }
-			public override void ProcessMember (IEnumerable<string> signatures) { }
-			public override void ProcessMember (string sig) { }
+			public override void ProcessMember (MemberReference sig) { }
 		}
 	}
 }

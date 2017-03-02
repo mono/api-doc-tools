@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mono.Cecil;
+using Mono.Cecil.Rocks;
 
 namespace Mono.Documentation
 {
@@ -27,7 +28,8 @@ namespace Mono.Documentation
 			var entry = types.FirstOrDefault (t => t.Name.Equals (type.FullName));
 			if (entry == null)
 			{
-				entry = new FrameworkTypeEntry (this) { Name = type.FullName, Namespace = type.Namespace };
+				var docid = DocCommentId.GetDocCommentId (type);
+				entry = new FrameworkTypeEntry (this) { Id = docid, Name = type.FullName, Namespace = type.Namespace };
 				types.Add (entry);
 			}
 			return entry;
