@@ -118,6 +118,27 @@ Test/DocTest.dll-v2:
 Test/DocTest-enumerations.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-enumerations.cs
 
+Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll
+	rm -rf Test/FrameworkTestData
+	mkdir Test/FrameworkTestData
+	mkdir Test/FrameworkTestData/One
+	mkdir Test/FrameworkTestData/Two
+	cp Test/DocTest-addNonGeneric.dll Test/FrameworkTestData/One/
+	cp Test/DocTest-DropNS-classic.dll Test/FrameworkTestData/One/
+	cp Test/DocTest-addNonGeneric.dll Test/FrameworkTestData/Two/
+	cp Test/DocTest-DropNS-classic-secondary.dll Test/FrameworkTestData/Two/
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData
+
+check-monodocer-frameworks: Test/FrameworkTestData
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-frameworks Test/en.actual
+
+check-monodocer-docid: Test/FrameworkTestData
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -use-docid -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-docid Test/en.actual
+
 check-monodocer-addNonGeneric: 
 	-rm -Rf Test/en.actual
 	# first, make a docset with the generic method
@@ -396,7 +417,9 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-ignore-invalid-assemblies \
 	check-monodocer-enumerations \
 	check-monodocer-dropns-multi \
-	check-monodocer-dropns-multi-withexisting
+	check-monodocer-dropns-multi-withexisting \
+	check-monodocer-frameworks \
+	check-monodocer-docid
 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \
