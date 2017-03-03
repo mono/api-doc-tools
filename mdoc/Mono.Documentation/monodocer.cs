@@ -12,9 +12,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.XPath;
 
 using Mono.Cecil;
+using Mono.Cecil.Rocks;
 using Mono.Options;
 
 using MyXmlNodeList        = System.Collections.Generic.List<System.Xml.XmlNode>;
@@ -130,9 +132,9 @@ namespace Mono.Documentation {
 class MDocUpdater : MDocCommand
 {
 	string srcPath;
-	List<AssemblyDefinition> assemblies;
-	readonly DefaultAssemblyResolver assemblyResolver = new DefaultAssemblyResolver();
-	
+	List<AssemblySet> assemblies = new List<AssemblySet>();
+	StringList globalSearchPaths = new StringList ();
+
 	string apistyle = string.Empty;
 	bool isClassicRun;
 	
@@ -166,8 +168,6 @@ class MDocUpdater : MDocCommand
 
 	MyXmlNodeList extensionMethods = new MyXmlNodeList ();
 
-	HashSet<string> forwardedTypes = new HashSet<string> ();
-
 	public static string droppedNamespace = string.Empty;
 
 	public static bool HasDroppedNamespace(TypeDefinition forType) 
@@ -199,9 +199,13 @@ class MDocUpdater : MDocCommand
 	/// assemblies for a given type/method.</summary>
 	public bool IsMultiAssembly {
 		get { 
-			return apistyle == "classic" || apistyle == "unified";
+			return apistyle == "classic" || apistyle == "unified" || !string.IsNullOrWhiteSpace(FrameworksPath);
 		}
 	}
+
+	/// <summary>Path which contains multiple folders with assemblies. Each folder contained will represent one framework.</summary>
+	string FrameworksPath = string.Empty;
+	FrameworkIndex frameworks;
 	
 	static List<string> droppedAssemblies = new List<string>();
 
@@ -254,7 +258,7 @@ class MDocUpdater : MDocCommand
 				v => AddImporter (v) },
 			{ "L|lib=",
 				"Check for assembly references in {DIRECTORY}.",
-				v => assemblyResolver.AddSearchDirectory (v) },
+				v => globalSearchPaths.Add (v) },
 			{ "library=",
 				"Ignored for compatibility with update-ecma-xml.",
 				v => {} },
@@ -264,7 +268,7 @@ class MDocUpdater : MDocCommand
 			{ "r=",
 				"Search for dependent assemblies in the directory containing {ASSEMBLY}.\n" +
 				"(Equivalent to '-L `dirname ASSEMBLY`'.)",
-				v => assemblyResolver.AddSearchDirectory (Path.GetDirectoryName (v)) },
+				v => globalSearchPaths.Add (Path.GetDirectoryName (v)) },
 			{ "since=",
 				"Manually specify the assembly {VERSION} that new members were added in.",
 				v => since = v },
@@ -290,14 +294,56 @@ class MDocUpdater : MDocCommand
 				v => PreserveTag = "true" },
 			{ "api-style=",
 				"Denotes the apistyle. Currently, only `classic` and `unified` are supported. `classic` set of assemblies should be run first, immediately followed by 'unified' assemblies with the `dropns` parameter.",
-				v => { apistyle = v.ToLowerInvariant (); }},
+				v => apistyle = v.ToLowerInvariant () },
+			{ "fx|frameworks=",
+				"Configuration XML file, that points to directories which contain libraries that span multiple frameworks.",
+				v => FrameworksPath = v },
+			{ "use-docid",
+				"Add 'DocId' to the list of type and member signatures",
+				v => 
+				{
+					typeFormatters = typeFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
+					memberFormatters = memberFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
+				} },	
 		};
-		var assemblies = Parse (p, args, "update", 
+		var assemblyPaths = Parse (p, args, "update", 
 				"[OPTIONS]+ ASSEMBLIES",
 				"Create or update documentation from ASSEMBLIES.");
-		if (assemblies == null)
+			
+		if (!string.IsNullOrWhiteSpace (FrameworksPath)) {
+			var configPath = FrameworksPath;
+			var frameworksDir = FrameworksPath;
+			if (!configPath.EndsWith ("frameworks.xml", StringComparison.InvariantCultureIgnoreCase))
+				configPath = Path.Combine (configPath, "frameworks.xml");
+			else
+				frameworksDir = Path.GetDirectoryName (configPath);
+			
+			var fxconfig = XDocument.Load (configPath);
+			var fxd = fxconfig.Root
+			                  .Elements ("Framework")
+			                  .Select (f => new {
+								Name = f.Attribute ("Name").Value,
+								Path = Path.Combine(frameworksDir,f.Attribute("Source").Value),
+								SearchPaths = f.Elements("assemblySearchPath")
+					                           .Select(a => Path.Combine(frameworksDir, a.Value))
+					                           .ToArray()
+							  });
+
+			var sets = fxd.Select (d => new AssemblySet (
+				d.Name,
+				Directory.GetFiles (d.Path, "*.dll"),
+				this.globalSearchPaths.Union(d.SearchPaths)
+			));
+			this.assemblies.AddRange (sets);
+			assemblyPaths.AddRange(sets.SelectMany (s => s.AssemblyPaths));
+		}
+		else {
+			this.assemblies.Add (new AssemblySet ("Default", assemblyPaths, this.globalSearchPaths));
+		}
+
+		if (assemblyPaths == null)
 			return;
-		if (assemblies.Count == 0)
+		if (assemblyPaths.Count == 0)
 			Error ("No assemblies specified.");
 		
 		// validation for the api-style parameter
@@ -309,47 +355,33 @@ class MDocUpdater : MDocCommand
 		} else if (!string.IsNullOrWhiteSpace (apistyle)) 
 			Error ("api-style '{0}' is not currently supported", apistyle);
 			
-				
-		foreach (var dir in assemblies
-				.Where (a => a.Contains (Path.DirectorySeparatorChar))
-				.Select (a => Path.GetDirectoryName (a)))
-			assemblyResolver.AddSearchDirectory (dir);
-
 		// PARSE BASIC OPTIONS AND LOAD THE ASSEMBLY TO DOCUMENT
 		
 		if (srcPath == null)
 			throw new InvalidOperationException("The --out option is required.");
 		
-		this.assemblies = assemblies.Select (a => LoadAssembly (a)).Where(a => a != null).ToList ();
-		
-		if (assemblies.Count == 0)
-			Error ("No valid assemblies specified.");
-			
-		// Store types that have been forwarded to avoid duplicate generation
-		GatherForwardedTypes ();
-
 		docEnum = docEnum ?? new DocumentationEnumerator ();
-		
+
 		// PERFORM THE UPDATES
-		
+		frameworks = new FrameworkIndex (FrameworksPath);
+
 		if (types.Count > 0) {
 			types.Sort ();
 			DoUpdateTypes (srcPath, types, srcPath);
 		}
-#if false
-		else if (opts.@namespace != null)
-			DoUpdateNS (opts.@namespace, Path.Combine (opts.path, opts.@namespace),
-					Path.Combine (dest_dir, opts.@namespace));
-#endif
 		else
 			DoUpdateAssemblies (srcPath, srcPath);
 
+		if (!string.IsNullOrWhiteSpace (FrameworksPath))
+			frameworks.WriteToDisk (srcPath);
+
 		Console.WriteLine("Members Added: {0}, Members Deleted: {1}", additions, deletions);
 	}
-		public static bool IsInAssemblies(string name) {
-			var query = Instance.assemblies.Where (a => a.MainModule.Name == name).ToArray ();
-			return query.Length > 0;
-		}
+
+	public static bool IsInAssemblies(string name) {
+		return Instance.assemblies.Any(a => a.Contains(name));
+	}
+
 	void AddImporter (string path)
 	{
 		try {
@@ -377,13 +409,6 @@ class MDocUpdater : MDocCommand
 		}
 	}
 
-	void GatherForwardedTypes ()
-	{
-		foreach (var asm in assemblies)
-			foreach (var type in asm.MainModule.ExportedTypes.Where (t => t.IsForwarder).Select (t => t.FullName))
-				forwardedTypes.Add (type);
-	}
-
 	static ExceptionLocations ParseExceptionLocations (string s)
 	{
 		ExceptionLocations loc = ExceptionLocations.Member;
@@ -406,7 +431,7 @@ class MDocUpdater : MDocCommand
 		Message (TraceLevel.Warning, "mdoc: " + format, args);
 	}
 	
-	private AssemblyDefinition LoadAssembly (string name)
+	internal AssemblyDefinition LoadAssembly (string name, IAssemblyResolver assemblyResolver)
 	{
 		AssemblyDefinition assembly = null;
 		try {
@@ -537,21 +562,29 @@ class MDocUpdater : MDocCommand
 		var index = CreateIndexForTypes (dest);
 
 		var found = new HashSet<string> ();
-		foreach (AssemblyDefinition assembly in assemblies) {
-			foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, typenames)) {
-				string relpath = DoUpdateType (type, basepath, dest);
-				if (relpath == null)
-					continue;
+			foreach (var assemblySet in this.assemblies) {
+				using (assemblySet) {
+					foreach (AssemblyDefinition assembly in assemblySet.Assemblies) {
+						var frameworkEntry = frameworks.StartProcessingAssembly (assembly);
 
-				found.Add (type.FullName);
+						foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, typenames)) {
+							var typeEntry = frameworkEntry.ProcessType (type);
 
-				if (index == null)
-					continue;
+							string relpath = DoUpdateType (type, typeEntry, basepath, dest);
+							if (relpath == null)
+								continue;
 
-				index.Add (assembly);
-				index.Add (type);
+							found.Add (type.FullName);
+
+							if (index == null)
+								continue;
+
+							index.Add (assembly);
+							index.Add (type);
+						}
+					}
+				}
 			}
-		}
 
 		if (index != null)
 			index.Write ();
@@ -625,7 +658,7 @@ class MDocUpdater : MDocCommand
 		return file.Exists;
 	}
 	
-	public string DoUpdateType (TypeDefinition type, string basepath, string dest)
+	public string DoUpdateType (TypeDefinition type, FrameworkTypeEntry typeEntry, string basepath, string dest)
 	{
 		if (type.Namespace == null)
 			Warning ("warning: The type `{0}' is in the root namespace.  This may cause problems with display within monodoc.",
@@ -698,7 +731,7 @@ class MDocUpdater : MDocCommand
 				throw new InvalidOperationException("Error loading " + typefile + ": " + e.Message, e);
 			}
 			
-			DoUpdateType2("Updating", basefile, type, output, false);
+			DoUpdateType2("Updating", basefile, type, typeEntry, output, false);
 		} else {
 			// Stub
 			XmlElement td = StubType(type, output);
@@ -706,50 +739,6 @@ class MDocUpdater : MDocCommand
 				return null;
 		}
 		return reltypefile;
-	}
-
-	public void DoUpdateNS (string ns, string nspath, string outpath)
-	{
-		Dictionary<TypeDefinition, object> seenTypes = new Dictionary<TypeDefinition,object> ();
-		AssemblyDefinition                  assembly = assemblies [0];
-
-		foreach (System.IO.FileInfo file in new System.IO.DirectoryInfo(nspath).GetFiles("*.xml")) {
-			XmlDocument basefile = new XmlDocument();
-			string typefile = Path.Combine(nspath, file.Name);
-			try {
-				basefile.Load(typefile);
-			} catch (Exception e) {
-				throw new InvalidOperationException("Error loading " + typefile + ": " + e.Message, e);
-			}
-
-			string typename = 
-				GetTypeFileName (basefile.SelectSingleNode("Type/@FullName").InnerText);
-			TypeDefinition type = assembly.GetType(typename);
-			if (type == null) {
-					// --
-					if (!string.IsNullOrWhiteSpace (droppedNamespace)) {
-						string nameWithNs = string.Format ("{0}.{1}", droppedNamespace, typename);
-						type = assembly.GetType (nameWithNs);
-						if (type == null) {
-							Warning ("Type no longer in assembly: " + typename);
-							continue;
-						}
-					}
-					//--
-			}			
-
-			seenTypes[type] = seenTypes;
-			DoUpdateType2("Updating", basefile, type, Path.Combine(outpath, file.Name), false);
-		}
-		
-		// Stub types not in the directory
-		foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null)) {
-			if (type.Namespace != ns || seenTypes.ContainsKey(type))
-				continue;
-
-			XmlElement td = StubType(type, Path.Combine(outpath, GetTypeFileName(type) + ".xml"));
-			if (td == null) continue;
-		}
 	}
 	
 	private static string GetTypeFileName (TypeReference type)
@@ -867,11 +856,6 @@ class MDocUpdater : MDocCommand
 			index = CreateIndexStub();
 		}
 		
-		string defaultTitle = "Untitled";
-		if (assemblies.Count == 1)
-			defaultTitle = assemblies[0].Name.Name;
-		WriteElementInitialText(index.DocumentElement, "Title", defaultTitle);
-		
 		XmlElement index_types = WriteElement(index.DocumentElement, "Types");
 		XmlElement index_assemblies = WriteElement(index.DocumentElement, "Assemblies");
 		if (!IsMultiAssembly) 
@@ -880,10 +864,21 @@ class MDocUpdater : MDocCommand
 
 		HashSet<string> goodfiles = new HashSet<string> (StringComparer.OrdinalIgnoreCase);
 
-		foreach (AssemblyDefinition assm in assemblies) {
-			AddIndexAssembly (assm, index_assemblies);
-			DoUpdateAssembly (assm, index_types, source, dest, goodfiles);
+		int processedAssemblyCount = 0;
+		foreach (var assemblySet in assemblies) {
+			using (assemblySet) {
+				foreach (AssemblyDefinition assm in assemblySet.Assemblies) {
+					AddIndexAssembly (assm, index_assemblies);
+					DoUpdateAssembly (assemblySet, assm, index_types, source, dest, goodfiles);
+					processedAssemblyCount++;
+				}
+			}
 		}
+
+		string defaultTitle = "Untitled";
+		if (processedAssemblyCount == 1)
+			defaultTitle = assemblies[0].Assemblies.First ().Name.Name;
+		WriteElementInitialText (index.DocumentElement, "Title", defaultTitle);
 
 		SortIndexEntries (index_types);
 		
@@ -897,14 +892,18 @@ class MDocUpdater : MDocCommand
 		
 	private static char[] InvalidFilenameChars = {'\\', '/', ':', '*', '?', '"', '<', '>', '|'};
 
-	private void DoUpdateAssembly (AssemblyDefinition assembly, XmlElement index_types, string source, string dest, HashSet<string> goodfiles) 
+	private void DoUpdateAssembly (AssemblySet assemblySet, AssemblyDefinition assembly, XmlElement index_types, string source, string dest, HashSet<string> goodfiles) 
 	{
+		var frameworkEntry = frameworks.StartProcessingAssembly (assembly);
+
 		foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null)) {
 			string typename = GetTypeFileName(type);
-			if (!IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0 || forwardedTypes.Contains (type.FullName))
+			if (!IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0 || assemblySet.ContainsForwardedType (type.FullName))
 				continue;
 
-			string reltypepath = DoUpdateType (type, source, dest);
+			var typeEntry = frameworkEntry.ProcessType (type);
+
+			string reltypepath = DoUpdateType (type, typeEntry, source, dest);
 			if (reltypepath == null)
 				continue;
 			
@@ -1030,7 +1029,7 @@ class MDocUpdater : MDocCommand
 	private void CleanupFiles (string dest, HashSet<string> goodfiles)
 	{
 		// Look for files that no longer correspond to types
-		foreach (System.IO.DirectoryInfo nsdir in new System.IO.DirectoryInfo(dest).GetDirectories("*")) {
+		foreach (System.IO.DirectoryInfo nsdir in new System.IO.DirectoryInfo(dest).GetDirectories("*").Where(d => Path.GetFileName(d.FullName) != "FrameworksIndex")) {
 			foreach (System.IO.FileInfo typefile in nsdir.GetFiles("*.xml")) {
 				string relTypeFile = Path.Combine(nsdir.Name, typefile.Name);
 				if (!goodfiles.Contains (relTypeFile)) {
@@ -1043,17 +1042,22 @@ class MDocUpdater : MDocCommand
 						continue;
 					}
 					string assemblyName = assemblyNameNode.InnerText;
-					AssemblyDefinition assembly = assemblies.FirstOrDefault (a => a.Name.Name == assemblyName);
+					
 
 					Action saveDoc = () => {
 						using (TextWriter writer = OpenWrite (typefile.FullName, FileMode.Truncate))
 							WriteXml(doc.DocumentElement, writer);
 					};
 
-					if (e != null && !no_assembly_versions && assembly != null && assemblyName != null && UpdateAssemblyVersions (e, assembly, GetAssemblyVersions(assemblyName), false)) {
-						saveDoc ();
-						goodfiles.Add (relTypeFile);
-						continue;
+					if (!IsMultiAssembly) { // only do this for "regular" runs
+						AssemblyDefinition assembly = assemblies
+							.SelectMany (aset => aset.Assemblies)
+							.FirstOrDefault (a => a.Name.Name == assemblyName);
+						if (e != null && !no_assembly_versions && assembly != null && assemblyName != null && UpdateAssemblyVersions (e, assembly, GetAssemblyVersions (assemblyName), false)) {
+							saveDoc ();
+							goodfiles.Add (relTypeFile);
+							continue;
+						}
 					}
 
 					Action actuallyDelete = () => {
@@ -1120,7 +1124,7 @@ class MDocUpdater : MDocCommand
 
 	private string[] GetAssemblyVersions (string assemblyName)
 	{
-		return (from a in assemblies 
+		return (from a in assemblies.SelectMany(aset => aset.Assemblies) 
 			where a.Name.Name == assemblyName 
 			select GetAssemblyVersion (a)).ToArray ();
 	}
@@ -1180,7 +1184,7 @@ class MDocUpdater : MDocCommand
 
 	static readonly XmlNodeComparer DefaultExtensionMethodComparer = new ExtensionMethodComparer ();
 		
-	public void DoUpdateType2 (string message, XmlDocument basefile, TypeDefinition type, string output, bool insertSince)
+	public void DoUpdateType2 (string message, XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry, string output, bool insertSince)
 	{
 		Console.WriteLine(message + ": " + type.FullName);
 		
@@ -1236,12 +1240,15 @@ class MDocUpdater : MDocCommand
 			}
 			
 			// Update signature information
-			UpdateMember(info);
+			UpdateMember(info, typeEntry);
 
 			// get all apistyles of sig from info.Node
 			var styles = oldmember.GetElementsByTagName ("MemberSignature").Cast<XmlElement> ()
 				.Where (x => x.GetAttribute ("Language") == "C#" && !seenmembers.ContainsKey(x.GetAttribute("Value")))
 				.Select (x => x.GetAttribute ("Value"));
+
+
+			typeEntry.ProcessMember (info.Member);
 
 			foreach (var stylesig in styles) {
 				seenmembers.Add (stylesig, oldmember);
@@ -1284,7 +1291,7 @@ class MDocUpdater : MDocCommand
 					})
 					.ToArray();
 			foreach (MemberReference m in typemembers) {
-				XmlElement mm = MakeMember(basefile, new DocsNodeInfo (null, m));
+				XmlElement mm = MakeMember(basefile, new DocsNodeInfo (null, m), typeEntry);
 				if (mm == null) continue;
 
 				if (MDocUpdater.SwitchingToMagicTypes || MDocUpdater.HasDroppedNamespace (m)) {
@@ -1294,7 +1301,6 @@ class MDocUpdater : MDocCommand
 				}
 
 				members.AppendChild( mm );
-	
 				Console.WriteLine("Member Added: " + mm.SelectSingleNode("MemberSignature/@Value").InnerText);
 				additions++;
 			}
@@ -1539,7 +1545,9 @@ class MDocUpdater : MDocCommand
 		XmlElement root = doc.CreateElement("Type");
 		doc.AppendChild (root);
 
-		DoUpdateType2 ("New Type", doc, type, output, true);
+		var frameworkEntry = frameworks.StartProcessingAssembly (type.Module.Assembly);
+		var typeEntry = frameworkEntry.ProcessType (type);
+		DoUpdateType2 ("New Type", doc, type, typeEntry, output, true);
 		
 		return root;
 	}
@@ -1746,11 +1754,11 @@ class MDocUpdater : MDocCommand
 		return l;
 	}
 
-	private void UpdateMember (DocsNodeInfo info)
+	private void UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry)
 	{
 		XmlElement me = (XmlElement) info.Node;
 		MemberReference mi = info.Member;
-
+		typeEntry.ProcessMember (mi);
 		foreach (MemberFormatter f in memberFormatters) {
 			string element = "MemberSignature[@Language='" + f.Language + "']";
 
@@ -1766,7 +1774,6 @@ class MDocUpdater : MDocCommand
 					return newNode;
 				},
 				mi);
-
 		}
 
 		WriteElementText(me, "MemberType", GetMemberType(mi));
@@ -2048,8 +2055,13 @@ class MDocUpdater : MDocCommand
 		XmlElement targets = member.OwnerDocument.CreateElement ("Targets");
 		member.PrependChild (targets);
 		if (!(info.Parameters [0].ParameterType is GenericParameter)) {
-			AppendElementAttributeText (targets, "Target", "Type",
-				slashdocFormatter.GetDeclaration (info.Parameters [0].ParameterType));
+			var reference = info.Parameters[0].ParameterType;
+			TypeReference typeReference = reference as TypeReference;
+			var declaration = reference != null ?
+				slashdocFormatter.GetDeclaration (typeReference) :
+				slashdocFormatter.GetDeclaration (reference); 
+				
+			AppendElementAttributeText (targets, "Target", "Type", declaration);
 		}
 		else {
 			GenericParameter gp = (GenericParameter) info.Parameters [0].ParameterType;
@@ -2753,7 +2765,7 @@ class MDocUpdater : MDocCommand
 			throw new ArgumentException(mi + " is a " + mi.GetType().FullName);
 	}
 	
-	private XmlElement MakeMember(XmlDocument doc, DocsNodeInfo info)
+	private XmlElement MakeMember(XmlDocument doc, DocsNodeInfo info, FrameworkTypeEntry typeEntry)
 	{
 		MemberReference mi = info.Member;
 		if (mi is TypeDefinition) return null;
@@ -2772,7 +2784,7 @@ class MDocUpdater : MDocCommand
 		me.SetAttribute("MemberName", GetMemberName (mi));
 
 		info.Node = me;
-		UpdateMember(info);
+		UpdateMember(info, typeEntry);
 		if (exceptions.HasValue && 
 				(exceptions.Value & ExceptionLocations.AddedMembers) != 0)
 			UpdateExceptions (info.Node, info.Member);
@@ -4350,15 +4362,23 @@ public abstract class MemberFormatter {
 	{
 		return e.Name;
 	}
-	
-	public string GetDeclaration (MemberReference mreference)
+
+	public virtual string GetDeclaration (TypeReference tref) 
 	{
-		var typeSpec = mreference as TypeSpecification;
-		if (typeSpec != null && typeSpec.Resolve() == null && typeSpec.IsArray && typeSpec.ContainsGenericParameter) {
+		var typeSpec = tref as TypeSpecification;
+		if (typeSpec != null && typeSpec.Resolve () == null && typeSpec.IsArray && typeSpec.ContainsGenericParameter) {
 			//HACK: there's really no good reference for a generic parameter array, so we're going to use object
 			return "T:System.Array";
 		}
+		TypeDefinition def = tref.Resolve ();
+		if (def != null)
+			return GetTypeDeclaration (def);
+		else
+			return GetTypeName (tref);
+	}
 
+	public virtual string GetDeclaration (MemberReference mreference)
+	{
 		return GetDeclaration (mreference.Resolve ());
 	}
 
@@ -4479,6 +4499,23 @@ public abstract class MemberFormatter {
 	protected virtual string GetEventDeclaration (EventDefinition e)
 	{
 		return GetEventName (e);
+	}
+}
+
+class DocIdFormatter : MemberFormatter
+{
+	public override string Language
+	{
+		get { return "DocId"; }
+	}
+
+	public override string GetDeclaration (TypeReference tref)
+	{
+		return DocCommentId.GetDocCommentId (tref.Resolve ());
+	}
+	public override string GetDeclaration (MemberReference mreference)
+	{
+		return DocCommentId.GetDocCommentId (mreference.Resolve ());
 	}
 }
 
