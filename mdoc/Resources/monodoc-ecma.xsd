@@ -481,11 +481,22 @@ add masterdoc support?
     </xs:complexType>
   </xs:element>
 
+  <xs:element name="MemberGroup">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="AssemblyInfo" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element ref="Docs" minOccurs="0" maxOccurs="1" />
+      </xs:choice>
+      <xs:attribute ref="MemberName" />
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="Members">
     <xs:complexType>
-      <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="MemberGroup" minOccurs="0" maxOccurs="unbounded" />
         <xs:element ref="Member" minOccurs="0" maxOccurs="unbounded" />
-      </xs:sequence>
+      </xs:choice>
     </xs:complexType>
   </xs:element>
 

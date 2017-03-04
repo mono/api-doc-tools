@@ -1466,6 +1466,17 @@ class MDocUpdater : MDocCommand
 			if ((r = xMemberName.CompareTo (yMemberName)) != 0)
 				return r;
 
+			// Handle MemberGroup sorting
+			var sc = StringComparison.InvariantCultureIgnoreCase;
+			if (x.Name.Equals ("MemberGroup", sc) || y.Name.Equals ("MemberGroup", sc)) {
+				if (x.Name.Equals ("MemberGroup", sc) && y.Name.Equals ("Member", sc))
+					return -1;
+				else if (x.Name.Equals ("Member", sc) && y.Name.Equals ("MemberGroup", sc))
+					return 1;
+				else
+					return xMemberName.CompareTo (yMemberName);
+			}
+
 			// if @MemberName matches, then it's either two different types of
 			// members sharing the same name, e.g. field & property, or it's an
 			// overloaded method.
@@ -1519,7 +1530,7 @@ class MDocUpdater : MDocCommand
 	{
 		if (members == null)
 			return;
-		SortXmlNodes (members, members.SelectNodes ("Member"), DefaultMemberComparer);
+		SortXmlNodes (members, members.SelectNodes ("Member|MemberGroup"), DefaultMemberComparer);
 	}
 	
 	private static bool MemberDocsHaveUserContent (XmlNode e)

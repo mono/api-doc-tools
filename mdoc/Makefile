@@ -152,6 +152,13 @@ check-monodocer-addNonGeneric:
 	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
 	$(DIFF) Test/en.expected-addNonGeneric Test/en.actual
 
+check-monodocer-membergroup: Test/DocTest-addNonGeneric-v2.dll Test/DocTest-addNonGeneric.dll
+	-rm -Rf Test/en.actual
+	cp -r Test/en.expected-membergroup Test/en.actual
+	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+	$(DIFF) Test/en.expected-membergroup Test/en.actual
+	$(MONO) $(PROGRAM) validate -f ecma Test/en.actual
+
 check-monodocer-dropns-classic: 
 	# tests the simplest --dropns case, a single class where the root namespace was dropped.
 	-rm -Rf Test/en.actual
@@ -414,6 +421,7 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-dropns-delete \
 	check-monodocer-internal-interface \
 	check-monodocer-addNonGeneric \
+	check-monodocer-membergroup \
 	check-monodocer-ignore-invalid-assemblies \
 	check-monodocer-enumerations \
 	check-monodocer-dropns-multi \
