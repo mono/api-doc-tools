@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="Two">
+  <Namespace Name="MyNamespace">
+    <Type Name="MyNamespace.MyBaseClassOne" Id="T:MyNamespace.MyBaseClassOne">
+      <Member Id="M:MyNamespace.MyBaseClassOne.#ctor" />
+    </Type>
+    <Type Name="MyNamespace.MyBaseClassTwo" Id="T:MyNamespace.MyBaseClassTwo">
+      <Member Id="M:MyNamespace.MyBaseClassTwo.#ctor" />
+    </Type>
+    <Type Name="MyNamespace.MyClass" Id="T:MyNamespace.MyClass">
+      <Member Id="M:MyNamespace.MyClass.#ctor" />
+    </Type>
+  </Namespace>
+</Framework>

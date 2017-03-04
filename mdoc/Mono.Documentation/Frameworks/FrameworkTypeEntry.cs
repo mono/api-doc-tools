@@ -20,6 +20,7 @@ namespace Mono.Documentation
 		public string Id { get; set; }
 		public string Name { get; set; }
 		public string Namespace { get; set; }
+		public FrameworkEntry Framework { get { return fx; } }
 
 		public ISet<string> Members {
 			get {
