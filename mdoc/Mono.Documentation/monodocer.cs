@@ -1191,7 +1191,7 @@ class MDocUpdater : MDocCommand
 		StringToXmlNodeMap seenmembers = new StringToXmlNodeMap ();
 
 		// Update type metadata
-		UpdateType(basefile.DocumentElement, type);
+		UpdateType(basefile.DocumentElement, type, typeEntry);
 
 		// Update existing members.  Delete member nodes that no longer should be there,
 		// and remember what members are already documented so we don't add them again.
@@ -1572,7 +1572,7 @@ class MDocUpdater : MDocCommand
 	
 	// STUBBING/UPDATING FUNCTIONS
 	
-	public void UpdateType (XmlElement root, TypeDefinition type)
+	public void UpdateType (XmlElement root, TypeDefinition type, FrameworkTypeEntry typeEntry)
 	{
 		root.SetAttribute("Name", GetDocTypeName (type));
 		root.SetAttribute("FullName", GetDocTypeFullName (type));
@@ -1636,7 +1636,27 @@ class MDocUpdater : MDocCommand
 			
 			string basetypename = GetDocTypeFullName (type.BaseType);
 			if (basetypename == "System.MulticastDelegate") basetypename = "System.Delegate";
-			WriteElementText(root, "Base/BaseTypeName", basetypename);
+
+			if (string.IsNullOrWhiteSpace (FrameworksPath))
+				WriteElementText (root, "Base/BaseTypeName", basetypename);
+			else {
+				// Check for the possibility of an alternate inheritance chain in different frameworks
+				var typeElements = basenode.GetElementsByTagName ("BaseTypeName");
+
+				if (typeElements.Count == 0) // no existing elements, just add
+					WriteElementText (root, "Base/BaseTypeName", basetypename);
+				else {
+					// There's already a BaseTypeName, see if it matches
+					if (typeElements[0].InnerText != basetypename) {
+						// Add a framework alternate if one doesn't already exist
+						var existing = typeElements.Cast<XmlNode> ().Where (n => n.InnerText == basetypename);
+						if (!existing.Any ()) {
+							var newNode = WriteElementText (basenode, "BaseTypeName", basetypename, forceNewElement:true);
+							WriteElementAttribute (basenode, newNode, "FrameworkAlternate", typeEntry.Framework.Name);
+						}
+					}
+				}
+			}
 			
 			// Document how this type instantiates the generic parameters of its base type
 			TypeReference origBase = type.BaseType.GetElementType ();

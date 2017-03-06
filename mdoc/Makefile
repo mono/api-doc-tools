@@ -102,6 +102,12 @@ Test/DocTest.dll:
 Test/DocTest-InternalInterface.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-InternalInterface.cs
 
+Test/DocTest-framework-inheritance-one.dll:
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-framework-inheritance.cs /define:FXONE
+
+Test/DocTest-framework-inheritance-two.dll:
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-framework-inheritance.cs /define:FXTWO
+
 Test/DocTest.dll-v1: 
 	-rm -f Test/DocTest.cs
 	cp Test/DocTest-v1.cs Test/DocTest.cs
@@ -129,10 +135,24 @@ Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-class
 	cp Test/DocTest-DropNS-classic-secondary.dll Test/FrameworkTestData/Two/
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData
 
+Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dll Test/DocTest-framework-inheritance-two.dll
+	rm -rf Test/FrameworkTestData-fx-inheritance
+	mkdir Test/FrameworkTestData-fx-inheritance
+	mkdir Test/FrameworkTestData-fx-inheritance/One
+	mkdir Test/FrameworkTestData-fx-inheritance/Two
+	cp Test/DocTest-framework-inheritance-one.dll Test/FrameworkTestData-fx-inheritance/One/
+	cp Test/DocTest-framework-inheritance-two.dll Test/FrameworkTestData-fx-inheritance/Two/
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-inheritance
+
 check-monodocer-frameworks: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
 	$(DIFF) Test/en.expected-frameworks Test/en.actual
+
+check-monodocer-frameworks-inheritance: Test/FrameworkTestData-fx-inheritance
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-inheritance
+	$(DIFF) Test/en.expected-frameworks-inheritance Test/en.actual
 
 check-monodocer-docid: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
@@ -427,6 +447,7 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-dropns-multi \
 	check-monodocer-dropns-multi-withexisting \
 	check-monodocer-frameworks \
+	check-monodocer-frameworks-inheritance \
 	check-monodocer-docid
 
 check-doc-tools-update: check-monodocer-since-update \
