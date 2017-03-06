@@ -2522,6 +2522,41 @@ class MDocUpdater : MDocCommand
 		"System.Runtime.CompilerServices.DynamicAttribute",
 	};
 
+	private IEnumerable<char> FilterSpecialChars (string value)
+	{
+		foreach (char c in value) {
+			switch (c) {
+				case '\0':
+					yield return '\\';
+					yield return '0';
+					break;
+				case '\t':
+					yield return '\\';
+					yield return 't';
+					break;
+				case '\n':
+					yield return '\\';
+					yield return 'n';
+					break;
+				case '\r':
+					yield return '\\';
+					yield return 'r';
+					break;
+				case '\f':
+					yield return '\\';
+					yield return 'f';
+					break;
+				case '\b':
+					yield return '\\';
+					yield return 'b';
+					break;
+				default:
+					yield return c;
+					break;
+			}
+		}
+	}
+
 	private void MakeAttributes (XmlElement root, IEnumerable<string> attributes, TypeReference t=null)
 	{
 		if (!attributes.Any ()) {
@@ -2535,11 +2570,12 @@ class MDocUpdater : MDocCommand
 		else if (e == null)
 			e = root.OwnerDocument.CreateElement("Attributes");
 		
+
 		foreach (string attribute in attributes) {
 			XmlElement ae = root.OwnerDocument.CreateElement("Attribute");
 			e.AppendChild(ae);
-			
-			WriteElementText(ae, "AttributeName", attribute);
+			var value = new String (FilterSpecialChars (attribute).ToArray ());
+			WriteElementText(ae, "AttributeName", value);
 		}
 		
 		if (e.ParentNode == null)
