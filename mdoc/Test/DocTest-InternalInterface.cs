@@ -7,6 +7,7 @@ namespace MyNamespace {
 	}
 
 	public class MyClass : MyInternalInterface {
+		[System.ComponentModel.DefaultValue ('\0')]
 		public string Bar {get;set;}
 		public void BarMeth () {} // part of the interface, but publicly implemented
 
