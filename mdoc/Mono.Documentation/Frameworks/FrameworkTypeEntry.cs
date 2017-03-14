@@ -8,6 +8,10 @@ namespace Mono.Documentation
 	class FrameworkTypeEntry : IComparable<FrameworkTypeEntry>
 	{
 		SortedSet<string> members = new SortedSet<string> ();
+		SortedSet<string> memberscsharpsig = new SortedSet<string> ();
+
+		CSharpFullMemberFormatter formatter = new CSharpFullMemberFormatter ();
+
 		FrameworkEntry fx;
 
 		public static FrameworkTypeEntry Empty = new EmptyTypeEntry (FrameworkEntry.Empty) { Name = "Empty" };
@@ -37,6 +41,14 @@ namespace Mono.Documentation
 			}
 			else 
 				members.Add (member.FullName);
+
+			// this is for lookup purposes
+			memberscsharpsig.Add(formatter.GetDeclaration (member));
+		}
+
+		public bool ContainsCSharpSig (string sig)
+		{
+			return memberscsharpsig.Contains (sig);
 		}
 
 		public override string ToString () => $"{this.Name} in {this.fx.Name}";
@@ -47,6 +59,13 @@ namespace Mono.Documentation
 			if (this.Name == null) return 1;
 
 			return string.Compare (this.Name, other.Name, StringComparison.CurrentCulture);
+		}
+
+		public override bool Equals (object obj)
+		{
+			FrameworkTypeEntry other = obj as FrameworkTypeEntry;
+			if (other == null) return false;
+			return this.Name.Equals (other.Name);
 		}
 
 		class EmptyTypeEntry : FrameworkTypeEntry

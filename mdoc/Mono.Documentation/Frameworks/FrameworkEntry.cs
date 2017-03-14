@@ -10,9 +10,20 @@ namespace Mono.Documentation
 	{
 		SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
+		List<FrameworkEntry> allframeworks;
+
+		public FrameworkEntry (List<FrameworkEntry> frameworks)
+		{
+			allframeworks = frameworks;
+			if (allframeworks == null)
+				allframeworks = new List<FrameworkEntry> (0);
+		}
+
 		public string Name { get; set; }
 
 		public ISet<FrameworkTypeEntry> Types { get { return this.types; } }
+
+		public IEnumerable<FrameworkEntry> Frameworks { get { return this.allframeworks; } }
 
 		public static readonly FrameworkEntry Empty = new EmptyFrameworkEntry () { Name = "Empty" };
 
@@ -32,6 +43,7 @@ namespace Mono.Documentation
 
 		class EmptyFrameworkEntry : FrameworkEntry
 		{
+			public EmptyFrameworkEntry () : base (null) { }
 			public override FrameworkTypeEntry ProcessType (TypeDefinition type) { return FrameworkTypeEntry.Empty; }
 		}
 	}
