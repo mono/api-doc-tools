@@ -1220,6 +1220,20 @@ class MDocUpdater : MDocCommand
 			
 			// Deleted (or signature changed)
 			if (oldmember2 == null) {
+				if (!string.IsNullOrWhiteSpace (FrameworksPath)) {
+					// verify that this member wasn't seen in another framework and is indeed valid
+					var sigFromXml = oldmember
+						.GetElementsByTagName ("MemberSignature")
+						.Cast<XmlElement> ()
+						.FirstOrDefault (x => x.GetAttribute ("Language").Equals ("C#"));
+
+					if (sigFromXml != null) {
+						var sigvalue = sigFromXml.GetAttribute ("Value");
+						if (typeEntry.Framework.Frameworks.Any (fx => fx.Types.Any (t => t.Equals(typeEntry) && t.ContainsCSharpSig (sigvalue))))
+							continue;
+					}
+				}
+
 				if (!no_assembly_versions && UpdateAssemblyVersions (oldmember, type.Module.Assembly, new string[]{ GetAssemblyVersion (type.Module.Assembly) }, false))
 					continue;
 

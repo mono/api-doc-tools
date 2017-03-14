@@ -40,7 +40,7 @@ namespace Mono.Documentation
 
 			var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
 			if (entry == null) {
-				entry = new FrameworkEntry { Name = shortPath };
+				entry = new FrameworkEntry (frameworks) { Name = shortPath };
 				frameworks.Add (entry);
 			}
 			return entry;
