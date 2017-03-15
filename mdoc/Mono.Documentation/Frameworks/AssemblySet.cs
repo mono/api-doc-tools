@@ -35,8 +35,12 @@ namespace Mono.Documentation
 
 			foreach (var searchPath in resolverSearchPaths.Union(assemblyDirectories))
 				assemblySearchPaths.Add (searchPath);
-			
-			foreach (var searchPath in assemblySearchPaths)
+
+			char oppositeSeparator = Path.DirectorySeparatorChar == '/' ? '\\' : '/';
+			Func<string, string> sanitize = p => 
+				p.Replace (oppositeSeparator, Path.DirectorySeparatorChar);
+
+			foreach (var searchPath in assemblySearchPaths.Select(sanitize))
 				resolver.AddSearchDirectory (searchPath);
 		}
 
