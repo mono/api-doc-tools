@@ -1225,7 +1225,7 @@ class MDocUpdater : MDocCommand
 					var sigFromXml = oldmember
 						.GetElementsByTagName ("MemberSignature")
 						.Cast<XmlElement> ()
-						.FirstOrDefault (x => x.GetAttribute ("Language").Equals ("C#"));
+						.FirstOrDefault (x => x.GetAttribute ("Language").Equals ("ILAsm"));
 
 					if (sigFromXml != null) {
 						var sigvalue = sigFromXml.GetAttribute ("Value");
