@@ -327,7 +327,8 @@ class MDocUpdater : MDocCommand
 								SearchPaths = f.Elements("assemblySearchPath")
 					                           .Select(a => Path.Combine(frameworksDir, a.Value))
 					                           .ToArray()
-							  });
+							  })
+							  .Where (f => Directory.Exists (f.Path));
 
 			var sets = fxd.Select (d => new AssemblySet (
 				d.Name,
@@ -2067,13 +2068,14 @@ class MDocUpdater : MDocCommand
 		RemoveExcept (member.SelectSingleNode ("Docs"), ValidExtensionDocMembers);
 		WriteElementText (member, "MemberType", "ExtensionMethod");
 		XmlElement link = member.OwnerDocument.CreateElement ("Link");
-		link.SetAttribute ("Type", slashdocFormatter.GetName (me.DeclaringType));
-		link.SetAttribute ("Member", slashdocFormatter.GetDeclaration (me));
+		var linktype = slashdocFormatter.GetName (me.DeclaringType);
+		var linkmember = slashdocFormatter.GetDeclaration (me);
+		link.SetAttribute ("Type", linktype);
+		link.SetAttribute ("Member", linkmember);
 		member.AppendChild (link);
 		AddTargets (em, info);
 
-		var sig = em.SelectSingleNode ("Member/MemberSignature[@Language='C#']/@Value");
-		if (!IsMultiAssembly || (IsMultiAssembly && sig != null && !extensionMethods.Any (ex => ex.SelectSingleNode ("Member/MemberSignature[@Language='C#']/@Value").Value == sig.Value))) {
+		if (!IsMultiAssembly || (IsMultiAssembly && !extensionMethods.Any (ex => ex.SelectSingleNode ("Member/Link/@Type").Value == linktype && ex.SelectSingleNode ("Member/Link/@Member").Value == linkmember))) {
 			extensionMethods.Add (em);
 		}
 	}
