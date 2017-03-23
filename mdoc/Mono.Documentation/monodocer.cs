@@ -3208,7 +3208,7 @@ static class DocUtils {
 
 	public static bool IsExplicitlyImplemented (MethodDefinition method)
 	{
-		return method.IsPrivate && method.IsFinal && method.IsVirtual;
+		return method != null && method.IsPrivate && method.IsFinal && method.IsVirtual;
 	}
 
 	public static string GetTypeDotMember (string name)
@@ -3510,7 +3510,7 @@ class DocumentationEnumerator {
 
 		// If we're using 'magic types', then we might get false positives ... in those cases, we keep searching
 		MemberReference likelyCandidate = null;
-		
+
 		// Loop through all members in this type with the same name
 		var reflectedMembers = GetReflectionMembers (type, docName).ToArray ();
 		foreach (MemberReference mi in reflectedMembers) {
@@ -3669,12 +3669,56 @@ class DocumentationEnumerator {
 			// Cases 1 & 2
 			foreach (MemberReference mi in type.GetMembers (docName))
 				yield return mi;
-			if (CountChars (docName, '.') > 0)
+			if (CountChars(docName, '.') > 0) {
+				
+				Func<MemberReference, bool> verifyInterface = (member) =>
+				{
+					var meth = member as MethodDefinition;
+
+					if (meth == null && member is PropertyReference) {
+						var propertyDefinition = ((PropertyReference)member).Resolve ();
+						meth = propertyDefinition.GetMethod ?? propertyDefinition.SetMethod;
+					}
+					return meth != null && (member.Name.Equals (".ctor") || DocUtils.IsExplicitlyImplemented (meth));
+				};
+
+				int memberCount = 0;
+
 				// might be a property; try only type.member instead of
 				// namespace.type.member.
-				foreach (MemberReference mi in 
-						type.GetMembers (DocUtils.GetTypeDotMember (docName)))
+				var typeMember = DocUtils.GetTypeDotMember (docName);
+				var memberName = DocUtils.GetMember (docName);
+				foreach (MemberReference mi in
+					 type.GetMembers (typeMember).Where (verifyInterface)) {
+					memberCount++;
 					yield return mi;
+				}
+
+				// some VB libraries use just the member name
+				foreach (MemberReference mi in
+					 type.GetMembers (memberName).Where (verifyInterface)) {
+					memberCount++;
+					yield return mi;
+				}
+
+				// some VB libraries use a `typemember` naming convention
+				foreach (MemberReference mi in
+					 type.GetMembers (typeMember.Replace(".", "")).Where (verifyInterface)) {
+					memberCount++;
+					yield return mi;
+				}
+
+				// if we still haven't found the member, there are some VB libraries
+				// that use a different interface name for implementation. 
+				if (memberCount == 0) {
+					foreach (MemberReference mi in
+							 type
+								 .GetMembers ()
+								 .Where (m => m.Name.StartsWith ("I", StringComparison.InvariantCultureIgnoreCase) && m.Name.EndsWith (memberName, StringComparison.InvariantCultureIgnoreCase))
+								 .Where (verifyInterface))
+						yield return mi;
+				}
+			}
 			yield break;
 		}
 		// cases 3 & 4
