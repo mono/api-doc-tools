@@ -10,7 +10,7 @@ namespace Mono.Documentation
 		SortedSet<string> members = new SortedSet<string> ();
 		SortedSet<string> memberscsharpsig = new SortedSet<string> ();
 
-		ILMemberFormatter formatter = new ILMemberFormatter ();
+		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
 
 		FrameworkEntry fx;
 
