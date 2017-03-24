@@ -334,24 +334,25 @@ class MDocUpdater : MDocCommand
 			var sets = fxd.Select (d => new AssemblySet (
 				d.Name,
 				Directory.GetFiles (d.Path, "*.dll"),
-				this.globalSearchPaths.Union(d.SearchPaths)
+				this.globalSearchPaths.Union (d.SearchPaths)
 			));
 			this.assemblies.AddRange (sets);
-			assemblyPaths.AddRange(sets.SelectMany (s => s.AssemblyPaths));
+			assemblyPaths.AddRange (sets.SelectMany (s => s.AssemblyPaths));
 
 			// Create a cache of all frameworks, so we can look up 
 			// members that may exist only other frameworks before deleting them
 			Console.Write ("Creating frameworks cache: ");
 			FrameworkIndex cacheIndex = new FrameworkIndex (FrameworksPath);
+			string[] prefixesToAvoid = { "get_", "set_", "add_", "remove_", "raise_" };
 			foreach (var assemblySet in this.assemblies) {
 				using (assemblySet) {
 					Console.Write (".");
 					foreach (var assembly in assemblySet.Assemblies) {
 						var a = cacheIndex.StartProcessingAssembly(assembly);
-						foreach (var type in assembly.GetTypes()) {
-							var t = a.ProcessType(type);
-							foreach (var member in type.GetMembers())
-								t.ProcessMember(member);
+						foreach (var type in assembly.GetTypes ()) {
+							var t = a.ProcessType (type);
+							foreach (var member in type.GetMembers ().Where (m => !prefixesToAvoid.Any (pre => m.Name.StartsWith (pre))))
+								t.ProcessMember (member);
 						}
 					}
 				}
