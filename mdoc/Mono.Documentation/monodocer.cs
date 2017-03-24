@@ -206,6 +206,7 @@ class MDocUpdater : MDocCommand
 	/// <summary>Path which contains multiple folders with assemblies. Each folder contained will represent one framework.</summary>
 	string FrameworksPath = string.Empty;
 	FrameworkIndex frameworks;
+	FrameworkIndex frameworksCache;
 	
 	static List<string> droppedAssemblies = new List<string>();
 
@@ -337,6 +338,26 @@ class MDocUpdater : MDocCommand
 			));
 			this.assemblies.AddRange (sets);
 			assemblyPaths.AddRange(sets.SelectMany (s => s.AssemblyPaths));
+
+			// Create a cache of all frameworks, so we can look up 
+			// members that may exist only other frameworks before deleting them
+			Console.Write ("Creating frameworks cache: ");
+			FrameworkIndex cacheIndex = new FrameworkIndex (FrameworksPath);
+			foreach (var assemblySet in this.assemblies) {
+				using (assemblySet) {
+					Console.Write (".");
+					foreach (var assembly in assemblySet.Assemblies) {
+						var a = cacheIndex.StartProcessingAssembly(assembly);
+						foreach (var type in assembly.GetTypes()) {
+							var t = a.ProcessType(type);
+							foreach (var member in type.GetMembers())
+								t.ProcessMember(member);
+						}
+					}
+				}
+			}
+			Console.WriteLine($"{Environment.NewLine}done caching.");
+			this.frameworksCache = cacheIndex;
 		}
 		else {
 			this.assemblies.Add (new AssemblySet ("Default", assemblyPaths, this.globalSearchPaths));
@@ -1230,7 +1251,14 @@ class MDocUpdater : MDocCommand
 
 					if (sigFromXml != null) {
 						var sigvalue = sigFromXml.GetAttribute ("Value");
-						if (typeEntry.Framework.Frameworks.Any (fx => fx.Types.Any (t => t.Equals(typeEntry) && t.ContainsCSharpSig (sigvalue))))
+						Func<FrameworkEntry, bool> findTypes = fx => {
+							var tInstance = fx.Types.FirstOrDefault(t => t.Equals(typeEntry));
+							if (tInstance != null) {
+								return tInstance.ContainsCSharpSig(sigvalue);
+							}
+							return false;
+						};
+						if (frameworksCache.Frameworks.Any (findTypes))
 							continue;
 					}
 				}
