@@ -43,7 +43,10 @@ namespace Mono.Documentation
 				members.Add (member.FullName);
 
 			// this is for lookup purposes
-			memberscsharpsig.Add(formatter.GetDeclaration (member));
+			try {
+				memberscsharpsig.Add(formatter.GetDeclaration(member));
+			}
+			catch {}
 		}
 
 		public bool ContainsCSharpSig (string sig)
