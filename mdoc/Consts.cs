@@ -3,6 +3,6 @@ namespace Mono.Documentation
 {
 	public static class Consts
 	{
-		public static string MonoVersion = "5.0.0.12";
+		public static string MonoVersion = "5.0.0.13";
 	}
 }
