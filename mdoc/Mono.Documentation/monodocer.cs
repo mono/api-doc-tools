@@ -921,7 +921,7 @@ class MDocUpdater : MDocCommand
 
 		foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null)) {
 			string typename = GetTypeFileName(type);
-			if (!IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0 || assemblySet.ContainsForwardedType (type.FullName))
+			if (!IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
 				continue;
 
 			var typeEntry = frameworkEntry.ProcessType (type);
