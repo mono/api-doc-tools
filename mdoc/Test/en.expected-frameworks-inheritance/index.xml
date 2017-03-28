@@ -28,6 +28,8 @@
       <Type Name="MyBaseClassOne" Kind="Class" />
       <Type Name="MyBaseClassTwo" Kind="Class" />
       <Type Name="MyClass" Kind="Class" />
+      <Type Name="OnlyExistsInOne" Kind="Class" />
+      <Type Name="OnlyExistsInTwo" Kind="Class" />
     </Namespace>
   </Types>
   <Title>Untitled</Title>

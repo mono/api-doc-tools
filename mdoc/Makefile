@@ -152,6 +152,7 @@ check-monodocer-frameworks: Test/FrameworkTestData
 check-monodocer-frameworks-inheritance: Test/FrameworkTestData-fx-inheritance
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-inheritance
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-inheritance
 	$(DIFF) Test/en.expected-frameworks-inheritance Test/en.actual
 
 check-monodocer-docid: Test/FrameworkTestData

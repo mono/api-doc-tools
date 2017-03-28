@@ -17,5 +17,8 @@
       <Member Id="M:MyNamespace.MyClass.AllAbstract" />
       <Member Id="P:MyNamespace.MyClass.AllVirtual" />
     </Type>
+    <Type Name="MyNamespace.OnlyExistsInOne" Id="T:MyNamespace.OnlyExistsInOne">
+      <Member Id="M:MyNamespace.OnlyExistsInOne.#ctor" />
+    </Type>
   </Namespace>
 </Framework>

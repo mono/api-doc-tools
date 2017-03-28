@@ -16,5 +16,8 @@
       <Member Id="M:MyNamespace.MyClass.#ctor" />
       <Member Id="M:MyNamespace.MyClass.AllAbstract" />
     </Type>
+    <Type Name="MyNamespace.OnlyExistsInTwo" Id="T:MyNamespace.OnlyExistsInTwo">
+      <Member Id="M:MyNamespace.OnlyExistsInTwo.#ctor" />
+    </Type>
   </Namespace>
 </Framework>

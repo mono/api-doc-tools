@@ -25,4 +25,11 @@ namespace MyNamespace {
         public override string AllVirtual { get { return ""; } }
     #endif
     }
+
+    #if FXTWO
+    public class OnlyExistsInTwo {}
+    #endif
+    #if FXONE
+    public class OnlyExistsInOne {}
+    #endif
 }
