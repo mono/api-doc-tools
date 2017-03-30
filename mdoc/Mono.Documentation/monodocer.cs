@@ -204,7 +204,7 @@ class MDocUpdater : MDocCommand
 	}
 
 	/// <summary>Path which contains multiple folders with assemblies. Each folder contained will represent one framework.</summary>
-	string FrameworksPath = string.Empty;
+	internal string FrameworksPath = string.Empty;
 	FrameworkIndex frameworks;
 	FrameworkIndex frameworksCache;
 	
@@ -3588,7 +3588,23 @@ class DocumentationEnumerator {
 				}
 				if ((returntype != rtype && originalRType == rtype) ||
 					(MDocUpdater.SwitchingToMagicTypes && returntype != originalRType && returntype != rtype && originalRType != rtype)) {
-					continue;
+
+						if (((MethodDefinition)mi).ReturnType.IsGenericParameter)
+						{
+							// ok, the return type is a generic parameter
+							if (methodTcount > 0 && !string.IsNullOrWhiteSpace(MDocUpdater.Instance.FrameworksPath))
+							{
+								// the number of generic parameters on the method match ... they're just different
+								// let's just keep going
+							}
+							else
+							{
+								// no generic parameters on the method, this must be on the type
+								continue;
+							}
+						}
+						else 
+							continue;
 				}
 
 				if (originalRType != rtype)
@@ -3621,6 +3637,12 @@ class DocumentationEnumerator {
 
 						stillDoesntMatch = withDroppedNs != paramType;
 					}
+
+						if (pis[i].ParameterType.IsGenericParameter && !string.IsNullOrWhiteSpace(MDocUpdater.Instance.FrameworksPath))
+						{
+							// in frameworks mode, and this is a generic parameter ... 
+							stillDoesntMatch = false;
+						}
 
 					if (stillDoesntMatch) {
 						good = false;

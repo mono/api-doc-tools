@@ -23,6 +23,11 @@ namespace MyNamespace {
 
     #if FXONE
         public override string AllVirtual { get { return ""; } }
+
+        public S GenericMeth<S>(S value) {return default(S); }
+    #endif
+    #if FXTWO
+        public T GenericMeth<T>(T value) {return default(T); }
     #endif
     }
 }
