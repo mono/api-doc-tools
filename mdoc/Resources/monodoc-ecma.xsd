@@ -18,6 +18,7 @@ add masterdoc support?
   <xs:attribute name="modified" type="xs:boolean" />
   <xs:attribute name="argnames" type="xs:string" />
   <xs:attribute name="cref" type="xs:string" />
+  <xs:attribute name="href" type="xs:string" />
   <xs:attribute name="Deprecated" type="xs:boolean" />
   <xs:attribute name="FullName" type="xs:string" />
   <xs:attribute name="FullNameSP" type="xs:string" />
@@ -698,11 +699,16 @@ add masterdoc support?
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="see">
+ <xs:element name="see">
     <xs:complexType>
-      <xs:attribute ref="cref" />
-      <xs:attribute ref="langword"  />
-      <xs:attribute ref="qualify"  />
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute ref="cref" />
+          <xs:attribute ref="href" />
+          <xs:attribute ref="langword"  />
+          <xs:attribute ref="qualify"  />
+        </xs:extension>
+      </xs:simpleContent>
     </xs:complexType>
   </xs:element>
 

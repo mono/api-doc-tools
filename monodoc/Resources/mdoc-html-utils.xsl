@@ -1672,6 +1672,14 @@
 	<xsl:template match="see[@langword]">
 		<tt><xsl:value-of select="@langword"/></tt>
 	</xsl:template>
+	<xsl:template match="see[@href]">
+		<a>
+			<xsl:attribute name="href">
+				<xsl:value-of select="@href"/>
+			</xsl:attribute>
+			<xsl:value-of select="."/>
+		</a>
+	</xsl:template>
 	
 	<xsl:template name="GetInheritedMembers">
 		<xsl:param name="declaringtype"/>
