@@ -475,6 +475,10 @@ class Example {
             <returns>To be added.</returns>
             <remarks>To be added.</remarks>
             <exception cref="T:System.ArgumentException">To be added; from:
+          <see cref="M:System.Dynamic.Utils.ContractUtils.RequiresNotNull(System.Object,System.String)" />,
+          <see cref="M:System.Linq.Expressions.Error.TypeMustBeDerivedFromSystemDelegate" /></exception>
+            <exception cref="T:System.ArgumentNullException">To be added; from:
+          <see cref="M:System.Dynamic.Utils.ContractUtils.RequiresNotNull(System.Object,System.String)" />,
           <see cref="M:System.Linq.Expressions.Error.TypeMustBeDerivedFromSystemDelegate" /></exception>
         </member>
         <member name="M:Mono.DocTest.Widget.Dynamic1(System.Collections.Generic.Dictionary{System.Object,System.String})">

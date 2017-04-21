@@ -1,4 +1,4 @@
-MSBUILD = xbuild
+MSBUILD = msbuild
 CONFIGURATION = Release
 BIN = bin/$(CONFIGURATION)
 MDOC = $(BIN)/mdoc.exe
