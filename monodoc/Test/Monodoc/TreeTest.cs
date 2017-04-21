@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using NUnit.Framework;
 
@@ -12,19 +13,6 @@ namespace MonoTests.Monodoc
 	[TestFixture]
 	public class TreeTest
 	{
-		string BaseDir
-		{
-			get
-			{
-				var baseDir = "../../monodoc_test/";
-				var assemblyLocation = this.GetType ().Assembly.Location;
-				return Path.GetFullPath (
-					Path.Combine (
-						Path.GetDirectoryName (assemblyLocation),
-						baseDir));
-			}
-		}
-
 		[Test]
 		public void TestLoadingTree_2_10 ()
 		{
@@ -43,9 +31,10 @@ namespace MonoTests.Monodoc
 			TestTreeLoading ("tree-from-3-0.tree", 1, 2);
 		}
 
-		void TestTreeLoading (string treeFileName, int expectedVersion, int expectedNodeCount)
+		void TestTreeLoading (string treeFileName, int expectedVersion, int expectedNodeCount, [CallerFilePath] string baseDir = "")
 		{
-			var filePath = Path.Combine (BaseDir, "trees", treeFileName);
+			var filePath = Path.Combine (Path.GetDirectoryName (baseDir), "..", "monodoc_test", "trees", treeFileName);
+
 			var tree = new Tree (null, filePath);
 			Assert.AreEqual (expectedVersion, tree.VersionNumber);
 			Assert.IsNotNull (tree.RootNode);

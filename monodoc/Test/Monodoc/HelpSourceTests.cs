@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using NUnit.Framework;
 
@@ -17,17 +18,9 @@ namespace MonoTests.Monodoc
 	[TestFixture]
 	public class HelpSourceTest
 	{
-		string BaseDir
+		static string GetBaseDir ([CallerFilePath] string baseDir = "")
 		{
-			get
-			{
-				var baseDir = "../../monodoc_test/";
-				var assemblyLocation = this.GetType ().Assembly.Location;
-				return Path.GetFullPath (
-					Path.Combine (
-						Path.GetDirectoryName (assemblyLocation), 
-						baseDir));
-			}
+			return Path.Combine (Path.GetDirectoryName (baseDir), "..", "monodoc_test");
 		}
 
 		class CheckGenerator : IDocGenerator<bool>
@@ -78,7 +71,7 @@ namespace MonoTests.Monodoc
 		[Test]
 		public void ReachabilityTest ()
 		{
-			var rootTree = RootTree.LoadTree (BaseDir, false);
+			var rootTree = RootTree.LoadTree (GetBaseDir(), false);
 			Node result;
 			var generator = new CheckGenerator ();
 			int errorCount = 0;
@@ -96,7 +89,7 @@ namespace MonoTests.Monodoc
 
 			// HACK: in reality we have currently 4 known issues which are due to duplicated namespaces across
 			// doc sources, something that was never supported and that we need to improve/fix at some stage
-			Assert.LessOrEqual (4, errorCount, errorCount + " / " + testCount.ToString ());
+			Assert.That (errorCount, Is.LessThanOrEqualTo(4), errorCount + " / " + testCount.ToString ());
 		}
 
 		IEnumerable<Node> GetLeaves (Node node)
@@ -119,7 +112,7 @@ namespace MonoTests.Monodoc
 		[Test]
 		public void ReachabilityWithShortGenericNotationTest ()
 		{
-			var rootTree = RootTree.LoadTree (BaseDir, false);
+			var rootTree = RootTree.LoadTree (GetBaseDir(), false);
 			Node result;
 			var generator = new CheckGenerator ();
 
@@ -153,7 +146,7 @@ namespace MonoTests.Monodoc
 		[Test]
 		public void AspNetStyleUrlReachabilityTest ()
 		{
-			var rootTree = RootTree.LoadTree (BaseDir, false);
+			var rootTree = RootTree.LoadTree (GetBaseDir(), false);
 			Node result;
 			var generator = new CheckGenerator ();
 
@@ -169,8 +162,8 @@ namespace MonoTests.Monodoc
 		public void PublicUrlOnUnattachedHelpSourceRoot ()
 		{
 			// Unattached help source have no root:/ URL attributed
-			var hs = new EcmaHelpSource (Path.Combine (BaseDir, "sources", "netdocs"), false);
-			var rootTree = RootTree.LoadTree (BaseDir, false);
+			var hs = new EcmaHelpSource (Path.Combine (GetBaseDir(), "sources", "netdocs"), false);
+			var rootTree = RootTree.LoadTree (GetBaseDir(), false);
 			hs.RootTree = rootTree;
 			Assert.IsNull (hs.Tree.RootNode.PublicUrl);
 			var nsChildUrl = hs.Tree.RootNode.ChildNodes.First ().PublicUrl;

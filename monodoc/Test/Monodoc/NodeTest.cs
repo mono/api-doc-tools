@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using NUnit.Framework;
 
@@ -12,19 +13,6 @@ namespace MonoTests.Monodoc
 	[TestFixture]
 	public class NodeTest
 	{
-		string BaseDir
-		{
-			get
-			{
-				var baseDir = "../../monodoc_test/";
-				var assemblyLocation = this.GetType ().Assembly.Location;
-				return Path.GetFullPath (
-					Path.Combine (
-						Path.GetDirectoryName (assemblyLocation),
-						baseDir));
-			}
-		}
-
 		[Test]
 		public void LegacyNodesTest_30 ()
 		{
@@ -43,9 +31,10 @@ namespace MonoTests.Monodoc
 			TestLegacyNodesSameAsChildNodes ("tree-from-3-0-old.tree");
 		}
 
-		void TestLegacyNodesSameAsChildNodes (string treeFileName)
+		void TestLegacyNodesSameAsChildNodes (string treeFileName, [CallerFilePath] string baseDir = "")
 		{
-			var filePath = Path.Combine (BaseDir, "trees", treeFileName);
+			var filePath = Path.Combine (Path.GetDirectoryName (baseDir), "..", "monodoc_test", "trees", treeFileName);
+
 			var tree = new Tree (null, filePath);
 			CollectionAssert.AreEqual (tree.RootNode.ChildNodes, tree.RootNode.Nodes);
 		}
