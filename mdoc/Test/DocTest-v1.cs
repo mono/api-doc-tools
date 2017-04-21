@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-/// <summary>Namespace Test: [<see cref="N:Mono.DocTest" />]</summary>
+/// <summary>Namespace Test: [<see cref="N:Mono.DocTest" />] <see href="http://www.mono-project.com/">Mono Project</see></summary>
 /// <remarks><c>T:NoNamespace</c></remarks>
 public class NoNamespace {}
 
