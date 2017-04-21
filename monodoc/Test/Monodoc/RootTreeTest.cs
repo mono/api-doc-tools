@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using NUnit.Framework;
 
@@ -13,27 +14,19 @@ namespace MonoTests.Monodoc
 	[TestFixture]
 	public class RootTreeTest
 	{
-		string BaseDir
-		{
-			get
-			{
-				var baseDir = "../../monodoc_test/";
-				var assemblyLocation = this.GetType().Assembly.Location;
-				return Path.GetFullPath(
-					Path.Combine(
-						Path.GetDirectoryName(assemblyLocation),
-						baseDir));
-			}
-		}
-
 		RootTree root;
 		HtmlGenerator generator;
 
 		[SetUp]
 		public void Setup ()
 		{
-			root = RootTree.LoadTree (BaseDir, includeExternal: false);
+			root = RootTree.LoadTree (GetBaseDir (), includeExternal: false);
 			generator = new HtmlGenerator (defaultCache: null);
+		}
+
+		static string GetBaseDir ([CallerFilePath] string baseDir = "")
+		{
+			return Path.Combine (Path.GetDirectoryName (baseDir), "..", "monodoc_test");
 		}
 
 		[Test]

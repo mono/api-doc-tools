@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 using NUnit.Framework;
 
@@ -14,26 +15,18 @@ namespace MonoTests.Monodoc.Generators
 	[TestFixture]
 	public class RawGeneratorTests
 	{
-		string BaseDir
-		{
-			get
-			{
-				var baseDir = "../../monodoc_test/";
-				var assemblyLocation = this.GetType ().Assembly.Location;
-				return Path.GetFullPath (
-					Path.Combine (
-						Path.GetDirectoryName (assemblyLocation),
-						baseDir));
-			}
-		}
-
 		RootTree rootTree;
 		RawGenerator generator = new RawGenerator ();
 
 		[SetUp]
 		public void Setup ()
 		{
-			rootTree = RootTree.LoadTree (BaseDir, false);
+			rootTree = RootTree.LoadTree (GetBaseDir (), false);
+		}
+
+		static string GetBaseDir ([CallerFilePath] string baseDir = "")
+		{
+			return Path.Combine (Path.GetDirectoryName (baseDir), "..", "monodoc_test");
 		}
 
 		void AssertValidXml (string xml)
@@ -59,7 +52,7 @@ namespace MonoTests.Monodoc.Generators
 		{
 			var xml = rootTree.RenderUrl ("T:System.String", generator);
 			Assert.IsNotNull (xml);
-			Assert.IsNotEmpty (xml);
+			Assert.That (xml, Is.Not.Empty);
 			AssertValidXml (xml);
 			AssertEcmaFullTypeName (xml, "System.String");
 		}
@@ -69,7 +62,7 @@ namespace MonoTests.Monodoc.Generators
 		{
 			var xml = rootTree.RenderUrl ("T:System.Int32", generator);
 			Assert.IsNotNull (xml);
-			Assert.IsNotEmpty (xml);
+			Assert.That (xml, Is.Not.Empty);
 			AssertValidXml (xml);
 			AssertEcmaFullTypeName (xml, "System.Int32");
 		}
