@@ -1,30 +1,59 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26206.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mdoc", "mdoc\mdoc.csproj", "{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monodoc", "monodoc\monodoc.csproj", "{6E644802-B579-4037-9809-9CF4C7172C9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monodoc.Test", "monodoc\Test\Monodoc.Test.csproj", "{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpZipLib", "external\SharpZipLib\ICSharpCode.SharpZipLib.NET45\ICSharpCode.SharpZipLib.csproj", "{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Debug|x86.ActiveCfg = Debug|anycpu
-		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Debug|x86.Build.0 = Debug|anycpu
-		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Release|x86.ActiveCfg = Release|anycpu
-		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Release|x86.Build.0 = Release|anycpu
+		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Debug|x86.Build.0 = Debug|Any CPU
+		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Release|x86.ActiveCfg = Release|Any CPU
+		{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}.Release|x86.Build.0 = Release|Any CPU
+		{6E644802-B579-4037-9809-9CF4C7172C9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E644802-B579-4037-9809-9CF4C7172C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E644802-B579-4037-9809-9CF4C7172C9D}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{6E644802-B579-4037-9809-9CF4C7172C9D}.Debug|x86.Build.0 = Debug|Any CPU
+		{6E644802-B579-4037-9809-9CF4C7172C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E644802-B579-4037-9809-9CF4C7172C9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E644802-B579-4037-9809-9CF4C7172C9D}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E644802-B579-4037-9809-9CF4C7172C9D}.Release|x86.Build.0 = Release|Any CPU
+		{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}.Debug|x86.Build.0 = Debug|Any CPU
+		{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}.Release|x86.ActiveCfg = Release|Any CPU
 		{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}.Release|x86.Build.0 = Release|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|x86.Build.0 = Debug|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|x86.ActiveCfg = Release|Any CPU
+		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = mdoc.csproj
