@@ -4315,9 +4315,9 @@ class DocumentationMember {
 	void DiscernTypeParameters ()
 	{
 		// see if we can discern the param list from the name
-		if (MemberName.Contains ("<") && MemberName.EndsWith (">", StringComparison.Ordinal)) {
-			var starti = MemberName.IndexOf ('<') + 1;
-			var endi = MemberName.LastIndexOf ('>');
+		var starti = MemberName.IndexOf ('<') + 1;
+		var endi = MemberName.LastIndexOf ('>');
+		if (starti > 0 && endi > -1) {
 			var paramlist = MemberName.Substring (starti, endi - starti);
 			var tparams = paramlist.Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
 			TypeParameters = new StringList (tparams);
