@@ -1014,7 +1014,7 @@ class MDocUpdater : MDocCommand
 
 		static string GetVersion (string v)
 		{
-			int n = v.IndexOf ("x");
+			int n = v.IndexOf ('x');
 			if (n < 0)
 				return v;
 			return v.Substring (0, n-1);
@@ -1503,9 +1503,9 @@ class MDocUpdater : MDocCommand
 				return r;
 
 			int lt;
-			if ((lt = xMemberName.IndexOf ("<")) >= 0)
+			if ((lt = xMemberName.IndexOf ('<')) >= 0)
 				xMemberName = xMemberName.Substring (0, lt);
-			if ((lt = yMemberName.IndexOf ("<")) >= 0)
+			if ((lt = yMemberName.IndexOf ('<')) >= 0)
 				yMemberName = yMemberName.Substring (0, lt);
 			if ((r = xMemberName.CompareTo (yMemberName)) != 0)
 				return r;
@@ -4316,8 +4316,8 @@ class DocumentationMember {
 	{
 		// see if we can discern the param list from the name
 		if (MemberName.Contains ("<") && MemberName.EndsWith (">", StringComparison.Ordinal)) {
-			var starti = MemberName.IndexOf ("<", StringComparison.Ordinal) + 1;
-			var endi = MemberName.LastIndexOf (">", StringComparison.Ordinal);
+			var starti = MemberName.IndexOf ('<') + 1;
+			var endi = MemberName.LastIndexOf ('>');
 			var paramlist = MemberName.Substring (starti, endi - starti);
 			var tparams = paramlist.Split (new char[] {','}, StringSplitOptions.RemoveEmptyEntries);
 			TypeParameters = new StringList (tparams);
@@ -4450,7 +4450,7 @@ public abstract class MemberFormatter {
 
 	protected virtual StringBuilder AppendTypeName (StringBuilder buf, string typename)
 	{
-		int n = typename.IndexOf ("`");
+		int n = typename.IndexOf ('`');
 		if (n >= 0)
 			return buf.Append (typename.Substring (0, n));
 		return buf.Append (typename);

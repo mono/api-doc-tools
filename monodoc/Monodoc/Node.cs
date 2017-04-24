@@ -308,7 +308,7 @@ namespace Monodoc
 		internal string GetInternalUrl ()
 		{
 			EnsureLoaded ();
-			if (element.IndexOf (":") != -1 || parent == null)
+			if (element.IndexOf (':') != -1 || parent == null)
 				return element;
 
 			var parentUrl = parent.GetInternalUrl ();

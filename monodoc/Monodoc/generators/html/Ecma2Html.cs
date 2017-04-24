@@ -141,9 +141,9 @@ namespace Monodoc.Generators.Html
 					// Get arguments
 					int paren;
 					if (s == 'C' || s == 'M')
-						paren = sig.IndexOf("(");
+						paren = sig.IndexOf('(');
 					else if (s == 'P')
-						paren = sig.IndexOf("[");
+						paren = sig.IndexOf('[');
 					else
 						paren = 0;
 					
@@ -158,7 +158,7 @@ namespace Monodoc.Generators.Html
 					}
 
 					// Get type and member names
-					int dot = sig.LastIndexOf(".");
+					int dot = sig.LastIndexOf('.');
 					if (s == 'C' || dot <= 0 || dot == sig.Length-1) {
 						mem = string.Empty;
 						type = sig;
@@ -178,7 +178,7 @@ namespace Monodoc.Generators.Html
 
 			static string ShortTypeName(string name, string contexttype)
 			{
-				int dot = contexttype.LastIndexOf(".");
+				int dot = contexttype.LastIndexOf('.');
 				if (dot < 0) return name;
 				string contextns = contexttype.Substring(0, dot+1);
 
@@ -188,7 +188,7 @@ namespace Monodoc.Generators.Html
 				if (name.StartsWith(contextns))
 					return name.Substring(contextns.Length);
 			
-				return name.Replace("+", ".");
+				return name.Replace('+', '.');
 			}
 
 			string MonoImpInfo(string assemblyname, string typename, string membername, string arglist, bool strlong)

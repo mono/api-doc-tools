@@ -49,7 +49,7 @@ namespace Mono.Documentation {
 
 		private static string GetCountedName (string name, string escape)
 		{
-			int lt = name.IndexOf ("<");
+			int lt = name.IndexOf ('<');
 			if (lt == -1)
 				return name;
 			StringBuilder type = new StringBuilder (name.Length);
@@ -86,14 +86,14 @@ namespace Mono.Documentation {
 			// Explicitly implemented interface members contain '.'s in the member
 			// name, e.g. System.Collections.Generic.IEnumerable<A>.GetEnumerator.
 			// CSC does a s/\./#/g for these.
-			member = member.Replace (".", "#");
+			member = member.Replace ('.', '#');
 			if (member [member.Length-1] == '>') {
-				int i = member.LastIndexOf ("<");
+				int i = member.LastIndexOf ('<');
 				int ignore;
-				return member.Substring (0, i).Replace ("<", "{").Replace (">", "}") + 
+				return member.Substring (0, i).Replace ('<', '{').Replace ('>', '}') + 
 					"``" + GetGenericCount (member, i, out ignore);
 			}
-			return member.Replace ("<", "{").Replace (">", "}");
+			return member.Replace ('<', '{').Replace ('>', '}');
 		}
 
 		public static void AddExtensionMethods (XmlDocument typexml, ArrayList/*<XmlNode>*/ extensions, DocLoader loader)

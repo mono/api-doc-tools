@@ -109,7 +109,7 @@ public class SimpleHelpSource : HelpSource {
 					      url.Substring (17));
 
 		// Otherwise the last element of the url is the file code we got.
-		int pound = url.LastIndexOf ("#");
+		int pound = url.LastIndexOf ('#');
 		string code;
 		if (pound == -1)
 			code = url;
@@ -124,7 +124,7 @@ public class SimpleHelpSource : HelpSource {
 		//
 		// Now, get the file type
 		//
-		int slash = url.LastIndexOf ("/");
+		int slash = url.LastIndexOf ('/');
 		string fname = url.Substring (slash + 1, pound - slash - 1).ToLower ();
 
 		if (fname.EndsWith (".html") || fname.EndsWith (".htm")){

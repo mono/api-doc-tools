@@ -425,7 +425,7 @@ namespace Monodoc
 		{
 			if (url.StartsWith ("source-id:", StringComparison.OrdinalIgnoreCase)) {
 				string text = url.Substring (10);
-				int num = text.IndexOf (":");
+				int num = text.IndexOf (':');
 				string text2 = text.Substring (0, num);
 				int id = 0;
 				if (!int.TryParse (text2, out id)) {

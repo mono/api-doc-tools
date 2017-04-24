@@ -151,7 +151,7 @@ namespace Monodoc.Providers
 					// url is something like "gnome/bindings/mono.html"
 					// This will get the path "gnome/bindings"
 				
-					int slash = url.LastIndexOf ("/");
+					int slash = url.LastIndexOf ('/');
 					string tmpurl = url;
 				
 					if (slash != -1)
@@ -164,7 +164,7 @@ namespace Monodoc.Providers
 					MatchCollection matches = reg1.Matches(target);
 				
 					for(int i = 1; i < matches.Count; i++) {
-						slash = tmpurl.LastIndexOf ("/");
+						slash = tmpurl.LastIndexOf ('/');
 						if (slash != -1) 
 							tmpurl  = tmpurl.Substring(0, slash);
 					}
