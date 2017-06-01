@@ -153,6 +153,9 @@ namespace Monodoc.Ecma
 		char Read ()
 		{
 			try {
+				if (input == null || real_current_pos >= input.Length)
+                    return EndOfStream;
+                
 				return input[real_current_pos++];
 			} catch {
 				return EndOfStream;
@@ -162,6 +165,9 @@ namespace Monodoc.Ecma
 		char Peek ()
 		{
 			try {
+				if (input == null || real_current_pos >= input.Length)
+                    return EndOfStream;
+                
 				return input[real_current_pos];
 			} catch {
 				return EndOfStream;
