@@ -13,6 +13,7 @@ $(MDOC):
 prepare:
 	git submodule update --init --recursive
 	nuget restore apidoctools.sln
+	nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
 
 clean:
 	$(MSBUILD) apidoctools.sln /t:clean
