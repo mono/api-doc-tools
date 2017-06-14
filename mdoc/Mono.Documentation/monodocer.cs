@@ -334,9 +334,15 @@ class MDocUpdater : MDocCommand
 							  })
 							  .Where (f => Directory.Exists (f.Path));
 
+			Func<string, string, IEnumerable<string>> getFiles = (string path, string filters) => {
+				return filters
+					.Split ('|')
+					.SelectMany (v => Directory.GetFiles (path, v));
+			};
+
 			var sets = fxd.Select (d => new AssemblySet (
 				d.Name,
-				Directory.GetFiles (d.Path, "*.dll"),
+				getFiles (d.Path, "*.dll|*.exe|*.winmd"),
 				this.globalSearchPaths.Union (d.SearchPaths),
 				d.Imports
 			));
