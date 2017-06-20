@@ -63,7 +63,7 @@ Test/DocTest-addNonGeneric-v2.dll:
 
 Test/DocTest-DropNS-classic-secondary.dll:
 	@echo $(value @)
-	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-DropNS-classic-secondary.cs
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-DropNS-classic-secondary.cs -doc:Test/DocTest-DropNS-classic-secondary.xml
 
 Test/DocTest-DropNS-classic.dll:
 	@echo $(value @)
@@ -357,6 +357,23 @@ check-monodocer-importecmadoc:
 		-o Test/en.actual Test/DocTest.dll 
 	$(DIFF) Test/en.expected.importecmadoc Test/en.actual
 
+.PHONY: check-monodocer-import-fx
+check-monodocer-import-fx: Test/DocTest.dll-v1 Test/DocTest-DropNS-classic-secondary.dll
+	rm -Rf Test/en.actual
+	rm -Rf Test/fx-import
+	mkdir Test/fx-import
+	mkdir Test/fx-import/one
+	mkdir Test/fx-import/two
+	cp Test/DocTest.dll Test/fx-import/one
+	cp Test/DocTest-DropNS-classic-secondary.dll Test/fx-import/two
+	cp Test/DocTest-DropNS-classic-secondary.xml Test/fx-import/TestEcmaDocs2.xml
+	cp Test/TestEcmaDocs.xml Test/fx-import/TestEcmaDocs.xml
+	cp Test/CLILibraryTypes.dtd Test/fx-import/
+	cp Test/fx-import-configuration.xml Test/fx-import/frameworks.xml
+	#$(MONO) $(PROGRAM) fx-bootstrap Test/fx-import
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import
+	$(DIFF) Test/en.expected-fx-import Test/en.actual
+
 check-mdoc-export-html-update: 
 	find Test/html.expected -name \*.html -exec rm "{}" \;
 	$(MONO) $(PROGRAM) export-html -o Test/html.expected \
@@ -429,6 +446,7 @@ run-test-update : check-doc-tools-update
 check-doc-tools: check-monodocer-since \
 	check-monodocer-importecmadoc \
 	check-monodocer-importslashdoc \
+	check-monodocer-import-fx \
 	check-monodocer \
 	check-monodocer-delete \
 	check-mdoc-export-html \

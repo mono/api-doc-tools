@@ -3,5 +3,6 @@
 /Test/DocTest.*
 /Test/*.dll*
 /Test/FrameworkTestData*
+/Test/fx-import
 /.v2.txt
 /.v0.txt

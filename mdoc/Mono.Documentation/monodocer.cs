@@ -327,14 +327,16 @@ class MDocUpdater : MDocCommand
 								Path = Path.Combine(frameworksDir,f.Attribute("Source").Value),
 								SearchPaths = f.Elements("assemblySearchPath")
 					                           .Select(a => Path.Combine(frameworksDir, a.Value))
-					                           .ToArray()
+					                           .ToArray(),
+								Import = string.IsNullOrWhiteSpace(f.Element("import")?.Value) ? null : Path.Combine (frameworksDir, f.Element ("import").Value)
 							  })
 							  .Where (f => Directory.Exists (f.Path));
 
 			var sets = fxd.Select (d => new AssemblySet (
 				d.Name,
 				Directory.GetFiles (d.Path, "*.dll"),
-				this.globalSearchPaths.Union (d.SearchPaths)
+				this.globalSearchPaths.Union (d.SearchPaths),
+				d.Import
 			));
 			this.assemblies.AddRange (sets);
 			assemblyPaths.AddRange (sets.SelectMany (s => s.AssemblyPaths));
@@ -348,7 +350,7 @@ class MDocUpdater : MDocCommand
 				using (assemblySet) {
 					Console.Write (".");
 					foreach (var assembly in assemblySet.Assemblies) {
-						var a = cacheIndex.StartProcessingAssembly(assembly);
+						var a = cacheIndex.StartProcessingAssembly(assembly, assemblySet.Importer);
 						foreach (var type in assembly.GetTypes ()) {
 							var t = a.ProcessType (type);
 							foreach (var member in type.GetMembers ().Where (m => !prefixesToAvoid.Any (pre => m.Name.StartsWith (pre))))
@@ -361,7 +363,7 @@ class MDocUpdater : MDocCommand
 			this.frameworksCache = cacheIndex;
 		}
 		else {
-			this.assemblies.Add (new AssemblySet ("Default", assemblyPaths, this.globalSearchPaths));
+			this.assemblies.Add (new AssemblySet ("Default", assemblyPaths, this.globalSearchPaths, null));
 		}
 
 		if (assemblyPaths == null)
@@ -407,6 +409,13 @@ class MDocUpdater : MDocCommand
 
 	void AddImporter (string path)
 	{
+		var importer = GetImporter (path);
+		if (importer != null)
+			importers.Add (importer);
+	}
+
+	internal DocumentationImporter GetImporter (string path)
+	{
 		try {
 			XmlReader r = new XmlTextReader (path);
 			if (r.Read ()) {
@@ -415,12 +424,13 @@ class MDocUpdater : MDocCommand
 						Error ("Unable to read XML file: {0}.", path);
 				}
 				if (r.LocalName == "doc") {
-					importers.Add (new MsxdocDocumentationImporter (path));
+					return new MsxdocDocumentationImporter (path);
 				}
 				else if (r.LocalName == "Libraries") {
 					var ecmadocs = new XmlTextReader (path);
-					docEnum = new EcmaDocumentationEnumerator (this, ecmadocs);
-					importers.Add (new EcmaDocumentationImporter (ecmadocs));
+                    if (docEnum == null)
+						docEnum = new EcmaDocumentationEnumerator (this, ecmadocs);
+					return new EcmaDocumentationImporter (ecmadocs);
 				}
 				else
 					Error ("Unsupported XML format within {0}.", path);
@@ -430,6 +440,7 @@ class MDocUpdater : MDocCommand
 			Environment.ExitCode = 1;
 			Error ("Could not load XML file: {0}.", e.Message);
 		}
+		return null;
 	}
 
 	static ExceptionLocations ParseExceptionLocations (string s)
@@ -588,7 +599,7 @@ class MDocUpdater : MDocCommand
 			foreach (var assemblySet in this.assemblies) {
 				using (assemblySet) {
 					foreach (AssemblyDefinition assembly in assemblySet.Assemblies) {
-						var frameworkEntry = frameworks.StartProcessingAssembly (assembly);
+						var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importer);
 
 						foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, typenames)) {
 							var typeEntry = frameworkEntry.ProcessType (type);
@@ -757,7 +768,7 @@ class MDocUpdater : MDocCommand
 			DoUpdateType2("Updating", basefile, type, typeEntry, output, false);
 		} else {
 			// Stub
-			XmlElement td = StubType(type, output);
+			XmlElement td = StubType(type, output, typeEntry.Framework.Importer);
 			if (td == null)
 				return null;
 		}
@@ -917,7 +928,7 @@ class MDocUpdater : MDocCommand
 
 	private void DoUpdateAssembly (AssemblySet assemblySet, AssemblyDefinition assembly, XmlElement index_types, string source, string dest, HashSet<string> goodfiles) 
 	{
-		var frameworkEntry = frameworks.StartProcessingAssembly (assembly);
+        var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importer);
 
 		foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null)) {
 			string typename = GetTypeFileName(type);
@@ -1591,7 +1602,7 @@ class MDocUpdater : MDocCommand
 	
 	// CREATE A STUB DOCUMENTATION FILE	
 
-	public XmlElement StubType (TypeDefinition type, string output)
+	public XmlElement StubType (TypeDefinition type, string output, DocumentationImporter importer)
 	{
 		string typesig = typeFormatters [0].GetDeclaration (type);
 		if (typesig == null) return null; // not publicly visible
@@ -1600,7 +1611,7 @@ class MDocUpdater : MDocCommand
 		XmlElement root = doc.CreateElement("Type");
 		doc.AppendChild (root);
 
-		var frameworkEntry = frameworks.StartProcessingAssembly (type.Module.Assembly);
+		var frameworkEntry = frameworks.StartProcessingAssembly (type.Module.Assembly, importer);
 		var typeEntry = frameworkEntry.ProcessType (type);
 		DoUpdateType2 ("New Type", doc, type, typeEntry, output, true);
 		
@@ -1754,7 +1765,7 @@ class MDocUpdater : MDocCommand
 		}
 		
 		DocsNodeInfo typeInfo = new DocsNodeInfo (WriteElement(root, "Docs"), type);
-		MakeDocNode (typeInfo);
+		MakeDocNode (typeInfo, typeEntry.Framework.Importer);
 		
 		if (!DocUtils.IsDelegate (type))
 			WriteElement (root, "Members");
@@ -1881,7 +1892,7 @@ class MDocUpdater : MDocCommand
 			WriteElementText(me, "MemberValue", fieldValue);
 		
 		info.Node = WriteElement (me, "Docs");
-		MakeDocNode (info);
+		MakeDocNode (info, typeEntry.Framework.Importer);
 		OrderMemberNodes (me, me.ChildNodes);
 		UpdateExtensionMethods (me, info);
 	}
@@ -2251,7 +2262,7 @@ class MDocUpdater : MDocCommand
 	
 	// DOCUMENTATION HELPER FUNCTIONS
 	
-	private void MakeDocNode (DocsNodeInfo info)
+	private void MakeDocNode (DocsNodeInfo info, DocumentationImporter setimporter)
 	{
 		List<GenericParameter> genericParams      = info.GenericParameters;
 		IList<ParameterDefinition> parameters  = info.Parameters;
@@ -2304,9 +2315,11 @@ class MDocUpdater : MDocCommand
 			UpdateExceptions (e, info.Member);
 		}
 
-		foreach (DocumentationImporter importer in importers)
+		foreach (DocumentationImporter importer in importers) {
 			importer.ImportDocumentation (info);
-		
+		}
+		setimporter?.ImportDocumentation (info);
+
 		OrderDocsNodes (e, e.ChildNodes);
 		NormalizeWhitespace(e);
 	}

@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -16,12 +16,14 @@ namespace Mono.Documentation
 		HashSet<string> assemblyPaths = new HashSet<string> ();
 		HashSet<string> assemblySearchPaths = new HashSet<string> ();
 		HashSet<string> forwardedTypes = new HashSet<string> ();
+		string importPath;
+		public DocumentationImporter Importer { get; private set; }
 
 		public AssemblySet (string path) : this (new string[] { path }) { }
 
-		public AssemblySet (IEnumerable<string> paths) : this ("Default", paths, new string[0]) { }
+		public AssemblySet (IEnumerable<string> paths) : this ("Default", paths, new string[0], null) { }
 
-		public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths)
+		public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths, string import)
 		{
 			Name = name;
 
@@ -33,15 +35,20 @@ namespace Mono.Documentation
 				.Where (p => p.Contains (Path.DirectorySeparatorChar))
 				.Select (p => Path.GetDirectoryName (p));
 
-			foreach (var searchPath in resolverSearchPaths.Union(assemblyDirectories))
+			foreach (var searchPath in resolverSearchPaths.Union (assemblyDirectories))
 				assemblySearchPaths.Add (searchPath);
 
 			char oppositeSeparator = Path.DirectorySeparatorChar == '/' ? '\\' : '/';
-			Func<string, string> sanitize = p => 
+			Func<string, string> sanitize = p =>
 				p.Replace (oppositeSeparator, Path.DirectorySeparatorChar);
 
-			foreach (var searchPath in assemblySearchPaths.Select(sanitize))
+			foreach (var searchPath in assemblySearchPaths.Select (sanitize))
 				resolver.AddSearchDirectory (searchPath);
+
+			this.importPath = import;
+			if (!string.IsNullOrWhiteSpace (this.importPath)) {
+				this.Importer = MDocUpdater.Instance.GetImporter(this.importPath);
+			}
 		}
 
 		public string Name { get; private set; }
