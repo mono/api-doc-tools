@@ -3,5 +3,7 @@
 /Test/DocTest.*
 /Test/*.dll*
 /Test/FrameworkTestData*
+/Test/fx-import
+Test/DocTest-DropNS-classic.xml
 /.v2.txt
 /.v0.txt

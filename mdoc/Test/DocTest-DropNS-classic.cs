@@ -1,5 +1,8 @@
 namespace MyFramework.MyNamespace {
+	/// <summary>MyClass summary</summary>
+	/// <remarks>my class remarks</remarks>
 	public class MyClass {
+		/// <summary>MyProperty Summary</summary>
 		public string MyProperty {get;set;}
 		public float Hello(int value) {
 			return 0.0f;

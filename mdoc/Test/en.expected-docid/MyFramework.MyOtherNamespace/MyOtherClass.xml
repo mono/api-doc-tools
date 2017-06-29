@@ -31,6 +31,28 @@
       </Docs>
     </Member>
     <Member MemberName="Hello">
+      <MemberSignature Language="C#" Value="public float Hello (double value);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance float32 Hello(float64 value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:MyFramework.MyOtherNamespace.MyOtherClass.Hello(System.Double)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-DropNS-classic-secondary</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Single</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Hello">
       <MemberSignature Language="C#" Value="public float Hello (int value);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance float32 Hello(int32 value) cil managed" />
       <MemberSignature Language="DocId" Value="M:MyFramework.MyOtherNamespace.MyOtherClass.Hello(System.Int32)" />
