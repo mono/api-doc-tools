@@ -1,7 +1,7 @@
 <Type Name="MyOtherClass" FullName="MyFramework.MyOtherNamespace.MyOtherClass">
   <TypeSignature Language="C#" Value="public class MyOtherClass" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MyOtherClass extends System.Object" />
-  <AssemblyInfo apistyle="classic">
+  <AssemblyInfo>
     <AssemblyName>DocTest-DropNS-classic-secondary</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -10,15 +10,15 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Make sure the namespace in this assembly doesn't get 'dropped'</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
-    <Member MemberName=".ctor" apistyle="classic">
+    <Member MemberName=".ctor">
       <MemberSignature Language="C#" Value="public MyOtherClass ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberType>Constructor</MemberType>
-      <AssemblyInfo apistyle="classic">
+      <AssemblyInfo>
         <AssemblyName>DocTest-DropNS-classic-secondary</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -28,11 +28,11 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
-    <Member MemberName="Hello" apistyle="classic">
+    <Member MemberName="Hello">
       <MemberSignature Language="C#" Value="public float Hello (double value);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance float32 Hello(float64 value) cil managed" />
       <MemberType>Method</MemberType>
-      <AssemblyInfo apistyle="classic">
+      <AssemblyInfo>
         <AssemblyName>DocTest-DropNS-classic-secondary</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -44,16 +44,16 @@
       </Parameters>
       <Docs>
         <param name="value">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Is it me you're looking for</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
-    <Member MemberName="Hello" apistyle="classic">
+    <Member MemberName="Hello">
       <MemberSignature Language="C#" Value="public float Hello (int value);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance float32 Hello(int32 value) cil managed" />
       <MemberType>Method</MemberType>
-      <AssemblyInfo apistyle="classic">
+      <AssemblyInfo>
         <AssemblyName>DocTest-DropNS-classic-secondary</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -65,16 +65,16 @@
       </Parameters>
       <Docs>
         <param name="value">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Hello</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
-    <Member MemberName="MyProperty" apistyle="classic">
+    <Member MemberName="MyProperty">
       <MemberSignature Language="C#" Value="public string MyProperty { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance string MyProperty" />
       <MemberType>Property</MemberType>
-      <AssemblyInfo apistyle="classic">
+      <AssemblyInfo>
         <AssemblyName>DocTest-DropNS-classic-secondary</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
