@@ -99,38 +99,39 @@ namespace DocStat
 			};
 		}
 
-		public static XElement ParallelElement(XElement sourceElement,
-											   string sourcePath,
-											   string sourceRoot,
-											   string refRoot,
-											   HashSet<string> refPaths)
-		{
-			string parallelPath = GetParallelFilePathFor(sourcePath, refRoot, sourceRoot);
-
-			// bail early if we can
-
-			if (!File.Exists(parallelPath) || !refPaths.Contains(parallelPath))
-				return null;
-
-			FileAttributes attr = File.GetAttributes(parallelPath);
-			if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
-				return null;
-
-			XDocument refToSearch = XDocument.Load(parallelPath);
-			Console.WriteLine("Found parallel document");
-			var toReturn = GetSelectorFor(sourceElement).Invoke(refToSearch);
-			Console.WriteLine("Got the parallel element");
-			return toReturn;
-		}
-
 		public static string GetParallelFilePathFor(string pathToTypeToFix,
-													string rootOfFilesToUse,
-													string rootOfFilesToFix)
+                                                    string rootOfReferenceFiles,
+													string rootOfFilesToFix,
+                                                    Func<string, string> referenceRootTransform = null,
+                                                    Func<string, string> referencePathTransform = null)
 		{
+            
 			string fullFixPath = Path.GetFullPath(pathToTypeToFix);
+
 			string fullFixRoot = Path.GetFullPath(rootOfFilesToFix);
-			string fullRefRoot = Path.GetFullPath(rootOfFilesToUse);
-			return fullFixPath.Replace(fullFixRoot, fullRefRoot);
+
+			rootOfReferenceFiles =
+				null == referenceRootTransform ? rootOfReferenceFiles : referenceRootTransform(rootOfReferenceFiles);
+            string fullRefRoot = Path.GetFullPath(rootOfReferenceFiles);
+
+            string fullReferencePath = fullFixPath.Replace(fullFixRoot, fullRefRoot);
+
+            fullReferencePath = 
+                null == referencePathTransform ? fullReferencePath : referencePathTransform(fullReferencePath);
+            return fullReferencePath;
 		}
+
+        public static XDocument GetParallelXDocFor(string parallelFilePath,
+                                                HashSet<string> refPaths = null)
+        {
+
+            if (!File.Exists(parallelFilePath))
+                return null;
+            
+            if ((null != refPaths) && !refPaths.Contains(parallelFilePath))
+                return null;
+            
+            return XDocument.Load(parallelFilePath);
+        }
 	}
 }

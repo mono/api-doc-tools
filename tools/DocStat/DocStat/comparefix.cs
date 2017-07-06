@@ -22,7 +22,7 @@ namespace DocStat
                                                                ref processlist,
                                                                ref pattern);
             // must have
-            string filesToUseDir = "";
+            string filesToUseAsRefDir = "";
             // should have
             bool doSummaries = true;
             bool doParameters = true;
@@ -35,7 +35,7 @@ namespace DocStat
 
             var opts = new OptionSet {
                 {"f|fix=", (f) => filesToFixDir = f},
-                {"u|using=", (u) => filesToUseDir = u},
+                {"u|using=", (u) => filesToUseAsRefDir = u},
                 {"s|summaries", (s) => doSummaries = s != null},
                 {"a|params", (p) => doParameters = p != null },
                 {"r|retvals", (r) => doReturns = r != null },
@@ -47,80 +47,84 @@ namespace DocStat
 
             extras = opts.Parse(extras);
             CommandUtils.ThrowOnFiniteExtras(extras);
-            if (String.IsNullOrEmpty(filesToUseDir))
+            if (String.IsNullOrEmpty(filesToUseAsRefDir))
                 throw new ArgumentException("You must supply a parallel directory from which to source new content with '[u|using]'=.");
 
 
-            IEnumerable<string> toFix = CommandUtils.GetFileList(processlist, omitlist, filesToFixDir, pattern);
-            HashSet<string> toUse = new HashSet<string>(CommandUtils.GetFileList("", "", filesToUseDir, ""));
+            IEnumerable<string> filesToFix = CommandUtils.GetFileList(processlist, omitlist, filesToFixDir, pattern);
+            HashSet<string> filesToUseAsReference = new HashSet<string>(CommandUtils.GetFileList("", "", filesToUseAsRefDir, ""));
 
-            toFix = toFix.Where((f) => toUse.Contains(ParallelXmlHelper.GetParallelFilePathFor(f, filesToUseDir, filesToFixDir)));
+            filesToFix = 
+                filesToFix.Where((f) =>
+                                 filesToUseAsReference.Contains(ParallelXmlHelper.GetParallelFilePathFor(f,
+                                                                                                         filesToUseAsRefDir,
+                                                                                                         filesToFixDir)));
 
-            // closure for lexical brevity in loop below
-            Action<XElement, string> Fix = (XElement e, string f) =>
+
+            foreach (var f in filesToFix)
             {
-                Console.WriteLine(e.Name);
-                ParallelXmlHelper.Fix(e, ParallelXmlHelper.ParallelElement(e,
-                                                        f,
-                                                        filesToFixDir,
-                                                        filesToUseDir,
-                                                        toUse));
-            };
+				XDocument currentRefXDoc = ParallelXmlHelper.GetParallelXDocFor(
+					ParallelXmlHelper.GetParallelFilePathFor(f, filesToUseAsRefDir, filesToFixDir),
+					filesToUseAsReference
+				);
 
-            foreach (var f in toFix)
-            {
-                bool changed = false;
-                XDocument fixie = XDocument.Load(f);
+                if (null == currentRefXDoc)
+                    continue;
+
+                Action<XElement> fix = 
+                    (XElement e) => ParallelXmlHelper.Fix(e, ParallelXmlHelper.GetSelectorFor(e).Invoke(currentRefXDoc));
+                
+				bool changed = false;
+                XDocument currentXDocToFix = XDocument.Load(f);
 
                 EventHandler<XObjectChangeEventArgs> SetTrueIfChanged = null;
                 SetTrueIfChanged =
-                    new EventHandler<XObjectChangeEventArgs>((sender, e) => { fixie.Changed -= SetTrueIfChanged; changed = true; });
-                fixie.Changed += SetTrueIfChanged;
+                    new EventHandler<XObjectChangeEventArgs>((sender, e) => { currentXDocToFix.Changed -= SetTrueIfChanged; changed = true; });
+                currentXDocToFix.Changed += SetTrueIfChanged;
 
                 // (1) Fix ype-level summary and remarks:
-                XElement typeSummaryToFix = fixie.Element("Type").Element("Docs").Element("summary");
-                Fix(typeSummaryToFix, f);
+                XElement typeSummaryToFix = currentXDocToFix.Element("Type").Element("Docs").Element("summary");
+                fix(typeSummaryToFix);
 
-                XElement typeRemarksToFix = fixie.Element("Type").Element("Docs").Element("remarks");
-                Fix(typeRemarksToFix, f);
+                XElement typeRemarksToFix = currentXDocToFix.Element("Type").Element("Docs").Element("remarks");
+                fix(typeRemarksToFix);
 
-                var members = fixie.Element("Type").Element("Members");
+                var members = currentXDocToFix.Element("Type").Element("Members");
                 if (null != members)
                 {
+
                     foreach (XElement m in members.Elements().
-                             Where((XElement e) => ParallelXmlHelper.ParallelElement(e,
-                                                                    f,
-                                                                    filesToFixDir,
-                                                                    filesToUseDir,
-                                                                    toUse) != null))
+                             Where((XElement e) => null != ParallelXmlHelper.GetSelectorFor(e).Invoke(currentRefXDoc)))
                     {
                         // (2) Fix summary, remarks, return values, parameters, and typeparams
-                        XElement summary = m.Element("Docs").Element("summary");
-                        Fix(summary, f);
+                        XElement docsElement = m.Element("Docs");
 
-                        XElement remarks = m.Element("Docs").Element("remarks");
+                        XElement summary = docsElement.Element("summary");
+                        fix(summary);
+
+                        XElement remarks = docsElement.Element("remarks");
                         if (null != remarks)
-                            Fix(remarks, f);
+                            fix(remarks);
 
-                        XElement returns = m.Element("Docs").Element("returns");
+                        XElement returns = docsElement.Element("returns");
                         if (null != returns)
-                            Fix(returns, f);
+                            fix(returns);
 
-                        if (m.Element("Docs").Elements("param").Any())
+                        if (docsElement.Elements("param").Any())
                         {
-                            IEnumerable<XElement> _params = m.Element("Docs").Elements("param");
+                            IEnumerable<XElement> _params = docsElement.Elements("param");
                             foreach (XElement p in _params)
                             {
-                                Fix(p, f);
+                                fix(p);
                             }
                         }
 
-                        if (m.Element("Docs").Elements("typeparam").Any())
+                        if (docsElement.Elements("typeparam").Any())
                         {
-                            IEnumerable<XElement> typeparams = m.Element("Docs").Elements("typeparam");
+                            IEnumerable<XElement> typeparams = docsElement.Elements("typeparam");
                             foreach (XElement p in typeparams)
                             {
-                                Fix(p, f);
+                                fix(p);
                             }
                         }
                     }
@@ -128,7 +132,7 @@ namespace DocStat
 
                 if (changed)
                 {
-                    CommandUtils.WriteXDocument(fixie, f);
+                    CommandUtils.WriteXDocument(currentXDocToFix, f);
                 }
             }
 
