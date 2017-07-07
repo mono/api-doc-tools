@@ -82,53 +82,8 @@ namespace DocStat
                     new EventHandler<XObjectChangeEventArgs>((sender, e) => { currentXDocToFix.Changed -= SetTrueIfChanged; changed = true; });
                 currentXDocToFix.Changed += SetTrueIfChanged;
 
-                // (1) Fix ype-level summary and remarks:
-                XElement typeSummaryToFix = currentXDocToFix.Element("Type").Element("Docs").Element("summary");
-                fix(typeSummaryToFix);
-
-                XElement typeRemarksToFix = currentXDocToFix.Element("Type").Element("Docs").Element("remarks");
-                fix(typeRemarksToFix);
-
-                var members = currentXDocToFix.Element("Type").Element("Members");
-                if (null != members)
-                {
-
-                    foreach (XElement m in members.Elements().
-                             Where((XElement e) => null != ParallelXmlHelper.GetSelectorFor(e).Invoke(currentRefXDoc)))
-                    {
-                        // (2) Fix summary, remarks, return values, parameters, and typeparams
-                        XElement docsElement = m.Element("Docs");
-
-                        XElement summary = docsElement.Element("summary");
-                        fix(summary);
-
-                        XElement remarks = docsElement.Element("remarks");
-                        if (null != remarks)
-                            fix(remarks);
-
-                        XElement returns = docsElement.Element("returns");
-                        if (null != returns)
-                            fix(returns);
-
-                        if (docsElement.Elements("param").Any())
-                        {
-                            IEnumerable<XElement> _params = docsElement.Elements("param");
-                            foreach (XElement p in _params)
-                            {
-                                fix(p);
-                            }
-                        }
-
-                        if (docsElement.Elements("typeparam").Any())
-                        {
-                            IEnumerable<XElement> typeparams = docsElement.Elements("typeparam");
-                            foreach (XElement p in typeparams)
-                            {
-                                fix(p);
-                            }
-                        }
-                    }
-                }
+                foreach (XElement e in CommandUtils.ElementsOfInterest(currentXDocToFix))
+                    fix(e);
 
                 if (changed)
                 {

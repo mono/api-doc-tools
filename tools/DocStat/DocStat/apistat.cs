@@ -30,7 +30,8 @@ namespace DocStat
                 {"internalize", new InternalizeCommand()  },
                 {"remaining", new RemainingCommand() },
                 {"obsolete", new ObsoleteCommand() },
-                {"comparefix", new CompareFixCommand() }
+                {"comparefix", new CompareFixCommand()},
+                {"reportnew", new CompareReportCommand()}
             };
 
             GetCommand(args.First()).Run(args);
