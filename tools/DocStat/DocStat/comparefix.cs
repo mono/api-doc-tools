@@ -56,15 +56,15 @@ namespace DocStat
 
             filesToFix = 
                 filesToFix.Where((f) =>
-                                 filesToUseAsReference.Contains(ParallelXmlHelper.GetParallelFilePathFor(f,
+                                 filesToUseAsReference.Contains(EcmaXmlHelper.GetParallelFilePathFor(f,
                                                                                                          filesToUseAsRefDir,
                                                                                                          filesToFixDir)));
 
 
             foreach (var f in filesToFix)
             {
-				XDocument currentRefXDoc = ParallelXmlHelper.GetParallelXDocFor(
-					ParallelXmlHelper.GetParallelFilePathFor(f, filesToUseAsRefDir, filesToFixDir),
+				XDocument currentRefXDoc = EcmaXmlHelper.GetParallelXDocFor(
+					EcmaXmlHelper.GetParallelFilePathFor(f, filesToUseAsRefDir, filesToFixDir),
 					filesToUseAsReference
 				);
 
@@ -72,7 +72,7 @@ namespace DocStat
                     continue;
 
                 Action<XElement> fix = 
-                    (XElement e) => ParallelXmlHelper.Fix(e, ParallelXmlHelper.GetSelectorFor(e).Invoke(currentRefXDoc));
+                    (XElement e) => EcmaXmlHelper.Fix(e, EcmaXmlHelper.GetSelectorFor(e)(currentRefXDoc));
                 
 				bool changed = false;
                 XDocument currentXDocToFix = XDocument.Load(f);
@@ -82,7 +82,7 @@ namespace DocStat
                     new EventHandler<XObjectChangeEventArgs>((sender, e) => { currentXDocToFix.Changed -= SetTrueIfChanged; changed = true; });
                 currentXDocToFix.Changed += SetTrueIfChanged;
 
-                foreach (XElement e in CommandUtils.ElementsOfInterest(currentXDocToFix))
+                foreach (XElement e in EcmaXmlHelper.ElementsOfInterest(currentXDocToFix))
                     fix(e);
 
                 if (changed)
