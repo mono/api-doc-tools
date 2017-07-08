@@ -32,11 +32,12 @@
     <Compile Include="comparefix.cs" />
     <Compile Include="internalize.cs" />
     <Compile Include="obsolete.cs" />
-    <Compile Include="ParallelXmlHelper.cs" />
+    <Compile Include="EcmaXmlHelper.cs" />
     <Compile Include="remaining.cs" />
     <Compile Include="..\..\..\mdoc\Options.cs">
       <Link>Options.cs</Link>
     </Compile>
+    <Compile Include="comparereport.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Xml.Linq" />

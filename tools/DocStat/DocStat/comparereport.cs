@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -55,24 +55,53 @@ namespace DocStat
 
 			updated =
 				updated.Where((f) =>
-								 filesToUseAsReference.Contains(ParallelXmlHelper.GetParallelFilePathFor(f,
+								 filesToUseAsReference.Contains(EcmaXmlHelper.GetParallelFilePathFor(f,
 																										 oldFilesDir,
 																										 updatedDir)));
 
 
-            foreach (string updatedXMLFile in updated)
-            {
-                // For each member in the updated files, report if the old one isn't present
+			
 
-                string oldXMLFile = ParallelXmlHelper.GetParallelFilePathFor(updatedXMLFile, oldFilesDir, updatedDir);
+            StreamWriter reportStream = new StreamWriter(reportFile);
+            reportStream.WriteLine(@"""File Name"",""Type"",""Member""");
 
-                bool completelyNew = !File.Exists(oldXMLFile);
+			string threeColumnFormatString = @"""{0}"",""{1}"",""{2}""";
+			string twoColumnFormatString = @"""{0}"",""{1}""";
 
-                XDocument updatedXDoc = XDocument.Load(updatedXMLFile);
-                XDocument oldXDoc = XDocument.Load(oldXMLFile);
+			Action<XElement> Write = null;
 
+            Action<XElement> WriteSubsequent = (XElement e) =>
+			{
+                reportStream.WriteLine(threeColumnFormatString, "", "", e.Attribute("name").Value);
+			};
 
-            }
+			
+			foreach (string updatedXMLFile in updated)
+			{
+				XDocument updatedXDoc = XDocument.Load(updatedXMLFile);
+
+                Write = (XElement e) =>
+                {
+					reportStream.WriteLine(twoColumnFormatString,
+										   updatedXMLFile,
+                                           updatedXDoc.Element("Type").Attribute("FullName").Value);
+                    WriteSubsequent(e);
+                    Write = WriteSubsequent;
+                };
+
+                string oldXMLFile = EcmaXmlHelper.GetParallelFilePathFor(updatedXMLFile, oldFilesDir, updatedDir);
+                XDocument oldXDoc = File.Exists(oldXMLFile) ? XDocument.Load(oldXMLFile) : null;
+
+                foreach (XElement e in EcmaXmlHelper.NewMembers(updatedXDoc, oldXDoc))
+                {
+                    Write(e);
+                }
+			}
+            reportStream.Flush();
+            reportStream.Close();
 		}
-    }
+
+	}
+
+
 }
