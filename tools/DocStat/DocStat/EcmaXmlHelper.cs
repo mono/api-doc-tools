@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -186,24 +186,34 @@ namespace DocStat
 
         public static IEnumerable<XElement> Members(XDocument ecmaXmlDoc)
         {
-            foreach (var m in ecmaXmlDoc.Element("Type").Element("Members").Elements())
-                yield return m;
+            var members = ecmaXmlDoc.Element("Type").Element("Members");
+            if (null != members)
+            {
+                foreach (var m in members.Elements("Member"))
+                        yield return m;
+            }
+            yield break;
         }
 
 		public static IEnumerable<XElement> NewMembers(XDocument newXml, XDocument oldXml)
 		{
-			if (null == oldXml)
+
+            if (null == Members(newXml))
+            { yield break; }
+            if (null == oldXml)
 			{
+                
 				foreach (var e in Members(newXml))
 					yield return e;
 			}
 			else
 			{
-				foreach (var e in Members(newXml))
-				{
-					if (null == GetSelectorFor(e)(oldXml))
-						yield return e;
-				}
+                foreach (var e in Members(newXml))
+                {
+                    if (null == GetSelectorFor(e)(oldXml))
+                        yield return e;
+                }
+
 			}
 		}
 	}
