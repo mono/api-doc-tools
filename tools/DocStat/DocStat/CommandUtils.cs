@@ -200,6 +200,29 @@ namespace DocStat
                              );
         }
 
+        public static string CSVFormatString(int numColumns, int[] order = null)
+        {
+            if (null != order && order.Length != numColumns)
+                throw new ArgumentException(String.Format("Column order array had {0} entries, but {1} columns are needed.",
+                                                          order.Length.ToString(),
+                                                          numColumns.ToString()));
+            Func<int, int> indexFor = null;
 
+            if (null != order)
+            {
+                indexFor = (int i) => order[i];
+            }
+            else
+            {
+                indexFor = (int i) => i;
+            }
+
+            string[] cols = new string[numColumns];
+
+            for (int i = 0; i < numColumns; i++)
+                cols[i] = "\"{" + indexFor(i) + "}\"";
+
+            return String.Join(",", cols);
+        }
     }
 }
