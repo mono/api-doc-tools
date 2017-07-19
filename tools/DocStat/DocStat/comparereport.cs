@@ -28,11 +28,13 @@ namespace DocStat
             string oldFilesDir = "";
             bool typeOnly = false;
             string reportFile = "";
+            bool nosigil = false;
 
             var options = new OptionSet {
                 {"previous=", (p) => oldFilesDir = p},
                 {"typeonly", (t) => typeOnly = t != null},
-                {"reportfile=", (r) => reportFile = r}
+                {"reportfile=", (r) => reportFile = r},
+                { "no-check-TBA", (t) => nosigil = t != null }
             };
 
             extras = options.Parse(extras);
@@ -53,17 +55,26 @@ namespace DocStat
             IEnumerable<string> updated = CommandUtils.GetFileList(processlist, omitlist, updatedDir, pattern);
 
             StreamWriter reportStream = new StreamWriter(reportFile);
-            reportStream.WriteLine(@"""File Name"",""Type"",""Member""");
 
-			string threeColumnFormatString = @"""{0}"",""{1}"",""{2}""";
-			string twoColumnFormatString = @"""{0}"",""{1}""";
+            reportStream.WriteLine(String.Format(CommandUtils.CSVFormatString(3), "File Name", "Type", "Member"));
 
 			Action<XElement> Write = null;
 
             Action<XElement> WriteSubsequent = (XElement e) =>
 			{
-                reportStream.WriteLine(threeColumnFormatString, "", "", e.Attribute("MemberName").Value);
+                reportStream.WriteLine(CommandUtils.CSVFormatString(3), "", "", e.Attribute("MemberName").Value);
 			};
+
+            Func<XElement, bool> hasSigil = null;
+
+            if (nosigil)
+            {
+                hasSigil = (XElement e) => true;
+            }
+            else
+            {
+                hasSigil = (XElement e) => e.Element("Docs").Element("summary").Value == "To be added.";
+            }
 
 			foreach (string updatedXMLFile in updated)
 			{
@@ -71,7 +82,7 @@ namespace DocStat
 
                 Action<string> WriteFileLine = (string fname) =>
                 {
-                    reportStream.WriteLine(twoColumnFormatString,
+                    reportStream.WriteLine(CommandUtils.CSVFormatString(2),
                                            fname,
                                            updatedXDoc.Element("Type").Attribute("FullName").Value);
                     Write = WriteSubsequent;
@@ -79,7 +90,7 @@ namespace DocStat
 
                 Write = (XElement e) =>
                 {
-					reportStream.WriteLine(twoColumnFormatString,
+					reportStream.WriteLine(CommandUtils.CSVFormatString(2),
 										   updatedXMLFile,
                                            updatedXDoc.Element("Type").Attribute("FullName").Value);
                     WriteSubsequent(e);
@@ -90,10 +101,14 @@ namespace DocStat
                 XDocument oldXDoc = File.Exists(oldXMLFile) ? XDocument.Load(oldXMLFile) : null;
                 if (null == oldXDoc)
                     WriteFileLine(updatedXMLFile);
-				
-                foreach (XElement e in EcmaXmlHelper.NewMembers(updatedXDoc, oldXDoc))
+
+                IEnumerable<XElement> newMembers = EcmaXmlHelper.NewMembers(updatedXDoc, oldXDoc);
+                if (null != newMembers && newMembers.Count() > 0)
                 {
-                    Write(e);
+                    foreach (XElement e in newMembers.Where((f) => hasSigil(f)))
+                    {
+                        Write(e);
+                    }
                 }
 			}
             reportStream.Flush();
