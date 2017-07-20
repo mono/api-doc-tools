@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EcmaXmlHelperTests.cs" />
+    <Compile Include="ClassicDeprecation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

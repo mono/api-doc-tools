@@ -38,7 +38,8 @@ namespace DocStat
 				case "Member":
 					// The ILAsm signature is unique, and always present
 					return (XElement e) => e.Elements("MemberSignature")
-														.First((a) => a.Attribute("Language").Value == "ILAsm")
+														.First((a) => a.Attribute("Language").Value == "ILAsm" && 
+                                                                      (a.Attribute ("apistyle") == null || a.Attribute ("apistyle").Value == "unified"))
 														.Attribute("Value");
 				case "related":
 					return (XElement e) => e.Attribute("href"); ;
