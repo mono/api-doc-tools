@@ -56,16 +56,9 @@ namespace DocStat
 
             StreamWriter reportStream = new StreamWriter(reportFile);
 
-            reportStream.WriteLine(String.Format(CommandUtils.CSVFormatString(3), "File Name", "Type", "Member"));
+            reportStream.WriteLine(String.Format(CommandUtils.CSVFormatString(5), "File Name", "Type", "Member","Need file summary", "Need member summary"));
 
-			Action<XElement> Write = null;
-
-            Action<XElement> WriteSubsequent = (XElement e) =>
-			{
-                reportStream.WriteLine(CommandUtils.CSVFormatString(3), "", "", e.Attribute("MemberName").Value);
-			};
-
-            Func<XElement, bool> hasSigil = null;
+			Func<XElement, bool> hasSigil = null;
 
             if (nosigil)
             {
@@ -76,43 +69,71 @@ namespace DocStat
                 hasSigil = (XElement e) => e.Element("Docs").Element("summary").Value == "To be added.";
             }
 
+            //Func<XElement, bool> needSummary = (XElement e) => e.Element("Docs").Element("summary").Value == "To be added.";
+
+            Func<XElement, string> MemberLine = (XElement e) => {
+				return string.Format(
+                    CommandUtils.CSVFormatString(5), 
+                    "",
+                    "",
+                    e.Attribute("MemberName").Value,
+                    "",
+                    hasSigil(e) ? "y" : "n");
+            };
+
+
+
+            List<string> toWrite = new List<string>();
 			foreach (string updatedXMLFile in updated)
 			{
+                
+                bool fileLineAdded = false;
+
                 XDocument updatedXDoc = XDocument.Load(updatedXMLFile);
 
-                Action<string> WriteFileLine = (string fname) =>
+                Func<string> FileLine = () =>
                 {
-                    reportStream.WriteLine(CommandUtils.CSVFormatString(2),
-                                           fname,
-                                           updatedXDoc.Element("Type").Attribute("FullName").Value);
-                    Write = WriteSubsequent;
+                    return string.Format(
+                        CommandUtils.CSVFormatString(5),
+                        updatedXMLFile,
+                        updatedXDoc.Element("Type").Attribute("FullName").Value,
+                        "",
+                        hasSigil(updatedXDoc.Element("Type")) ? "y" : "n",
+                        "");
                 };
 
-                Write = (XElement e) =>
-                {
-					reportStream.WriteLine(CommandUtils.CSVFormatString(2),
-										   updatedXMLFile,
-                                           updatedXDoc.Element("Type").Attribute("FullName").Value);
-                    WriteSubsequent(e);
-                    Write = WriteSubsequent;
-                };
 				
                 string oldXMLFile = EcmaXmlHelper.GetParallelFilePathFor(updatedXMLFile, oldFilesDir, updatedDir);
                 XDocument oldXDoc = File.Exists(oldXMLFile) ? XDocument.Load(oldXMLFile) : null;
-                if (null == oldXDoc)
-                    WriteFileLine(updatedXMLFile);
+                if (null == oldXDoc && hasSigil(updatedXDoc.Element("Type")))
+                {
+                    toWrite.Add(FileLine());
+                    fileLineAdded = true;
+                }
 
                 IEnumerable<XElement> newMembers = EcmaXmlHelper.NewMembers(updatedXDoc, oldXDoc);
-                if (null != newMembers && newMembers.Count() > 0)
+                if (null != newMembers && newMembers.Where((f) => hasSigil(f)).Any())
                 {
+                    if (!fileLineAdded)
+                        toWrite.Add(FileLine());
+
                     foreach (XElement e in newMembers.Where((f) => hasSigil(f)))
                     {
-                        Write(e);
+                        toWrite.Add(MemberLine(e));
                     }
                 }
+
+                // If toWrite isn't empty, write all lines
+                if (toWrite.Any())
+                {
+                    foreach (string s in toWrite)
+                        reportStream.WriteLine(s);
+                }
+                toWrite.Clear();
 			}
             reportStream.Flush();
             reportStream.Close();
+
 		}
 
 	}
