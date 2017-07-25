@@ -5255,7 +5255,7 @@ class ILMemberFormatter : ILFullMemberFormatter {
 		}
 	}
 
-class CSharpFullMemberFormatter : MemberFormatter {
+public class CSharpFullMemberFormatter : MemberFormatter {
 
 	public override string Language {
 		get {return "C#";}
