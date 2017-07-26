@@ -4701,7 +4701,7 @@ class DocIdFormatter : MemberFormatter
 	}
 }
 
-class ILFullMemberFormatter : MemberFormatter {
+public class ILFullMemberFormatter : MemberFormatter {
 
 	public override string Language {
 		get {return "ILAsm";}
@@ -5218,7 +5218,7 @@ class ILFullMemberFormatter : MemberFormatter {
 	}
 }
 
-class ILMemberFormatter : ILFullMemberFormatter {
+public class ILMemberFormatter : ILFullMemberFormatter {
 	protected override StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
 	{
 		return buf;
@@ -5772,7 +5772,7 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 	}
 }
 
-class CSharpMemberFormatter : CSharpFullMemberFormatter {
+public class CSharpMemberFormatter : CSharpFullMemberFormatter {
 	protected override StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
 	{
 		return buf;

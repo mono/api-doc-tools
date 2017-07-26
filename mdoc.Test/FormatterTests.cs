@@ -14,15 +14,36 @@ namespace mdoc.Test
         [Test ()]
         public void CSharp_VerifyPrivateConstructorNull ()
         {
-            var testclass = GetType<TestClass> ();
-            var method = testclass.Methods.FirstOrDefault (m => m.IsConstructor && m.Parameters.Count() == 1);
+            // this is a private constructor
+            var method = GetMember<TestClass> (m => m.IsConstructor && !m.IsPublic && m.Parameters.Count() == 1);
 
-			var formatter = new CSharpFullMemberFormatter ();
-            string sig = formatter.GetDeclaration (method);
+            MemberFormatter[] formatters = new MemberFormatter[]
+            {
+                new CSharpFullMemberFormatter (),
+                new CSharpMemberFormatter(),
+                new ILMemberFormatter(),
+                new ILFullMemberFormatter()
+            };
+            var sigs = formatters.Select(f => f.GetDeclaration (method));
 
-            Assert.IsNull (sig);
+            foreach (var sig in sigs)
+                Assert.IsNull (sig);
         }
 
+        // TODO: test for sig of every operator in TestClass .
+        // starting with op_Addition
+        [Test]
+        public void CSharp_op_Addition() 
+        {
+
+			
+        }
+
+        MethodDefinition GetMember<T> (Func<MethodDefinition, bool> query) 
+        {
+			var testclass = GetType<TestClass> ();
+            return testclass.Methods.FirstOrDefault (query).Resolve();
+        }
 
 		TypeDefinition GetType<T> ()
 		{
