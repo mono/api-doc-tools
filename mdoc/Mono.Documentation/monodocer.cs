@@ -5544,6 +5544,10 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator --");
 				case "op_Increment":
 					return buf.Append ("operator ++");
+				case "op_True":
+					return buf.Append ("operator true");
+				case "op_False":
+					return buf.Append ("operator false");
 				default:
 					return base.AppendMethodName (buf, method);
 			}

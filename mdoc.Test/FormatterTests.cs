@@ -97,7 +97,20 @@ namespace mdoc.Test
 		public void CSharp_op_Increment () =>
 			TestUnaryOp ("Increment", "++");
 
+        [Test]
+        public void CSharp_op_True () =>
+            TestComparisonOp ("True", "true");
+
+		[Test]
+		public void CSharp_op_False () =>
+			TestComparisonOp ("False", "false");
+
 #region Helper Methods
+        void TestComparisonOp (string name, string op)
+        {
+            TestOp (name, $"public static bool operator {op} (TestClass c1);", argCount: 1);    
+        }
+
         void TestUnaryOp (string name, string op)
         {
             TestOp (name, $"public static TestClass operator {op} (TestClass c1);", argCount: 1);
