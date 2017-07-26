@@ -5510,6 +5510,7 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 				.Append ('.')
 				.Append (ifaceMethod.Name);
 		}
+
 		if (method.Name.StartsWith ("op_", StringComparison.Ordinal)) {
 			// this is an operator
 			switch (method.Name) {
@@ -5523,6 +5524,8 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator *");
 				case "op_Modulus":
 					return buf.Append ("operator %");
+				case "op_BitwiseAnd":
+					return buf.Append ("operator &");
 				default:
 					return base.AppendMethodName (buf, method);
 			}
