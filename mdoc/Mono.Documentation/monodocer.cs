@@ -5534,6 +5534,10 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator <<");
 				case "op_RightShift":
 					return buf.Append ("operator >>");
+				case "op_UnaryPlus":
+					return buf.Append ("operator +");
+				case "op_UnaryNegation":
+					return buf.Append ("operator -");
 				default:
 					return base.AppendMethodName (buf, method);
 			}
