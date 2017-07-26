@@ -31,8 +31,6 @@ namespace mdoc.Test
                 Assert.IsNull (sig);
         }
 
-        // TODO: test for sig of every operator in TestClass .
-        // starting with op_Addition
         [Test]
         public void CSharp_op_Addition () =>
             TestBinaryOp ("Addition", "+");
@@ -112,6 +110,22 @@ namespace mdoc.Test
         [Test]
         public void CSharp_op_Inequality () =>
             TestComparisonOp ("Inequality", "!=");
+
+        [Test]
+        public void CSharp_op_LessThan () =>
+            TestComparisonOp ("LessThan", "<");
+
+        [Test]
+        public void CSharp_op_GreaterThan () =>
+            TestComparisonOp ("GreaterThan", ">");
+
+        [Test]
+        public void CSharp_op_LessThanOrEqual () =>
+            TestComparisonOp ("LessThanOrEqual", "<=");
+
+        [Test]
+        public void CSharp_op_GreaterThanOrEqual () =>
+            TestComparisonOp ("GreaterThanOrEqual", ">=");
 
 #region Helper Methods
         void TestComparisonOp (string name, string op)
