@@ -5530,6 +5530,10 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator |");
 				case "op_ExclusiveOr":
 					return buf.Append ("operator ^");
+				case "op_LeftShift":
+					return buf.Append ("operator <<");
+				case "op_RightShift":
+					return buf.Append ("operator >>");
 				default:
 					return base.AppendMethodName (buf, method);
 			}

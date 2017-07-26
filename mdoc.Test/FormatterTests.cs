@@ -65,12 +65,20 @@ namespace mdoc.Test
 		public void CSharp_op_ExclusiveOr () =>
 			TestBinaryOp ("ExclusiveOr", "^");
 
-        void TestBinaryOp(string name, string op)
+		[Test]
+		public void CSharp_op_LeftShift () =>
+			TestBinaryOp ("LeftShift", "<<", secondType: "int");
+
+		[Test]
+		public void CSharp_op_RightShift () =>
+			TestBinaryOp ("RightShift", ">>", secondType: "int");
+
+        void TestBinaryOp(string name, string op, string secondType = "TestClass")
 		{
             var addition = GetMember<TestClass> (m => m.Name == $"op_{name}");
 			var formatter = new CSharpMemberFormatter ();
 			var sig = formatter.GetDeclaration (addition);
-            Assert.AreEqual ($"public static TestClass operator {op} (TestClass c1, TestClass c2);", sig);
+            Assert.AreEqual ($"public static TestClass operator {op} (TestClass c1, {secondType} c2);", sig);
         }
 
         MethodDefinition GetMember<T> (Func<MethodDefinition, bool> query) 
