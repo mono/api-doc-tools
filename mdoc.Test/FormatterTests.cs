@@ -89,6 +89,14 @@ namespace mdoc.Test
         public void CSharp_op_OnesComplement () =>
             TestUnaryOp ("OnesComplement", "~");
 
+        [Test]
+        public void CSharp_op_Decrement () =>
+            TestUnaryOp ("Decrement", "--");
+
+		[Test]
+		public void CSharp_op_Increment () =>
+			TestUnaryOp ("Increment", "++");
+
 #region Helper Methods
         void TestUnaryOp (string name, string op)
         {

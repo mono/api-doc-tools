@@ -5515,8 +5515,10 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 			// this is an operator
 			switch (method.Name) {
 				case "op_Addition":
+				case "op_UnaryPlus":
 					return buf.Append ("operator +");
-                case "op_Subtraction":
+				case "op_Subtraction":
+				case "op_UnaryNegation":
                     return buf.Append ("operator -");
 				case "op_Division":
 					return buf.Append ("operator /");
@@ -5534,14 +5536,14 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator <<");
 				case "op_RightShift":
 					return buf.Append ("operator >>");
-				case "op_UnaryPlus":
-					return buf.Append ("operator +");
-				case "op_UnaryNegation":
-					return buf.Append ("operator -");
 				case "op_LogicalNot":
 					return buf.Append ("operator !");
 				case "op_OnesComplement":
 					return buf.Append ("operator ~");
+				case "op_Decrement":
+					return buf.Append ("operator --");
+				case "op_Increment":
+					return buf.Append ("operator ++");
 				default:
 					return base.AppendMethodName (buf, method);
 			}
