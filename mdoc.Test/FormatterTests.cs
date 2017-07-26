@@ -36,9 +36,17 @@ namespace mdoc.Test
 		public void CSharp_op_Addition () =>
 			TestBinaryOp ("Addition", "+");
 
+		[Test]
+		public void CSharp_op_Subtraction () =>
+			TestBinaryOp ("Subtraction", "-");
+
         [Test]
-        public void CSharp_op_Subtraction () => 
-            TestBinaryOp ("Subtraction", "-");
+        public void CSharp_op_Division () =>
+            TestBinaryOp ("Division", "/");
+
+        [Test]
+        public void CSharp_op_Multiplication () => 
+            TestBinaryOp ("Multiply", "*");
 
         void TestBinaryOp(string name, string op)
 		{

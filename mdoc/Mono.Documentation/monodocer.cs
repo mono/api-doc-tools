@@ -5517,6 +5517,10 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator +");
                 case "op_Subtraction":
                     return buf.Append ("operator -");
+				case "op_Division":
+					return buf.Append ("operator /");
+				case "op_Multiply":
+					return buf.Append ("operator *");
 				default:
 					return base.AppendMethodName (buf, method);
 			}
