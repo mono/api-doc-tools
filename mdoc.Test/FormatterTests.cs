@@ -35,8 +35,10 @@ namespace mdoc.Test
         [Test]
         public void CSharp_op_Addition() 
         {
-
-			
+            var addition = GetMember<TestClass> (m => m.Name == "op_Addition");
+            var formatter = new CSharpMemberFormatter ();
+            var sig = formatter.GetDeclaration (addition);
+            Assert.AreEqual ("public static TestClass operator + (TestClass c1, TestClass c2);", sig);
         }
 
         MethodDefinition GetMember<T> (Func<MethodDefinition, bool> query) 

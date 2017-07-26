@@ -5510,7 +5510,17 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 				.Append ('.')
 				.Append (ifaceMethod.Name);
 		}
-		return base.AppendMethodName (buf, method);
+		if (method.Name.StartsWith ("op_", StringComparison.Ordinal)) {
+			// this is an operator
+			switch (method.Name) {
+				case "op_Addition":
+					return buf.Append ("operator +");
+				default:
+					return base.AppendMethodName (buf, method);
+			}
+		}
+		else
+			return base.AppendMethodName (buf, method);
 	}
 
 	protected override StringBuilder AppendGenericMethodConstraints (StringBuilder buf, MethodDefinition method)
