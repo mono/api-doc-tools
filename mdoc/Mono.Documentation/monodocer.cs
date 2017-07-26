@@ -5521,6 +5521,8 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator /");
 				case "op_Multiply":
 					return buf.Append ("operator *");
+				case "op_Modulus":
+					return buf.Append ("operator %");
 				default:
 					return base.AppendMethodName (buf, method);
 			}

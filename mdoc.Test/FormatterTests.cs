@@ -5,6 +5,7 @@ using Mono.Documentation;
 using Mono.Cecil;
 
 using mdoc.Test.SampleClasses;
+using System.Linq.Expressions;
 
 namespace mdoc.Test
 {
@@ -45,8 +46,12 @@ namespace mdoc.Test
             TestBinaryOp ("Division", "/");
 
         [Test]
-        public void CSharp_op_Multiplication () => 
+        public void CSharp_op_Multiplication () =>
             TestBinaryOp ("Multiply", "*");
+
+        [Test]
+        public void CSharp_op_Modulus () =>
+            TestBinaryOp ("Modulus", "%");
 
         void TestBinaryOp(string name, string op)
 		{
