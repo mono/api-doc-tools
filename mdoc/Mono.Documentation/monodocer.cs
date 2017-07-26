@@ -5526,6 +5526,8 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator %");
 				case "op_BitwiseAnd":
 					return buf.Append ("operator &");
+				case "op_BitwiseOr":
+					return buf.Append ("operator |");
 				default:
 					return base.AppendMethodName (buf, method);
 			}
