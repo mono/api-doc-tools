@@ -99,26 +99,34 @@ namespace mdoc.Test
 
         [Test]
         public void CSharp_op_True () =>
-            TestComparisonOp ("True", "true");
+            TestUnaryOp ("True", "true", returnType: "bool");
 
 		[Test]
 		public void CSharp_op_False () =>
-			TestComparisonOp ("False", "false");
+            TestUnaryOp ("False", "false", returnType: "bool");
+
+        [Test]
+        public void CSharp_op_Equality () =>
+            TestComparisonOp ("Equality", "==");
+
+        [Test]
+        public void CSharp_op_Inequality () =>
+            TestComparisonOp ("Inequality", "!=");
 
 #region Helper Methods
         void TestComparisonOp (string name, string op)
         {
-            TestOp (name, $"public static bool operator {op} (TestClass c1);", argCount: 1);    
+            TestOp (name, $"public static bool operator {op} (TestClass c1, TestClass c2);", argCount: 2);    
         }
 
-        void TestUnaryOp (string name, string op)
+        void TestUnaryOp (string name, string op, string returnType = "TestClass")
         {
-            TestOp (name, $"public static TestClass operator {op} (TestClass c1);", argCount: 1);
+            TestOp (name, $"public static {returnType} operator {op} (TestClass c1);", argCount: 1);
         }
 
-        void TestBinaryOp (string name, string op, string secondType = "TestClass")
+        void TestBinaryOp (string name, string op, string returnType = "TestClass", string secondType = "TestClass")
         {
-            TestOp (name, $"public static TestClass operator {op} (TestClass c1, {secondType} c2);", argCount: 2);
+            TestOp (name, $"public static {returnType} operator {op} (TestClass c1, {secondType} c2);", argCount: 2);
         }
 
         void TestOp (string name, string expectedSig, int argCount)

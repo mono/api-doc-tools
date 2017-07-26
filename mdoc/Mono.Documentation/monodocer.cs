@@ -5548,6 +5548,10 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator true");
 				case "op_False":
 					return buf.Append ("operator false");
+				case "op_Equality":
+					return buf.Append ("operator ==");
+				case "op_Inequality":
+					return buf.Append ("operator !=");
 				default:
 					return base.AppendMethodName (buf, method);
 			}
