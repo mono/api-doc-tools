@@ -61,6 +61,10 @@ namespace mdoc.Test
 		public void CSharp_op_BitwiseOr () =>
 			TestBinaryOp ("BitwiseOr", "|");
 
+		[Test]
+		public void CSharp_op_ExclusiveOr () =>
+			TestBinaryOp ("ExclusiveOr", "^");
+
         void TestBinaryOp(string name, string op)
 		{
             var addition = GetMember<TestClass> (m => m.Name == $"op_{name}");
