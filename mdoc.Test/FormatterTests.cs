@@ -12,7 +12,7 @@ namespace mdoc.Test
     public class FormatterTests
     {
         [Test ()]
-        public void CSharp_VerifyPrivateConstructorNull ()
+        public void Formatters_VerifyPrivateConstructorNull ()
         {
             // this is a private constructor
             var method = GetMember<TestClass> (m => m.IsConstructor && !m.IsPublic && m.Parameters.Count() == 1);
@@ -30,21 +30,29 @@ namespace mdoc.Test
                 Assert.IsNull (sig);
         }
 
-        // TODO: test for sig of every operator in TestClass .
-        // starting with op_Addition
+		// TODO: test for sig of every operator in TestClass .
+		// starting with op_Addition
+		[Test]
+		public void CSharp_op_Addition () =>
+			TestBinaryOp ("Addition", "+");
+
         [Test]
-        public void CSharp_op_Addition() 
-        {
-            var addition = GetMember<TestClass> (m => m.Name == "op_Addition");
-            var formatter = new CSharpMemberFormatter ();
-            var sig = formatter.GetDeclaration (addition);
-            Assert.AreEqual ("public static TestClass operator + (TestClass c1, TestClass c2);", sig);
+        public void CSharp_op_Subtraction () => 
+            TestBinaryOp ("Subtraction", "-");
+
+        void TestBinaryOp(string name, string op)
+		{
+            var addition = GetMember<TestClass> (m => m.Name == $"op_{name}");
+			var formatter = new CSharpMemberFormatter ();
+			var sig = formatter.GetDeclaration (addition);
+            Assert.AreEqual ($"public static TestClass operator {op} (TestClass c1, TestClass c2);", sig);
         }
 
         MethodDefinition GetMember<T> (Func<MethodDefinition, bool> query) 
         {
-			var testclass = GetType<TestClass> ();
-            return testclass.Methods.FirstOrDefault (query).Resolve();
+			var testclass = GetType<T> ();
+            var member = testclass.Methods.FirstOrDefault (query).Resolve();
+            return member;
         }
 
 		TypeDefinition GetType<T> ()
@@ -53,7 +61,10 @@ namespace mdoc.Test
 			var module = ModuleDefinition.ReadModule (classtype.Module.FullyQualifiedName);
 			var types = module.GetTypes ();
 			var testclass = types
-                .Single (t => t.FullName == classtype.FullName);
+                .SingleOrDefault (t => t.FullName == classtype.FullName);
+            if (testclass == null) {
+                throw new Exception ($"Test was unable to find type {classtype.FullName}");
+            }
 			return testclass.Resolve ();
 		}
     }
