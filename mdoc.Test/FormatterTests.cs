@@ -85,6 +85,10 @@ namespace mdoc.Test
 		public void CSharp_op_LogicalNot () =>
 			TestUnaryOp ("LogicalNot", "!");
 
+        [Test]
+        public void CSharp_op_OnesComplement () =>
+            TestUnaryOp ("OnesComplement", "~");
+
 #region Helper Methods
         void TestUnaryOp (string name, string op)
         {
