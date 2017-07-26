@@ -5538,6 +5538,8 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 					return buf.Append ("operator +");
 				case "op_UnaryNegation":
 					return buf.Append ("operator -");
+				case "op_LogicalNot":
+					return buf.Append ("operator !");
 				default:
 					return base.AppendMethodName (buf, method);
 			}

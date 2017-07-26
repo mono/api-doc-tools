@@ -16,7 +16,7 @@ namespace mdoc.Test
         public void Formatters_VerifyPrivateConstructorNull ()
         {
             // this is a private constructor
-            var method = GetMethod<TestClass> (m => m.IsConstructor && !m.IsPublic && m.Parameters.Count() == 1);
+            var method = GetMethod<TestClass> (m => m.IsConstructor && !m.IsPublic && m.Parameters.Count () == 1);
 
             MemberFormatter[] formatters = new MemberFormatter[]
             {
@@ -25,7 +25,7 @@ namespace mdoc.Test
                 new ILMemberFormatter(),
                 new ILFullMemberFormatter()
             };
-            var sigs = formatters.Select(f => f.GetDeclaration (method));
+            var sigs = formatters.Select (f => f.GetDeclaration (method));
 
             foreach (var sig in sigs)
                 Assert.IsNull (sig);
@@ -35,11 +35,11 @@ namespace mdoc.Test
         // starting with op_Addition
         [Test]
         public void CSharp_op_Addition () =>
-        	TestBinaryOp ("Addition", "+");
+            TestBinaryOp ("Addition", "+");
 
         [Test]
         public void CSharp_op_Subtraction () =>
-        	TestBinaryOp ("Subtraction", "-");
+            TestBinaryOp ("Subtraction", "-");
 
         [Test]
         public void CSharp_op_Division () =>
@@ -59,65 +59,74 @@ namespace mdoc.Test
 
         [Test]
         public void CSharp_op_BitwiseOr () =>
-        	TestBinaryOp ("BitwiseOr", "|");
+            TestBinaryOp ("BitwiseOr", "|");
 
         [Test]
         public void CSharp_op_ExclusiveOr () =>
-        	TestBinaryOp ("ExclusiveOr", "^");
+            TestBinaryOp ("ExclusiveOr", "^");
 
         [Test]
         public void CSharp_op_LeftShift () =>
-        	TestBinaryOp ("LeftShift", "<<", secondType: "int");
+            TestBinaryOp ("LeftShift", "<<", secondType: "int");
 
         [Test]
         public void CSharp_op_RightShift () =>
-        	TestBinaryOp ("RightShift", ">>", secondType: "int");
+            TestBinaryOp ("RightShift", ">>", secondType: "int");
 
         [Test]
         public void CSharp_op_UnaryPlus () =>
-        	TestUnaryOp ("UnaryPlus", "+");
+			TestUnaryOp ("UnaryPlus", "+");
 
-        [Test]
-        public void CSharp_op_UnaryNegation () =>
-        	TestUnaryOp ("UnaryNegation", "-");
+		[Test]
+		public void CSharp_op_UnaryNegation () =>
+			TestUnaryOp ("UnaryNegation", "-");
 
+		[Test]
+		public void CSharp_op_LogicalNot () =>
+			TestUnaryOp ("LogicalNot", "!");
+
+#region Helper Methods
         void TestUnaryOp (string name, string op)
         {
             TestOp (name, $"public static TestClass operator {op} (TestClass c1);", argCount: 1);
         }
 
-        void TestBinaryOp(string name, string op, string secondType = "TestClass")
+        void TestBinaryOp (string name, string op, string secondType = "TestClass")
         {
             TestOp (name, $"public static TestClass operator {op} (TestClass c1, {secondType} c2);", argCount: 2);
         }
 
-        void TestOp(string name, string expectedSig, int argCount)
+        void TestOp (string name, string expectedSig, int argCount)
         {
-        	var member = GetMethod<TestClass> (m => m.Name == $"op_{name}" && m.Parameters.Count == argCount);
-        	var formatter = new CSharpMemberFormatter ();
-        	var sig = formatter.GetDeclaration (member);
-        	Assert.AreEqual (expectedSig, sig);
+            var member = GetMethod<TestClass> (m => m.Name == $"op_{name}" && m.Parameters.Count == argCount);
+            var formatter = new CSharpMemberFormatter ();
+            var sig = formatter.GetDeclaration (member);
+            Assert.AreEqual (expectedSig, sig);
         }
 
-        MethodDefinition GetMethod<T> (Func<MethodDefinition, bool> query) 
+        MethodDefinition GetMethod<T> (Func<MethodDefinition, bool> query)
         {
-    		var testclass = GetType<T> ();
+            var testclass = GetType<T> ();
             var methods = testclass.Methods;
-            var member = methods.FirstOrDefault (query).Resolve();
+            var member = methods.FirstOrDefault (query).Resolve ();
+            if (member == null)
+                throw new Exception ("Did not find the member in the test class");
             return member;
         }
 
-    	TypeDefinition GetType<T> ()
-    	{
-    		var classtype = typeof (T);
-    		var module = ModuleDefinition.ReadModule (classtype.Module.FullyQualifiedName);
-    		var types = module.GetTypes ();
-    		var testclass = types
+        TypeDefinition GetType<T> ()
+        {
+            var classtype = typeof (T);
+            var module = ModuleDefinition.ReadModule (classtype.Module.FullyQualifiedName);
+            var types = module.GetTypes ();
+            var testclass = types
                 .SingleOrDefault (t => t.FullName == classtype.FullName);
-            if (testclass == null) {
+            if (testclass == null)
+            {
                 throw new Exception ($"Test was unable to find type {classtype.FullName}");
             }
             return testclass.Resolve ();
-    	}
+        }
+#endregion
     }
 }
