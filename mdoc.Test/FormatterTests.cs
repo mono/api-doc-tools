@@ -131,10 +131,31 @@ namespace mdoc.Test
         public void CSharp_op_Implicit () =>
             TestConversionOp ("Implicit", "implicit", "TestClass", "TestClassTwo");
 
+        [Test]
+        public void CSharp_op_Implicit_inverse () =>
+            TestConversionOp ("Implicit", "implicit", "TestClassTwo", "TestClass");
+
+        [Test]
+        public void CSharp_op_Explicit () =>
+            TestConversionOp ("Explicit", "explicit", "int", "TestClass");
+
+        [Test]
+        public void CSharp_op_Explicit_inverse () =>
+            TestConversionOp ("Explicit", "explicit", "TestClass", "int");
+
 #region Helper Methods
+        string RealTypeName(string name){
+            switch (name) {
+                case "bool": return "Boolean";
+                case "int": return "Int32";
+                default: return name;
+            }
+        }
+
         void TestConversionOp (string name, string type, string leftType, string rightType) {
             TestOp (name, $"public static {type} operator {leftType} ({rightType} c1);", argCount: 1, returnType: leftType);
         }
+
         void TestComparisonOp (string name, string op)
         {
             TestOp (name, $"public static bool operator {op} (TestClass c1, TestClass c2);", argCount: 2, returnType: "Boolean");    
@@ -142,7 +163,7 @@ namespace mdoc.Test
 
         void TestUnaryOp (string name, string op, string returnType = "TestClass")
         {
-            TestOp (name, $"public static {returnType} operator {op} (TestClass c1);", argCount: 1, returnType: returnType == "bool" ? "Boolean" : returnType);
+            TestOp (name, $"public static {returnType} operator {op} (TestClass c1);", argCount: 1, returnType: returnType);
         }
 
         void TestBinaryOp (string name, string op, string returnType = "TestClass", string secondType = "TestClass")
@@ -152,7 +173,7 @@ namespace mdoc.Test
 
         void TestOp (string name, string expectedSig, int argCount, string returnType = "TestClass")
         {
-            var member = GetMethod<TestClass> (m => m.Name == $"op_{name}" && m.Parameters.Count == argCount && m.ReturnType.Name == returnType);
+            var member = GetMethod<TestClass> (m => m.Name == $"op_{name}" && m.Parameters.Count == argCount && m.ReturnType.Name == RealTypeName (returnType));
             var formatter = new CSharpMemberFormatter ();
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual (expectedSig, sig);
