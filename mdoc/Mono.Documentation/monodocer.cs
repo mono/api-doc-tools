@@ -5612,19 +5612,14 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 		if (method.IsFinal) modifiers += " sealed";
 		if (modifiers == " virtual sealed") modifiers = "";
 
-		bool isOperator = false;
 		switch (method.Name) {
 			case "op_Implicit":
-				modifiers += " implicit";
-				isOperator = true;
+				modifiers += " implicit operator";
 				break;
 			case "op_Explicit":
-				modifiers += " explicit";
-				isOperator = true;
+				modifiers += " explicit operator";
 				break;
 		}
-		if (isOperator)
-			modifiers += " operator";
 
 		return buf.Append (modifiers);
 	}
