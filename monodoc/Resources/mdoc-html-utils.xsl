@@ -455,10 +455,10 @@
 			<!-- return value (comes out "" where not applicable/available) -->
 			<xsl:choose>
 			<xsl:when test="@MemberName='op_Implicit'">
-				<xsl:text>implicit operator</xsl:text>
+				<xsl:text></xsl:text>
 			</xsl:when>
 			<xsl:when test="@MemberName='op_Explicit'">
-				<xsl:text>explicit operator</xsl:text>
+				<xsl:text></xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:apply-templates select="ReturnValue/ReturnType" mode="typelink">
@@ -2746,7 +2746,6 @@ SkipGenericArgument: invalid type substring '<xsl:value-of select="$s" />'
 
 		<xsl:if test="contains($Sig, ' static ')">static </xsl:if>
 		<xsl:if test="contains($Sig, ' abstract ')">abstract </xsl:if>
-		<xsl:if test="contains($Sig, ' operator ')">operator </xsl:if>
 
 		<xsl:if test="contains($Sig, ' const ')">const </xsl:if>
 		<xsl:if test="contains($Sig, ' readonly ')">readonly </xsl:if>
@@ -2764,8 +2763,8 @@ SkipGenericArgument: invalid type substring '<xsl:value-of select="$s" />'
 			<xsl:if test="contains($Sig, ' checked ')">checked </xsl:if>
 			<xsl:if test="contains($Sig, ' unsafe ')">unsafe </xsl:if>
 			<xsl:if test="contains($Sig, ' volatile ')">volatile </xsl:if>
-			<xsl:if test="contains($Sig, ' explicit ')">explicit </xsl:if>
-			<xsl:if test="contains($Sig, ' implicit ')">implicit </xsl:if>
+			<xsl:if test="contains($Sig, ' explicit ')">explicit operator</xsl:if>
+			<xsl:if test="contains($Sig, ' implicit ')">implicit operator</xsl:if>
 		</xsl:if>
 
 		<xsl:if test="$typetype">

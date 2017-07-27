@@ -4701,7 +4701,7 @@ class DocIdFormatter : MemberFormatter
 	}
 }
 
-class ILFullMemberFormatter : MemberFormatter {
+public class ILFullMemberFormatter : MemberFormatter {
 
 	public override string Language {
 		get {return "ILAsm";}
@@ -5218,7 +5218,7 @@ class ILFullMemberFormatter : MemberFormatter {
 	}
 }
 
-class ILMemberFormatter : ILFullMemberFormatter {
+public class ILMemberFormatter : ILFullMemberFormatter {
 	protected override StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
 	{
 		return buf;
@@ -5255,7 +5255,7 @@ class ILMemberFormatter : ILFullMemberFormatter {
 		}
 	}
 
-class CSharpFullMemberFormatter : MemberFormatter {
+public class CSharpFullMemberFormatter : MemberFormatter {
 
 	public override string Language {
 		get {return "C#";}
@@ -5491,7 +5491,7 @@ class CSharpFullMemberFormatter : MemberFormatter {
 
 		return buf.ToString ();
 	}
-	
+
 	protected override string GetMethodDeclaration (MethodDefinition method)
 	{
 		string decl = base.GetMethodDeclaration (method);
@@ -5510,7 +5510,66 @@ class CSharpFullMemberFormatter : MemberFormatter {
 				.Append ('.')
 				.Append (ifaceMethod.Name);
 		}
-		return base.AppendMethodName (buf, method);
+
+		if (method.Name.StartsWith ("op_", StringComparison.Ordinal)) {
+			// this is an operator
+			switch (method.Name) {
+				case "op_Implicit":
+				case "op_Explicit":
+					buf.Length--; // remove the last space, which assumes a member name is coming
+					return buf;
+				case "op_Addition":
+				case "op_UnaryPlus":
+					return buf.Append ("operator +");
+				case "op_Subtraction":
+				case "op_UnaryNegation":
+                    return buf.Append ("operator -");
+				case "op_Division":
+					return buf.Append ("operator /");
+				case "op_Multiply":
+					return buf.Append ("operator *");
+				case "op_Modulus":
+					return buf.Append ("operator %");
+				case "op_BitwiseAnd":
+					return buf.Append ("operator &");
+				case "op_BitwiseOr":
+					return buf.Append ("operator |");
+				case "op_ExclusiveOr":
+					return buf.Append ("operator ^");
+				case "op_LeftShift":
+					return buf.Append ("operator <<");
+				case "op_RightShift":
+					return buf.Append ("operator >>");
+				case "op_LogicalNot":
+					return buf.Append ("operator !");
+				case "op_OnesComplement":
+					return buf.Append ("operator ~");
+				case "op_Decrement":
+					return buf.Append ("operator --");
+				case "op_Increment":
+					return buf.Append ("operator ++");
+				case "op_True":
+					return buf.Append ("operator true");
+				case "op_False":
+					return buf.Append ("operator false");
+				case "op_Equality":
+					return buf.Append ("operator ==");
+				case "op_Inequality":
+					return buf.Append ("operator !=");
+				case "op_LessThan":
+					return buf.Append ("operator <");
+				case "op_LessThanOrEqual":
+					return buf.Append ("operator <=");
+				case "op_GreaterThan":
+					return buf.Append ("operator >");
+				case "op_GreaterThanOrEqual":
+					return buf.Append ("operator >=");
+				default:
+					return base.AppendMethodName (buf, method);
+			}
+		}
+		else
+			return base.AppendMethodName (buf, method);
 	}
 
 	protected override StringBuilder AppendGenericMethodConstraints (StringBuilder buf, MethodDefinition method)
@@ -5552,6 +5611,15 @@ class CSharpFullMemberFormatter : MemberFormatter {
 		if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
 		if (method.IsFinal) modifiers += " sealed";
 		if (modifiers == " virtual sealed") modifiers = "";
+
+		switch (method.Name) {
+			case "op_Implicit":
+				modifiers += " implicit operator";
+				break;
+			case "op_Explicit":
+				modifiers += " explicit operator";
+				break;
+		}
 
 		return buf.Append (modifiers);
 	}
@@ -5772,7 +5840,7 @@ class CSharpFullMemberFormatter : MemberFormatter {
 	}
 }
 
-class CSharpMemberFormatter : CSharpFullMemberFormatter {
+public class CSharpMemberFormatter : CSharpFullMemberFormatter {
 	protected override StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
 	{
 		return buf;
