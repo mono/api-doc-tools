@@ -922,7 +922,7 @@
       </Docs>
     </Member>
     <Member MemberName="op_Addition">
-      <MemberSignature Language="C#" Value="public static Mono.DocTest.Widget op_Addition (Mono.DocTest.Widget x1, Mono.DocTest.Widget x2);" />
+      <MemberSignature Language="C#" Value="public static Mono.DocTest.Widget operator + (Mono.DocTest.Widget x1, Mono.DocTest.Widget x2);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class Mono.DocTest.Widget op_Addition(class Mono.DocTest.Widget x1, class Mono.DocTest.Widget x2) cil managed" />
       <MemberType>Method</MemberType>
       <ReturnValue>
@@ -953,7 +953,7 @@
       </Docs>
     </Member>
     <Member MemberName="op_Explicit">
-      <MemberSignature Language="C#" Value="public static int op_Explicit (Mono.DocTest.Widget x);" />
+      <MemberSignature Language="C#" Value="public static explicit operator int (Mono.DocTest.Widget x);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname int32 op_Explicit(class Mono.DocTest.Widget x) cil managed" />
       <MemberType>Method</MemberType>
       <ReturnValue>
@@ -970,7 +970,7 @@
       </Docs>
     </Member>
     <Member MemberName="op_Implicit">
-      <MemberSignature Language="C#" Value="public static long op_Implicit (Mono.DocTest.Widget x);" />
+      <MemberSignature Language="C#" Value="public static implicit operator long (Mono.DocTest.Widget x);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname int64 op_Implicit(class Mono.DocTest.Widget x) cil managed" />
       <MemberType>Method</MemberType>
       <ReturnValue>
@@ -987,7 +987,7 @@
       </Docs>
     </Member>
     <Member MemberName="op_UnaryPlus">
-      <MemberSignature Language="C#" Value="public static Mono.DocTest.Widget op_UnaryPlus (Mono.DocTest.Widget x);" />
+      <MemberSignature Language="C#" Value="public static Mono.DocTest.Widget operator + (Mono.DocTest.Widget x);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class Mono.DocTest.Widget op_UnaryPlus(class Mono.DocTest.Widget x) cil managed" />
       <MemberType>Method</MemberType>
       <ReturnValue>
