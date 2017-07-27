@@ -5491,7 +5491,7 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 
 		return buf.ToString ();
 	}
-	
+
 	protected override string GetMethodDeclaration (MethodDefinition method)
 	{
 		string decl = base.GetMethodDeclaration (method);
@@ -5514,6 +5514,10 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 		if (method.Name.StartsWith ("op_", StringComparison.Ordinal)) {
 			// this is an operator
 			switch (method.Name) {
+				case "op_Implicit":
+				case "op_Explicit":
+					buf.Length--; // remove the last space, which assumes a member name is coming
+					return buf;
 				case "op_Addition":
 				case "op_UnaryPlus":
 					return buf.Append ("operator +");
@@ -5607,6 +5611,20 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 		if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
 		if (method.IsFinal) modifiers += " sealed";
 		if (modifiers == " virtual sealed") modifiers = "";
+
+		bool isOperator = false;
+		switch (method.Name) {
+			case "op_Implicit":
+				modifiers += " implicit";
+				isOperator = true;
+				break;
+			case "op_Explicit":
+				modifiers += " explicit";
+				isOperator = true;
+				break;
+		}
+		if (isOperator)
+			modifiers += " operator";
 
 		return buf.Append (modifiers);
 	}

@@ -36,5 +36,11 @@ namespace mdoc.Test.SampleClasses
         public static bool operator > (TestClass c1, TestClass c2) { return true; }
         public static bool operator <= (TestClass c1, TestClass c2) { return true; }
         public static bool operator >= (TestClass c1, TestClass c2) { return true; }
+
+        // Conversion Operators
+        public static implicit operator TestClassTwo (TestClass c1) { return new TestClassTwo (); }
+        public static implicit operator TestClass (TestClassTwo c1) { return new TestClass (); }
+        public static explicit operator int (TestClass c1) { return 0; }
+        public static explicit operator TestClass (int c1) { return new TestClass (); }
 	}
 }
