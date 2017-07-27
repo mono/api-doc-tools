@@ -55,6 +55,9 @@ endif
 cleanup:
 	-rm -Rf Test/en.actual Test/html.actual
 
+nunit: 
+	mono ../packages/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe mdoc.Test/bin/$(CONFIGURATION)/mdoc.Test.dll
+
 Test/DocTest-addNonGeneric.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-addNonGeneric.cs
 
@@ -479,5 +482,5 @@ check-doc-tools-update: check-monodocer-since-update \
 	check-mdoc-export-msxdoc-update \
 	check-mdoc-validate-update 
 
-check: check-doc-tools 
+check: nunit check-doc-tools 
 
