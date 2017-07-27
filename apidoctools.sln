@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monodoc.Test", "monodoc\Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpZipLib", "external\SharpZipLib\ICSharpCode.SharpZipLib.NET45\ICSharpCode.SharpZipLib.csproj", "{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mdoc.Test", "mdoc\mdoc.Test\mdoc.Test.csproj", "{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|x86.Build.0 = Release|Any CPU
+		{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}.Debug|x86.Build.0 = Debug|Any CPU
+		{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
