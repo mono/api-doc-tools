@@ -1,0 +1,6 @@
+.vs
+*.pdb
+*.metagen
+cppcli/Debug
+x64
+x86
