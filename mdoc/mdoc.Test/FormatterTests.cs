@@ -143,6 +143,22 @@ namespace mdoc.Test
         public void CSharp_op_Explicit_inverse () =>
             TestConversionOp ("Explicit", "explicit", "TestClass", "int");
 
+        [Test]
+        public void CSharp_modopt () =>
+            TestMod ("SomeFunc2", "public SomeClass* SomeFunc2 (SomeClass param);", returnType: "SomeClass*");
+
+        [Test]
+        public void CSharp_modreq () =>
+            TestMod ("SomeFunc", "public int SomeFunc (SomeClass* param);", returnType: "int");
+
+        [Test]
+        public void CSharp_doublepointer () =>
+            TestMod ("SomeFunc3", "public SomeClass** SomeFunc3 (int param);", returnType: "cppcli.SomeClass**");
+
+        [Test]
+        public void CSharp_pointerref_modreqparam () =>
+            TestMod ("SomeFunc4", "public int SomeFunc4 (SomeClass** param, int param2);", returnType: "int");
+
 #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
@@ -179,9 +195,26 @@ namespace mdoc.Test
             Assert.AreEqual (expectedSig, sig);
         }
 
-        MethodDefinition GetMethod<T> (Func<MethodDefinition, bool> query)
+        void TestMod (string name, string expectedSig, int argCount = 1, string returnType = "SomeClass")
         {
-            var testclass = GetType<T> ();
+            var member = GetMethod (
+                GetType ("SampleClasses/cppcli.dll", "cppcli.SomeInterface"), 
+                m => m.Name == name
+            );
+            var formatter = new CSharpMemberFormatter ();
+			var sig = formatter.GetDeclaration (member);
+			Assert.AreEqual (expectedSig, sig);
+        }
+
+        MethodDefinition GetMethod<T> (Func<MethodDefinition, bool> query) 
+        {
+            var type = typeof (T);
+            var moduleName = type.Module.FullyQualifiedName;
+            return GetMethod (GetType (moduleName, type.FullName), query);
+        }
+
+        MethodDefinition GetMethod (TypeDefinition testclass, Func<MethodDefinition, bool> query)
+        {
             var methods = testclass.Methods;
             var member = methods.FirstOrDefault (query).Resolve ();
             if (member == null)
@@ -189,16 +222,15 @@ namespace mdoc.Test
             return member;
         }
 
-        TypeDefinition GetType<T> ()
+        TypeDefinition GetType (string filepath, string classname)
         {
-            var classtype = typeof (T);
-            var module = ModuleDefinition.ReadModule (classtype.Module.FullyQualifiedName);
+            var module = ModuleDefinition.ReadModule (filepath);
             var types = module.GetTypes ();
             var testclass = types
-                .SingleOrDefault (t => t.FullName == classtype.FullName);
+                .SingleOrDefault (t => t.FullName == classname);
             if (testclass == null)
             {
-                throw new Exception ($"Test was unable to find type {classtype.FullName}");
+                throw new Exception ($"Test was unable to find type {classname}");
             }
             return testclass.Resolve ();
         }

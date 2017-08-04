@@ -10,3 +10,6 @@ TestResult.xml
 *.user
 bin
 obj
+.vs
+*.metagen
+*.pdb

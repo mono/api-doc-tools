@@ -4367,8 +4367,27 @@ public abstract class MemberFormatter {
 	protected virtual string GetTypeName (TypeReference type, DynamicParserContext context)
 	{
 		if (type == null)
-			throw new ArgumentNullException ("type");
-		return _AppendTypeName (new StringBuilder (type.Name.Length), type, context).ToString ();
+			throw new ArgumentNullException (nameof (type));
+
+		var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context).ToString ();
+
+
+		// For custom modifiers (modopt/modreq), we are just excising them
+		// via string manipulation for simplicity; since these cannot be
+		// expressed in C#. If finer control is needed in the future, you can
+		// use IModifierType, PointerType, ByReferenceType, etc.
+
+		int modIndex = Math.Max (typeName.LastIndexOf ("modopt(", StringComparison.Ordinal), typeName.LastIndexOf ("modreq(", StringComparison.Ordinal));
+		if (modIndex > 0) {
+			var tname = typeName.Substring (0, modIndex-1);
+			var parenIndex = typeName.LastIndexOf (')');
+			if (parenIndex == typeName.Length - 2) { // see if there's metadata like a pointer
+				tname += typeName.Last ();
+			}
+			typeName = tname;
+		}
+
+		return typeName;
 	}
 
 	protected virtual char[] ArrayDelimeters {
@@ -4624,7 +4643,8 @@ public abstract class MemberFormatter {
 
 		if (buf.Length != 0)
 			buf.Append (" ");
-		buf.Append (GetTypeName (method.ReturnType, new DynamicParserContext (method.MethodReturnType))).Append (" ");
+
+        buf.Append (GetTypeName (method.ReturnType, new DynamicParserContext (method.MethodReturnType))).Append (" ");
 
 		AppendMethodName (buf, method);
 		AppendGenericMethod (buf, method).Append (" ");
@@ -5272,27 +5292,41 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 
 	protected virtual string GetCSharpType (string t)
 	{
-		switch (t) {
-		case "System.Byte":    return "byte";
-		case "System.SByte":   return "sbyte";
-		case "System.Int16":   return "short";
-		case "System.Int32":   return "int";
-		case "System.Int64":   return "long";
-
-		case "System.UInt16":  return "ushort";
-		case "System.UInt32":  return "uint";
-		case "System.UInt64":  return "ulong";
-
-		case "System.Single":  return "float";
-		case "System.Double":  return "double";
-		case "System.Decimal": return "decimal";
-		case "System.Boolean": return "bool";
-		case "System.Char":    return "char";
-		case "System.Void":    return "void";
-		case "System.String":  return "string";
-		case "System.Object":  return "object";
+		// make sure there are no modifiers in the type string (add them back before returning)
+		string typeToCompare = t;
+		string[] splitType = null;
+		if (t.Contains (' ')) {
+			splitType = t.Split (' ');
+			typeToCompare = splitType[0];
 		}
-		return null;
+
+		switch (typeToCompare) {
+		case "System.Byte":    typeToCompare = "byte"; break;
+		case "System.SByte":   typeToCompare = "sbyte"; break;
+		case "System.Int16":   typeToCompare = "short"; break;
+		case "System.Int32":   typeToCompare = "int"; break;
+		case "System.Int64":   typeToCompare = "long"; break;
+
+		case "System.UInt16":  typeToCompare = "ushort"; break;
+		case "System.UInt32":  typeToCompare = "uint"; break;
+		case "System.UInt64":  typeToCompare = "ulong"; break;
+
+		case "System.Single":  typeToCompare = "float"; break;
+		case "System.Double":  typeToCompare = "double"; break;
+		case "System.Decimal": typeToCompare = "decimal"; break;
+		case "System.Boolean": typeToCompare = "bool"; break;
+		case "System.Char":    typeToCompare = "char"; break;
+		case "System.Void":    typeToCompare = "void"; break;
+		case "System.String":  typeToCompare = "string"; break;
+		case "System.Object":  typeToCompare = "object"; break;
+		}
+
+		if (splitType != null) {
+			// re-add modreq/modopt if it was there
+			splitType[0] = typeToCompare;
+			typeToCompare = string.Join (" ", splitType);
+		}
+		return typeToCompare == t ? null : typeToCompare;
 	}
 
 	protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
