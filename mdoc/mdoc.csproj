@@ -75,6 +75,7 @@
     <Compile Include="Mono.Documentation\Frameworks\FrameworkEntry.cs" />
     <Compile Include="Mono.Documentation\Frameworks\FrameworkTypeEntry.cs" />
     <Compile Include="Mono.Documentation\Frameworks\AssemblySet.cs" />
+    <Compile Include="Mono.Documentation\Frameworks\UwpResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\defaulttemplate.xsl">

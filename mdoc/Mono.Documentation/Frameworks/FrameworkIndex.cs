@@ -32,7 +32,9 @@ namespace Mono.Documentation
 				return FrameworkEntry.Empty;
 
 			string assemblyPath = assembly.MainModule.FileName;
-			string relativePath = assemblyPath.Replace (this.path, string.Empty);
+			var frameworksDirectory = this.path.EndsWith ("frameworks.xml", StringComparison.OrdinalIgnoreCase)
+	                                        ? Path.GetDirectoryName (this.path) : this.path;
+			string relativePath = assemblyPath.Replace (frameworksDirectory, string.Empty);
 			string shortPath = Path.GetDirectoryName (relativePath);
 			if (shortPath.StartsWith (Path.DirectorySeparatorChar.ToString (), StringComparison.InvariantCultureIgnoreCase))
 				shortPath = shortPath.Substring (1, shortPath.Length - 1);

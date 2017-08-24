@@ -12,7 +12,7 @@ namespace Mono.Documentation
 	/// </summary>
 	class AssemblySet : IDisposable
 	{
-		readonly DefaultAssemblyResolver resolver = new DefaultAssemblyResolver ();
+		readonly DefaultAssemblyResolver resolver = new Frameworks.UwpResolver ();
 		HashSet<string> assemblyPaths = new HashSet<string> ();
 		HashSet<string> assemblySearchPaths = new HashSet<string> ();
 		HashSet<string> forwardedTypes = new HashSet<string> ();
