@@ -211,6 +211,7 @@ class MDocUpdater : MDocCommand
 	static List<string> droppedAssemblies = new List<string>();
 
 	public string PreserveTag { get; set; }
+	public bool DisableSearchDirectoryRecurse = false;
 	public static MDocUpdater Instance { get; private set; }
 	public static bool SwitchingToMagicTypes { get; private set; }
 
@@ -220,92 +221,95 @@ class MDocUpdater : MDocCommand
 		show_exceptions = DebugOutput;
 		var types = new List<string> ();
 		var p = new OptionSet () {
-			{ "delete",
-				"Delete removed members from the XML files.",
-				v => delete = v != null },
-			{ "exceptions:",
-			  "Document potential exceptions that members can generate.  {SOURCES} " +
-				"is a comma-separated list of:\n" +
-				"  asm      Method calls in same assembly\n" +
-				"  depasm   Method calls in dependent assemblies\n" +
-				"  all      Record all possible exceptions\n" +
-				"  added    Modifier; only create <exception/>s\n" +
-				"             for NEW types/members\n" +
-				"If nothing is specified, then only exceptions from the member will " +
-				"be listed.",
-				v => exceptions = ParseExceptionLocations (v) },
-			{ "f=",
-				"Specify a {FLAG} to alter behavior.  See later -f* options for available flags.",
-				v => {
-					switch (v) {
-						case "ignore-missing-types":
-							ignore_missing_types = true;
-							break;
-						case "no-assembly-versions":
-							no_assembly_versions = true;
-							break;
-						default:
-							throw new Exception ("Unsupported flag `" + v + "'.");
-					}
-				} },
-			{ "fignore-missing-types",
-				"Do not report an error if a --type=TYPE type\nwas not found.",
-				v => ignore_missing_types = v != null },
-			{ "fno-assembly-versions",
-				"Do not generate //AssemblyVersion elements.",
-				v => no_assembly_versions = v != null },
-			{ "i|import=", 
-				"Import documentation from {FILE}.",
-				v => AddImporter (v) },
-			{ "L|lib=",
-				"Check for assembly references in {DIRECTORY}.",
-				v => globalSearchPaths.Add (v) },
-			{ "library=",
-				"Ignored for compatibility with update-ecma-xml.",
-				v => {} },
-			{ "o|out=",
-				"Root {DIRECTORY} to generate/update documentation.",
-				v => srcPath = v },
-			{ "r=",
-				"Search for dependent assemblies in the directory containing {ASSEMBLY}.\n" +
-				"(Equivalent to '-L `dirname ASSEMBLY`'.)",
-				v => globalSearchPaths.Add (Path.GetDirectoryName (v)) },
-			{ "since=",
-				"Manually specify the assembly {VERSION} that new members were added in.",
-				v => since = v },
-			{ "type=",
-			  "Only update documentation for {TYPE}.",
-				v => types.Add (v) },
-			{ "dropns=",
-			  "When processing assembly {ASSEMBLY}, strip off leading namespace {PREFIX}:\n" +
-			  "  e.g. --dropns ASSEMBLY=PREFIX",
-			  v => {
-			    var parts = v.Split ('=');
-			    if (parts.Length != 2) { Console.Error.WriteLine ("Invalid dropns input"); return; }
-			    var assembly = Path.GetFileName (parts [0].Trim ());
-			    var prefix = parts [1].Trim();
-			    droppedAssemblies.Add (assembly);
-			    droppedNamespace = prefix;
-			} },
-			{ "ntypes",
-				"If the new assembly is switching to 'magic types', then this switch should be defined.",
-				v => SwitchingToMagicTypes = true },
-			{ "preserve",
-				"Do not delete members that don't exist in the assembly, but rather mark them as preserved.",
-				v => PreserveTag = "true" },
-			{ "api-style=",
-				"Denotes the apistyle. Currently, only `classic` and `unified` are supported. `classic` set of assemblies should be run first, immediately followed by 'unified' assemblies with the `dropns` parameter.",
-				v => apistyle = v.ToLowerInvariant () },
-			{ "fx|frameworks=",
-				"Configuration XML file, that points to directories which contain libraries that span multiple frameworks.",
-				v => FrameworksPath = v },
-			{ "use-docid",
-				"Add 'DocId' to the list of type and member signatures",
-				v => 
-				{
-					typeFormatters = typeFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
-					memberFormatters = memberFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
-				} },	
+            { "delete",
+                "Delete removed members from the XML files.",
+                v => delete = v != null },
+            { "exceptions:",
+              "Document potential exceptions that members can generate.  {SOURCES} " +
+                "is a comma-separated list of:\n" +
+                "  asm      Method calls in same assembly\n" +
+                "  depasm   Method calls in dependent assemblies\n" +
+                "  all      Record all possible exceptions\n" +
+                "  added    Modifier; only create <exception/>s\n" +
+                "             for NEW types/members\n" +
+                "If nothing is specified, then only exceptions from the member will " +
+                "be listed.",
+                v => exceptions = ParseExceptionLocations (v) },
+            { "f=",
+                "Specify a {FLAG} to alter behavior.  See later -f* options for available flags.",
+                v => {
+                    switch (v) {
+                        case "ignore-missing-types":
+                            ignore_missing_types = true;
+                            break;
+                        case "no-assembly-versions":
+                            no_assembly_versions = true;
+                            break;
+                        default:
+                            throw new Exception ("Unsupported flag `" + v + "'.");
+                    }
+                } },
+            { "fignore-missing-types",
+                "Do not report an error if a --type=TYPE type\nwas not found.",
+                v => ignore_missing_types = v != null },
+            { "fno-assembly-versions",
+                "Do not generate //AssemblyVersion elements.",
+                v => no_assembly_versions = v != null },
+            { "i|import=",
+                "Import documentation from {FILE}.",
+                v => AddImporter (v) },
+            { "L|lib=",
+                "Check for assembly references in {DIRECTORY}.",
+                v => globalSearchPaths.Add (v) },
+            { "library=",
+                "Ignored for compatibility with update-ecma-xml.",
+                v => {} },
+            { "o|out=",
+                "Root {DIRECTORY} to generate/update documentation.",
+                v => srcPath = v },
+            { "r=",
+                "Search for dependent assemblies in the directory containing {ASSEMBLY}.\n" +
+                "(Equivalent to '-L `dirname ASSEMBLY`'.)",
+                v => globalSearchPaths.Add (Path.GetDirectoryName (v)) },
+            { "since=",
+                "Manually specify the assembly {VERSION} that new members were added in.",
+                v => since = v },
+            { "type=",
+              "Only update documentation for {TYPE}.",
+                v => types.Add (v) },
+            { "dropns=",
+              "When processing assembly {ASSEMBLY}, strip off leading namespace {PREFIX}:\n" +
+              "  e.g. --dropns ASSEMBLY=PREFIX",
+              v => {
+                var parts = v.Split ('=');
+                if (parts.Length != 2) { Console.Error.WriteLine ("Invalid dropns input"); return; }
+                var assembly = Path.GetFileName (parts [0].Trim ());
+                var prefix = parts [1].Trim();
+                droppedAssemblies.Add (assembly);
+                droppedNamespace = prefix;
+            } },
+            { "ntypes",
+                "If the new assembly is switching to 'magic types', then this switch should be defined.",
+                v => SwitchingToMagicTypes = true },
+            { "preserve",
+                "Do not delete members that don't exist in the assembly, but rather mark them as preserved.",
+                v => PreserveTag = "true" },
+            { "api-style=",
+                "Denotes the apistyle. Currently, only `classic` and `unified` are supported. `classic` set of assemblies should be run first, immediately followed by 'unified' assemblies with the `dropns` parameter.",
+                v => apistyle = v.ToLowerInvariant () },
+            { "fx|frameworks=",
+                "Configuration XML file, that points to directories which contain libraries that span multiple frameworks.",
+                v => FrameworksPath = v },
+            { "use-docid",
+                "Add 'DocId' to the list of type and member signatures",
+                v =>
+                {
+                    typeFormatters = typeFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
+                    memberFormatters = memberFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
+                } },
+            { "disable-searchdir-recurse",
+                "Default behavior for adding search directories ('-L') is to recurse them and search in all subdirectories. This disables that",
+                v => DisableSearchDirectoryRecurse = true },
 		};
 		var assemblyPaths = Parse (p, args, "update", 
 				"[OPTIONS]+ ASSEMBLIES",
@@ -361,7 +365,7 @@ class MDocUpdater : MDocCommand
 						var a = cacheIndex.StartProcessingAssembly(assembly, assemblySet.Importers);
 						foreach (var type in assembly.GetTypes ()) {
 							var t = a.ProcessType (type);
-							foreach (var member in type.GetMembers ().Where (m => !prefixesToAvoid.Any (pre => m.Name.StartsWith (pre))))
+                                foreach (var member in type.GetMembers ().Where (m => !prefixesToAvoid.Any (pre => m.Name.StartsWith (pre, StringComparison.Ordinal))))
 								t.ProcessMember (member);
 						}
 					}
@@ -378,7 +382,15 @@ class MDocUpdater : MDocCommand
 			return;
 		if (assemblyPaths.Count == 0)
 			Error ("No assemblies specified.");
-		
+
+        if (!DisableSearchDirectoryRecurse) {
+            // unless it's been explicitly disabled, let's
+            // add all of the subdirectories to the resolver
+            // search paths.
+            foreach (var assemblySet in this.assemblies)
+                assemblySet.RecurseSearchDirectories ();
+        }
+
 		// validation for the api-style parameter
 		if (apistyle == "classic") 
 			isClassicRun = true;

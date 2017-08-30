@@ -57,6 +57,24 @@ namespace Mono.Documentation
 		public IEnumerable<AssemblyDefinition> Assemblies { get { return this.LoadAllAssemblies ().Where(a => a != null); } }
 		public IEnumerable<string> AssemblyPaths { get { return this.assemblyPaths; } }
 
+        /// <summary>Adds all subdirectories to the search directories for the resolver to look in.</summary>
+        public void RecurseSearchDirectories() 
+        {
+            var directories = resolver
+                .GetSearchDirectories ()
+                .Select(d => new DirectoryInfo (d))
+                .Where (d => d.Exists)
+                .Select(d => d.FullName)
+                .ToDictionary(d => d, d => d);
+
+            var subdirs = directories.Keys
+                .SelectMany (d => Directory.GetDirectories (d, ".", SearchOption.AllDirectories))
+                .Where (d => !directories.ContainsKey (d));
+
+            foreach (var dir in subdirs)
+                resolver.AddSearchDirectory (dir);
+        }
+
 		/// <returns><c>true</c>, if in set was contained in the set of assemblies, <c>false</c> otherwise.</returns>
 		/// <param name="name">An assembly file name</param>
 		public bool Contains (string name)
