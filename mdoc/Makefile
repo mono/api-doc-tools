@@ -379,6 +379,17 @@ check-monodocer-import-fx: Test/DocTest.dll-v1 Test/DocTest-DropNS-classic-secon
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import
 	$(DIFF) Test/en.expected-fx-import Test/en.actual
 
+Test/TestClass.dll:
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/Test*.cs
+
+.PHONY: check-monodocer-operators
+check-monodocer-operators: Test/TestClass.dll
+	rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
+	cp mdoc.Test/SampleClasses/TestClass-OldOpSig.xml Test/en.actual/mdoc.Test.SampleClasses/TestClass.xml
+	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
+	$(DIFF) Test/en.expected-operators Test/en.actual
+
 check-mdoc-export-html-update: 
 	find Test/html.expected -name \*.html -exec rm "{}" \;
 	$(MONO) $(PROGRAM) export-html -o Test/html.expected \
@@ -471,7 +482,8 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-dropns-multi-withexisting \
 	check-monodocer-frameworks \
 	check-monodocer-frameworks-inheritance \
-	check-monodocer-docid
+	check-monodocer-docid \
+	check-monodocer-operators
 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \

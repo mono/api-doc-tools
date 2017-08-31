@@ -1267,7 +1267,7 @@ class MDocUpdater : MDocCommand
 				}
 			}
 
-			string sig = oldmember2 != null ? memberFormatters [0].GetDeclaration (oldmember2) : null;
+			string sig = oldmember2 != null ? memberFormatters [1].GetDeclaration (oldmember2) : null;
 			
 			// Interface implementations and overrides are deleted from the docs
 			// unless the overrides option is given.
@@ -1321,7 +1321,7 @@ class MDocUpdater : MDocCommand
 
 			// get all apistyles of sig from info.Node
 			var styles = oldmember.GetElementsByTagName ("MemberSignature").Cast<XmlElement> ()
-				.Where (x => x.GetAttribute ("Language") == "C#" && !seenmembers.ContainsKey(x.GetAttribute("Value")))
+				.Where (x => x.GetAttribute ("Language") == "ILAsm" && !seenmembers.ContainsKey(x.GetAttribute("Value")))
 				.Select (x => x.GetAttribute ("Value"));
 
 
@@ -1340,8 +1340,9 @@ class MDocUpdater : MDocCommand
 			var typemembers = type.GetMembers()
 					.Where(m => {
 						if (m is TypeDefinition) return false;
-						string sig = memberFormatters [0].GetDeclaration (m);
-						if (sig == null) return false;
+                        string cssig = memberFormatters [0].GetDeclaration (m);
+						if (cssig == null) return false;
+						string sig = memberFormatters [1].GetDeclaration (m);
 						if (seenmembers.ContainsKey(sig)) return false;
 
 						// Verify that the member isn't an explicitly implemented 
@@ -2923,11 +2924,11 @@ class MDocUpdater : MDocCommand
 		if (sigs == null) return null; // not publicly visible
 		
 		// no documentation for property/event accessors.  Is there a better way of doing this?
-		if (mi.Name.StartsWith("get_")) return null;
-		if (mi.Name.StartsWith("set_")) return null;
-		if (mi.Name.StartsWith("add_")) return null;
-		if (mi.Name.StartsWith("remove_")) return null;
-		if (mi.Name.StartsWith("raise_")) return null;
+        if (mi.Name.StartsWith("get_", StringComparison.Ordinal)) return null;
+		if (mi.Name.StartsWith("set_", StringComparison.Ordinal)) return null;
+		if (mi.Name.StartsWith("add_", StringComparison.Ordinal)) return null;
+		if (mi.Name.StartsWith("remove_", StringComparison.Ordinal)) return null;
+		if (mi.Name.StartsWith("raise_", StringComparison.Ordinal)) return null;
 		
 		XmlElement me = doc.CreateElement("Member");
 		members.AppendChild (me);
