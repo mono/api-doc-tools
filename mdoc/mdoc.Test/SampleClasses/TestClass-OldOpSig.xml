@@ -1,0 +1,645 @@
+<Type Name="TestClass" FullName="mdoc.Test.SampleClasses.TestClass">
+  <TypeSignature Language="C#" Value="public class TestClass" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TestClass extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>TestClass</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public TestClass ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Addition">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator + (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Addition(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Addition">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass op_Addition (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Addition(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_BitwiseAnd">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator &amp; (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_BitwiseAnd(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_BitwiseOr">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator | (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_BitwiseOr(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Decrement">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator -- (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Decrement(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Division">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator / (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Division(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Equality">
+      <MemberSignature Language="C#" Value="public static bool operator == (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Equality(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_ExclusiveOr">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator ^ (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_ExclusiveOr(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Explicit">
+      <MemberSignature Language="C#" Value="public static explicit operator int (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname int32 op_Explicit(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Explicit">
+      <MemberSignature Language="C#" Value="public static explicit operator mdoc.Test.SampleClasses.TestClass (int c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Explicit(int32 c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_False">
+      <MemberSignature Language="C#" Value="public static bool operator false (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_False(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_GreaterThan">
+      <MemberSignature Language="C#" Value="public static bool operator &gt; (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_GreaterThan(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_GreaterThanOrEqual">
+      <MemberSignature Language="C#" Value="public static bool operator &gt;= (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_GreaterThanOrEqual(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Implicit">
+      <MemberSignature Language="C#" Value="public static implicit operator mdoc.Test.SampleClasses.TestClassTwo (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClassTwo op_Implicit(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClassTwo</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Implicit">
+      <MemberSignature Language="C#" Value="public static implicit operator mdoc.Test.SampleClasses.TestClass (mdoc.Test.SampleClasses.TestClassTwo c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Implicit(class mdoc.Test.SampleClasses.TestClassTwo c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClassTwo" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Increment">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator ++ (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Increment(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Inequality">
+      <MemberSignature Language="C#" Value="public static bool operator != (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_Inequality(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_LeftShift">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator &lt;&lt; (mdoc.Test.SampleClasses.TestClass c1, int c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_LeftShift(class mdoc.Test.SampleClasses.TestClass c1, int32 c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_LessThan">
+      <MemberSignature Language="C#" Value="public static bool operator &lt; (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_LessThan(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_LessThanOrEqual">
+      <MemberSignature Language="C#" Value="public static bool operator &lt;= (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_LessThanOrEqual(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_LogicalNot">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator ! (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_LogicalNot(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Modulus">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator % (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Modulus(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Multiply">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator * (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Multiply(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_OnesComplement">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator ~ (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_OnesComplement(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_RightShift">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator &gt;&gt; (mdoc.Test.SampleClasses.TestClass c1, int c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_RightShift(class mdoc.Test.SampleClasses.TestClass c1, int32 c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Subtraction">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator - (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Subtraction(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+        <Parameter Name="c2" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <param name="c2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_True">
+      <MemberSignature Language="C#" Value="public static bool operator true (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname bool op_True(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_UnaryNegation">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator - (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_UnaryNegation(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_UnaryPlus">
+      <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator + (mdoc.Test.SampleClasses.TestClass c1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_UnaryPlus(class mdoc.Test.SampleClasses.TestClass c1) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>mdoc.Test.SampleClasses.TestClass</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c1" Type="mdoc.Test.SampleClasses.TestClass" />
+      </Parameters>
+      <Docs>
+        <param name="c1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
