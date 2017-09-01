@@ -4014,13 +4014,25 @@ class MsxdocDocumentationImporter : DocumentationImporter {
 
 	public MsxdocDocumentationImporter (string file)
 	{
-		var xml = File.ReadAllText (file);
+            try
+            {
+                char oppositeSlash = Path.DirectorySeparatorChar == '/' ? '\\' : '/';
+                if (file.Contains (oppositeSlash))
+                    file = file.Replace (oppositeSlash, Path.DirectorySeparatorChar);
+                
+                var xml = File.ReadAllText (file);
 
-		// Ensure Unix line endings
-		xml = xml.Replace ("\r", "");
+                // Ensure Unix line endings
+                xml = xml.Replace ("\r", "");
 
-		slashdocs = new XmlDocument();
-		slashdocs.LoadXml (xml);
+                slashdocs = new XmlDocument ();
+
+				slashdocs.LoadXml (xml);
+            }
+            catch (IOException ex) 
+            {
+                Console.WriteLine ($"Importer Error: {ex.Message}");
+            }
 	}
 
 	public override void ImportDocumentation (DocsNodeInfo info)
@@ -4105,7 +4117,7 @@ class MsxdocDocumentationImporter : DocumentationImporter {
 	private XmlNode GetDocs (MemberReference member)
 	{
 		string slashdocsig = MDocUpdater.slashdocFormatter.GetDeclaration (member);
-		if (slashdocsig != null)
+		if (slashdocsig != null && slashdocs != null)
 			return slashdocs.SelectSingleNode ("doc/members/member[@name='" + slashdocsig + "']");
 		return null;
 	}
