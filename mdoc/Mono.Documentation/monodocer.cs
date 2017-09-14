@@ -1309,10 +1309,9 @@ class MDocUpdater : MDocCommand
 				if (object.ReferenceEquals (oldmember, seenmembers [sig])) {
 					// ignore, already seen
 				}
-				else if (DefaultMemberComparer.Compare (oldmember, seenmembers [sig]) == 0)
+				else 
 					DeleteMember ("Duplicate Member Found", output, oldmember, todelete, type);
-				else
-					Warning ("TODO: found a duplicate member '{0}', but it's not identical to the prior member found!", sig);
+				
 				continue;
 			}
 			
@@ -4227,6 +4226,24 @@ class DocumentationMember {
 	public string MemberName;
 	public string MemberType;
 
+        /// <summary>Removes modreq and modopt from ReturnType, Parameters, and TypeParameters</summary>
+        private void CleanTypes() {
+            ReturnType = MemberFormatter.RemoveMod (ReturnType);
+            MemberType = MemberFormatter.RemoveMod (MemberType);
+
+            if (Parameters != null)
+            {
+                for (var i = 0; i < Parameters.Count; i++)
+                    Parameters[i] = MemberFormatter.RemoveMod (Parameters[i]);
+            }
+
+            if (TypeParameters != null)
+            {
+                for (var i = 0; i < TypeParameters.Count; i++)
+                    TypeParameters[i] = MemberFormatter.RemoveMod (TypeParameters[i]);
+            }
+		}
+
 	public DocumentationMember (XmlReader reader)
 	{
 		MemberName = reader.GetAttribute ("MemberName");
@@ -4279,6 +4296,8 @@ class DocumentationMember {
 		} else {
 			DiscernTypeParameters ();
 		}
+
+            CleanTypes ();
 	}
 
 	public DocumentationMember (XmlNode node)
@@ -4311,6 +4330,8 @@ class DocumentationMember {
 		else {
 			DiscernTypeParameters ();
 		}
+
+            CleanTypes ();
 	}
 
 	void DiscernTypeParameters ()
@@ -4390,32 +4411,42 @@ public abstract class MemberFormatter {
 	}
 
 	protected virtual string GetTypeName (TypeReference type, DynamicParserContext context)
-	{
-		if (type == null)
-			throw new ArgumentNullException (nameof (type));
+        {
+            if (type == null)
+                throw new ArgumentNullException (nameof (type));
 
-		var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context).ToString ();
+            var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context).ToString ();
 
+            typeName = RemoveMod (typeName);
 
-		// For custom modifiers (modopt/modreq), we are just excising them
-		// via string manipulation for simplicity; since these cannot be
-		// expressed in C#. If finer control is needed in the future, you can
-		// use IModifierType, PointerType, ByReferenceType, etc.
+            return typeName;
+        }
 
-		int modIndex = Math.Max (typeName.LastIndexOf ("modopt(", StringComparison.Ordinal), typeName.LastIndexOf ("modreq(", StringComparison.Ordinal));
-		if (modIndex > 0) {
-			var tname = typeName.Substring (0, modIndex-1);
-			var parenIndex = typeName.LastIndexOf (')');
-			if (parenIndex == typeName.Length - 2) { // see if there's metadata like a pointer
-				tname += typeName.Last ();
-			}
-			typeName = tname;
-		}
+        public static string RemoveMod (string typeName)
+        {
+            if (string.IsNullOrWhiteSpace (typeName)) return typeName;
 
-		return typeName;
-	}
+            // For custom modifiers (modopt/modreq), we are just excising them
+            // via string manipulation for simplicity; since these cannot be
+            // expressed in C#. If finer control is needed in the future, you can
+            // use IModifierType, PointerType, ByReferenceType, etc.
 
-	protected virtual char[] ArrayDelimeters {
+            int modIndex = Math.Max (typeName.LastIndexOf ("modopt(", StringComparison.Ordinal), typeName.LastIndexOf ("modreq(", StringComparison.Ordinal));
+            if (modIndex > 0)
+            {
+                var tname = typeName.Substring (0, modIndex - 1);
+                var parenIndex = typeName.LastIndexOf (')');
+                if (parenIndex == typeName.Length - 2)
+                { // see if there's metadata like a pointer
+                    tname += typeName.Last ();
+                }
+                typeName = tname;
+            }
+
+            return typeName;
+        }
+
+        protected virtual char[] ArrayDelimeters {
 		get {return new char[]{'[', ']'};}
 	}
 
