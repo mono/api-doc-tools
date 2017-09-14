@@ -1,0 +1,86 @@
+---
+id: c70709d1-d0a6-4dec-9ce5-de04540e5de6
+title: AssemblyGenerator
+uti: com.xamarin.workbook
+platforms:
+- Console
+---
+
+From [this article](https://msdn.microsoft.com/en-us/library/system.runtime.compilerservices.isudtreturn\(v=vs.110\).aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-1)
+
+```csharp
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Threading;
+```
+
+```csharp
+class CodeEmitter {
+    AssemblyBuilder asmBuilder;
+    string asmName;
+    ModuleBuilder modBuilder;
+    public CodeEmitter(string name) {
+        asmName = name;
+        AssemblyName aname = new AssemblyName { Name = name };
+        AppDomain currentDomain = Thread.GetDomain();
+        asmBuilder = currentDomain.DefineDynamicAssembly(aname, AssemblyBuilderAccess.RunAndSave);
+        modBuilder = asmBuilder.DefineDynamicModule(asmName);
+    }
+
+    public TypeBuilder CreateType(string name) {
+        return modBuilder.DefineType(name, TypeAttributes.Public);
+    }
+
+    public void WriteAssembly(MethodBuilder entryPoint) {
+        asmBuilder.SetEntryPoint(entryPoint);
+        asmBuilder.Save(asmName);
+    }
+}
+```
+
+```csharp
+void main() {
+    CodeEmitter e = new CodeEmitter("test-mod.exe");
+    TypeBuilder mainClass = e.CreateType("MainClass");
+
+    // main method
+    MethodBuilder mBuilder = mainClass.DefineMethod("mainMethod", MethodAttributes.Static);
+    ILGenerator ilGen = mBuilder.GetILGenerator();
+    ilGen.Emit(OpCodes.Ldstr, "Hello World");
+    Type[] type = new [] {typeof(string)};
+    MethodInfo writeMI = typeof(Console).GetMethod("WriteLine", type);
+    ilGen.EmitCall(OpCodes.Call, writeMI, null);
+    ilGen.Emit(OpCodes.Ret);
+
+    Type[] fType = new [] { typeof(IsUdtReturn)};
+
+    // operator overload
+    MethodBuilder sBuilder = mainClass.DefineMethod(
+        "op_Decrement", 
+        MethodAttributes.Static | MethodAttributes.SpecialName | MethodAttributes.Public,
+        CallingConventions.Any,
+        Type.GetType("System.Void"),
+        fType, // rtype required mods
+        null, // rtype optional mods
+        null, // parameters
+        null, // parameter modreq
+        null); // parameters modopt
+    
+    var silGen = sBuilder.GetILGenerator();
+    silGen.Emit(OpCodes.Ret);
+
+    // field
+    //Type[] fType = new [] { typeof(IsUdtReturn)};
+    mainClass.DefineField("modifiedInteger", Type.GetType("System.Type"), fType, null, FieldAttributes.Public);
+
+    // write
+    mainClass.CreateType();
+    e.WriteAssembly(mBuilder);
+    Console.WriteLine("Assembly created");
+}
+```
+
+```csharp
+main();
+```
