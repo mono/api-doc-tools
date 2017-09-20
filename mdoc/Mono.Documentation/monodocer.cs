@@ -1358,7 +1358,7 @@ class MDocUpdater : MDocCommand
 							TypeReference iface;
 							MethodReference imethod;
 
-							if (methdef.Overrides.Count == 1) {
+                        if (methdef.Overrides.Count == 1 && !methdef.IsPublic) {
 								DocUtils.GetInfoForExplicitlyImplementedMethod (methdef, out iface, out imethod);
 								if (!IsPublic (iface.Resolve ())) return false;
 							}
