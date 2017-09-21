@@ -4443,7 +4443,11 @@ public abstract class MemberFormatter {
                 typeName = tname;
             }
 
-            return typeName;
+            modIndex = Math.Max (typeName.LastIndexOf ("modopt(", StringComparison.Ordinal), typeName.LastIndexOf ("modreq(", StringComparison.Ordinal));
+            if (modIndex >= 0)
+                return RemoveMod (typeName);
+            else
+                return typeName;
         }
 
         protected virtual char[] ArrayDelimeters {

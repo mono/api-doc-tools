@@ -159,6 +159,30 @@ namespace mdoc.Test
         public void CSharp_pointerref_modreqparam () =>
             TestMod ("SomeFunc4", "public int SomeFunc4 (SomeClass** param, int param2);", returnType: "int");
 
+        [Test]
+        public void DoubleMod ()
+        {
+            string doubledUp = "System.ValueType modopt(System.DateTime) modopt(System.Runtime.CompilerServices.IsBoxed)";
+            string result = MemberFormatter.RemoveMod (doubledUp);
+            Assert.AreEqual ("System.ValueType", result);
+        }
+
+        [Test]
+        public void DoubleMod_Mixed ()
+        {
+            string doubledUp = "System.ValueType modreq(System.DateTime) modopt(System.Runtime.CompilerServices.IsBoxed)";
+            string result = MemberFormatter.RemoveMod (doubledUp);
+            Assert.AreEqual ("System.ValueType", result);
+        }
+
+        [Test]
+        public void DoubleMod_Pointer ()
+        {
+            string doubledUp = "System.ValueType modreq(System.DateTime) modopt(System.Runtime.CompilerServices.IsBoxed)*";
+            string result = MemberFormatter.RemoveMod (doubledUp);
+            Assert.AreEqual ("System.ValueType*", result);
+        }
+
 #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
