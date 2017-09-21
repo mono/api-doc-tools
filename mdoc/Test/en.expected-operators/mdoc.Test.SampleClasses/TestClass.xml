@@ -27,6 +27,31 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="DoSomethingWithParams">
+      <MemberSignature Language="C#" Value="public void DoSomethingWithParams (params int[] values);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DoSomethingWithParams(int32[] values) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="values" Type="System.Int32[]">
+          <Attributes>
+            <Attribute>
+              <AttributeName>System.ParamArray</AttributeName>
+            </Attribute>
+          </Attributes>
+        </Parameter>
+      </Parameters>
+      <Docs>
+        <param name="values">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="op_Addition">
       <MemberSignature Language="C#" Value="public static mdoc.Test.SampleClasses.TestClass operator + (mdoc.Test.SampleClasses.TestClass c1, mdoc.Test.SampleClasses.TestClass c2);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class mdoc.Test.SampleClasses.TestClass op_Addition(class mdoc.Test.SampleClasses.TestClass c1, class mdoc.Test.SampleClasses.TestClass c2) cil managed" />

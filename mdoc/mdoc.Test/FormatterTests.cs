@@ -183,6 +183,15 @@ namespace mdoc.Test
             Assert.AreEqual ("System.ValueType*", result);
         }
 
+        [Test]
+        public void Params()
+        {
+            var member = GetMethod<TestClass> (m => m.Name == "DoSomethingWithParams");
+            var formatter = new CSharpMemberFormatter ();
+            var sig = formatter.GetDeclaration (member);
+            Assert.AreEqual ("public void DoSomethingWithParams (params int[] values);", sig);
+        }
+
 #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
