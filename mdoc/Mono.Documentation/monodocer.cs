@@ -424,7 +424,7 @@ class MDocUpdater : MDocCommand
 	}
 
 	public static bool IsInAssemblies(string name) {
-		return Instance.assemblies.Any(a => a.Contains(name));
+            return Instance?.assemblies != null ? Instance.assemblies.Any(a => a.Contains(name)) : true;
 	}
 
 	void AddImporter (string path)
@@ -5763,6 +5763,11 @@ public class CSharpFullMemberFormatter : MemberFormatter {
 			else
 				buf.Append ("ref ");
 		}
+            if (parameter.HasCustomAttributes) {
+                var isParams = parameter.CustomAttributes.Any (ca => ca.AttributeType.Name == "ParamArrayAttribute");
+                if (isParams) 
+                    buf.AppendFormat ("params ");
+            }
 		buf.Append (GetTypeName (parameter.ParameterType, new DynamicParserContext (parameter))).Append (" ");
 		buf.Append (parameter.Name);
 		if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant) {

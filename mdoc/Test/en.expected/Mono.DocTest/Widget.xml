@@ -943,7 +943,7 @@
       </Docs>
     </Member>
     <Member MemberName="M6">
-      <MemberSignature Language="C#" Value="protected void M6 (int i, object[] args);" />
+      <MemberSignature Language="C#" Value="protected void M6 (int i, params object[] args);" />
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void M6(int32 i, object[] args) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
