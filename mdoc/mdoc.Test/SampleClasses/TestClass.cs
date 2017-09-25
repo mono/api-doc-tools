@@ -44,5 +44,6 @@ namespace mdoc.Test.SampleClasses
         public static explicit operator TestClass (int c1) { return new TestClass (); }
 
         public void DoSomethingWithParams (params int[] values) { }
+        public void RefAndOut (ref int a, out int b) { b = 1; }
 	}
 }

@@ -831,7 +831,7 @@
     </Member>
     <Member MemberName="M1">
       <MemberSignature Language="C#" Value="public void M1 (char c, out float f, ref Mono.DocTest.DocValueType v);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void M1(char c, float32 f, valuetype Mono.DocTest.DocValueType v) cil managed" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void M1(char c, [out] float32&amp; f, valuetype Mono.DocTest.DocValueType&amp; v) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

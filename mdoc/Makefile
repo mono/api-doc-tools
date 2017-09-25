@@ -360,8 +360,8 @@ check-monodocer-importecmadoc:
 		-o Test/en.actual Test/DocTest.dll 
 	$(DIFF) Test/en.expected.importecmadoc Test/en.actual
 
-.PHONY: check-monodocer-import-fx
-check-monodocer-import-fx: Test/DocTest.dll-v1 Test/DocTest-DropNS-classic-secondary.dll Test/DocTest-DropNS-classic.dll
+.PHONY: check-monodocer-import-fx-work
+check-monodocer-import-fx-work: Test/DocTest.dll-v1 Test/DocTest-DropNS-classic-secondary.dll Test/DocTest-DropNS-classic.dll
 	rm -Rf Test/en.actual
 	rm -Rf Test/fx-import
 	mkdir Test/fx-import
@@ -375,20 +375,35 @@ check-monodocer-import-fx: Test/DocTest.dll-v1 Test/DocTest-DropNS-classic-secon
 	cp Test/DocTest.xml Test/fx-import/TestEcmaDocs.xml
 	cp Test/CLILibraryTypes.dtd Test/fx-import/
 	cp Test/fx-import-configuration.xml Test/fx-import/frameworks.xml
-	#$(MONO) $(PROGRAM) fx-bootstrap Test/fx-import
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import
+
+.PHONY: check-monodocer-import-fx
+check-monodocer-import-fx: check-monodocer-import-fx-work
 	$(DIFF) Test/en.expected-fx-import Test/en.actual
+
+.PHONY: check-monodocer-import-fx-update
+check-monodocer-import-fx-update: check-monodocer-import-fx-work
+	rm -Rf Test/en.expected-fx-import
+	mv Test/en.actual Test/en.expected-fx-import
 
 Test/TestClass.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/Test*.cs
 
-.PHONY: check-monodocer-operators
-check-monodocer-operators: Test/TestClass.dll
+.PHONY: check-monodocer-operators-work
+check-monodocer-operators-work: Test/TestClass.dll
 	rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
 	cp mdoc.Test/SampleClasses/TestClass-OldOpSig.xml Test/en.actual/mdoc.Test.SampleClasses/TestClass.xml
 	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
+
+.PHONY: check-monodocer-operators
+check-monodocer-operators: check-monodocer-operators-work 
 	$(DIFF) Test/en.expected-operators Test/en.actual
+
+.PHONY: check-monodocer-operators-update
+check-monodocer-operators-update: check-monodocer-operators-work
+	rm -Rf Test/en.expected-operators
+	mv Test/en.actual Test/en.expected-operators
 
 check-mdoc-export-html-update: 
 	find Test/html.expected -name \*.html -exec rm "{}" \;

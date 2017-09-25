@@ -644,5 +644,26 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="RefAndOut">
+      <MemberSignature Language="C#" Value="public void RefAndOut (ref int a, out int b);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RefAndOut(int32&amp; a, [out] int32&amp; b) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32&amp;" RefType="ref" />
+        <Parameter Name="b" Type="System.Int32&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
   </Members>
 </Type>

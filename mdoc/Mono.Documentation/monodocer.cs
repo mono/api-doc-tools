@@ -5054,12 +5054,18 @@ public class ILFullMemberFormatter : MemberFormatter {
 		buf.Append ('(');
 		bool first = true;
 		for (int i = 0; i < method.Parameters.Count; ++i) {
+                var param = method.Parameters[i];
 			if (!first)
 				buf.Append (", ");
 			first = false;
-			_AppendTypeName (buf, method.Parameters [i].ParameterType, new DynamicParserContext (method.Parameters [i]));
+
+                if (param.IsOut) buf.Append ("[out] ");
+                else if (param.IsIn) buf.Append ("[in]");
+
+			_AppendTypeName (buf, param.ParameterType, new DynamicParserContext (param));
+                if (param.ParameterType.IsByReference) buf.Append ("&");
 			buf.Append (' ');
-			buf.Append (method.Parameters [i].Name);
+			buf.Append (param.Name);
 		}
 		buf.Append (')');
 		if (method.IsIL)
