@@ -84,7 +84,7 @@
     </Member>
     <Member MemberName="Resize&lt;T&gt;">
       <MemberSignature Language="C#" Value="public static void Resize&lt;T&gt; (ref T[] array, int newSize);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Resize&lt;T&gt;(!!T[] array, int32 newSize) cil managed" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Resize&lt;T&gt;(!!T[]&amp; array, int32 newSize) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest</AssemblyName>

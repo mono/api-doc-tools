@@ -191,6 +191,14 @@ namespace mdoc.Test
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual ("public void DoSomethingWithParams (params int[] values);", sig);
         }
+        [Test]
+        public void IL_RefAndOut ()
+        {
+            var member = GetMethod<TestClass> (m => m.Name == "RefAndOut");
+            var formatter = new ILFullMemberFormatter ();
+            var sig = formatter.GetDeclaration (member);
+            Assert.AreEqual (".method public hidebysig instance void RefAndOut(int32& a, [out] int32& b) cil managed", sig);
+        }
 
 #region Helper Methods
         string RealTypeName(string name){
