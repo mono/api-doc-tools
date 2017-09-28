@@ -17,6 +17,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Monodoc.Ecma;
+using Mono.Documentation.Util;
 
 namespace Mono.Documentation {
 

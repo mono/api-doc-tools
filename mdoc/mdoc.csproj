@@ -51,6 +51,36 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Mono.Documentation\Updater\Formatters\ApplePlatformEnumFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\StandardFlagsEnumFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\DefaultAttributeValueFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeValueFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\ResolvedTypeInfo.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\FileNameMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\SlashDocMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\DocTypeMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\DocTypeFullMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpFullMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpNativeTypeMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\ILNativeTypeMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\ILMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\ILFullMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\DocIdFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\MemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\MemberFormatterState.cs" />
+    <Compile Include="Mono.Documentation\Updater\DynamicParserContext.cs" />
+    <Compile Include="Mono.Documentation\Updater\DocumentationMember.cs" />
+    <Compile Include="Mono.Documentation\Updater\EcmaDocumentationImporter.cs" />
+    <Compile Include="Mono.Documentation\Updater\MsxdocDocumentationImporter.cs" />
+    <Compile Include="Mono.Documentation\Updater\DocumentationImporter.cs" />
+    <Compile Include="Mono.Documentation\Updater\EcmaDocumentationEnumerator.cs" />
+    <Compile Include="Mono.Documentation\Updater\DocumentationEnumerator.cs" />
+    <Compile Include="Mono.Documentation\Updater\DocsNodeInfo.cs" />
+    <Compile Include="Mono.Documentation\Util\ApiStyle.cs" />
+    <Compile Include="Mono.Documentation\Updater\DocUtils.cs" />
+    <Compile Include="Mono.Documentation\Util\CecilExtensions.cs" />
+    <Compile Include="Mono.Documentation\Util\NativeTypeManager.cs" />
     <Compile Include="Mono.Rocks\ObjectRocks.cs" />
     <Compile Include="Mono.Rocks\StreamRocks.cs" />
     <Compile Include="Mono.Documentation\assembler.cs" />
@@ -58,7 +88,6 @@
     <Compile Include="Mono.Documentation\ecmadoc.cs" />
     <Compile Include="Mono.Documentation\mdoc.cs" />
     <Compile Include="Mono.Documentation\MdocFile.cs" />
-    <Compile Include="Mono.Documentation\monodocer.cs" />
     <Compile Include="Mono.Documentation\monodocs2html.cs" />
     <Compile Include="Mono.Documentation\monodocs2slashdoc.cs" />
     <Compile Include="Mono.Documentation\msitomsx.cs" />
@@ -71,11 +100,12 @@
     <Compile Include="Mono.Documentation\frameworksbootstrapper.cs" />
     <Compile Include="Consts.cs" />
     <Compile Include="Options.cs" />
-    <Compile Include="Mono.Documentation\Frameworks\FrameworkIndex.cs" />
-    <Compile Include="Mono.Documentation\Frameworks\FrameworkEntry.cs" />
-    <Compile Include="Mono.Documentation\Frameworks\FrameworkTypeEntry.cs" />
-    <Compile Include="Mono.Documentation\Frameworks\AssemblySet.cs" />
-    <Compile Include="Mono.Documentation\Frameworks\UwpResolver.cs" />
+    <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkIndex.cs" />
+    <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkEntry.cs" />
+    <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkTypeEntry.cs" />
+    <Compile Include="Mono.Documentation\Updater\Frameworks\AssemblySet.cs" />
+    <Compile Include="Mono.Documentation\Updater\Frameworks\UwpResolver.cs" />
+    <Compile Include="Mono.Documentation\MDocUpdater.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\defaulttemplate.xsl">

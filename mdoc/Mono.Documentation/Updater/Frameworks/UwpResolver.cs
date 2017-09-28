@@ -4,7 +4,7 @@ using System.IO;
 using Microsoft.Win32;
 using Mono.Cecil;
 
-namespace Mono.Documentation.Frameworks
+namespace Mono.Documentation.Updater.Frameworks
 {
     /// <summary>Mono.Cecil resolver for the windows universal platform</summary>
     class UwpResolver : DefaultAssemblyResolver

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using Mono.Cecil;
 
-namespace Mono.Documentation
+namespace Mono.Documentation.Updater.Frameworks
 {
 	/// <summary>
 	/// Represents a set of assemblies that we want to document
