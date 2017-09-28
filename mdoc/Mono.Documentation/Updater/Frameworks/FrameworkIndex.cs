@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 using Mono.Cecil;
 
-namespace Mono.Documentation
+namespace Mono.Documentation.Updater.Frameworks
 {
 
 	class FrameworkIndex

@@ -32,6 +32,7 @@ using System.Linq;
 
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Mono.Documentation.Updater;
 
 namespace Mono.Documentation {
 

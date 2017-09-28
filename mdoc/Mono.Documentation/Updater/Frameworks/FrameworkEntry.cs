@@ -4,7 +4,7 @@ using System.Linq;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 
-namespace Mono.Documentation
+namespace Mono.Documentation.Updater.Frameworks
 {
 	class FrameworkEntry
 	{

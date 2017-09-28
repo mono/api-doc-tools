@@ -7,6 +7,8 @@ using Mono.Cecil;
 using mdoc.Test.SampleClasses;
 using System.Linq.Expressions;
 
+using Mono.Documentation.Updater;
+
 namespace mdoc.Test
 {
     [TestFixture ()]
