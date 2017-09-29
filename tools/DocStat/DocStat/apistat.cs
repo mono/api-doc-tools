@@ -31,7 +31,8 @@ namespace DocStat
                 {"remaining", new RemainingCommand() },
                 {"obsolete", new ObsoleteCommand() },
                 {"comparefix", new CompareFixCommand()},
-                {"reportnew", new CompareReportCommand()}
+                {"reportnew", new CompareReportCommand()},
+                {"fixsummaries", new FixSummariesCommand()}
             };
 
             GetCommand(args.First()).Run(args);

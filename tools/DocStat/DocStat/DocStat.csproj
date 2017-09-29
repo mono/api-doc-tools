@@ -38,6 +38,7 @@
       <Link>Options.cs</Link>
     </Compile>
     <Compile Include="comparereport.cs" />
+    <Compile Include="fixsummaries.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Xml.Linq" />
