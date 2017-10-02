@@ -1,6 +1,15 @@
 # How to contribute
 
-Your feedback and contributions are greatly appreciated, and improve the quality of mdoc, monodoc, and related tools. Please read the following contribution guidelines to ensure a quick and timely review and acceptance of your patches.
+Your feedback and contributions are greatly appreciated, and improve the quality of mdoc, monodoc, and related tools. Please read the following contribution guidelines to ensure a quick and timely review and acceptance of your patches. As an overview, the following are the contribution guidelines, and any deviations from the norm should be discussed in a github issue.
+
+- All code must be written in *C#*
+- We are currently targeting *.NET Framework 4.5* ... we will be transitioning to .NET Standard 2 in the future, and supporting other targets such as dotnet core.
+- All projects and solutions created must load and compile in *Visual Studio 2017* and *Visual Studio for Mac*.
+- New dependencies (such as nuget references) must be _discussed and reviewed_. _mdoc_ is distributed via the Mono project, and as such we must be careful with what dependencies we distribute. 
+- *NUnit* is used to write unit tests.
+- Integration tests use *Make* on *Bash*. 
+- This project uses *Git* hosted on *GitHub* as the central repository host.
+- All pull requests should pass all unit tests successfully (which means being able to run the CLI build via `make`).
 
 ## Bug Reports and Feature Requests
 
@@ -32,11 +41,26 @@ You can do so either by using an interactive rebase of your branch if you need m
 
 ### Tests
 
-Your commit should introduce no regressions. You can make sure to run all unit tests locally by using the [instructions here](https://github.com/mono/api-doc-tools#cli).
+Your commit should introduce no regressions. While we do not require 100% code coverage, every newly-introduced feature should have a new unit or integration test written. You can make sure to run all unit tests locally by using the [instructions here](https://github.com/mono/api-doc-tools#cli). There are two kinds of tests:
+
+#### Unit Tests
+
+Written with _NUnit_, there are two unit test projects: *mdoc.Test*, and *Monodoc.Test*. 
+
+#### Integration Tests
+
+_mdoc_ has integration tests implemented as [`make` targets](mdoc/Makefile). You can look at the existing tests to see how they are structured, but generally speaking:
+
+- It usually involves a sample code file, such as [/mdoc/Test/DocTest-InternalInterface.cs](mdoc/Test/DocTest-InternalInterface.cs).
+- A target (such as `Test/DocTest-InternalInterface.dll`) to build/comple the test assembly.
+- A target to execute the scenario (such as `check-monodocer-import-fx`), which itself depends on the above target.
+  - Usually, this setup involves deleting the `Test/en.actual` folder (which serves as the output)
+  - the execution of an `mdoc` subcommand, using `$(MONO) $(PROGRAM) <the subcommand> <args>`.
+  - The assertion, using `$(DIFF)`, against an existing expected form of the output (which is committed to git, such as `Test/en.expected-fx-import`).
 
 ### Pull Request
 
-Create a fork against the [api-doc-tools](https://github.com/mono/api-doc-tools/pulls) repository. As mentioned previously, all tests should pass, and the code will be reviewed, discussed, and merged from there. Please be ready to address any issues brought up during code review.
+Create a fork against the [api-doc-tools](https://github.com/mono/api-doc-tools/pulls) repository. As mentioned previously, all tests should pass, and the code will be reviewed, discussed, and merged from there. *Please be ready to address any issues* brought up during code review.
 
 ## Legal
 
