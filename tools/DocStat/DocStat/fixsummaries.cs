@@ -40,9 +40,7 @@ namespace DocStat
 
                 foreach (XElement m in memberRoot.Elements("Member"))
                 {
-                    changed = false;
                     XElement summary = m.Element("Docs").Element("summary");
-
 
                     if (null == summary)
                     {
@@ -63,8 +61,8 @@ namespace DocStat
                         continue;
                     }
 
-
                     mistakeParams.ToList().ForEach(e => e.Name = "paramref");
+
                     changed = true;
 
                 }
