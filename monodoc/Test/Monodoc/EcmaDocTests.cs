@@ -18,7 +18,7 @@ namespace MonoTests.Monodoc
 		// signed/strong-named by the build, we have to resort to reflection
 		TDelegate GetTestedMethod<TDelegate> (string methodName)
 		{
-			var ecmaDoc = Type.GetType ("Monodoc.Providers.EcmaDoc, monodoc, PublicKey=0738eb9f132ed756");
+			var ecmaDoc = Type.GetType ("Monodoc.Providers.EcmaDoc, monodoc");
 			return (TDelegate)(object)Delegate.CreateDelegate (typeof (TDelegate), ecmaDoc.GetMethod (methodName));
 		}
 

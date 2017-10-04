@@ -2,13 +2,13 @@
 
 Your feedback and contributions are greatly appreciated, and improve the quality of mdoc, monodoc, and related tools. Please read the following contribution guidelines to ensure a quick and timely review and acceptance of your patches. As an overview, the following are the contribution guidelines, and any deviations from the norm should be discussed in a github issue.
 
-- All code must be written in *C#*
-- We are currently targeting *.NET Framework 4.5* ... we will be transitioning to .NET Standard 2 in the future, and supporting other targets such as dotnet core.
-- All projects and solutions created must load and compile in *Visual Studio 2017* and *Visual Studio for Mac*.
+- All code must be written in **C#**
+- We are currently targeting **.NET Framework 4.5** ... we will be transitioning to .NET Standard 2 in the future, and supporting other targets such as dotnet core.
+- All projects and solutions created must load and compile in **Visual Studio 2017** and **Visual Studio for Mac**.
 - New dependencies (such as nuget references) must be _discussed and reviewed_. _mdoc_ is distributed via the Mono project, and as such we must be careful with what dependencies we distribute. 
-- *NUnit* is used to write unit tests.
-- Integration tests use *Make* on *Bash*. 
-- This project uses *Git* hosted on *GitHub* as the central repository host.
+- **NUnit** is used to write unit tests.
+- Integration tests use **Make** on **Bash**. 
+- This project uses **Git** hosted on **GitHub** as the central repository host.
 - All pull requests should pass all unit tests successfully (which means being able to run the CLI build via `make`).
 
 ## Bug Reports and Feature Requests
@@ -39,13 +39,15 @@ This project tries to avoid chatty in-progress commits that are common during de
 
 You can do so either by using an interactive rebase of your branch if you need multiple commits, or simply doing a soft reset `git reset origin/master —soft` … which will stage all of your changes and let you create a new single commit that contains all changes.
 
+The commit message should be verbose enough to explain what behavior is changing, bug is being fixed, or feature being added. It should also contain a reference to the github issue being resolved, as [described here](https://github.com/blog/1386-closing-issues-via-commit-messages).
+
 ### Tests
 
 Your commit should introduce no regressions. While we do not require 100% code coverage, every newly-introduced feature should have a new unit or integration test written. You can make sure to run all unit tests locally by using the [instructions here](https://github.com/mono/api-doc-tools#cli). There are two kinds of tests:
 
 #### Unit Tests
 
-Written with _NUnit_, there are two unit test projects: *mdoc.Test*, and *Monodoc.Test*. 
+Written with _NUnit_, there are two unit test projects: *mdoc.Test*, and *Monodoc.Test*. _Visual Studio for Mac_ has built-in support for _NUnit_, and on Windows, you can install the [_NUnit 3 Test Adapter_](https://marketplace.visualstudio.com/items?itemName=NUnitDevelopers.NUnit3TestAdapter)
 
 #### Integration Tests
 
