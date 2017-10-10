@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>mdoc</id>
+    <version>5.0.0.25</version>
+    <title>mdoc</title>
+    <authors>Joel Martinez</authors>
+    <owners>Xamarin</owners>
+    <projectUrl>https://github.com/mono/api-doc-tools</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.NET API Documentation toolchain</description>
+    <copyright>Copyright 2017</copyright>
+    <tags>mdoc documentation ecmaxml dotnet .net C# F# VB.NET</tags>
+  </metadata>
+  <files>
+    <file src="..\bin\Release\*.*" target="tools" />
+  </files>
+</package>
