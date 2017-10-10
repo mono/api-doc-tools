@@ -3,7 +3,7 @@ CONFIGURATION = Release
 BIN = bin/$(CONFIGURATION)
 MDOC = $(BIN)/mdoc.exe
 
-all: build
+all: build nuget
 
 build: $(MDOC)
 
@@ -23,6 +23,9 @@ check: build check-monodoc check-mdoc
 
 check-mdoc:
 	cd mdoc; $(MAKE) check
+
+nuget:
+	nuget pack mdoc/mdoc.nuspec -outputdirectory bin/Nuget
 
 check-monodoc:
 	cd monodoc; $(MAKE) check
