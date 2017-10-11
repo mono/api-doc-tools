@@ -991,7 +991,7 @@
 		<!-- if this is a generic type parameter, don't make a link but italicize it and give it a tooltip instead -->
 		<xsl:when test="count($ThisType/TypeParameters/TypeParameter[@Name=$type] | 
 				$ThisType/TypeParameters/TypeParameter[child::text()=$type] |
-				ancestor::Member/Docs/typeparam[@name=$type]) = 1">
+				ancestor::Member/Docs/typeparam[@name=$type]) = 1 or $nested = 1">
 			<!-- note that we check if it is a generic type using /Type/TypeParameters because that will have type parameters declared in an outer class if this is a nested class, but then we get the tooltip text from the type parameters documented in this file -->
 			<i title="{$ThisType/Docs/typeparam[@name=$type] | ancestor::Member/Docs/typeparam[@name=$type]}"><xsl:value-of select="$type"/></i>
 		</xsl:when>
@@ -1002,6 +1002,7 @@
 			<xsl:call-template name="maketypelink">
 				<xsl:with-param name="type" select="ancestor::Members/BaseTypeArgument[@TypeParamName=$type]"/>
 				<xsl:with-param name="wrt" select="$wrt"/>
+				<xsl:with-param name="nested" select="1"/>
 			</xsl:call-template>
 		</xsl:when>
 		
