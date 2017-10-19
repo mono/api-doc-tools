@@ -3,7 +3,7 @@ CONFIGURATION = Release
 BIN = bin/$(CONFIGURATION)
 MDOC = $(BIN)/mdoc.exe
 
-all: build nuget
+all: build
 
 build: $(MDOC)
 
