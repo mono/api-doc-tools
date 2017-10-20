@@ -2161,7 +2161,6 @@ namespace Mono.Documentation
         {
             foreach (CustomAttribute attribute in attributes.OrderBy (ca => ca.AttributeType.FullName))
             {
-
                 TypeDefinition attrType = attribute.AttributeType as TypeDefinition;
                 if (attrType != null && !IsPublic (attrType))
                     continue;
