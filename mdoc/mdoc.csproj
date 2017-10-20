@@ -104,7 +104,7 @@
     <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkEntry.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkTypeEntry.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\AssemblySet.cs" />
-    <Compile Include="Mono.Documentation\Updater\Frameworks\UwpResolver.cs" />
+    <Compile Include="Mono.Documentation\Updater\Frameworks\MDocResolver.cs" />
     <Compile Include="Mono.Documentation\MDocUpdater.cs" />
   </ItemGroup>
   <ItemGroup>

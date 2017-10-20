@@ -12,7 +12,8 @@ namespace Mono.Documentation.Updater.Frameworks
 	/// </summary>
 	class AssemblySet : IDisposable
 	{
-		readonly DefaultAssemblyResolver resolver = new Frameworks.UwpResolver ();
+        readonly BaseAssemblyResolver resolver = new Frameworks.MDocResolver ();
+        IAssemblyResolver cachedResolver;
 		HashSet<string> assemblyPaths = new HashSet<string> ();
 		HashSet<string> assemblySearchPaths = new HashSet<string> ();
 		HashSet<string> forwardedTypes = new HashSet<string> ();
@@ -23,6 +24,8 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths, IEnumerable<string> imports)
 		{
+            this.cachedResolver = new CachedResolver (this.resolver);
+
 			Name = name;
 
 			foreach (var path in paths)
@@ -65,6 +68,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 .Select(d => new DirectoryInfo (d))
                 .Where (d => d.Exists)
                 .Select(d => d.FullName)
+                .Distinct ()
                 .ToDictionary(d => d, d => d);
 
             var subdirs = directories.Keys
@@ -89,7 +93,7 @@ namespace Mono.Documentation.Updater.Frameworks
 			return forwardedTypes.Contains (name);
 		}
 
-		public void Dispose () => resolver.Dispose ();
+        public void Dispose () => cachedResolver.Dispose ();
 
 		public override string ToString ()
 		{
@@ -99,7 +103,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		IEnumerable<AssemblyDefinition> LoadAllAssemblies ()
 		{
 			foreach (var path in this.assemblyPaths) {
-				var assembly = MDocUpdater.Instance.LoadAssembly (path, this.resolver);
+                var assembly = MDocUpdater.Instance.LoadAssembly (path, this.cachedResolver);
 				if (assembly != null) {
 					foreach (var type in assembly.MainModule.ExportedTypes.Where (t => t.IsForwarder).Select (t => t.FullName))
 						forwardedTypes.Add (type);

@@ -85,9 +85,10 @@ namespace Mono.Documentation {
 						// so we can't do anything further.
 						return new ExceptionSources[0];
 					}
-					throw new NotSupportedException (string.Format (
-								"Unable to resolve member {0}::{1}.",
-								member.DeclaringType.FullName, member.Name));
+                    return new ExceptionSources[0];
+					//throw new NotSupportedException (string.Format (
+					//			"Unable to resolve member {0}::{1}.",
+					//			member.DeclaringType.FullName, member.Name));
 				}
 				string memberDecl = xdoc.GetDeclaration (member);
 				Dictionary<string, ExceptionSources> e;
