@@ -76,11 +76,9 @@ namespace Mono.Documentation.Updater.Frameworks
                 .ToArray ();
 
             // Perfect Match
-            if (applicableVersions.Any (v => v.VersionDiff == 0))
-                return applicableVersions
-                    .Where (v => v.VersionDiff == 0)
-                    .Select (v => v.Assembly)
-                    .Single ();
+            var exactMatch = applicableVersions.FirstOrDefault (v => v.VersionDiff == 0);
+            if (exactMatch != null)
+                return exactMatch.Assembly;
 
             // closest high version
             var newerVersions = applicableVersions
