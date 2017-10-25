@@ -227,6 +227,7 @@ check-monodocer-dropns-multi-withexisting:
 
 check-monodocer-dropns-delete: 
 	-rm -Rf Test/en.actual
+	-rm -Rf Test/actual_statistics.txt
 	rm -Rf Test/DocTest-DropNS-classic-deletetest.dll
 	rm -Rf Test/DocTest-DropNS-unified-deletetest.dll
 	$(MAKE) Test/DocTest-DropNS-classic-deletetest.dll
@@ -236,8 +237,9 @@ check-monodocer-dropns-delete:
 	$(MAKE) Test/DocTest-DropNS-classic-deletetest-V2.dll
 	$(MONO) $(PROGRAM) update --delete --exceptions=all -o Test/en.actual Test/DocTest-DropNS-classic-deletetest.dll --api-style=classic
 	$(MAKE) Test/DocTest-DropNS-unified-deletetest-V2.dll
-	$(MONO) $(PROGRAM) update --delete --exceptions=all -o Test/en.actual Test/DocTest-DropNS-unified-deletetest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified-deletetest.dll=MyFramework
+	$(MONO) $(PROGRAM) update --delete --exceptions=all -o Test/en.actual Test/DocTest-DropNS-unified-deletetest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified-deletetest.dll=MyFramework -statistics Test/actual_statistics.txt
 	$(DIFF) Test/en.expected-dropns-delete Test/en.actual
+	$(DIFF) Test/expected_remove_statistics.txt Test/actual_statistics.txt
 
 check-monodocer-dropns-classic-withsecondary: 
 	# tests case where a secondary assembly is included with a --dropns parameter
@@ -364,6 +366,7 @@ check-monodocer-importecmadoc:
 check-monodocer-import-fx-work: Test/DocTest.dll-v1 Test/DocTest-DropNS-classic-secondary.dll Test/DocTest-DropNS-classic.dll
 	rm -Rf Test/en.actual
 	rm -Rf Test/fx-import
+	rm -Rf Test/actual_statistics.txt
 	mkdir Test/fx-import
 	mkdir Test/fx-import/one
 	mkdir Test/fx-import/two
@@ -375,7 +378,25 @@ check-monodocer-import-fx-work: Test/DocTest.dll-v1 Test/DocTest-DropNS-classic-
 	cp Test/DocTest.xml Test/fx-import/TestEcmaDocs.xml
 	cp Test/CLILibraryTypes.dtd Test/fx-import/
 	cp Test/fx-import-configuration.xml Test/fx-import/frameworks.xml
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import -statistics Test/actual_statistics.txt
+	$(DIFF) Test/expected_statistics.txt Test/actual_statistics.txt
+	
+	
+check-monodocer-fx-statistics-remove:
+	rm -Rf Test/en.actual
+	rm -Rf Test/fx-import
+	rm -Rf Test/actual_statistics.txt
+	mkdir Test/fx-import
+	mkdir Test/fx-import/one
+	cp Test/fx-statistics-remove-configuration.xml Test/fx-import/frameworks.xml
+	$(MAKE) Test/DocTest-DropNS-unified-deletetest.dll
+	cp Test/DocTest-DropNS-unified-deletetest.dll Test/fx-import/one/DocTest.dll
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import
+	$(MAKE) Test/DocTest-DropNS-unified.dll
+	rm -rf Test/fx-import/one/DocTest.dll
+	cp Test/DocTest-DropNS-unified.dll Test/fx-import/one/DocTest.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import -statistics Test/actual_statistics.txt
+	$(DIFF) Test/expected_fx_remove_statistics.txt Test/actual_statistics.txt
 
 .PHONY: check-monodocer-import-fx
 check-monodocer-import-fx: check-monodocer-import-fx-work
@@ -498,7 +519,8 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-frameworks \
 	check-monodocer-frameworks-inheritance \
 	check-monodocer-docid \
-	check-monodocer-operators
+	check-monodocer-operators \
+	check-monodocer-fx-statistics-remove
 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \

@@ -77,6 +77,12 @@
     <Compile Include="Mono.Documentation\Updater\EcmaDocumentationEnumerator.cs" />
     <Compile Include="Mono.Documentation\Updater\DocumentationEnumerator.cs" />
     <Compile Include="Mono.Documentation\Updater\DocsNodeInfo.cs" />
+    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsCollector.cs" />
+    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsItem.cs" />
+    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsMetrics.cs" />
+    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsSaver.cs" />
+    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsStorage.cs" />
     <Compile Include="Mono.Documentation\Util\ApiStyle.cs" />
     <Compile Include="Mono.Documentation\Updater\DocUtils.cs" />
     <Compile Include="Mono.Documentation\Util\CecilExtensions.cs" />
