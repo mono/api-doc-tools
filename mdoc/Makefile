@@ -490,7 +490,14 @@ check-mdoc-validate:
 	$(MONO) $(PROGRAM) validate -f ecma Test/en.expected.since 2>&1 | \
 		sed 's#file://$(my_abs_top_srcdir)/##g' | \
 		$(DIFF_QUIET) - Test/validate.check.monodocer.since
-
+		
+check-overwrite-attribute: 
+	rm -Rf Test/en.actual
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -target:library Test/test-overwrite-attribute/SomeClass.cs -doc:Test/test-overwrite-attribute/SomeClass.xml
+	$(MONO) $(PROGRAM) update Test/test-overwrite-attribute/Someclass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
+	cp Test/test-overwrite-attribute/Input_SomeClass.xml Test/en.actual/SomeClass.xml
+	$(MONO) $(PROGRAM) update Test/test-overwrite-attribute/SomeClass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
+	$(DIFF) Test/test-overwrite-attribute/Expected_SomeClass.xml Test/en.actual/SomeClass.xml
 run-test-local: check-doc-tools
 
 run-test-update : check-doc-tools-update
@@ -520,7 +527,8 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-frameworks-inheritance \
 	check-monodocer-docid \
 	check-monodocer-operators \
-	check-monodocer-fx-statistics-remove
+	check-monodocer-fx-statistics-remove \
+	check-overwrite-attribute
 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \

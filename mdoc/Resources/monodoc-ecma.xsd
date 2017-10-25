@@ -48,6 +48,7 @@ add masterdoc support?
   <xs:attribute name="type" type="xs:string" />
   <xs:attribute name="Type" type="xs:string" />
   <xs:attribute name="TypeParamName" type="xs:string" />
+  <xs:attribute name="overwrite" type ="xs:boolean" />
 
   <!-- define simple elements -->
   <xs:element name="AssemblyName" type="xs:string" />
@@ -346,6 +347,7 @@ add masterdoc support?
         <xs:element ref="typeparamref" />
       </xs:choice>
       <xs:attribute ref="cref" />
+      <xs:attribute ref="overwrite" />
     </xs:complexType>
   </xs:element>
 
@@ -587,6 +589,7 @@ add masterdoc support?
       </xs:choice>
       <xs:attribute ref="preserve-mono" />
       <xs:attribute ref="name" use="required" />
+      <xs:attribute ref="overwrite" />
     </xs:complexType>
   </xs:element>
 
@@ -626,6 +629,7 @@ add masterdoc support?
         <xs:element ref="typeparamref" />
       </xs:choice>
       <xs:attribute ref="cref" />
+      <xs:attribute ref="overwrite" />
     </xs:complexType>
   </xs:element>
 
@@ -657,6 +661,7 @@ add masterdoc support?
         <xs:element ref="attribution" />
       </xs:choice>
       <xs:attribute ref="preserve-mono" />
+      <xs:attribute ref="overwrite" />
     </xs:complexType>
   </xs:element>
 
@@ -687,6 +692,7 @@ add masterdoc support?
         <xs:element ref="attribution" />
       </xs:choice>
       <xs:attribute ref="preserve-mono" />
+      <xs:attribute ref="overwrite" />
     </xs:complexType>
   </xs:element>
 
@@ -779,6 +785,7 @@ add masterdoc support?
         <xs:element ref="attribution" />
       </xs:choice>
       <xs:attribute ref="preserve-mono" />
+      <xs:attribute ref="overwrite" />
     </xs:complexType>
   </xs:element>
 
@@ -891,6 +898,7 @@ add masterdoc support?
         <xs:element ref="typeparamref" />
       </xs:choice>
       <xs:attribute ref="name" use="required" />
+      <xs:attribute ref="overwrite" />
     </xs:complexType>
   </xs:element>
 
@@ -957,6 +965,7 @@ add masterdoc support?
         <xs:element ref="example" />
         <xs:element ref="list" />
       </xs:choice>
+      <xs:attribute ref="overwrite" />
     </xs:complexType>
   </xs:element>
 

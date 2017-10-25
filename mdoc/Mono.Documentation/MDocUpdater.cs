@@ -2541,8 +2541,10 @@ namespace Mono.Documentation
             }
             else
             {
-                ClearElement (e, "returns");
-                ClearElement (e, "value");
+                if (DocUtils.NeedsOverwrite(e["returns"]))
+                    ClearElement(e, "returns");
+                if (DocUtils.NeedsOverwrite(e["value"]))
+                    ClearElement(e, "value");
             }
 
             if (addremarks)
