@@ -1,0 +1,28 @@
+Framework: one
+--------
+Types Added: 31
+Types Removed: 0
+Types Total: 31
+
+Namespaces Added: 4
+Namespaces Removed: 0
+Namespaces Total: 4
+
+Members Added: 127
+Members Removed: 0
+Members Total: 127
+
+Framework: two
+--------
+Types Added: 3
+Types Removed: 0
+Types Total: 3
+
+Namespaces Added: 2
+Namespaces Removed: 0
+Namespaces Total: 2
+
+Members Added: 9
+Members Removed: 0
+Members Total: 9
+

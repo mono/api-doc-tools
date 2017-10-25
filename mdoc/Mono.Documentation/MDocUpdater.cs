@@ -13,6 +13,7 @@ using System.Xml.XPath;
 using Mono.Cecil;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Frameworks;
+using Mono.Documentation.Updater.Statistics;
 using Mono.Documentation.Util;
 using Mono.Options;
 
@@ -63,6 +64,8 @@ namespace Mono.Documentation
 
         public static string droppedNamespace = string.Empty;
 
+        private HashSet<string> memberSet;
+
         public static bool HasDroppedNamespace (TypeDefinition forType)
         {
             return HasDroppedNamespace (forType.Module);
@@ -102,11 +105,16 @@ namespace Mono.Documentation
         string FrameworksPath = string.Empty;
         FrameworkIndex frameworks;
         FrameworkIndex frameworksCache;
+        IEnumerable<XDocument> oldFrameworkXmls;
+
+        private StatisticsCollector statisticsCollector = new StatisticsCollector();
 
         static List<string> droppedAssemblies = new List<string> ();
 
         public string PreserveTag { get; set; }
         public bool DisableSearchDirectoryRecurse = false;
+        private bool statisticsEnabled = false;
+        private string statisticsFilePath;
         public static MDocUpdater Instance { get; private set; }
         public static bool SwitchingToMagicTypes { get; private set; }
 
@@ -129,7 +137,10 @@ namespace Mono.Documentation
                 "             for NEW types/members\n" +
                 "If nothing is specified, then only exceptions from the member will " +
                 "be listed.",
-                v => exceptions = ParseExceptionLocations (v) },
+                v =>
+                {
+                    exceptions = ParseExceptionLocations(v);
+                } },
             { "f=",
                 "Specify a {FLAG} to alter behavior.  See later -f* options for available flags.",
                 v => {
@@ -205,6 +216,15 @@ namespace Mono.Documentation
             { "disable-searchdir-recurse",
                 "Default behavior for adding search directories ('-L') is to recurse them and search in all subdirectories. This disables that",
                 v => DisableSearchDirectoryRecurse = true },
+            {
+                "statistics=",
+                "Save statistics to the specified file",
+                v =>
+                {
+                    statisticsEnabled = true;
+                    if (!string.IsNullOrEmpty(v))
+                        statisticsFilePath = v;
+                } },
         };
             var assemblyPaths = Parse (p, args, "update",
                     "[OPTIONS]+ ASSEMBLIES",
@@ -234,6 +254,17 @@ namespace Mono.Documentation
                                                    .ToArray ()
                                   })
                                   .Where (f => Directory.Exists (f.Path));
+
+                oldFrameworkXmls = fxconfig.Root
+                                               .Elements("Framework")
+                                               .Select(f => new
+                                               {
+                                                   Name = f.Attribute("Name").Value,
+                                                   Source = f.Attribute("Source").Value,
+                                                   XmlPath = Path.Combine(srcPath, "FrameworksIndex", f.Attribute("Source").Value + ".xml"),
+                                               })
+                                               .Where(f => File.Exists(f.XmlPath))
+                                               .Select(f => XDocument.Load(f.XmlPath));
 
                 Func<string, string, IEnumerable<string>> getFiles = (string path, string filters) =>
                 {
@@ -326,6 +357,18 @@ namespace Mono.Documentation
 
             if (!string.IsNullOrWhiteSpace (FrameworksPath))
                 frameworks.WriteToDisk (srcPath);
+
+            if (statisticsEnabled)
+            {
+                try
+                {
+                    StatisticsSaver.Save(statisticsCollector, statisticsFilePath);
+                }
+                catch (Exception exception)
+                {
+                    Warning($"Unable to save statistics file: {exception.Message}");
+                }
+            }
 
             Console.WriteLine ("Members Added: {0}, Members Deleted: {1}", additions, deletions);
         }
@@ -554,6 +597,10 @@ namespace Mono.Documentation
                 {
                     foreach (AssemblyDefinition assembly in assemblySet.Assemblies)
                     {
+                        var typeSet = new HashSet<string> ();
+                        var namespacesSet = new HashSet<string> ();
+                        memberSet = new HashSet<string> ();
+
                         var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers);
 
                         foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, typenames))
@@ -571,13 +618,21 @@ namespace Mono.Documentation
 
                             index.Add (assembly);
                             index.Add (type);
+
+                            namespacesSet.Add (type.Namespace);
+                            typeSet.Add (type.FullName);
                         }
+
+                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Types, StatisticsMetrics.Total, typeSet.Count);
+                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Total, namespacesSet.Count);
+                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Members, StatisticsMetrics.Total, memberSet.Count);
                     }
                 }
             }
 
             if (index != null)
                 index.Write ();
+
 
             if (ignore_missing_types)
                 return;
@@ -664,8 +719,8 @@ namespace Mono.Documentation
 
             // Find the file, if it exists
             string[] searchLocations = new string[] {
-            nsname
-        };
+                nsname
+            };
 
             if (MDocUpdater.HasDroppedNamespace (type))
             {
@@ -914,8 +969,11 @@ namespace Mono.Documentation
 
         private void DoUpdateAssembly (AssemblySet assemblySet, AssemblyDefinition assembly, XmlElement index_types, string source, string dest, HashSet<string> goodfiles)
         {
-            var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers);
+            var namespacesSet = new HashSet<string> ();
+            var typeSet = new HashSet<string> ();
+            memberSet = new HashSet<string> ();
 
+            var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers);
             foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null))
             {
                 string typename = GetTypeFileName (type);
@@ -939,6 +997,7 @@ namespace Mono.Documentation
                 }
                 string onsdoc = DocUtils.PathCombine (dest, namespaceToUse + ".xml");
                 string nsdoc = DocUtils.PathCombine (dest, "ns-" + namespaceToUse + ".xml");
+                namespacesSet.Add (namespaceToUse);
                 if (File.Exists (onsdoc))
                 {
                     File.Move (onsdoc, nsdoc);
@@ -946,12 +1005,17 @@ namespace Mono.Documentation
 
                 if (!File.Exists (nsdoc))
                 {
+                    statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Added);
                     Console.WriteLine ("New Namespace File: " + type.Namespace);
                     WriteNamespaceStub (namespaceToUse, dest);
                 }
 
                 goodfiles.Add (reltypepath);
+                typeSet.Add (type.FullName);
             }
+            statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Types, StatisticsMetrics.Total, typeSet.Count);
+            statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Total, namespacesSet.Count);
+            statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Members, StatisticsMetrics.Total, memberSet.Count);
         }
 
         private static void SortIndexEntries (XmlElement indexTypes)
@@ -1068,6 +1132,7 @@ namespace Mono.Documentation
                         XmlDocument doc = new XmlDocument ();
                         doc.Load (typefile.FullName);
                         XmlElement e = doc.SelectSingleNode ("/Type") as XmlElement;
+                        var typeFullName = e.GetAttribute("FullName");
                         var assemblyNameNode = doc.SelectSingleNode ("/Type/AssemblyInfo/AssemblyName");
                         if (assemblyNameNode == null)
                         {
@@ -1102,6 +1167,23 @@ namespace Mono.Documentation
                             try { System.IO.File.Delete (newname); } catch (Exception) { Warning ("Unable to delete existing file: {0}", newname); }
                             try { typefile.MoveTo (newname); } catch (Exception) { Warning ("Unable to rename to: {0}", newname); }
                             Console.WriteLine ("Class no longer present; file renamed: " + Path.Combine (nsdir.Name, typefile.Name));
+
+                            // Here we don't know the framwork which contained the removed type. So, we determine it by the old frameworks XML-file
+                            // If there is only one framework, use it as a default value
+                            var defaultFramework = frameworks.Frameworks.SingleOrDefault();
+                            // If there is no frameworks (no frameworks mode) or there is more than one framework
+                            if (defaultFramework == null)
+                                // Use FrameworkEntry.Empty as the default value (as well as in FrameworkIndex/StartProcessingAssembly)
+                                defaultFramework = FrameworkEntry.Empty;
+                            var frameworkName = defaultFramework.Name;
+                            // Try to find the removed type in the old frameworks XML-file
+                            var frameworkXml = oldFrameworkXmls?.FirstOrDefault
+                                (i => i.XPathSelectElements($"Framework/Namespace/Type[@Name='{typeFullName}']").Any());
+                            var frameworkNameAttribute = frameworkXml?.Root?.Attribute ("Name");
+                            // If the removed type is found in the old frameworks XML-file, use this framework name
+                            if (frameworkNameAttribute != null)
+                                frameworkName = frameworkNameAttribute.Value;
+                            statisticsCollector.AddMetric (frameworkName, StatisticsItem.Types, StatisticsMetrics.Removed);
                         };
 
                         if (string.IsNullOrWhiteSpace (PreserveTag))
@@ -1242,7 +1324,6 @@ namespace Mono.Documentation
         public void DoUpdateType2 (string message, XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry, string output, bool insertSince)
         {
             Console.WriteLine (message + ": " + type.FullName);
-
             StringToXmlNodeMap seenmembers = new StringToXmlNodeMap ();
 
             // Update type metadata
@@ -1308,6 +1389,7 @@ namespace Mono.Documentation
                         continue;
 
                     DeleteMember ("Member Removed", output, oldmember, todelete, type);
+                    statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
                     continue;
                 }
 
@@ -1319,13 +1401,16 @@ namespace Mono.Documentation
                         // ignore, already seen
                     }
                     else
+                    {
                         DeleteMember ("Duplicate Member Found", output, oldmember, todelete, type);
-
+                        statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
+                    }
                     continue;
                 }
 
                 // Update signature information
                 UpdateMember (info, typeEntry);
+                memberSet.Add (info.Member.FullName);
 
                 // get all apistyles of sig from info.Node
                 var styles = oldmember.GetElementsByTagName ("MemberSignature").Cast<XmlElement> ()
@@ -1394,6 +1479,8 @@ namespace Mono.Documentation
                         mm.AddApiStyle (ApiStyle.Unified);
                     }
 
+                    statisticsCollector.AddMetric (typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Added);
+                    memberSet.Add (m.FullName);
                     Console.WriteLine ("Member Added: " + mm.SelectSingleNode ("MemberSignature/@Value").InnerText);
                     additions++;
                 }
@@ -1686,6 +1773,7 @@ namespace Mono.Documentation
             var frameworkEntry = frameworks.StartProcessingAssembly (type.Module.Assembly, importers);
             var typeEntry = frameworkEntry.ProcessType (type);
             DoUpdateType2 ("New Type", doc, type, typeEntry, output, true);
+            statisticsCollector.AddMetric (typeEntry.Framework.Name, StatisticsItem.Types, StatisticsMetrics.Added);
 
             return root;
         }

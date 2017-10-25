@@ -1,0 +1,14 @@
+Framework: Empty
+--------
+Types Added: 0
+Types Removed: 1
+Types Total: 3
+
+Namespaces Added: 0
+Namespaces Removed: 0
+Namespaces Total: 1
+
+Members Added: 1
+Members Removed: 6
+Members Total: 10
+
