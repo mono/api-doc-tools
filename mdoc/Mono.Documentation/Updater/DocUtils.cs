@@ -200,6 +200,13 @@ namespace Mono.Documentation.Updater
                     baseRef.FullName == "System.MulticastDelegate";
         }
 
+        public static bool NeedsOverwrite(XmlElement element)
+        {
+            return element != null &&
+                   !(element.HasAttribute("overwrite") &&
+                    element.Attributes["overwrite"].Value.Equals("false", StringComparison.InvariantCultureIgnoreCase));
+        }
+
         public static List<TypeReference> GetDeclaringTypes (TypeReference type)
         {
             List<TypeReference> decls = new List<TypeReference> ();

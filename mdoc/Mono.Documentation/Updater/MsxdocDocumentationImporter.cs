@@ -44,15 +44,19 @@ namespace Mono.Documentation.Updater
 
             XmlElement e = info.Node;
 
-            if (elem.SelectSingleNode ("summary") != null)
-                MDocUpdater.ClearElement (e, "summary");
-            if (elem.SelectSingleNode ("remarks") != null)
-                MDocUpdater.ClearElement (e, "remarks");
-            if (elem.SelectSingleNode ("value") != null || elem.SelectSingleNode ("returns") != null)
+            if (elem.SelectSingleNode("summary") != null && DocUtils.NeedsOverwrite(e["summary"]))
+                MDocUpdater.ClearElement(e, "summary");
+            if (elem.SelectSingleNode("remarks") != null && DocUtils.NeedsOverwrite(e["remarks"]))
+                MDocUpdater.ClearElement(e, "remarks");
+            if (elem.SelectSingleNode("value") != null || elem.SelectSingleNode("returns") != null)
             {
-                MDocUpdater.ClearElement (e, "value");
-                MDocUpdater.ClearElement (e, "returns");
+                if (DocUtils.NeedsOverwrite(e["value"]))
+                    MDocUpdater.ClearElement(e, "value");
+                if (DocUtils.NeedsOverwrite(e["returns"]))
+                    MDocUpdater.ClearElement(e, "returns");
             }
+            
+            
 
             foreach (XmlNode child in elem.ChildNodes)
             {
@@ -65,8 +69,12 @@ namespace Mono.Documentation.Updater
                             if (name == null)
                                 break;
                             XmlElement p2 = (XmlElement)e.SelectSingleNode (child.Name + "[@name='" + name.Value + "']");
-                            if (p2 != null)
+                            if (DocUtils.NeedsOverwrite(p2))
+                            {
+                                p2.RemoveAttribute("overwrite");
                                 p2.InnerXml = child.InnerXml;
+                                
+                            }
                             break;
                         }
                     // Occasionally XML documentation will use <returns/> on
@@ -75,8 +83,12 @@ namespace Mono.Documentation.Updater
                     case "returns":
                         {
                             XmlElement v = e.OwnerDocument.CreateElement (info.ReturnIsReturn ? "returns" : "value");
-                            v.InnerXml = child.InnerXml;
-                            e.AppendChild (v);
+                            XmlElement p2 = (XmlElement)e.SelectSingleNode(child.Name);
+                            if (p2 == null)
+                            {
+                                v.InnerXml = child.InnerXml;
+                                e.AppendChild(v);
+                            }
                             break;
                         }
                     case "altmember":
@@ -93,7 +105,8 @@ namespace Mono.Documentation.Updater
                                 a.SetAttribute ("cref", cref.Value);
                                 e.AppendChild (a);
                             }
-                            a.InnerXml = child.InnerXml;
+                            if(DocUtils.NeedsOverwrite(a))
+                                a.InnerXml = child.InnerXml;
                             break;
                         }
                     case "seealso":
@@ -114,10 +127,13 @@ namespace Mono.Documentation.Updater
                         {
                             bool add = true;
                             if (child.NodeType == XmlNodeType.Element &&
-                                    e.SelectNodes (child.Name).Cast<XmlElement> ().Any (n => n.OuterXml == child.OuterXml))
+                                e.SelectNodes (child.Name).Cast<XmlElement> ().Any (n => n.OuterXml == child.OuterXml))
                                 add = false;
                             if (add)
-                                MDocUpdater.CopyNode (child, e);
+                            {
+                                if (e.SelectSingleNode(child.Name) == null)
+                                    MDocUpdater.CopyNode(child, e);
+                            }
                             break;
                         }
                 }

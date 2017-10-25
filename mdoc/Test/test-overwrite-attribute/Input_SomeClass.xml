@@ -1,0 +1,86 @@
+<Type Name="SomeClass" FullName="SomeClass">
+  <TypeSignature Language="C#" Value="public class SomeClass" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit SomeClass extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>SomeClass</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary overwrite="false">Preserved summary</summary>
+    <remarks>Old remark</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SomeClass ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DoSomething">
+      <MemberSignature Language="C#" Value="public void DoSomething ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void DoSomething() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>Old Returns something</returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.Exception">Old exception</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeMethod">
+      <MemberSignature Language="C#" Value="public void SomeMethod (int a, int b);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SomeMethod(int32 a, int32 b) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="a" overwrite="false">Preserved First Parameter</param>
+        <param name="b" overwrite="AnyOtherValue">Old Second Parameter</param>
+        <summary>Old summary</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeProperty">
+      <MemberSignature Language="C#" Value="public string SomeProperty { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string SomeProperty" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value overwrite="false">Preserved Value for Property</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
