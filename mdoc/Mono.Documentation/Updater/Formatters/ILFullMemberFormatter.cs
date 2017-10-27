@@ -556,7 +556,7 @@ namespace Mono.Documentation.Updater
         protected override string GetEventDeclaration (EventDefinition e)
         {
             StringBuilder buf = new StringBuilder ();
-            if (AppendVisibility (buf, e.AddMethod).Length == 0)
+            if (AppendVisibility (buf, e.AddMethod).Length == 0 && !IsPublicEII (e))
             {
                 return null;
             }
