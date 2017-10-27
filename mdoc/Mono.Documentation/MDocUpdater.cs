@@ -1104,19 +1104,10 @@ namespace Mono.Documentation
             throw new ArgumentException ("Unknown kind for type: " + type.FullName);
         }
 
+        [Obsolete("Use DocUtils.IsPublic instead")]
         public static bool IsPublic (TypeDefinition type)
         {
-            TypeDefinition decl = type;
-            while (decl != null)
-            {
-                if (!(decl.IsPublic || decl.IsNestedPublic ||
-                            decl.IsNestedFamily || decl.IsNestedFamily || decl.IsNestedFamilyOrAssembly))
-                {
-                    return false;
-                }
-                decl = (TypeDefinition)decl.DeclaringType;
-            }
-            return true;
+            return DocUtils.IsPublic (type);
         }
 
         private void CleanupFiles (string dest, HashSet<string> goodfiles)
@@ -1451,6 +1442,11 @@ namespace Mono.Documentation
                                 var prop = m as PropertyDefinition;
                                 methdef = prop.GetMethod ?? prop.SetMethod;
                             }
+                            else if (m is EventDefinition)
+                            {
+                                var ev = m as EventDefinition;
+                                methdef = ev.AddMethod ?? ev.RemoveMethod;
+                            }
 
                             if (methdef != null)
                             {
@@ -1460,7 +1456,7 @@ namespace Mono.Documentation
                                 if (methdef.Overrides.Count == 1 && !methdef.IsPublic)
                                 {
                                     DocUtils.GetInfoForExplicitlyImplementedMethod (methdef, out iface, out imethod);
-                                    if (!IsPublic (iface.Resolve ())) return false;
+                                    if (!DocUtils.IsPublic (iface.Resolve ())) return false;
                                 }
                             }
 

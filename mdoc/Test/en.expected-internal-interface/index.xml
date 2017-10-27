@@ -17,6 +17,7 @@
     <Namespace Name="MyNamespace">
       <Type Name="ArrayX10" Kind="Class" />
       <Type Name="MyClass" Kind="Class" />
+      <Type Name="MyPublicInterface" Kind="Interface" />
     </Namespace>
   </Types>
   <Title>DocTest-InternalInterface</Title>

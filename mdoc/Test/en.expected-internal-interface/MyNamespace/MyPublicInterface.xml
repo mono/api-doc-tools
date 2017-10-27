@@ -1,0 +1,30 @@
+<Type Name="MyPublicInterface" FullName="MyNamespace.MyPublicInterface">
+  <TypeSignature Language="C#" Value="public interface MyPublicInterface" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract MyPublicInterface" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest-InternalInterface</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="PublicEvent">
+      <MemberSignature Language="C#" Value="public event EventHandler&lt;string&gt; PublicEvent;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;string&gt; PublicEvent" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.String&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

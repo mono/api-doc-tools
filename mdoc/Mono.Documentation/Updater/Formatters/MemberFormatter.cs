@@ -417,5 +417,21 @@ namespace Mono.Documentation.Updater
         {
             return GetEventName (e);
         }
+
+        protected static bool IsPublicEII (EventDefinition e)
+        {
+            bool isPublicEII = false;
+            if (e.AddMethod.HasOverrides)
+            {
+                var resolvedAddMethod = e.AddMethod.Overrides[0].Resolve ();
+                var resolvedInterface = e.AddMethod.Overrides[0].DeclaringType.Resolve ();
+                if (DocUtils.IsPublic (resolvedInterface) && resolvedAddMethod != null && resolvedAddMethod.IsPublic)
+                {
+                    isPublicEII = true;
+                }
+            }
+
+            return isPublicEII;
+        }
     }
 }

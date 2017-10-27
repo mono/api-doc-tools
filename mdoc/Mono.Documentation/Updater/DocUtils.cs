@@ -132,6 +132,21 @@ namespace Mono.Documentation.Updater
             ifaceMethod = method.Overrides[0];
         }
 
+        public static bool IsPublic (TypeDefinition type)
+        {
+            TypeDefinition decl = type;
+            while (decl != null)
+            {
+                if (!(decl.IsPublic || decl.IsNestedPublic ||
+                            decl.IsNestedFamily || decl.IsNestedFamily || decl.IsNestedFamilyOrAssembly))
+                {
+                    return false;
+                }
+                decl = (TypeDefinition)decl.DeclaringType;
+            }
+            return true;
+        }
+
         public static string GetPropertyName (PropertyDefinition pi)
         {
             // Issue: (g)mcs-generated assemblies that explicitly implement

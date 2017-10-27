@@ -642,14 +642,15 @@ namespace Mono.Documentation.Updater
         protected override string GetEventDeclaration (EventDefinition e)
         {
             StringBuilder buf = new StringBuilder ();
-            if (AppendVisibility (buf, e.AddMethod).Length == 0)
+
+            if (AppendVisibility (buf, e.AddMethod).Length == 0 && !IsPublicEII (e))
             {
                 return null;
             }
 
             AppendModifiers (buf, e.AddMethod);
 
-            buf.Append (" event ");
+            buf.Append (buf.Length == 0 ? "event " : " event ");
             buf.Append (GetTypeName (e.EventType, new DynamicParserContext (e.AddMethod.Parameters[0]))).Append (' ');
             buf.Append (e.Name).Append (';');
 

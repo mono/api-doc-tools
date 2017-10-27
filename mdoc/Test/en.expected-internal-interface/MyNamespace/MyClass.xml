@@ -1,6 +1,6 @@
 <Type Name="MyClass" FullName="MyNamespace.MyClass">
-  <TypeSignature Language="C#" Value="public class MyClass" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MyClass extends System.Object" />
+  <TypeSignature Language="C#" Value="public class MyClass : MyNamespace.MyPublicInterface" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MyClass extends System.Object implements class MyNamespace.MyPublicInterface" />
   <AssemblyInfo>
     <AssemblyName>DocTest-InternalInterface</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -8,7 +8,11 @@
   <Base>
     <BaseTypeName>System.Object</BaseTypeName>
   </Base>
-  <Interfaces />
+  <Interfaces>
+    <Interface>
+      <InterfaceName>MyNamespace.MyPublicInterface</InterfaceName>
+    </Interface>
+  </Interfaces>
   <Docs>
     <summary>To be added.</summary>
     <remarks>To be added.</remarks>
@@ -59,6 +63,36 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InstanceEvent">
+      <MemberSignature Language="C#" Value="public event EventHandler&lt;int&gt; InstanceEvent;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;int32&gt; InstanceEvent" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MyNamespace.MyPublicInterface.PublicEvent">
+      <MemberSignature Language="C#" Value="event EventHandler&lt;string&gt; MyNamespace.MyPublicInterface.PublicEvent;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;string&gt; MyNamespace.MyPublicInterface.PublicEvent" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.String&gt;</ReturnType>
+      </ReturnValue>
       <Docs>
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
