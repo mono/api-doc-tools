@@ -48,7 +48,8 @@ add masterdoc support?
   <xs:attribute name="type" type="xs:string" />
   <xs:attribute name="Type" type="xs:string" />
   <xs:attribute name="TypeParamName" type="xs:string" />
-  <xs:attribute name="overwrite" type ="xs:boolean" />
+  <xs:attribute name="overwrite" type="xs:boolean" />
+  <xs:attribute name="supported" type="xs:boolean"/>
 
   <!-- define simple elements -->
   <xs:element name="AssemblyName" type="xs:string" />
@@ -294,6 +295,16 @@ add masterdoc support?
 	  <xs:enumeration value="recipe" />
     </xs:restriction>
   </xs:simpleType>
+  
+  <xs:attribute name="memberScope">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="all"/>
+        <xs:enumeration value="static"/>
+        <xs:enumeration value="instance"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
 
   <xs:element name="related">
     <xs:complexType mixed="true">
@@ -824,15 +835,17 @@ add masterdoc support?
           <xs:element ref="whitespace" />
         </xs:choice>
     </xs:complexType>
-  </xs:element>
+  </xs:element> 
 
   <xs:element name="theta" />
 
   <xs:element name="threadsafe">
     <xs:complexType>
      <xs:sequence>
-       <xs:element ref="para" minOccurs="1" maxOccurs="unbounded" />
+       <xs:element ref="para" minOccurs="0" maxOccurs="unbounded" />
      </xs:sequence>
+    <xs:attribute ref="supported" />
+    <xs:attribute ref="memberScope" />
     </xs:complexType>
   </xs:element>
 
