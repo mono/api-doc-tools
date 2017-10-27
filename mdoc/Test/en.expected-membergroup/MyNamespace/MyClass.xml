@@ -16,6 +16,7 @@
   <Docs>
     <summary>To be added.</summary>
     <remarks>To be added.</remarks>
+    <threadsafe supported="true" memberScope="all" />
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -29,6 +30,7 @@
       <Docs>
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
+        <threadsafe supported="true" memberScope="static" />
       </Docs>
     </Member>
     <MemberGroup MemberName="SomeMethod">
@@ -36,6 +38,7 @@
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
+        <threadsafe supported="true" memberScope="instance" />
         <remarks>To be added.</remarks>
         <summary>To be added.</summary>
       </Docs>
