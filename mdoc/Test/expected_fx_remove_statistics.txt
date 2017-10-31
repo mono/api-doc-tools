@@ -1,7 +1,7 @@
-Framework: One
+Framework: one
 --------
 Types Added: 0
-Types Removed: 1
+Types Removed: 2
 Types Total: 2
 
 Namespaces Added: 0

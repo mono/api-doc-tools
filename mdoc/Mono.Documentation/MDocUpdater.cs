@@ -238,7 +238,7 @@ namespace Mono.Documentation
                     configPath = Path.Combine (configPath, "frameworks.xml");
                 else
                     frameworksDir = Path.GetDirectoryName (configPath);
-
+                Console.WriteLine($"Opening frameworks file '{configPath}'");
                 var fxconfig = XDocument.Load (configPath);
                 var fxd = fxconfig.Root
                                   .Elements ("Framework")
@@ -281,6 +281,7 @@ namespace Mono.Documentation
                 ));
                 this.assemblies.AddRange (sets);
                 assemblyPaths.AddRange (sets.SelectMany (s => s.AssemblyPaths));
+                Console.WriteLine($"Frameworks Configuration contains {assemblyPaths.Count} assemblies");
 
                 // Create a cache of all frameworks, so we can look up 
                 // members that may exist only other frameworks before deleting them

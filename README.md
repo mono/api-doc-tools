@@ -33,16 +33,18 @@ If you want to compile in debug mode: `make all CONFIGURATION=Debug`
 
 ### WSL
 
-On the windows subsystem for linux, there is unfortunately a defect that causes difficulty making https calls, which in turn doesn't allow the `prepare` make target to complete (nuget fails). You will see an error that says:
+Make sure you are at least on 16.04 (Xenial). You can check which version is currently installed by running the command `lsb_release -a`.
 
-```
-Unable to load the service index for source https://api.nuget.org/v3/index.json.
-  An error occurred while sending the request
-  Error: ConnectFailure (Value does not fall within the expected range.)
-  Value does not fall within the expected range.
-```
+If you are running an older version (for example, if you originally installed WSL before the creator's update) and need to upgrade, you can run the following commands:
 
-[this mono issue](https://github.com/mono/mono/pull/5003) Seems to indicate that the issue is resolved in newer insider builds of WSL.
+- `sudo do-release-upgrade` ... this updates the version of Ubuntu. _Please note_, this will likely disable any external package sources, such as the one added when installing Mono.
+- Once you're done with that, then you just need to update `apt-get`
+    - Add back Mono's package repository source, as described in [the download instructions](www.mono-project.com/download/#download-lin-ubuntu).
+    - `sudo apt-get update`
+    - `sudo apt-get upgrade`
+    - `sudo apt-get dist-upgrade`
+
+With that run ... you should be able to run the build locally.
 
 ### Linux
 

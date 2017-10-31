@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Frameworks>
-  <Framework Name="One" Source="One">
-    <assemblySearchPath>One</assemblySearchPath>
+  <Framework Name="One" Source="one">
+    <assemblySearchPath>one</assemblySearchPath>
   </Framework>
 </Frameworks>
