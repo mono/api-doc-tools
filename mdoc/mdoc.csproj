@@ -55,6 +55,8 @@
     <Compile Include="Mono.Documentation\Updater\Formatters\StandardFlagsEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\DefaultAttributeValueFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeValueFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\VBFullMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\VBMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\ResolvedTypeInfo.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FileNameMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\SlashDocMemberFormatter.cs" />

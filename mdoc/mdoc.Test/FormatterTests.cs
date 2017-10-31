@@ -25,7 +25,9 @@ namespace mdoc.Test
                 new CSharpFullMemberFormatter (),
                 new CSharpMemberFormatter(),
                 new ILMemberFormatter(),
-                new ILFullMemberFormatter()
+                new ILFullMemberFormatter(),
+                new VBFullMemberFormatter (),
+                new VBMemberFormatter(),
             };
             var sigs = formatters.Select (f => f.GetDeclaration (method));
 

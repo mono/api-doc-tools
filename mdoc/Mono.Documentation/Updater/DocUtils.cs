@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml;
 
 using Mono.Cecil;
@@ -254,7 +256,7 @@ namespace Mono.Documentation.Updater
                 if (!inheritedInterfaces.Contains (GetQualifiedTypeName (lookup)))
                     userInterfaces.Add (iface);
             }
-            return userInterfaces.Where (i => MDocUpdater.IsPublic (i.Resolve ()));
+            return userInterfaces.Where (i => IsPublic (i.Resolve ()));
         }
 
         private static string GetQualifiedTypeName (TypeReference type)
@@ -290,6 +292,37 @@ namespace Mono.Documentation.Updater
             foreach (var r in type.Interfaces)
                 a (r.InterfaceType.Resolve ());
             return inheritedInterfaces;
+        }
+        
+        public static void AppendFieldValue(StringBuilder buf, FieldDefinition field)
+        {
+            // enums have a value__ field, which we ignore
+            if (((TypeDefinition)field.DeclaringType).IsEnum ||
+                    field.DeclaringType.IsGenericType())
+                return;
+            if (field.HasConstant && field.IsLiteral)
+            {
+                object val = null;
+                try
+                {
+                    val = field.Constant;
+                }
+                catch
+                {
+                    return;
+                }
+                if (val == null)
+                    buf.Append(" = ").Append("null");
+                else if (val is Enum)
+                    buf.Append(" = ").Append(val.ToString());
+                else if (val is IFormattable)
+                {
+                    string value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                    if (val is string)
+                        value = "\"" + value + "\"";
+                    buf.Append(" = ").Append(value);
+                }
+            }
         }
     }
 }

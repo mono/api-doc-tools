@@ -6,10 +6,7 @@ namespace Mono.Documentation.Updater
 {
     class DocIdFormatter : MemberFormatter
     {
-        public override string Language
-        {
-            get { return "DocId"; }
-        }
+        public override string Language => Consts.DocId;
 
         public override string GetDeclaration (TypeReference tref)
         {

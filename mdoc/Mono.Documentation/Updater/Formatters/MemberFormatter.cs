@@ -190,9 +190,9 @@ namespace Mono.Documentation.Updater
                     .Append (PointerModifier);
         }
 
-        protected virtual char[] GenericTypeContainer
+        protected virtual string[] GenericTypeContainer
         {
-            get { return new char[] { '<', '>' }; }
+            get { return new string[] { "<", ">" }; }
         }
 
         protected virtual char NestedTypeSeparator
@@ -242,9 +242,9 @@ namespace Mono.Documentation.Updater
             var args = new List<TypeReference> ();
             GenericInstanceType inst = type as GenericInstanceType;
             if (inst != null)
-                args.AddRange (inst.GenericArguments.Cast<TypeReference> ());
+                args.AddRange (inst.GenericArguments);
             else
-                args.AddRange (type.GenericParameters.Cast<TypeReference> ());
+                args.AddRange (type.GenericParameters);
             return args;
         }
 
@@ -280,6 +280,8 @@ namespace Mono.Documentation.Updater
 
         public virtual string GetDeclaration (TypeReference tref)
         {
+            if (!IsSupported(tref))
+                return null;
             var typeSpec = tref as TypeSpecification;
             if (typeSpec != null && typeSpec.Resolve () == null && typeSpec.IsArray && typeSpec.ContainsGenericParameter)
             {
@@ -295,6 +297,8 @@ namespace Mono.Documentation.Updater
 
         public virtual string GetDeclaration (MemberReference mreference)
         {
+            if (!IsSupported(mreference))
+                return null;
             return GetDeclaration (mreference.Resolve ());
         }
 
@@ -418,6 +422,10 @@ namespace Mono.Documentation.Updater
             return GetEventName (e);
         }
 
+        public virtual bool IsSupported(TypeReference tref) => true;
+
+        public virtual bool IsSupported(MemberReference mref) => true;
+        
         protected static bool IsPublicEII (EventDefinition e)
         {
             bool isPublicEII = false;

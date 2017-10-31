@@ -161,6 +161,17 @@ check-monodocer-docid: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -use-docid -o Test/en.actual -frameworks Test/FrameworkTestData
 	$(DIFF) Test/en.expected-docid Test/en.actual
+	
+check-monodocer-vbnet: Test/FrameworkTestData
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -lang vb.net -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-vbnet Test/en.actual
+	
+check-monodocer-vbnet2: 
+	-rm -Rf Test/en.actual
+	$(MAKE) Test/DocTest.dll-v1
+	$(MONO) $(PROGRAM) update -lang vb.net -o Test/en.actual Test/DocTest.dll
+	$(DIFF) Test/en.expected-vbnet2 Test/en.actual
 
 check-monodocer-addNonGeneric: 
 	-rm -Rf Test/en.actual
@@ -266,7 +277,7 @@ check-monodocer-internal-interface:
 	# Tests to make sure internal interfaces that are explicitly implemented are not documented
 	-rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest-InternalInterface.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-InternalInterface.dll
+	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-InternalInterface.dll -lang VB.NET
 	$(DIFF) Test/en.expected-internal-interface Test/en.actual
 
 check-monodocer-enumerations: 
@@ -530,7 +541,9 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-docid \
 	check-monodocer-operators \
 	check-monodocer-fx-statistics-remove \
-	check-overwrite-attribute
+	check-overwrite-attribute \
+	check-monodocer-vbnet \
+	check-monodocer-vbnet2 
 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \

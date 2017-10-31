@@ -11,9 +11,9 @@ namespace Mono.Documentation.Updater
     class SlashDocMemberFormatter : MemberFormatter
     {
 
-        protected override char[] GenericTypeContainer
+        protected override string[] GenericTypeContainer
         {
-            get { return new char[] { '{', '}' }; }
+            get { return new string[] { "{", "}" }; }
         }
 
         private bool AddTypeCount = true;

@@ -55,7 +55,7 @@ namespace Mono.Documentation
 
         static MemberFormatter[] memberFormatters = new MemberFormatter[]{
         new CSharpFullMemberFormatter (),
-        new ILFullMemberFormatter (),
+        new ILFullMemberFormatter ()
     };
 
         internal static readonly MemberFormatter slashdocFormatter = new SlashDocMemberFormatter ();
@@ -210,8 +210,13 @@ namespace Mono.Documentation
                 "Add 'DocId' to the list of type and member signatures",
                 v =>
                 {
-                    typeFormatters = typeFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
-                    memberFormatters = memberFormatters.Union (new MemberFormatter[] { new DocIdFormatter () }).ToArray ();
+                    AddFormatter(Consts.DocId);
+                } },
+            { "lang=",
+                "Add languages to the list of type and member signatures (DocId, VB.NET). Values can be coma separated",
+                v =>
+                {
+                    AddFormatter(v);
                 } },
             { "disable-searchdir-recurse",
                 "Default behavior for adding search directories ('-L') is to recurse them and search in all subdirectories. This disables that",
@@ -372,6 +377,28 @@ namespace Mono.Documentation
             }
 
             Console.WriteLine ("Members Added: {0}, Members Deleted: {1}", additions, deletions);
+        }
+
+        private static void AddFormatter(string langId)
+        {
+            MemberFormatter memberFormatter;
+            MemberFormatter typeFormatter;
+            langId = langId.ToLower();
+            switch (langId)
+            {
+                case Consts.DocIdLowCase:
+                    typeFormatter = new DocIdFormatter();
+                    memberFormatter = new DocIdFormatter();
+                    break;
+                case Consts.VbNetLowCase:
+                    typeFormatter = new VBMemberFormatter();
+                    memberFormatter = new VBMemberFormatter();
+                    break;
+                default:
+                    throw new ArgumentException("Unsupported formatter id '" + langId + "'.");
+            }
+            typeFormatters = typeFormatters.Union(new[] { typeFormatter }).ToArray();
+            memberFormatters = memberFormatters.Union(new[] { memberFormatter }).ToArray();
         }
 
         public static bool IsInAssemblies (string name)
@@ -1793,7 +1820,8 @@ namespace Mono.Documentation
             {
                 string element = "TypeSignature[@Language='" + f.Language + "']";
                 string valueToUse = f.GetDeclaration (type);
-
+                if (valueToUse == null)
+                    continue;
                 AddXmlNode (
                     root.SelectNodes (element).Cast<XmlElement> ().ToArray (),
                     x => x.GetAttribute ("Value") == valueToUse,
@@ -2031,7 +2059,8 @@ namespace Mono.Documentation
                 string element = "MemberSignature[@Language='" + f.Language + "']";
 
                 var valueToUse = f.GetDeclaration (mi);
-
+                if (valueToUse == null)
+                    continue;
                 AddXmlNode (
                     me.SelectNodes (element).Cast<XmlElement> ().ToArray (),
                     x => x.GetAttribute ("Value") == valueToUse,
