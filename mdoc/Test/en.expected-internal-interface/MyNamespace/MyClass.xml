@@ -1,6 +1,7 @@
 <Type Name="MyClass" FullName="MyNamespace.MyClass">
   <TypeSignature Language="C#" Value="public class MyClass : MyNamespace.MyPublicInterface" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MyClass extends System.Object implements class MyNamespace.MyPublicInterface" />
+  <TypeSignature Language="VB.NET" Value="Public Class MyClass&#xA;Implements MyPublicInterface" />
   <AssemblyInfo>
     <AssemblyName>DocTest-InternalInterface</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -21,6 +22,7 @@
     <Member MemberName=".ctor">
       <MemberSignature Language="C#" Value="public MyClass ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -34,6 +36,7 @@
     <Member MemberName="Bar">
       <MemberSignature Language="C#" Value="public string Bar { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance string Bar" />
+      <MemberSignature Language="VB.NET" Value="Public Property Bar As String" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -55,6 +58,7 @@
     <Member MemberName="BarMeth">
       <MemberSignature Language="C#" Value="public void BarMeth ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void BarMeth() cil managed" />
+      <MemberSignature Language="VB.NET" Value="Public Sub BarMeth ()" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -71,6 +75,7 @@
     <Member MemberName="InstanceEvent">
       <MemberSignature Language="C#" Value="public event EventHandler&lt;int&gt; InstanceEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;int32&gt; InstanceEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Custom Event InstanceEvent As EventHandler(Of Integer) " />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -86,6 +91,7 @@
     <Member MemberName="MyNamespace.MyPublicInterface.PublicEvent">
       <MemberSignature Language="C#" Value="event EventHandler&lt;string&gt; MyNamespace.MyPublicInterface.PublicEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;string&gt; MyNamespace.MyPublicInterface.PublicEvent" />
+      <MemberSignature Language="VB.NET" Value="Custom Event PublicEvent As EventHandler(Of String) Implements MyNamespace.MyPublicInterface" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

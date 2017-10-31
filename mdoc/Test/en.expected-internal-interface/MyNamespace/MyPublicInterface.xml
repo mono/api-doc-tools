@@ -1,6 +1,7 @@
 <Type Name="MyPublicInterface" FullName="MyNamespace.MyPublicInterface">
   <TypeSignature Language="C#" Value="public interface MyPublicInterface" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract MyPublicInterface" />
+  <TypeSignature Language="VB.NET" Value="Public Interface MyPublicInterface" />
   <AssemblyInfo>
     <AssemblyName>DocTest-InternalInterface</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -14,6 +15,7 @@
     <Member MemberName="PublicEvent">
       <MemberSignature Language="C#" Value="public event EventHandler&lt;string&gt; PublicEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;string&gt; PublicEvent" />
+      <MemberSignature Language="VB.NET" Value="Event PublicEvent As EventHandler(Of String) " />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

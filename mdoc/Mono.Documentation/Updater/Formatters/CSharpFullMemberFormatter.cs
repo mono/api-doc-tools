@@ -592,51 +592,23 @@ namespace Mono.Documentation.Updater
 
             buf.Append (' ').Append (GetTypeName (field.FieldType, new DynamicParserContext (field))).Append (' ');
             buf.Append (field.Name);
-            AppendFieldValue (buf, field);
+            DocUtils.AppendFieldValue (buf, field);
             buf.Append (';');
 
             return buf.ToString ();
         }
 
-        static StringBuilder AppendFieldVisibility (StringBuilder buf, FieldDefinition field)
+        static void AppendFieldVisibility (StringBuilder buf, FieldDefinition field)
         {
             if (field.IsPublic)
-                return buf.Append ("public");
-            if (field.IsFamily || field.IsFamilyOrAssembly)
-                return buf.Append ("protected");
-            return buf;
-        }
-
-        static StringBuilder AppendFieldValue (StringBuilder buf, FieldDefinition field)
-        {
-            // enums have a value__ field, which we ignore
-            if (((TypeDefinition)field.DeclaringType).IsEnum ||
-                    field.DeclaringType.IsGenericType ())
-                return buf;
-            if (field.HasConstant && field.IsLiteral)
             {
-                object val = null;
-                try
-                {
-                    val = field.Constant;
-                }
-                catch
-                {
-                    return buf;
-                }
-                if (val == null)
-                    buf.Append (" = ").Append ("null");
-                else if (val is Enum)
-                    buf.Append (" = ").Append (val.ToString ());
-                else if (val is IFormattable)
-                {
-                    string value = ((IFormattable)val).ToString (null, CultureInfo.InvariantCulture);
-                    if (val is string)
-                        value = "\"" + value + "\"";
-                    buf.Append (" = ").Append (value);
-                }
+                buf.Append("public");
+                return;
             }
-            return buf;
+            if (field.IsFamily || field.IsFamilyOrAssembly)
+            {
+                buf.Append("protected");
+            }
         }
 
         protected override string GetEventDeclaration (EventDefinition e)

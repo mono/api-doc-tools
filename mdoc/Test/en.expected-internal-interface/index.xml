@@ -29,6 +29,7 @@
       <Member MemberName="IsAligned&lt;T&gt;">
         <MemberSignature Language="C#" Value="public static bool IsAligned&lt;T&gt; (this T[] vect, int index) where T : struct;" />
         <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool IsAligned&lt;struct .ctor (class System.ValueType) T&gt;(!!T[] vect, int32 index) cil managed" />
+        <MemberSignature Language="VB.NET" Value="&lt;Extension()&gt;&#xA;Public Function IsAligned(Of T As Structure) (vect As T(), index As Integer) As Boolean" />
         <MemberType>ExtensionMethod</MemberType>
         <ReturnValue>
           <ReturnType>System.Boolean</ReturnType>
