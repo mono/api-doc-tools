@@ -389,9 +389,11 @@ check-monodocer-fx-statistics-remove:
 	mkdir Test/fx-import
 	mkdir Test/fx-import/one
 	cp Test/fx-statistics-remove-configuration.xml Test/fx-import/frameworks.xml
+	rm -Rf Test/DocTest-DropNS-unified-deletetest.dll
 	$(MAKE) Test/DocTest-DropNS-unified-deletetest.dll
 	cp Test/DocTest-DropNS-unified-deletetest.dll Test/fx-import/one/DocTest.dll
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import
+	rm -Rf Test/DocTest-DropNS-unified.dll
 	$(MAKE) Test/DocTest-DropNS-unified.dll
 	rm -rf Test/fx-import/one/DocTest.dll
 	cp Test/DocTest-DropNS-unified.dll Test/fx-import/one/DocTest.dll
