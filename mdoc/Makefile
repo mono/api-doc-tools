@@ -381,7 +381,7 @@ check-monodocer-import-fx-work: Test/DocTest.dll-v1 Test/DocTest-DropNS-classic-
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import -statistics Test/actual_statistics.txt
 	$(DIFF) Test/expected_statistics.txt Test/actual_statistics.txt
 	
-	
+.PHONY: check-monodocer-fx-statistics-remove	
 check-monodocer-fx-statistics-remove:
 	rm -Rf Test/en.actual
 	rm -Rf Test/fx-import
@@ -494,7 +494,7 @@ check-mdoc-validate:
 check-overwrite-attribute: 
 	rm -Rf Test/en.actual
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -target:library Test/test-overwrite-attribute/SomeClass.cs -doc:Test/test-overwrite-attribute/SomeClass.xml
-	$(MONO) $(PROGRAM) update Test/test-overwrite-attribute/Someclass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
+	$(MONO) $(PROGRAM) update Test/test-overwrite-attribute/SomeClass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
 	cp Test/test-overwrite-attribute/Input_SomeClass.xml Test/en.actual/SomeClass.xml
 	$(MONO) $(PROGRAM) update Test/test-overwrite-attribute/SomeClass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
 	$(DIFF) Test/test-overwrite-attribute/Expected_SomeClass.xml Test/en.actual/SomeClass.xml
