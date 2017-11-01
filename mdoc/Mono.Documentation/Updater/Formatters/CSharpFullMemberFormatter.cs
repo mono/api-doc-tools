@@ -619,6 +619,8 @@ namespace Mono.Documentation.Updater
             {
                 return null;
             }
+            if (e.DeclaringType.IsInterface)
+                buf.Clear ();
 
             AppendModifiers (buf, e.AddMethod);
 

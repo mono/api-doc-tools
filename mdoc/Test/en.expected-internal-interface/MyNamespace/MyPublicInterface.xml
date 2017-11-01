@@ -13,7 +13,7 @@
   </Docs>
   <Members>
     <Member MemberName="PublicEvent">
-      <MemberSignature Language="C#" Value="public event EventHandler&lt;string&gt; PublicEvent;" />
+      <MemberSignature Language="C#" Value="event EventHandler&lt;string&gt; PublicEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;string&gt; PublicEvent" />
       <MemberSignature Language="VB.NET" Value="Event PublicEvent As EventHandler(Of String) " />
       <MemberType>Event</MemberType>
