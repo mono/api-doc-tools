@@ -28,6 +28,7 @@
       <ReturnValue>
         <ReturnType>Mono.DocTest.Widget+Direction</ReturnType>
       </ReturnValue>
+      <MemberValue>2</MemberValue>
       <Docs>
         <summary>To be added.</summary>
       </Docs>
@@ -42,6 +43,7 @@
       <ReturnValue>
         <ReturnType>Mono.DocTest.Widget+Direction</ReturnType>
       </ReturnValue>
+      <MemberValue>0</MemberValue>
       <Docs>
         <summary>To be added.</summary>
       </Docs>
@@ -56,6 +58,7 @@
       <ReturnValue>
         <ReturnType>Mono.DocTest.Widget+Direction</ReturnType>
       </ReturnValue>
+      <MemberValue>1</MemberValue>
       <Docs>
         <summary>To be added.</summary>
       </Docs>
@@ -70,6 +73,7 @@
       <ReturnValue>
         <ReturnType>Mono.DocTest.Widget+Direction</ReturnType>
       </ReturnValue>
+      <MemberValue>3</MemberValue>
       <Docs>
         <summary>To be added.</summary>
       </Docs>
