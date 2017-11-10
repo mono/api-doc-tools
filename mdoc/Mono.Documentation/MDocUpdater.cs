@@ -979,8 +979,14 @@ namespace Mono.Documentation
             }
 
             string defaultTitle = "Untitled";
-            if (processedAssemblyCount == 1)
-                defaultTitle = assemblies[0].Assemblies.First ().Name.Name;
+            if (processedAssemblyCount == 1 && assemblies[0] != null)
+            {
+                var assembly = assemblies[0].Assemblies.FirstOrDefault();
+                if (assembly != null) 
+                    defaultTitle = assembly.Name.Name;
+                else
+                    Warning($"Seems to be an issue with assembly group '{assemblies[0].Name}'. There are no assemblies loaded.");
+            }
             WriteElementInitialText (index.DocumentElement, "Title", defaultTitle);
 
             SortIndexEntries (index_types);
