@@ -36,25 +36,55 @@ namespace Mono.Documentation.Updater.Frameworks
                 return base.Resolve (name, parameters);
         }
 
-        protected override AssemblyDefinition SearchDirectory (AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters)
+        IEnumerable<AssemblyDefinition> GetInstalledAssemblies (AssemblyNameReference name, ReaderParameters parameters)
+        {
+            AssemblyDefinition assembly;
+            if (name.IsRetargetable)
+            {
+                // if the reference is retargetable, zero it
+                name = new AssemblyNameReference(name.Name, MDocResolverMixin.ZeroVersion)
+                {
+                    PublicKeyToken = Empty<byte>.Array,
+                };
+            }
+
+            string[] framework_dirs = GetFrameworkPaths();
+
+            if (IsZero(name.Version))
+            {
+                assembly = base.SearchDirectory(name, framework_dirs, parameters);
+                if (assembly != null)
+                    yield return assembly;
+            }
+
+            if (name.Name == "mscorlib")
+            {
+                assembly = base.GetCorlib(name, parameters);
+                if (assembly != null)
+                    yield return assembly;
+            }
+
+            assembly = base.GetAssemblyInGac(name, parameters);
+            if (assembly != null)
+                yield return assembly;
+
+            assembly = base.SearchDirectory(name, framework_dirs, parameters);
+            if (assembly != null)
+                yield return assembly;
+        }
+
+        protected override AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters)
         {
             // look for an assembly that matches the name in all the search directories
             string[] extensions = new[] { ".dll", ".exe", ".winmd" };
-
-            // Add the additional lookup directories
-            if (fxpaths == null) fxpaths = GetFrameworkPaths ().ToArray ();
-            if (gacpaths == null) gacpaths = GetGacPaths ().ToArray ();
-            directories = directories
-                .Concat (fxpaths)
-                .Concat (gacpaths);
             
             var npaths = directories
-                .SelectMany (d => extensions.Select (e => Path.Combine (d, name.Name + e)))
-                .Distinct ();
+                .SelectMany(d => extensions.Select(e => Path.Combine(d, name.Name + e)))
+                .Distinct();
             var namedPaths = npaths
-                .Where (f => File.Exists (f));
+                .Where(f => File.Exists(f));
 
-            if (!namedPaths.Any ()) return null;
+            if (!namedPaths.Any()) return null;
 
             Func<Version, int> aggregateVersion = version => version.Major * 100000 +
                         version.Minor * 10000 +
@@ -62,10 +92,12 @@ namespace Mono.Documentation.Updater.Frameworks
                         version.Revision;
 
             Func<string, AssemblyDefinition> getAssemblies = (path) => {
-                return GetAssembly (path, parameters);
+                return GetAssembly(path, parameters);
             };
-
-            var applicableVersions = namedPaths.Select (getAssemblies)
+            
+            var applicableVersions = namedPaths
+                .Select (getAssemblies)
+                .Concat (GetInstalledAssemblies(name, parameters))
                 .Select (a => new
                 {
                     Assembly = a,
@@ -74,6 +106,15 @@ namespace Mono.Documentation.Updater.Frameworks
                     MajorMatches = a.Name.Version.Major == name.Version.Major
                 })
                 .ToArray ();
+
+            // If the assembly has all zeroes, just grab the latest assembly
+            if (IsZero(name.Version)) {
+                var highestMatch = applicableVersions
+                    .OrderByDescending (v => v.VersionSort)
+                    .FirstOrDefault ();
+                if (highestMatch != null)
+                    return highestMatch.Assembly;
+            }
 
             // Perfect Match
             var exactMatch = applicableVersions.FirstOrDefault (v => v.VersionDiff == 0);
@@ -101,6 +142,17 @@ namespace Mono.Documentation.Updater.Frameworks
             // return null if you don't find anything
             return null;
 
+        }
+        
+        // some helper classes
+        static class Empty<T>
+        {
+            public static readonly T[] Array = new T[0];
+        }
+
+        class MDocResolverMixin
+        {
+            public static Version ZeroVersion = new Version (0, 0, 0, 0);
         }
     }
 
@@ -263,12 +315,12 @@ namespace Mono.Documentation.Updater.Frameworks
             return null;
         }
 
-        static bool IsZero (Version version)
+        internal static bool IsZero (Version version)
         {
             return version.Major == 0 && version.Minor == 0 && version.Build == 0 && version.Revision == 0;
         }
 
-        AssemblyDefinition GetCorlib (AssemblyNameReference reference, ReaderParameters parameters)
+        internal AssemblyDefinition GetCorlib (AssemblyNameReference reference, ReaderParameters parameters)
         {
             var version = reference.Version;
             var corlib = typeof (object).Assembly.GetName ();
@@ -382,7 +434,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 "gac");
         }
 
-        AssemblyDefinition GetAssemblyInGac (AssemblyNameReference reference, ReaderParameters parameters)
+        internal AssemblyDefinition GetAssemblyInGac (AssemblyNameReference reference, ReaderParameters parameters)
         {
             if (reference.PublicKeyToken == null || reference.PublicKeyToken.Length == 0)
                 return null;

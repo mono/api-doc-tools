@@ -31,8 +31,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		public virtual FrameworkTypeEntry ProcessType (TypeDefinition type)
 		{
-
-			var entry = types.FirstOrDefault (t => t.Name.Equals (type.FullName));
+			var entry = types.FirstOrDefault (t => t.Name.Equals (type.FullName, StringComparison.Ordinal));
 			if (entry == null) {
 				var docid = DocCommentId.GetDocCommentId (type);
 				entry = new FrameworkTypeEntry (this) { Id = docid, Name = type.FullName, Namespace = type.Namespace };

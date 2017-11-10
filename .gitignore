@@ -13,6 +13,8 @@ obj
 .vs
 *.metagen
 *.pdb
+*.psess
+*.vspx
 mdoc/Test/actual_statistics.txt
 mdoc/Test/test-overwrite-attribute/SomeClass.xml
 mdoc/Test/test-overwrite-attribute/SomeClass.dll

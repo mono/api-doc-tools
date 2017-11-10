@@ -247,14 +247,16 @@ namespace Mono.Documentation.Updater
                 buf.Append ("static ");
             if (method.IsHideBySig)
                 buf.Append ("hidebysig ");
-            if (method.IsPInvokeImpl)
+            if (method.IsPInvokeImpl && method.PInvokeInfo != null)
             {
                 var info = method.PInvokeInfo;
+
                 buf.Append ("pinvokeimpl (\"")
                     .Append (info.Module.Name)
                     .Append ("\" as \"")
                     .Append (info.EntryPoint)
                     .Append ("\"");
+                
                 if (info.IsCharSetAuto)
                     buf.Append (" auto");
                 if (info.IsCharSetUnicode)

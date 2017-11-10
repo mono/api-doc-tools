@@ -131,7 +131,7 @@ namespace Mono.Documentation.Updater
                                 add = false;
                             if (add)
                             {
-                                if (e.SelectSingleNode(child.Name) == null)
+                                if (child.NodeType == XmlNodeType.Text || e.SelectSingleNode(child.Name) == null)
                                     MDocUpdater.CopyNode(child, e);
                             }
                             break;
