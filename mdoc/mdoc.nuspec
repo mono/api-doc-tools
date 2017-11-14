@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>mdoc</id>
-    <version>5.3.0.0</version>
+    <version>5.3.1.0</version>
     <title>mdoc</title>
     <authors>Joel Martinez</authors>
     <owners>Xamarin</owners>
