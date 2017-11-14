@@ -125,14 +125,18 @@ namespace Mono.Documentation.Updater
                         }
                     default:
                         {
-                            bool add = true;
-                            if (child.NodeType == XmlNodeType.Element &&
-                                e.SelectNodes (child.Name).Cast<XmlElement> ().Any (n => n.OuterXml == child.OuterXml))
-                                add = false;
-                            if (add)
+                            var targetNodes = e.ChildNodes.Cast<XmlNode> ()
+                                .Where (n => n.Name == child.Name)
+                                .Select (n => new
+                                {
+                                    Xml = n.OuterXml,
+                                    Overwrite = n.Attributes["overwrite"]
+                                });
+                            string sourceXml = child.OuterXml;
+
+                            if (!targetNodes.Any (n => sourceXml.Equals (n.Xml) || n.Overwrite?.Value == "false"))
                             {
-                                if (child.NodeType == XmlNodeType.Text || e.SelectSingleNode(child.Name) == null)
-                                    MDocUpdater.CopyNode(child, e);
+                                MDocUpdater.CopyNode(child, e);
                             }
                             break;
                         }
