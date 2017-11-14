@@ -1,7 +1,7 @@
 <Type Name="GenericBase&lt;U&gt;+NestedCollection+Enumerator" FullName="Mono.DocTest.Generic.GenericBase&lt;U&gt;+NestedCollection+Enumerator">
-  <TypeSignature Language="C#" Value="protected struct GenericBase&lt;U&gt;.NestedCollection.Enumerator" />
+  <TypeSignature Language="C#" Value="protected internal struct GenericBase&lt;U&gt;.NestedCollection.Enumerator" />
   <TypeSignature Language="ILAsm" Value=".class nested protected sequential ansi sealed beforefieldinit GenericBase`1/NestedCollection/Enumerator&lt;U&gt; extends System.ValueType" />
-  <TypeSignature Language="VB.NET" Value="Protected Structure GenericBase(Of U).NestedCollection.Enumerator" />
+  <TypeSignature Language="VB.NET" Value="Protected Friend Structure GenericBase(Of U).NestedCollection.Enumerator" />
   <AssemblyInfo>
     <AssemblyName>DocTest</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>

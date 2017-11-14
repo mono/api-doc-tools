@@ -195,8 +195,9 @@ namespace Mono.Documentation.Updater
                     return "Public";
 
                 case TypeAttributes.NestedFamily:
-                case TypeAttributes.NestedFamORAssem:
                     return "Protected";
+                case TypeAttributes.NestedFamORAssem:
+                    return "Protected Friend";
 
                 default:
                     return null;
@@ -463,8 +464,10 @@ namespace Mono.Documentation.Updater
                 return buf;
             if (method.IsPublic)
                 return buf.Append("Public");
-            if (method.IsFamily || method.IsFamilyOrAssembly)
+            if (method.IsFamily)
                 return buf.Append("Protected");
+            if (method.IsFamilyOrAssembly)
+                return buf.Append("Protected Friend");
             return buf;
         }
 
@@ -691,9 +694,13 @@ namespace Mono.Documentation.Updater
                 buf.Append("Public");
                 return;
             }
-            if (field.IsFamily || field.IsFamilyOrAssembly)
+            if (field.IsFamily)
             {
                 buf.Append("Protected");
+            }
+            if (field.IsFamilyOrAssembly)
+            {
+                buf.Append("Protected Friend");
             }
         }
 

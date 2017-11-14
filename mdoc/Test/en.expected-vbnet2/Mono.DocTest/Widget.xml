@@ -670,9 +670,9 @@
       </Docs>
     </Member>
     <Member MemberName="monthlyAverage">
-      <MemberSignature Language="C#" Value="protected readonly double monthlyAverage;" />
+      <MemberSignature Language="C#" Value="protected internal readonly double monthlyAverage;" />
       <MemberSignature Language="ILAsm" Value=".field familyorassembly initonly float64 monthlyAverage" />
-      <MemberSignature Language="VB.NET" Value="Protected ReadOnly monthlyAverage As Double " />
+      <MemberSignature Language="VB.NET" Value="Protected Friend ReadOnly monthlyAverage As Double " />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -803,9 +803,9 @@
       </Docs>
     </Member>
     <Member MemberName="PI">
-      <MemberSignature Language="C#" Value="protected const double PI = 3.14159;" />
+      <MemberSignature Language="C#" Value="protected internal const double PI = 3.14159;" />
       <MemberSignature Language="ILAsm" Value=".field familyorassembly static literal float64 PI = (3.14159)" />
-      <MemberSignature Language="VB.NET" Value="Protected Const PI As Double  = 3.14159" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Const PI As Double  = 3.14159" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -863,9 +863,9 @@
       </Docs>
     </Member>
     <Member MemberName="X">
-      <MemberSignature Language="C#" Value="protected short X { set; }" />
+      <MemberSignature Language="C#" Value="protected internal short X { set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int16 X" />
-      <MemberSignature Language="VB.NET" Value="Protected Property X As Short" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Property X As Short" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -880,9 +880,9 @@
       </Docs>
     </Member>
     <Member MemberName="Y">
-      <MemberSignature Language="C#" Value="protected double Y { get; set; }" />
+      <MemberSignature Language="C#" Value="protected internal double Y { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance float64 Y" />
-      <MemberSignature Language="VB.NET" Value="Protected Property Y As Double" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Property Y As Double" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
