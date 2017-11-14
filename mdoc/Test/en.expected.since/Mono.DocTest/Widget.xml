@@ -1036,7 +1036,7 @@
       </Docs>
     </Member>
     <Member MemberName="monthlyAverage">
-      <MemberSignature Language="C#" Value="protected readonly double monthlyAverage;" />
+      <MemberSignature Language="C#" Value="protected internal readonly double monthlyAverage;" />
       <MemberSignature Language="ILAsm" Value=".field familyorassembly initonly float64 monthlyAverage" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
@@ -1170,7 +1170,7 @@
       </Docs>
     </Member>
     <Member MemberName="PI">
-      <MemberSignature Language="C#" Value="protected const double PI = 3.14159;" />
+      <MemberSignature Language="C#" Value="protected internal const double PI = 3.14159;" />
       <MemberSignature Language="ILAsm" Value=".field familyorassembly static literal float64 PI = (3.14159)" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
@@ -1231,7 +1231,7 @@
       </Docs>
     </Member>
     <Member MemberName="X">
-      <MemberSignature Language="C#" Value="protected short X { set; }" />
+      <MemberSignature Language="C#" Value="protected internal short X { set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int16 X" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
@@ -1248,7 +1248,7 @@
       </Docs>
     </Member>
     <Member MemberName="Y">
-      <MemberSignature Language="C#" Value="protected double Y { get; set; }" />
+      <MemberSignature Language="C#" Value="protected internal double Y { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance float64 Y" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
