@@ -130,7 +130,7 @@ namespace Mono.Documentation.Updater
                                 .Select (n => new
                                 {
                                     Xml = n.OuterXml,
-                                    Overwrite = n.Attributes["overwrite"]
+                                    Overwrite = n.Attributes != null ? n.Attributes["overwrite"] : null
                                 });
                             string sourceXml = child.OuterXml;
 

@@ -24,6 +24,13 @@ namespace Mono.Documentation.Updater.Frameworks
 		public IEnumerable<DocumentationImporter> Importers { get; set; }
 
 		public ISet<FrameworkTypeEntry> Types { get { return this.types; } }
+        Dictionary<string, FrameworkTypeEntry> typeMap = new Dictionary<string, FrameworkTypeEntry> ();
+
+        public FrameworkTypeEntry FindTypeEntry (string name) {
+            FrameworkTypeEntry entry;
+            typeMap.TryGetValue (name, out entry);
+            return entry;
+        }
 
 		public IEnumerable<FrameworkEntry> Frameworks { get { return this.allframeworks; } }
 
@@ -31,11 +38,14 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		public virtual FrameworkTypeEntry ProcessType (TypeDefinition type)
 		{
-			var entry = types.FirstOrDefault (t => t.Name.Equals (type.FullName, StringComparison.Ordinal));
-			if (entry == null) {
+            FrameworkTypeEntry entry;
+
+            if (!typeMap.TryGetValue (type.FullName, out entry)) {
 				var docid = DocCommentId.GetDocCommentId (type);
 				entry = new FrameworkTypeEntry (this) { Id = docid, Name = type.FullName, Namespace = type.Namespace };
 				types.Add (entry);
+
+                typeMap.Add (entry.Name, entry);
 			}
 			return entry;
 		}

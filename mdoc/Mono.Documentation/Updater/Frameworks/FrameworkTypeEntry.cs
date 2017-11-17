@@ -9,6 +9,7 @@ namespace Mono.Documentation.Updater.Frameworks
 	{
 		SortedSet<string> members = new SortedSet<string> ();
 		SortedSet<string> memberscsharpsig = new SortedSet<string> ();
+        Dictionary<string, bool> sigMap = new Dictionary<string, bool> ();
 
 		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
 
@@ -44,14 +45,17 @@ namespace Mono.Documentation.Updater.Frameworks
 
 			// this is for lookup purposes
 			try {
-				memberscsharpsig.Add(formatter.GetDeclaration(member));
+                var sig = formatter.GetDeclaration (member);
+				memberscsharpsig.Add(sig);
+                if (!sigMap.ContainsKey (sig))
+                    sigMap.Add (sig, true);
 			}
 			catch {}
 		}
 
 		public bool ContainsCSharpSig (string sig)
 		{
-			return memberscsharpsig.Contains (sig);
+			return sigMap.ContainsKey (sig);
 		}
 
 		public override string ToString () => $"{this.Name} in {this.fx.Name}";
