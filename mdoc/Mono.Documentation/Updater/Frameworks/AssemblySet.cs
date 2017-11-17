@@ -7,69 +7,85 @@ using Mono.Cecil;
 
 namespace Mono.Documentation.Updater.Frameworks
 {
-	/// <summary>
-	/// Represents a set of assemblies that we want to document
-	/// </summary>
-	class AssemblySet : IDisposable
-	{
+    /// <summary>
+    /// Represents a set of assemblies that we want to document
+    /// </summary>
+    class AssemblySet : IDisposable
+    {
         readonly BaseAssemblyResolver resolver = new Frameworks.MDocResolver ();
         IAssemblyResolver cachedResolver;
-		HashSet<string> assemblyPaths = new HashSet<string> ();
-		HashSet<string> assemblySearchPaths = new HashSet<string> ();
-		HashSet<string> forwardedTypes = new HashSet<string> ();
+        HashSet<string> assemblyPaths = new HashSet<string> ();
+        Dictionary<string, bool> assemblyPathsMap = new Dictionary<string, bool> ();
+        HashSet<string> assemblySearchPaths = new HashSet<string> ();
+        HashSet<string> forwardedTypes = new HashSet<string> ();
         IEnumerable<string> importPaths;
-		public IEnumerable<DocumentationImporter> Importers { get; private set; }
+        public IEnumerable<DocumentationImporter> Importers { get; private set; }
 
-		public AssemblySet (IEnumerable<string> paths) : this ("Default", paths, new string[0], null) { }
+        public AssemblySet (IEnumerable<string> paths) : this ("Default", paths, new string[0], null) { }
 
         public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths, IEnumerable<string> imports)
-		{
+        {
             this.cachedResolver = new CachedResolver (this.resolver);
 
-			Name = name;
+            Name = name;
 
-			foreach (var path in paths)
-				assemblyPaths.Add (path);
+            foreach (var path in paths)
+            {
+                assemblyPaths.Add (path);
+                string pathName = Path.GetFileName (path);
+                if (!assemblyPathsMap.ContainsKey (pathName))
+                    assemblyPathsMap.Add (pathName, true);
+            }
 
-			// add default search paths
-			var assemblyDirectories = paths
-				.Where (p => p.Contains (Path.DirectorySeparatorChar))
-				.Select (p => Path.GetDirectoryName (p));
+            // add default search paths
+            var assemblyDirectories = paths
+                .Where (p => p.Contains (Path.DirectorySeparatorChar))
+                .Select (p => Path.GetDirectoryName (p));
 
-			foreach (var searchPath in resolverSearchPaths.Union (assemblyDirectories))
-				assemblySearchPaths.Add (searchPath);
+            foreach (var searchPath in resolverSearchPaths.Union (assemblyDirectories))
+                assemblySearchPaths.Add (searchPath);
 
-			char oppositeSeparator = Path.DirectorySeparatorChar == '/' ? '\\' : '/';
-			Func<string, string> sanitize = p =>
-				p.Replace (oppositeSeparator, Path.DirectorySeparatorChar);
+            char oppositeSeparator = Path.DirectorySeparatorChar == '/' ? '\\' : '/';
+            Func<string, string> sanitize = p =>
+                p.Replace (oppositeSeparator, Path.DirectorySeparatorChar);
 
-			foreach (var searchPath in assemblySearchPaths.Select (sanitize))
-				resolver.AddSearchDirectory (searchPath);
+            foreach (var searchPath in assemblySearchPaths.Select (sanitize))
+                resolver.AddSearchDirectory (searchPath);
 
-			this.importPaths = imports;
+            this.importPaths = imports;
             if (this.importPaths != null)
             {
-                this.Importers = this.importPaths.Select (p => MDocUpdater.Instance.GetImporter (p, supportsEcmaDoc: false));
+                this.Importers = this.importPaths.Select (p => MDocUpdater.Instance.GetImporter (p, supportsEcmaDoc: false)).ToArray ();
             }
             else
                 this.Importers = new DocumentationImporter[0];
-		}
+        }
 
-		public string Name { get; private set; }
+        public string Name { get; private set; }
 
-		public IEnumerable<AssemblyDefinition> Assemblies { get { return this.LoadAllAssemblies ().Where(a => a != null); } }
-		public IEnumerable<string> AssemblyPaths { get { return this.assemblyPaths; } }
+        IEnumerable<AssemblyDefinition> assemblies;
+        public IEnumerable<AssemblyDefinition> Assemblies
+        {
+            get
+            {
+                if (this.assemblies == null)
+                    this.assemblies = this.LoadAllAssemblies ().Where (a => a != null).ToArray ();
+
+                return this.assemblies;
+            }
+        }
+        public IEnumerable<string> AssemblyPaths { get { return this.assemblyPaths; } }
 
         /// <summary>Adds all subdirectories to the search directories for the resolver to look in.</summary>
-        public void RecurseSearchDirectories() 
+        public void RecurseSearchDirectories ()
         {
             var directories = resolver
                 .GetSearchDirectories ()
-                .Select(d => new DirectoryInfo (d))
+                .Select (d => new DirectoryInfo (d))
                 .Where (d => d.Exists)
-                .Select(d => d.FullName)
+                .Select (d => d.FullName)
                 .Distinct ()
-                .ToDictionary(d => d, d => d);
+                .ToDictionary (d => d, d => d);
 
             var subdirs = directories.Keys
                 .SelectMany (d => Directory.GetDirectories (d, ".", SearchOption.AllDirectories))
@@ -79,21 +95,25 @@ namespace Mono.Documentation.Updater.Frameworks
                 resolver.AddSearchDirectory (dir);
         }
 
-		/// <returns><c>true</c>, if in set was contained in the set of assemblies, <c>false</c> otherwise.</returns>
-		/// <param name="name">An assembly file name</param>
-		public bool Contains (string name)
-		{
-			return assemblyPaths.Any (p => Path.GetFileName (p) == name);
-		}
+        /// <returns><c>true</c>, if in set was contained in the set of assemblies, <c>false</c> otherwise.</returns>
+        /// <param name="name">An assembly file name</param>
+        public bool Contains (string name)
+        {
+            return assemblyPathsMap.ContainsKey (name);//assemblyPaths.Any (p => Path.GetFileName (p) == name);
+        }
 
-		/// <summary>Tells whether an already enumerated AssemblyDefinition, contains the type.</summary>
-		/// <param name="name">Type name</param>
-		public bool ContainsForwardedType (string name)
-		{
-			return forwardedTypes.Contains (name);
-		}
+        /// <summary>Tells whether an already enumerated AssemblyDefinition, contains the type.</summary>
+        /// <param name="name">Type name</param>
+        public bool ContainsForwardedType (string name)
+        {
+            return forwardedTypes.Contains (name);
+        }
 
-        public void Dispose () => cachedResolver.Dispose ();
+        public void Dispose () 
+        {
+            this.assemblies = null;
+            cachedResolver.Dispose();
+        }
 
 		public override string ToString ()
 		{

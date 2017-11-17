@@ -1398,7 +1398,7 @@ namespace Mono.Documentation
                             var sigvalue = sigFromXml.GetAttribute ("Value");
                             Func<FrameworkEntry, bool> findTypes = fx =>
                             {
-                                var tInstance = fx.Types.FirstOrDefault (t => t.Equals (typeEntry));
+                                var tInstance = fx.FindTypeEntry (typeEntry.Name);
                                 if (tInstance != null)
                                 {
                                     return tInstance.ContainsCSharpSig (sigvalue);
