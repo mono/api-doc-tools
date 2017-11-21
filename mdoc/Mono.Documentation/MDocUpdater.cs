@@ -256,7 +256,11 @@ namespace Mono.Documentation
                                                    .ToArray (),
                                       Imports = f.Elements ("import")
                                                    .Select (a => Path.Combine (frameworksDir, a.Value))
-                                                   .ToArray ()
+                                                   .ToArray (),
+                                      Version = f.Elements("package")
+                                          ?.FirstOrDefault()?.Attribute("Version")?.Value,
+                                      Id = f.Elements("package")
+                                       ?.FirstOrDefault()?.Attribute("Id")?.Value
                                   })
                                   .Where (f => Directory.Exists (f.Path));
 
@@ -282,7 +286,9 @@ namespace Mono.Documentation
                     d.Name,
                     getFiles (d.Path, "*.dll|*.exe|*.winmd"),
                     this.globalSearchPaths.Union (d.SearchPaths),
-                    d.Imports
+                    d.Imports,
+                    d.Version,
+                    d.Id
                 ));
                 this.assemblies.AddRange (sets);
                 assemblyPaths.AddRange (sets.SelectMany (s => s.AssemblyPaths));
@@ -300,7 +306,7 @@ namespace Mono.Documentation
                         Console.Write (".");
                         foreach (var assembly in assemblySet.Assemblies)
                         {
-                            var a = cacheIndex.StartProcessingAssembly (assembly, assemblySet.Importers);
+                            var a = cacheIndex.StartProcessingAssembly (assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
                             foreach (var type in assembly.GetTypes ())
                             {
                                 var t = a.ProcessType (type);
@@ -315,7 +321,7 @@ namespace Mono.Documentation
             }
             else
             {
-                this.assemblies.Add (new AssemblySet ("Default", assemblyPaths, this.globalSearchPaths, null));
+                this.assemblies.Add (new AssemblySet ("Default", assemblyPaths, this.globalSearchPaths));
             }
 
             if (assemblyPaths == null)
@@ -629,7 +635,7 @@ namespace Mono.Documentation
                         var namespacesSet = new HashSet<string> ();
                         memberSet = new HashSet<string> ();
 
-                        var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers);
+                        var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
 
                         foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, typenames))
                         {
@@ -824,7 +830,7 @@ namespace Mono.Documentation
             else
             {
                 // Stub
-                XmlElement td = StubType (type, output, typeEntry.Framework.Importers);
+                XmlElement td = StubType (type, output, typeEntry.Framework.Importers, typeEntry.Framework.Id, typeEntry.Framework.Version);
                 if (td == null)
                     return null;
             }
@@ -1007,7 +1013,7 @@ namespace Mono.Documentation
             var typeSet = new HashSet<string> ();
             memberSet = new HashSet<string> ();
 
-            var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers);
+            var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
             foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null))
             {
                 string typename = GetTypeFileName (type);
@@ -1791,7 +1797,7 @@ namespace Mono.Documentation
 
         // CREATE A STUB DOCUMENTATION FILE	
 
-        public XmlElement StubType (TypeDefinition type, string output, IEnumerable<DocumentationImporter> importers)
+        public XmlElement StubType (TypeDefinition type, string output, IEnumerable<DocumentationImporter> importers, string Id, string Version)
         {
             string typesig = typeFormatters[0].GetDeclaration (type);
             if (typesig == null) return null; // not publicly visible
@@ -1800,7 +1806,7 @@ namespace Mono.Documentation
             XmlElement root = doc.CreateElement ("Type");
             doc.AppendChild (root);
 
-            var frameworkEntry = frameworks.StartProcessingAssembly (type.Module.Assembly, importers);
+            var frameworkEntry = frameworks.StartProcessingAssembly (type.Module.Assembly, importers, Id, Version);
             var typeEntry = frameworkEntry.ProcessType (type);
             DoUpdateType2 ("New Type", doc, type, typeEntry, output, true);
             statisticsCollector.AddMetric (typeEntry.Framework.Name, StatisticsItem.Types, StatisticsMetrics.Added);

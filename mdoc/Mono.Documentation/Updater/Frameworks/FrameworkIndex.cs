@@ -26,7 +26,7 @@ namespace Mono.Documentation.Updater.Frameworks
 			}
 		}
 
-        public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers) 
+        public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers, string Id, string Version) 
 		{
 			if (string.IsNullOrWhiteSpace (this.path))
 				return FrameworkEntry.Empty;
@@ -42,7 +42,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 			var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
 			if (entry == null) {
-				entry = new FrameworkEntry (frameworks) { Name = shortPath, Importers = importers };
+				entry = new FrameworkEntry (frameworks) { Name = shortPath, Importers = importers, Id = Id, Version = Version};
 				frameworks.Add (entry);
 			}
 			return entry;
@@ -58,23 +58,28 @@ namespace Mono.Documentation.Updater.Frameworks
 			string outputPath = Path.Combine (path, "FrameworksIndex");
 			if (!Directory.Exists (outputPath))
 				Directory.CreateDirectory (outputPath);
-			
-			foreach (var fx in this.frameworks) {
 
-				XDocument doc = new XDocument (
-					new XElement("Framework",
-						new XAttribute ("Name", fx.Name),
-			             fx.Types
-			               .GroupBy(t => t.Namespace)
-			               .Select(g => new XElement("Namespace",
-	                           new XAttribute("Name", g.Key),
-	                           g.Select (t => new XElement ("Type",
-							    	new XAttribute ("Name", t.Name),
-                                    new XAttribute("Id", t.Id),
-									t.Members.Select (m =>
-							  			new XElement ("Member",
-								   		new XAttribute ("Id", m)))))))));
-
+			foreach (var fx in this.frameworks)
+			{
+				XElement frameworkElement = new XElement("Framework", new XAttribute("Name", fx.Name));
+				XDocument doc = new XDocument(
+					frameworkElement
+					);
+				if (fx.Version!=null && fx.Id!= null)
+				{
+					frameworkElement.Add(new XElement("package", new XAttribute("Id", fx.Id),
+						new XAttribute("Version", fx.Version)
+						));
+				}
+				frameworkElement.Add(fx.Types.GroupBy(t => t.Namespace)
+					.Select(g => new XElement("Namespace",
+						new XAttribute("Name", g.Key),
+						g.Select(t => new XElement("Type",
+							new XAttribute("Name", t.Name),
+							new XAttribute("Id", t.Id),
+							t.Members.Select(m =>
+								new XElement("Member",
+									new XAttribute("Id", m))))))));
 				// now save the document
 				string filePath = Path.Combine (outputPath, fx.Name + ".xml");
 

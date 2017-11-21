@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="One">
+  <package Id="thepackage" Version="2.2.2" />
+  <Namespace Name="MyFramework.MyNamespace">
+    <Type Name="MyFramework.MyNamespace.MyClass" Id="T:MyFramework.MyNamespace.MyClass">
+      <Member Id="M:MyFramework.MyNamespace.MyClass.#ctor" />
+      <Member Id="M:MyFramework.MyNamespace.MyClass.Hello(System.Int32)" />
+      <Member Id="P:MyFramework.MyNamespace.MyClass.MyProperty" />
+      <Member Id="P:MyFramework.MyNamespace.MyClass.OnlyInClassic" />
+    </Type>
+    <Type Name="MyFramework.MyNamespace.MyClassExtensions" Id="T:MyFramework.MyNamespace.MyClassExtensions">
+      <Member Id="M:MyFramework.MyNamespace.MyClassExtensions.AnExtension(MyFramework.MyNamespace.MyClass)" />
+    </Type>
+  </Namespace>
+  <Namespace Name="MyNamespace">
+    <Type Name="MyNamespace.MyClass" Id="T:MyNamespace.MyClass">
+      <Member Id="M:MyNamespace.MyClass.#ctor" />
+      <Member Id="M:MyNamespace.MyClass.SomeMethod``1" />
+    </Type>
+  </Namespace>
+</Framework>

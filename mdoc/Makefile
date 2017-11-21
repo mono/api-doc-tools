@@ -156,6 +156,20 @@ check-monodocer-frameworks-inheritance: Test/FrameworkTestData-fx-inheritance
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-inheritance
 	$(DIFF) Test/en.expected-frameworks-inheritance Test/en.actual
+	
+check-monodocer-frameworks-with-nuget: 
+	-rm -Rf Test/en.actual
+	-rm -rf Test/test-nuget-information/input_data
+	mkdir Test/test-nuget-information/input_data
+	mkdir Test/test-nuget-information/input_data/One
+	mkdir Test/test-nuget-information/input_data/Two
+	cp Test/DocTest-addNonGeneric.dll Test/test-nuget-information/input_data/One/
+	cp Test/DocTest-DropNS-classic.dll Test/test-nuget-information/input_data/One/
+	cp Test/DocTest-addNonGeneric.dll Test/test-nuget-information/input_data/Two/
+	cp Test/DocTest-DropNS-classic-secondary.dll Test/test-nuget-information/input_data/Two/
+	cp Test/frameworks.xml Test/test-nuget-information/input_data/
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/test-nuget-information/input_data
+	$(DIFF) Test/test-nuget-information/en.expected-frameworks-with-nuget-information Test/en.actual
 
 check-monodocer-docid: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
@@ -543,7 +557,9 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-fx-statistics-remove \
 	check-overwrite-attribute \
 	check-monodocer-vbnet \
-	check-monodocer-vbnet2 
+	check-monodocer-vbnet2 \
+	check-monodocer-frameworks-with-nuget\
+
 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \
