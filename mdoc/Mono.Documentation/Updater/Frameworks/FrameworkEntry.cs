@@ -20,6 +20,8 @@ namespace Mono.Documentation.Updater.Frameworks
 		}
 
 		public string Name { get; set; }
+		public string Version { get; set; }
+		public string Id { get; set; }
 
 		public IEnumerable<DocumentationImporter> Importers { get; set; }
 

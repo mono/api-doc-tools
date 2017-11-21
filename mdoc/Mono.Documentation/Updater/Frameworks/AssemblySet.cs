@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -21,13 +21,15 @@ namespace Mono.Documentation.Updater.Frameworks
         IEnumerable<string> importPaths;
         public IEnumerable<DocumentationImporter> Importers { get; private set; }
 
-        public AssemblySet (IEnumerable<string> paths) : this ("Default", paths, new string[0], null) { }
+        public AssemblySet (IEnumerable<string> paths) : this ("Default", paths, new string[0]) { }
 
-        public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths, IEnumerable<string> imports)
+        public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths, IEnumerable<string> imports = null, string version = null, string id = null)
         {
             this.cachedResolver = new CachedResolver (this.resolver);
 
             Name = name;
+            Version = version;
+            Id = id;
 
             foreach (var path in paths)
             {
@@ -62,6 +64,8 @@ namespace Mono.Documentation.Updater.Frameworks
         }
 
         public string Name { get; private set; }
+        public string Version { get; private set; }
+        public string Id { get; private set; }
 
         IEnumerable<AssemblyDefinition> assemblies;
         public IEnumerable<AssemblyDefinition> Assemblies
