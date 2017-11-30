@@ -317,5 +317,21 @@ namespace Mono.Documentation.Updater
                 return null;
             return "E:" + name;
         }
+
+        protected override string GetAttachedEventDeclaration(AttachedEventDefinition e)
+        {
+            string name = GetName(e);
+            if (name == null)
+                return null;
+            return "E:" + name;
+        }
+
+        protected override string GetAttachedPropertyDeclaration(AttachedPropertyDefinition a)
+        {
+            string name = GetName(a);
+            if (name == null)
+                return null;
+            return "P:" + name;
+        }
     }
 }

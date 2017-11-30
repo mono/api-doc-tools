@@ -441,6 +441,12 @@ check-monodocer-import-fx-update: check-monodocer-import-fx-work
 	rm -Rf Test/en.expected-fx-import
 	mv Test/en.actual Test/en.expected-fx-import
 
+check-monodocer-attached-entities:
+	-rm -Rf Test/en.actual
+	msbuild ../mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid
+	$(DIFF) Test/en.expected-attached-entities Test/en.actual
+	
 Test/TestClass.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/Test*.cs
 
@@ -567,6 +573,7 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-vbnet2 \
 	check-monodocer-frameworks-with-nuget\
 	check-monodocer-fsharp \
+	check-monodocer-attached-entities \
 
 
 check-doc-tools-update: check-monodocer-since-update \

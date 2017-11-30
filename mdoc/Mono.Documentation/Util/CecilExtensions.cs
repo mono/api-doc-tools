@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Mono.Cecil;
 
 namespace Mono.Documentation.Util
@@ -31,6 +30,8 @@ namespace Mono.Documentation.Util
                 yield return (MemberReference)t;
             foreach (var p in type.Properties)
                 yield return (MemberReference)p;
+            foreach (var a in type.AttachedEntities())
+                yield return (MemberReference)a;
         }
 
         public static IEnumerable<MemberReference> GetMembers (this TypeDefinition type, string member)
@@ -115,6 +116,11 @@ namespace Mono.Documentation.Util
 
             foreach (var type in self.NestedTypes.SelectMany (t => t.GetAllTypes ()))
                 yield return type;
+        }
+
+        public static IEnumerable<MemberReference> AttachedEntities(this TypeDefinition type)
+        {
+            return AttachedEntitiesHelper.GetAttachedEntities(type);
         }
     }
 }

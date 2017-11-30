@@ -1,0 +1,50 @@
+<Type Name="AquariumFilter" FullName="AttachedEventsAndProperties.AquariumFilter">
+  <TypeSignature Language="C#" Value="public class AquariumFilter" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit AquariumFilter extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:AttachedEventsAndProperties.AquariumFilter" />
+  <AssemblyInfo>
+    <AssemblyName>AttachedEventsAndProperties</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public AquariumFilter ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AquariumFilter.#ctor" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NeedsCleaningEvent">
+      <MemberSignature Language="C#" Value="public static System.Windows.RoutedEvent NeedsCleaningEvent { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.Windows.RoutedEvent NeedsCleaningEvent" />
+      <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AquariumFilter.NeedsCleaningEvent" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.RoutedEvent</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

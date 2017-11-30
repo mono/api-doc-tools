@@ -1,0 +1,129 @@
+<Type Name="AttachedPropertyExample" FullName="AttachedEventsAndProperties.AttachedPropertyExample">
+  <TypeSignature Language="C#" Value="public static class AttachedPropertyExample" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AttachedPropertyExample extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:AttachedEventsAndProperties.AttachedPropertyExample" />
+  <AssemblyInfo>
+    <AssemblyName>AttachedEventsAndProperties</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="GetIsBubbleSource">
+      <MemberSignature Language="C#" Value="public static bool GetIsBubbleSource (System.Windows.UIElement element);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool GetIsBubbleSource(class System.Windows.UIElement element) cil managed" />
+      <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.GetIsBubbleSource(System.Windows.UIElement)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.UIElement" />
+      </Parameters>
+      <Docs>
+        <param name="element">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsBubbleSource">
+      <MemberSignature Language="C#" Value="see GetIsBubbleSource, and SetIsBubbleSource" />
+      <MemberSignature Language="ILAsm" Value="see GetIsBubbleSource, and SetIsBubbleSource" />
+      <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSource" />
+      <MemberType>AttachedProperty</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsBubbleSource2Property">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty IsBubbleSource2Property;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty IsBubbleSource2Property" />
+      <MemberSignature Language="DocId" Value="F:AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSource2Property" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.DependencyProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsBubbleSourceProperty">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty IsBubbleSourceProperty;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty IsBubbleSourceProperty" />
+      <MemberSignature Language="DocId" Value="F:AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSourceProperty" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.DependencyProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetIsBubbleSource">
+      <MemberSignature Language="C#" Value="public static void SetIsBubbleSource (System.Windows.UIElement element, bool value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetIsBubbleSource(class System.Windows.UIElement element, bool value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource(System.Windows.UIElement,System.Boolean)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.UIElement" />
+        <Parameter Name="value" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="element">To be added.</param>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetIsBubbleSource2">
+      <MemberSignature Language="C#" Value="public static void SetIsBubbleSource2 (System.Windows.UIElement element, bool value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetIsBubbleSource2(class System.Windows.UIElement element, bool value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource2(System.Windows.UIElement,System.Boolean)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.UIElement" />
+        <Parameter Name="value" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="element">To be added.</param>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

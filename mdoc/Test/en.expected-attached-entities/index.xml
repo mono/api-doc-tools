@@ -1,0 +1,69 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="AttachedEventsAndProperties" Version="1.0.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCompany("EPAM Systems")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyConfiguration("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCopyright("Copyright © EPAM Systems 2017")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyDescription("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyFileVersion("1.0.0.0")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyProduct("AttachedEventsAndProperties")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTitle("AttachedEventsAndProperties")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTrademark("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.CompilationRelaxations(8)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.Guid("304fc0fd-45ef-46ed-a05d-42907b55c123")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.6.1", FrameworkDisplayName=".NET Framework 4.6.1")</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="AttachedEventsAndProperties">
+      <Type Name="AquariumFilter" Kind="Class" />
+      <Type Name="AquariumObject" Kind="Class" />
+      <Type Name="AttachedEventExample" Kind="Class" />
+      <Type Name="AttachedPropertyExample" Kind="Class" />
+    </Namespace>
+    <Namespace Name="System.Windows">
+      <Type Name="DragEventArgs" Kind="Class" />
+      <Type Name="DragEventHandler" Kind="Delegate" />
+      <Type Name="RoutedEvent" Kind="Class" />
+      <Type Name="RoutedEventArgs" Kind="Class" />
+      <Type Name="RoutedEventHandler" Kind="Delegate" />
+      <Type Name="UIElement" Kind="Class" />
+    </Namespace>
+  </Types>
+  <Title>AttachedEventsAndProperties</Title>
+</Overview>

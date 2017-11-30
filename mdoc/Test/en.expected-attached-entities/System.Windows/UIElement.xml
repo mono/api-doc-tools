@@ -1,0 +1,33 @@
+<Type Name="UIElement" FullName="System.Windows.UIElement">
+  <TypeSignature Language="C#" Value="public class UIElement : System.Windows.DependencyObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit UIElement extends System.Windows.DependencyObject" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.UIElement" />
+  <AssemblyInfo>
+    <AssemblyName>AttachedEventsAndProperties</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Windows.DependencyObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public UIElement ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.UIElement.#ctor" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
