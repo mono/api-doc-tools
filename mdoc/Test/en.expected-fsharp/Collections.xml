@@ -1,0 +1,66 @@
+<Type Name="Collections" FullName="Collections">
+  <TypeSignature Language="C#" Value="public static class Collections" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed Collections extends System.Object" />
+  <TypeSignature Language="F#" Value="module Collections" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="f">
+      <MemberSignature Language="C#" Value="public static int f (Microsoft.FSharp.Collections.FSharpMap&lt;int,int&gt; x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 f(class Microsoft.FSharp.Collections.FSharpMap`2&lt;int32, int32&gt; x) cil managed" />
+      <MemberSignature Language="F#" Value="Collections.f : Map&lt;int, int&gt; -&gt; int" Usage="Collections.f x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="Microsoft.FSharp.Collections.FSharpMap&lt;System.Int32,System.Int32&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="f2">
+      <MemberSignature Language="C#" Value="public static int f2 (System.Collections.Generic.IEnumerable&lt;int&gt; x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 f2(class System.Collections.Generic.IEnumerable`1&lt;int32&gt; x) cil managed" />
+      <MemberSignature Language="F#" Value="Collections.f2 : seq&lt;int&gt; -&gt; int" Usage="Collections.f2 x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Collections.Generic.IEnumerable&lt;System.Int32&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

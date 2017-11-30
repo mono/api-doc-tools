@@ -424,6 +424,13 @@ check-monodocer-fx-statistics-remove:
 	cp Test/DocTest-DropNS-unified.dll Test/fx-import/one/DocTest.dll
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/fx-import -statistics Test/actual_statistics.txt
 	$(DIFF) Test/expected_fx_remove_statistics.txt Test/actual_statistics.txt
+	
+check-monodocer-fsharp:
+	-rm -Rf Test/en.actual
+	msbuild ../mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
+	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
+	$(DIFF) Test/en.expected-fsharp Test/en.actual
+
 
 .PHONY: check-monodocer-import-fx
 check-monodocer-import-fx: check-monodocer-import-fx-work
@@ -559,6 +566,7 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-vbnet \
 	check-monodocer-vbnet2 \
 	check-monodocer-frameworks-with-nuget\
+	check-monodocer-fsharp \
 
 
 check-doc-tools-update: check-monodocer-since-update \

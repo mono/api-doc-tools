@@ -324,5 +324,38 @@ namespace Mono.Documentation.Updater
                 }
             }
         }
+
+        /// <summary>
+        /// XPath is invalid if it containt '-symbol inside '...'. 
+        /// So, put string which contains '-symbol inside "...", and vice versa
+        /// </summary>
+        public static string GetStringForXPath(string input)
+        {
+            if (!input.Contains("'"))
+                return $"\'{input}\'";
+            if (!input.Contains("\""))
+                return $"\"{input}\"";
+            return input;
+        }
+
+        /// <summary>
+        /// No documentation for property/event accessors.
+        /// </summary>
+        public static bool IsIgnored(MemberReference mi)
+        {
+            if (mi.Name.StartsWith("get_", StringComparison.Ordinal)) return true;
+            if (mi.Name.StartsWith("set_", StringComparison.Ordinal)) return true;
+            if (mi.Name.StartsWith("add_", StringComparison.Ordinal)) return true;
+            if (mi.Name.StartsWith("remove_", StringComparison.Ordinal)) return true;
+            if (mi.Name.StartsWith("raise_", StringComparison.Ordinal)) return true;
+            return false;
+        }
+
+        public static bool IsAvailablePropertyMethod(MethodDefinition method)
+        {
+            return method != null 
+                && (IsExplicitlyImplemented(method) 
+                || (!method.IsPrivate && !method.IsAssembly && !method.IsFamilyAndAssembly));
+        }
     }
 }

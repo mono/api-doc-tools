@@ -8,5 +8,8 @@ namespace Mono.Documentation
 		public const string VbNet = "VB.NET";
 		public const string DocIdLowCase = "docid";
 		public const string VbNetLowCase = "vb.net";
+		public const string FSharp = "F#";
+		public const string FSharpLowCase = "f#";
+		public const string Tab = "    ";
 	}
 }

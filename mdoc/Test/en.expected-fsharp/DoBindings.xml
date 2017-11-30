@@ -1,0 +1,46 @@
+<Type Name="DoBindings" FullName="DoBindings">
+  <TypeSignature Language="C#" Value="public static class DoBindings" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed DoBindings extends System.Object" />
+  <TypeSignature Language="F#" Value="module DoBindings" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="obj1">
+      <MemberSignature Language="C#" Value="public static DoBindings.MyBindingType obj1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property DoBindings/MyBindingType obj1" />
+      <MemberSignature Language="F#" Value="DoBindings.obj1 : DoBindings.MyBindingType" Usage="DoBindings.obj1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>DoBindings+MyBindingType</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

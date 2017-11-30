@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -25,11 +25,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=4.4.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
-        <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+    <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
@@ -43,7 +44,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicFormatterTests.cs" />
+    <Compile Include="FSharp\BasicFSharpFormatterTests.cs" />
     <Compile Include="FormatterTests.cs" />
+    <Compile Include="FSharp\FSharpFormatterTests.cs" />
+    <Compile Include="FSharp\FSharpUsageFormatterTests.cs" />
     <Compile Include="SampleClasses\TestClass.cs" />
     <Compile Include="SampleClasses\TestPrivateClass.cs" />
     <Compile Include="SampleClasses\TestClassTwo.cs" />
@@ -64,10 +69,12 @@
       <Project>{6E644802-B579-4037-9809-9CF4C7172C9D}</Project>
       <Name>monodoc</Name>
     </ProjectReference>
+    <ProjectReference Include="mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj">
+      <Project>{979f9f80-12fe-4236-9e93-6d554ab13701}</Project>
+      <Name>mdoc.Test.FSharp</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SampleClasses\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="cppcli\Debug\cppcli.dll">
       <Link>SampleClasses\cppcli.dll</Link>

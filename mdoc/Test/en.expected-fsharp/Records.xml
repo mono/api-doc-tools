@@ -1,0 +1,68 @@
+<Type Name="Records" FullName="Records">
+  <TypeSignature Language="C#" Value="public static class Records" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed Records extends System.Object" />
+  <TypeSignature Language="F#" Value="module Records" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="myCar">
+      <MemberSignature Language="C#" Value="public static Records.Car myCar { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Records/Car myCar" />
+      <MemberSignature Language="F#" Value="Records.myCar : Records.Car" Usage="Records.myCar" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Records+Car</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="myRecord1">
+      <MemberSignature Language="C#" Value="public static Records.MyRecord myRecord1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Records/MyRecord myRecord1" />
+      <MemberSignature Language="F#" Value="Records.myRecord1 : Records.MyRecord" Usage="Records.myRecord1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Records+MyRecord</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

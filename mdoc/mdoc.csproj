@@ -52,6 +52,10 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Mono.Documentation\Updater\Formatters\ApplePlatformEnumFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFullMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\FSharpMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\FSharpUsageFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\StandardFlagsEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\DefaultAttributeValueFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeValueFormatter.cs" />

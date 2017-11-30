@@ -1,0 +1,44 @@
+<Type Name="TypeExtensions+TypeExtensions2" FullName="TypeExtensions+TypeExtensions2">
+  <TypeSignature Language="C#" Value="public static class TypeExtensions.TypeExtensions2" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi abstract sealed TypeExtensions/TypeExtensions2 extends System.Object" />
+  <TypeSignature Language="F#" Value="module TypeExtensions.TypeExtensions2" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="function1">
+      <MemberSignature Language="C#" Value="public static void function1 (TypeExtensions.TypeExtensions1.MyClass obj1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function1(TypeExtensions/TypeExtensions1/MyClass obj1) cil managed" />
+      <MemberSignature Language="F#" Value="TypeExtensions.TypeExtensions2.function1 : TypeExtensions.TypeExtensions1.MyClass -&gt; unit" Usage="TypeExtensions.TypeExtensions2.function1 obj1" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="obj1" Type="TypeExtensions+TypeExtensions1+MyClass" />
+      </Parameters>
+      <Docs>
+        <param name="obj1">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

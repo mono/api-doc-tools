@@ -27,8 +27,6 @@ namespace Mono.Documentation.Updater
                 if (seen != null && seen.Contains (type.FullName))
                     continue;
                 yield return type;
-                foreach (TypeDefinition nested in type.NestedTypes)
-                    yield return nested;
             }
         }
 

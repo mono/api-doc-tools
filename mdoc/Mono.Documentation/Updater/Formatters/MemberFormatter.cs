@@ -441,5 +441,12 @@ namespace Mono.Documentation.Updater
 
             return isPublicEII;
         }
+
+        public virtual MemberFormatter UsageFormatter { get; protected set; }
+
+        public static string GetLineEnding()
+        {
+            return "\n";
+        }
     }
 }
