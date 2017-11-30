@@ -11,5 +11,9 @@ namespace Mono.Documentation
 		public const string FSharp = "F#";
 		public const string FSharpLowCase = "f#";
 		public const string Tab = "    ";
+
+		public const string DependencyPropertyFullName = "System.Windows.DependencyProperty";
+		public const string DependencyObjectFullName = "System.Windows.DependencyObject";
+		public const string VoidFullName = "System.Void";
 	}
 }

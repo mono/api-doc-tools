@@ -323,6 +323,12 @@ namespace Mono.Documentation.Updater
             EventDefinition e = member as EventDefinition;
             if (e != null)
                 return GetEventDeclaration (e);
+            AttachedEventDefinition ae = member as AttachedEventDefinition;
+            if (ae != null)
+                return GetAttachedEventDeclaration (ae);
+            AttachedPropertyDefinition ap = member as AttachedPropertyDefinition;
+            if (ap != null)
+                return GetAttachedPropertyDeclaration (ap);
             throw new NotSupportedException ("Can't handle: " + member.GetType ().ToString ());
         }
 
@@ -420,6 +426,16 @@ namespace Mono.Documentation.Updater
         protected virtual string GetEventDeclaration (EventDefinition e)
         {
             return GetEventName (e);
+        }
+
+        protected virtual string GetAttachedEventDeclaration(AttachedEventDefinition e)
+        {
+            return $"see Add{e.Name}Handler, and Remove{e.Name}Handler";
+        }
+
+        protected virtual string GetAttachedPropertyDeclaration(AttachedPropertyDefinition a)
+        {
+            return $"see Get{a.Name}, and Set{a.Name}";
         }
 
         public virtual bool IsSupported(TypeReference tref) => true;

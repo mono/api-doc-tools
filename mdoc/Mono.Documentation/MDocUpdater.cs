@@ -3194,6 +3194,8 @@ namespace Mono.Documentation
             }
             else if (mi is FieldDefinition) return;
             else if (mi is EventDefinition) return;
+            else if (mi is AttachedEventReference) return;
+            else if (mi is AttachedPropertyReference) return;
             else throw new ArgumentException ();
         }
 
@@ -3233,6 +3235,10 @@ namespace Mono.Documentation
                 MakeReturnValue (root, ((FieldDefinition)mi).FieldType, null, shouldDuplicateWithNew);
             else if (mi is EventDefinition)
                 MakeReturnValue (root, ((EventDefinition)mi).EventType, null, shouldDuplicateWithNew);
+            else if (mi is AttachedEventReference)
+                return;
+            else if (mi is AttachedPropertyReference)
+                return;
             else
                 throw new ArgumentException (mi + " is a " + mi.GetType ().FullName);
         }
@@ -3322,6 +3328,10 @@ namespace Mono.Documentation
                 return "Field";
             if (mi is EventDefinition)
                 return "Event";
+            if (mi is AttachedEventReference)
+                return "AttachedEvent";
+            if (mi is AttachedPropertyReference)
+                return "AttachedProperty";
             throw new ArgumentException ();
         }
 

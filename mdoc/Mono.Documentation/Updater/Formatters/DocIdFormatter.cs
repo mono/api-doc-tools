@@ -1,6 +1,7 @@
 ﻿
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
+using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater
 {
@@ -8,12 +9,18 @@ namespace Mono.Documentation.Updater
     {
         public override string Language => Consts.DocId;
 
+        private SlashDocMemberFormatter slashDocMemberFormatter = new SlashDocMemberFormatter();
+
         public override string GetDeclaration (TypeReference tref)
         {
             return DocCommentId.GetDocCommentId (tref.Resolve ());
         }
         public override string GetDeclaration (MemberReference mreference)
         {
+            if (mreference is AttachedEventReference || mreference is AttachedPropertyReference)
+            {
+                return slashDocMemberFormatter.GetDeclaration(mreference);
+            }
             return DocCommentId.GetDocCommentId (mreference.Resolve ());
         }
     }
