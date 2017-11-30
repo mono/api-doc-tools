@@ -1,0 +1,46 @@
+<Type Name="ClassMembers" FullName="ClassMembers">
+  <TypeSignature Language="C#" Value="public static class ClassMembers" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed ClassMembers extends System.Object" />
+  <TypeSignature Language="F#" Value="module ClassMembers" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="point1">
+      <MemberSignature Language="C#" Value="public static ClassMembers.PointWithCounter point1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property ClassMembers/PointWithCounter point1" />
+      <MemberSignature Language="F#" Value="ClassMembers.point1 : ClassMembers.PointWithCounter" Usage="ClassMembers.point1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>ClassMembers+PointWithCounter</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

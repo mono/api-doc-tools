@@ -400,6 +400,11 @@ namespace Mono.Documentation
                     typeFormatter = new VBMemberFormatter();
                     memberFormatter = new VBMemberFormatter();
                     break;
+                case Consts.FSharpLowCase:
+                case "fsharp":
+                    typeFormatter = new FSharpMemberFormatter();
+                    memberFormatter = new FSharpFullMemberFormatter();
+                    break;
                 default:
                     throw new ArgumentException("Unsupported formatter id '" + langId + "'.");
             }
@@ -921,7 +926,7 @@ namespace Mono.Documentation
 
             // Add namespace and type nodes into the index file as needed
             string ns = DocUtils.GetNamespace (type);
-            XmlElement nsnode = (XmlElement)index_types.SelectSingleNode ("Namespace[@Name='" + ns + "']");
+            XmlElement nsnode = (XmlElement)index_types.SelectSingleNode ("Namespace[@Name=" + DocUtils.GetStringForXPath(ns) + "]");
             if (nsnode == null)
             {
                 nsnode = index_types.OwnerDocument.CreateElement ("Namespace");
@@ -929,7 +934,7 @@ namespace Mono.Documentation
                 index_types.AppendChild (nsnode);
             }
             string doc_typename = GetDocTypeName (type);
-            XmlElement typenode = (XmlElement)nsnode.SelectSingleNode ("Type[@Name='" + typename + "']");
+            XmlElement typenode = (XmlElement)nsnode.SelectSingleNode ("Type[@Name=" + DocUtils.GetStringForXPath(typename) + "]");
             if (typenode == null)
             {
                 typenode = index_types.OwnerDocument.CreateElement ("Type");
@@ -2080,8 +2085,13 @@ namespace Mono.Documentation
                     () =>
                     {
                         var node = WriteElementAttribute (me, element, "Language", f.Language, forceNewElement: true);
-                        var newNode = WriteElementAttribute (me, node, "Value", valueToUse);
-                        return newNode;
+                        node = WriteElementAttribute (me, node, "Value", valueToUse);
+                        var usageSample = f.UsageFormatter?.GetDeclaration(mi);
+                        if (usageSample != null)
+                        {
+                            node = WriteElementAttribute(me, node, "Usage", usageSample);
+                        }
+                        return node;
                     },
                     mi);
             }
@@ -2910,6 +2920,8 @@ namespace Mono.Documentation
 		"System.Runtime.CompilerServices.ExtensionAttribute",
 		// Used to differentiate 'object' from C#4 'dynamic'
 		"System.Runtime.CompilerServices.DynamicAttribute",
+		// F# compiler attribute
+		"Microsoft.FSharp.Core.CompilationMapping",
     };
 
         private IEnumerable<char> FilterSpecialChars (string value)
@@ -3233,12 +3245,8 @@ namespace Mono.Documentation
             string sigs = memberFormatters[0].GetDeclaration (mi);
             if (sigs == null) return null; // not publicly visible
 
-            // no documentation for property/event accessors.  Is there a better way of doing this?
-            if (mi.Name.StartsWith ("get_", StringComparison.Ordinal)) return null;
-            if (mi.Name.StartsWith ("set_", StringComparison.Ordinal)) return null;
-            if (mi.Name.StartsWith ("add_", StringComparison.Ordinal)) return null;
-            if (mi.Name.StartsWith ("remove_", StringComparison.Ordinal)) return null;
-            if (mi.Name.StartsWith ("raise_", StringComparison.Ordinal)) return null;
+            if (DocUtils.IsIgnored(mi))
+                return null;
 
             XmlElement me = doc.CreateElement ("Member");
             members.AppendChild (me);

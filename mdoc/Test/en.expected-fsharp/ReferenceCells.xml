@@ -1,0 +1,46 @@
+<Type Name="ReferenceCells" FullName="ReferenceCells">
+  <TypeSignature Language="C#" Value="public static class ReferenceCells" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed ReferenceCells extends System.Object" />
+  <TypeSignature Language="F#" Value="module ReferenceCells" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="refVar">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Core.FSharpRef&lt;int&gt; refVar { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Core.FSharpRef`1&lt;int32&gt; refVar" />
+      <MemberSignature Language="F#" Value="ReferenceCells.refVar : ref&lt;int&gt;" Usage="ReferenceCells.refVar" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpRef&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,90 @@
+<Type Name="AbstractClasses" FullName="AbstractClasses">
+  <TypeSignature Language="C#" Value="public static class AbstractClasses" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed AbstractClasses extends System.Object" />
+  <TypeSignature Language="F#" Value="module AbstractClasses" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="circle1">
+      <MemberSignature Language="C#" Value="public static AbstractClasses.Circle circle1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property AbstractClasses/Circle circle1" />
+      <MemberSignature Language="F#" Value="AbstractClasses.circle1 : AbstractClasses.Circle" Usage="AbstractClasses.circle1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>AbstractClasses+Circle</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="shapeList">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Collections.FSharpList&lt;AbstractClasses.Shape2D&gt; shapeList { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Collections.FSharpList`1&lt;AbstractClasses/Shape2D&gt; shapeList" />
+      <MemberSignature Language="F#" Value="AbstractClasses.shapeList : List&lt;AbstractClasses.Shape2D&gt;" Usage="AbstractClasses.shapeList" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Collections.FSharpList&lt;AbstractClasses+Shape2D&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="square1">
+      <MemberSignature Language="C#" Value="public static AbstractClasses.Square square1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property AbstractClasses/Square square1" />
+      <MemberSignature Language="F#" Value="AbstractClasses.square1 : AbstractClasses.Square" Usage="AbstractClasses.square1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>AbstractClasses+Square</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

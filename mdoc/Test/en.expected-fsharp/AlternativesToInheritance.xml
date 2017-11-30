@@ -1,0 +1,46 @@
+<Type Name="AlternativesToInheritance" FullName="AlternativesToInheritance">
+  <TypeSignature Language="C#" Value="public static class AlternativesToInheritance" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed AlternativesToInheritance extends System.Object" />
+  <TypeSignature Language="F#" Value="module AlternativesToInheritance" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="object1">
+      <MemberSignature Language="C#" Value="public static object object1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property object object1" />
+      <MemberSignature Language="F#" Value="AlternativesToInheritance.object1 : obj" Usage="AlternativesToInheritance.object1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

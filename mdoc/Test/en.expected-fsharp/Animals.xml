@@ -1,0 +1,90 @@
+<Type Name="Animals" FullName="Animals">
+  <TypeSignature Language="C#" Value="public static class Animals" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed Animals extends System.Object" />
+  <TypeSignature Language="F#" Value="module Animals" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="animal">
+      <MemberSignature Language="C#" Value="public static Animals.Animal animal { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Animals/Animal animal" />
+      <MemberSignature Language="F#" Value="Animals.animal : Animals.Animal" Usage="Animals.animal" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Animals+Animal</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="dog">
+      <MemberSignature Language="C#" Value="public static Animals.Dog dog { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Animals/Dog dog" />
+      <MemberSignature Language="F#" Value="Animals.dog : Animals.Dog" Usage="Animals.dog" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Animals+Dog</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="shouldBeADog">
+      <MemberSignature Language="C#" Value="public static Animals.Dog shouldBeADog { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Animals/Dog shouldBeADog" />
+      <MemberSignature Language="F#" Value="Animals.shouldBeADog : Animals.Dog" Usage="Animals.shouldBeADog" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Animals+Dog</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

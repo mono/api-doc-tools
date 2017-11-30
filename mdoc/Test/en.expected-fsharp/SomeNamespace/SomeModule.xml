@@ -1,0 +1,23 @@
+<Type Name="SomeModule" FullName="SomeNamespace.SomeModule">
+  <TypeSignature Language="C#" Value="public static class SomeModule" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed SomeModule extends System.Object" />
+  <TypeSignature Language="F#" Value="module Some" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members />
+</Type>

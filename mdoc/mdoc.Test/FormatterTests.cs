@@ -1,24 +1,21 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Linq;
-using Mono.Documentation;
-using Mono.Cecil;
-
 using mdoc.Test.SampleClasses;
-using System.Linq.Expressions;
-
 using Mono.Documentation.Updater;
 
 namespace mdoc.Test
 {
     [TestFixture ()]
-    public class FormatterTests
+    public class FormatterTests : BasicFormatterTests<CSharpMemberFormatter>
     {
+        private CSharpMemberFormatter csharpMemberFormatter = new CSharpMemberFormatter();
+        protected override CSharpMemberFormatter formatter => csharpMemberFormatter;
+
         [Test ()]
         public void Formatters_VerifyPrivateConstructorNull ()
         {
             // this is a private constructor
-            var method = GetMethod<TestClass> (m => m.IsConstructor && !m.IsPublic && m.Parameters.Count () == 1);
+            var method = GetMethod (typeof(TestClass), m => m.IsConstructor && !m.IsPublic && m.Parameters.Count () == 1);
 
             MemberFormatter[] formatters = new MemberFormatter[]
             {
@@ -28,6 +25,8 @@ namespace mdoc.Test
                 new ILFullMemberFormatter(),
                 new VBFullMemberFormatter (),
                 new VBMemberFormatter(),
+                new FSharpMemberFormatter(),
+                new FSharpFullMemberFormatter(), 
             };
             var sigs = formatters.Select (f => f.GetDeclaration (method));
 
@@ -190,15 +189,14 @@ namespace mdoc.Test
         [Test]
         public void Params()
         {
-            var member = GetMethod<TestClass> (m => m.Name == "DoSomethingWithParams");
-            var formatter = new CSharpMemberFormatter ();
+            var member = GetMethod (typeof(TestClass), m => m.Name == "DoSomethingWithParams");
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual ("public void DoSomethingWithParams (params int[] values);", sig);
         }
         [Test]
         public void IL_RefAndOut ()
         {
-            var member = GetMethod<TestClass> (m => m.Name == "RefAndOut");
+            var member = GetMethod (typeof(TestClass), m => m.Name == "RefAndOut");
             var formatter = new ILFullMemberFormatter ();
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual (".method public hidebysig instance void RefAndOut(int32& a, [out] int32& b) cil managed", sig);
@@ -234,7 +232,7 @@ namespace mdoc.Test
 
         void TestOp (string name, string expectedSig, int argCount, string returnType = "TestClass")
         {
-            var member = GetMethod<TestClass> (m => m.Name == $"op_{name}" && m.Parameters.Count == argCount && m.ReturnType.Name == RealTypeName (returnType));
+            var member = GetMethod (typeof(TestClass), m => m.Name == $"op_{name}" && m.Parameters.Count == argCount && m.ReturnType.Name == RealTypeName (returnType));
             var formatter = new CSharpMemberFormatter ();
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual (expectedSig, sig);
@@ -243,42 +241,13 @@ namespace mdoc.Test
         void TestMod (string name, string expectedSig, int argCount = 1, string returnType = "SomeClass")
         {
             var member = GetMethod (
-                GetType ("SampleClasses/cppcli.dll", "cppcli.SomeInterface"), 
-                m => m.Name == name
+                    GetType ("SampleClasses/cppcli.dll", "cppcli.SomeInterface"), 
+                    m => m.Name == name
             );
             var formatter = new CSharpMemberFormatter ();
 			var sig = formatter.GetDeclaration (member);
 			Assert.AreEqual (expectedSig, sig);
         }
-
-        MethodDefinition GetMethod<T> (Func<MethodDefinition, bool> query) 
-        {
-            var type = typeof (T);
-            var moduleName = type.Module.FullyQualifiedName;
-            return GetMethod (GetType (moduleName, type.FullName), query);
-        }
-
-        MethodDefinition GetMethod (TypeDefinition testclass, Func<MethodDefinition, bool> query)
-        {
-            var methods = testclass.Methods;
-            var member = methods.FirstOrDefault (query).Resolve ();
-            if (member == null)
-                throw new Exception ("Did not find the member in the test class");
-            return member;
-        }
-
-        TypeDefinition GetType (string filepath, string classname)
-        {
-            var module = ModuleDefinition.ReadModule (filepath);
-            var types = module.GetTypes ();
-            var testclass = types
-                .SingleOrDefault (t => t.FullName == classname);
-            if (testclass == null)
-            {
-                throw new Exception ($"Test was unable to find type {classname}");
-            }
-            return testclass.Resolve ();
-        }
-#endregion
+        #endregion
     }
 }

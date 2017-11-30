@@ -1,15 +1,15 @@
-using System;
-using System.Linq;
 using mdoc.Test.SampleClasses;
-using Mono.Cecil;
 using Mono.Documentation.Updater;
 using NUnit.Framework;
 
 namespace mdoc.Test
 {
     [TestFixture()]
-    public class VBFormatterTests
+    public class VBFormatterTests : BasicFormatterTests<VBMemberFormatter>
     {
+        private VBMemberFormatter vbMemberFormatter = new VBMemberFormatter();
+        protected override VBMemberFormatter formatter => vbMemberFormatter;
+
         [Test]
         public void VB_op_Addition() =>
             TestBinaryOp("Addition", "+");
@@ -118,7 +118,7 @@ namespace mdoc.Test
         [Test]
         public void Params()
         {
-            var member = GetMethod<TestClass>(m => m.Name == "DoSomethingWithParams");
+            var member = GetMethod(typeof(TestClass), m => m.Name == "DoSomethingWithParams");
             var formatter = new VBMemberFormatter();
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual("Public Sub DoSomethingWithParams (ParamArray values As Integer())", sig);
@@ -156,40 +156,11 @@ namespace mdoc.Test
 
         void TestOp(string name, string expectedSig, int argCount, string returnType = "TestClass")
         {
-            var member = GetMethod<TestClass>(m => m.Name == $"op_{name}" && m.Parameters.Count == argCount && m.ReturnType.Name == RealTypeName(returnType));
-            var formatter = new VBMemberFormatter();
+            var member = GetMethod(typeof(TestClass), m => m.Name == $"op_{name}" && m.Parameters.Count == argCount && m.ReturnType.Name == RealTypeName(returnType));
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual(expectedSig, sig);
         }
 
-        MethodDefinition GetMethod<T>(Func<MethodDefinition, bool> query)
-        {
-            var type = typeof(T);
-            var moduleName = type.Module.FullyQualifiedName;
-            return GetMethod(GetType(moduleName, type.FullName), query);
-        }
-
-        MethodDefinition GetMethod(TypeDefinition testclass, Func<MethodDefinition, bool> query)
-        {
-            var methods = testclass.Methods;
-            var member = methods.FirstOrDefault(query).Resolve();
-            if (member == null)
-                throw new Exception("Did not find the member in the test class");
-            return member;
-        }
-
-        TypeDefinition GetType(string filepath, string classname)
-        {
-            var module = ModuleDefinition.ReadModule(filepath);
-            var types = module.GetTypes();
-            var testclass = types
-                .SingleOrDefault(t => t.FullName == classname);
-            if (testclass == null)
-            {
-                throw new Exception($"Test was unable to find type {classname}");
-            }
-            return testclass.Resolve();
-        }
         #endregion
     }
 }

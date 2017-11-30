@@ -571,23 +571,16 @@ namespace Mono.Documentation.Updater
 
         protected override string GetPropertyDeclaration(PropertyDefinition property)
         {
-            MethodDefinition method;
-            
             string getVisible = null;
-            if ((method = property.GetMethod) != null &&
-                    (DocUtils.IsExplicitlyImplemented(method) ||
-                     (!method.IsPrivate && !method.IsAssembly && !method.IsFamilyAndAssembly)))
-                getVisible = AppendVisibility(new StringBuilder(), method).ToString();
+            if (DocUtils.IsAvailablePropertyMethod(property.GetMethod))
+                getVisible = AppendVisibility(new StringBuilder(), property.GetMethod).ToString();
             string setVisible = null;
-            if ((method = property.SetMethod) != null &&
-                    (DocUtils.IsExplicitlyImplemented(method) ||
-                     (!method.IsPrivate && !method.IsAssembly && !method.IsFamilyAndAssembly)))
-                setVisible = AppendVisibility(new StringBuilder(), method).ToString();
+            if (DocUtils.IsAvailablePropertyMethod(property.SetMethod))
+                setVisible = AppendVisibility(new StringBuilder(), property.SetMethod).ToString();
 
-            if ((setVisible == null) && (getVisible == null))
+            if (setVisible == null && getVisible == null)
                 return null;
 
-            string visibility;
             StringBuilder buf = new StringBuilder();
             IEnumerable<MemberReference> defs = property.DeclaringType.GetDefaultMembers();
             bool indexer = false;
@@ -602,14 +595,14 @@ namespace Mono.Documentation.Updater
             if (indexer)
                 buf.Append("Default ");
             if (getVisible != null && (setVisible == null || (setVisible != null && getVisible == setVisible)))
-                buf.Append(visibility = getVisible);
+                buf.Append(getVisible);
             else if (setVisible != null && getVisible == null)
-                buf.Append(visibility = setVisible);
+                buf.Append(setVisible);
             else
-                buf.Append(visibility = "Public");
+                buf.Append("Public");
 
             // Pick an accessor to use for static/virtual/override/etc. checks.
-            method = property.SetMethod;
+            var method = property.SetMethod;
             if (method == null)
                 method = property.GetMethod;
 
@@ -850,11 +843,6 @@ namespace Mono.Documentation.Updater
         private bool IsOperator(MethodDefinition method)
         {
             return method.Name.StartsWith("op_", StringComparison.Ordinal);
-        }
-
-        private static string GetLineEnding()
-        {
-            return "\n";
         }
     }
 }

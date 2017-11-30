@@ -1,0 +1,128 @@
+<Type Name="FlexibleTypes" FullName="FlexibleTypes">
+  <TypeSignature Language="C#" Value="public static class FlexibleTypes" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed FlexibleTypes extends System.Object" />
+  <TypeSignature Language="F#" Value="module FlexibleTypes" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="iterate1">
+      <MemberSignature Language="C#" Value="public static void iterate1 (Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.Unit,System.Collections.Generic.IEnumerable&lt;int&gt;&gt; f);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void iterate1(class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Core.Unit, class System.Collections.Generic.IEnumerable`1&lt;int32&gt;&gt; f) cil managed" />
+      <MemberSignature Language="F#" Value="FlexibleTypes.iterate1 : (unit -&gt; seq&lt;int&gt;) -&gt; unit" Usage="FlexibleTypes.iterate1 f" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="f" Type="Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.Unit,System.Collections.Generic.IEnumerable&lt;System.Int32&gt;&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="f">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="iterate2&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static void iterate2&lt;a&gt; (Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.Unit,a&gt; f) where a : System.Collections.Generic.IEnumerable&lt;int&gt;;" />
+      <MemberSignature Language="ILAsm" Value=".method public static void iterate2&lt;(class System.Collections.Generic.IEnumerable`1&lt;int32&gt;) a&gt;(class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Core.Unit, !!a&gt; f) cil managed" />
+      <MemberSignature Language="F#" Value="FlexibleTypes.iterate2 : (unit -&gt; #seq&lt;int&gt;) -&gt; unit" Usage="FlexibleTypes.iterate2 f" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a">
+          <Constraints>
+            <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Int32&gt;</InterfaceName>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="f" Type="Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.Unit,a&gt;" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="f">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="iterate3&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public static void iterate3&lt;T&gt; (Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.Unit,T&gt; f) where T : System.Collections.Generic.IEnumerable&lt;int&gt;;" />
+      <MemberSignature Language="ILAsm" Value=".method public static void iterate3&lt;(class System.Collections.Generic.IEnumerable`1&lt;int32&gt;) T&gt;(class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Core.Unit, !!T&gt; f) cil managed" />
+      <MemberSignature Language="F#" Value="FlexibleTypes.iterate3 : (unit -&gt; #seq&lt;int&gt;) -&gt; unit" Usage="FlexibleTypes.iterate3 f" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T">
+          <Constraints>
+            <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Int32&gt;</InterfaceName>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="f" Type="Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.Unit,T&gt;" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">To be added.</typeparam>
+        <param name="f">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="iterate4&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public static void iterate4&lt;T&gt; (Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.Unit,T&gt; f) where T : Customers.ICustomer;" />
+      <MemberSignature Language="ILAsm" Value=".method public static void iterate4&lt;(Customers/ICustomer) T&gt;(class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Core.Unit, !!T&gt; f) cil managed" />
+      <MemberSignature Language="F#" Value="FlexibleTypes.iterate4 : (unit -&gt; 'T (requires 'T :&gt; Customers.ICustomer)) -&gt; unit (requires 'T :&gt; Customers.ICustomer)" Usage="FlexibleTypes.iterate4 f" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T">
+          <Constraints>
+            <InterfaceName>Customers+ICustomer</InterfaceName>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="f" Type="Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.Unit,T&gt;" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">To be added.</typeparam>
+        <param name="f">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
