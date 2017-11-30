@@ -1978,7 +1978,7 @@ namespace Mono.Documentation
             {
                 MakeTypeParameters (root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
                 var member = type.GetMethod ("Invoke");
-                MakeParameters (root, member, member.Parameters);
+                MakeParameters (root, member, member.Parameters, typeEntry);
                 MakeReturnValue (root, member);
             }
 
@@ -2113,7 +2113,7 @@ namespace Mono.Documentation
                 if (mb.IsGenericMethod ())
                     MakeTypeParameters (me, mb.GenericParameters, mi, MDocUpdater.HasDroppedNamespace (mi));
             }
-            MakeParameters (me, mi, MDocUpdater.HasDroppedNamespace (mi));
+            MakeParameters (me, mi, typeEntry, MDocUpdater.HasDroppedNamespace (mi));
 
             string fieldValue;
             if (mi is FieldDefinition && GetFieldConstValue ((FieldDefinition)mi, out fieldValue))
@@ -3022,7 +3022,7 @@ namespace Mono.Documentation
             return Convert.ToInt64 (value);
         }
 
-        private void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, bool shouldDuplicateWithNew = false)
+        private void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, bool shouldDuplicateWithNew = false)
         {
             XmlElement e = WriteElement (root, "Parameters");
 
@@ -3045,8 +3045,12 @@ namespace Mono.Documentation
                     .Cast<XmlElement> ().Where (x => x.GetAttribute ("Name") == p.Name)
                     .ToArray ();
 
+                // FYI: Exists? No?
                 if (nodes.Count () == 0)
                 {
+                    // TODO: instead of this. Needs to be replaced with a better
+                    // check for Parameter index ... should I add parameter index?
+
                     // wasn't found, let's make sure it wasn't just cause the param name was changed
                     nodes = root.SelectSingleNode ("Parameters").SelectNodes ("Parameter")
                         .Cast<XmlElement> ()
@@ -3157,15 +3161,15 @@ namespace Mono.Documentation
             }
         }
 
-        private void MakeParameters (XmlElement root, MemberReference mi, bool shouldDuplicateWithNew)
+        private void MakeParameters (XmlElement root, MemberReference mi, FrameworkTypeEntry typeEntry, bool shouldDuplicateWithNew)
         {
             if (mi is MethodDefinition && ((MethodDefinition)mi).IsConstructor)
-                MakeParameters (root, mi, ((MethodDefinition)mi).Parameters, shouldDuplicateWithNew);
+                MakeParameters (root, mi, ((MethodDefinition)mi).Parameters, typeEntry, shouldDuplicateWithNew);
             else if (mi is MethodDefinition)
             {
                 MethodDefinition mb = (MethodDefinition)mi;
                 IList<ParameterDefinition> parameters = mb.Parameters;
-                MakeParameters (root, mi, parameters, shouldDuplicateWithNew);
+                MakeParameters (root, mi, parameters, typeEntry, shouldDuplicateWithNew);
                 if (parameters.Count > 0 && DocUtils.IsExtensionMethod (mb))
                 {
                     XmlElement p = (XmlElement)root.SelectSingleNode ("Parameters/Parameter[position()=1]");
@@ -3176,7 +3180,7 @@ namespace Mono.Documentation
             {
                 IList<ParameterDefinition> parameters = ((PropertyDefinition)mi).Parameters;
                 if (parameters.Count > 0)
-                    MakeParameters (root, mi, parameters, shouldDuplicateWithNew);
+                    MakeParameters (root, mi, parameters, typeEntry, shouldDuplicateWithNew);
                 else
                     return;
             }
