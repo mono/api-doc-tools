@@ -7,7 +7,7 @@ using System.Text;
 using System.Xml;
 
 using Mono.Cecil;
-
+using Mono.Collections.Generic;
 using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater
@@ -356,6 +356,133 @@ namespace Mono.Documentation.Updater
             return method != null 
                 && (IsExplicitlyImplemented(method) 
                 || (!method.IsPrivate && !method.IsAssembly && !method.IsFamilyAndAssembly));
+        }
+
+        /// <summary>
+        /// Get all members of implemented interfaces as Dictionary [fingerprint string] -> MemberReference
+        /// </summary>
+        public static Dictionary<string, List<MemberReference>> GetImplementedMembersCache(TypeDefinition type)
+        {
+            var result = new Dictionary<string, List<MemberReference>>();
+            List<TypeDefinition> prevousInterfaces = new List<TypeDefinition>();
+            foreach (var implementedInterface in type.Interfaces)
+            {
+                var interfaceType = implementedInterface.InterfaceType.Resolve();
+
+                //Don't add duplicates of members which appear because of inheritance of interfaces
+                bool addDuplicates = !prevousInterfaces.Any(
+                    i => i.Interfaces.Any(
+                        j => j.InterfaceType.FullName == interfaceType.FullName));
+
+                foreach (var memberReference in interfaceType.GetMembers())
+                {
+                    var fingerprint = GetFingerprint(memberReference);
+                    if (!result.ContainsKey(fingerprint))
+                        result[fingerprint] = new List<MemberReference>();
+                    if (addDuplicates)
+                        result[fingerprint].Add(memberReference);
+                }
+                prevousInterfaces.Add(interfaceType);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get fingerprint of MemberReference. If fingerprints are equal, members can be implementations of eachother
+        /// </summary>
+        public static string GetFingerprint(MemberReference memberReference)
+        {
+            // An interface contains only the signatures of methods, properties, events or indexers. 
+
+            StringBuilder buf = new StringBuilder();
+
+            var methodSignature = memberReference as IMethodSignature;
+            var propertyReference = memberReference as PropertyDefinition;
+            var eventReference = memberReference as EventDefinition;
+
+            var genericTypes = new Dictionary<string, string>();
+            GetGenericTypesUnifiedNames(genericTypes, memberReference as IGenericParameterProvider, "M");
+            GetGenericTypesUnifiedNames(genericTypes, memberReference.DeclaringType, "T");
+            
+            if (methodSignature != null)
+            {
+                buf.Append(
+                    genericTypes.ContainsKey(methodSignature.ReturnType.Name) 
+                    ? genericTypes[methodSignature.ReturnType.Name] 
+                    : methodSignature.ReturnType.FullName).Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
+                AppendParameters(buf, methodSignature.Parameters, genericTypes);
+            }
+            else if (propertyReference != null)
+            {
+                buf.Append(propertyReference.PropertyType.FullName).Append(" ");
+                if (propertyReference.GetMethod != null)
+                    buf.Append("get").Append(" ");
+                if (propertyReference.SetMethod != null)
+                    buf.Append("set").Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
+                AppendParameters(buf, propertyReference.Parameters, genericTypes);
+            }
+            else if (eventReference != null)
+            {
+                buf.Append(eventReference.EventType.FullName).Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
+            }
+            if (genericTypes.Any())
+            {
+                buf.Append(" ").Append(string.Join(" ", genericTypes.Values));
+            }
+            return buf.ToString();
+        }
+
+        /// <summary>
+        /// If it's the name of explicitly implemented member, return only short name
+        /// </summary>
+        private static string SimplifyName(string memberName)
+        {
+            int nameBorder = memberName.LastIndexOf(".");
+            if (nameBorder > 0)
+            {
+                return memberName.Substring(nameBorder + 1, memberName.Length - nameBorder - 1);
+            }
+            return memberName;
+        }
+
+        public static string GetExplicitTypeName(string memberName)
+        {
+            int nameBorder = memberName.LastIndexOf(".");
+            if (nameBorder > 0)
+            {
+                return memberName.Substring(0, nameBorder);
+            }
+            return null;
+        }
+
+        private static void GetGenericTypesUnifiedNames(Dictionary<string, string> genericTypes, IGenericParameterProvider genericParameterProvider, string newName)
+        {
+            if (genericParameterProvider == null)
+                return;
+
+            int i = 0;
+            foreach (var genericParameter in genericParameterProvider.GenericParameters)
+            {
+                if (genericTypes.ContainsKey(genericParameter.Name))
+                    continue;
+                
+                genericTypes[genericParameter.Name] = newName + i;
+                ++i;
+            }
+        }
+
+        private static void AppendParameters(StringBuilder buf, Collection<ParameterDefinition> parameters, Dictionary<string, string> genericTypes)
+        {
+            foreach (var parameterDefinition in parameters)
+            {
+                var typeName = parameterDefinition.ParameterType.Name;
+                if (genericTypes.ContainsKey(parameterDefinition.ParameterType.Name))
+                    typeName = genericTypes[typeName];
+                buf.Append(" ").Append(typeName);
+            }
         }
     }
 }
