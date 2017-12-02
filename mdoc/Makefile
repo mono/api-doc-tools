@@ -431,6 +431,44 @@ check-monodocer-fsharp:
 	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 	$(DIFF) Test/en.expected-fsharp Test/en.actual
 
+# ------- Framework Alternate Test(s) -------
+Test/FrameworkTestData-frameworkalternate: Test/DocTest-frameworkalternate-one.dll Test/DocTest-frameworkalternate-two.dll
+	rm -rf Test/FrameworkTestData
+	mkdir Test/FrameworkTestData
+	mkdir Test/FrameworkTestData/One
+	mkdir Test/FrameworkTestData/Two
+	mkdir Test/FrameworkTestData/Three
+	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData/One/
+	cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData/Two/
+	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData/Three/
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData
+
+Test/DocTest-frameworkalternate-one.dll: 
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -debug -target:library -out:$@ Test/DocTest-frameworkalternate.cs /define:FXONE
+
+Test/DocTest-frameworkalternate-two.dll: 
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -debug -target:library -out:$@ Test/DocTest-frameworkalternate.cs /define:FXTWO
+
+.PHONY: check-monodocer-frameworkalternate
+check-monodocer-frameworkalternate: Test/FrameworkTestData-frameworkalternate
+	-rm -Rf Test/en.actual
+
+	# Run Test
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-frameworkalternates Test/en.actual
+	# run test again to make sure subsequent runs maintain data
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-frameworkalternates Test/en.actual
+
+	# Test Future FX Alignment ... 
+	# copy one over two in test data
+	cp -i Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData/Two/DocTest-frameworkalternate-two.dll
+	# mdoc update fxmode again
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
+	# diff against aligned but with FrameworkAlternate="one;two;three"
+	$(DIFF) Test/en.expected-frameworkalternates-aligned Test/en.actual
+
+# ------- Framework Alternate Test(s) -------
 
 .PHONY: check-monodocer-import-fx
 check-monodocer-import-fx: check-monodocer-import-fx-work
@@ -574,6 +612,7 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-frameworks-with-nuget\
 	check-monodocer-fsharp \
 	check-monodocer-attached-entities \
+	check-monodocer-frameworkalternate \
 
 
 check-doc-tools-update: check-monodocer-since-update \
