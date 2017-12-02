@@ -499,10 +499,10 @@ check-monodocer-frameworkalternate: Test/FrameworkTestData-frameworkalternate
 
 	# Run Test
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
-	$(DIFF) Test/en.expected-frameworkalternates Test/en.actual
+	$(DIFF) Test/en.expected-frameworkalternate Test/en.actual
 	# run test again to make sure subsequent runs maintain data
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
-	$(DIFF) Test/en.expected-frameworkalternates Test/en.actual
+	$(DIFF) Test/en.expected-frameworkalternate Test/en.actual
 
 	# Test Future FX Alignment ... 
 	# copy one over two in test data
@@ -510,7 +510,7 @@ check-monodocer-frameworkalternate: Test/FrameworkTestData-frameworkalternate
 	# mdoc update fxmode again
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
 	# diff against aligned but with FrameworkAlternate="one;two;three"
-	$(DIFF) Test/en.expected-frameworkalternates-aligned Test/en.actual
+	$(DIFF) Test/en.expected-frameworkalternate-aligned Test/en.actual
 
 # ------- Framework Alternate Test(s) -------
 
