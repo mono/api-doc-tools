@@ -3181,7 +3181,17 @@ namespace Mono.Documentation
                     // TODO: instead of this. Needs to be replaced with a better
                     // check for Parameter index ... should I add parameter index?
 
-                    // wasn't found, let's make sure it wasn't just cause the param name was changed
+                    // are we in frameworks mode?
+                    // add Index to all existing parameter nodes if they don't have them
+                    // match existing to position and type
+
+                    // when I find the one, name won't match ... 
+
+                    //  find all "previous" frameworks
+                    //  Add FrameworkAlternate with previous frameworks to found/pre-existing node
+                    // Create new "Parameter" node, with FrameworkAlternate = this
+
+                    // Legacy: wasn't found, let's make sure it wasn't just cause the param name was changed
                     nodes = root.SelectSingleNode ("Parameters").SelectNodes ("Parameter")
                         .Cast<XmlElement> ()
                         .Skip (i) // this makes sure we don't inadvertently "reuse" nodes when adding new ones
@@ -3215,6 +3225,10 @@ namespace Mono.Documentation
 
                 i++;
             }
+
+            // TODO: was there a `Parameter` that we didn't process that has FrameworkAlternate?
+            // if yes, remove this framework from that FrameworkAlternate
+            // if that makes the list empty, remove the node and corresponding /Docs/parameter node
         }
 
         private void MakeTypeParameters (XmlElement root, IList<GenericParameter> typeParams, MemberReference member, bool shouldDuplicateWithNew)
