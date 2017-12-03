@@ -77,5 +77,15 @@ namespace AttachedEventsAndProperties
         {
         }
         #endregion 
+
+        #region Negative example (the event type ends with "Event", but the name doesn't)
+        public static readonly RoutedEvent E;
+        public static void AddNeedsCleaning7Handler(DependencyObject d, RoutedEventHandler handler)
+        {
+        }
+        public static void RemoveNeedsCleaning7Handler(DependencyObject d, RoutedEventHandler handler)
+        {
+        }
+        #endregion 
     }
 }

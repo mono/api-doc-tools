@@ -55,7 +55,7 @@ namespace Mono.Documentation.Util
         private static bool IsAttachedEvent(FieldDefinition field, Dictionary<string, IEnumerable<MethodDefinition>> methods)
         {
             // https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/attached-events-overview
-            if (!field.FieldType.Name.EndsWith(EventConst))
+            if (!field.Name.EndsWith(EventConst))
                 return false;
             var addMethodName = $"Add{GetEventName(field.Name)}Handler";
             var removeMethodName = $"Remove{GetEventName(field.Name)}Handler";
