@@ -36,6 +36,27 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="GetIsBubbleSource3">
+      <MemberSignature Language="C#" Value="public static bool GetIsBubbleSource3 (System.Windows.UIElement element);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool GetIsBubbleSource3(class System.Windows.UIElement element) cil managed" />
+      <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.GetIsBubbleSource3(System.Windows.UIElement)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.UIElement" />
+      </Parameters>
+      <Docs>
+        <param name="element">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="IsBubbleSource">
       <MemberSignature Language="C#" Value="see GetIsBubbleSource, and SetIsBubbleSource" />
       <MemberSignature Language="ILAsm" Value="see GetIsBubbleSource, and SetIsBubbleSource" />
@@ -81,6 +102,22 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="P">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty P;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty P" />
+      <MemberSignature Language="DocId" Value="F:AttachedEventsAndProperties.AttachedPropertyExample.P" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.DependencyProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="SetIsBubbleSource">
       <MemberSignature Language="C#" Value="public static void SetIsBubbleSource (System.Windows.UIElement element, bool value);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetIsBubbleSource(class System.Windows.UIElement element, bool value) cil managed" />
@@ -107,6 +144,28 @@
       <MemberSignature Language="C#" Value="public static void SetIsBubbleSource2 (System.Windows.UIElement element, bool value);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetIsBubbleSource2(class System.Windows.UIElement element, bool value) cil managed" />
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource2(System.Windows.UIElement,System.Boolean)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="element" Type="System.Windows.UIElement" />
+        <Parameter Name="value" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="element">To be added.</param>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetIsBubbleSource3">
+      <MemberSignature Language="C#" Value="public static void SetIsBubbleSource3 (System.Windows.UIElement element, bool value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetIsBubbleSource3(class System.Windows.UIElement element, bool value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource3(System.Windows.UIElement,System.Boolean)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
