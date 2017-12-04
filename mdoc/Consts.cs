@@ -3,7 +3,7 @@ namespace Mono.Documentation
 {
 	public static class Consts
 	{
-		public static string MonoVersion = "5.3.3.0";
+		public static string MonoVersion = "5.3.4.1";
 		public const string DocId = "DocId";
 		public const string VbNet = "VB.NET";
 		public const string DocIdLowCase = "docid";
