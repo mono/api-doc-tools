@@ -74,6 +74,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.IComparable`1.CompareTo(`0)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="CompareTo">
       <MemberSignature Language="C#" Value="public override sealed int CompareTo (object obj);" />
@@ -94,6 +97,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.IComparable.CompareTo(System.Object)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="CompareTo">
       <MemberSignature Language="C#" Value="public override sealed int CompareTo (object obj, System.Collections.IComparer comp);" />
@@ -116,6 +122,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IStructuralComparable.CompareTo(System.Object,System.Collections.IComparer)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="Equals">
       <MemberSignature Language="C#" Value="public override sealed bool Equals (PatternMatching.PatternMatchingExamples.MyRecord obj);" />
@@ -136,6 +145,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.IEquatable`1.Equals(`0)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="Equals">
       <MemberSignature Language="C#" Value="public override sealed bool Equals (object obj);" />
@@ -178,6 +190,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IStructuralEquatable.Equals(System.Object,System.Collections.IEqualityComparer)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="GetHashCode">
       <MemberSignature Language="C#" Value="public override sealed int GetHashCode ();" />
@@ -215,6 +230,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IStructuralEquatable.GetHashCode(System.Collections.IEqualityComparer)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="ID">
       <MemberSignature Language="C#" Value="public int ID { get; }" />

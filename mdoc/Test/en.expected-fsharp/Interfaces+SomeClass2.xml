@@ -59,6 +59,9 @@
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:Interfaces.IPrintable.Print</InterfaceMember>
+      </Implements>
     </Member>
   </Members>
 </Type>

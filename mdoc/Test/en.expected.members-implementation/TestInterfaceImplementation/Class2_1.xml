@@ -57,9 +57,9 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface2.Method(System.Int32)</ImplementsItem>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</ImplementsItem>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface3_1.Method(System.Int32)</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method(System.Int32)</InterfaceMember>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</InterfaceMember>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3_1.Method(System.Int32)</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Method2">
@@ -82,7 +82,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface2.Method2(System.Double)</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method2(System.Double)</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Method2">
@@ -105,7 +105,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface3.Method2(System.Single)</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method2(System.Single)</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="TestInterfaceImplementation.Interface3.Method">
@@ -128,7 +128,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</InterfaceMember>
       </Implements>
     </Member>
   </Members>

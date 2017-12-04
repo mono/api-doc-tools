@@ -100,6 +100,9 @@
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>P:System.Collections.Generic.ICollection`1.Count</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="Current">
       <MemberSignature Language="C#" Value="public A Current { get; }" />
@@ -117,6 +120,9 @@
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>P:System.Collections.Generic.IEnumerator`1.Current</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="Dispose">
       <MemberSignature Language="C#" Value="public void Dispose ();" />
@@ -134,6 +140,9 @@
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="Foo">
       <MemberSignature Language="C#" Value="public System.Collections.Generic.KeyValuePair&lt;System.Collections.Generic.IEnumerable&lt;A&gt;,System.Collections.Generic.IEnumerable&lt;B&gt;&gt; Foo ();" />
@@ -196,6 +205,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:Mono.DocTest.Generic.IFoo`1.Method``1(`0,``0)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="MoveNext">
       <MemberSignature Language="C#" Value="public bool MoveNext ();" />
@@ -214,6 +226,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerator.MoveNext</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="Reset">
       <MemberSignature Language="C#" Value="public void Reset ();" />
@@ -231,6 +246,9 @@
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerator.Reset</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.Generic.ICollection&lt;A&gt;.Add">
       <MemberSignature Language="C#" Value="void ICollection&lt;A&gt;.Add (A item);" />
@@ -251,6 +269,9 @@
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.ICollection`1.Add(`0)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.Generic.ICollection&lt;A&gt;.Clear">
       <MemberSignature Language="C#" Value="void ICollection&lt;A&gt;.Clear ();" />
@@ -268,6 +289,9 @@
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.ICollection`1.Clear</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.Generic.ICollection&lt;A&gt;.Contains">
       <MemberSignature Language="C#" Value="bool ICollection&lt;A&gt;.Contains (A item);" />
@@ -289,6 +313,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.ICollection`1.Contains(`0)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly">
       <MemberSignature Language="C#" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly { get; }" />
@@ -306,6 +333,9 @@
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>P:System.Collections.Generic.ICollection`1.IsReadOnly</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.Generic.ICollection&lt;A&gt;.Remove">
       <MemberSignature Language="C#" Value="bool ICollection&lt;A&gt;.Remove (A item);" />
@@ -327,6 +357,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.ICollection`1.Remove(`0)</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.Generic.IEnumerable&lt;A&gt;.GetEnumerator">
       <MemberSignature Language="C#" Value="System.Collections.Generic.IEnumerator&lt;A&gt; IEnumerable&lt;A&gt;.GetEnumerator ();" />
@@ -345,6 +378,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.IEnumerable`1.GetEnumerator</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.Generic.IEnumerator&lt;A&gt;.Current">
       <MemberSignature Language="C#" Value="A System.Collections.Generic.IEnumerator&lt;A&gt;.Current { get; }" />
@@ -362,6 +398,9 @@
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>P:System.Collections.Generic.IEnumerator`1.Current</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.IEnumerable.GetEnumerator">
       <MemberSignature Language="C#" Value="System.Collections.IEnumerator IEnumerable.GetEnumerator ();" />
@@ -380,6 +419,9 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="System.Collections.IEnumerator.Current">
       <MemberSignature Language="C#" Value="object System.Collections.IEnumerator.Current { get; }" />
@@ -397,6 +439,9 @@
         <value>To be added.</value>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>P:System.Collections.IEnumerator.Current</InterfaceMember>
+      </Implements>
     </Member>
   </Members>
 </Type>

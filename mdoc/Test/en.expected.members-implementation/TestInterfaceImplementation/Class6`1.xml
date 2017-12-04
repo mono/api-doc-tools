@@ -61,7 +61,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface7`1.Method1``1(`0,``0)</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface7`1.Method1``1(`0,``0)</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Method2">
@@ -108,7 +108,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface7`1.Method2``1(`0``0)</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface7`1.Method2``1(`0``0)</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Method3">
@@ -131,7 +131,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface7`1.Method3(`0)</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface7`1.Method3(`0)</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Method4">
@@ -151,7 +151,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface7`1.Method4</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface7`1.Method4</InterfaceMember>
       </Implements>
     </Member>
   </Members>

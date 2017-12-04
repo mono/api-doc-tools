@@ -48,7 +48,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface6.Method</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface6.Method</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Method&lt;TTT&gt;">
@@ -72,7 +72,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface6.Method``1</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface6.Method``1</InterfaceMember>
       </Implements>
     </Member>
   </Members>

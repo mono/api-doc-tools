@@ -62,6 +62,9 @@
         <remarks>
           <c>M:Mono.DocTest.MyList`1.GetEnumerator</c>.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.IEnumerable`1.GetEnumerator</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="GetHelper&lt;U,V&gt;">
       <MemberSignature Language="C#" Value="public Mono.DocTest.Generic.MyList&lt;T&gt;.Helper&lt;U,V&gt; GetHelper&lt;U,V&gt; ();" />
@@ -156,6 +159,9 @@
         <remarks>
           <c>M:Mono.DocTest.MyList`1.System#Collections#GetEnumerator</c>.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="Test">
       <MemberSignature Language="C#" Value="public void Test (T t);" />

@@ -71,6 +71,9 @@
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>M:MyNamespace.MyInternalInterface.BarMeth</InterfaceMember>
+      </Implements>
     </Member>
     <Member MemberName="InstanceEvent">
       <MemberSignature Language="C#" Value="public event EventHandler&lt;int&gt; InstanceEvent;" />
@@ -103,6 +106,9 @@
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
+      <Implements>
+        <InterfaceMember>E:MyNamespace.MyPublicInterface.PublicEvent</InterfaceMember>
+      </Implements>
     </Member>
   </Members>
 </Type>

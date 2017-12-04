@@ -46,7 +46,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>E:TestInterfaceImplementation.Interface1.Event1</ImplementsItem>
+        <InterfaceMember>E:TestInterfaceImplementation.Interface1.Event1</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Item">
@@ -69,7 +69,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>P:TestInterfaceImplementation.Interface1.Item(System.Int32)</ImplementsItem>
+        <InterfaceMember>P:TestInterfaceImplementation.Interface1.Item(System.Int32)</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Method1">
@@ -88,7 +88,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface1.Method1</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface1.Method1</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="Property1">
@@ -107,7 +107,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>P:TestInterfaceImplementation.Interface1.Property1</ImplementsItem>
+        <InterfaceMember>P:TestInterfaceImplementation.Interface1.Property1</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="TestInterfaceImplementation.Interface1.Event2">
@@ -125,7 +125,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>E:TestInterfaceImplementation.Interface1.Event2</ImplementsItem>
+        <InterfaceMember>E:TestInterfaceImplementation.Interface1.Event2</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="TestInterfaceImplementation.Interface1.Item">
@@ -148,7 +148,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>P:TestInterfaceImplementation.Interface1.Item(System.Single)</ImplementsItem>
+        <InterfaceMember>P:TestInterfaceImplementation.Interface1.Item(System.Single)</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="TestInterfaceImplementation.Interface1.Method2">
@@ -168,7 +168,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>M:TestInterfaceImplementation.Interface1.Method2</ImplementsItem>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface1.Method2</InterfaceMember>
       </Implements>
     </Member>
     <Member MemberName="TestInterfaceImplementation.Interface1.Property2">
@@ -187,7 +187,7 @@
         <remarks>To be added.</remarks>
       </Docs>
       <Implements>
-        <ImplementsItem>P:TestInterfaceImplementation.Interface1.Property2</ImplementsItem>
+        <InterfaceMember>P:TestInterfaceImplementation.Interface1.Property2</InterfaceMember>
       </Implements>
     </Member>
   </Members>

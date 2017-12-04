@@ -2140,8 +2140,7 @@ namespace Mono.Documentation
 
         private static void TryAddImplementedMembers(MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
         {
-            bool isExplicitlyImplemented = false;
-            isExplicitlyImplemented = mi.Name.Contains(".") && mi.Name != ".ctor";
+            bool isExplicitlyImplemented = DocUtils.IsExplicitlyImplemented(mi);
 
             var fingerprint = DocUtils.GetFingerprint(mi);
             if (!allImplementedMembers.ContainsKey(fingerprint) && !isExplicitlyImplemented)
@@ -2154,10 +2153,10 @@ namespace Mono.Documentation
             if (isExplicitlyImplemented)
             {
                 // leave only one explicitly implemented member
-                var explicitTypeName = DocUtils.GetExplicitTypeName(mi.Name);
+                var explicitTypeName = DocUtils.GetExplicitTypeName(mi);
 
                 var explicitlyImplemented =
-                    implementedMembers.FirstOrDefault(i => i.DeclaringType.FullName == explicitTypeName);
+                    implementedMembers.First(i => i.DeclaringType.GetElementType().FullName == explicitTypeName);
                 implementedMembers = new List<MemberReference>
                 {
                     explicitlyImplemented
@@ -2176,7 +2175,7 @@ namespace Mono.Documentation
             foreach (var implementedMember in implementedMembers)
             {
                 var value = slashdocFormatter.GetDeclaration(implementedMember);
-                WriteElementText(e, "ImplementsItem", value, true);
+                WriteElementText(e, "InterfaceMember", value, true);
             }
 
             if (e.ParentNode == null)
@@ -3307,7 +3306,7 @@ namespace Mono.Documentation
             me.SetAttribute ("MemberName", GetMemberName (mi));
 
             info.Node = me;
-            UpdateMember (info, typeEntry, iplementedMembers);// todo: pass interface cache
+            UpdateMember (info, typeEntry, iplementedMembers);
             if (exceptions.HasValue &&
                     (exceptions.Value & ExceptionLocations.AddedMembers) != 0)
                 UpdateExceptions (info.Node, info.Member);

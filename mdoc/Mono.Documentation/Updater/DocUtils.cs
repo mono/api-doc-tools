@@ -364,33 +364,35 @@ namespace Mono.Documentation.Updater
         public static Dictionary<string, List<MemberReference>> GetImplementedMembersCache(TypeDefinition type)
         {
             var result = new Dictionary<string, List<MemberReference>>();
-            List<TypeDefinition> prevousInterfaces = new List<TypeDefinition>();
+            List<TypeDefinition> previousInterfaces = new List<TypeDefinition>();
             foreach (var implementedInterface in type.Interfaces)
             {
                 var interfaceType = implementedInterface.InterfaceType.Resolve();
 
                 //Don't add duplicates of members which appear because of inheritance of interfaces
-                bool addDuplicates = !prevousInterfaces.Any(
+                bool addDuplicates = !previousInterfaces.Any(
                     i => i.Interfaces.Any(
                         j => j.InterfaceType.FullName == interfaceType.FullName));
-
+                var genericInstanceType = implementedInterface.InterfaceType as GenericInstanceType;
                 foreach (var memberReference in interfaceType.GetMembers())
                 {
-                    var fingerprint = GetFingerprint(memberReference);
+                    // pass genericInstanceType to resolve generic types if they are explicitly specified in the interface implementation code
+                    var fingerprint = GetFingerprint(memberReference, genericInstanceType);
                     if (!result.ContainsKey(fingerprint))
                         result[fingerprint] = new List<MemberReference>();
-                    if (addDuplicates)
+                    if (!result[fingerprint].Any() || addDuplicates)
                         result[fingerprint].Add(memberReference);
                 }
-                prevousInterfaces.Add(interfaceType);
+                previousInterfaces.Add(interfaceType);
             }
             return result;
         }
 
         /// <summary>
-        /// Get fingerprint of MemberReference. If fingerprints are equal, members can be implementations of eachother
+        /// Get fingerprint of MemberReference. If fingerprints are equal, members can be implementations of each other
         /// </summary>
-        public static string GetFingerprint(MemberReference memberReference)
+        /// <param name="genericInterface">genericInstanceType to resolve generic types if they are explicitly specified in the interface implementation code</param>
+        public static string GetFingerprint(MemberReference memberReference, GenericInstanceType genericInterface = null)
         {
             // An interface contains only the signatures of methods, properties, events or indexers. 
 
@@ -399,23 +401,23 @@ namespace Mono.Documentation.Updater
             var methodSignature = memberReference as IMethodSignature;
             var propertyReference = memberReference as PropertyDefinition;
             var eventReference = memberReference as EventDefinition;
-
-            var genericTypes = new Dictionary<string, string>();
-            GetGenericTypesUnifiedNames(genericTypes, memberReference as IGenericParameterProvider, "M");
-            GetGenericTypesUnifiedNames(genericTypes, memberReference.DeclaringType, "T");
             
+            var genericTypes = new Dictionary<string, string>();
+            GetGenericTypesUnifiedNames(genericTypes, memberReference as IGenericParameterProvider, "M", genericInterface);
+            GetGenericTypesUnifiedNames(genericTypes, memberReference.DeclaringType, "T", genericInterface);
+
+            var memberGenericTypes = new Dictionary<string, string>();
+            GetGenericTypesUnifiedNames(memberGenericTypes, memberReference as IGenericParameterProvider, "M", genericInterface);
+
             if (methodSignature != null)
             {
-                buf.Append(
-                    genericTypes.ContainsKey(methodSignature.ReturnType.Name) 
-                    ? genericTypes[methodSignature.ReturnType.Name] 
-                    : methodSignature.ReturnType.FullName).Append(" ");
+                buf.Append(GetUnifiedTypeName(methodSignature.ReturnType, genericTypes)).Append(" ");
                 buf.Append(SimplifyName(memberReference.Name)).Append(" ");
                 AppendParameters(buf, methodSignature.Parameters, genericTypes);
             }
             else if (propertyReference != null)
             {
-                buf.Append(propertyReference.PropertyType.FullName).Append(" ");
+                buf.Append(GetUnifiedTypeName(propertyReference.PropertyType, genericTypes)).Append(" ");
                 if (propertyReference.GetMethod != null)
                     buf.Append("get").Append(" ");
                 if (propertyReference.SetMethod != null)
@@ -425,12 +427,13 @@ namespace Mono.Documentation.Updater
             }
             else if (eventReference != null)
             {
-                buf.Append(eventReference.EventType.FullName).Append(" ");
+                buf.Append(GetUnifiedTypeName(eventReference.EventType, genericTypes)).Append(" ");
                 buf.Append(SimplifyName(memberReference.Name)).Append(" ");
             }
-            if (genericTypes.Any())
+
+            if (memberGenericTypes.Any())
             {
-                buf.Append(" ").Append(string.Join(" ", genericTypes.Values));
+                buf.Append(" ").Append(string.Join(" ", memberGenericTypes.Values));
             }
             return buf.ToString();
         }
@@ -448,17 +451,10 @@ namespace Mono.Documentation.Updater
             return memberName;
         }
 
-        public static string GetExplicitTypeName(string memberName)
-        {
-            int nameBorder = memberName.LastIndexOf(".");
-            if (nameBorder > 0)
-            {
-                return memberName.Substring(0, nameBorder);
-            }
-            return null;
-        }
-
-        private static void GetGenericTypesUnifiedNames(Dictionary<string, string> genericTypes, IGenericParameterProvider genericParameterProvider, string newName)
+        private static void GetGenericTypesUnifiedNames(Dictionary<string, string> genericTypes, 
+            IGenericParameterProvider genericParameterProvider, 
+            string newName, 
+            GenericInstanceType genericInterface)
         {
             if (genericParameterProvider == null)
                 return;
@@ -468,21 +464,85 @@ namespace Mono.Documentation.Updater
             {
                 if (genericTypes.ContainsKey(genericParameter.Name))
                     continue;
-                
-                genericTypes[genericParameter.Name] = newName + i;
+                if (genericInterface != null 
+                    && i < genericInterface.GenericArguments.Count 
+                    && ! genericInterface.GenericArguments[i].IsGenericParameter)
+                {
+                    genericTypes[genericParameter.Name] = genericInterface.GenericArguments[i].FullName;
+                }
+                else
+                {
+                    genericTypes[genericParameter.Name] = newName + i;
+                }
                 ++i;
             }
         }
 
         private static void AppendParameters(StringBuilder buf, Collection<ParameterDefinition> parameters, Dictionary<string, string> genericTypes)
         {
+            buf.Append("(");
             foreach (var parameterDefinition in parameters)
             {
-                var typeName = parameterDefinition.ParameterType.Name;
-                if (genericTypes.ContainsKey(parameterDefinition.ParameterType.Name))
-                    typeName = genericTypes[typeName];
-                buf.Append(" ").Append(typeName);
+                buf.Append(GetUnifiedTypeName(parameterDefinition.ParameterType, genericTypes)).Append(", ");
             }
+            buf.Append(")");
+        }
+
+        private static string GetUnifiedTypeName(TypeReference type, Dictionary<string, string> genericTypes)
+        {
+            var genericInstance = type as IGenericInstance;
+            if (genericInstance != null && genericInstance.HasGenericArguments)
+            {
+                return
+                    $"{type.Name}<{string.Join(", ", genericInstance.GenericArguments.Select(i => GetUnifiedTypeName(i, genericTypes)))}>";
+            }
+
+            return genericTypes.ContainsKey(type.Name)
+                ? genericTypes[type.Name]
+                : type.FullName;
+        }
+
+        public static string GetExplicitTypeName(MemberReference memberReference)
+        {
+            var overrides = GetOverrides(memberReference);
+            if (overrides == null)
+            {
+                throw new ArgumentException("Unsupported explicitly implemented member");
+            }
+
+            var declaringType = overrides.First().DeclaringType;
+            return declaringType.GetElementType().FullName;
+        }
+
+        public static bool IsExplicitlyImplemented(MemberReference memberReference)
+        {
+            var overrides = GetOverrides(memberReference);
+            return overrides?.Count > 0;
+        }
+
+        /// <summary>
+        /// Get which members are overriden by memberReference
+        /// </summary>
+        private static Collection<MethodReference> GetOverrides(MemberReference memberReference)
+        {
+            var methodDefinition = memberReference as MethodDefinition;
+            Collection<MethodReference> overrides = null;
+            if (methodDefinition != null)
+            {
+                overrides = methodDefinition.Overrides;
+            }
+            var propertyDefinition = memberReference as PropertyDefinition;
+            if (propertyDefinition != null)
+            {
+                overrides = (propertyDefinition.GetMethod ?? propertyDefinition.SetMethod)?.Overrides;
+            }
+
+            var evendDefinition = memberReference as EventDefinition;
+            if (evendDefinition != null)
+            {
+                overrides = evendDefinition.AddMethod.Overrides;
+            }
+            return overrides;
         }
     }
 }
