@@ -2269,6 +2269,7 @@ namespace Mono.Documentation
         static readonly string[] MemberNodeOrder = {
         "MemberSignature",
         "MemberType",
+        "Implements",
         "AssemblyInfo",
         "Attributes",
         "ReturnValue",

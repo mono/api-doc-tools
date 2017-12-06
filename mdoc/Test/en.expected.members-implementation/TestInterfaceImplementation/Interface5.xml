@@ -19,6 +19,9 @@
       <MemberSignature Language="C#" Value="public int Method ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method() cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface4.Method</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -31,14 +34,14 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
-      <Implements>
-        <InterfaceMember>M:TestInterfaceImplementation.Interface4.Method</InterfaceMember>
-      </Implements>
     </Member>
     <Member MemberName="Method2">
       <MemberSignature Language="C#" Value="public int Method2 ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method2() cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface4.Method2</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -51,9 +54,6 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
-      <Implements>
-        <InterfaceMember>M:TestInterfaceImplementation.Interface4.Method2</InterfaceMember>
-      </Implements>
     </Member>
   </Members>
 </Type>

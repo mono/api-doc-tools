@@ -396,6 +396,13 @@ namespace Mono.Documentation.Updater
         /// </summary>
         /// <param name="memberReference">Type member which fingerprint is returned</param>
         /// <param name="genericInterface">GenericInstanceType instance to resolve generic types if they are explicitly specified in the interface implementation code</param>
+        /// <remarks>Any existing MemberFormatter can't be used for generation of fingerprint because none of them generate equal signatures
+        /// for an interface member and its implementation in the following cases:
+        /// 1. Explicitly implemented members
+        /// 2. Different names of generic arguments in interface and in implementing type
+        /// 3. Implementation of interface with generic type parameters
+        /// The last point is especially interesting because it makes GetFingerprint method context-sensitive:
+        /// it returns signatures of interface members depending on generic parameters of the implementing type (GenericInstanceType parameter).</remarks>
         public static string GetFingerprint(MemberReference memberReference, GenericInstanceType genericInterface = null)
         {
             // An interface contains only the signatures of methods, properties, events or indexers. 

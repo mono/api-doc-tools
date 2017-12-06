@@ -49,6 +49,9 @@
       <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerator&lt;int[]&gt; GetEnumerator ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.Generic.IEnumerator`1&lt;int32[]&gt; GetEnumerator() cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.IEnumerable`1.GetEnumerator</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -62,9 +65,6 @@
         <remarks>
           <c>M:Mono.DocTest.MyList`1.GetEnumerator</c>.</remarks>
       </Docs>
-      <Implements>
-        <InterfaceMember>M:System.Collections.Generic.IEnumerable`1.GetEnumerator</InterfaceMember>
-      </Implements>
     </Member>
     <Member MemberName="GetHelper&lt;U,V&gt;">
       <MemberSignature Language="C#" Value="public Mono.DocTest.Generic.MyList&lt;T&gt;.Helper&lt;U,V&gt; GetHelper&lt;U,V&gt; ();" />
@@ -146,6 +146,9 @@
       <MemberSignature Language="C#" Value="System.Collections.IEnumerator IEnumerable.GetEnumerator ();" />
       <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -159,9 +162,6 @@
         <remarks>
           <c>M:Mono.DocTest.MyList`1.System#Collections#GetEnumerator</c>.</remarks>
       </Docs>
-      <Implements>
-        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
-      </Implements>
     </Member>
     <Member MemberName="Test">
       <MemberSignature Language="C#" Value="public void Test (T t);" />

@@ -480,6 +480,7 @@ add masterdoc support?
       <xs:sequence>
         <xs:element ref="MemberSignature" minOccurs="1" maxOccurs="unbounded" />
         <xs:element ref="MemberType" maxOccurs="1" />
+        <xs:element ref="Implements" minOccurs="0" maxOccurs="1" />
         <xs:element ref="AssemblyInfo" minOccurs="0" maxOccurs="1" />
         <xs:element ref="Attributes" minOccurs="0" maxOccurs="1" />
         <xs:element ref="ReturnValue" minOccurs="0" maxOccurs="1" />
@@ -490,7 +491,6 @@ add masterdoc support?
         <xs:element ref="Excluded" minOccurs="0" maxOccurs="1" />
         <xs:element ref="ExcludedLibrary" minOccurs="0" maxOccurs="unbounded" />
         <xs:element ref="Link" minOccurs="0" maxOccurs="1" />
-        <xs:element ref="Implements" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
       <xs:attribute ref="MemberName" />
       <xs:attribute ref="Deprecated" />

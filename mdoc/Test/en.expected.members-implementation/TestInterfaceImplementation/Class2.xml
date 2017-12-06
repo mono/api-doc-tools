@@ -38,6 +38,9 @@
       <MemberSignature Language="C#" Value="public int Method2 (double i);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method2(float64 i) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method2(System.Double)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -53,14 +56,14 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
-      <Implements>
-        <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method2(System.Double)</InterfaceMember>
-      </Implements>
     </Member>
     <Member MemberName="Method2">
       <MemberSignature Language="C#" Value="public int Method2 (float i);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method2(float32 i) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method2(System.Single)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -76,14 +79,14 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
-      <Implements>
-        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method2(System.Single)</InterfaceMember>
-      </Implements>
     </Member>
     <Member MemberName="TestInterfaceImplementation.Interface2.Method">
       <MemberSignature Language="C#" Value="int Interface2.Method (int i);" />
       <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance int32 TestInterfaceImplementation.Interface2.Method(int32 i) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method(System.Int32)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -99,14 +102,14 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
-      <Implements>
-        <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method(System.Int32)</InterfaceMember>
-      </Implements>
     </Member>
     <Member MemberName="TestInterfaceImplementation.Interface3.Method">
       <MemberSignature Language="C#" Value="int Interface3.Method (int i);" />
       <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance int32 TestInterfaceImplementation.Interface3.Method(int32 i) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -122,9 +125,6 @@
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
-      <Implements>
-        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</InterfaceMember>
-      </Implements>
     </Member>
   </Members>
 </Type>
