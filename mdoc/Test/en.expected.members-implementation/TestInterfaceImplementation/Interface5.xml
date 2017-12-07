@@ -1,0 +1,59 @@
+<Type Name="Interface5" FullName="TestInterfaceImplementation.Interface5">
+  <TypeSignature Language="C#" Value="public interface Interface5 : TestInterfaceImplementation.Interface4" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract Interface5 implements class TestInterfaceImplementation.Interface4" />
+  <AssemblyInfo>
+    <AssemblyName>TestInterfaceImplementation</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>TestInterfaceImplementation.Interface4</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Method">
+      <MemberSignature Language="C#" Value="public int Method ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method() cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface4.Method</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method2">
+      <MemberSignature Language="C#" Value="public int Method2 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method2() cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface4.Method2</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

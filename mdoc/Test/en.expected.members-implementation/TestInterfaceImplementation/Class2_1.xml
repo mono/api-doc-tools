@@ -1,0 +1,135 @@
+<Type Name="Class2_1" FullName="TestInterfaceImplementation.Class2_1">
+  <TypeSignature Language="C#" Value="public class Class2_1 : TestInterfaceImplementation.Interface2, TestInterfaceImplementation.Interface3, TestInterfaceImplementation.Interface3_1" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Class2_1 extends System.Object implements class TestInterfaceImplementation.Interface2, class TestInterfaceImplementation.Interface3, class TestInterfaceImplementation.Interface3_1" />
+  <AssemblyInfo>
+    <AssemblyName>TestInterfaceImplementation</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>TestInterfaceImplementation.Interface2</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>TestInterfaceImplementation.Interface3</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>TestInterfaceImplementation.Interface3_1</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Class2_1 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method">
+      <MemberSignature Language="C#" Value="public int Method (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method(int32 i) cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method(System.Int32)</InterfaceMember>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</InterfaceMember>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3_1.Method(System.Int32)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method2">
+      <MemberSignature Language="C#" Value="public int Method2 (double i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method2(float64 i) cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method2(System.Double)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method2">
+      <MemberSignature Language="C#" Value="public int Method2 (float i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method2(float32 i) cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method2(System.Single)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Single" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestInterfaceImplementation.Interface3.Method">
+      <MemberSignature Language="C#" Value="int Interface3.Method (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance int32 TestInterfaceImplementation.Interface3.Method(int32 i) cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

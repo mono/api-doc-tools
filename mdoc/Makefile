@@ -431,6 +431,12 @@ check-monodocer-fsharp:
 	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 	$(DIFF) Test/en.expected-fsharp Test/en.actual
 
+check-monodocer-members-implementation:
+	-rm -Rf Test/en.actual
+	msbuild ../mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj -property:Configuration=Release
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
+	$(DIFF) Test/en.expected.members-implementation Test/en.actual
+
 
 .PHONY: check-monodocer-import-fx
 check-monodocer-import-fx: check-monodocer-import-fx-work
@@ -574,6 +580,7 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-frameworks-with-nuget\
 	check-monodocer-fsharp \
 	check-monodocer-attached-entities \
+	check-monodocer-members-implementation \
 
 
 check-doc-tools-update: check-monodocer-since-update \

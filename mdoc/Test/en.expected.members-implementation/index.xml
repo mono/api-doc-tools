@@ -1,0 +1,72 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="TestInterfaceImplementation" Version="1.0.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCompany("EPAM Systems")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyConfiguration("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCopyright("Copyright © EPAM Systems 2017")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyDescription("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyFileVersion("1.0.0.0")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyProduct("TestInterfaceImplementation")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTitle("TestInterfaceImplementation")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTrademark("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.CompilationRelaxations(8)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.Guid("804097c9-a2c0-44ca-9409-6fc8e4dbb8c8")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.6.1", FrameworkDisplayName=".NET Framework 4.6.1")</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="TestInterfaceImplementation">
+      <Type Name="Class1" Kind="Class" />
+      <Type Name="Class2" Kind="Class" />
+      <Type Name="Class2_1" Kind="Class" />
+      <Type Name="Class3" Kind="Class" />
+      <Type Name="Class4" Kind="Class" />
+      <Type Name="Class5" Kind="Class" />
+      <Type Name="Class6`1" DisplayName="Class6&lt;F&gt;" Kind="Class" />
+      <Type Name="Interface1" Kind="Interface" />
+      <Type Name="Interface2" Kind="Interface" />
+      <Type Name="Interface3" Kind="Interface" />
+      <Type Name="Interface3_1" Kind="Interface" />
+      <Type Name="Interface4" Kind="Interface" />
+      <Type Name="Interface5" Kind="Interface" />
+      <Type Name="Interface6" Kind="Interface" />
+      <Type Name="Interface7`1" DisplayName="Interface7&lt;T&gt;" Kind="Interface" />
+    </Namespace>
+  </Types>
+  <Title>TestInterfaceImplementation</Title>
+</Overview>

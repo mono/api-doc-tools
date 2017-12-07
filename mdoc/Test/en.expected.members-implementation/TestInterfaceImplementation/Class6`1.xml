@@ -1,0 +1,158 @@
+<Type Name="Class6&lt;F&gt;" FullName="TestInterfaceImplementation.Class6&lt;F&gt;">
+  <TypeSignature Language="C#" Value="public class Class6&lt;F&gt; : TestInterfaceImplementation.Interface7&lt;F&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Class6`1&lt;F&gt; extends System.Object implements class TestInterfaceImplementation.Interface7`1&lt;!F&gt;" />
+  <AssemblyInfo>
+    <AssemblyName>TestInterfaceImplementation</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="F" />
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>TestInterfaceImplementation.Interface7&lt;F&gt;</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <typeparam name="F">To be added.</typeparam>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Class6 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method1&lt;PPP&gt;">
+      <MemberSignature Language="C#" Value="public int Method1&lt;PPP&gt; (F t, PPP p);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method1&lt;PPP&gt;(!F t, !!PPP p) cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface7`1.Method1``1(`0,``0)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="PPP" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="t" Type="F" />
+        <Parameter Name="p" Type="PPP" />
+      </Parameters>
+      <Docs>
+        <typeparam name="PPP">To be added.</typeparam>
+        <param name="t">To be added.</param>
+        <param name="p">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method2">
+      <MemberSignature Language="C#" Value="public int Method2 (F t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 Method2(!F t) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="t" Type="F" />
+      </Parameters>
+      <Docs>
+        <param name="t">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method2&lt;F&gt;">
+      <MemberSignature Language="C#" Value="public int Method2&lt;F&gt; (F t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method2&lt;F&gt;(!!F t) cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface7`1.Method2``1(`0``0)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="F" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="t" Type="F" />
+      </Parameters>
+      <Docs>
+        <typeparam name="F">To be added.</typeparam>
+        <param name="t">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method3">
+      <MemberSignature Language="C#" Value="public int Method3 (F t);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method3(!F t) cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface7`1.Method3(`0)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="t" Type="F" />
+      </Parameters>
+      <Docs>
+        <param name="t">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method4">
+      <MemberSignature Language="C#" Value="public int Method4 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method4() cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface7`1.Method4</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
