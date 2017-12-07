@@ -76,6 +76,7 @@ add masterdoc support?
   <xs:element name="pre" />
   <xs:element name="ReturnType" type="xs:string" />
   <xs:element name="TypeExcluded" type="xs:string" />
+  <xs:element name="InterfaceMember" type="xs:string" />
 
   <!-- define complex elements -->
   <xs:element name="altcompliant">
@@ -479,6 +480,7 @@ add masterdoc support?
       <xs:sequence>
         <xs:element ref="MemberSignature" minOccurs="1" maxOccurs="unbounded" />
         <xs:element ref="MemberType" maxOccurs="1" />
+        <xs:element ref="Implements" minOccurs="0" maxOccurs="1" />
         <xs:element ref="AssemblyInfo" minOccurs="0" maxOccurs="1" />
         <xs:element ref="Attributes" minOccurs="0" maxOccurs="1" />
         <xs:element ref="ReturnValue" minOccurs="0" maxOccurs="1" />
@@ -712,6 +714,14 @@ add masterdoc support?
       <xs:sequence>
         <xs:element ref="ReturnType" minOccurs="0" maxOccurs="1" />
         <xs:element ref="Attributes" minOccurs="0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Implements">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="InterfaceMember" minOccurs="1" maxOccurs="unbounded" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

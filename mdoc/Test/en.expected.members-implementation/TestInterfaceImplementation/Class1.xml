@@ -1,0 +1,194 @@
+<Type Name="Class1" FullName="TestInterfaceImplementation.Class1">
+  <TypeSignature Language="C#" Value="public class Class1 : TestInterfaceImplementation.Interface1" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Class1 extends System.Object implements class TestInterfaceImplementation.Interface1" />
+  <AssemblyInfo>
+    <AssemblyName>TestInterfaceImplementation</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>TestInterfaceImplementation.Interface1</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Class1 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Event1">
+      <MemberSignature Language="C#" Value="public event EventHandler Event1;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler Event1" />
+      <MemberType>Event</MemberType>
+      <Implements>
+        <InterfaceMember>E:TestInterfaceImplementation.Interface1.Event1</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public int this[int index] { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Item(int32)" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:TestInterfaceImplementation.Interface1.Item(System.Int32)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="index">To be added.</param>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Method1">
+      <MemberSignature Language="C#" Value="public void Method1 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Method1() cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface1.Method1</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Property1">
+      <MemberSignature Language="C#" Value="public int Property1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Property1" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:TestInterfaceImplementation.Interface1.Property1</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestInterfaceImplementation.Interface1.Event2">
+      <MemberSignature Language="C#" Value="event EventHandler&lt;EventArgs&gt; TestInterfaceImplementation.Interface1.Event2;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;class System.EventArgs&gt; TestInterfaceImplementation.Interface1.Event2" />
+      <MemberType>Event</MemberType>
+      <Implements>
+        <InterfaceMember>E:TestInterfaceImplementation.Interface1.Event2</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.EventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestInterfaceImplementation.Interface1.Item">
+      <MemberSignature Language="C#" Value="int TestInterfaceImplementation.Interface1.Item[float index] { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 TestInterfaceImplementation.Interface1.Item(float32)" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:TestInterfaceImplementation.Interface1.Item(System.Single)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="index" Type="System.Single" />
+      </Parameters>
+      <Docs>
+        <param name="index">To be added.</param>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestInterfaceImplementation.Interface1.Method2">
+      <MemberSignature Language="C#" Value="TestInterfaceImplementation.Interface1 Interface1.Method2 ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class TestInterfaceImplementation.Interface1 TestInterfaceImplementation.Interface1.Method2() cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.Interface1.Method2</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>TestInterfaceImplementation.Interface1</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestInterfaceImplementation.Interface1.Property2">
+      <MemberSignature Language="C#" Value="int TestInterfaceImplementation.Interface1.Property2 { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 TestInterfaceImplementation.Interface1.Property2" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:TestInterfaceImplementation.Interface1.Property2</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

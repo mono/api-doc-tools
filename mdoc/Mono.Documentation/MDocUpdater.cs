@@ -1370,6 +1370,8 @@ namespace Mono.Documentation
 
             MyXmlNodeList todelete = new MyXmlNodeList ();
 
+            Dictionary<string, List<MemberReference>> implementedMembers = DocUtils.GetImplementedMembersFingerprintLookup(type);
+
             foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers (basefile, type))
             {
                 XmlElement oldmember = info.Node;
@@ -1445,7 +1447,7 @@ namespace Mono.Documentation
                 }
 
                 // Update signature information
-                UpdateMember (info, typeEntry);
+                UpdateMember (info, typeEntry, implementedMembers);
                 memberSet.Add (info.Member.FullName);
 
                 // get all apistyles of sig from info.Node
@@ -1510,7 +1512,7 @@ namespace Mono.Documentation
                         .ToArray ();
                 foreach (MemberReference m in typemembers)
                 {
-                    XmlElement mm = MakeMember (basefile, new DocsNodeInfo (null, m), members, typeEntry);
+                    XmlElement mm = MakeMember (basefile, new DocsNodeInfo (null, m), members, typeEntry, implementedMembers);
                     if (mm == null) continue;
 
                     if (MDocUpdater.SwitchingToMagicTypes || MDocUpdater.HasDroppedNamespace (m))
@@ -2066,7 +2068,7 @@ namespace Mono.Documentation
             return l;
         }
 
-        private void UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry)
+        private void UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers)
         {
             XmlElement me = (XmlElement)info.Node;
             MemberReference mi = info.Member;
@@ -2097,6 +2099,7 @@ namespace Mono.Documentation
             }
 
             WriteElementText (me, "MemberType", GetMemberType (mi));
+            AddImplementedMembers(mi, implementedMembers, me);
 
             if (!no_assembly_versions)
             {
@@ -2133,6 +2136,50 @@ namespace Mono.Documentation
             MakeDocNode (info, typeEntry.Framework.Importers);
             OrderMemberNodes (me, me.ChildNodes);
             UpdateExtensionMethods (me, info);
+        }
+
+        private static void AddImplementedMembers(MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
+        {
+            bool isExplicitlyImplemented = DocUtils.IsExplicitlyImplemented(mi);
+
+            var fingerprint = DocUtils.GetFingerprint(mi);
+            if (!allImplementedMembers.ContainsKey(fingerprint) && !isExplicitlyImplemented)
+            {
+                ClearElement(root, "Implements");
+                return;
+            }
+
+            List<MemberReference> implementedMembers = allImplementedMembers[fingerprint];
+            if (isExplicitlyImplemented)
+            {
+                // leave only one explicitly implemented member
+                var explicitTypeName = DocUtils.GetExplicitTypeName(mi);
+
+                // find one member wich is pocessed by the explicitly mentioned type
+                var explicitlyImplemented = implementedMembers.First(i => i.DeclaringType.GetElementType().FullName == explicitTypeName);
+                implementedMembers = new List<MemberReference>
+                {
+                    explicitlyImplemented
+                };
+            }
+
+            if (!implementedMembers.Any())
+                return;
+
+            XmlElement e = (XmlElement)root.SelectSingleNode("Implements");
+            if (e == null)
+                e = root.OwnerDocument.CreateElement("Implements");
+            else
+                e.RemoveAll();
+
+            foreach (var implementedMember in implementedMembers)
+            {
+                var value = slashdocFormatter.GetDeclaration(implementedMember);
+                WriteElementText(e, "InterfaceMember", value, true);
+            }
+
+            if (e.ParentNode == null)
+                root.AppendChild(e);
         }
 
         static void AddXmlNode (XmlElement[] relevant, Func<XmlElement, bool> valueMatches, Action<XmlElement> setValue, Func<XmlElement> makeNewNode, MemberReference member)
@@ -2222,6 +2269,7 @@ namespace Mono.Documentation
         static readonly string[] MemberNodeOrder = {
         "MemberSignature",
         "MemberType",
+        "Implements",
         "AssemblyInfo",
         "Attributes",
         "ReturnValue",
@@ -3243,7 +3291,7 @@ namespace Mono.Documentation
                 throw new ArgumentException (mi + " is a " + mi.GetType ().FullName);
         }
 
-        private XmlElement MakeMember (XmlDocument doc, DocsNodeInfo info, XmlNode members, FrameworkTypeEntry typeEntry)
+        private XmlElement MakeMember (XmlDocument doc, DocsNodeInfo info, XmlNode members, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> iplementedMembers)
         {
             MemberReference mi = info.Member;
             if (mi is TypeDefinition) return null;
@@ -3259,7 +3307,7 @@ namespace Mono.Documentation
             me.SetAttribute ("MemberName", GetMemberName (mi));
 
             info.Node = me;
-            UpdateMember (info, typeEntry);
+            UpdateMember (info, typeEntry, iplementedMembers);
             if (exceptions.HasValue &&
                     (exceptions.Value & ExceptionLocations.AddedMembers) != 0)
                 UpdateExceptions (info.Node, info.Member);

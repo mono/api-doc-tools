@@ -61,6 +61,9 @@
       <MemberSignature Language="C#" Value="public override sealed int CompareTo (Constructors.MyStruct obj);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 CompareTo(Constructors/MyStruct obj) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IComparable`1.CompareTo(`0)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -81,6 +84,9 @@
       <MemberSignature Language="C#" Value="public override sealed int CompareTo (object obj);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 CompareTo(object obj) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IComparable.CompareTo(System.Object)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -101,6 +107,9 @@
       <MemberSignature Language="C#" Value="public override sealed int CompareTo (object obj, System.Collections.IComparer comp);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 CompareTo(object obj, class System.Collections.IComparer comp) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IStructuralComparable.CompareTo(System.Object,System.Collections.IComparer)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -123,6 +132,9 @@
       <MemberSignature Language="C#" Value="public override sealed bool Equals (Constructors.MyStruct obj);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(Constructors/MyStruct obj) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IEquatable`1.Equals(`0)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -163,6 +175,9 @@
       <MemberSignature Language="C#" Value="public override sealed bool Equals (object obj, System.Collections.IEqualityComparer comp);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object obj, class System.Collections.IEqualityComparer comp) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IStructuralEquatable.Equals(System.Object,System.Collections.IEqualityComparer)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -202,6 +217,9 @@
       <MemberSignature Language="C#" Value="public override sealed int GetHashCode (System.Collections.IEqualityComparer comp);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode(class System.Collections.IEqualityComparer comp) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IStructuralEquatable.GetHashCode(System.Collections.IEqualityComparer)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
       </AssemblyInfo>
