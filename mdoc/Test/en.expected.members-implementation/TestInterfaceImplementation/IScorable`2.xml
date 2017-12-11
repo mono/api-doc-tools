@@ -1,0 +1,43 @@
+<Type Name="IScorable&lt;Item,Score&gt;" FullName="TestInterfaceImplementation.IScorable&lt;Item,Score&gt;">
+  <TypeSignature Language="C#" Value="public interface IScorable&lt;Item,Score&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IScorable`2&lt;Item, Score&gt;" />
+  <AssemblyInfo>
+    <AssemblyName>TestInterfaceImplementation</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="Item" />
+    <TypeParameter Name="Score" />
+  </TypeParameters>
+  <Interfaces />
+  <Docs>
+    <typeparam name="Item">To be added.</typeparam>
+    <typeparam name="Score">To be added.</typeparam>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="GetScore">
+      <MemberSignature Language="C#" Value="public Score GetScore (Item item, object state);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance !Score GetScore(!Item item, object state) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Score</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="item" Type="Item" />
+        <Parameter Name="state" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="item">To be added.</param>
+        <param name="state">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

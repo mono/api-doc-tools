@@ -397,6 +397,8 @@ namespace Mono.Documentation.Updater
 
         private void AppendConstraints(StringBuilder buf, IList<GenericParameter> genArgs)
         {
+            var origMemberFormatterState = MemberFormatterState;
+            MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
             List<string> constraintStrings = new List<string>();
 
             foreach (GenericParameter genArg in genArgs.Where(i => !IsFlexibleType(i)))
@@ -440,6 +442,7 @@ namespace Mono.Documentation.Updater
             {
                 buf.Append($" (requires {string.Join(" and ", constraintStrings)})");
             }
+            MemberFormatterState = origMemberFormatterState;
         }
 
         protected override string GetConstructorDeclaration(MethodDefinition constructor)

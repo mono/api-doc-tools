@@ -693,6 +693,12 @@ override this.Rotate : double -> unit",
 
         [Test]
         [Category("Constraints")]
+        public void TestConstraints_2_2() => 
+            TestTypeSignature(typeof(Constraints.Class2_2<>),
+                "type Constraints.Class2_2<'T (requires 'T :> IComparable and 'T :> seq<'T>)> = class");
+
+        [Test]
+        [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_3() => 
             TestTypeSignature(typeof(Constraints.Class3<>),

@@ -1,0 +1,68 @@
+<Type Name="ScorableBase&lt;Item,State,Score&gt;" FullName="TestInterfaceImplementation.ScorableBase&lt;Item,State,Score&gt;">
+  <TypeSignature Language="C#" Value="public class ScorableBase&lt;Item,State,Score&gt; : TestInterfaceImplementation.IScorable&lt;Item,Score&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ScorableBase`3&lt;Item, State, Score&gt; extends System.Object implements class TestInterfaceImplementation.IScorable`2&lt;!Item, !Score&gt;" />
+  <AssemblyInfo>
+    <AssemblyName>TestInterfaceImplementation</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="Item" />
+    <TypeParameter Name="State" />
+    <TypeParameter Name="Score" />
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>TestInterfaceImplementation.IScorable&lt;Item,Score&gt;</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <typeparam name="Item">To be added.</typeparam>
+    <typeparam name="State">To be added.</typeparam>
+    <typeparam name="Score">To be added.</typeparam>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ScorableBase ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestInterfaceImplementation.IScorable&lt;Item,Score&gt;.GetScore">
+      <MemberSignature Language="C#" Value="Score IScorable&lt;Item,Score&gt;.GetScore (Item item, object opaque);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance !Score TestInterfaceImplementation.IScorable&lt;Item,Score&gt;.GetScore(!Item item, object opaque) cil managed" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:TestInterfaceImplementation.IScorable`2.GetScore(`0,System.Object)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Score</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="item" Type="Item" />
+        <Parameter Name="opaque" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="item">To be added.</param>
+        <param name="opaque">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

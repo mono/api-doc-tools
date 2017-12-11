@@ -410,8 +410,8 @@ namespace Mono.Documentation.Updater
             StringBuilder buf = new StringBuilder();
             
             var unifiedTypeNames = new Dictionary<string, string>();
-            FillUnifiedTypeNames(unifiedTypeNames, memberReference as IGenericParameterProvider, "M", genericInterface);// Fill the member generic parameters unified names as M0, M1....
-            FillUnifiedTypeNames(unifiedTypeNames, memberReference.DeclaringType, "T", genericInterface);// Fill the type generic parameters unified names as T0, T1....
+            FillUnifiedMemberTypeNames(unifiedTypeNames, memberReference as IGenericParameterProvider);// Fill the member generic parameters unified names as M0, M1....
+            FillUnifiedTypeNames(unifiedTypeNames, memberReference.DeclaringType, genericInterface);// Fill the type generic parameters unified names as T0, T1....
 
             switch (memberReference)
             {
@@ -436,7 +436,7 @@ namespace Mono.Documentation.Updater
             }
             
             var memberUnifiedTypeNames = new Dictionary<string, string>();
-            FillUnifiedTypeNames(memberUnifiedTypeNames, memberReference as IGenericParameterProvider, "M", genericInterface);
+            FillUnifiedMemberTypeNames(memberUnifiedTypeNames, memberReference as IGenericParameterProvider);
             if (memberUnifiedTypeNames.Any())// Add generic arguments to the fingerprint. SomeMethod<T>() != SomeMethod()
             {
                 buf.Append(" ").Append(string.Join(" ", memberUnifiedTypeNames.Values));
@@ -457,31 +457,52 @@ namespace Mono.Documentation.Updater
             return memberName;
         }
 
+        /// <summary>
+        /// Resolve generic type names of the type type based on interface implementation details
+        /// </summary>
         private static void FillUnifiedTypeNames(Dictionary<string, string> unifiedTypeNames,
-            IGenericParameterProvider genericParameterProvider, 
-            string newName, 
+            IGenericParameterProvider type, 
             GenericInstanceType genericInterface)
         {
-            if (genericParameterProvider == null)
+            if (type == null)
                 return;
 
             int i = 0;
-            foreach (var genericParameter in genericParameterProvider.GenericParameters)
+            foreach (var genericParameter in type.GenericParameters)
             {
                 if (unifiedTypeNames.ContainsKey(genericParameter.Name))
                     continue;
-
+                
                 // if generic type can be resolved with interface implementation parameters
-                if (genericInterface != null 
-                    && i < genericInterface.GenericArguments.Count 
-                    && ! genericInterface.GenericArguments[i].IsGenericParameter)
+                if (genericInterface != null
+                    && i < genericInterface.GenericArguments.Count)
                 {
                     unifiedTypeNames[genericParameter.Name] = genericInterface.GenericArguments[i].FullName;
                 }
                 else
                 {
-                    unifiedTypeNames[genericParameter.Name] = newName + i;
+                    unifiedTypeNames[genericParameter.Name] = genericParameter.Name; 
                 }
+                ++i;
+            }
+        }
+
+        /// <summary>
+        /// Resolve generic type names of the member based on the order of generic arguments
+        /// </summary>
+        private static void FillUnifiedMemberTypeNames(Dictionary<string, string> unifiedTypeNames,
+            IGenericParameterProvider member)
+        {
+            if (member == null)
+                return;
+
+            int i = 0;
+            foreach (var genericParameter in member.GenericParameters)
+            {
+                if (unifiedTypeNames.ContainsKey(genericParameter.Name))
+                    continue;
+                unifiedTypeNames[genericParameter.Name] = "MemberGenericType" + i;
+
                 ++i;
             }
         }
@@ -502,7 +523,7 @@ namespace Mono.Documentation.Updater
             if (genericInstance != null && genericInstance.HasGenericArguments)
             {
                 return
-                    $"{type.Name}<{string.Join(", ", genericInstance.GenericArguments.Select(i => GetUnifiedTypeName(i, genericTypes)))}>";
+                    $"{type.Namespace}.{type.Name}<{string.Join(",", genericInstance.GenericArguments.Select(i => GetUnifiedTypeName(i, genericTypes)))}>";
             }
 
             return genericTypes.ContainsKey(type.Name)

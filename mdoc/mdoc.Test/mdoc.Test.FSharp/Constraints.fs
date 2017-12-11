@@ -12,6 +12,10 @@ type Class2<'T when 'T :> System.IComparable>() =
 type Class2_1<'T when 'T :> System.IComparable and 'T :> System.Exception>() = 
     class end
 
+// Interface Type Constraint with recursion
+type Class2_2<'T when 'T :> System.IComparable and 'T :> seq<'T>>() = 
+    class end
+
 // Null constraint
 type Class3<'T when 'T : null>() =
     class end

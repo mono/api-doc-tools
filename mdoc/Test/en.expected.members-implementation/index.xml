@@ -66,6 +66,8 @@
       <Type Name="Interface5" Kind="Interface" />
       <Type Name="Interface6" Kind="Interface" />
       <Type Name="Interface7`1" DisplayName="Interface7&lt;T&gt;" Kind="Interface" />
+      <Type Name="IScorable`2" DisplayName="IScorable&lt;Item,Score&gt;" Kind="Interface" />
+      <Type Name="ScorableBase`3" DisplayName="ScorableBase&lt;Item,State,Score&gt;" Kind="Class" />
     </Namespace>
   </Types>
   <Title>TestInterfaceImplementation</Title>
