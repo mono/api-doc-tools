@@ -2143,7 +2143,7 @@ namespace Mono.Documentation
             bool isExplicitlyImplemented = DocUtils.IsExplicitlyImplemented(mi);
 
             var fingerprint = DocUtils.GetFingerprint(mi);
-            if (!allImplementedMembers.ContainsKey(fingerprint) && !isExplicitlyImplemented)
+            if (!allImplementedMembers.ContainsKey(fingerprint))
             {
                 ClearElement(root, "Implements");
                 return;

@@ -26,5 +26,7 @@ namespace TestInterfaceImplementation
         {
             throw new System.NotImplementedException();
         }
+
+        ~Class6() { }
     }
 }
