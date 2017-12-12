@@ -35,6 +35,22 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~Class6`1 ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Method1&lt;PPP&gt;">
       <MemberSignature Language="C#" Value="public int Method1&lt;PPP&gt; (F t, PPP p);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance int32 Method1&lt;PPP&gt;(!F t, !!PPP p) cil managed" />
