@@ -368,6 +368,8 @@ namespace Mono.Documentation.Updater
             foreach (var implementedInterface in type.Interfaces)
             {
                 var interfaceType = implementedInterface.InterfaceType.Resolve();
+                if (interfaceType == null)
+                    continue;
 
                 //Don't add duplicates of members which appear because of inheritance of interfaces
                 bool addDuplicates = !previousInterfaces.Any(
