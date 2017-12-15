@@ -2156,11 +2156,15 @@ namespace Mono.Documentation
                 var explicitTypeName = DocUtils.GetExplicitTypeName(mi);
 
                 // find one member wich is pocessed by the explicitly mentioned type
-                var explicitlyImplemented = implementedMembers.First(i => i.DeclaringType.GetElementType().FullName == explicitTypeName);
-                implementedMembers = new List<MemberReference>
+                var explicitlyImplemented = implementedMembers.FirstOrDefault(i => i.DeclaringType.GetElementType().FullName == explicitTypeName);
+
+                if (explicitlyImplemented != null)
                 {
-                    explicitlyImplemented
-                };
+                    implementedMembers = new List<MemberReference>
+                    {
+                        explicitlyImplemented
+                    };
+                }
             }
 
             if (!implementedMembers.Any())

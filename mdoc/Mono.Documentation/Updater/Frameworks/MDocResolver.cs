@@ -101,6 +101,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 .Select (a => new
                 {
                     Assembly = a,
+                    SuppliedDependency = namedPaths.Any (np => np == a.MainModule.FileName),
                     VersionSort = aggregateVersion (a.Name.Version),
                     VersionDiff = aggregateVersion (a.Name.Version) - aggregateVersion (name.Version),
                     MajorMatches = a.Name.Version.Major == name.Version.Major
@@ -109,9 +110,13 @@ namespace Mono.Documentation.Updater.Frameworks
 
             // If the assembly has all zeroes, just grab the latest assembly
             if (IsZero(name.Version)) {
-                var highestMatch = applicableVersions
-                    .OrderByDescending (v => v.VersionSort)
-                    .FirstOrDefault ();
+                var possibleSet = applicableVersions;
+                if (applicableVersions.Any (s => s.SuppliedDependency))
+                    possibleSet = applicableVersions.Where (av => av.SuppliedDependency).ToArray ();
+                
+                var sorted = possibleSet.OrderByDescending (v => v.VersionSort).ToArray ();
+
+                var highestMatch = sorted.FirstOrDefault ();
                 if (highestMatch != null)
                     return highestMatch.Assembly;
             }
