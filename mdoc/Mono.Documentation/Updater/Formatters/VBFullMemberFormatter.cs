@@ -775,6 +775,14 @@ namespace Mono.Documentation.Updater
                     && IsSupportedNaming(@event);
             }
 
+            var @event2 = mref as AttachedEventReference;
+            if (@event2 != null)
+                return true;
+
+            var prop = mref as AttachedPropertyReference;
+            if (prop != null)
+                return true;
+
             throw new NotSupportedException("Unsupported member type: " + mref.GetType().FullName);
         }
 

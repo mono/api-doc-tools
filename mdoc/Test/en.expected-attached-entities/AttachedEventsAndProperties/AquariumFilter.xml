@@ -2,6 +2,8 @@
   <TypeSignature Language="C#" Value="public class AquariumFilter" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit AquariumFilter extends System.Object" />
   <TypeSignature Language="DocId" Value="T:AttachedEventsAndProperties.AquariumFilter" />
+  <TypeSignature Language="VB.NET" Value="Public Class AquariumFilter" />
+  <TypeSignature Language="F#" Value="type AquariumFilter = class" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -19,6 +21,7 @@
       <MemberSignature Language="C#" Value="public AquariumFilter ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AquariumFilter.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -33,6 +36,8 @@
       <MemberSignature Language="C#" Value="public static System.Windows.RoutedEvent NeedsCleaningEvent { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property class System.Windows.RoutedEvent NeedsCleaningEvent" />
       <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AquariumFilter.NeedsCleaningEvent" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Property NeedsCleaningEvent As RoutedEvent" />
+      <MemberSignature Language="F#" Value="member this.NeedsCleaningEvent : System.Windows.RoutedEvent with get, set" Usage="AttachedEventsAndProperties.AquariumFilter.NeedsCleaningEvent" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

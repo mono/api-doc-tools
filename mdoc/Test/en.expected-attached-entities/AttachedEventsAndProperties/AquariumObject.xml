@@ -2,6 +2,8 @@
   <TypeSignature Language="C#" Value="public class AquariumObject" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit AquariumObject extends System.Object" />
   <TypeSignature Language="DocId" Value="T:AttachedEventsAndProperties.AquariumObject" />
+  <TypeSignature Language="VB.NET" Value="Public Class AquariumObject" />
+  <TypeSignature Language="F#" Value="type AquariumObject = class" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -19,6 +21,7 @@
       <MemberSignature Language="C#" Value="public AquariumObject ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AquariumObject.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
