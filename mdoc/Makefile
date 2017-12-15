@@ -450,7 +450,7 @@ check-monodocer-import-fx-update: check-monodocer-import-fx-work
 check-monodocer-attached-entities:
 	-rm -Rf Test/en.actual
 	msbuild ../mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
-	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp
 	$(DIFF) Test/en.expected-attached-entities Test/en.actual
 	
 Test/TestClass.dll:
