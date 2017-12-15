@@ -12,6 +12,7 @@ namespace Mono.Documentation.Updater.Frameworks
         Dictionary<string, bool> sigMap = new Dictionary<string, bool> ();
 
 		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
+        DocIdFormatter docidFormatter = new DocIdFormatter ();
 
 		FrameworkEntry fx;
 
@@ -37,7 +38,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		{
 			var resolvedMember = member.Resolve ();
 			if (resolvedMember != null) {
-				var docid = DocCommentId.GetDocCommentId (resolvedMember);
+                var docid = docidFormatter.GetDeclaration (member);
 				members.Add (docid);
 			}
 			else 
