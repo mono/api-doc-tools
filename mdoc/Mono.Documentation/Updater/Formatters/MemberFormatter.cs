@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using Mono.Cecil;
+				 
 
 using Mono.Documentation.Util;
+using Mono.Cecil;
 
 namespace Mono.Documentation.Updater
 {
@@ -17,16 +18,16 @@ namespace Mono.Documentation.Updater
             get { return ""; }
         }
 
-        public string GetName (MemberReference member)
+        public string GetName (MemberReference member, bool appendGeneric = true)
         {
-            return GetName (member, null);
+            return GetName (member, null, appendGeneric);
         }
 
-        public virtual string GetName (MemberReference member, DynamicParserContext context)
+        public virtual string GetName (MemberReference member, DynamicParserContext context, bool appendGeneric = true)
         {
             TypeReference type = member as TypeReference;
             if (type != null)
-                return GetTypeName (type, context);
+                return GetTypeName (type, context, appendGeneric);
             MethodReference method = member as MethodReference;
             if (method != null && method.Name == ".ctor") // method.IsConstructor
                 return GetConstructorName (method);
@@ -45,17 +46,17 @@ namespace Mono.Documentation.Updater
                         (member == null ? "null" : member.GetType ().ToString ()));
         }
 
-        protected virtual string GetTypeName (TypeReference type)
+        protected virtual string GetTypeName (TypeReference type, bool appendGeneric = true)
         {
-            return GetTypeName (type, null);
+            return GetTypeName (type, null, appendGeneric);
         }
 
-        protected virtual string GetTypeName (TypeReference type, DynamicParserContext context)
+        protected virtual string GetTypeName (TypeReference type, DynamicParserContext context, bool appendGeneric=true)
         {
             if (type == null)
                 throw new ArgumentNullException (nameof (type));
 
-            var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context).ToString ();
+            var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context, appendGeneric).ToString ();
 
             typeName = RemoveMod (typeName);
 
@@ -97,13 +98,20 @@ namespace Mono.Documentation.Updater
 
         protected virtual MemberFormatterState MemberFormatterState { get; set; }
 
-        protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        {
+            TypeSpecification spec = type as TypeSpecification;
+            _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+            return AppendArrayModifiers(buf, (ArrayType)type);
+        }
+
+        protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
             if (type is ArrayType)
             {
-                TypeSpecification spec = type as TypeSpecification;
-                _AppendTypeName (buf, spec != null ? spec.ElementType : type.GetElementType (), context);
-                return AppendArrayModifiers (buf, (ArrayType)type);
+																   
+                return AppendArrayTypeName(buf, type, context);
+																   
             }
             if (type is ByReferenceType)
             {
@@ -124,7 +132,7 @@ namespace Mono.Documentation.Updater
             {
                 return AppendFullTypeName (buf, type, context);
             }
-            return AppendGenericType (buf, type, context);
+            return AppendGenericType (buf, type, context, appendGeneric);
         }
 
         protected virtual StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
@@ -195,12 +203,12 @@ namespace Mono.Documentation.Updater
             get { return new string[] { "<", ">" }; }
         }
 
-        protected virtual char NestedTypeSeparator
+        protected virtual string NestedTypeSeparator
         {
-            get { return '.'; }
+            get { return "."; }
         }
 
-        protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (
                     type is GenericInstanceType ? type.GetElementType () : type);
@@ -220,7 +228,7 @@ namespace Mono.Documentation.Updater
                 int ac = DocUtils.GetGenericArgumentCount (declDef);
                 int c = ac - prev;
                 prev = ac;
-                if (c > 0)
+                if ( appendGeneric && c > 0)
                 {
                     buf.Append (GenericTypeContainer[0]);
                     var origState = MemberFormatterState;
@@ -298,7 +306,7 @@ namespace Mono.Documentation.Updater
         public virtual string GetDeclaration (MemberReference mreference)
         {
             if (!IsSupported(mreference))
-                return null;
+               return null; 
             return GetDeclaration (mreference.Resolve ());
         }
 
@@ -428,7 +436,7 @@ namespace Mono.Documentation.Updater
             return GetEventName (e);
         }
 
-        protected virtual string GetAttachedEventDeclaration(AttachedEventDefinition e)
+        protected virtual string GetAttachedEventDeclaration(Mono.Documentation.Util.AttachedEventDefinition e)
         {
             return $"see Add{e.Name}Handler, and Remove{e.Name}Handler";
         }
@@ -442,6 +450,7 @@ namespace Mono.Documentation.Updater
 
         public virtual bool IsSupported(MemberReference mref) => true;
         
+
         protected static bool IsPublicEII (EventDefinition e)
         {
             bool isPublicEII = false;
@@ -463,6 +472,11 @@ namespace Mono.Documentation.Updater
         public static string GetLineEnding()
         {
             return "\n";
+        }
+
+        protected string CamelCase(string name)
+        {
+            return Char.ToLowerInvariant(name[0]) + name.Substring(1);
         }
     }
 }

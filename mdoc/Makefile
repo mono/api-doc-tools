@@ -187,6 +187,12 @@ check-monodocer-vbnet2:
 	$(MONO) $(PROGRAM) update -lang vb.net -o Test/en.actual Test/DocTest.dll
 	$(DIFF) Test/en.expected-vbnet2 Test/en.actual
 
+check-monodocer-javascript: 
+	-rm -Rf Test/en.actual
+	$(MAKE) Test/DocTest.dll-v1
+	$(MONO) $(PROGRAM) update -lang javascript -o Test/en.actual Test/DocTest.dll
+	$(DIFF) Test/en.expected-javascript Test/en.actual
+
 check-monodocer-addNonGeneric: 
 	-rm -Rf Test/en.actual
 	# first, make a docset with the generic method
@@ -582,6 +588,7 @@ check-doc-tools: check-monodocer-since \
 	check-overwrite-attribute \
 	check-monodocer-vbnet \
 	check-monodocer-vbnet2 \
+	check-monodocer-javascript \
 	check-monodocer-frameworks-with-nuget\
 	check-monodocer-fsharp \
 	check-monodocer-attached-entities \

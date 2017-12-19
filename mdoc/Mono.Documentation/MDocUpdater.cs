@@ -9,7 +9,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-
+using mdoc.Mono.Documentation.Updater.Formatters;
 using Mono.Cecil;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Frameworks;
@@ -404,6 +404,10 @@ namespace Mono.Documentation
                 case "fsharp":
                     typeFormatter = new FSharpMemberFormatter();
                     memberFormatter = new FSharpFullMemberFormatter();
+                    break;
+                case Consts.JavascriptLowCase:
+                    typeFormatter = new JsMemberFormatter();
+                    memberFormatter = new JsMemberFormatter();
                     break;
                 default:
                     throw new ArgumentException("Unsupported formatter id '" + langId + "'.");
@@ -1524,7 +1528,9 @@ namespace Mono.Documentation
 
                     statisticsCollector.AddMetric (typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Added);
                     memberSet.Add (m.FullName);
-                    Console.WriteLine ("Member Added: " + mm.SelectSingleNode ("MemberSignature/@Value").InnerText);
+                    var node = mm.SelectSingleNode("MemberSignature/@Value") ??
+                               mm.SelectSingleNode("MemberSignature/@Usage");
+                    Console.WriteLine ("Member Added: " + node.InnerText);
                     additions++;
                 }
             }
@@ -1837,21 +1843,7 @@ namespace Mono.Documentation
 
             foreach (MemberFormatter f in typeFormatters)
             {
-                string element = "TypeSignature[@Language='" + f.Language + "']";
-                string valueToUse = f.GetDeclaration (type);
-                if (valueToUse == null)
-                    continue;
-                AddXmlNode (
-                    root.SelectNodes (element).Cast<XmlElement> ().ToArray (),
-                    x => x.GetAttribute ("Value") == valueToUse,
-                    x => x.SetAttribute ("Value", valueToUse),
-                    () =>
-                    {
-                        var node = WriteElementAttribute (root, element, "Language", f.Language, forceNewElement: true);
-                        var newnode = WriteElementAttribute (root, node, "Value", valueToUse);
-                        return newnode;
-                    },
-                    type);
+                UpdateSignature(f, type, root);
             }
 
             AddAssemblyNameToNode (root, type);
@@ -2075,27 +2067,7 @@ namespace Mono.Documentation
             typeEntry.ProcessMember (mi);
             foreach (MemberFormatter f in memberFormatters)
             {
-                string element = "MemberSignature[@Language='" + f.Language + "']";
-
-                var valueToUse = f.GetDeclaration (mi);
-                if (valueToUse == null)
-                    continue;
-                AddXmlNode (
-                    me.SelectNodes (element).Cast<XmlElement> ().ToArray (),
-                    x => x.GetAttribute ("Value") == valueToUse,
-                    x => x.SetAttribute ("Value", valueToUse),
-                    () =>
-                    {
-                        var node = WriteElementAttribute (me, element, "Language", f.Language, forceNewElement: true);
-                        node = WriteElementAttribute (me, node, "Value", valueToUse);
-                        var usageSample = f.UsageFormatter?.GetDeclaration(mi);
-                        if (usageSample != null)
-                        {
-                            node = WriteElementAttribute(me, node, "Usage", usageSample);
-                        }
-                        return node;
-                    },
-                    mi);
+                UpdateSignature(f, mi, me);
             }
 
             WriteElementText (me, "MemberType", GetMemberType (mi));
@@ -2137,6 +2109,83 @@ namespace Mono.Documentation
             OrderMemberNodes (me, me.ChildNodes);
             UpdateExtensionMethods (me, info);
         }
+
+        private static void UpdateSignature(MemberFormatter formatter, TypeDefinition type, XmlElement xmlElement)
+        {
+            var usageSample = formatter.UsageFormatter?.GetDeclaration(type);
+            var valueToUse = formatter.GetDeclaration (type);
+            if (valueToUse == null && usageSample == null)
+                return;
+
+            string elementXPath = "TypeSignature[@Language='" + formatter.Language + "']";
+            GetUpdateXmlMethods(formatter, xmlElement, elementXPath, valueToUse, usageSample,
+                out var valueMatches,
+                out var setValue,
+                out var makeNewNode);
+
+            AddXmlNode(
+                xmlElement.SelectNodes (elementXPath).Cast<XmlElement> ().ToArray (),
+                valueMatches,
+                setValue,
+                makeNewNode,
+                type);
+        }
+
+        private static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement)
+        {
+            var valueToUse = formatter.GetDeclaration(member);
+            var usageSample = formatter.UsageFormatter?.GetDeclaration(member);
+            if (valueToUse == null && usageSample == null)
+                return;
+
+            string elementXPath = "MemberSignature[@Language='" + formatter.Language + "']";
+            GetUpdateXmlMethods(formatter, xmlElement, elementXPath, valueToUse, usageSample, 
+                out var valueMatches, 
+                out var setValue, 
+                out var makeNewNode);
+            
+            AddXmlNode(
+                xmlElement.SelectNodes(elementXPath).Cast<XmlElement>().ToArray(),
+                valueMatches,
+                setValue,
+                makeNewNode,
+                member);
+        }
+
+        private static void GetUpdateXmlMethods(MemberFormatter formatter, XmlElement xmlElement, string elementXPath, string valueToUse,
+            string usageSample, out Func<XmlElement, bool> valueMatches, out Action<XmlElement> setValue, out Func<XmlElement> makeNewNode)
+        {
+            valueMatches = x =>
+                x.GetAttribute("Value") == valueToUse 
+                && (string.IsNullOrEmpty(x.GetAttribute("Usage")) || x.GetAttribute("Usage") == usageSample);
+
+            setValue = x =>
+            {
+                if (valueToUse != null)
+                {
+                    x.SetAttribute("Value", valueToUse);
+                }
+                if (usageSample != null)
+                {
+                    x.SetAttribute("Usage", usageSample);
+                }
+            };
+
+            makeNewNode = () =>
+            {
+                var node = WriteElementAttribute(xmlElement, elementXPath, "Language", formatter.Language, forceNewElement: true);
+                if (valueToUse != null)
+                {
+                    node = WriteElementAttribute(xmlElement, node, "Value", valueToUse);
+                }
+                if (usageSample != null)
+                {
+                    node = WriteElementAttribute(xmlElement, node, "Usage", usageSample);
+                }
+                return node;
+            };
+        }
+
 
         private static void AddImplementedMembers(MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
         {

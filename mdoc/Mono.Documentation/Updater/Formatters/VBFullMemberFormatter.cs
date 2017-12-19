@@ -204,7 +204,7 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                     type is GenericInstanceType ? type.GetElementType() : type);
@@ -344,7 +344,7 @@ namespace Mono.Documentation.Updater
             if (buf.Length != 0)
                 buf.Append(" ");
             bool isFunction = method.MethodReturnType.ReturnType.FullName != "System.Void";
-            if (!IsOperator(method))
+            if (!DocUtils.IsOperator(method))
             {
                 if (isFunction)
                     buf.Append("Function ");
@@ -380,7 +380,7 @@ namespace Mono.Documentation.Updater
                 return buf.Append(method.Name.Split('.').Last());
             }
 
-            if (IsOperator(method))
+            if (DocUtils.IsOperator(method))
             {
                 // this is an operator
                 switch (method.Name)
@@ -846,11 +846,6 @@ namespace Mono.Documentation.Updater
         private bool IsIteratorMethod(MethodDefinition method)
         {
             return method.CustomAttributes.Any(i => i.AttributeType.FullName == "System.Runtime.CompilerServices.IteratorStateMachineAttribute");
-        }
-
-        private bool IsOperator(MethodDefinition method)
-        {
-            return method.Name.StartsWith("op_", StringComparison.Ordinal);
         }
     }
 }

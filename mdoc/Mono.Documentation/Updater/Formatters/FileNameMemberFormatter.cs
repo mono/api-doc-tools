@@ -11,9 +11,9 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        protected override char NestedTypeSeparator
+        protected override string NestedTypeSeparator
         {
-            get { return '+'; }
+            get { return "+"; }
         }
     }
 }
