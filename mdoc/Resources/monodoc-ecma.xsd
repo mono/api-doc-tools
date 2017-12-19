@@ -43,6 +43,7 @@ add masterdoc support?
   <xs:attribute name="src" type="xs:string" />
   <xs:attribute name="subset" type="xs:string" />
   <xs:attribute name="Value" type="xs:string" />
+  <xs:attribute name="Usage" type="xs:string" />
   <xs:attribute name="version" type="xs:string" />
   <xs:attribute name="tool" type="xs:string" />
   <xs:attribute name="type" type="xs:string" />
@@ -465,6 +466,7 @@ add masterdoc support?
     <xs:complexType>
       <xs:attribute ref="Language" />
       <xs:attribute ref="Value" />
+      <xs:attribute ref="Usage" />
     </xs:complexType>
   </xs:element>
 
@@ -962,7 +964,8 @@ add masterdoc support?
   <xs:element name="TypeSignature">
     <xs:complexType>
       <xs:attribute ref="Language" use="required" />
-      <xs:attribute ref="Value" use="required" />
+      <xs:attribute ref="Value"/>
+      <xs:attribute ref="Usage"/>
       <xs:attribute ref="Maintainer" />
     </xs:complexType>
   </xs:element>

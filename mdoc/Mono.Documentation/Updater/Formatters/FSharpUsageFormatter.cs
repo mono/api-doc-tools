@@ -124,11 +124,6 @@ namespace Mono.Documentation.Updater
             return buf.ToString();
         }
 
-        private static string CamelCase(string name)
-        {
-            return Char.ToLowerInvariant(name[0]) + name.Substring(1);
-        }
-
         private void AppendTupleUsage(StringBuilder buf, List<string> parameters)
         {
             if (parameters.Count == 0)
@@ -172,5 +167,7 @@ namespace Mono.Documentation.Updater
         {
             return $"{GetName(field.DeclaringType)}.{field.Name}";
         }
+
+        public override bool IsSupported(TypeReference tref) => false;
     }
 }

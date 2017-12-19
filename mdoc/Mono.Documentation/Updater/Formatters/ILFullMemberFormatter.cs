@@ -18,11 +18,11 @@ namespace Mono.Documentation.Updater
             get { return "ILAsm"; }
         }
 
-        protected override char NestedTypeSeparator
+        protected override string NestedTypeSeparator
         {
             get
             {
-                return '/';
+                return "/";
             }
         }
 
@@ -185,7 +185,7 @@ namespace Mono.Documentation.Updater
             return buf.ToString ();
         }
 
-        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (
                     type is GenericInstanceType ? type.GetElementType () : type);

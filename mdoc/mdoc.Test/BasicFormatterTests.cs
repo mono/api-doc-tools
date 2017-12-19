@@ -107,7 +107,7 @@ namespace mdoc.Test
         protected void TestPropertySignature(Type type, string expected, string memberName)
         {
             var signature = GetPropertySignature(type, memberName);
-            Assert.AreEqual(expected, signature);
+            Assert.AreEqual(FormatEndings(expected), signature);
         }
 
         private string GetPropertySignature(Type type, string memberName)
@@ -131,7 +131,7 @@ namespace mdoc.Test
         protected void TestFieldSignature(Type type, string expected, string memberName)
         {
             var usage = GetFieldUsage(type, memberName);
-            Assert.AreEqual(expected, usage);
+            Assert.AreEqual(FormatEndings(expected), usage);
         }
 
         private string GetFieldUsage(Type type, string memberName)

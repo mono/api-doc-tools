@@ -10,6 +10,8 @@ namespace Mono.Documentation
 		public const string VbNetLowCase = "vb.net";
 		public const string FSharp = "F#";
 		public const string FSharpLowCase = "f#";
+		public const string Javascript = "JavaScript";
+		public const string JavascriptLowCase = "javascript";
 		public const string Tab = "    ";
 
 		public const string DependencyPropertyFullName = "System.Windows.DependencyProperty";

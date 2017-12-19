@@ -568,5 +568,18 @@ namespace Mono.Documentation.Updater
 
             return null;
         }
+
+        public static bool IsDestructor(MethodDefinition method)
+        {
+            return method.IsFamily 
+                && method.Name == "Finalize" 
+                && method.Overrides.Count == 1 
+                && method.Overrides[0].DeclaringType.FullName == "System.Object";
+        }
+
+        public static bool IsOperator(MethodReference method)
+        {
+            return method.Name.StartsWith("op_", StringComparison.Ordinal);
+        }
     }
 }

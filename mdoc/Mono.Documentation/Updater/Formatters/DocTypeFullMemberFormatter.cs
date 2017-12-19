@@ -4,9 +4,9 @@
     {
         public static readonly MemberFormatter Default = new DocTypeFullMemberFormatter ();
 
-        protected override char NestedTypeSeparator
+        protected override string NestedTypeSeparator
         {
-            get { return '+'; }
+            get { return "+"; }
         }
     }
 }

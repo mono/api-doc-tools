@@ -301,7 +301,7 @@ namespace Mono.Documentation.Updater
             return "class";
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                    type is GenericInstanceType ? type.GetElementType() : type);
@@ -463,11 +463,6 @@ namespace Mono.Documentation.Updater
 
         protected override string GetMethodDeclaration(MethodDefinition method)
         {
-            if (method.HasCustomAttributes && method.CustomAttributes.Any(
-                        ca => ca.GetDeclaringType() == "System.Diagnostics.Contracts.ContractInvariantMethodAttribute"
-                           || ca.GetDeclaringType() == "System.Runtime.CompilerServices.CompilerGeneratedAttribute"))
-                return null;
-
             var visibilityBuf = new StringBuilder();
             if (AppendVisibility(visibilityBuf, method) == null)
                 return null;
@@ -989,6 +984,7 @@ namespace Mono.Documentation.Updater
             {
                 return false;
             }
+
             return true;
         }
 
@@ -1005,6 +1001,17 @@ namespace Mono.Documentation.Updater
                 }
                 return false;
             }
+            switch (mref)
+            {
+                case MethodDefinition method:
+                    return !(method.HasCustomAttributes && method.CustomAttributes.Any(
+                                 ca => ca.GetDeclaringType() ==
+                                       "System.Diagnostics.Contracts.ContractInvariantMethodAttribute"
+                                       || ca.GetDeclaringType() ==
+                                       "System.Runtime.CompilerServices.CompilerGeneratedAttribute"))
+                            && AppendVisibility(new StringBuilder(), method) != null;
+            }
+
             return true;
         }
         #endregion

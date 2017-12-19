@@ -49,9 +49,20 @@
     <Compile Include="FormatterTests.cs" />
     <Compile Include="FSharp\FSharpFormatterTests.cs" />
     <Compile Include="FSharp\FSharpUsageFormatterTests.cs" />
+    <Compile Include="JsMemberFormatterTests.cs" />
+    <Compile Include="JsUsageFormatterTests.cs" />
+    <Compile Include="SampleClasses\SomeDelegate.cs" />
     <Compile Include="SampleClasses\TestClass.cs" />
+    <Compile Include="SampleClasses\SomeGenericClass.cs" />
+    <Compile Include="SampleClasses\WebHostHiddenTestClass.cs" />
+    <Compile Include="SampleClasses\SomeClass.cs" />
+    <Compile Include="SampleClasses\SomeClassWithManyConstructors.cs" />
+    <Compile Include="SampleClasses\SomeEmptyEnum.cs" />
+    <Compile Include="SampleClasses\SomeEnum.cs" />
     <Compile Include="SampleClasses\TestPrivateClass.cs" />
     <Compile Include="SampleClasses\TestClassTwo.cs" />
+    <Compile Include="SampleClasses\SomeStruct.cs" />
+    <Compile Include="SampleClasses\WebHostHiddenAttribute.cs" />
     <Compile Include="VBFormatterTests.cs" />
   </ItemGroup>
   <ItemGroup>

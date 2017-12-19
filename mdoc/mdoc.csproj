@@ -53,6 +53,9 @@
   <ItemGroup>
     <Compile Include="Mono.Documentation\Updater\Formatters\ApplePlatformEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\JsFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\JsMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\JsUsageFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFullMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpUsageFormatter.cs" />
