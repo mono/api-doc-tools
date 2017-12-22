@@ -1,0 +1,30 @@
+<Type Name="PrimeFoundHandlerWithSpecificType" FullName="UwpTestWinRtComponentCpp.PrimeFoundHandlerWithSpecificType">
+  <TypeSignature Language="C#" Value="public delegate void PrimeFoundHandlerWithSpecificType(IMap&lt;double,float&gt; result);" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed PrimeFoundHandlerWithSpecificType extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>UwpTestWinRtComponentCpp</AssemblyName>
+    <AssemblyVersion>255.255.255.255</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Guid(603281085, 10445, 12788, 160, 94, 209, 35, 22, 179, 109, 110)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Parameters>
+    <Parameter Name="result" Type="Windows.Foundation.Collections.IMap&lt;System.Double,System.Single&gt;" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="result">To be added.</param>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

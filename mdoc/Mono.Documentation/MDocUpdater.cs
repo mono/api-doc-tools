@@ -10,8 +10,10 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using mdoc.Mono.Documentation.Updater.Formatters;
+using Mono.Documentation.Updater.Formatters.CppFormatters;
 using Mono.Cecil;
 using Mono.Documentation.Updater;
+using Mono.Documentation.Updater.CppFormatters;
 using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Updater.Statistics;
 using Mono.Documentation.Util;
@@ -51,11 +53,13 @@ namespace Mono.Documentation
         static MemberFormatter[] typeFormatters = new MemberFormatter[]{
         new CSharpMemberFormatter (),
         new ILMemberFormatter (),
+
     };
 
         static MemberFormatter[] memberFormatters = new MemberFormatter[]{
         new CSharpFullMemberFormatter (),
-        new ILFullMemberFormatter ()
+        new ILFullMemberFormatter (),
+
     };
 
         internal static readonly MemberFormatter slashdocFormatter = new SlashDocMemberFormatter ();
@@ -399,6 +403,18 @@ namespace Mono.Documentation
                 case Consts.VbNetLowCase:
                     typeFormatter = new VBMemberFormatter();
                     memberFormatter = new VBMemberFormatter();
+                    break;
+                case Consts.CppCliLowCase:
+                    typeFormatter = new CppMemberFormatter();
+                    memberFormatter = new CppFullMemberFormatter();
+                    break;
+                case Consts.CppCxLowCase:
+                    typeFormatter = new CppCxMemberFormatter();
+                    memberFormatter = new CppCxFullMemberFormatter();
+                    break;
+                case Consts.CppWinRtLowCase:
+                    typeFormatter = new CppWinRtMemberFormatter();
+                    memberFormatter = new CppWinRtFullMemberFormatter();
                     break;
                 case Consts.FSharpLowCase:
                 case "fsharp":
@@ -1480,8 +1496,9 @@ namespace Mono.Documentation
                             if (m is TypeDefinition) return false;
                             string cssig = memberFormatters[0].GetDeclaration (m);
                             if (cssig == null) return false;
+                           
                             string sig = memberFormatters[1].GetDeclaration (m);
-                            if (seenmembers.ContainsKey (sig)) return false;
+                            if (sig==null || seenmembers.ContainsKey (sig)) return false;
 
                             // Verify that the member isn't an explicitly implemented 
                             // member of an internal interface, in which case we shouldn't return true.

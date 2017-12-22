@@ -66,6 +66,14 @@ namespace Mono.Documentation.Updater
                     propagateStyle ();
             }
         }
+        public static string GetFormattedTypeName(string name)
+        {
+            int index = name.IndexOf("`", StringComparison.Ordinal);
+            if (index >= 0)
+                return name.Substring(0, index);
+
+            return name;
+        }
         public static void AddApiStyle (this XmlNode node, ApiStyle style)
         {
             string styleString = style.ToString ().ToLowerInvariant ();
@@ -169,8 +177,11 @@ namespace Mono.Documentation.Updater
                 GetMember (pi.Name)});
         }
 
-        public static string GetNamespace (TypeReference type)
+        public static string GetNamespace (TypeReference type, string delimeter = null)
         {
+            if (type == null)
+                return string.Empty;
+
             if (type.GetElementType ().IsNested)
                 type = type.GetElementType ();
             while (type != null && type.IsNested)
@@ -180,12 +191,17 @@ namespace Mono.Documentation.Updater
 
             string typeNS = type.Namespace;
 
+            if (!string.IsNullOrEmpty(delimeter))
+            {
+                typeNS = typeNS.Replace(".", delimeter);
+            }
+
             // first, make sure this isn't a type reference to another assembly/module
 
             bool isInAssembly = MDocUpdater.IsInAssemblies (type.Module.Name);
             if (isInAssembly && !typeNS.StartsWith ("System") && MDocUpdater.HasDroppedNamespace (type))
             {
-                typeNS = string.Format ("{0}.{1}", MDocUpdater.droppedNamespace, typeNS);
+                typeNS = string.Format ("{0}{1}{2}", MDocUpdater.droppedNamespace, delimeter ?? ".", typeNS);
             }
             return typeNS;
         }

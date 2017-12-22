@@ -1,0 +1,40 @@
+<Type Name="Class4" FullName="Namespace2.Class4">
+  <TypeSignature Language="C#" Value="public struct Class4" />
+  <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed Class4 extends System.ValueType" />
+  <TypeSignature Language="C++ WINRT" Value="struct Class4" />
+  <AssemblyInfo>
+    <AssemblyName>UwpTestWinRtComponentCpp</AssemblyName>
+    <AssemblyVersion>255.255.255.255</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ValueType</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="StringField">
+      <MemberSignature Language="C#" Value="public string StringField;" />
+      <MemberSignature Language="ILAsm" Value=".field public string StringField" />
+      <MemberSignature Language="C++ WINRT" Value="std::wstring StringField;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
