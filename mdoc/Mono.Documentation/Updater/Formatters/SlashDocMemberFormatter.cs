@@ -13,6 +13,7 @@ namespace Mono.Documentation.Updater
 
         protected override string[] GenericTypeContainer
         {
+
             get { return new string[] { "{", "}" }; }
         }
 

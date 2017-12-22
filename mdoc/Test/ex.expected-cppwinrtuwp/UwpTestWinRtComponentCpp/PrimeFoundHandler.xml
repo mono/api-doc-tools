@@ -1,0 +1,30 @@
+<Type Name="PrimeFoundHandler" FullName="UwpTestWinRtComponentCpp.PrimeFoundHandler">
+  <TypeSignature Language="C#" Value="public delegate void PrimeFoundHandler(int result);" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed PrimeFoundHandler extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>UwpTestWinRtComponentCpp</AssemblyName>
+    <AssemblyVersion>255.255.255.255</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Guid(1538629431, 28309, 13279, 150, 105, 205, 62, 250, 110, 149, 1)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Parameters>
+    <Parameter Name="result" Type="System.Int32" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="result">To be added.</param>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

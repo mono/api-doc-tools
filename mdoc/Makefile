@@ -180,7 +180,39 @@ check-monodocer-vbnet: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -lang vb.net -o Test/en.actual -frameworks Test/FrameworkTestData
 	$(DIFF) Test/en.expected-vbnet Test/en.actual
+
+check-monodocer-cppcli: Test/FrameworkTestData
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -lang c++/cli -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-cppcli Test/en.actual
+
+check-monodocer-cppwinrtUwp: 
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -lib ..\external\Windows --lang c++/winrt -o Test/en.actual Test/UwpTestWinRtComponentCpp.winmd
+	$(DIFF) Test/ex.expected-cppwinrtuwp Test/en.actual
 	
+check-monodocer-cppcx: Test/FrameworkTestData
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -lang c++/cx -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-cppcx Test/en.actual
+
+check-monodocer-cppcxDocTest: Test/DocTest.dll
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -lang c++/cx -o Test/en.actual Test/DocTest.dll
+	$(DIFF) Test/en.expected-cppcx2 Test/en.actual
+
+check-monodocer-cppwinrt: Test/FrameworkTestData
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -lang c++/winrt -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(DIFF) Test/en.expected-cppwinrt Test/en.actual
+
+	
+check-monodocer-cppwinrtDocTest: Test/DocTest.dll
+	-rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -lang c++/winrt -o Test/en.actual Test/DocTest.dll 
+	$(DIFF) Test/en.expected-cppwinrt2 Test/en.actual
+
+
 check-monodocer-vbnet2: 
 	-rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest.dll-v1
@@ -559,7 +591,7 @@ run-test-local: check-doc-tools
 
 run-test-update : check-doc-tools-update
 
-check-doc-tools: check-monodocer-since \
+check-doc-tools: 	check-monodocer-since \
 	check-monodocer-importecmadoc \
 	check-monodocer-importslashdoc \
 	check-monodocer-import-fx \
@@ -593,6 +625,12 @@ check-doc-tools: check-monodocer-since \
 	check-monodocer-fsharp \
 	check-monodocer-attached-entities \
 	check-monodocer-members-implementation \
+	check-monodocer-cppcli \
+	check-monodocer-cppcxDocTest\
+	check-monodocer-cppcx\
+	check-monodocer-cppwinrtDocTest\
+	check-monodocer-cppwinrt\
+	check-monodocer-cppwinrtUwp\
 
 
 check-doc-tools-update: check-monodocer-since-update \
