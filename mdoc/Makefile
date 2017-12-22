@@ -452,6 +452,11 @@ check-monodocer-attached-entities:
 	msbuild ../mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
 	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp
 	$(DIFF) Test/en.expected-attached-entities Test/en.actual
+
+	# now make sure it will delete a previously run/duplicated attachedproperty/property
+	cp Test/AttachedEventsAndProperties/AttachedPropertyExample.xml Test/en.actual/AttachedEventsAndProperties/
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp
+	$(DIFF) Test/en.expected-attached-entities Test/en.actual
 	
 Test/TestClass.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/Test*.cs

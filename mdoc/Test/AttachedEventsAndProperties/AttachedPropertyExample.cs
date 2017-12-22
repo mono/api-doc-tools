@@ -23,6 +23,26 @@ namespace AttachedEventsAndProperties
         {
             return (Boolean)element.GetValue(IsBubbleSourceProperty);
         }
+
+
+        public static readonly DependencyProperty IsDuplicatedProperty = DependencyProperty.RegisterAttached(
+  "IsDuplicated",
+  typeof(Boolean),
+  typeof(AquariumObject),
+  null
+);
+
+        public static void SetIsDuplicated(UIElement element, Boolean value)
+        {
+            element.SetValue(IsDuplicatedProperty, value);
+        }
+
+        public static Boolean GetIsDuplicated(UIElement element)
+        {
+            return (Boolean)element.GetValue(IsDuplicatedProperty);
+        }
+        public static bool IsDuplicated {get;set;}
+        
         #endregion
 
         #region negative example (no get method)
