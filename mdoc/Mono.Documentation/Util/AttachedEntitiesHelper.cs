@@ -124,7 +124,10 @@ namespace Mono.Documentation.Util
             var propertyName = GetPropertyName(field.Name);
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
-            return
+
+            var hasExistingProperty = field.DeclaringType.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal));
+
+            return !hasExistingProperty &&
                 // Class X has a static field of type DependencyProperty [Name]Property
                 field.FieldType.FullName == Consts.DependencyPropertyFullName
                 && field.IsPublic

@@ -138,6 +138,21 @@
       </Docs>
     </Member>
     <Member MemberName="IsDuplicated">
+      <MemberSignature Language="C#" Value="see GetIsDuplicated, and SetIsDuplicated" />
+      <MemberSignature Language="ILAsm" Value="see GetIsDuplicated, and SetIsDuplicated" />
+      <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicated" />
+      <MemberSignature Language="VB.NET" Value="see GetIsDuplicated, and SetIsDuplicated" />
+      <MemberSignature Language="F#" Value="see GetIsDuplicated, and SetIsDuplicated" Usage="see GetIsDuplicated, and SetIsDuplicated" />
+      <MemberType>AttachedProperty</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsDuplicated">
       <MemberSignature Language="C#" Value="public static bool IsDuplicated { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property bool IsDuplicated" />
       <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicated" />
