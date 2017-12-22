@@ -1206,7 +1206,7 @@ namespace Mono.Documentation
 
                             // Here we don't know the framwork which contained the removed type. So, we determine it by the old frameworks XML-file
                             // If there is only one framework, use it as a default value
-                            var defaultFramework = frameworks.Frameworks.SingleOrDefault();
+                            var defaultFramework = frameworks.Frameworks.FirstOrDefault();
                             // If there is no frameworks (no frameworks mode) or there is more than one framework
                             if (defaultFramework == null)
                                 // Use FrameworkEntry.Empty as the default value (as well as in FrameworkIndex/StartProcessingAssembly)

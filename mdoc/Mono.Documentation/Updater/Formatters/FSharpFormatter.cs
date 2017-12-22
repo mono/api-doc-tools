@@ -613,10 +613,10 @@ namespace Mono.Documentation.Updater
 
         private bool IsOverride(TypeDefinition type, MethodDefinition method)
         {
-            if (type.BaseType == null)
+            if (type == null || type.BaseType == null)
                 return false;
             var baseType = type.BaseType.Resolve();
-            if (baseType.Methods.Any(i => i.Name == method.Name))
+            if (baseType != null && baseType.Methods.Any(i => i.Name == method.Name))
                 return true;
             return IsOverride(type.BaseType.Resolve(), method);
         }
