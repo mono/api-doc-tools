@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mono.Cecil;
 using Mono.Collections.Generic;
@@ -119,15 +120,16 @@ namespace Mono.Documentation.Util
         {
             // https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/attached-properties-overview
             // https://github.com/mono/api-doc-tools/issues/63#issuecomment-328995418
-            if (!field.Name.EndsWith(PropertyConst))
+            if (!field.Name.EndsWith(PropertyConst, StringComparison.Ordinal))
                 return false;
             var propertyName = GetPropertyName(field.Name);
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
 
-            var hasExistingProperty = field.DeclaringType.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal));
+            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal));
+            var hasExistingField = field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, System.StringComparison.Ordinal));
 
-            return !hasExistingProperty &&
+            return !hasExistingProperty.IsTrue () && !hasExistingField.IsTrue () &&
                 // Class X has a static field of type DependencyProperty [Name]Property
                 field.FieldType.FullName == Consts.DependencyPropertyFullName
                 && field.IsPublic
@@ -178,5 +180,12 @@ namespace Mono.Documentation.Util
 
             return type.FullName == targetTypeName || IsAssignableTo(typeDefenition.BaseType, targetTypeName);
         }
+
+
+    }
+    internal static class NBoolExtensions
+    {
+        public static bool IsTrue (this Nullable<bool> value) => 
+            value.HasValue && value.Value;
     }
 }
