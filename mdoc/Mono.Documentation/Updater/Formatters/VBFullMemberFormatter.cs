@@ -728,8 +728,11 @@ namespace Mono.Documentation.Updater
             else
                 buf.Append(e.Name);
             buf.Append(" As ").Append(GetTypeName(e.EventType, new DynamicParserContext(e.AddMethod.Parameters[0]))).Append(' ');
-            if (isPublicEII)
-                buf.Append($"Implements {e.Name.Substring(0, e.Name.LastIndexOf('.'))}");
+            if (isPublicEII) {
+                var dotIndex = e.Name.LastIndexOf ('.');
+                dotIndex = dotIndex > -1 ? dotIndex : e.Name.Length;
+                buf.Append($"Implements {e.Name.Substring(0, dotIndex)}");
+            }
 
             return buf.ToString();
         }
