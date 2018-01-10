@@ -8,7 +8,7 @@ all: build
 build: $(MDOC)
 
 $(MDOC):
-	$(MSBUILD) apidoctools.sln /p:Configuration=$(CONFIGURATION)
+	$(MSBUILD) apidoctools.sln /p:Configuration=$(CONFIGURATION);
 
 prepare:
 	git submodule update --init --recursive

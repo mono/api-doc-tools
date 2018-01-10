@@ -1,0 +1,74 @@
+<Type Name="CustomAttribute1" FullName="UwpTestWinRtComponentCpp.CustomAttribute1">
+  <TypeSignature Language="C#" Value="public sealed class CustomAttribute1 : Attribute" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CustomAttribute1 extends System.Attribute" />
+  <AssemblyInfo>
+    <AssemblyName>UwpTestWinRtComponentCpp</AssemblyName>
+    <AssemblyVersion>255.255.255.255</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Attribute</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CustomAttribute1 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() runtime managed" />
+      <MemberSignature Language="C++ WINRT" Value=" CustomAttribute1();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Windows.Foundation.Metadata.Overload("CreateInstance1")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Field1">
+      <MemberSignature Language="C#" Value="public bool Field1;" />
+      <MemberSignature Language="ILAsm" Value=".field public bool Field1" />
+      <MemberSignature Language="C++ WINRT" Value="bool Field1;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Field2">
+      <MemberSignature Language="C#" Value="public Windows.Foundation.HResult Field2;" />
+      <MemberSignature Language="ILAsm" Value=".field public valuetype Windows.Foundation.HResult Field2" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::HResult Field2;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Windows.Foundation.HResult</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

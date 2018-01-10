@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-				 
 
 using Mono.Documentation.Util;
 using Mono.Cecil;
@@ -109,9 +108,7 @@ namespace Mono.Documentation.Updater
         {
             if (type is ArrayType)
             {
-																   
                 return AppendArrayTypeName(buf, type, context);
-																   
             }
             if (type is ByReferenceType)
             {

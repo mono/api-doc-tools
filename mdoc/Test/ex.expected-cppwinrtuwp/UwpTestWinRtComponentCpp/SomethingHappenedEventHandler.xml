@@ -1,0 +1,32 @@
+<Type Name="SomethingHappenedEventHandler" FullName="UwpTestWinRtComponentCpp.SomethingHappenedEventHandler">
+  <TypeSignature Language="C#" Value="public delegate void SomethingHappenedEventHandler(Class1 sender, string s);" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed SomethingHappenedEventHandler extends System.MulticastDelegate" />
+  <AssemblyInfo>
+    <AssemblyName>UwpTestWinRtComponentCpp</AssemblyName>
+    <AssemblyVersion>255.255.255.255</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Guid(2298425249, 32140, 14992, 141, 140, 226, 207, 230, 43, 42, 170)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Parameters>
+    <Parameter Name="sender" Type="UwpTestWinRtComponentCpp.Class1" />
+    <Parameter Name="s" Type="System.String" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="sender">To be added.</param>
+    <param name="s">To be added.</param>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

@@ -1,0 +1,26 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="UwpTestWinRtComponentCpp" Version="255.255.255.255" />
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="Namespace2">
+      <Type Name="Class2" Kind="Class" />
+      <Type Name="Class3" Kind="Class" />
+      <Type Name="Class4" Kind="Structure" />
+    </Namespace>
+    <Namespace Name="Namespace222">
+      <Type Name="App" Kind="Class" />
+    </Namespace>
+    <Namespace Name="UwpTestWinRtComponentCpp">
+      <Type Name="Class1" Kind="Class" />
+      <Type Name="Color1" Kind="Enumeration" />
+      <Type Name="CustomAttribute1" Kind="Class" />
+      <Type Name="PrimeFoundHandler" Kind="Delegate" />
+      <Type Name="PrimeFoundHandlerWithSpecificType" Kind="Delegate" />
+      <Type Name="SomethingHappenedEventHandler" Kind="Delegate" />
+    </Namespace>
+  </Types>
+  <Title>UwpTestWinRtComponentCpp</Title>
+</Overview>

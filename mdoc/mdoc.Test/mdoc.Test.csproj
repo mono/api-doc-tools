@@ -24,8 +24,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=4.4.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="mdoc.Test.Cplusplus, Version=1.0.6544.28971, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\external\Test\mdoc.Test.Cplusplus.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -42,10 +49,25 @@
     <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
+    <Reference Include="Windows">
+      <HintPath>..\..\external\Windows\Windows.WinMD</HintPath>
+    </Reference>
+    <Reference Include="Windows.Foundation.FoundationContract">
+      <HintPath>..\..\external\Windows\Windows.Foundation.FoundationContract.winmd</HintPath>
+    </Reference>
+    <Reference Include="Windows.Foundation.UniversalApiContract">
+      <HintPath>..\..\external\Windows\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicFormatterTests.cs" />
+    <Compile Include="CppWinRtMembersTests.cs" />
+    <Compile Include="CppWinRtFormatterTests.cs" />
     <Compile Include="FSharp\BasicFSharpFormatterTests.cs" />
+    <Compile Include="CppCxFormatterMembersTests.cs" />
+    <Compile Include="CppFormatterTests.cs" />
+    <Compile Include="CppCxFormatterTypesTests.cs" />
+    <Compile Include="CppFullFormatterTests.cs" />
     <Compile Include="FormatterTests.cs" />
     <Compile Include="FSharp\FSharpFormatterTests.cs" />
     <Compile Include="FSharp\FSharpUsageFormatterTests.cs" />
@@ -85,6 +107,7 @@
       <Name>mdoc.Test.FSharp</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup />
   <ItemGroup>
     <Content Include="cppcli\Debug\cppcli.dll">

@@ -52,6 +52,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Mono.Documentation\Updater\Formatters\ApplePlatformEnumFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\JsFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\JsMemberFormatter.cs" />
@@ -59,6 +60,11 @@
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFullMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpUsageFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtFullMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppCxFullMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppFullMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppCxMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\StandardFlagsEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\DefaultAttributeValueFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeValueFormatter.cs" />
@@ -69,7 +75,7 @@
     <Compile Include="Mono.Documentation\Updater\Formatters\SlashDocMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\DocTypeMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\DocTypeFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CSharpFullMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CSharpNativeTypeMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\ILNativeTypeMemberFormatter.cs" />

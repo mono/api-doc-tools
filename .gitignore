@@ -19,3 +19,8 @@ mdoc/Test/actual_statistics.txt
 mdoc/Test/test-overwrite-attribute/SomeClass.xml
 mdoc/Test/test-overwrite-attribute/SomeClass.dll
 mdoc/Test/test-nuget-information/input_data/
+/Debug/UwpTestWinRtComponentCpp
+Debug
+/mdoc/mdoc.Test/UwpTestWinRtComponentCpp/x64/Release
+/mdoc.Test.Cplusplus/x64/Release
+/x64/Release/UwpTestWinRtComponentCpp
