@@ -4,6 +4,8 @@
   <TypeSignature Language="DocId" Value="T:System.Windows.UIElement" />
   <TypeSignature Language="VB.NET" Value="Public Class UIElement&#xA;Inherits DependencyObject" />
   <TypeSignature Language="F#" Value="type UIElement = class&#xA;    inherit DependencyObject" />
+  <TypeSignature Language="JavaScript" Value="function UIElement()" Usage="var uIElement = new UIElement();" />
+  <TypeSignature Language="C++ CLI" Value="public ref class UIElement : System::Windows::DependencyObject" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -22,6 +24,10 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.UIElement.#ctor" />
       <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="JavaScript" Value="function UIElement()" Usage="var uIElement = new UIElement();" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; UIElement();" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; UIElement();" />
+      <MemberSignature Language="C++ WINRT" Value=" UIElement();" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

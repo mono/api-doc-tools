@@ -4,6 +4,8 @@
   <TypeSignature Language="DocId" Value="T:System.Windows.RoutedEventArgs" />
   <TypeSignature Language="VB.NET" Value="Public Class RoutedEventArgs&#xA;Inherits EventArgs" />
   <TypeSignature Language="F#" Value="type RoutedEventArgs = class&#xA;    inherit EventArgs" />
+  <TypeSignature Language="JavaScript" Value="function RoutedEventArgs()" Usage="var routedEventArgs = new RoutedEventArgs();" />
+  <TypeSignature Language="C++ CLI" Value="public ref class RoutedEventArgs : EventArgs" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -22,6 +24,10 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.RoutedEventArgs.#ctor" />
       <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="JavaScript" Value="function RoutedEventArgs()" Usage="var routedEventArgs = new RoutedEventArgs();" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; RoutedEventArgs();" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; RoutedEventArgs();" />
+      <MemberSignature Language="C++ WINRT" Value=" RoutedEventArgs();" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

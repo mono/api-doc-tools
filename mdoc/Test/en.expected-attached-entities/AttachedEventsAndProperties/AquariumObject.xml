@@ -4,6 +4,9 @@
   <TypeSignature Language="DocId" Value="T:AttachedEventsAndProperties.AquariumObject" />
   <TypeSignature Language="VB.NET" Value="Public Class AquariumObject" />
   <TypeSignature Language="F#" Value="type AquariumObject = class" />
+  <TypeSignature Language="JavaScript" Value="function AquariumObject()" Usage="var aquariumObject = new AquariumObject();" />
+  <TypeSignature Language="C++ CLI" Value="public ref class AquariumObject" />
+  <TypeSignature Language="C++ WINRT" Value="[Windows::Foundation::Metadata::WebHostHidden]&#xA;class AquariumObject" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -22,6 +25,10 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AquariumObject.#ctor" />
       <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="JavaScript" Value="function AquariumObject()" Usage="var aquariumObject = new AquariumObject();" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; AquariumObject();" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; AquariumObject();" />
+      <MemberSignature Language="C++ WINRT" Value=" AquariumObject();" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

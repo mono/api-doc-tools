@@ -1018,6 +1018,9 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     return IsSupportedProperty(property);
                 case EventDefinition @event:
                     return IsSupportedEvent(@event);
+                case AttachedPropertyDefinition _:
+                case AttachedEventDefinition _:
+                    return false;
             }
 
             throw new NotSupportedException("Unsupported member type: " + mref?.GetType().FullName);

@@ -341,14 +341,14 @@ check-monodocer-enumerations:
 check-monodocer-update: 
 	find Test/en.expected -name \*.xml -exec rm "{}" \;
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.expected Test/DocTest.dll
+	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.expected Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 
 check-monodocer: 
 	-rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest.dll
+	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected Test/en.actual
-	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest.dll 
+	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected Test/en.actual
 
 check-monodocer-since-update: 
@@ -488,12 +488,12 @@ check-monodocer-import-fx-update: check-monodocer-import-fx-work
 check-monodocer-attached-entities:
 	-rm -Rf Test/en.actual
 	msbuild ../mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
-	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp
+	$(MONO) $(PROGRAM) update --debug -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected-attached-entities Test/en.actual
 
 	# now make sure it will delete a previously run/duplicated attachedproperty/property
 	cp Test/AttachedEventsAndProperties/AttachedPropertyExample.xml Test/en.actual/AttachedEventsAndProperties/
-	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected-attached-entities Test/en.actual
 	
 Test/TestClass.dll:
