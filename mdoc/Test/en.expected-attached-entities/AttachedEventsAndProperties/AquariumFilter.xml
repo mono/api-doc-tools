@@ -4,6 +4,9 @@
   <TypeSignature Language="DocId" Value="T:AttachedEventsAndProperties.AquariumFilter" />
   <TypeSignature Language="VB.NET" Value="Public Class AquariumFilter" />
   <TypeSignature Language="F#" Value="type AquariumFilter = class" />
+  <TypeSignature Language="JavaScript" Value="function AquariumFilter()" Usage="var aquariumFilter = new AquariumFilter();" />
+  <TypeSignature Language="C++ CLI" Value="public ref class AquariumFilter" />
+  <TypeSignature Language="C++ WINRT" Value="[Windows::Foundation::Metadata::WebHostHidden]&#xA;class AquariumFilter" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -22,6 +25,10 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AquariumFilter.#ctor" />
       <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="JavaScript" Value="function AquariumFilter()" Usage="var aquariumFilter = new AquariumFilter();" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; AquariumFilter();" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; AquariumFilter();" />
+      <MemberSignature Language="C++ WINRT" Value=" AquariumFilter();" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -38,6 +45,8 @@
       <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AquariumFilter.NeedsCleaningEvent" />
       <MemberSignature Language="VB.NET" Value="Public Shared Property NeedsCleaningEvent As RoutedEvent" />
       <MemberSignature Language="F#" Value="member this.NeedsCleaningEvent : System.Windows.RoutedEvent with get, set" Usage="AttachedEventsAndProperties.AquariumFilter.NeedsCleaningEvent" />
+      <MemberSignature Language="JavaScript" Usage="var routedEvent = AquariumFilter.needsCleaningEvent;&#xA;AquariumFilter.needsCleaningEvent = routedEvent;" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Windows::RoutedEvent ^ NeedsCleaningEvent { System::Windows::RoutedEvent ^ get(); void set(System::Windows::RoutedEvent ^ value); };" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

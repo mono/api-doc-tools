@@ -4,6 +4,8 @@
   <TypeSignature Language="DocId" Value="T:System.Windows.DragEventArgs" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class DragEventArgs&#xA;Inherits RoutedEventArgs" />
   <TypeSignature Language="F#" Value="type DragEventArgs = class&#xA;    inherit RoutedEventArgs" />
+  <TypeSignature Language="JavaScript" Value="function DragEventArgs()" Usage="var dragEventArgs = new DragEventArgs();" />
+  <TypeSignature Language="C++ CLI" Value="public ref class DragEventArgs sealed : System::Windows::RoutedEventArgs" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -22,6 +24,10 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.DragEventArgs.#ctor" />
       <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="JavaScript" Value="function DragEventArgs()" Usage="var dragEventArgs = new DragEventArgs();" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; DragEventArgs();" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; DragEventArgs();" />
+      <MemberSignature Language="C++ WINRT" Value=" DragEventArgs();" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

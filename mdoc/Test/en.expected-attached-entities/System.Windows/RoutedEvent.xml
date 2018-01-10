@@ -4,6 +4,8 @@
   <TypeSignature Language="DocId" Value="T:System.Windows.RoutedEvent" />
   <TypeSignature Language="VB.NET" Value="Public Class RoutedEvent" />
   <TypeSignature Language="F#" Value="type RoutedEvent = class" />
+  <TypeSignature Language="JavaScript" Value="function RoutedEvent()" Usage="var routedEvent = new RoutedEvent();" />
+  <TypeSignature Language="C++ CLI" Value="public ref class RoutedEvent" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -22,6 +24,10 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Windows.RoutedEvent.#ctor" />
       <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="JavaScript" Value="function RoutedEvent()" Usage="var routedEvent = new RoutedEvent();" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; RoutedEvent();" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; RoutedEvent();" />
+      <MemberSignature Language="C++ WINRT" Value=" RoutedEvent();" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

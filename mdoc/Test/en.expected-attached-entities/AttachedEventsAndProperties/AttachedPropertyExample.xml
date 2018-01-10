@@ -4,6 +4,9 @@
   <TypeSignature Language="DocId" Value="T:AttachedEventsAndProperties.AttachedPropertyExample" />
   <TypeSignature Language="VB.NET" Value="Public Class AttachedPropertyExample" />
   <TypeSignature Language="F#" Value="type AttachedPropertyExample = class" />
+  <TypeSignature Language="C++ CLI" Value="public ref class AttachedPropertyExample abstract sealed" />
+  <TypeSignature Language="C++ CX" Value="public ref class AttachedPropertyExample abstract sealed" />
+  <TypeSignature Language="C++ WINRT" Value="class AttachedPropertyExample abstract sealed" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -23,6 +26,8 @@
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.GetIsBubbleSource(System.Windows.UIElement)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function GetIsBubbleSource (element As UIElement) As Boolean" />
       <MemberSignature Language="F#" Value="static member GetIsBubbleSource : System.Windows.UIElement -&gt; bool" Usage="AttachedEventsAndProperties.AttachedPropertyExample.GetIsBubbleSource element" />
+      <MemberSignature Language="JavaScript" Value="function getIsBubbleSource(element)" Usage="var boolean = AttachedEventsAndProperties.AttachedPropertyExample.getIsBubbleSource(element)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool GetIsBubbleSource(System::Windows::UIElement ^ element);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -46,6 +51,8 @@
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.GetIsBubbleSource3(System.Windows.UIElement)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function GetIsBubbleSource3 (element As UIElement) As Boolean" />
       <MemberSignature Language="F#" Value="static member GetIsBubbleSource3 : System.Windows.UIElement -&gt; bool" Usage="AttachedEventsAndProperties.AttachedPropertyExample.GetIsBubbleSource3 element" />
+      <MemberSignature Language="JavaScript" Value="function getIsBubbleSource3(element)" Usage="var boolean = AttachedEventsAndProperties.AttachedPropertyExample.getIsBubbleSource3(element)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool GetIsBubbleSource3(System::Windows::UIElement ^ element);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -69,6 +76,8 @@
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.GetIsDuplicated(System.Windows.UIElement)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Function GetIsDuplicated (element As UIElement) As Boolean" />
       <MemberSignature Language="F#" Value="static member GetIsDuplicated : System.Windows.UIElement -&gt; bool" Usage="AttachedEventsAndProperties.AttachedPropertyExample.GetIsDuplicated element" />
+      <MemberSignature Language="JavaScript" Value="function getIsDuplicated(element)" Usage="var boolean = AttachedEventsAndProperties.AttachedPropertyExample.getIsDuplicated(element)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool GetIsDuplicated(System::Windows::UIElement ^ element);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -92,6 +101,7 @@
       <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSource" />
       <MemberSignature Language="VB.NET" Value="see GetIsBubbleSource, and SetIsBubbleSource" />
       <MemberSignature Language="F#" Value="see GetIsBubbleSource, and SetIsBubbleSource" Usage="see GetIsBubbleSource, and SetIsBubbleSource" />
+      <MemberSignature Language="JavaScript" Value="see GetIsBubbleSource, and SetIsBubbleSource" Usage="see GetIsBubbleSource, and SetIsBubbleSource" />
       <MemberType>AttachedProperty</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -107,6 +117,7 @@
       <MemberSignature Language="DocId" Value="F:AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSource2Property" />
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly IsBubbleSource2Property As DependencyProperty " />
       <MemberSignature Language="F#" Value=" staticval mutable IsBubbleSource2Property : System.Windows.DependencyProperty" Usage="AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSource2Property" />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ IsBubbleSource2Property;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -125,6 +136,7 @@
       <MemberSignature Language="DocId" Value="F:AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSourceProperty" />
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly IsBubbleSourceProperty As DependencyProperty " />
       <MemberSignature Language="F#" Value=" staticval mutable IsBubbleSourceProperty : System.Windows.DependencyProperty" Usage="AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSourceProperty" />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ IsBubbleSourceProperty;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -143,6 +155,9 @@
       <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicated" />
       <MemberSignature Language="VB.NET" Value="Public Shared Property IsDuplicated As Boolean" />
       <MemberSignature Language="F#" Value="member this.IsDuplicated : bool with get, set" Usage="AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicated" />
+      <MemberSignature Language="JavaScript" Usage="var boolean = AttachedPropertyExample.isDuplicated;&#xA;AttachedPropertyExample.isDuplicated = boolean;" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property bool IsDuplicated { bool get(); void set(bool value); };" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; static property bool IsDuplicated { bool get(); void set(bool value); };" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -162,6 +177,7 @@
       <MemberSignature Language="DocId" Value="F:AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicatedProperty" />
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly IsDuplicatedProperty As DependencyProperty " />
       <MemberSignature Language="F#" Value=" staticval mutable IsDuplicatedProperty : System.Windows.DependencyProperty" Usage="AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicatedProperty" />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ IsDuplicatedProperty;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -180,6 +196,7 @@
       <MemberSignature Language="DocId" Value="F:AttachedEventsAndProperties.AttachedPropertyExample.P" />
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly P As DependencyProperty " />
       <MemberSignature Language="F#" Value=" staticval mutable P : System.Windows.DependencyProperty" Usage="AttachedEventsAndProperties.AttachedPropertyExample.P" />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ P;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -198,6 +215,8 @@
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource(System.Windows.UIElement,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub SetIsBubbleSource (element As UIElement, value As Boolean)" />
       <MemberSignature Language="F#" Value="static member SetIsBubbleSource : System.Windows.UIElement * bool -&gt; unit" Usage="AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource (element, value)" />
+      <MemberSignature Language="JavaScript" Value="function setIsBubbleSource(element, value)" Usage="AttachedEventsAndProperties.AttachedPropertyExample.setIsBubbleSource(element, value)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetIsBubbleSource(System::Windows::UIElement ^ element, bool value);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -222,6 +241,8 @@
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource2(System.Windows.UIElement,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub SetIsBubbleSource2 (element As UIElement, value As Boolean)" />
       <MemberSignature Language="F#" Value="static member SetIsBubbleSource2 : System.Windows.UIElement * bool -&gt; unit" Usage="AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource2 (element, value)" />
+      <MemberSignature Language="JavaScript" Value="function setIsBubbleSource2(element, value)" Usage="AttachedEventsAndProperties.AttachedPropertyExample.setIsBubbleSource2(element, value)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetIsBubbleSource2(System::Windows::UIElement ^ element, bool value);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -246,6 +267,8 @@
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource3(System.Windows.UIElement,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub SetIsBubbleSource3 (element As UIElement, value As Boolean)" />
       <MemberSignature Language="F#" Value="static member SetIsBubbleSource3 : System.Windows.UIElement * bool -&gt; unit" Usage="AttachedEventsAndProperties.AttachedPropertyExample.SetIsBubbleSource3 (element, value)" />
+      <MemberSignature Language="JavaScript" Value="function setIsBubbleSource3(element, value)" Usage="AttachedEventsAndProperties.AttachedPropertyExample.setIsBubbleSource3(element, value)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetIsBubbleSource3(System::Windows::UIElement ^ element, bool value);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -270,6 +293,8 @@
       <MemberSignature Language="DocId" Value="M:AttachedEventsAndProperties.AttachedPropertyExample.SetIsDuplicated(System.Windows.UIElement,System.Boolean)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub SetIsDuplicated (element As UIElement, value As Boolean)" />
       <MemberSignature Language="F#" Value="static member SetIsDuplicated : System.Windows.UIElement * bool -&gt; unit" Usage="AttachedEventsAndProperties.AttachedPropertyExample.SetIsDuplicated (element, value)" />
+      <MemberSignature Language="JavaScript" Value="function setIsDuplicated(element, value)" Usage="AttachedEventsAndProperties.AttachedPropertyExample.setIsDuplicated(element, value)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetIsDuplicated(System::Windows::UIElement ^ element, bool value);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>

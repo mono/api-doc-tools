@@ -4,6 +4,8 @@
   <TypeSignature Language="DocId" Value="T:System.Windows.DragEventHandler" />
   <TypeSignature Language="VB.NET" Value="Public Delegate Sub DragEventHandler(sender As Object, e As DragEventArgs)" />
   <TypeSignature Language="F#" Value="type DragEventHandler = delegate of obj * DragEventArgs -&gt; unit" />
+  <TypeSignature Language="JavaScript" Usage="var dragEventHandlerHandler = function(sender, e){&#xA;/* Your code */&#xA;}" />
+  <TypeSignature Language="C++ CLI" Value="public delegate void DragEventHandler(System::Object ^ sender, DragEventArgs ^ e);" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>

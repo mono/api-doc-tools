@@ -16,7 +16,7 @@ prepare:
 	nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
 
 clean:
-	$(MSBUILD) apidoctools.sln /t:clean
+	#$(MSBUILD) apidoctools.sln /t:clean
 	rm -rf bin/$(CONFIGURATION)
 
 check: build check-monodoc check-mdoc
