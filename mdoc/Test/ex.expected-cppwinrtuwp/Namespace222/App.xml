@@ -1,0 +1,226 @@
+<Type Name="App" FullName="Namespace222.App">
+  <TypeSignature Language="C#" Value="public sealed class App : Windows.ApplicationModel.Core.IFrameworkView" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed App extends System.Object implements class Windows.ApplicationModel.Core.IFrameworkView" />
+  <TypeSignature Language="C++ WINRT" Value="class App sealed : winrt::Windows::ApplicationModel::Core::IFrameworkView" />
+  <AssemblyInfo>
+    <AssemblyName>UwpTestWinRtComponentCpp</AssemblyName>
+    <AssemblyVersion>255.255.255.255</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>Windows.ApplicationModel.Core.IFrameworkView</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Activatable(1)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.MarshalingBehavior(Windows.Foundation.Metadata.MarshalingType.Agile)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Threading(Windows.Foundation.Metadata.ThreadingModel.Both)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public App ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() runtime managed" />
+      <MemberSignature Language="C++ WINRT" Value=" App();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Windows.Foundation.Metadata.Overload("CreateInstance1")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Initialize">
+      <MemberSignature Language="C#" Value="public void Initialize (Windows.ApplicationModel.Core.CoreApplicationView applicationView);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Initialize([in]class Windows.ApplicationModel.Core.CoreApplicationView applicationView) runtime managed" />
+      <MemberSignature Language="C++ WINRT" Value="void Initialize(winrt::Windows::ApplicationModel::Core::CoreApplicationView const &amp; applicationView);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:Windows.ApplicationModel.Core.IFrameworkView.Initialize(Windows.ApplicationModel.Core.CoreApplicationView)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="applicationView" Type="Windows.ApplicationModel.Core.CoreApplicationView" />
+      </Parameters>
+      <Docs>
+        <param name="applicationView">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Load">
+      <MemberSignature Language="C#" Value="public void Load (string entryPoint);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Load([in]string entryPoint) runtime managed" />
+      <MemberSignature Language="C++ WINRT" Value="void Load(std::wstring const &amp; entryPoint);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:Windows.ApplicationModel.Core.IFrameworkView.Load(System.String)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="entryPoint" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="entryPoint">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="m_activated">
+      <MemberSignature Language="C#" Value="public Windows.UI.Core.CoreWindow m_activated { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Windows.UI.Core.CoreWindow m_activated" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:Namespace222.__IAppPublicNonVirtuals.m_activated</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Windows.UI.Core.CoreWindow</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="m_target">
+      <MemberSignature Language="C#" Value="public Windows.UI.Composition.CompositionTarget m_target { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Windows.UI.Composition.CompositionTarget m_target" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:Namespace222.__IAppPublicNonVirtuals.m_target</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Windows.UI.Composition.CompositionTarget</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Run">
+      <MemberSignature Language="C#" Value="public void Run ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Run() runtime managed" />
+      <MemberSignature Language="C++ WINRT" Value="void Run();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:Windows.ApplicationModel.Core.IFrameworkView.Run</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetWindow">
+      <MemberSignature Language="C#" Value="public void SetWindow (Windows.UI.Core.CoreWindow window);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetWindow([in]class Windows.UI.Core.CoreWindow window) runtime managed" />
+      <MemberSignature Language="C++ WINRT" Value="void SetWindow(winrt::Windows::UI::Core::CoreWindow const &amp; window);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:Windows.ApplicationModel.Core.IFrameworkView.SetWindow(Windows.UI.Core.CoreWindow)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="window" Type="Windows.UI.Core.CoreWindow" />
+      </Parameters>
+      <Docs>
+        <param name="window">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetWindow1">
+      <MemberSignature Language="C#" Value="public void SetWindow1 (Windows.UI.Core.CoreWindow window);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetWindow1([in]class Windows.UI.Core.CoreWindow window) runtime managed" />
+      <MemberSignature Language="C++ WINRT" Value="void SetWindow1(winrt::Windows::UI::Core::CoreWindow const &amp; window);" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:Namespace222.__IAppPublicNonVirtuals.SetWindow1(Windows.UI.Core.CoreWindow)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="window" Type="Windows.UI.Core.CoreWindow" />
+      </Parameters>
+      <Docs>
+        <param name="window">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Uninitialize">
+      <MemberSignature Language="C#" Value="public void Uninitialize ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Uninitialize() runtime managed" />
+      <MemberSignature Language="C++ WINRT" Value="void Uninitialize();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:Windows.ApplicationModel.Core.IFrameworkView.Uninitialize</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyVersion>255.255.255.255</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
