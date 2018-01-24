@@ -3156,7 +3156,7 @@ namespace Mono.Documentation
         {
             XmlElement e = WriteElement (root, "Parameters");
 
-            int i = 0;
+            int parameterIndex = 0;
             foreach (ParameterDefinition p in parameters)
             {
                 XmlElement pe;
@@ -3184,17 +3184,29 @@ namespace Mono.Documentation
                     // are we in frameworks mode?
                     // add Index to all existing parameter nodes if they don't have them
                     // match existing to position and type
+                    bool inFXMode = typeEntry.Framework.Frameworks.Count () > 1;
 
                     // when I find the one, name won't match ... 
 
                     //  find all "previous" frameworks
                     //  Add FrameworkAlternate with previous frameworks to found/pre-existing node
+                    var allPreviousTypes = typeEntry.Framework.Frameworks
+                                            .Where (f => f.index < typeEntry.Framework.index)
+                                            .Select (f => f.FindTypeEntry (typeEntry))
+                                            .ToArray ();
+
+                    var allPreviousFrameworks = allPreviousTypes.Select (previous => previous.Framework.Name).ToArray ();
+                    string fxList = string.Join (";", allPreviousFrameworks);
+
+                    // find the parameters in `root` that have an index == this parameter's index
+                    // if they don't match, then we need to make a new one for this
+
                     // Create new "Parameter" node, with FrameworkAlternate = this
 
                     // Legacy: wasn't found, let's make sure it wasn't just cause the param name was changed
                     nodes = root.SelectSingleNode ("Parameters").SelectNodes ("Parameter")
                         .Cast<XmlElement> ()
-                        .Skip (i) // this makes sure we don't inadvertently "reuse" nodes when adding new ones
+                        .Skip (parameterIndex) // this makes sure we don't inadvertently "reuse" nodes when adding new ones
                         .Where (x => x.GetAttribute ("Name") != p.Name && (x.GetAttribute ("Type") == ptype || x.GetAttribute ("Type") == newPType))
                         .Take (1) // there might be more than one that meets this parameter ... only take the first.
                         .ToArray ();
@@ -3223,7 +3235,7 @@ namespace Mono.Documentation
                     },
                     member);
 
-                i++;
+                parameterIndex++;
             }
 
             // TODO: was there a `Parameter` that we didn't process that has FrameworkAlternate?

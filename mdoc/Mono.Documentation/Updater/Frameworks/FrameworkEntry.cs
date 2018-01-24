@@ -11,7 +11,7 @@ namespace Mono.Documentation.Updater.Frameworks
         SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
         List<FrameworkEntry> allframeworks;
-        int index = 0;
+        public int index = 0;
 
         public FrameworkEntry (List<FrameworkEntry> frameworks)
         {

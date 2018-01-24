@@ -86,6 +86,7 @@
     <Compile Include="SampleClasses\SomeStruct.cs" />
     <Compile Include="SampleClasses\WebHostHiddenAttribute.cs" />
     <Compile Include="VBFormatterTests.cs" />
+    <Compile Include="FrameworkAlternateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
