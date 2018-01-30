@@ -16,6 +16,7 @@
   </Attributes>
   <Parameters>
     <Parameter Name="" Type="System.Int32" />
+    <Parameter Name="" Type="System.Int32" />
   </Parameters>
   <ReturnValue>
     <ReturnType>System.Char</ReturnType>
