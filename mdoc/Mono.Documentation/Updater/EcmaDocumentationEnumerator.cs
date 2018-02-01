@@ -4,7 +4,7 @@ using System.Linq;
 using System.Xml;
 
 using Mono.Cecil;
-
+using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater
@@ -78,13 +78,13 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        public override IEnumerable<DocsNodeInfo> GetDocumentationMembers (XmlDocument basefile, TypeDefinition type)
+        public override IEnumerable<DocsNodeInfo> GetDocumentationMembers (XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry)
         {
-            return GetMembers (basefile, type)
-                .Concat (base.GetDocumentationMembers (basefile, type));
+            return GetMembers (basefile, type, typeEntry)
+                .Concat (base.GetDocumentationMembers (basefile, type, typeEntry));
         }
 
-        private IEnumerable<DocsNodeInfo> GetMembers (XmlDocument basefile, TypeDefinition type)
+        private IEnumerable<DocsNodeInfo> GetMembers (XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry)
         {
             while (ecmadocs.Name != "Members" && ecmadocs.Read ())
             {
@@ -141,7 +141,7 @@ namespace Mono.Documentation.Updater
                             }
                             else
                             {
-                                m = GetMember (type, new DocumentationMember (oldmember));
+                                m = GetMember (type, new DocumentationMember (oldmember, typeEntry));
                                 if (m == null)
                                 {
                                     app.Warning ("Could not import ECMA docs for `{0}'s `{1}': Member not found.",

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 namespace Mono.Documentation.Updater.Frameworks
 {
-    public class FXUtils
+    public static class FXUtils
     {
         public static string AddFXToList (string existingValue, string newFX)
         {
@@ -18,6 +18,16 @@ namespace Mono.Documentation.Updater.Frameworks
             splitValue.Remove (FXToRemove);
             return JoinList (splitValue);
         }
+
+        /// <summary>Returns a list of all previously processed frameworks (not including the current)</summary>
+        internal static string PreviouslyProcessedFXString (FrameworkTypeEntry typeEntry) 
+        {
+            return string.Join (";", typeEntry
+                .PreviouslyProcessedFrameworkTypes
+                .Select (previous => previous.Framework.Name)
+                .ToArray ());
+        }
+        
 
         static List<string> SplitList (string existingValue)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 
@@ -15,6 +16,28 @@ namespace Mono.Documentation.Updater.Frameworks
         DocIdFormatter docidFormatter = new DocIdFormatter ();
 
 		FrameworkEntry fx;
+
+        Lazy<FrameworkTypeEntry[]> previouslyProcessedFXTypes;
+
+        /// <summary>
+        /// Returns a list of all corresponding type entries,
+        /// which have already been processed.
+        /// </summary>
+        public FrameworkTypeEntry[] PreviouslyProcessedFrameworkTypes {
+            get
+            {
+                if (previouslyProcessedFXTypes == null)
+                {
+                    previouslyProcessedFXTypes = new Lazy<FrameworkTypeEntry[]> (
+                       () => this.Framework.Frameworks
+                           .Where (f => f.index < this.Framework.index)
+                            .Select (f => f.FindTypeEntry (this))
+                            .ToArray ()
+                    );
+                }
+                return previouslyProcessedFXTypes.Value;
+            }
+        }
 
 		public static FrameworkTypeEntry Empty = new EmptyTypeEntry (FrameworkEntry.Empty) { Name = "Empty" };
 
@@ -75,6 +98,11 @@ namespace Mono.Documentation.Updater.Frameworks
 			if (other == null) return false;
 			return this.Name.Equals (other.Name);
 		}
+
+        public override int GetHashCode ()
+        {
+            return this.Name?.GetHashCode () ?? base.GetHashCode ();
+        }
 
 		class EmptyTypeEntry : FrameworkTypeEntry
 		{

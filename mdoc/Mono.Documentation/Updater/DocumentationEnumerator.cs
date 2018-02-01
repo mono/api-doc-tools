@@ -7,6 +7,7 @@ using Mono.Cecil;
 using StringList = System.Collections.Generic.List<string>;
 
 using Mono.Documentation.Util;
+using Mono.Documentation.Updater.Frameworks;
 
 namespace Mono.Documentation.Updater
 {
@@ -30,7 +31,7 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        public virtual IEnumerable<DocsNodeInfo> GetDocumentationMembers (XmlDocument basefile, TypeDefinition type)
+        public virtual IEnumerable<DocsNodeInfo> GetDocumentationMembers (XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry)
         {
             foreach (XmlElement oldmember in basefile.SelectNodes ("Type/Members/Member"))
             {
@@ -39,7 +40,7 @@ namespace Mono.Documentation.Updater
                     oldmember.RemoveAttribute ("__monodocer-seen__");
                     continue;
                 }
-                MemberReference m = GetMember (type, new DocumentationMember (oldmember));
+                MemberReference m = GetMember (type, new DocumentationMember (oldmember, typeEntry));
                 if (m == null)
                 {
                     yield return new DocsNodeInfo (oldmember);

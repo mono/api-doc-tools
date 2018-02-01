@@ -1425,7 +1425,7 @@ namespace Mono.Documentation
 
             Dictionary<string, List<MemberReference>> implementedMembers = DocUtils.GetImplementedMembersFingerprintLookup(type);
 
-            foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers (basefile, type))
+            foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers (basefile, type, typeEntry))
             {
                 XmlElement oldmember = info.Node;
                 MemberReference oldmember2 = info.Member;
@@ -2027,7 +2027,9 @@ namespace Mono.Documentation
             {
                 MakeTypeParameters (root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
                 var member = type.GetMethod ("Invoke");
-                MakeParameters (root, member, member.Parameters, typeEntry);
+
+                bool fxAlternateTriggered = false;
+                MakeParameters (root, member, member.Parameters, typeEntry, ref fxAlternateTriggered);
                 MakeReturnValue (root, member);
             }
 
@@ -2115,10 +2117,6 @@ namespace Mono.Documentation
             XmlElement me = (XmlElement)info.Node;
             MemberReference mi = info.Member;
             typeEntry.ProcessMember (mi);
-            foreach (MemberFormatter f in memberFormatters)
-            {
-                UpdateSignature(f, mi, me);
-            }
 
             WriteElementText (me, "MemberType", GetMemberType (mi));
             AddImplementedMembers(mi, implementedMembers, me);
@@ -2148,7 +2146,8 @@ namespace Mono.Documentation
                 if (mb.IsGenericMethod ())
                     MakeTypeParameters (me, mb.GenericParameters, mi, MDocUpdater.HasDroppedNamespace (mi));
             }
-            MakeParameters (me, mi, typeEntry, MDocUpdater.HasDroppedNamespace (mi));
+            bool fxAlternateTriggered = false;
+            MakeParameters (me, mi, typeEntry, ref fxAlternateTriggered, MDocUpdater.HasDroppedNamespace (mi));
 
             string fieldValue;
             if (mi is FieldDefinition && GetFieldConstValue ((FieldDefinition)mi, out fieldValue))
@@ -2156,6 +2155,12 @@ namespace Mono.Documentation
 
             info.Node = WriteElement (me, "Docs");
             MakeDocNode (info, typeEntry.Framework.Importers);
+
+            foreach (MemberFormatter f in memberFormatters)
+            {
+                UpdateSignature (f, mi, me, typeEntry, fxAlternateTriggered);
+            }
+
             OrderMemberNodes (me, me.ChildNodes);
             UpdateExtensionMethods (me, info);
         }
@@ -2181,7 +2186,7 @@ namespace Mono.Documentation
                 type);
         }
 
-        private static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement)
+        private static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry, bool fxAlternateTriggered)
         {
             var valueToUse = formatter.GetDeclaration(member);
             var usageSample = formatter.UsageFormatter?.GetDeclaration(member);
@@ -2193,9 +2198,46 @@ namespace Mono.Documentation
                 out var valueMatches, 
                 out var setValue, 
                 out var makeNewNode);
-            
+
+            /*
+             * 1. 'normal'
+            */
+            /// Handle framework alternate scenarios
+            string currentFX = typeEntry.Framework.Name;
+            var existingNodes = xmlElement.SelectNodes (elementXPath).Cast<XmlElement> ().ToArray ();
+            if (existingNodes.Count () > 1) {
+                // TODO: find the right one to update based on `currentFX`
+
+                if (!existingNodes.Any (e => e.HasAttribute ("FrameworkAlternate"))) {
+                    var nodesWithFX = existingNodes.Where (e => e.GetAttribute ("FrameworkAlternate") == currentFX);
+                    if (nodesWithFX.Any ()) {
+                        // one exists, we can continue
+                        return;
+                    }
+                    else {
+                        // none exist, we must add one with `currentFX`
+                        throw new Exception ("FX, this shouldn't happen");
+                    }
+                }
+                else {
+                    // there are multiple, but none contain a `FrameworkAlternate`
+                    // this shouldn't happen
+                    throw new Exception ("FX, this shouldn't happen");
+                }
+            }
+            else if (fxAlternateTriggered && existingNodes.Count () == 1) {
+                // need to add alternate
+                string previousFX = FXUtils.PreviouslyProcessedFXString (typeEntry);
+                var node = existingNodes.First ();
+                node.SetAttribute ("FrameworkAlternate", previousFX);
+
+                var newelement = makeNewNode ();
+                newelement.SetAttribute ("FrameworkAlternate", currentFX);
+                return;
+            }
+
             AddXmlNode(
-                xmlElement.SelectNodes(elementXPath).Cast<XmlElement>().ToArray(),
+                existingNodes,
                 valueMatches,
                 setValue,
                 makeNewNode,
@@ -3214,10 +3256,11 @@ namespace Mono.Documentation
             return Convert.ToInt64 (value);
         }
 
-        private void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, bool shouldDuplicateWithNew = false)
+        private void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
         {
             XmlElement e = WriteElement (root, "Parameters");
 
+            /// addParameter does the work of adding the actual parameter to the XML
             Action<ParameterDefinition, XmlElement, string, int, bool, string, bool> addParameter = (ParameterDefinition param, XmlElement nextTo, string paramType, int index, bool addIndex, string fx, bool addfx) =>
             {
                 var pe = root.OwnerDocument.CreateElement ("Parameter");
@@ -3244,6 +3287,8 @@ namespace Mono.Documentation
                 MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""));
             };
 
+            /// addFXAttributes, adds the index attribute to all existing elements.
+            /// Used when we first detect the scenario which requires this.
             Action<XmlNodeList> addFXAttributes = nodes =>
             {
                 var i = 0;
@@ -3258,12 +3303,7 @@ namespace Mono.Documentation
 
             var paramNodes = e.GetElementsByTagName ("Parameter");
             bool inFXMode = typeEntry.Framework.Frameworks.Count () > 1;
-            var allPreviousTypes = new Lazy<FrameworkTypeEntry[]> (
-                () => typeEntry.Framework.Frameworks
-                    .Where (f => f.index < typeEntry.Framework.index)
-                    .Select (f => f.FindTypeEntry (typeEntry))
-                    .ToArray ()
-            );
+
             foreach (ParameterDefinition p in parameters)
             {
                 var ptype = GetDocParameterType (p.ParameterType);
@@ -3287,13 +3327,8 @@ namespace Mono.Documentation
                             addFXAttributes (paramNodes);
                             //-find type in previous frameworks
 
-                            //-Add FrameworkAlternate = allPreviousFrameworks and Index = currentIndex
 
-
-                            var allPreviousFrameworks = allPreviousTypes.Value
-                                    
-                                    .Select (previous => previous.Framework.Name).ToArray ();
-                            string fxList = string.Join (";", allPreviousFrameworks);
+                            string fxList = FXUtils.PreviouslyProcessedFXString (typeEntry);
 
                             //-find < parameter where index = currentIndex >
                             var currentNode = paramNodes[parameterIndex] as XmlElement;
@@ -3301,6 +3336,7 @@ namespace Mono.Documentation
 
                             addParameter (p, parameterNode, ptype, parameterIndex-parameterIndexOffset, true, typeEntry.Framework.Name, true);
                             parameterIndexOffset++;
+                            fxAlternateTriggered = true;
                         }
 
                     }
@@ -3522,15 +3558,15 @@ namespace Mono.Documentation
             }
         }
 
-        private void MakeParameters (XmlElement root, MemberReference mi, FrameworkTypeEntry typeEntry, bool shouldDuplicateWithNew)
+        private void MakeParameters (XmlElement root, MemberReference mi, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew)
         {
             if (mi is MethodDefinition && ((MethodDefinition)mi).IsConstructor)
-                MakeParameters (root, mi, ((MethodDefinition)mi).Parameters, typeEntry, shouldDuplicateWithNew);
+                MakeParameters (root, mi, ((MethodDefinition)mi).Parameters, typeEntry, ref fxAlternateTriggered, shouldDuplicateWithNew);
             else if (mi is MethodDefinition)
             {
                 MethodDefinition mb = (MethodDefinition)mi;
                 IList<ParameterDefinition> parameters = mb.Parameters;
-                MakeParameters (root, mi, parameters, typeEntry, shouldDuplicateWithNew);
+                MakeParameters (root, mi, parameters, typeEntry, ref fxAlternateTriggered, shouldDuplicateWithNew);
                 if (parameters.Count > 0 && DocUtils.IsExtensionMethod (mb))
                 {
                     XmlElement p = (XmlElement)root.SelectSingleNode ("Parameters/Parameter[position()=1]");
@@ -3541,7 +3577,7 @@ namespace Mono.Documentation
             {
                 IList<ParameterDefinition> parameters = ((PropertyDefinition)mi).Parameters;
                 if (parameters.Count > 0)
-                    MakeParameters (root, mi, parameters, typeEntry, shouldDuplicateWithNew);
+                    MakeParameters (root, mi, parameters, typeEntry, ref fxAlternateTriggered, shouldDuplicateWithNew);
                 else
                     return;
             }
