@@ -11,7 +11,11 @@ namespace Mono.Documentation.Updater.Frameworks
         SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
         List<FrameworkEntry> allframeworks;
+<<<<<<< HEAD
         public int index = 0;
+=======
+        int index = 0;
+>>>>>>> origin/marj-mdoc-116
 
         public FrameworkEntry (List<FrameworkEntry> frameworks)
         {
