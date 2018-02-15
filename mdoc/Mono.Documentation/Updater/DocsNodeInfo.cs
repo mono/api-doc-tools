@@ -8,7 +8,7 @@ using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater
 {
-    class DocsNodeInfo
+    public class DocsNodeInfo
     {
         public DocsNodeInfo (XmlElement node)
         {

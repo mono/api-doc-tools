@@ -6,18 +6,14 @@ using Mono.Cecil.Rocks;
 
 namespace Mono.Documentation.Updater.Frameworks
 {
-    class FrameworkEntry
+    public class FrameworkEntry
     {
         SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
-        List<FrameworkEntry> allframeworks;
-<<<<<<< HEAD
+        IList<FrameworkEntry> allframeworks;
         public int index = 0;
-=======
-        int index = 0;
->>>>>>> origin/marj-mdoc-116
 
-        public FrameworkEntry (List<FrameworkEntry> frameworks)
+        public FrameworkEntry (IList<FrameworkEntry> frameworks)
         {
             allframeworks = frameworks;
             if (allframeworks == null)
@@ -30,6 +26,12 @@ namespace Mono.Documentation.Updater.Frameworks
         public string Version { get; set; }
         public string Id { get; set; }
 
+        /// <summary>Only Use in Unit Tests</summary>
+        public string Replace="";
+
+        /// <summary>Only Use in Unit Tests</summary>
+        public string With ="";
+
         public IEnumerable<DocumentationImporter> Importers { get; set; }
 
         public ISet<FrameworkTypeEntry> Types { get { return this.types; } }
@@ -37,13 +39,13 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public FrameworkTypeEntry FindTypeEntry (FrameworkTypeEntry type) 
         {
-            return FindTypeEntry (type.Name);    
+            return FindTypeEntry (Str(type.Name));    
         }
 
         /// <param name="name">The value from <see cref="FrameworkTypeEntry.Name"/>.</param>
         public FrameworkTypeEntry FindTypeEntry (string name) {
             FrameworkTypeEntry entry;
-            typeMap.TryGetValue (name, out entry);
+            typeMap.TryGetValue (Str(name), out entry);
             return entry;
         }
 
@@ -55,17 +57,23 @@ namespace Mono.Documentation.Updater.Frameworks
 		{
             FrameworkTypeEntry entry;
 
-            if (!typeMap.TryGetValue (type.FullName, out entry)) {
+            if (!typeMap.TryGetValue (Str(type.FullName), out entry)) {
 				var docid = DocCommentId.GetDocCommentId (type);
-				entry = new FrameworkTypeEntry (this) { Id = docid, Name = type.FullName, Namespace = type.Namespace };
+                entry = new FrameworkTypeEntry (this) { Id = Str(docid), Name = Str(type.FullName), Namespace = Str(type.Namespace) };
 				types.Add (entry);
 
-                typeMap.Add (entry.Name, entry);
+                typeMap.Add (Str(entry.Name), entry);
 			}
 			return entry;
 		}
 
-		public override string ToString () => this.Name;
+        string Str(string value) {
+            if (!string.IsNullOrWhiteSpace (Replace))
+                return value.Replace (Replace, With);
+            return value;
+        }
+
+        public override string ToString () => Str(this.Name);
 
 		class EmptyFrameworkEntry : FrameworkEntry
 		{

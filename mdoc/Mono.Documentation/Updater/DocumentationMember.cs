@@ -7,7 +7,7 @@ using Mono.Documentation.Updater.Frameworks;
 
 namespace Mono.Documentation.Updater
 {
-    class DocumentationMember
+    public class DocumentationMember
     {
         public StringToStringMap MemberSignatures = new StringToStringMap ();
         public string ReturnType;
@@ -118,7 +118,6 @@ namespace Mono.Documentation.Updater
             var p = node.SelectNodes ("Parameters/Parameter[not(@apistyle) or @apistyle='classic']").Cast<XmlElement>().ToArray ();
             if (p.Length > 0)
             {
-                // TODO: check for 'FrameworkAlternate'
                 Parameters = new StringList (p.Length);
                 for (int i = 0; i < p.Length; ++i)
                 {

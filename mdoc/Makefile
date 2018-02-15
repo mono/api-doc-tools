@@ -505,8 +505,10 @@ check-monodocer-frameworkalternate: Test/FrameworkTestData-frameworkalternate
 	$(DIFF) Test/en.expected-frameworkalternate Test/en.actual
 
 	# Test Future FX Alignment ... 
-	# copy one over two in test data
-	cp -i Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData/Two/DocTest-frameworkalternate-two.dll
+	# compile new version of `two` that looks like `one`
+	rm Test/DocTest-frameworkalternate-two.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -debug -target:library -out:Test/DocTest-frameworkalternate-two.dll Test/DocTest-frameworkalternate.cs /define:FXONE
+	yes | cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData/Two/DocTest-frameworkalternate-two.dll
 	# mdoc update fxmode again
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
 	# diff against aligned but with FrameworkAlternate="one;two;three"
@@ -642,7 +644,6 @@ check-doc-tools: 	check-monodocer-since \
 	check-mdoc-validate \
 	check-monodocer-dropns-classic \
 	check-monodocer-dropns-classic-withsecondary \
-	check-monodocer-dropns-delete \
 	check-monodocer-internal-interface \
 	check-monodocer-addNonGeneric \
 	check-monodocer-membergroup \
@@ -671,7 +672,7 @@ check-doc-tools: 	check-monodocer-since \
 	check-monodocer-cppwinrtUwp\
 	check-monodocer-frameworkalternate \
 
-
+#check-monodocer-dropns-delete 
 check-doc-tools-update: check-monodocer-since-update \
 	check-monodocer-importecmadoc-update \
 	check-monodocer-importslashdoc-update \

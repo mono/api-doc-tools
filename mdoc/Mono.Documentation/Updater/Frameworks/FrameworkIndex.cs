@@ -10,7 +10,7 @@ using Mono.Cecil;
 namespace Mono.Documentation.Updater.Frameworks
 {
 
-	class FrameworkIndex
+	public class FrameworkIndex
 	{
 		List<FrameworkEntry> frameworks = new List<FrameworkEntry> ();
 		string path;
