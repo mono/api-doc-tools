@@ -250,6 +250,32 @@ namespace mdoc.Test
         }
         #endregion
 
+        #region Simple Parameter Change across multi FX
+
+        [Test ()]
+        public void Parameters_Updating_Existing_NameChange ()
+        {
+            var context = InitContext<MyClass2> (normalSingleXml2, 1, forceAlignment: false);
+
+            Func<int, FrameworkTypeEntry> typeEntry = i => context.fx.Frameworks[i].Types.First ();
+            bool fxAlternateTriggered = false;
+            context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry(0), ref fxAlternateTriggered);
+            Assert.IsTrue (fxAlternateTriggered);
+
+            fxAlternateTriggered = false;
+            context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry (1), ref fxAlternateTriggered);
+            Assert.IsFalse (fxAlternateTriggered);
+
+            fxAlternateTriggered = false;
+            context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry (2), ref fxAlternateTriggered);
+            Assert.IsFalse (fxAlternateTriggered);
+
+            var afterXML = context.doc.OuterXml;
+            Assert.AreEqual (Normalize (multiFrameworkAlignedOther), Normalize (afterXML));
+
+        }
+        #endregion
+
 
         [Test ()]
         public void MemberSignature_Updating_Existing_Align ()
@@ -299,6 +325,64 @@ namespace mdoc.Test
             var afterXML = context.doc.OuterXml;
 
             Assert.AreEqual (Normalize (SigmultiFrameworkXml), Normalize (afterXML));
+
+        }
+
+
+        [Test ()]
+        public void MemberSignature_Updating_Existing_NoChange_regular ()
+        {
+            var context = InitContext<MyClass> (SigRegular, 1, forceAlignment: false);
+
+            FrameworkTypeEntry typeEntry = context.fx.Frameworks[1].Types.First ();
+
+
+            var sig = new CSharpMemberFormatter ();
+            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: false);
+
+            var afterXML = context.doc.OuterXml;
+
+            Assert.AreEqual (Normalize (SigRegular), Normalize (afterXML));
+
+        }
+
+
+
+        [Test ()]
+        public void MemberSignature_Updating_Existing_NameChanged_SingleFX()
+        {
+            // handles the case 
+            var context = InitContext<MyClass> (SigRegular, 2, forceAlignment: false);
+
+            FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First ();
+            context.fx.Frameworks.RemoveAt (2);
+            context.fx.Frameworks.RemoveAt (1);
+
+            var sig = new CSharpMemberFormatter ();
+            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: true);
+
+            var afterXML = context.doc.OuterXml;
+
+            Assert.AreEqual (Normalize (SigRegularChanged), Normalize (afterXML));
+
+        }
+
+        [Test ()]
+        public void MemberSignature_Updating_Existing_NameChanged_MultiFX ()
+        {
+            // handles the case 
+            var context = InitContext<MyClass> (SigRegular, 2, forceAlignment: false);
+
+            Func<int, FrameworkTypeEntry> typeEntry = i => context.fx.Frameworks[i].Types.First ();
+
+            var sig = new CSharpMemberFormatter ();
+            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(0), fxAlternateTriggered: true);
+            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(1), fxAlternateTriggered: false);
+            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(2), fxAlternateTriggered: false);
+
+            var afterXML = context.doc.OuterXml;
+
+            Assert.AreEqual (Normalize (SigRegularAllAligned), Normalize (afterXML));
 
         }
 
@@ -471,6 +555,22 @@ namespace mdoc.Test
       </Docs>
     </Member>";
 
+        string multiFrameworkAlignedOther = @"<Member MemberName=""Meth"">
+      <MemberType>Method</MemberType>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name = ""d"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One;Three;Two"" />
+        <Parameter Name = ""e"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One;Three;Two"" />
+        <Parameter Name = ""f"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One;Three;Two"" />
+      </Parameters>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>";
+
         #endregion
 
         string SigmultiFrameworkXml = @"<Member MemberName=""Meth"">
@@ -482,6 +582,16 @@ namespace mdoc.Test
         string SigmultiFrameworkAligned = @"<Member MemberName=""Meth"">
       <MemberSignature Language=""C#"" Value=""public void Meth (int a, string d, int c);"" FrameworkAlternate=""One;Three;Two"" />
       
+    </Member>";
+
+        string SigRegular = @"<Member MemberName=""Meth"">
+      <MemberSignature Language=""C#"" Value=""public void Meth (int a, string d, int c);"" />
+    </Member>";
+        string SigRegularChanged = @"<Member MemberName=""Meth"">
+      <MemberSignature Language=""C#"" Value=""public void Meth (int a, string b, int c);"" />
+    </Member>";
+        string SigRegularAllAligned = @"<Member MemberName=""Meth"">
+      <MemberSignature Language=""C#"" Value=""public void Meth (int a, string b, int c);"" FrameworkAlternate=""One;Three;Two"" />
     </Member>";
 
 

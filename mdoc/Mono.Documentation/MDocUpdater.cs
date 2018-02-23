@@ -2258,14 +2258,29 @@ namespace Mono.Documentation
                     throw new Exception ("FX, this shouldn't happen");
                 }
             }
-            else if (fxAlternateTriggered && existingNodes.Count () == 1) {
+            else if (fxAlternateTriggered && existingNodes.Count () == 1 && typeEntry.Framework.Frameworks.Count () > 1) {
                 // need to add alternate
                 string previousFX = FXUtils.PreviouslyProcessedFXString (typeEntry);
-                var node = existingNodes.First ();
-                node.SetAttribute ("FrameworkAlternate", previousFX);
+                if (!string.IsNullOrWhiteSpace (previousFX))
+                {
+                    var node = existingNodes.First ();
+                    node.SetAttribute ("FrameworkAlternate", previousFX);
+                }
+                else 
+                {
+                    // there was no previous FX, so remove the existing node
+                    var node = existingNodes.First ();
+                    node.ParentNode.RemoveChild (node);
+                }
 
                 var newelement = makeNewNode ();
                 newelement.SetAttribute ("FrameworkAlternate", currentFX);
+                return;
+            }
+            else if (!fxAlternateTriggered && existingNodes.Count () == 1 && typeEntry.Framework.Frameworks.Count () > 1 && existingNodes.First ().HasAttribute ("FrameworkAlternate")) {
+                var node = existingNodes.First ();
+                string newfxvalue = FXUtils.AddFXToList (node.GetAttribute ("FrameworkAlternate"), typeEntry.Framework.Name);
+                node.SetAttribute ("FrameworkAlternate", newfxvalue);
                 return;
             }
 
@@ -3344,7 +3359,7 @@ namespace Mono.Documentation
                 };
             }).ToArray ();
 
-            // Gether information about current XMl state
+            // Gather information about current XMl state
             var xdata = e.GetElementsByTagName ("Parameter")
                          .Cast<XmlElement> ()
                          .Select ((n, i) =>
@@ -3426,8 +3441,9 @@ namespace Mono.Documentation
                 })
                 .Where (p =>
                         p.HasFrameworkAlternate && 
-                        !string.IsNullOrWhiteSpace (p.FrameworkAlternate) &&
-                        p.FrameworkAlternate.Contains (typeEntry.Framework.Name) &&
+                        ((!string.IsNullOrWhiteSpace (p.FrameworkAlternate) &&
+                          p.FrameworkAlternate.Contains (typeEntry.Framework.Name)) ||
+                         (string.IsNullOrWhiteSpace (p.FrameworkAlternate))) &&
                         !parameters.Any (param => param.Name == p.Name))
                 .ToArray ();
             if (alternates.Any ())

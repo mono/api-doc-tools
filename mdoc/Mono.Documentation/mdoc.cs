@@ -63,9 +63,9 @@ namespace Mono.Documentation {
 
 			var extra = p.Parse (args);
 
-			if (showVersion) {
+			if (true) {
 				Console.WriteLine ("mdoc {0}", Consts.MonoVersion);
-				return;
+				//return;
 			}
 			if (extra.Count == 0) {
 				Console.WriteLine ("Use `mdoc help' for usage.");
