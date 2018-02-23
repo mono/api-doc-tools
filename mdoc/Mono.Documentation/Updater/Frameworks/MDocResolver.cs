@@ -20,9 +20,6 @@ namespace Mono.Documentation.Updater.Frameworks
     /// a UWP library. </para></remarks>
     class MDocResolver : MDocBaseResolver
     {
-        IEnumerable<string> fxpaths;
-        IEnumerable<string> gacpaths;
-
         public override AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters)
         {
             var ver = name.Version;
@@ -185,11 +182,55 @@ namespace Mono.Documentation.Updater.Frameworks
             return Resolve (name, new ReaderParameters () { AssemblyResolver = this });
         }
 
+        float lastAverageStackLength = 0;
+        int stackTraceIncrease = 0;
+        Dictionary<string, int> dict = new Dictionary<string, int> ();
+        Queue<float> traces = new Queue<float> (10);
 
         public AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters)
         {
+            // book keeping to detect stackoverflow conditions 
+            //Console.WriteLine ($"resolving: {name.Name} {name.Version} - {Environment.StackTrace.Length}");
+            float sum = (float)traces.Sum ();
+            float count = (float)traces.Count;
+            float averageStackLength = sum / count;
+            if (float.IsNaN (averageStackLength)) {
+                averageStackLength = Environment.StackTrace.Length;
+            }
+            //Console.WriteLine (averageStackLength);
+            if (lastAverageStackLength < averageStackLength) {
+                
+                if (!dict.ContainsKey (name.FullName))
+                    dict.Add (name.FullName, 0);
+                dict[name.FullName]++;
+                stackTraceIncrease++;
+            }
+            else {
+                stackTraceIncrease = 0;
+                dict.Clear ();
+            }
+
+            if (traces.Count > 10)
+                traces.Dequeue ();
+            traces.Enqueue (Environment.StackTrace.Length);
+            lastAverageStackLength = averageStackLength;
 
             AssemblyDefinition assembly;
+
+            if (stackTraceIncrease > 50)  {
+                Console.WriteLine ("Possible StackOverFlow condition detected. The following assemblies are being resolved");
+                foreach(var item in dict) {
+                    
+                    if (cache.TryGetValue (name.FullName, out assembly)) {
+                        Console.WriteLine ($"[] r {item.Key}{Environment.NewLine}   l {assembly.FullName}{Environment.NewLine}   #{item.Value} times.");    
+                    }
+                    else {
+                        Console.WriteLine ($"[] resolving {item.Key}, #{item.Value} times.");    
+                    }
+                }
+                Console.WriteLine ("Will attempt to continue;");
+            }
+
             if (cache.TryGetValue (name.FullName, out assembly))
                 return assembly;
 
