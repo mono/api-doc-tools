@@ -547,7 +547,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 TypeReference declDef;
                 try
                 {
-                    declDef = decl.Resolve(); 
+                    declDef = decl.Resolve() ?? decl; 
                 }
                 catch
                 {

@@ -508,7 +508,11 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             try
             {
                 var typedef = fdef.FieldType.Resolve();
-                isEnumFieldType = typedef.IsEnum;
+
+                if (typedef != null)
+                    isEnumFieldType = typedef.IsEnum;
+                else
+                    isEnumFieldType = false;
             }
             catch
             {

@@ -48,7 +48,7 @@ namespace Mono.Documentation.Updater.Frameworks
 			try {
                 var sig = formatter.GetDeclaration (member);
 				memberscsharpsig.Add(sig);
-                if (!sigMap.ContainsKey (sig))
+                if (sig != null && !sigMap.ContainsKey (sig))
                     sigMap.Add (sig, true);
 			}
 			catch {}
