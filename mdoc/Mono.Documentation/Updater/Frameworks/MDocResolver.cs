@@ -108,7 +108,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 .SelectMany(d => extensions.Select(e => Path.Combine(d, name.Name + e)))
                 .Distinct();
             var namedPaths = npaths
-                .Where(f => File.Exists(f) && !filesToIgnore.Any (fi => fi != f));
+                .Where(f => File.Exists(f) && !filesToIgnore.Any (fi => fi == f));
 
             if (!namedPaths.Any()) return null;
 
