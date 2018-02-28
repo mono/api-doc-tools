@@ -22,18 +22,47 @@ namespace Mono.Documentation.Updater.Frameworks
     {
         public override AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters)
         {
+            return Resolve (name, parameters, null, null);
+        }
+
+        internal AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters r, TypeReference forType, List<string> exportedFiles)
+        {
+            if (exportedFiles == null)
+                exportedFiles = new List<string> ();
+
+            var a = this.ResolveCore (name, r, exportedFiles);
+            //Console.WriteLine($"resolver, resolving {forType.FullName} in {name}");
+
+
+            if (forType != null && a.MainModule.HasExportedTypes) {
+                var etype = a.MainModule.ExportedTypes.SingleOrDefault (t => t.FullName == forType.FullName) as ExportedType;
+                if (etype != null)
+                {
+                    string file = a.MainModule.FileName;
+                    AssemblyNameReference exportedTo = (AssemblyNameReference)etype.Scope;
+                    Console.WriteLine ($"resolving {forType.FullName} in {name.FullName}. Found {file}, but it's exported to {exportedTo.FullName}");
+                    exportedFiles.Add (file);
+                    return Resolve (exportedTo, r, forType, exportedFiles);
+                }
+            }
+
+            return a;
+        }
+
+        AssemblyDefinition ResolveCore (AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> assembliesToIgnore)
+        {
             var ver = name.Version;
             if (ver.Major == 255 && ver.Minor == 255 && ver.Revision == 255 && name.Name == "mscorlib")
             {
                 var v = new Version (4, 5, 0);
                 var anr = new AssemblyNameReference (name.Name, v);
-                return base.Resolve (anr, parameters);
+                return base.Resolve (anr, parameters, assembliesToIgnore);
             }
             else
-                return base.Resolve (name, parameters);
+                return base.Resolve (name, parameters, assembliesToIgnore);
         }
 
-        IEnumerable<AssemblyDefinition> GetInstalledAssemblies (AssemblyNameReference name, ReaderParameters parameters)
+        IEnumerable<AssemblyDefinition> GetInstalledAssemblies (AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
             AssemblyDefinition assembly;
             if (name.IsRetargetable)
@@ -49,7 +78,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
             if (IsZero(name.Version))
             {
-                assembly = base.SearchDirectory(name, framework_dirs, parameters);
+                assembly = base.SearchDirectory(name, framework_dirs, parameters, filesToIgnore);
                 if (assembly != null)
                     yield return assembly;
             }
@@ -65,12 +94,12 @@ namespace Mono.Documentation.Updater.Frameworks
             if (assembly != null)
                 yield return assembly;
 
-            assembly = base.SearchDirectory(name, framework_dirs, parameters);
+            assembly = base.SearchDirectory(name, framework_dirs, parameters, filesToIgnore);
             if (assembly != null)
                 yield return assembly;
         }
 
-        protected override AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters)
+        protected override AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
             // look for an assembly that matches the name in all the search directories
             string[] extensions = new[] { ".dll", ".exe", ".winmd" };
@@ -79,7 +108,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 .SelectMany(d => extensions.Select(e => Path.Combine(d, name.Name + e)))
                 .Distinct();
             var namedPaths = npaths
-                .Where(f => File.Exists(f));
+                .Where(f => File.Exists(f) && !filesToIgnore.Any (fi => fi != f));
 
             if (!namedPaths.Any()) return null;
 
@@ -94,7 +123,7 @@ namespace Mono.Documentation.Updater.Frameworks
             
             var applicableVersions = namedPaths
                 .Select (getAssemblies)
-                .Concat (GetInstalledAssemblies(name, parameters))
+                .Concat (GetInstalledAssemblies(name, parameters, filesToIgnore))
                 .Select (a => new
                 {
                     Assembly = a,
@@ -187,8 +216,15 @@ namespace Mono.Documentation.Updater.Frameworks
         Dictionary<string, int> dict = new Dictionary<string, int> ();
         Queue<float> traces = new Queue<float> (10);
 
-        public AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters)
+        public AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters) 
         {
+            return ResolveCore (name, parameters, null);
+        }
+
+        internal AssemblyDefinition ResolveCore (AssemblyNameReference name, ReaderParameters parameters, TypeReference forType)
+        {
+            string cacheKey = name.FullName;
+
             // book keeping to detect stackoverflow conditions 
             //Console.WriteLine ($"resolving: {name.Name} {name.Version} - {Environment.StackTrace.Length}");
             float sum = (float)traces.Sum ();
@@ -221,7 +257,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 Console.WriteLine ("Possible StackOverFlow condition detected. The following assemblies are being resolved");
                 foreach(var item in dict) {
                     
-                    if (cache.TryGetValue (name.FullName, out assembly)) {
+                    if (cache.TryGetValue (item.Key, out assembly)) {
                         Console.WriteLine ($"[] r {item.Key}{Environment.NewLine}   l {assembly.FullName}{Environment.NewLine}   #{item.Value} times.");    
                     }
                     else {
@@ -231,11 +267,27 @@ namespace Mono.Documentation.Updater.Frameworks
                 Console.WriteLine ("Will attempt to continue;");
             }
 
-            if (cache.TryGetValue (name.FullName, out assembly))
+            if (cache.TryGetValue (cacheKey, out assembly))
+            {
+                if (forType != null && assembly.MainModule.HasExportedTypes) {
+                    // check to see if the type is in the exported assemblies
+                    var etype = assembly.MainModule.ExportedTypes.SingleOrDefault (et => et.FullName == forType.FullName);
+                    if (etype != null) {
+                        var escope = (AssemblyNameReference)etype.Scope;
+                        if (cache.TryGetValue (escope.FullName, out assembly)) {
+                            return assembly;
+                        }
+                        else {
+                            assembly = ((MDocResolver)this.Resolver).Resolve (escope, parameters, forType, null);
+                            cache[escope.FullName] = assembly;
+                        }
+                    }
+                }
                 return assembly;
+            }
 
-            assembly = this.Resolver.Resolve (name, parameters);
-            cache[name.FullName] = assembly;
+            assembly = ((MDocResolver)this.Resolver).Resolve (name, parameters, forType, null);
+            cache[cacheKey] = assembly;
 
             return assembly;
         }
@@ -294,10 +346,17 @@ namespace Mono.Documentation.Updater.Frameworks
             return this.Resolve (name, new ReaderParameters ());
         }
 
+        string[] emptyStringArray = new string[0];
+
         public override AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters)
         {
+            return Resolve (name, parameters, emptyStringArray);
+        }
+
+        internal AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
+        {
             var directories = this.GetSearchDirectories ();
-            var assembly = SearchDirectory (name, directories, parameters);
+            var assembly = SearchDirectory (name, directories, parameters, filesToIgnore);
             if (assembly != null)
                 return assembly;
 
@@ -314,7 +373,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
             if (IsZero (name.Version))
             {
-                assembly = SearchDirectory (name, framework_dirs, parameters);
+                assembly = SearchDirectory (name, framework_dirs, parameters, filesToIgnore);
                 if (assembly != null)
                     return assembly;
             }
@@ -330,14 +389,14 @@ namespace Mono.Documentation.Updater.Frameworks
             if (assembly != null)
                 return assembly;
 
-            assembly = SearchDirectory (name, framework_dirs, parameters);
+            assembly = SearchDirectory (name, framework_dirs, parameters, filesToIgnore);
             if (assembly != null)
                 return assembly;
 
             throw new AssemblyResolutionException (name);
         }
 
-        protected virtual AssemblyDefinition SearchDirectory (AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters)
+        protected virtual AssemblyDefinition SearchDirectory (AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
             var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
             foreach (var directory in directories)
@@ -345,7 +404,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 foreach (var extension in extensions)
                 {
                     string file = Path.Combine (directory, name.Name + extension);
-                    if (!File.Exists (file))
+                    if (!File.Exists (file) || filesToIgnore.Any (f => f == file))
                         continue;
                     try
                     {

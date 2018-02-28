@@ -14,6 +14,8 @@ namespace Mono.Documentation.Updater.Frameworks
     {
         readonly BaseAssemblyResolver resolver = new Frameworks.MDocResolver ();
         IAssemblyResolver cachedResolver;
+        IMetadataResolver metadataResolver;
+
         HashSet<string> assemblyPaths = new HashSet<string> ();
         Dictionary<string, bool> assemblyPathsMap = new Dictionary<string, bool> ();
         HashSet<string> assemblySearchPaths = new HashSet<string> ();
@@ -26,6 +28,7 @@ namespace Mono.Documentation.Updater.Frameworks
         public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths, IEnumerable<string> imports = null, string version = null, string id = null)
         {
             this.cachedResolver = new CachedResolver (this.resolver);
+            this.metadataResolver = new Frameworks.MDocMetadataResolver (this.cachedResolver);
 
             Name = name;
             Version = version;
@@ -127,7 +130,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		IEnumerable<AssemblyDefinition> LoadAllAssemblies ()
 		{
 			foreach (var path in this.assemblyPaths) {
-                var assembly = MDocUpdater.Instance.LoadAssembly (path, this.cachedResolver);
+                var assembly = MDocUpdater.Instance.LoadAssembly (path, this.metadataResolver, this.cachedResolver);
 				if (assembly != null) {
 					foreach (var type in assembly.MainModule.ExportedTypes.Where (t => t.IsForwarder).Select (t => t.FullName))
 						forwardedTypes.Add (type);

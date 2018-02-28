@@ -506,12 +506,12 @@ namespace Mono.Documentation
             Message (TraceLevel.Warning, "mdoc: " + format, args);
         }
 
-        internal AssemblyDefinition LoadAssembly (string name, IAssemblyResolver assemblyResolver)
+        internal AssemblyDefinition LoadAssembly (string name, IMetadataResolver resolver,  IAssemblyResolver assemblyResolver)
         {
             AssemblyDefinition assembly = null;
             try
             {
-                assembly = AssemblyDefinition.ReadAssembly (name, new ReaderParameters { AssemblyResolver = assemblyResolver });
+                assembly = AssemblyDefinition.ReadAssembly (name, new ReaderParameters { AssemblyResolver = assemblyResolver, MetadataResolver = resolver });
             }
             catch (Exception ex)
             {
