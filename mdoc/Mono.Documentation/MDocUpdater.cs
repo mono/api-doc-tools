@@ -127,6 +127,8 @@ namespace Mono.Documentation
 
         public override void Run (IEnumerable<string> args)
         {
+            Console.WriteLine ("mdoc {0}", Consts.MonoVersion);
+
             Instance = this;
             show_exceptions = DebugOutput;
             var types = new List<string> ();

@@ -594,7 +594,7 @@ check-mdoc-export-msxdoc-update:
 
 check-mdoc-export-msxdoc:
 	$(MONO) $(PROGRAM) export-msxdoc -o - Test/en.expected.importslashdoc \
-		| $(DIFF_QUIET) - Test/msxdoc-expected.importslashdoc.xml
+		| $(DIFF) - Test/msxdoc-expected.importslashdoc.xml
 
 my_abs_top_srcdir = $(shell cd . && pwd)
 
