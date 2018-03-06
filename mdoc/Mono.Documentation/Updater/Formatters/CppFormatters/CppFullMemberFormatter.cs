@@ -106,6 +106,9 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
         {
             string typeFullName = type.FullName;
+            if (string.IsNullOrWhiteSpace (typeFullName))
+                return buf;
+            
             if (!typeFullName.StartsWith ("System."))
             {
                 return base.AppendTypeName(buf, type, context);
@@ -544,7 +547,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 TypeReference declDef;
                 try
                 {
-                    declDef = decl.Resolve(); 
+                    declDef = decl.Resolve() ?? decl; 
                 }
                 catch
                 {
