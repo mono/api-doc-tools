@@ -403,7 +403,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 }
 
                 if (typedef.IsValueType && !typedef.IsEnum && typedef.Fields.Any(x =>
-                        !ValueClassPropertyTypeAllowed.Contains(x.FieldType.FullName) && !x.FieldType.Resolve().IsEnum))
+                     !ValueClassPropertyTypeAllowed.Contains(x.FieldType.FullName) && !(x.FieldType.Resolve() != null && x.FieldType.Resolve().IsEnum)))
                 {
                     //A value struct or value class can contain as fields only 
                     //fundamental numeric types, enum classes, Platform::String^, or Platform::IBox <T>^
@@ -418,7 +418,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     condition = IsCustomAttribute(typedef)
                                 && (typedef.Fields.Any(z =>
                                             !CustomAttributesFieldTypesAllowed.Contains(z.FieldType.FullName) 
-                                            && !z.FieldType.Resolve().IsEnum
+                                            && !(z.FieldType.Resolve() != null && z.FieldType.Resolve().IsEnum)
                                             ) 
                                         || typedef.Properties.Count != 0 
                                         || typedef.Methods.Count(x => !x.IsConstructor) != 0 
