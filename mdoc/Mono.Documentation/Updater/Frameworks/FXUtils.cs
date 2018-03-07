@@ -22,15 +22,21 @@ namespace Mono.Documentation.Updater.Frameworks
         /// <summary>Returns a list of all previously processed frameworks (not including the current)</summary>
         internal static string PreviouslyProcessedFXString (FrameworkTypeEntry typeEntry) 
         {
+            if (typeEntry == null)
+                return string.Empty;
+
             return string.Join (";", typeEntry
                 .PreviouslyProcessedFrameworkTypes
-                .Select (previous => previous.Framework.Name)
+                .Select (previous => previous?.Framework?.Name)
+                .Where (n => !string.IsNullOrWhiteSpace (n))
                 .ToArray ());
         }
         
 
         static List<string> SplitList (string existingValue)
         {
+            existingValue = existingValue ?? string.Empty;
+
             return existingValue.Split (new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList ();
         }
 

@@ -28,12 +28,19 @@ namespace Mono.Documentation.Updater.Frameworks
             {
                 if (previouslyProcessedFXTypes == null)
                 {
-                    previouslyProcessedFXTypes = new Lazy<FrameworkTypeEntry[]> (
-                       () => this.Framework.Frameworks
-                           .Where (f => f.index < this.Framework.index)
-                            .Select (f => f.FindTypeEntry (this))
-                            .ToArray ()
-                    );
+                    if (this.Framework == null || this.Framework.Frameworks == null)
+                    {
+                        previouslyProcessedFXTypes = new Lazy<FrameworkTypeEntry[]> (() => new FrameworkTypeEntry[0]);
+                    }
+                    else
+                    {
+                        previouslyProcessedFXTypes = new Lazy<FrameworkTypeEntry[]> (
+                           () => this.Framework.Frameworks
+                               .Where (f => f.index < this.Framework.index)
+                                .Select (f => f.FindTypeEntry (this))
+                                .ToArray ()
+                        );
+                    }
                 }
                 return previouslyProcessedFXTypes.Value;
             }
