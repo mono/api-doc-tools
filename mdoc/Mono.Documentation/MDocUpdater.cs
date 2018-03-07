@@ -310,7 +310,6 @@ namespace Mono.Documentation
                 string[] prefixesToAvoid = { "get_", "set_", "add_", "remove_", "raise_" };
                 foreach (var assemblySet in this.assemblies)
                 {
-                    using (assemblySet)
                     {
                         Console.Write (".");
                         foreach (var assembly in assemblySet.Assemblies)

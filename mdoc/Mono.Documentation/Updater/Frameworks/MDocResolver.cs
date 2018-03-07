@@ -102,13 +102,14 @@ namespace Mono.Documentation.Updater.Frameworks
         protected override AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
             // look for an assembly that matches the name in all the search directories
-            string[] extensions = new[] { ".dll", ".exe", ".winmd" };
+            var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
+
+            var realds = directories.Where (d => Directory.Exists (d));
+            var ds = realds.Union (realds.SelectMany (d => Directory.GetDirectories (d, "*", SearchOption.AllDirectories)));
+            var namedPaths = ds
+                .SelectMany (d => extensions.Select (e => Path.Combine (d, name.Name + e)))
+                .Where(f => File.Exists(f) && !filesToIgnore.Any(fi => fi == f));
             
-            var npaths = directories
-                .SelectMany(d => extensions.Select(e => Path.Combine(d, name.Name + e)))
-                .Distinct();
-            var namedPaths = npaths
-                .Where(f => File.Exists(f) && !filesToIgnore.Any (fi => fi == f));
 
             if (!namedPaths.Any()) return null;
 
