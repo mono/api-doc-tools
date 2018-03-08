@@ -43,7 +43,7 @@ namespace Mono.Documentation.Updater
                 MemberReference m = GetMember (type, new DocumentationMember (oldmember, typeEntry));
                 if (m == null)
                 {
-                    Console.WriteLine ($"Couldn't find member for {oldmember.OuterXml}");
+                    //Console.WriteLine ($"Couldn't find member for {oldmember.OuterXml}");
                     yield return new DocsNodeInfo (oldmember);
                 }
                 else
