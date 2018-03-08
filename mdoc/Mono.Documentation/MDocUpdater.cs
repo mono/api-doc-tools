@@ -661,35 +661,38 @@ namespace Mono.Documentation
                 {
                     foreach (AssemblyDefinition assembly in assemblySet.Assemblies)
                     {
-                        var typeSet = new HashSet<string> ();
-                        var namespacesSet = new HashSet<string> ();
-                        memberSet = new HashSet<string> ();
-
-                        var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
-
-                        foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, typenames))
+                        using (assembly)
                         {
-                            var typeEntry = frameworkEntry.ProcessType (type);
+                            var typeSet = new HashSet<string>();
+                            var namespacesSet = new HashSet<string>();
+                            memberSet = new HashSet<string>();
 
-                            string relpath = DoUpdateType (type, typeEntry, basepath, dest);
-                            if (relpath == null)
-                                continue;
+                            var frameworkEntry = frameworks.StartProcessingAssembly(assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
 
-                            found.Add (type.FullName);
+                            foreach (TypeDefinition type in docEnum.GetDocumentationTypes(assembly, typenames))
+                            {
+                                var typeEntry = frameworkEntry.ProcessType(type);
 
-                            if (index == null)
-                                continue;
+                                string relpath = DoUpdateType(type, typeEntry, basepath, dest);
+                                if (relpath == null)
+                                    continue;
 
-                            index.Add (assembly);
-                            index.Add (type);
+                                found.Add(type.FullName);
 
-                            namespacesSet.Add (type.Namespace);
-                            typeSet.Add (type.FullName);
+                                if (index == null)
+                                    continue;
+
+                                index.Add(assembly);
+                                index.Add(type);
+
+                                namespacesSet.Add(type.Namespace);
+                                typeSet.Add(type.FullName);
+                            }
+
+                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Types, StatisticsMetrics.Total, typeSet.Count);
+                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Total, namespacesSet.Count);
+                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Members, StatisticsMetrics.Total, memberSet.Count);
                         }
-
-                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Types, StatisticsMetrics.Total, typeSet.Count);
-                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Total, namespacesSet.Count);
-                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Members, StatisticsMetrics.Total, memberSet.Count);
                     }
                 }
             }
@@ -1007,9 +1010,12 @@ namespace Mono.Documentation
                 {
                     foreach (AssemblyDefinition assm in assemblySet.Assemblies)
                     {
-                        AddIndexAssembly (assm, index_assemblies);
-                        DoUpdateAssembly (assemblySet, assm, index_types, source, dest, goodfiles);
-                        processedAssemblyCount++;
+                        using (assm)
+                        {
+                            AddIndexAssembly(assm, index_assemblies);
+                            DoUpdateAssembly(assemblySet, assm, index_types, source, dest, goodfiles);
+                            processedAssemblyCount++;
+                        }
                     }
                 }
             }
@@ -2698,7 +2704,7 @@ namespace Mono.Documentation
 
         internal static XmlElement WriteElement (XmlNode parent, string element, bool forceNewElement = false)
         {
-            XmlElement ret = (XmlElement)parent.SelectSingleNode (element);
+            XmlElement ret = parent.ChildNodes.Cast<XmlElement>().FirstOrDefault(e => e.LocalName == element); //(XmlElement)parent.SelectSingleNode (element);
             if (ret == null || forceNewElement)
             {
                 string[] path = element.Split ('/');

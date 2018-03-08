@@ -225,7 +225,7 @@ namespace Mono.Documentation.Updater.Frameworks
         internal AssemblyDefinition ResolveCore (AssemblyNameReference name, ReaderParameters parameters, TypeReference forType)
         {
             string cacheKey = name.FullName;
-
+            /*
             // book keeping to detect stackoverflow conditions 
             //Console.WriteLine ($"resolving: {name.Name} {name.Version} - {Environment.StackTrace.Length}");
             float sum = (float)traces.Sum ();
@@ -251,9 +251,9 @@ namespace Mono.Documentation.Updater.Frameworks
                 traces.Dequeue ();
             traces.Enqueue (Environment.StackTrace.Length);
             lastAverageStackLength = averageStackLength;
-
+            */
             AssemblyDefinition assembly;
-
+            /*
             if (stackTraceIncrease > 50)  {
                 Console.WriteLine ("Possible StackOverFlow condition detected. The following assemblies are being resolved");
                 foreach(var item in dict) {
@@ -266,7 +266,7 @@ namespace Mono.Documentation.Updater.Frameworks
                     }
                 }
                 Console.WriteLine ("Will attempt to continue;");
-            }
+            }*/
 
             if (cache.TryGetValue (cacheKey, out assembly))
             {
