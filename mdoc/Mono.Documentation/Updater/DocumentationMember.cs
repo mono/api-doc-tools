@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Xml;
+using System.Linq;
 using StringList = System.Collections.Generic.List<string>;
 using StringToStringMap = System.Collections.Generic.Dictionary<string, string>;
+using Mono.Documentation.Updater.Frameworks;
 
 namespace Mono.Documentation.Updater
 {
-    class DocumentationMember
+    public class DocumentationMember
     {
         public StringToStringMap MemberSignatures = new StringToStringMap ();
         public string ReturnType;
@@ -97,7 +99,7 @@ namespace Mono.Documentation.Updater
             CleanTypes ();
         }
 
-        public DocumentationMember (XmlNode node)
+        public DocumentationMember (XmlNode node, FrameworkTypeEntry typeEntry)
         {
             MemberName = node.Attributes["MemberName"].Value;
             foreach (XmlNode n in node.SelectNodes ("MemberSignature"))
@@ -113,12 +115,19 @@ namespace Mono.Documentation.Updater
             XmlNode rt = node.SelectSingleNode ("ReturnValue/ReturnType[not(@apistyle) or @apistyle='classic']");
             if (rt != null)
                 ReturnType = rt.InnerText;
-            XmlNodeList p = node.SelectNodes ("Parameters/Parameter[not(@apistyle) or @apistyle='classic']");
-            if (p.Count > 0)
+            var p = node.SelectNodes ("Parameters/Parameter[not(@apistyle) or @apistyle='classic']").Cast<XmlElement>().ToArray ();
+            if (p.Length > 0)
             {
-                Parameters = new StringList (p.Count);
-                for (int i = 0; i < p.Count; ++i)
-                    Parameters.Add (p[i].Attributes["Type"].Value);
+                Parameters = new StringList (p.Length);
+                for (int i = 0; i < p.Length; ++i)
+                {
+                    var param = p[i];
+                    if (param.HasAttribute ("FrameworkAlternate")) {
+                        if (!param.GetAttribute ("FrameworkAlternate").Contains (typeEntry.Framework.Name))
+                            continue;
+                    }
+                    Parameters.Add (param.GetAttribute("Type"));
+                }
             }
             XmlNodeList tp = node.SelectNodes ("TypeParameters/TypeParameter[not(@apistyle) or @apistyle='classic']");
             if (tp.Count > 0)
@@ -146,6 +155,14 @@ namespace Mono.Documentation.Updater
                 var tparams = paramlist.Split (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 TypeParameters = new StringList (tparams);
             }
+        }
+
+        public override string ToString ()
+        {
+            if (MemberSignatures.Count > 0)
+                return MemberSignatures.Values.First ();
+            else
+                return $"{MemberType}{ReturnType} {MemberName}<{TypeParameters.Count}> ({Parameters.Count})";
         }
     }
 }

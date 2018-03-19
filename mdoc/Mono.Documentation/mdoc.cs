@@ -63,7 +63,7 @@ namespace Mono.Documentation {
 
 			var extra = p.Parse (args);
 
-			if (showVersion) {
+            if (showVersion) {
 				Console.WriteLine ("mdoc {0}", Consts.MonoVersion);
 				return;
 			}

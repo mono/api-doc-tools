@@ -58,6 +58,8 @@
     <Reference Include="Windows.Foundation.UniversalApiContract">
       <HintPath>..\..\external\Windows\Windows.Foundation.UniversalApiContract.winmd</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicFormatterTests.cs" />
@@ -86,6 +88,8 @@
     <Compile Include="SampleClasses\SomeStruct.cs" />
     <Compile Include="SampleClasses\WebHostHiddenAttribute.cs" />
     <Compile Include="VBFormatterTests.cs" />
+    <Compile Include="FrameworkAlternateTests.cs" />
+    <Compile Include="XmlUpdateTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

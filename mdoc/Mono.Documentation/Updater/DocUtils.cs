@@ -14,7 +14,6 @@ namespace Mono.Documentation.Updater
 {
     static class DocUtils
     {
-
         public static bool DoesNotHaveApiStyle (this XmlElement element, ApiStyle style)
         {
             string styleString = style.ToString ().ToLowerInvariant ();
