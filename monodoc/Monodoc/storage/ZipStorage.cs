@@ -103,6 +103,7 @@ namespace Monodoc.Storage
 			if (zipOutput != null)
 				return;
 			zipOutput = new ZipOutputStream (File.Create (zipFileName));
+            zipOutput.UseZip64 = UseZip64.Off;
 		}
 
 		void EnsureInput ()
