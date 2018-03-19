@@ -132,6 +132,8 @@
     <Compile Include="Mono.Documentation\Updater\Frameworks\AssemblySet.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\MDocResolver.cs" />
     <Compile Include="Mono.Documentation\MDocUpdater.cs" />
+    <Compile Include="Mono.Documentation\Updater\Frameworks\FXUtils.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\MDocMetadataResolver.cs" />
   </ItemGroup>
   <ItemGroup>

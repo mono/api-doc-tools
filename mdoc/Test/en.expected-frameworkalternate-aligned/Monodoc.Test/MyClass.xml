@@ -1,0 +1,68 @@
+<Type Name="MyClass" FullName="Monodoc.Test.MyClass">
+  <TypeSignature Language="C#" Value="public class MyClass" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MyClass extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest-frameworkalternate-one</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>DocTest-frameworkalternate-two</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MyClass ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-frameworkalternate-one</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-frameworkalternate-two</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Meth">
+      <MemberSignature Language="C#" Value="public void Meth (int a, string b, int c);" FrameworkAlternate="One;Three;Two" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Meth(int32 a, string b, int32 c) cil managed" FrameworkAlternate="One;Three;Two" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-frameworkalternate-one</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-frameworkalternate-two</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" Index="0" />
+        <Parameter Name="b" Type="System.String" Index="1" FrameworkAlternate="One;Three;Two" />
+        <Parameter Name="c" Type="System.Int32" Index="2" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

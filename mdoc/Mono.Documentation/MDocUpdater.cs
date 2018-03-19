@@ -25,7 +25,7 @@ using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.
 
 namespace Mono.Documentation
 {
-    class MDocUpdater : MDocCommand
+    public class MDocUpdater : MDocCommand
     {
         string srcPath;
         List<AssemblySet> assemblies = new List<AssemblySet> ();
@@ -111,6 +111,9 @@ namespace Mono.Documentation
         FrameworkIndex frameworksCache;
         IEnumerable<XDocument> oldFrameworkXmls;
 
+        /// <summary>For unit tests to initialize the cache</summary>
+        public void InitializeFrameworksCache (FrameworkIndex fi) => frameworksCache = fi;
+
         private StatisticsCollector statisticsCollector = new StatisticsCollector();
 
         static List<string> droppedAssemblies = new List<string> ();
@@ -124,6 +127,8 @@ namespace Mono.Documentation
 
         public override void Run (IEnumerable<string> args)
         {
+            Console.WriteLine ("mdoc {0}", Consts.MonoVersion);
+
             Instance = this;
             show_exceptions = DebugOutput;
             var types = new List<string> ();
@@ -656,35 +661,38 @@ namespace Mono.Documentation
                 {
                     foreach (AssemblyDefinition assembly in assemblySet.Assemblies)
                     {
-                        var typeSet = new HashSet<string> ();
-                        var namespacesSet = new HashSet<string> ();
-                        memberSet = new HashSet<string> ();
-
-                        var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
-
-                        foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, typenames))
+                        using (assembly)
                         {
-                            var typeEntry = frameworkEntry.ProcessType (type);
+                            var typeSet = new HashSet<string>();
+                            var namespacesSet = new HashSet<string>();
+                            memberSet = new HashSet<string>();
 
-                            string relpath = DoUpdateType (type, typeEntry, basepath, dest);
-                            if (relpath == null)
-                                continue;
+                            var frameworkEntry = frameworks.StartProcessingAssembly(assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
 
-                            found.Add (type.FullName);
+                            foreach (TypeDefinition type in docEnum.GetDocumentationTypes(assembly, typenames))
+                            {
+                                var typeEntry = frameworkEntry.ProcessType(type);
 
-                            if (index == null)
-                                continue;
+                                string relpath = DoUpdateType(type, typeEntry, basepath, dest);
+                                if (relpath == null)
+                                    continue;
 
-                            index.Add (assembly);
-                            index.Add (type);
+                                found.Add(type.FullName);
 
-                            namespacesSet.Add (type.Namespace);
-                            typeSet.Add (type.FullName);
+                                if (index == null)
+                                    continue;
+
+                                index.Add(assembly);
+                                index.Add(type);
+
+                                namespacesSet.Add(type.Namespace);
+                                typeSet.Add(type.FullName);
+                            }
+
+                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Types, StatisticsMetrics.Total, typeSet.Count);
+                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Total, namespacesSet.Count);
+                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Members, StatisticsMetrics.Total, memberSet.Count);
                         }
-
-                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Types, StatisticsMetrics.Total, typeSet.Count);
-                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Total, namespacesSet.Count);
-                        statisticsCollector.AddMetric (frameworkEntry.Name, StatisticsItem.Members, StatisticsMetrics.Total, memberSet.Count);
                     }
                 }
             }
@@ -1002,9 +1010,12 @@ namespace Mono.Documentation
                 {
                     foreach (AssemblyDefinition assm in assemblySet.Assemblies)
                     {
-                        AddIndexAssembly (assm, index_assemblies);
-                        DoUpdateAssembly (assemblySet, assm, index_types, source, dest, goodfiles);
-                        processedAssemblyCount++;
+                        using (assm)
+                        {
+                            AddIndexAssembly(assm, index_assemblies);
+                            DoUpdateAssembly(assemblySet, assm, index_types, source, dest, goodfiles);
+                            processedAssemblyCount++;
+                        }
                     }
                 }
             }
@@ -1105,13 +1116,48 @@ namespace Mono.Documentation
             }
         }
 
-        abstract class XmlNodeComparer : IComparer, IComparer<XmlNode>
+        public abstract class XmlNodeComparer : IComparer, IComparer<XmlNode>
         {
             public abstract int Compare (XmlNode x, XmlNode y);
 
             public int Compare (object x, object y)
             {
                 return Compare ((XmlNode)x, (XmlNode)y);
+            }
+        }
+
+        public class MemberParameterNameComparer : XmlNodeComparer 
+        {
+            Dictionary<string, int> order = new Dictionary<string, int> ();
+
+            public MemberParameterNameComparer(XmlElement parent, string tagName = "Parameter") 
+            {
+                var s = parent.GetElementsByTagName (tagName).Cast<XmlElement> ();
+
+                int currentIndex = 0;
+                foreach(var param in s.Select (p => new {Element=p, Name = p.SelectSingleNode ("@Name"), Index=p.SelectSingleNode ("@Index")})) {
+                    if (param.Name == null)
+                        throw new Exception (param.Element.OuterXml);
+                    order[param.Name.Value] = currentIndex;
+
+                    currentIndex++;
+                }
+            }
+            public override int Compare (XmlNode x, XmlNode y)
+            {
+                return Compare (x as XmlElement, y as XmlElement);    
+            }
+
+            int Compare(XmlElement x, XmlElement y) 
+            {
+                string xname = x.GetAttribute ("name");
+                string yname = y.GetAttribute ("name");
+
+                int xindex, yindex;
+                order.TryGetValue (xname, out xindex);
+                order.TryGetValue (yname, out yindex);
+
+                return xindex.CompareTo (yindex);
             }
         }
 
@@ -1392,7 +1438,7 @@ namespace Mono.Documentation
 
             Dictionary<string, List<MemberReference>> implementedMembers = DocUtils.GetImplementedMembersFingerprintLookup(type);
 
-            foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers (basefile, type))
+            foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers (basefile, type, typeEntry))
             {
                 XmlElement oldmember = info.Node;
                 MemberReference oldmember2 = info.Member;
@@ -1461,6 +1507,7 @@ namespace Mono.Documentation
                     else
                     {
                         DeleteMember ("Duplicate Member Found", output, oldmember, todelete, type);
+
                         statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
                     }
                     continue;
@@ -1994,7 +2041,9 @@ namespace Mono.Documentation
             {
                 MakeTypeParameters (root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
                 var member = type.GetMethod ("Invoke");
-                MakeParameters (root, member, member.Parameters);
+
+                bool fxAlternateTriggered = false;
+                MakeParameters (root, member, member.Parameters, typeEntry, ref fxAlternateTriggered);
                 MakeReturnValue (root, member);
             }
 
@@ -2082,10 +2131,6 @@ namespace Mono.Documentation
             XmlElement me = (XmlElement)info.Node;
             MemberReference mi = info.Member;
             typeEntry.ProcessMember (mi);
-            foreach (MemberFormatter f in memberFormatters)
-            {
-                UpdateSignature(f, mi, me);
-            }
 
             WriteElementText (me, "MemberType", GetMemberType (mi));
             AddImplementedMembers(mi, implementedMembers, me);
@@ -2115,7 +2160,8 @@ namespace Mono.Documentation
                 if (mb.IsGenericMethod ())
                     MakeTypeParameters (me, mb.GenericParameters, mi, MDocUpdater.HasDroppedNamespace (mi));
             }
-            MakeParameters (me, mi, MDocUpdater.HasDroppedNamespace (mi));
+            bool fxAlternateTriggered = false;
+            MakeParameters (me, mi, typeEntry, ref fxAlternateTriggered, MDocUpdater.HasDroppedNamespace (mi));
 
             string fieldValue;
             if (mi is FieldDefinition && GetFieldConstValue ((FieldDefinition)mi, out fieldValue))
@@ -2123,6 +2169,12 @@ namespace Mono.Documentation
 
             info.Node = WriteElement (me, "Docs");
             MakeDocNode (info, typeEntry.Framework.Importers);
+
+            foreach (MemberFormatter f in memberFormatters)
+            {
+                UpdateSignature (f, mi, me, typeEntry, fxAlternateTriggered);
+            }
+
             OrderMemberNodes (me, me.ChildNodes);
             UpdateExtensionMethods (me, info);
         }
@@ -2148,7 +2200,7 @@ namespace Mono.Documentation
                 type);
         }
 
-        private static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement)
+        public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry, bool fxAlternateTriggered)
         {
             var valueToUse = formatter.GetDeclaration(member);
             var usageSample = formatter.UsageFormatter?.GetDeclaration(member);
@@ -2160,9 +2212,88 @@ namespace Mono.Documentation
                 out var valueMatches, 
                 out var setValue, 
                 out var makeNewNode);
-            
+
+            /*
+             * 1. 'normal'
+            */
+            /// Handle framework alternate scenarios
+            string currentFX = typeEntry.Framework.Name;
+            var existingNodes = xmlElement.SelectNodes (elementXPath).Cast<XmlElement> ().ToArray ();
+            if (existingNodes.Count () > 1) {
+                //  find the right one to update based on `currentFX`
+
+                if (existingNodes.Any (e => e.HasAttribute ("FrameworkAlternate"))) {
+                    var nodesWithFX = existingNodes.Where (e => e.HasAttribute ("FrameworkAlternate"));
+                    if (nodesWithFX.Any ()) {
+                        // one exists, we can continue
+                        if (!fxAlternateTriggered)
+                        {
+                            var matchingSignature = nodesWithFX.FirstOrDefault (nfx => nfx.GetAttribute ("Value") == valueToUse && !nfx.GetAttribute ("FrameworkAlternate").Contains (currentFX));
+                            if (matchingSignature!= null) {
+                                // The current implementation has changed
+                                matchingSignature.SetAttribute ("FrameworkAlternate", FXUtils.AddFXToList (matchingSignature.GetAttribute ("FrameworkAlternate"), currentFX));
+                                foreach (var n in nodesWithFX.Where (nfx => nfx != matchingSignature))
+                                {
+                                    string nfx = n.GetAttribute ("FrameworkAlternate");
+                                    string nfixed = FXUtils.RemoveFXFromList (nfx, currentFX);
+                                    if (string.IsNullOrEmpty (nfixed))
+                                    {
+                                        n.ParentNode.RemoveChild (n);
+                                        var nodesWithoutFX = existingNodes
+                                            .Where (e => e.HasAttribute ("FrameworkAlternate") && !e.GetAttribute ("FrameworkAlternate").Contains (currentFX))
+                                            .Select (e => new { Element = e, FX = e.GetAttribute ("FrameworkAlternate") });
+                                        foreach (var nwofx in nodesWithoutFX)
+                                        {
+                                            nwofx.Element.SetAttribute ("FrameworkAlternate", FXUtils.AddFXToList (nwofx.FX, currentFX));
+                                        }
+                                    }
+                                    else
+                                        n.SetAttribute ("FrameworkAlternate", nfixed);
+                                }
+                            }
+
+                        }
+                        return;
+                    }
+                    else {
+                        // none exist, we must add one with `currentFX`
+                        throw new Exception ("FX, this shouldn't happen");
+                    }
+                }
+                else {
+                    // there are multiple, but none contain a `FrameworkAlternate`
+                    // this shouldn't happen
+                    throw new Exception ("FX, this shouldn't happen");
+                }
+            }
+            else if (fxAlternateTriggered && existingNodes.Count () == 1 && typeEntry.Framework.Frameworks.Count () > 1) {
+                // need to add alternate
+                string previousFX = FXUtils.PreviouslyProcessedFXString (typeEntry);
+                if (!string.IsNullOrWhiteSpace (previousFX))
+                {
+                    var node = existingNodes.First ();
+                    node.SetAttribute ("FrameworkAlternate", previousFX);
+                }
+                else 
+                {
+                    // there was no previous FX, so remove the existing node
+                    var node = existingNodes.First ();
+                    node.ParentNode.RemoveChild (node);
+                }
+
+                var newelement = makeNewNode ();
+                newelement.SetAttribute ("FrameworkAlternate", currentFX);
+                return;
+            }
+            else if (!fxAlternateTriggered && existingNodes.Count () == 1 && typeEntry.Framework.Frameworks.Count () > 1 && existingNodes.First ().HasAttribute ("FrameworkAlternate")) {
+                var node = existingNodes.First ();
+                string newfxvalue = FXUtils.AddFXToList (node.GetAttribute ("FrameworkAlternate"), typeEntry.Framework.Name);
+                node.SetAttribute ("FrameworkAlternate", newfxvalue);
+                return;
+            }
+
             AddXmlNode(
-                xmlElement.SelectNodes(elementXPath).Cast<XmlElement>().ToArray(),
+                existingNodes,
                 valueMatches,
                 setValue,
                 makeNewNode,
@@ -2573,7 +2704,7 @@ namespace Mono.Documentation
 
         internal static XmlElement WriteElement (XmlNode parent, string element, bool forceNewElement = false)
         {
-            XmlElement ret = (XmlElement)parent.SelectSingleNode (element);
+            XmlElement ret = parent.ChildNodes.Cast<XmlElement>().FirstOrDefault(e => e.LocalName == element); //(XmlElement)parent.SelectSingleNode (element);
             if (ret == null || forceNewElement)
             {
                 string[] path = element.Split ('/');
@@ -2747,10 +2878,11 @@ namespace Mono.Documentation
 
         private void UpdateParameters (XmlElement e, string element, string[] values)
         {
+            string parentElement = element == "typeparam" ? "TypeParameter" : "Parameter";
+            string rootParentElement = element == "typeparam" ? "TypeParameters" : "Parameters";
+
             if (values != null)
             {
-                XmlNode[] paramnodes = new XmlNode[values.Length];
-
                 // Some documentation had param nodes with leading spaces.
                 foreach (XmlElement paramnode in e.SelectNodes (element))
                 {
@@ -2769,18 +2901,31 @@ namespace Mono.Documentation
                 // Pick out existing and still-valid param nodes, and
                 // create nodes for parameters not in the file.
                 Hashtable seenParams = new Hashtable ();
+                var roots = e.ParentNode.SelectNodes ($"{rootParentElement}/{parentElement}")
+                             .Cast<XmlElement> ()
+                             .GroupBy (pe => pe.GetAttribute ("Name"))
+                             .ToDictionary (k => k.Key, k => k);
                 for (int pi = 0; pi < values.Length; pi++)
                 {
                     string p = values[pi];
                     seenParams[p] = pi;
 
-                    paramnodes[pi] = e.SelectSingleNode (element + "[@name='" + p + "']");
-                    if (paramnodes[pi] != null) continue;
+                    var nodes = e.SelectNodes(element + "[@name='" + p + "']");
+                    if (nodes.Count > 0) {
+                        // check and see if there _should_ be more than one
+                        if (roots.ContainsKey (p) && nodes.Count < roots[p].Count ())
+                        {
+                            // we should have more
+                        }
+                        else // let's keep moving
+                            continue;
+                    }
+
 
                     XmlElement pe = e.OwnerDocument.CreateElement (element);
                     pe.SetAttribute ("name", p);
                     pe.InnerText = "To be added.";
-                    paramnodes[pi] = pe;
+                    e.AppendChild (pe);
                     reinsert = true;
                 }
 
@@ -2790,6 +2935,8 @@ namespace Mono.Documentation
                 foreach (XmlElement paramnode in e.SelectNodes (element))
                 {
                     string name = paramnode.GetAttribute ("name");
+                    // TODO: pick the right parameters
+                    XmlNode realParamNode = e.ParentNode.SelectSingleNode ($"./{rootParentElement}/{parentElement}[@Name='{paramnode.GetAttribute ("name")}']");
                     if (!seenParams.ContainsKey (name))
                     {
                         if (!delete && !paramnode.InnerText.StartsWith ("To be added"))
@@ -2811,14 +2958,21 @@ namespace Mono.Documentation
                             }
                             Warning ("\tValue={0}", paramnode.OuterXml);
                         }
-                        else
+                        else if (realParamNode == null)
                         {
                             todelete.Add (paramnode);
                         }
                         continue;
                     }
 
-                    if ((int)seenParams[name] != idx)
+                    int idxToUse = idx;
+                    if (realParamNode != null)
+                    {
+                        int explicitIndex;
+                        if (int.TryParse (((XmlElement)realParamNode).GetAttribute ("Index"), out explicitIndex))
+                            idxToUse = explicitIndex;
+                    }
+                    if ((int)seenParams[name] != idxToUse)
                         reinsert = true;
 
                     idx++;
@@ -2831,15 +2985,22 @@ namespace Mono.Documentation
 
                 // Re-insert the parameter nodes at the top of the doc section.
                 if (reinsert)
-                    for (int pi = values.Length - 1; pi >= 0; pi--)
-                        e.PrependChild (paramnodes[pi]);
+                {
+                    var paramParent = e.ParentNode.SelectSingleNode (rootParentElement);
+                    if (paramParent != null)
+                        SortXmlNodes (
+                            e, 
+                            e.SelectNodes (element), 
+                            new MemberParameterNameComparer(paramParent as XmlElement, parentElement));
+
+                }
             }
             else
             {
                 // Clear all existing param nodes
                 foreach (XmlNode paramnode in e.SelectNodes (element))
                 {
-                    if (!delete && !paramnode.InnerText.StartsWith ("To be added"))
+                    if (!delete && !paramnode.InnerText.StartsWith ("To be added", StringComparison.Ordinal))
                     {
                         Console.WriteLine ("The following param node can only be deleted if the --delete option is given:");
                         Console.WriteLine (paramnode.OuterXml);
@@ -2865,10 +3026,6 @@ namespace Mono.Documentation
 
         class CrefComparer : XmlNodeComparer
         {
-
-            public CrefComparer ()
-            {
-            }
 
             public override int Compare (XmlNode x, XmlNode y)
             {
@@ -3152,64 +3309,165 @@ namespace Mono.Documentation
             return Convert.ToInt64 (value);
         }
 
-        private void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, bool shouldDuplicateWithNew = false)
+        public void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
         {
             XmlElement e = WriteElement (root, "Parameters");
 
-            int i = 0;
-            foreach (ParameterDefinition p in parameters)
+            #region helper functions
+            /// addParameter does the work of adding the actual parameter to the XML
+            Action<ParameterDefinition, XmlElement, string, int, bool, string, bool> addParameter = (ParameterDefinition param, XmlElement nextTo, string paramType, int index, bool addIndex, string fx, bool addfx) =>
             {
-                XmlElement pe;
+                var pe = root.OwnerDocument.CreateElement ("Parameter");
 
-                // param info
-                var ptype = GetDocParameterType (p.ParameterType);
-                var newPType = ptype;
+                if (nextTo == null)
+                    e.AppendChild (pe);
+                else
+                    e.InsertAfter (pe, nextTo);
 
-                if (MDocUpdater.SwitchingToMagicTypes)
+                pe.SetAttribute ("Name", param.Name);
+                pe.SetAttribute ("Type", paramType);
+                if (param.ParameterType is ByReferenceType)
                 {
-                    newPType = NativeTypeManager.ConvertFromNativeType (ptype);
+                    if (param.IsOut)
+                        pe.SetAttribute ("RefType", "out");
+                    else
+                        pe.SetAttribute ("RefType", "ref");
                 }
+                if (addIndex)
+                    pe.SetAttribute ("Index", index.ToString ());
+                if (addfx)
+                    pe.SetAttribute ("FrameworkAlternate", fx);
 
-                // now find the existing node, if it's there so we can reuse it.
-                var nodes = root.SelectSingleNode ("Parameters").SelectNodes ("Parameter")
-                    .Cast<XmlElement> ().Where (x => x.GetAttribute ("Name") == p.Name)
-                    .ToArray ();
-
-                if (nodes.Count () == 0)
+                MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""));
+            };
+            /// addFXAttributes, adds the index attribute to all existing elements.
+            /// Used when we first detect the scenario which requires this.
+            Action<IEnumerable<XmlElement>> addFXAttributes = nodes =>
+            {
+                var i = 0;
+                foreach (var node in nodes)
                 {
-                    // wasn't found, let's make sure it wasn't just cause the param name was changed
-                    nodes = root.SelectSingleNode ("Parameters").SelectNodes ("Parameter")
-                        .Cast<XmlElement> ()
-                        .Skip (i) // this makes sure we don't inadvertently "reuse" nodes when adding new ones
-                        .Where (x => x.GetAttribute ("Name") != p.Name && (x.GetAttribute ("Type") == ptype || x.GetAttribute ("Type") == newPType))
-                        .Take (1) // there might be more than one that meets this parameter ... only take the first.
-                        .ToArray ();
+                    node.SetAttribute ("Index", i.ToString ());
+                    i++;
                 }
+            };
+            #endregion
 
-                AddXmlNode (nodes,
-                    x => x.GetAttribute ("Type") == ptype,
-                    x => x.SetAttribute ("Type", ptype),
-                    () =>
+            // Gather information about this method's parameters
+            var pdata = parameters.Select ((p, i) =>
+            {
+                return new
+                {
+                    Name = p.Name,
+                    Type = GetDocParameterType(p.ParameterType),
+                    Index = i,
+                    IsOut = p.IsOut,
+                    IsIn = p.IsIn,
+                    Definition = p
+                };
+            }).ToArray ();
+
+            // Gather information about current XMl state
+            var xdata = e.GetElementsByTagName ("Parameter")
+                         .Cast<XmlElement> ()
+                         .Select ((n, i) =>
+                         {
+                             int actualIndex = i;
+                             if (n.HasAttribute ("Index"))
+                                 int.TryParse (n.GetAttribute ("Index"), out actualIndex);
+
+
+                             return new
+                             {
+                                 Element = n,
+                                 Name = n.GetAttribute ("Name"),
+                                 Type = n.GetAttribute ("Type"),
+                                 ChildIndex = i,
+                                 ActualIndex = actualIndex,
+                                 FrameworkAlternates = n.GetAttribute ("FrameworkAlternate")
+                             };
+                         })
+                         .ToArray ();
+
+            // Now sync up the state
+            int pindex = 0;
+            for (int i=0; i < pdata.Length; i++) {
+                var p = pdata[i];
+                // check for name
+                var xitem = xdata.FirstOrDefault (x => x.Name == p.Name);
+                if (xitem != null)
+                {
+                    var xelement = xitem.Element;
+                    if (xelement.HasAttribute ("FrameworkAlternate") && !xelement.GetAttribute ("FrameworkAlternate").Contains (typeEntry.Framework.Name))
+                        xelement.SetAttribute ("FrameworkAlternate", FXUtils.AddFXToList (xelement.GetAttribute ("FrameworkAlternate"), typeEntry.Framework.Name));
+                        
+                    
+                    continue;
+                }
+                else {
+                    // if no check actualIndex and type
+                    if (xdata.Any (x => x.ActualIndex == i && x.Type == p.Type))
                     {
-                        pe = root.OwnerDocument.CreateElement ("Parameter");
-                        e.AppendChild (pe);
+                        addFXAttributes (xdata.Select (x => x.Element));
+                        //-find type in previous frameworks
 
-                        pe.SetAttribute ("Name", p.Name);
-                        pe.SetAttribute ("Type", ptype);
-                        if (p.ParameterType is ByReferenceType)
-                        {
-                            if (p.IsOut)
-                                pe.SetAttribute ("RefType", "out");
-                            else
-                                pe.SetAttribute ("RefType", "ref");
-                        }
 
-                        MakeAttributes (pe, GetCustomAttributes (p.CustomAttributes, ""));
-                        return pe;
-                    },
-                    member);
+                        string fxList = FXUtils.PreviouslyProcessedFXString (typeEntry);
 
-                i++;
+                        //-find < parameter where index = currentIndex >
+                        var currentNode = xdata[i].Element;
+                        currentNode.SetAttribute ("FrameworkAlternate", fxList);
+
+                        addParameter (p.Definition, currentNode, p.Type, i, true, typeEntry.Framework.Name, true);
+
+                        fxAlternateTriggered = true;
+                    }
+                    else
+                    {
+                        // if no, make it
+                        int lastIndex = i - 1;
+                        XmlElement lastElement = lastIndex > -1 && lastIndex < xdata.Length ? xdata[lastIndex].Element : null;
+                        addParameter (p.Definition, lastElement, p.Type, i, false, typeEntry.Framework.Name, false);
+                    }
+                }
+
+
+            }
+
+            //-purge `typeEntry.Framework` from any<parameter> that 
+            // has FrameworkAlternate, and “name” doesn’t match any 
+            // `parameters`
+            var paramNodes = e.GetElementsByTagName ("Parameter");
+            var alternates = paramNodes
+                .Cast<XmlElement> ()
+                .Select (p => new
+                {
+                    Element = p,
+                    Name = p.GetAttribute ("Name"),
+                    HasFrameworkAlternate = p.HasAttribute ("FrameworkAlternate"),
+                    FrameworkAlternate = p.GetAttribute ("FrameworkAlternate")
+                })
+                .Where (p =>
+                        p.HasFrameworkAlternate && 
+                        ((!string.IsNullOrWhiteSpace (p.FrameworkAlternate) &&
+                          p.FrameworkAlternate.Contains (typeEntry.Framework.Name)) ||
+                         (string.IsNullOrWhiteSpace (p.FrameworkAlternate))) &&
+                        !parameters.Any (param => param.Name == p.Name))
+                .ToArray ();
+            if (alternates.Any ())
+            {
+                foreach (var a in alternates)
+                {
+                    string newValue = FXUtils.RemoveFXFromList (a.FrameworkAlternate, typeEntry.Framework.Name);
+                    if (string.IsNullOrWhiteSpace (newValue))
+                    {
+                        a.Element.ParentNode.RemoveChild (a.Element);
+                    }
+                    else
+                    {
+                        a.Element.SetAttribute ("FrameworkAlternate", newValue);
+                    }
+                }
             }
         }
 
@@ -3287,15 +3545,15 @@ namespace Mono.Documentation
             }
         }
 
-        private void MakeParameters (XmlElement root, MemberReference mi, bool shouldDuplicateWithNew)
+        private void MakeParameters (XmlElement root, MemberReference mi, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew)
         {
             if (mi is MethodDefinition && ((MethodDefinition)mi).IsConstructor)
-                MakeParameters (root, mi, ((MethodDefinition)mi).Parameters, shouldDuplicateWithNew);
+                MakeParameters (root, mi, ((MethodDefinition)mi).Parameters, typeEntry, ref fxAlternateTriggered, shouldDuplicateWithNew);
             else if (mi is MethodDefinition)
             {
                 MethodDefinition mb = (MethodDefinition)mi;
                 IList<ParameterDefinition> parameters = mb.Parameters;
-                MakeParameters (root, mi, parameters, shouldDuplicateWithNew);
+                MakeParameters (root, mi, parameters, typeEntry, ref fxAlternateTriggered, shouldDuplicateWithNew);
                 if (parameters.Count > 0 && DocUtils.IsExtensionMethod (mb))
                 {
                     XmlElement p = (XmlElement)root.SelectSingleNode ("Parameters/Parameter[position()=1]");
@@ -3306,7 +3564,7 @@ namespace Mono.Documentation
             {
                 IList<ParameterDefinition> parameters = ((PropertyDefinition)mi).Parameters;
                 if (parameters.Count > 0)
-                    MakeParameters (root, mi, parameters, shouldDuplicateWithNew);
+                    MakeParameters (root, mi, parameters, typeEntry, ref fxAlternateTriggered, shouldDuplicateWithNew);
                 else
                     return;
             }

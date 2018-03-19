@@ -12,9 +12,9 @@ namespace Mono.Documentation.Updater.Frameworks
     /// </summary>
     class AssemblySet : IDisposable
     {
-        readonly BaseAssemblyResolver resolver = new Frameworks.MDocResolver ();
-        IAssemblyResolver cachedResolver;
-        IMetadataResolver metadataResolver;
+        static readonly BaseAssemblyResolver resolver = new Frameworks.MDocResolver ();
+        static IAssemblyResolver cachedResolver;
+        static IMetadataResolver metadataResolver;
 
         HashSet<string> assemblyPaths = new HashSet<string> ();
         Dictionary<string, bool> assemblyPathsMap = new Dictionary<string, bool> ();
@@ -27,8 +27,8 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths, IEnumerable<string> imports = null, string version = null, string id = null)
         {
-            this.cachedResolver = new CachedResolver (this.resolver);
-            this.metadataResolver = new Frameworks.MDocMetadataResolver (this.cachedResolver);
+            cachedResolver = cachedResolver ?? new CachedResolver (resolver);
+            metadataResolver = metadataResolver ?? new Frameworks.MDocMetadataResolver (cachedResolver);
 
             Name = name;
             Version = version;
@@ -130,7 +130,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		IEnumerable<AssemblyDefinition> LoadAllAssemblies ()
 		{
 			foreach (var path in this.assemblyPaths) {
-                var assembly = MDocUpdater.Instance.LoadAssembly (path, this.metadataResolver, this.cachedResolver);
+                var assembly = MDocUpdater.Instance.LoadAssembly (path, metadataResolver, cachedResolver);
 				if (assembly != null) {
 					foreach (var type in assembly.MainModule.ExportedTypes.Where (t => t.IsForwarder).Select (t => t.FullName))
 						forwardedTypes.Add (type);
