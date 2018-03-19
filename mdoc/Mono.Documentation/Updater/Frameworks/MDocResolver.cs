@@ -102,13 +102,14 @@ namespace Mono.Documentation.Updater.Frameworks
         protected override AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
             // look for an assembly that matches the name in all the search directories
-            string[] extensions = new[] { ".dll", ".exe", ".winmd" };
+            var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
+
+            var realds = directories.Where (d => Directory.Exists (d));
+            var ds = realds.Union (realds.SelectMany (d => Directory.GetDirectories (d, "*", SearchOption.AllDirectories)));
+            var namedPaths = ds
+                .SelectMany (d => extensions.Select (e => Path.Combine (d, name.Name + e)))
+                .Where(f => File.Exists(f) && !filesToIgnore.Any(fi => fi == f));
             
-            var npaths = directories
-                .SelectMany(d => extensions.Select(e => Path.Combine(d, name.Name + e)))
-                .Distinct();
-            var namedPaths = npaths
-                .Where(f => File.Exists(f) && !filesToIgnore.Any (fi => fi == f));
 
             if (!namedPaths.Any()) return null;
 
@@ -224,48 +225,7 @@ namespace Mono.Documentation.Updater.Frameworks
         internal AssemblyDefinition ResolveCore (AssemblyNameReference name, ReaderParameters parameters, TypeReference forType)
         {
             string cacheKey = name.FullName;
-
-            // book keeping to detect stackoverflow conditions 
-            //Console.WriteLine ($"resolving: {name.Name} {name.Version} - {Environment.StackTrace.Length}");
-            float sum = (float)traces.Sum ();
-            float count = (float)traces.Count;
-            float averageStackLength = sum / count;
-            if (float.IsNaN (averageStackLength)) {
-                averageStackLength = Environment.StackTrace.Length;
-            }
-            //Console.WriteLine (averageStackLength);
-            if (lastAverageStackLength < averageStackLength) {
-                
-                if (!dict.ContainsKey (name.FullName))
-                    dict.Add (name.FullName, 0);
-                dict[name.FullName]++;
-                stackTraceIncrease++;
-            }
-            else {
-                stackTraceIncrease = 0;
-                dict.Clear ();
-            }
-
-            if (traces.Count > 10)
-                traces.Dequeue ();
-            traces.Enqueue (Environment.StackTrace.Length);
-            lastAverageStackLength = averageStackLength;
-
             AssemblyDefinition assembly;
-
-            if (stackTraceIncrease > 50)  {
-                Console.WriteLine ("Possible StackOverFlow condition detected. The following assemblies are being resolved");
-                foreach(var item in dict) {
-                    
-                    if (cache.TryGetValue (item.Key, out assembly)) {
-                        Console.WriteLine ($"[] r {item.Key}{Environment.NewLine}   l {assembly.FullName}{Environment.NewLine}   #{item.Value} times.");    
-                    }
-                    else {
-                        Console.WriteLine ($"[] resolving {item.Key}, #{item.Value} times.");    
-                    }
-                }
-                Console.WriteLine ("Will attempt to continue;");
-            }
 
             if (cache.TryGetValue (cacheKey, out assembly))
             {
