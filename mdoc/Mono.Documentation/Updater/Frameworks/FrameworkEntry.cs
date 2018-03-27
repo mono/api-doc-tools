@@ -57,15 +57,28 @@ namespace Mono.Documentation.Updater.Frameworks
 		{
             FrameworkTypeEntry entry;
 
-            if (!typeMap.TryGetValue (Str(type.FullName), out entry)) {
+            if (!typeMap.TryGetValue (Str(type.FullName), out entry))
+            {
 				var docid = DocCommentId.GetDocCommentId (type);
-                entry = new FrameworkTypeEntry (this) { Id = Str(docid), Name = Str(type.FullName), Namespace = Str(type.Namespace) };
-				types.Add (entry);
+                string nstouse = GetNamespace (type);
+                entry = new FrameworkTypeEntry (this) { Id = Str (docid), Name = Str (type.FullName), Namespace = nstouse };
+                types.Add (entry);
 
-                typeMap.Add (Str(entry.Name), entry);
-			}
-			return entry;
-		}
+                typeMap.Add (Str (entry.Name), entry);
+            }
+            return entry;
+        }
+
+        private string GetNamespace (TypeDefinition type)
+        {
+            var nstouse = Str (type.Namespace);
+            if (string.IsNullOrWhiteSpace (nstouse) && type.DeclaringType != null)
+            {
+                return GetNamespace(type.DeclaringType);
+            }
+
+            return nstouse;
+        }
 
         string Str(string value) {
             if (!string.IsNullOrWhiteSpace (Replace))
