@@ -74,72 +74,6 @@
       <Member Id="P:Mono.DocTest.Widget.X" />
       <Member Id="P:Mono.DocTest.Widget.Y" />
     </Type>
-  </Namespace>
-  <Namespace Name="Mono.DocTest.Generic">
-    <Type Name="Mono.DocTest.Generic.Extensions" Id="T:Mono.DocTest.Generic.Extensions">
-      <Member Id="M:Mono.DocTest.Generic.Extensions.Bar``1(Mono.DocTest.Generic.IFoo{``0},System.String)" />
-      <Member Id="M:Mono.DocTest.Generic.Extensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})" />
-      <Member Id="M:Mono.DocTest.Generic.Extensions.ToDouble(System.Collections.Generic.IEnumerable{System.Int32})" />
-      <Member Id="M:Mono.DocTest.Generic.Extensions.ToDouble``1(``0)" />
-      <Member Id="M:Mono.DocTest.Generic.Extensions.ToEnumerable``1(``0)" />
-    </Type>
-    <Type Name="Mono.DocTest.Generic.Func`2" Id="T:Mono.DocTest.Generic.Func`2" />
-    <Type Name="Mono.DocTest.Generic.GenericBase`1" Id="T:Mono.DocTest.Generic.GenericBase`1">
-      <Member Id="E:Mono.DocTest.Generic.GenericBase`1.ItemChanged" />
-      <Member Id="E:Mono.DocTest.Generic.GenericBase`1.MyEvent" />
-      <Member Id="F:Mono.DocTest.Generic.GenericBase`1.ConstField1" />
-      <Member Id="F:Mono.DocTest.Generic.GenericBase`1.StaticField1" />
-      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.#ctor" />
-      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.BaseMethod``1(``0)" />
-      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.op_Explicit(Mono.DocTest.Generic.GenericBase{`0})~`0" />
-    </Type>
-    <Type Name="Mono.DocTest.Generic.IFoo`1" Id="T:Mono.DocTest.Generic.IFoo`1">
-      <Member Id="M:Mono.DocTest.Generic.IFoo`1.Method``1(`0,``0)" />
-    </Type>
-    <Type Name="Mono.DocTest.Generic.MyList`1" Id="T:Mono.DocTest.Generic.MyList`1">
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.#ctor" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.GetEnumerator" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.GetHelper``2" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.Method``1(`0,``0)" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.RefMethod``1(`0@,``0@)" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.System#Collections#IEnumerable#GetEnumerator" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.Test(`0)" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.UseHelper``2(Mono.DocTest.Generic.MyList`1.Helper{`0,``0,``1})" />
-    </Type>
-    <Type Name="Mono.DocTest.Generic.MyList`2" Id="T:Mono.DocTest.Generic.MyList`2">
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.#ctor" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.CopyTo(`0[],System.Int32)" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.Dispose" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.Foo" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.GetEnumerator" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.Mono#DocTest#Generic#IFoo&lt;A&gt;#Method``1(`0,``0)" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.MoveNext" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.Reset" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Add(`0)" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Clear" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Contains(`0)" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Remove(`0)" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#IEnumerable&lt;A&gt;#GetEnumerator" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#IEnumerable#GetEnumerator" />
-      <Member Id="P:Mono.DocTest.Generic.MyList`2.Count" />
-      <Member Id="P:Mono.DocTest.Generic.MyList`2.Current" />
-      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#IsReadOnly" />
-      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#IEnumerator&lt;A&gt;#Current" />
-      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#IEnumerator#Current" />
-    </Type>
-  </Namespace>
-  <Namespace Name="">
-    <Type Name="Mono.DocTest.Generic.GenericBase`1/FooEventArgs" Id="T:Mono.DocTest.Generic.GenericBase`1.FooEventArgs">
-      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.FooEventArgs.#ctor" />
-    </Type>
-    <Type Name="Mono.DocTest.Generic.GenericBase`1/NestedCollection" Id="T:Mono.DocTest.Generic.GenericBase`1.NestedCollection">
-      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.NestedCollection.#ctor" />
-    </Type>
-    <Type Name="Mono.DocTest.Generic.GenericBase`1/NestedCollection/Enumerator" Id="T:Mono.DocTest.Generic.GenericBase`1.NestedCollection.Enumerator" />
-    <Type Name="Mono.DocTest.Generic.MyList`1/Helper`2" Id="T:Mono.DocTest.Generic.MyList`1.Helper`2">
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.Helper`2.#ctor" />
-      <Member Id="M:Mono.DocTest.Generic.MyList`1.Helper`2.UseT(`0,`1,`2)" />
-    </Type>
     <Type Name="Mono.DocTest.Widget/Del" Id="T:Mono.DocTest.Widget.Del" />
     <Type Name="Mono.DocTest.Widget/Direction" Id="T:Mono.DocTest.Widget.Direction">
       <Member Id="F:Mono.DocTest.Widget.Direction.East" />
@@ -170,10 +104,75 @@
       <Member Id="M:Mono.DocTest.Widget.NestedClass`1.#ctor" />
       <Member Id="M:Mono.DocTest.Widget.NestedClass`1.M(System.Int32)" />
     </Type>
+  </Namespace>
+  <Namespace Name="Mono.DocTest.Generic">
+    <Type Name="Mono.DocTest.Generic.Extensions" Id="T:Mono.DocTest.Generic.Extensions">
+      <Member Id="M:Mono.DocTest.Generic.Extensions.Bar``1(Mono.DocTest.Generic.IFoo{``0},System.String)" />
+      <Member Id="M:Mono.DocTest.Generic.Extensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})" />
+      <Member Id="M:Mono.DocTest.Generic.Extensions.ToDouble(System.Collections.Generic.IEnumerable{System.Int32})" />
+      <Member Id="M:Mono.DocTest.Generic.Extensions.ToDouble``1(``0)" />
+      <Member Id="M:Mono.DocTest.Generic.Extensions.ToEnumerable``1(``0)" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.Func`2" Id="T:Mono.DocTest.Generic.Func`2" />
+    <Type Name="Mono.DocTest.Generic.GenericBase`1" Id="T:Mono.DocTest.Generic.GenericBase`1">
+      <Member Id="E:Mono.DocTest.Generic.GenericBase`1.ItemChanged" />
+      <Member Id="E:Mono.DocTest.Generic.GenericBase`1.MyEvent" />
+      <Member Id="F:Mono.DocTest.Generic.GenericBase`1.ConstField1" />
+      <Member Id="F:Mono.DocTest.Generic.GenericBase`1.StaticField1" />
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.BaseMethod``1(``0)" />
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.op_Explicit(Mono.DocTest.Generic.GenericBase{`0})~`0" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.GenericBase`1/FooEventArgs" Id="T:Mono.DocTest.Generic.GenericBase`1.FooEventArgs">
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.FooEventArgs.#ctor" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.GenericBase`1/NestedCollection" Id="T:Mono.DocTest.Generic.GenericBase`1.NestedCollection">
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.NestedCollection.#ctor" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.GenericBase`1/NestedCollection/Enumerator" Id="T:Mono.DocTest.Generic.GenericBase`1.NestedCollection.Enumerator" />
+    <Type Name="Mono.DocTest.Generic.IFoo`1" Id="T:Mono.DocTest.Generic.IFoo`1">
+      <Member Id="M:Mono.DocTest.Generic.IFoo`1.Method``1(`0,``0)" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.MyList`1" Id="T:Mono.DocTest.Generic.MyList`1">
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.GetEnumerator" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.GetHelper``2" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.Method``1(`0,``0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.RefMethod``1(`0@,``0@)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.System#Collections#IEnumerable#GetEnumerator" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.Test(`0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.UseHelper``2(Mono.DocTest.Generic.MyList`1.Helper{`0,``0,``1})" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.MyList`1/Helper`2" Id="T:Mono.DocTest.Generic.MyList`1.Helper`2">
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.Helper`2.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.Helper`2.UseT(`0,`1,`2)" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.MyList`2" Id="T:Mono.DocTest.Generic.MyList`2">
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.CopyTo(`0[],System.Int32)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.Dispose" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.Foo" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.GetEnumerator" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.Mono#DocTest#Generic#IFoo&lt;A&gt;#Method``1(`0,``0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.MoveNext" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.Reset" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Add(`0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Clear" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Contains(`0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Remove(`0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#IEnumerable&lt;A&gt;#GetEnumerator" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#IEnumerable#GetEnumerator" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.Count" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.Current" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#IsReadOnly" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#IEnumerator&lt;A&gt;#Current" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#IEnumerator#Current" />
+    </Type>
+  </Namespace>
+  <Namespace Name="">
     <Type Name="NoNamespace" Id="T:NoNamespace">
       <Member Id="M:NoNamespace.#ctor" />
     </Type>
-    <Type Name="System.Environment/SpecialFolder" Id="T:System.Environment.SpecialFolder" />
   </Namespace>
   <Namespace Name="System">
     <Type Name="System.Action`1" Id="T:System.Action`1" />
@@ -188,5 +187,6 @@
       <Member Id="M:System.Environment.GetFolderPath(System.Environment.SpecialFolder)" />
       <Member Id="M:System.Environment.IsAligned``1(``0[],System.Int32)" />
     </Type>
+    <Type Name="System.Environment/SpecialFolder" Id="T:System.Environment.SpecialFolder" />
   </Namespace>
 </Framework>
