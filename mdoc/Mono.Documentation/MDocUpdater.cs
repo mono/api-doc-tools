@@ -3199,7 +3199,11 @@ namespace Mono.Documentation
 		"Microsoft.FSharp.Core.CompilationMapping",
     };
 
-        private IEnumerable<char> FilterSpecialChars (string value)
+        public static string FilterSpecialChars (string value)
+        {
+            return new string (FilterSpecialCharsCore (value).ToArray());
+        }
+        static IEnumerable<char> FilterSpecialCharsCore (string value)
         {
             foreach (char c in value)
             {

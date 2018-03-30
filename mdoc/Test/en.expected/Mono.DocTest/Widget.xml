@@ -404,13 +404,13 @@
       </Docs>
     </Member>
     <Member MemberName="Default">
-      <MemberSignature Language="C#" Value="public void Default (string a = &quot;a&quot;, char b = 'b');" />
+      <MemberSignature Language="C#" Value="public void Default (string a = &quot;a&quot;, char b = '\0');" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Default(string a, char b) cil managed" />
       <MemberSignature Language="DocId" Value="M:Mono.DocTest.Widget.Default(System.String,System.Char)" />
-      <MemberSignature Language="VB.NET" Value="Public Sub Default (Optional a As String = &quot;a&quot;, Optional b As Char = 'b')" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Default (Optional a As String = &quot;a&quot;, Optional b As Char = '\0')" />
       <MemberSignature Language="F#" Value="member this.Default : string * char -&gt; unit" Usage="widget.Default (a, b)" />
       <MemberSignature Language="JavaScript" Value="function default(a, b)" Usage="widget.default(a, b)" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(std::wstring const &amp; a = &quot;a&quot;, char b = 'b');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(std::wstring const &amp; a = &quot;a&quot;, char b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

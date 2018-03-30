@@ -29,12 +29,12 @@ namespace Mono.Documentation.Updater
             }
             if (valueType.FullName == "System.String")
             {
-                returnvalue = "\"" + v.ToString () + "\"";
+                returnvalue = "\"" + MDocUpdater.FilterSpecialChars (v.ToString ()) + "\"";
                 return true;
             }
             if (valueType.FullName == "System.Char")
             {
-                returnvalue = "'" + v.ToString () + "'";
+                returnvalue = "'" + MDocUpdater.FilterSpecialChars (v.ToString ()) + "'";
                 return true;
             }
             if (v is Boolean)
