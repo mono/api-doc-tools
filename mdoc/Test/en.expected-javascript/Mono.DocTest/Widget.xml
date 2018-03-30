@@ -176,7 +176,7 @@
       </Docs>
     </Member>
     <Member MemberName="Default">
-      <MemberSignature Language="C#" Value="public void Default (string a = &quot;a&quot;, char b = 'b');" />
+      <MemberSignature Language="C#" Value="public void Default (string a = &quot;a&quot;, char b = '\0');" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Default(string a, char b) cil managed" />
       <MemberSignature Language="JavaScript" Value="function default(a, b)" Usage="widget.default(a, b)" />
       <MemberType>Method</MemberType>
