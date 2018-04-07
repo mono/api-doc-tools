@@ -118,15 +118,21 @@ namespace Mono.Documentation.Updater
             var p = node.SelectNodes ("Parameters/Parameter[not(@apistyle) or @apistyle='classic']").Cast<XmlElement>().ToArray ();
             if (p.Length > 0)
             {
-                Parameters = new StringList (p.Length);
-                for (int i = 0; i < p.Length; ++i)
+                if (p.Any (para => para.HasAttribute ("Index")))
                 {
-                    var param = p[i];
-                    if (param.HasAttribute ("FrameworkAlternate")) {
-                        if (!param.GetAttribute ("FrameworkAlternate").Contains (typeEntry.Framework.Name))
-                            continue;
-                    }
-                    Parameters.Add (param.GetAttribute("Type"));
+                    var pgroup = p.GroupBy (para => new
+                    {
+                        Index = para.GetAttribute ("Index"),
+                        Type = para.GetAttribute ("Type")
+                    }).ToArray ();
+
+                    Parameters = new StringList (pgroup.Length);
+                    Parameters.AddRange (pgroup.Select (pg => pg.Key.Type));
+                }
+                else {
+                    var ptypes = p.Select (para => para.GetAttribute ("Type")).ToArray ();
+
+                    Parameters = new StringList (ptypes);
                 }
             }
             XmlNodeList tp = node.SelectNodes ("TypeParameters/TypeParameter[not(@apistyle) or @apistyle='classic']");

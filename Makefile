@@ -22,10 +22,10 @@ clean:
 check: build check-monodoc check-mdoc
 
 check-mdoc:
-	cd mdoc; $(MAKE) check
+	cd mdoc; $(MAKE) check -B
 
 nuget:
 	nuget pack mdoc/mdoc.nuspec -outputdirectory bin/Nuget
 
 check-monodoc:
-	cd monodoc; $(MAKE) check
+	cd monodoc; $(MAKE) check -B
