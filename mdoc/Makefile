@@ -127,6 +127,7 @@ Test/DocTest.dll-v2:
 Test/DocTest-enumerations.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-enumerations.cs
 
+.PHONY: Test/FrameworkTestData
 Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll
 	rm -rf Test/FrameworkTestData
 	mkdir Test/FrameworkTestData
@@ -476,16 +477,29 @@ check-monodocer-members-implementation:
 	$(DIFF) Test/en.expected.members-implementation Test/en.actual
 
 # ------- Framework Alternate Test(s) -------
+.PHONY: Test/FrameworkTestData-frameworkalternate
 Test/FrameworkTestData-frameworkalternate: Test/DocTest-frameworkalternate-one.dll Test/DocTest-frameworkalternate-two.dll
-	rm -rf Test/FrameworkTestData
-	mkdir Test/FrameworkTestData
-	mkdir Test/FrameworkTestData/One
-	mkdir Test/FrameworkTestData/Two
-	mkdir Test/FrameworkTestData/Three
-	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData/One/
-	cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData/Two/
-	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData/Three/
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData
+	rm -rf Test/FrameworkTestData-frameworkalternate
+	mkdir Test/FrameworkTestData-frameworkalternate
+	mkdir Test/FrameworkTestData-frameworkalternate/One
+	mkdir Test/FrameworkTestData-frameworkalternate/Two
+	mkdir Test/FrameworkTestData-frameworkalternate/Three
+	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate/One/
+	cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate/Two/
+	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate/Three/
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-frameworkalternate
+
+.PHONY: Test/FrameworkTestData-frameworkalternate-fromold
+Test/FrameworkTestData-frameworkalternate-fromold: Test/DocTest-frameworkalternate-one.dll Test/DocTest-frameworkalternate-two.dll
+	rm -rf Test/FrameworkTestData-frameworkalternate-fromold
+	mkdir Test/FrameworkTestData-frameworkalternate-fromold
+	mkdir Test/FrameworkTestData-frameworkalternate-fromold/One
+	mkdir Test/FrameworkTestData-frameworkalternate-fromold/Two
+	mkdir Test/FrameworkTestData-frameworkalternate-fromold/Three
+	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate-fromold/One/
+	cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate-fromold/Two/
+	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate-fromold/Three/
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-frameworkalternate-fromold
 
 Test/DocTest-frameworkalternate-one.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -debug -target:library -out:$@ Test/DocTest-frameworkalternate.cs /define:FXONE
@@ -498,21 +512,35 @@ check-monodocer-frameworkalternate: Test/FrameworkTestData-frameworkalternate
 	-rm -Rf Test/en.actual
 
 	# Run Test
-	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
 	$(DIFF) Test/en.expected-frameworkalternate Test/en.actual
 	# run test again to make sure subsequent runs maintain data
-	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
 	$(DIFF) Test/en.expected-frameworkalternate Test/en.actual
 
 	# Test Future FX Alignment ... 
 	# compile new version of `two` that looks like `one`
 	rm Test/DocTest-frameworkalternate-two.dll
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -debug -target:library -out:Test/DocTest-frameworkalternate-two.dll Test/DocTest-frameworkalternate.cs /define:FXONE
-	yes | cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData/Two/DocTest-frameworkalternate-two.dll
+	yes | cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate/Two/DocTest-frameworkalternate-two.dll
 	# mdoc update fxmode again
-	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
 	# diff against aligned but with FrameworkAlternate="one;two;three"
 	$(DIFF) Test/en.expected-frameworkalternate-aligned Test/en.actual
+
+
+.PHONY: check-monodocer-frameworkalternate-fromold
+check-monodocer-frameworkalternate-fromold: Test/FrameworkTestData-frameworkalternate-fromold
+	-rm -Rf Test/en.actual
+
+	# synchronize all frameworks
+	yes | cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate-fromold/Two/DocTest-frameworkalternate-two.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate-fromold
+
+	yes | cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate-fromold/Two/DocTest-frameworkalternate-two.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate-fromold
+	$(DIFF) Test/en.expected-frameworkalternate Test/en.actual
+	
 
 # ------- Framework Alternate Test(s) -------
 
@@ -670,6 +698,7 @@ check-doc-tools: 	check-monodocer-since \
 	check-monodocer-cppwinrtDocTest\
 	check-monodocer-cppwinrt\
 	check-monodocer-cppwinrtUwp\
+	check-monodocer-frameworkalternate-fromold \
 	check-monodocer-frameworkalternate \
 
 #check-monodocer-dropns-delete 
