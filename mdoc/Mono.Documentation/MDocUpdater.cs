@@ -1234,6 +1234,10 @@ namespace Mono.Documentation
                         XmlDocument doc = new XmlDocument ();
                         doc.Load (typefile.FullName);
                         XmlElement e = doc.SelectSingleNode ("/Type") as XmlElement;
+                        if (e == null) {
+                            Warning ($"{typefile.FullName} is not an EcmaXML type file.");
+                            continue;
+                        }
                         var typeFullName = e.GetAttribute("FullName");
                         var assemblyNameNode = doc.SelectSingleNode ("/Type/AssemblyInfo/AssemblyName");
                         if (assemblyNameNode == null)
