@@ -2879,7 +2879,6 @@ namespace Mono.Documentation
             ReorderNodes (docs, children, DocsNodeOrder);
         }
 
-
         private void UpdateParameters (XmlElement e, string element, string[] values)
         {
             string parentElement = element == "typeparam" ? "TypeParameter" : "Parameter";
@@ -2891,13 +2890,6 @@ namespace Mono.Documentation
                 foreach (XmlElement paramnode in e.SelectNodes (element))
                 {
                     paramnode.SetAttribute ("name", paramnode.GetAttribute ("name").Trim ());
-                }
-
-                // If a member has only one parameter, we can track changes to
-                // the name of the parameter easily.
-                if (values.Length == 1 && e.SelectNodes (element).Count == 1)
-                {
-                    UpdateParameterName (e, (XmlElement)e.SelectSingleNode (element), values[0]);
                 }
 
                 bool reinsert = false;
