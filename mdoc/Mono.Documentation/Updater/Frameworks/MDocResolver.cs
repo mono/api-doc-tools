@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -101,15 +102,8 @@ namespace Mono.Documentation.Updater.Frameworks
 
         protected override AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
-            // look for an assembly that matches the name in all the search directories
-            var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
-
-            var realds = directories.Where (d => Directory.Exists (d));
-            var ds = realds.Union (realds.SelectMany (d => Directory.GetDirectories (d, "*", SearchOption.AllDirectories)));
-            var namedPaths = ds
-                .SelectMany (d => extensions.Select (e => Path.Combine (d, name.Name + e)))
-                .Where(f => File.Exists(f) && !filesToIgnore.Any(fi => fi == f));
-            
+            // look in all sub directies for assemblies
+            var namedPaths = GetAssemblyPaths (name, directories, filesToIgnore, true).ToArray();
 
             if (!namedPaths.Any()) return null;
 
@@ -356,24 +350,18 @@ namespace Mono.Documentation.Updater.Frameworks
             throw new AssemblyResolutionException (name);
         }
 
-        protected virtual AssemblyDefinition SearchDirectory (AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
+        protected virtual AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
-            var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
-            foreach (var directory in directories)
+            // just look in the current directory for a matching assembly
+            foreach (var file in GetAssemblyPaths(name, directories, filesToIgnore, false))
             {
-                foreach (var extension in extensions)
+                try
                 {
-                    string file = Path.Combine (directory, name.Name + extension);
-                    if (!File.Exists (file) || filesToIgnore.Any (f => f == file))
-                        continue;
-                    try
-                    {
-                        return GetAssembly (file, parameters);
-                    }
-                    catch (System.BadImageFormatException)
-                    {
-                        continue;
-                    }
+                    return GetAssembly(file, parameters);
+                }
+                catch (BadImageFormatException)
+                {
+                    continue;
                 }
             }
 
@@ -559,6 +547,43 @@ namespace Mono.Documentation.Updater.Frameworks
                 Path.Combine (
                     Path.Combine (gac, reference.Name), gac_folder.ToString ()),
                 reference.Name + ".dll");
+        }
+
+        internal static IEnumerable<string> GetAssemblyPaths(AssemblyNameReference name, IEnumerable<string> directories, IEnumerable<string> filesToIgnore, bool subdirectories)
+        {
+            var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
+
+            if (subdirectories)
+                directories = GetAllDirectories(directories);
+
+            foreach (var dir in directories)
+            {
+                foreach (var extension in extensions)
+                {
+                    var file = Path.Combine(dir, name.Name + extension);
+
+                    if (!File.Exists(file) || filesToIgnore.Any(f => f == file))
+                        continue;
+
+                    yield return file;
+                }
+            }
+        }
+
+        internal static IEnumerable<string> GetAllDirectories(IEnumerable<string> directories)
+        {
+            foreach (var dir in directories)
+            {
+                if (!Directory.Exists(dir))
+                    continue;
+
+                yield return dir;
+
+                foreach (var sub in Directory.EnumerateDirectories(dir, "*", SearchOption.AllDirectories))
+                {
+                    yield return dir;
+                }
+            }
         }
 
         // some helper classes
