@@ -650,6 +650,8 @@ override this.Rotate : double -> unit",
         public void TypeSignature_Map() =>
             TestTypeSignature(typeof(FSharpMap<,>),
 @"type Map<'Key, 'Value> = class
+    interface IReadOnlyDictionary<'Key, 'Value>
+    interface IReadOnlyCollection<KeyValuePair<'Key, 'Value>>
     interface IComparable
     interface ICollection<KeyValuePair<'Key, 'Value>>
     interface IDictionary<'Key, 'Value>
