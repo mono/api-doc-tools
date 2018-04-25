@@ -229,7 +229,8 @@ namespace Mono.Documentation.Updater
             foreach (var interfaceImplementation in type.Interfaces)
             {
                 if (type.IsValueType
-                    && ignoredValueTypeInterfaces.Any(i => interfaceImplementation.InterfaceType.FullName.StartsWith(i)))
+                    && ignoredValueTypeInterfaces.Any(i => interfaceImplementation.InterfaceType.FullName.StartsWith(i))
+                    || interfaceImplementation.InterfaceType.Resolve().IsNotPublic)
                     continue;
                 buf.Append($"{GetLineEnding()}{Consts.Tab}interface ");
                 AppendTypeName(buf, GetTypeName(interfaceImplementation.InterfaceType));
@@ -318,7 +319,10 @@ namespace Mono.Documentation.Updater
                 }
                 insertNested = true;
 
-                bool isTuple = IsTuple(type);
+                bool isTuple = IsTuple(type)
+                               // If this is a declaration of `Tuple` type
+                               // treat it as an ordinary type
+                               && !(type is TypeDefinition);
                 bool isFSharpFunction = IsFSharpFunction(type);
                 if (!isTuple && !isFSharpFunction)
                     AppendTypeName(buf, declDef, context);
