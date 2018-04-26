@@ -14,5 +14,9 @@
         {
             
         }
+        ~SomeGenericClass()
+        {
+
+        }
     }
 }
