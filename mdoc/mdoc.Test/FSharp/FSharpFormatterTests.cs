@@ -252,7 +252,17 @@ namespace mdoc.Test
         public void TypeSignature_Delegate_12() =>
             TestTypeSignature(typeof(Delegates.Delegate13),
                 @"type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> double");
-
+        
+        [Test]
+        [Category("Types")]
+        [Category("Tuples")]
+        public void TypeSignature_Tuple() =>
+            TestTypeSignature(typeof(Tuple<,,,>),
+                @"type Tuple<'T1, 'T2, 'T3, 'T4> = class
+    interface IStructuralEquatable
+    interface IStructuralComparable
+    interface IComparable
+    interface ITuple");
         #endregion
 
         #region Functions
