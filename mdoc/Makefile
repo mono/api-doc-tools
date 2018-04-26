@@ -126,6 +126,9 @@ Test/DocTest.dll-v2:
 
 Test/DocTest-enumerations.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-enumerations.cs
+	
+Test/DocTest-embedded-type.dll: 
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-embedded-type.cs
 
 .PHONY: Test/FrameworkTestData
 Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll
@@ -225,6 +228,12 @@ check-monodocer-javascript:
 	$(MAKE) Test/DocTest.dll-v1
 	$(MONO) $(PROGRAM) update -lang javascript -o Test/en.actual Test/DocTest.dll
 	$(DIFF) Test/en.expected-javascript Test/en.actual
+	
+check-monodocer-embedded-type: 
+	-rm -Rf Test/en.actual	
+	$(MAKE) Test/DocTest-embedded-type.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-embedded-type.dll
+	$(DIFF) Test/en.expected-embedded-type Test/en.actual
 
 check-monodocer-addNonGeneric: 
 	-rm -Rf Test/en.actual
@@ -700,6 +709,7 @@ check-doc-tools: 	check-monodocer-since \
 	check-monodocer-cppwinrtUwp\
 	check-monodocer-frameworkalternate-fromold \
 	check-monodocer-frameworkalternate \
+	check-monodocer-embedded-type \
 
 #check-monodocer-dropns-delete 
 check-doc-tools-update: check-monodocer-since-update \
