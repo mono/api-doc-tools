@@ -1,0 +1,24 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="DocTest-embedded-type" Version="0.0.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="Issue212Example">
+      <Type Name="Class1" Kind="Class" />
+      <Type Name="Class2" Kind="Class" />
+      <Type Name="ICustomInterface2" Kind="Interface" />
+    </Namespace>
+  </Types>
+  <Title>DocTest-embedded-type</Title>
+</Overview>
