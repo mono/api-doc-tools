@@ -378,7 +378,10 @@ namespace Mono.Documentation.Updater
 
         protected override string GetFinalizerName (MethodDefinition method)
         {
-            return "~" + method.DeclaringType.Name + " ()";
+            StringBuilder buf = new StringBuilder();
+            base.AppendTypeName(buf, method.DeclaringType.Name);
+
+            return $"~{buf} ()";
         }
 
         protected override StringBuilder AppendVisibility (StringBuilder buf, MethodDefinition method)

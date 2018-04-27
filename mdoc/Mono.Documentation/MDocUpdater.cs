@@ -62,6 +62,12 @@ namespace Mono.Documentation
 
     };
 
+        private readonly List<string> CustomAttributeNamesToSkip = new List<string>()
+        {
+            "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+            "System.Runtime.InteropServices.TypeIdentifierAttribute"
+        };
+
         internal static readonly MemberFormatter slashdocFormatter = new SlashDocMemberFormatter ();
 
         MyXmlNodeList extensionMethods = new MyXmlNodeList ();
@@ -779,6 +785,12 @@ namespace Mono.Documentation
                         type.FullName);
             if (!IsPublic (type))
                 return null;
+
+            if (type.HasCustomAttributes && CustomAttributeNamesToSkip.All(x => type.CustomAttributes.Any(y => y.AttributeType.FullName == x)))
+            {
+                Console.WriteLine(string.Format("Embedded Type: {0}. Skip it.", type.FullName));
+                return null;
+            }
 
             // Must get the A+B form of the type name.
             string typename = GetTypeFileName (type);

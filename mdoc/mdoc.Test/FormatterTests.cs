@@ -201,8 +201,13 @@ namespace mdoc.Test
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual (".method public hidebysig instance void RefAndOut(int32& a, [out] int32& b) cil managed", sig);
         }
+        [Test]
+        public void MethodSignature_Finalize() =>
+            TestMethodSignature(typeof(SomeGenericClass<>),
+                "~SomeGenericClass ();",
+                "Finalize");
 
-#region Helper Methods
+        #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
                 case "bool": return "Boolean";
