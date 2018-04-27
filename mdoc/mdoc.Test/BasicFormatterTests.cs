@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Mono.Cecil;
 using Mono.Documentation.Updater;
@@ -7,11 +6,8 @@ using NUnit.Framework;
 
 namespace mdoc.Test
 {
-    public abstract class BasicFormatterTests<T> where T : MemberFormatter
+    public abstract class BasicFormatterTests<T> : BasicTests where T : MemberFormatter
     {
-        protected Dictionary<string, ModuleDefinition> moduleCash = new Dictionary<string, ModuleDefinition>();
-        protected Dictionary<string, TypeDefinition> typesCash = new Dictionary<string, TypeDefinition>();
-
         protected abstract T formatter { get; }
 
         protected MethodDefinition GetMethod(Type type, Func<MethodDefinition, bool> query)
@@ -35,38 +31,6 @@ namespace mdoc.Test
             if (member == null)
                 throw new Exception("Did not find the member in the test class");
             return member;
-        }
-
-        protected TypeDefinition GetType(string filepath, string classname)
-        {
-            if (typesCash.ContainsKey(classname))
-                return typesCash[classname];
-            
-
-            if (!moduleCash.ContainsKey(filepath))
-            {
-                var readModule = ModuleDefinition.ReadModule(filepath);
-                moduleCash.Add(filepath, readModule);
-            }
-
-            var module = moduleCash[filepath];
-            var types = module.GetTypes();
-            var testclass = types
-                .SingleOrDefault(t => t.FullName == classname);
-            if (testclass == null)
-            {
-                throw new Exception($"Test was unable to find type {classname}");
-            }
-
-            var typeDef = testclass.Resolve();
-            typesCash.Add(classname, typeDef);
-            return typeDef;
-        }
-
-        protected virtual TypeDefinition GetType(Type type)
-        {
-            var moduleName = type.Module.FullyQualifiedName;
-            return GetType(moduleName, type.FullName);
         }
 
         protected MemberReference GetProperty(TypeDefinition type, string memberName)
@@ -204,5 +168,4 @@ namespace mdoc.Test
             return s?.Replace("\r\n", MemberFormatter.GetLineEnding());
         }
     }
-
 }
