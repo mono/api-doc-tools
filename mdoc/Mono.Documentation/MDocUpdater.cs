@@ -2558,9 +2558,9 @@ namespace Mono.Documentation
             return attrs;
         }
 
-        IEnumerable<string> GetCustomAttributes (IList<CustomAttribute> attributes, string prefix)
+        public IEnumerable<string> GetCustomAttributes (IList<CustomAttribute> attributes, string prefix)
         {
-            foreach (CustomAttribute attribute in attributes.OrderBy (ca => ca.AttributeType.FullName))
+            foreach (CustomAttribute attribute in attributes.OrderBy (ca => ca.AttributeType.FullName).Where (i => !IsIgnoredAttribute(i)))
             {
                 TypeDefinition attrType = attribute.AttributeType as TypeDefinition;
                 if (attrType != null && !IsPublic (attrType))
@@ -2598,6 +2598,15 @@ namespace Mono.Documentation
                 if (name.EndsWith ("Attribute")) name = name.Substring (0, name.Length - "Attribute".Length);
                 yield return prefix + name + a2;
             }
+        }
+
+        private bool IsIgnoredAttribute (CustomAttribute customAttribute)
+        {
+            // An Obsolete attribute with a known string is added to all ref-like structs
+            // https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.2/span-safety.md#metadata-representation-or-ref-like-structs
+            return customAttribute.AttributeType.FullName == typeof(ObsoleteAttribute).FullName
+                && customAttribute.HasConstructorArguments
+                && customAttribute.ConstructorArguments.First().Value.ToString() == Consts.RefTypeObsoleteString;
         }
 
         static readonly string[] ValidExtensionMembers = {
