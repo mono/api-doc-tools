@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <PackageVersion>5.6.4</PackageVersion>
+    <Authors>Microsoft</Authors>
+    <PackageProjectUrl>https://github.com/mono/api-doc-tools</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/mono/api-doc-tools/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageTags>documentation ecmaxml dotnet .net C# F# VB.NET</PackageTags>
+  </PropertyGroup>
+</Project>

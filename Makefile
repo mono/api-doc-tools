@@ -8,12 +8,11 @@ all: build
 build: $(MDOC)
 
 $(MDOC):
-	$(MSBUILD) apidoctools.sln /p:Configuration=$(CONFIGURATION);
+	$(MSBUILD) apidoctools.sln /r /p:Configuration=$(CONFIGURATION);
 
 prepare:
 	git submodule update --init --recursive
-	nuget restore apidoctools.sln
-	nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
+	nuget install NUnit.Console -version 3.10.0 -NoCache -o packages
 
 clean:
 	#$(MSBUILD) apidoctools.sln /t:clean
@@ -26,6 +25,7 @@ check-mdoc:
 
 nuget:
 	nuget pack mdoc/mdoc.nuspec -outputdirectory bin/Nuget
+	$(MSBUILD) monodoc/monodoc.csproj /p:Configuration=$(CONFIGURATION) /t:Pack
 
 check-monodoc:
 	cd monodoc; $(MAKE) check -B

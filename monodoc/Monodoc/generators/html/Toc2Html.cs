@@ -10,11 +10,11 @@ namespace Monodoc.Generators.Html
 {
 	public class Toc2Html : IHtmlExporter
 	{
-		XslTransform transform;
+		XslCompiledTransform transform;
 
 		public Toc2Html ()
 		{
-			transform = new XslTransform ();
+			transform = new XslCompiledTransform ();
 			var assembly = Assembly.GetAssembly (typeof (Toc2Html));
 			var stream = assembly.GetManifestResourceStream ("toc-html.xsl");
 			XmlReader xml_reader = new XmlTextReader (stream);
@@ -24,14 +24,14 @@ namespace Monodoc.Generators.Html
 		public string Export (Stream input, Dictionary<string, string> extraArgs)
 		{
 			var output = new StringWriter ();
-			transform.Transform (new XPathDocument (input), null, output, null);
+			transform.Transform (new XPathDocument (input), null, output);
 			return output.ToString ();
 		}
 
 		public string Export (string input, Dictionary<string, string> extraArgs)
 		{
 			var output = new StringWriter ();
-			transform.Transform (new XPathDocument (new StringReader (input)), null, output, null);
+			transform.Transform (new XPathDocument (new StringReader (input)), null, output);
 			return output.ToString ();
 		}
 
