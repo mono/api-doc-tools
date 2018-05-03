@@ -72,6 +72,8 @@
       <Type Name="ClassMembers" Kind="Class" />
       <Type Name="ClassMembers+PointWithCounter" Kind="Class" />
       <Type Name="Collections" Kind="Class" />
+      <Type Name="Collections+MDocInterface`1" DisplayName="Collections+MDocInterface&lt;key&gt;" Kind="Interface" />
+      <Type Name="Collections+MDocTestMap`2" DisplayName="Collections+MDocTestMap&lt;Key,Value&gt;" Kind="Class" />
       <Type Name="Constraints" Kind="Class" />
       <Type Name="Constraints+Class1`1" DisplayName="Constraints+Class1&lt;T&gt;" Kind="Class" />
       <Type Name="Constraints+Class10`1" DisplayName="Constraints+Class10&lt;T&gt;" Kind="Class" />

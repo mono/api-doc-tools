@@ -648,15 +648,9 @@ override this.Rotate : double -> unit",
         [Category("Types")]
         [Category("FSharpCore")]
         public void TypeSignature_Map() =>
-            TestTypeSignature(typeof(FSharpMap<,>),
-@"type Map<'Key, 'Value> = class
-    interface IReadOnlyDictionary<'Key, 'Value>
-    interface IReadOnlyCollection<KeyValuePair<'Key, 'Value>>
-    interface IComparable
-    interface ICollection<KeyValuePair<'Key, 'Value>>
-    interface IDictionary<'Key, 'Value>
-    interface IEnumerable
-    interface seq<KeyValuePair<'Key, 'Value>>");
+        TestTypeSignature(typeof(Collections.MDocTestMap<,>),
+                              @"type Collections.MDocTestMap<'Key, 'Value> = class
+    interface Collections.MDocInterface<KeyValuePair<'Key, 'Value>>");
 
         [Test]
         [Category("Types")]
