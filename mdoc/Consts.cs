@@ -24,5 +24,6 @@ namespace Mono.Documentation
 		public const string DependencyObjectFullName = "System.Windows.DependencyObject";
 		public const string VoidFullName = "System.Void";
 		public const string RefTypeObsoleteString = "Types with embedded references are not supported in this version of your compiler.";
+		public const string FrameworksIndexFolderName = "FrameworksIndex";
     }
 }

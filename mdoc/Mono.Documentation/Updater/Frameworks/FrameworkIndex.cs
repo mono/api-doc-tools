@@ -55,7 +55,7 @@ namespace Mono.Documentation.Updater.Frameworks
 			if (string.IsNullOrWhiteSpace (this.path))
 				return;
 			
-			string outputPath = Path.Combine (path, "FrameworksIndex");
+			string outputPath = Path.Combine (path, Consts.FrameworksIndexFolderName);
 			if (!Directory.Exists (outputPath))
 				Directory.CreateDirectory (outputPath);
 

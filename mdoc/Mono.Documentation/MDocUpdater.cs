@@ -285,7 +285,7 @@ namespace Mono.Documentation
                                                {
                                                    Name = f.Attribute("Name").Value,
                                                    Source = f.Attribute("Source").Value,
-                                                   XmlPath = Path.Combine(srcPath, "FrameworksIndex", f.Attribute("Source").Value + ".xml"),
+                                                   XmlPath = Path.Combine(srcPath, Consts.FrameworksIndexFolderName, f.Attribute("Source").Value + ".xml"),
                                                })
                                                .Where(f => File.Exists(f.XmlPath))
                                                .Select(f => XDocument.Load(f.XmlPath));
@@ -1236,7 +1236,7 @@ namespace Mono.Documentation
         private void CleanupFiles (string dest, HashSet<string> goodfiles)
         {
             // Look for files that no longer correspond to types
-            foreach (System.IO.DirectoryInfo nsdir in new System.IO.DirectoryInfo (dest).GetDirectories ("*").Where (d => Path.GetFileName (d.FullName) != "FrameworksIndex"))
+            foreach (System.IO.DirectoryInfo nsdir in new System.IO.DirectoryInfo (dest).GetDirectories ("*").Where (d => Path.GetFileName (d.FullName) != Consts.FrameworksIndexFolderName))
             {
                 foreach (System.IO.FileInfo typefile in nsdir.GetFiles ("*.xml"))
                 {

@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 using Mono.Cecil;
+using Mono.Documentation.Framework;
 
 namespace mdoc.Test
 {
@@ -40,6 +43,19 @@ namespace mdoc.Test
         {
             var moduleName = type.Module.FullyQualifiedName;
             return GetType(moduleName, type.FullName);
+        }
+
+        protected static XDocument ReadXDocument(string xml)
+        {
+            using (TextReader stringReader = new StringReader(xml))
+            {
+                return XDocument.Load(stringReader);
+            }
+        }
+
+        protected static string NormalizeXml(string xml)
+        {
+            return ReadXDocument(xml).ToString();
         }
     }
 }

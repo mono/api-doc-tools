@@ -16,6 +16,7 @@ using Mono.Options;
 using System.IO;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using Mono.Documentation.Framework;
 using Monodoc.Ecma;
 using Mono.Documentation.Util;
 
@@ -33,6 +34,8 @@ public class MDocAssembler : MDocCommand {
 	};
 
 	string droppedNamespace = null;
+    
+    string frameworkName;
 
 	public static Option[] CreateFormatOptions (MDocCommand self, Dictionary<string, List<string>> formats)
 	{
@@ -69,6 +72,9 @@ public class MDocAssembler : MDocCommand {
 			formatOptions [1],
 			{"dropns=","The namespace that has been dropped from this version of the assembly.", v => droppedNamespace = v },
 			{"ntypes","Replace references to native types with their original types.", v => replaceNTypes=true },
+			{"fx|framework=",
+                "The name of the framework, which should be used to filter out any other API",
+			    v => frameworkName = v },
 		};
 		List<string> extra = Parse (options, args, "assemble", 
 				"[OPTIONS]+ DIRECTORIES",
@@ -88,7 +94,7 @@ public class MDocAssembler : MDocCommand {
 					list.Add (ecma);
 					sort = true;
 				}
-				ecma.FileSource = new MDocFileSource(droppedNamespace, string.IsNullOrWhiteSpace(droppedNamespace) ? ApiStyle.Unified : ApiStyle.Classic) {
+				ecma.FileSource = new MDocFileSource(droppedNamespace, string.IsNullOrWhiteSpace(droppedNamespace) ? ApiStyle.Unified : ApiStyle.Classic, frameworkName) {
 					ReplaceNativeTypes = replaceNTypes
 				};
 				foreach (string dir in formats [format])
@@ -137,7 +143,7 @@ public class MDocAssembler : MDocCommand {
 		hs.Save ();
 	}
 
-	private static void AddFormat (MDocCommand self, Dictionary<string, List<string>> d, string format, string file)
+    private static void AddFormat (MDocCommand self, Dictionary<string, List<string>> d, string format, string file)
 	{
 		if (format == null)
 			self.Error ("No format specified.");
@@ -153,28 +159,42 @@ public class MDocAssembler : MDocCommand {
 	/// <summary>
 	/// A custom provider file source that lets us modify the source files before they are processed by monodoc.
 	/// </summary>
-	internal class MDocFileSource : IEcmaProviderFileSource {
+	public class MDocFileSource : IEcmaProviderFileSource {
 		private string droppedNamespace;
 		private bool shouldDropNamespace = false;
 		private ApiStyle styleToDrop;
+		private string framework;
+		private Dictionary<string, FrameworkNamespaceModel> frameworkIndexCache;
+		private string rootFolder;
 
 		public bool ReplaceNativeTypes { get; set; }
 
 		/// <param name="ns">The namespace that is being dropped.</param>
 		/// <param name="style">The style that is being dropped.</param>
-		public MDocFileSource(string ns, ApiStyle style) 
+        /// <param name="frameworkName">Name of the framework, which should be used to filter out any other API</param>
+        public MDocFileSource(string ns, ApiStyle style, string frameworkName) 
 		{
 			droppedNamespace = ns;
 			shouldDropNamespace = !string.IsNullOrWhiteSpace (ns);
 			styleToDrop = style;
+		    framework = frameworkName;
 		}
 
 		public XmlReader GetIndexReader(string path) 
 		{
 			XDocument doc = XDocument.Load (path);
 
-			DropApiStyle (doc, path);
+            
+		    if (! string.IsNullOrEmpty(framework) 
+		        && frameworkIndexCache == null)
+		    {
+		        frameworkIndexCache = FrameworkIndexHelper.CreateFrameworkIndex(path, framework);
+		        rootFolder = Path.GetDirectoryName(path);
+            }
+
+            DropApiStyle (doc, path);
 			DropNSFromDocument (doc);
+			DropExcludedFrameworksFromIndex (doc, frameworkIndexCache, GetTypeDocument);
 
 			// now put the modified contents into a stream for the XmlReader that monodoc will use.
 			MemoryStream io = new MemoryStream ();
@@ -297,11 +317,16 @@ public class MDocAssembler : MDocCommand {
 
 			// otherwise, load the XDoc and return
 			return XDocument.Load (supposedPath);
-		}
+	    }
 
 		void DropNSFromDocument (XDocument doc)
 		{
-			var attributes = doc.Descendants ().SelectMany (n => n.Attributes ());
+            if (!shouldDropNamespace)
+            {
+                return;
+            }
+
+            var attributes = doc.Descendants ().SelectMany (n => n.Attributes ());
 			var textNodes = doc.DescendantNodes().OfType<XText> ().ToArray();
 
 			DropNS (attributes, textNodes);
@@ -327,6 +352,83 @@ public class MDocAssembler : MDocCommand {
 			}
 		}
 			
+        
+        public void DropExcludedFrameworksFromIndex (XDocument indexDoc,
+            Dictionary<string, FrameworkNamespaceModel> frameworkIndex, 
+            Func<string, string, XDocument> getTypeDocument)
+	    {
+            if (string.IsNullOrEmpty(framework))
+	        {
+                return;
+	        }
+
+	        var types = indexDoc.Descendants("Type").ToList();
+	        foreach (XElement type in types)
+	        {
+	            string typeName = type.Attribute(XName.Get("Name"))?.Value;
+	            string nsName = type.Parent?.Attribute(XName.Get("Name"))?.Value;
+	            XDocument typeDoc = getTypeDocument(nsName, typeName);
+
+                if (!IsTypeInFramework(typeDoc, nsName, frameworkIndex))
+	            {
+	                type.Remove();
+	            }
+	        }
+	        var namespaces = indexDoc.Descendants("Namespace").ToList();
+	        foreach (XElement ns in namespaces)
+	        {
+	            if (!ns.HasElements)
+	            {
+                    ns.Remove();
+	            }
+	        }
+        }
+
+        public void DropExcludedFrameworks (XDocument doc)
+	    {
+            if (string.IsNullOrEmpty(framework))
+	        {
+                return;
+	        }
+	        var elements = doc.DescendantNodes().OfType<XElement>().ToArray();
+
+	        foreach (var textNode in elements)
+	        {
+	            if (IsExcludedFramework(textNode))
+	            {
+                    textNode.Remove();
+	            }
+	        }
+        }
+
+	    public bool IsExcludedFramework(XElement element)
+	    {
+	        var frameworkAlternate = element.Attribute("FrameworkAlternate")?.Value;
+	        return frameworkAlternate != null
+	               && ! frameworkAlternate.Split(';').Contains(framework);
+	    }
+
+	    public bool IsTypeInFramework(XDocument typeDoc, string nsName, Dictionary<string, FrameworkNamespaceModel> frameworkIndex)
+	    {
+	        var docIdNode = typeDoc.XPathSelectElements($"//Type//TypeSignature[@Language='{Consts.DocId}']").FirstOrDefault();
+	        if (docIdNode == null)
+	        {
+	            throw new InvalidOperationException(
+	                "If assembles is in framework-mode, the repository must have been created using the -lang docid parameter");
+	        }
+
+	        var docId = docIdNode.Attribute("Value")?.Value;
+	        return nsName != null
+	               && frameworkIndex.ContainsKey(nsName)
+	               && frameworkIndex[nsName].Types.Any(i => i.Id == docId);
+	    }
+
+	    private XDocument GetTypeDocument(string nsName, string typeName)
+	    {
+	        string path = GetTypeXmlPath(rootFolder, nsName, typeName);
+	        XDocument typeDoc = GetTypeDocument(path);
+	        return typeDoc;
+	    }
 
 		/// <param name="nsName">This is the type's name in the processed XML content. 
 		/// If dropping the namespace, we'll need to append it so that it's found in the source.</param>
@@ -394,6 +496,7 @@ public class MDocAssembler : MDocCommand {
 			var doc = XDocument.Load (path);
 			DropApiStyle (doc, path);
 			DropNSFromDocument (doc);
+			DropExcludedFrameworks (doc);
 
 			return doc;
 		}

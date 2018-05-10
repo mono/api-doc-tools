@@ -69,6 +69,7 @@
     <Compile Include="BasicTests.cs" />
     <Compile Include="CppWinRtMembersTests.cs" />
     <Compile Include="CppWinRtFormatterTests.cs" />
+    <Compile Include="FrameworkIndexHelperTests.cs" />
     <Compile Include="FSharp\BasicFSharpFormatterTests.cs" />
     <Compile Include="CppCxFormatterMembersTests.cs" />
     <Compile Include="CppFormatterTests.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="FSharp\FSharpUsageFormatterTests.cs" />
     <Compile Include="JsMemberFormatterTests.cs" />
     <Compile Include="JsUsageFormatterTests.cs" />
+    <Compile Include="MDocFileSourceTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
     <Compile Include="SampleClasses\SomeDelegate.cs" />
     <Compile Include="SampleClasses\Span.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="StatisticsTests.cs" />
     <Compile Include="VBFormatterTests.cs" />
     <Compile Include="FrameworkAlternateTests.cs" />
+    <Compile Include="XmlConsts.cs" />
     <Compile Include="XmlUpdateTests.cs" />
   </ItemGroup>
   <ItemGroup>
