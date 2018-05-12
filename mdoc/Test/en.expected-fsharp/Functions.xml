@@ -433,6 +433,27 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="get_function">
+      <MemberSignature Language="C#" Value="public static int get_function (int x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 get_function(int32 x) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.get_function : int -&gt; int" Usage="Functions.get_function x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="h">
       <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Core.FSharpFunc&lt;int,int&gt; h { get; }" />
       <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, int32&gt; h" />

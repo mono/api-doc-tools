@@ -41,5 +41,24 @@ namespace mdoc.Test
             var moduleName = type.Module.FullyQualifiedName;
             return GetType(moduleName, type.FullName);
         }
+
+        protected MethodDefinition GetMethod(TypeDefinition testclass, Func<MethodDefinition, bool> query)
+        {
+            var methods = testclass.Methods;
+            var member = methods.FirstOrDefault(query)?.Resolve();
+            if (member == null)
+                throw new Exception("Did not find the member in the test class");
+            return member;
+        }
+
+        protected MethodDefinition GetMethod(Type type, Func<MethodDefinition, bool> query)
+        {
+            return GetMethod(GetType(type), query);
+        }
+
+        protected MethodDefinition GetMethod(Type type, string name)
+        {
+            return GetMethod(GetType(type), i => i.Name == name);
+        }
     }
 }

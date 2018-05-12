@@ -69,6 +69,8 @@
     <Compile Include="BasicTests.cs" />
     <Compile Include="CppWinRtMembersTests.cs" />
     <Compile Include="CppWinRtFormatterTests.cs" />
+    <Compile Include="DocUtilsFSharpTests.cs" />
+    <Compile Include="DocUtilsTests.cs" />
     <Compile Include="FSharp\BasicFSharpFormatterTests.cs" />
     <Compile Include="CppCxFormatterMembersTests.cs" />
     <Compile Include="CppFormatterTests.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="JsUsageFormatterTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
     <Compile Include="SampleClasses\SomeDelegate.cs" />
+    <Compile Include="SampleClasses\SomeInterface.cs" />
     <Compile Include="SampleClasses\Span.cs" />
     <Compile Include="SampleClasses\TestClass.cs" />
     <Compile Include="SampleClasses\SomeGenericClass.cs" />
