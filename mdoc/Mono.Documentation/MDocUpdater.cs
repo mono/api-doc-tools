@@ -64,7 +64,7 @@ namespace Mono.Documentation
 
         private readonly List<string> CustomAttributeNamesToSkip = new List<string>()
         {
-            "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+            Consts.CompilerGeneratedAttribute,
             "System.Runtime.InteropServices.TypeIdentifierAttribute"
         };
 
@@ -313,7 +313,6 @@ namespace Mono.Documentation
                 // members that may exist only other frameworks before deleting them
                 Console.Write ("Creating frameworks cache: ");
                 FrameworkIndex cacheIndex = new FrameworkIndex (FrameworksPath);
-                string[] prefixesToAvoid = { "get_", "set_", "add_", "remove_", "raise_" };
                 foreach (var assemblySet in this.assemblies)
                 {
                     using (assemblySet)
@@ -326,7 +325,7 @@ namespace Mono.Documentation
                             foreach (var type in assembly.GetTypes ())
                             {
                                 var t = a.ProcessType (type);
-                                foreach (var member in type.GetMembers ().Where (m => !prefixesToAvoid.Any (pre => m.Name.StartsWith (pre, StringComparison.Ordinal))))
+                                foreach (var member in type.GetMembers ().Where (i => !DocUtils.IsIgnored(i)))
                                     t.ProcessMember (member);
                             }
                         }
@@ -3209,7 +3208,7 @@ namespace Mono.Documentation
 		// for decimal constants
 		"System.Runtime.CompilerServices.DecimalConstantAttribute",
 		// compiler generated code
-		"System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+		Consts.CompilerGeneratedAttribute,
 		// more compiler generated code, e.g. iterator methods
 		"System.Diagnostics.DebuggerHiddenAttribute",
         "System.Runtime.CompilerServices.FixedBufferAttribute",

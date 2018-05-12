@@ -1,6 +1,6 @@
 ﻿namespace Mono.Documentation.Util
 {
-    enum ApiStyle
+    public enum ApiStyle
     {
         Classic,
         Unified

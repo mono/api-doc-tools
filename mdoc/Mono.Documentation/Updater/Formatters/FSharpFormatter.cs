@@ -1012,7 +1012,7 @@ namespace Mono.Documentation.Updater
                                  ca => ca.GetDeclaringType() ==
                                        "System.Diagnostics.Contracts.ContractInvariantMethodAttribute"
                                        || ca.GetDeclaringType() ==
-                                       "System.Runtime.CompilerServices.CompilerGeneratedAttribute"))
+                                       Consts.CompilerGeneratedAttribute))
                             && AppendVisibility(new StringBuilder(), method) != null;
             }
 

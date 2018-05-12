@@ -21,6 +21,8 @@ let function11<'a> (x, y, z) (a, b) = ()
 let function12<'a> x (a, b, c, d, e) = ()
 let function13<'a> (a:'a) = ()
 
+let get_function x = x + 1
+
 let h = function1 >> function2
 let result5 = h 100
 
