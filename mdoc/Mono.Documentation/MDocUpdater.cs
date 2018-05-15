@@ -3688,7 +3688,7 @@ namespace Mono.Documentation
             else throw new ArgumentException ();
         }
 
-        internal static string GetDocParameterType (TypeReference type)
+        public static string GetDocParameterType (TypeReference type)
         {
             return GetDocTypeFullName (type).Replace ("@", "&");
         }

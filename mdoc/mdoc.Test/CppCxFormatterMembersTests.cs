@@ -137,6 +137,13 @@ namespace mdoc.Test
         {
             TestTypeSignature(CSharpTestLib, "Mono.DocTest.Widget/NestedClass", null);
         }
+
+        [Test]
+        [Category("NoSupport")]
+        public void NoSupport_GenericMethodInUwp()
+        {
+            TestMethodSignature(typeof(Cpp.GenericBase<>), null, "BaseMethod2");
+        }
     }
 
 }
