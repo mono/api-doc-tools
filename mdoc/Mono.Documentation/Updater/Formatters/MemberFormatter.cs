@@ -124,6 +124,20 @@ namespace Mono.Documentation.Updater
             }
             AppendNamespace (buf, type);
             GenericInstanceType genInst = type as GenericInstanceType;
+
+            if (type.IsRequiredModifier)
+            {
+                try
+                {
+                    type = type.Resolve();
+                }
+                catch (Exception)
+                {
+                    // Suppress resolving error for UWP libraries.
+                    // It seems, they never have `type.IsRequiredModifier == true`, but just in case.
+                }
+            }
+
             if (type.GenericParameters.Count == 0 &&
                     (genInst == null ? true : genInst.GenericArguments.Count == 0))
             {
