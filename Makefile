@@ -12,7 +12,7 @@ $(MDOC):
 
 prepare:
 	git submodule update --init --recursive
-	nuget install NUnit.Console -version 3.10.0 -NoCache -o packages
+	nuget install NUnit.Console -version 3.8.0 -NoCache -o packages
 
 clean:
 	#$(MSBUILD) apidoctools.sln /t:clean
