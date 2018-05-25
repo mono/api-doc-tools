@@ -10,7 +10,7 @@ namespace Monodoc.Generators.Html
 	public class Ecmaspec2Html : IHtmlExporter
 	{
 		static string css_ecmaspec;
-		static XslTransform ecma_transform;
+		static XslCompiledTransform ecma_transform;
 		static XsltArgumentList args = new XsltArgumentList();
 
 		public string CssCode {
@@ -45,7 +45,7 @@ namespace Monodoc.Generators.Html
 		static string Htmlize (XPathDocument ecma_xml)
 		{
 			if (ecma_transform == null){
-				ecma_transform = new XslTransform ();
+				ecma_transform = new XslCompiledTransform ();
 				System.Reflection.Assembly assembly = System.Reflection.Assembly.GetAssembly (typeof (Ecmaspec2Html));
 				Stream stream;
 				stream = assembly.GetManifestResourceStream ("ecmaspec-html-css.xsl");
@@ -58,7 +58,7 @@ namespace Monodoc.Generators.Html
 			if (ecma_xml == null) return "";
 
 			StringWriter output = new StringWriter ();
-			ecma_transform.Transform (ecma_xml, args, output, null);
+			ecma_transform.Transform (ecma_xml, args, output);
 		
 			return output.ToString ();
 		}
