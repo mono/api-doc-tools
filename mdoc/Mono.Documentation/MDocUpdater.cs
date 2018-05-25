@@ -321,7 +321,8 @@ namespace Mono.Documentation
                         Console.Write (".");
                         foreach (var assembly in assemblySet.Assemblies)
                         {
-                            var a = cacheIndex.StartProcessingAssembly (assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
+                            var a = cacheIndex.StartProcessingAssembly (assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
+
                             foreach (var type in assembly.GetTypes ())
                             {
                                 var t = a.ProcessType (type);
@@ -673,13 +674,14 @@ namespace Mono.Documentation
                             var namespacesSet = new HashSet<string>();
                             memberSet = new HashSet<string>();
 
-                            var frameworkEntry = frameworks.StartProcessingAssembly(assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
+                            var frameworkEntry = frameworks.StartProcessingAssembly(assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
+                            assemblySet.Framework = frameworkEntry;
 
                             foreach (TypeDefinition type in docEnum.GetDocumentationTypes(assembly, typenames))
                             {
                                 var typeEntry = frameworkEntry.ProcessType(type);
 
-                                string relpath = DoUpdateType(type, typeEntry, basepath, dest);
+                                string relpath = DoUpdateType(assemblySet, type, typeEntry, basepath, dest);
                                 if (relpath == null)
                                     continue;
 
@@ -688,7 +690,7 @@ namespace Mono.Documentation
                                 if (index == null)
                                     continue;
 
-                                index.Add(assembly);
+                                index.Add(assemblySet, assembly);
                                 index.Add(type);
 
                                 namespacesSet.Add(type.Namespace);
@@ -735,12 +737,12 @@ namespace Mono.Documentation
                 index_assemblies = WriteElement (index.DocumentElement, "Assemblies");
             }
 
-            public void Add (AssemblyDefinition assembly)
+            public void Add (AssemblySet set, AssemblyDefinition assembly)
             {
                 if (index_assemblies.SelectSingleNode ("Assembly[@Name='" + assembly.Name.Name + "']") != null)
                     return;
 
-                app.AddIndexAssembly (assembly, index_assemblies);
+                app.AddIndexAssembly (assembly, index_assemblies, set.Framework);
             }
 
             public void Add (TypeDefinition type)
@@ -778,12 +780,12 @@ namespace Mono.Documentation
             return file.Exists;
         }
 
-        public string DoUpdateType (TypeDefinition type, FrameworkTypeEntry typeEntry, string basepath, string dest)
+        public string DoUpdateType (AssemblySet set, TypeDefinition type, FrameworkTypeEntry typeEntry, string basepath, string dest)
         {
             if (type.Namespace == null)
                 Warning ("warning: The type `{0}' is in the root namespace.  This may cause problems with display within monodoc.",
                         type.FullName);
-            if (!IsPublic (type))
+            if (!DocUtils.IsPublic (type))
                 return null;
 
             if (type.HasCustomAttributes && CustomAttributeNamesToSkip.All(x => type.CustomAttributes.Any(y => y.AttributeType.FullName == x)))
@@ -875,7 +877,7 @@ namespace Mono.Documentation
             else
             {
                 // Stub
-                XmlElement td = StubType (type, output, typeEntry.Framework.Importers, typeEntry.Framework.Id, typeEntry.Framework.Version);
+                XmlElement td = StubType (set, type, output, typeEntry.Framework.Importers, typeEntry.Framework.Id, typeEntry.Framework.Version);
                 if (td == null)
                     return null;
             }
@@ -924,7 +926,7 @@ namespace Mono.Documentation
             return filename.ToString ();
         }
 
-        private void AddIndexAssembly (AssemblyDefinition assembly, XmlElement parent)
+        private void AddIndexAssembly (AssemblyDefinition assembly, XmlElement parent, FrameworkEntry fx)
         {
             XmlElement index_assembly = null;
             if (IsMultiAssembly)
@@ -956,7 +958,7 @@ namespace Mono.Documentation
                 index_assembly.AppendChild (culture);
             }
 
-            MakeAttributes (index_assembly, GetCustomAttributes (assembly.CustomAttributes, ""));
+            MakeAttributes (index_assembly, GetCustomAttributes (assembly.CustomAttributes, ""), fx, assemblyFilename:assembly.MainModule.FileName);
             parent.AppendChild (index_assembly);
         }
 
@@ -1024,8 +1026,9 @@ namespace Mono.Documentation
                     {
                         using (assm)
                         {
-                            AddIndexAssembly(assm, index_assemblies);
                             DoUpdateAssembly(assemblySet, assm, index_types, source, dest, goodfiles);
+                            AddIndexAssembly (assm, index_assemblies, assemblySet.Framework);
+
                             processedAssemblyCount++;
                         }
                     }
@@ -1061,7 +1064,7 @@ namespace Mono.Documentation
             var typeSet = new HashSet<string> ();
             memberSet = new HashSet<string> ();
 
-            var frameworkEntry = frameworks.StartProcessingAssembly (assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
+            var frameworkEntry = frameworks.StartProcessingAssembly (assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
             foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null))
             {
                 string typename = GetTypeFileName (type);
@@ -1070,7 +1073,7 @@ namespace Mono.Documentation
 
                 var typeEntry = frameworkEntry.ProcessType (type);
 
-                string reltypepath = DoUpdateType (type, typeEntry, source, dest);
+                string reltypepath = DoUpdateType (assemblySet, type, typeEntry, source, dest);
                 if (reltypepath == null)
                     continue;
 
@@ -1890,7 +1893,7 @@ namespace Mono.Documentation
 
         // CREATE A STUB DOCUMENTATION FILE	
 
-        public XmlElement StubType (TypeDefinition type, string output, IEnumerable<DocumentationImporter> importers, string Id, string Version)
+        public XmlElement StubType (AssemblySet set, TypeDefinition type, string output, IEnumerable<DocumentationImporter> importers, string Id, string Version)
         {
             string typesig = typeFormatters[0].GetDeclaration (type);
             if (typesig == null) return null; // not publicly visible
@@ -1899,7 +1902,7 @@ namespace Mono.Documentation
             XmlElement root = doc.CreateElement ("Type");
             doc.AppendChild (root);
 
-            var frameworkEntry = frameworks.StartProcessingAssembly (type.Module.Assembly, importers, Id, Version);
+            var frameworkEntry = frameworks.StartProcessingAssembly (set, type.Module.Assembly, importers, Id, Version);
             var typeEntry = frameworkEntry.ProcessType (type);
             DoUpdateType2 ("New Type", doc, type, typeEntry, output, true);
             statisticsCollector.AddMetric (typeEntry.Framework.Name, StatisticsItem.Types, StatisticsMetrics.Added);
@@ -1962,7 +1965,7 @@ namespace Mono.Documentation
 
             if (type.IsGenericType ())
             {
-                MakeTypeParameters (root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
+                MakeTypeParameters (typeEntry, root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
             }
             else
             {
@@ -2051,16 +2054,16 @@ namespace Mono.Documentation
                 ClearElement (root, "Interfaces");
             }
 
-            MakeAttributes (root, GetCustomAttributes (type), type);
+			MakeAttributes (root, GetCustomAttributes (type), typeEntry.Framework, type, typeEntry: typeEntry);
 
             if (DocUtils.IsDelegate (type))
             {
-                MakeTypeParameters (root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
+                MakeTypeParameters (typeEntry, root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
                 var member = type.GetMethod ("Invoke");
 
                 bool fxAlternateTriggered = false;
                 MakeParameters (root, member, member.Parameters, typeEntry, ref fxAlternateTriggered);
-                MakeReturnValue (root, member);
+                MakeReturnValue (typeEntry, root, member);
             }
 
             DocsNodeInfo typeInfo = new DocsNodeInfo (WriteElement (root, "Docs"), type);
@@ -2167,14 +2170,14 @@ namespace Mono.Documentation
                 ClearElement (me, "AssemblyInfo");
             }
 
-            MakeAttributes (me, GetCustomAttributes (mi), mi.DeclaringType);
+			MakeAttributes (me, GetCustomAttributes (mi), typeEntry.Framework, mi.DeclaringType, typeEntry: typeEntry);
 
-            MakeReturnValue (me, mi, MDocUpdater.HasDroppedNamespace (mi));
+            MakeReturnValue (typeEntry, me, mi, MDocUpdater.HasDroppedNamespace (mi));
             if (mi is MethodReference)
             {
                 MethodReference mb = (MethodReference)mi;
                 if (mb.IsGenericMethod ())
-                    MakeTypeParameters (me, mb.GenericParameters, mi, MDocUpdater.HasDroppedNamespace (mi));
+                    MakeTypeParameters (typeEntry, me, mb.GenericParameters, mi, MDocUpdater.HasDroppedNamespace (mi));
             }
             bool fxAlternateTriggered = false;
             MakeParameters (me, mi, typeEntry, ref fxAlternateTriggered, MDocUpdater.HasDroppedNamespace (mi));
@@ -3090,6 +3093,9 @@ namespace Mono.Documentation
 
         private static void NormalizeWhitespace (XmlElement e)
         {
+            if (e == null)
+                return;
+            
             // Remove all text and whitespace nodes from the element so it
             // is outputted with nice indentation and no blank lines.
             ArrayList deleteNodes = new ArrayList ();
@@ -3257,33 +3263,119 @@ namespace Mono.Documentation
             }
         }
 
-        private void MakeAttributes (XmlElement root, IEnumerable<string> attributes, TypeReference t = null)
+		public static void MakeAttributes (XmlElement root, IEnumerable<string> attributes, FrameworkEntry fx, TypeReference t = null, FrameworkTypeEntry typeEntry = null, string assemblyFilename = null)//FrameworkEntry fx, TypeReference t = null)
         {
-            if (!attributes.Any ())
+            XmlElement e = (XmlElement)root.SelectSingleNode ("Attributes");
+            bool isLastFx = fx != null && fx.IsLastFramework;
+            bool noAttributes = attributes.Any ();
+            bool currentlyHasAttributes = e != null && e.ChildNodes.Count > 0;
+            
+            
+            if (e == null)
+                e = root.OwnerDocument.CreateElement ("Attributes");
+            
+            var attributesCurrent = attributes
+                .Select (FilterSpecialChars)
+                .Distinct () // make sure there aren't any dupes
+                .ToDictionary (a => a, a => false); // key is the attribute, value is whether it was found
+
+            var attributesState = e.ChildNodes.Cast<XmlElement> ()
+                                .Select (elem => new
+                                {
+                                    ExistingValue = elem.FirstChild.InnerText,
+                                    XElement = elem,
+            }).ToArray();
+
+
+            // iterate this framework's attributes and compare against the state
+            foreach(var currentAttribute in attributesCurrent)
             {
-                ClearElement (root, "Attributes");
+                var alreadyExists = attributesState.FirstOrDefault (state => state.ExistingValue == currentAttribute.Key);
+                if (alreadyExists != null)
+                {
+                    // if FXA, add fx.name
+                    if (fx.Frameworks.Count() > 1 && alreadyExists.XElement.HasAttribute("FrameworkAlternate"))
+                    {
+                        var newfxlist = FXUtils.AddFXToList (alreadyExists.XElement.GetAttribute ("FrameworkAlternate"), fx.Name);
+                        alreadyExists.XElement.SetAttribute ("FrameworkAlternate", newfxlist);
+                    }
+                    continue;
+                }
+                else // let's create it
+                {
+                    XmlElement ae = root.OwnerDocument.CreateElement ("Attribute");
+                    e.AppendChild (ae);
+                    WriteElementText (ae, "AttributeName", currentAttribute.Key);
+
+
+					// add FXA if this isn't the first framework, and 
+					bool typeNotExisted = (typeEntry != null && !typeEntry.PreviouslyProcessedFrameworkTypes.Any ());
+                    bool assemblyNotExisted = (assemblyFilename != null && !fx.PreviousFXContainsAssembly (assemblyFilename)); 
+
+                    if (fx.Frameworks.Count() > 1 && !fx.IsFirstFramework && (!typeNotExisted && !assemblyNotExisted))
+                    {
+                        ae.SetAttribute ("FrameworkAlternate", fx.Name);
+                    }
+                }
+            }
+
+            // iterate the state's attributes to find attributes that aren't 
+            // a part of this framework's attributes.
+            foreach(var stateAttribute in attributesState)
+            {
+                if (attributesCurrent.ContainsKey(stateAttribute.ExistingValue)) 
+                {
+                    continue;
+                }
+                else // let's remove it 
+                {
+                    
+                    if (fx.Frameworks.Count() > 1) {
+                        
+                        if (stateAttribute.XElement.HasAttribute ("FrameworkAlternate"))
+                        {
+                            // if has FXA, remove from list
+                            var newfxlist = FXUtils.RemoveFXFromList (stateAttribute.XElement.GetAttribute ("FrameworkAlternate"), fx.Name);
+                            stateAttribute.XElement.SetAttribute ("FrameworkAlternate", newfxlist);
+                        }
+                        else if (!fx.IsFirstFramework) // doesn't have FXA, and isn't the first framework
+                        {
+                            // if not, we need to make sure
+                            var priorfxList = fx.PreviousFrameworks.Select (f => f.Name).ToArray ();
+                            stateAttribute.XElement.SetAttribute ("FrameworkAlternate", string.Join (";", priorfxList));
+                        }
+                        else if (fx.IsFirstFramework)
+                        {
+                            stateAttribute.XElement.ParentNode.RemoveChild (stateAttribute.XElement);
+                        }
+                    }
+                    else 
+                        stateAttribute.XElement.ParentNode.RemoveChild (stateAttribute.XElement);
+                }
+            }
+
+            // clean up
+            if (fx.IsLastFramework) {
+                foreach(var attr in e.ChildNodes.Cast<XmlElement> ().ToArray()) {
+                    if (attr.HasAttribute ("FrameworkAlternate") && string.IsNullOrWhiteSpace (attr.GetAttribute ("FrameworkAlternate")))
+                        attr.ParentNode.RemoveChild (attr);
+                }
+            }
+
+            if (e != null && e.ParentNode == null)
+                root.AppendChild (e);
+
+            if (e.ChildNodes.Count == 0 && e.ParentNode != null) {
+                var parent = e.ParentNode as XmlElement;
+                parent.RemoveChild (e);
+                if (parent.ChildNodes.Count == 0)
+                    parent.IsEmpty = true;
                 return;
             }
 
-            XmlElement e = (XmlElement)root.SelectSingleNode ("Attributes");
-            if (e != null)
-                e.RemoveAll ();
-            else if (e == null)
-                e = root.OwnerDocument.CreateElement ("Attributes");
-
-
-            foreach (string attribute in attributes)
-            {
-                XmlElement ae = root.OwnerDocument.CreateElement ("Attribute");
-                e.AppendChild (ae);
-                var value = new String (FilterSpecialChars (attribute).ToArray ());
-                WriteElementText (ae, "AttributeName", value);
-            }
-
-            if (e.ParentNode == null)
-                root.AppendChild (e);
-
             NormalizeWhitespace (e);
+
+            return;
         }
 
         public static string MakeAttributesValueString (object v, TypeReference valueType)
@@ -3359,7 +3451,7 @@ namespace Mono.Documentation
                 if (addfx)
                     pe.SetAttribute ("FrameworkAlternate", fx);
 
-                MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""));
+				MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""), typeEntry.Framework, typeEntry: typeEntry);
             };
             /// addFXAttributes, adds the index attribute to all existing elements.
             /// Used when we first detect the scenario which requires this.
@@ -3492,7 +3584,7 @@ namespace Mono.Documentation
             }
         }
 
-        private void MakeTypeParameters (XmlElement root, IList<GenericParameter> typeParams, MemberReference member, bool shouldDuplicateWithNew)
+        private void MakeTypeParameters (FrameworkTypeEntry entry, XmlElement root, IList<GenericParameter> typeParams, MemberReference member, bool shouldDuplicateWithNew)
         {
             if (typeParams == null || typeParams.Count == 0)
             {
@@ -3527,7 +3619,7 @@ namespace Mono.Documentation
                         XmlElement pe = root.OwnerDocument.CreateElement ("TypeParameter");
                         e.AppendChild (pe);
                         pe.SetAttribute ("Name", t.Name);
-                        MakeAttributes (pe, GetCustomAttributes (t.CustomAttributes, ""), t.DeclaringType);
+					    MakeAttributes (pe, GetCustomAttributes (t.CustomAttributes, ""), entry.Framework, t.DeclaringType, typeEntry: entry);
                         XmlElement ce = (XmlElement)e.SelectSingleNode ("Constraints");
                         if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                         {
@@ -3601,7 +3693,7 @@ namespace Mono.Documentation
             return GetDocTypeFullName (type).Replace ("@", "&");
         }
 
-        private void MakeReturnValue (XmlElement root, TypeReference type, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)
+        private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, TypeReference type, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)
         {
             XmlElement e = WriteElement (root, "ReturnValue");
             var valueToUse = GetDocTypeFullName (type);
@@ -3613,25 +3705,25 @@ namespace Mono.Documentation
                 {
                     var newNode = WriteElementText (e, "ReturnType", valueToUse, forceNewElement: true);
                     if (attributes != null)
-                        MakeAttributes (e, GetCustomAttributes (attributes, ""), type);
+					MakeAttributes (e, GetCustomAttributes (attributes, ""), typeEntry.Framework, type, typeEntry: typeEntry);
 
                     return newNode;
                 },
             type);
         }
 
-        private void MakeReturnValue (XmlElement root, MemberReference mi, bool shouldDuplicateWithNew = false)
+        private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, MemberReference mi, bool shouldDuplicateWithNew = false)
         {
             if (mi is MethodDefinition && ((MethodDefinition)mi).IsConstructor)
                 return;
             else if (mi is MethodDefinition)
-                MakeReturnValue (root, ((MethodDefinition)mi).ReturnType, ((MethodDefinition)mi).MethodReturnType.CustomAttributes, shouldDuplicateWithNew);
+                MakeReturnValue (typeEntry, root, ((MethodDefinition)mi).ReturnType, ((MethodDefinition)mi).MethodReturnType.CustomAttributes, shouldDuplicateWithNew);
             else if (mi is PropertyDefinition)
-                MakeReturnValue (root, ((PropertyDefinition)mi).PropertyType, null, shouldDuplicateWithNew);
+                MakeReturnValue (typeEntry, root, ((PropertyDefinition)mi).PropertyType, null, shouldDuplicateWithNew);
             else if (mi is FieldDefinition)
-                MakeReturnValue (root, ((FieldDefinition)mi).FieldType, null, shouldDuplicateWithNew);
+                MakeReturnValue (typeEntry, root, ((FieldDefinition)mi).FieldType, null, shouldDuplicateWithNew);
             else if (mi is EventDefinition)
-                MakeReturnValue (root, ((EventDefinition)mi).EventType, null, shouldDuplicateWithNew);
+                MakeReturnValue (typeEntry, root, ((EventDefinition)mi).EventType, null, shouldDuplicateWithNew);
             else if (mi is AttachedEventReference)
                 return;
             else if (mi is AttachedPropertyReference)
