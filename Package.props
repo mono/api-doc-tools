@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
-    <PackageVersion>5.6.4</PackageVersion>
+    <PackageVersion>5.6.4-alpha1</PackageVersion>
     <Authors>Microsoft</Authors>
     <PackageProjectUrl>https://github.com/mono/api-doc-tools</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/mono/api-doc-tools/blob/master/LICENSE.md</PackageLicenseUrl>
