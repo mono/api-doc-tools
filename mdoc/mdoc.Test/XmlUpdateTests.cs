@@ -8,29 +8,45 @@ using System.Collections.Generic;
 using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Updater;
 
-namespace mdoc.Test2
+namespace mdoc.Test
 {
+    public class OneAttribute : Attribute { }
+    public class TwoAttribute : Attribute { }
+
+    [One]
     public class MyClass
     {
-        public void Meth (int a, string b, int c) { }
+        [One]
+        public void Meth (int a, string d, int c) { }
+
     }
     public class MyClass2
     {
+        public void Meth (int a, string b, int c) { }
+    }
+
+}
+
+namespace mdoc.Test2
+{
+    using mdoc.Test;
+
+    [One, Two]
+    public class MyClass
+    {
+        [One, Two]
+        public void Meth (int a, string b, int c) { }
+    }
+
+    [Two]
+    public class MyClass2
+    {
+        [Two]
         public void Meth (int d, string e, int f) { }
     }
 }
 namespace mdoc.Test
 {
-    public class MyClass
-    {
-        public void Meth(int a, string d, int c) {}
-
-    }
-    public class MyClass2
-    {
-        public void Meth (int a, string b, int c) { }
-    }
-
     /// <summary>
     /// Tests functions that update the EcmaXMl under various conditions from
     /// corresponding classes.
@@ -412,6 +428,313 @@ namespace mdoc.Test
             Assert.IsTrue (matches.Any (m => m.Member == context.method && m.Node != null), "didn't match the member");
         }
 
+        [Test]
+        public void Attributes_TypeOrMethod() 
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+            var fx = context.fx.Frameworks[1];
+            FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+            string[] attributeList = new[] { "One" };
+
+            MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement>().ToArray();
+
+            Assert.IsTrue (attributes.Count () == 1);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual ("Three", attributes[0].GetAttribute ("FrameworkAlternate"));
+        }
+
+        [Test]
+        public void Attributes_TypeOrMethod_AllFX ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            foreach (var fx in context.fx.Frameworks)
+            {
+                //var fx = context.fx.Frameworks[1];
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One" };
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 1);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+        }
+
+        [Test]
+        public void Attributes_TypeOrMethod_AllFX_OneMissing ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            foreach (var fx in context.fx.Frameworks)
+            {
+                //var fx = context.fx.Frameworks[1];
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One" };
+
+                if (fx.IsFirstFramework)
+                    attributeList = new string[0];
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 1);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.IsTrue (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("Three;Two", attributes[0].GetAttribute ("FrameworkAlternate"));
+        }
+
+        [Test]
+        public void Attributes_TypeOrMethod_AllFX_OneMissing_Last ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            foreach (var fx in context.fx.Frameworks)
+            {
+                //var fx = context.fx.Frameworks[1];
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One" };
+
+                if (fx.IsLastFramework)
+                    attributeList = new string[0];
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 1);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.IsTrue (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("One;Three", attributes[0].GetAttribute ("FrameworkAlternate"));
+        }
+
+        [Test]
+        public void Attributes_TypeOrMethod_AllFX_RunExisting_Middle ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            // first, go through and add "One" and "Two" to all of them
+            foreach (var fx in context.fx.Frameworks)
+            {
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One", "Two" };
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            // Now, to test the first deployment on an existing set
+            // in this case, the truth of the matter is that `Two` only exists in the middle
+            foreach (var fx in context.fx.Frameworks)
+            {
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One" };
+
+                if (!fx.IsFirstFramework && !fx.IsLastFramework) {
+                    attributeList = new[] { "One", "Two" };
+                }
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 2);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("Two", attributes[1].FirstChild.InnerText);
+            Assert.IsTrue (attributes[1].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("Three", attributes[1].GetAttribute ("FrameworkAlternate"));
+        }
+
+        [Test]
+        public void Attributes_TypeOrMethod_AllFX_RunExisting_First ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            // first, go through and add "One" and "Two" to all of them
+            foreach (var fx in context.fx.Frameworks)
+            {
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One", "Two" };
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            // Now, to test the first deployment on an existing set
+            // in this case, the truth of the matter is that `Two` only exists in the middle
+            foreach (var fx in context.fx.Frameworks)
+            {
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One" };
+
+                if (fx.IsFirstFramework)
+                {
+                    attributeList = new[] { "One", "Two" };
+                }
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 2);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("Two", attributes[1].FirstChild.InnerText);
+            Assert.IsTrue (attributes[1].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("One", attributes[1].GetAttribute ("FrameworkAlternate"));
+        }
+
+        [Test]
+        public void Attributes_TypeOrMethod_AllFX_RunExisting_Last ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            // first, go through and add "One" and "Two" to all of them
+            foreach (var fx in context.fx.Frameworks)
+            {
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One", "Two" };
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            // Now, to test the first deployment on an existing set
+            // in this case, the truth of the matter is that `Two` only exists in the middle
+            foreach (var fx in context.fx.Frameworks)
+            {
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "Two" };
+
+                if (fx.IsLastFramework)
+                {
+                    attributeList = new[] { "One", "Two" };
+                }
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 2);
+            Assert.AreEqual ("One", attributes[1].FirstChild.InnerText);
+            Assert.IsTrue (attributes[1].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("Two", attributes[1].GetAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("Two", attributes[0].FirstChild.InnerText);
+            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+
+        }
+
+        [Test]
+        public void Attributes_TypeOrMethod_AllFX_OneMissing_Middle ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            foreach (var fx in context.fx.Frameworks)
+            {
+                //var fx = context.fx.Frameworks[1];
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One" };
+
+                if (!fx.IsLastFramework && !fx.IsFirstFramework)
+                    attributeList = new string[0];
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+            }
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 1);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.IsTrue (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("One;Two", attributes[0].GetAttribute ("FrameworkAlternate"));
+        }
+
+
+        [Test]
+        public void Attributes_Assembly ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            foreach (var fx in context.fx.Frameworks)
+            {
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One" };
+                string assemblyName = "one.dll";
+                if (!fx.IsLastFramework && !fx.IsFirstFramework)
+                {
+                    attributeList = new string[0];
+                    assemblyName = "three.dll";
+                }
+
+
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx,
+
+                                            assemblyFilename: "three.dll");
+            }
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 1);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.IsTrue (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("One;Two", attributes[0].GetAttribute ("FrameworkAlternate"));
+        }
+
+        [Test]
+        public void Attributes_Assembly_OtherAssembly ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            var fx = context.fx.Frameworks[1];
+
+
+                FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                string[] attributeList = new[] { "One" };
+                
+                // this is the 'second' fx, and we've changed the expected assembly name, 
+                // so the attribute, while it doesn't exist yet, shouldn't have an FX made since it doesn't exist in any other FX
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx,
+                                            assemblyFilename: "three.dll");
+            
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 1);
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+        }
+
         string Normalize(string xml) {
             XmlDocument doc = new XmlDocument ();
 
@@ -630,6 +953,10 @@ namespace mdoc.Test
                 {
                     var t = f.ProcessType (type);
                     t.ProcessMember (method);
+
+                    var aset = new AssemblySet (new[] { "one.dll" });
+                    f.AddAssemblySet (aset);
+
                 }
                 else {
                     var t = f.ProcessType (type2);

@@ -25,7 +25,9 @@
   <Copyright>To be added.</Copyright>
   <Types>
     <Namespace Name="Monodoc.Test">
+      <Type Name="FirstAttribute" Kind="Class" />
       <Type Name="MyClass" Kind="Class" />
+      <Type Name="SecondAttribute" Kind="Class" />
     </Namespace>
   </Types>
   <Title>Untitled</Title>

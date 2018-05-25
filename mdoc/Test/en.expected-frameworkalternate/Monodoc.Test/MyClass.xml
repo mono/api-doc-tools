@@ -50,6 +50,14 @@
         <AssemblyName>DocTest-frameworkalternate-two</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Monodoc.Test.First</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="Two">
+          <AttributeName>Monodoc.Test.Second</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
