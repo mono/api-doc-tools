@@ -10,6 +10,7 @@ TestResult.xml
 *.user
 bin
 obj
+.DS_Store
 .vs
 *.metagen
 *.pdb
