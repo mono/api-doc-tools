@@ -101,6 +101,9 @@
       <Project>{979f9f80-12fe-4236-9e93-6d554ab13701}</Project>
       <Name>mdoc.Test.FSharp</Name>
     </ProjectReference>
+    <PackageReference Include="FSharp.Core">
+      <Version>4.3.4</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

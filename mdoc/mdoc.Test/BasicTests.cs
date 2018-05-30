@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Mono.Cecil;
 
 namespace mdoc.Test
@@ -18,7 +19,10 @@ namespace mdoc.Test
 
             if (!moduleCash.ContainsKey(filepath))
             {
-                var readModule = ModuleDefinition.ReadModule(filepath);
+                var testAssemblyFilename = this.GetType ().Assembly.Modules.First().FullyQualifiedName;
+                var testDirectory = Path.GetDirectoryName (testAssemblyFilename);
+                var assemblyToOpenPath = Path.Combine (testDirectory, filepath);
+                var readModule = ModuleDefinition.ReadModule(assemblyToOpenPath);
                 moduleCash.Add(filepath, readModule);
             }
 
