@@ -89,6 +89,10 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
+        public void get_Method()
+        {
+        }
+
         public event EventHandler<object> AppMemoryUsageIncreased;
         public static event EventHandler<object> StaticEvent;
         private static event EventHandler<object> PrivateEvent;

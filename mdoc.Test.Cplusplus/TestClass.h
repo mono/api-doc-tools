@@ -139,6 +139,10 @@ generic<typename T>
 						return member;
 					};
 
+					U BaseMethod2(GenericBase<U> genericParameter) {
+						return member;
+					};
+
 					/// <remarks><c>F:Mono.DocTest.GenericBase`1.StaticField1</c></remarks>
 			public:
 				static initonly GenericBase<U> ^ StaticField1 = gcnew GenericBase<U>();

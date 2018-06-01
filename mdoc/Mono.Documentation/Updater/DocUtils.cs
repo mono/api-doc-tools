@@ -12,7 +12,7 @@ using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater
 {
-    static class DocUtils
+    public static class DocUtils
     {
         public static bool DoesNotHaveApiStyle (this XmlElement element, ApiStyle style)
         {
@@ -358,12 +358,26 @@ namespace Mono.Documentation.Updater
         /// </summary>
         public static bool IsIgnored(MemberReference mi)
         {
-            if (mi.Name.StartsWith("get_", StringComparison.Ordinal)) return true;
-            if (mi.Name.StartsWith("set_", StringComparison.Ordinal)) return true;
-            if (mi.Name.StartsWith("add_", StringComparison.Ordinal)) return true;
-            if (mi.Name.StartsWith("remove_", StringComparison.Ordinal)) return true;
-            if (mi.Name.StartsWith("raise_", StringComparison.Ordinal)) return true;
+            if (IsCompilerGenerated(mi))
+            {
+                if (mi.Name.StartsWith("get_", StringComparison.Ordinal)) return true;
+                if (mi.Name.StartsWith("set_", StringComparison.Ordinal)) return true;
+                if (mi.Name.StartsWith("add_", StringComparison.Ordinal)) return true;
+                if (mi.Name.StartsWith("remove_", StringComparison.Ordinal)) return true;
+                if (mi.Name.StartsWith("raise_", StringComparison.Ordinal)) return true;
+            }
+
             return false;
+        }
+
+        private static bool IsCompilerGenerated(MemberReference mi)
+        {
+            IMemberDefinition memberDefinition = mi.Resolve();
+            return memberDefinition.IsSpecialName
+                   || memberDefinition.CustomAttributes.Any(i =>
+                       i.AttributeType.FullName == Consts.CompilerGeneratedAttribute
+                       || i.AttributeType.FullName == Consts.CompilationMappingAttribute
+                   );
         }
 
         public static bool IsAvailablePropertyMethod(MethodDefinition method)
