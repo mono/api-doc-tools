@@ -34,11 +34,44 @@ namespace mdoc.Test
             Assert.AreEqual (0, context.Errors.Count);
         }
 
+        [Test]
+        public void FrameworkAlternate_Attributes_Type()
+        {
+            string xmlString = @"<Type Name=""AVKitError"" FullName=""AVKit.AVKitError"">
+  <Attributes>
+    <Attribute>
+      <AttributeName>ObjCRuntime.Introduced(ObjCRuntime.PlatformName.iOS, 9, 0, ObjCRuntime.PlatformArchitecture.None, null)</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate=""One;Two"">
+      <AttributeName>ObjCRuntime.Native</AttributeName>
+    </Attribute>
+  </Attributes>
+</Type>";
+
+
+            var context = InitializeTestContext ();
+
+            context.Validator.ValidateFile (new StringReader (xmlString));
+
+
+            Assert.AreEqual (0, context.Errors.Count, context.ErrorText);
+        }
+
         #region Test Context Stuff
         struct ValidationContext
         {
             public MDocValidator Validator;
             public List<Exception> Errors;
+            public string ErrorText{
+                get => Errors.Aggregate (
+                    new StringBuilder (),
+                    (sb, e) =>
+                    {
+                        sb.Append (e.Message + ";");
+                        return sb;
+                    }
+                    ).ToString ();
+            }
         }
 
         private static ValidationContext InitializeTestContext ()
