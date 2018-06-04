@@ -41,6 +41,26 @@ namespace Mono.Documentation
 
         public void Run (string format, IEnumerable<string> files)
         {
+            InitializeSchema (format);
+
+            // skip args[0] because it is the provider name
+            foreach (string arg in files)
+            {
+                if (IsMonodocFile (arg))
+                    ValidateFile (arg);
+
+                if (Directory.Exists (arg))
+                {
+                    RecurseDirectory (arg);
+                }
+            }
+
+            Message (errors == 0 ? TraceLevel.Info : TraceLevel.Error,
+                    "Total validation errors: {0}", errors);
+        }
+
+        public void InitializeSchema (string format, ValidationEventHandler extraHandler = null)
+        {
             Stream s = null;
 
             switch (format)
@@ -61,25 +81,14 @@ namespace Mono.Documentation
             settings.Schemas.Compile ();
             settings.ValidationType = ValidationType.Schema;
             settings.ValidationEventHandler += OnValidationEvent;
-
-            // skip args[0] because it is the provider name
-            foreach (string arg in files)
-            {
-                if (IsMonodocFile (arg))
-                    ValidateFile (arg);
-
-                if (Directory.Exists (arg))
-                {
-                    RecurseDirectory (arg);
-                }
-            }
-
-            Message (errors == 0 ? TraceLevel.Info : TraceLevel.Error,
-                    "Total validation errors: {0}", errors);
+            if (extraHandler != null) 
+                settings.ValidationEventHandler += extraHandler;
         }
 
-        void ValidateFile (string file)
+        public void ValidateFile (string file)
         {
+            if (settings == null) InitializeSchema ("ecma");
+
             try
             {
                 using (var reader = XmlReader.Create (new XmlTextReader (file), settings))
@@ -89,6 +98,21 @@ namespace Mono.Documentation
                         // do nothing
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Message (TraceLevel.Error, "mdoc: {0}", e.ToString ());
+            }
+        }
+
+        public void ValidateFile (TextReader textReader)
+        {
+            if (settings == null) InitializeSchema ("ecma");
+
+            try 
+            {
+                using (var xmlReader = XmlReader.Create (textReader, settings))
+                    while (xmlReader.Read ()) {}
             }
             catch (Exception e)
             {
@@ -118,7 +142,10 @@ namespace Mono.Documentation
 
         static bool IsMonodocFile (string file)
         {
-            if (File.Exists (file) && Path.GetExtension (file).ToLower () == ".xml")
+            var dpath = Path.GetDirectoryName (file);
+            var dname = Path.GetFileName (dpath);
+
+            if (File.Exists (file) && Path.GetExtension (file).ToLower () == ".xml" && !dname.Equals(Consts.FrameworksIndex))
                 return true;
             else
                 return false;
