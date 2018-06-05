@@ -51,6 +51,7 @@ add masterdoc support?
   <xs:attribute name="TypeParamName" type="xs:string" />
   <xs:attribute name="overwrite" type="xs:boolean" />
   <xs:attribute name="supported" type="xs:boolean"/>
+  <xs:attribute name="FrameworkAlternate" type="xs:string"/>
 
   <!-- define simple elements -->
   <xs:element name="AssemblyName" type="xs:string" />
@@ -116,6 +117,9 @@ add masterdoc support?
         <xs:element ref="ExcludedTypeName" minOccurs="0" />
         <xs:element ref="ExcludedLibraryName" minOccurs="0" />
       </xs:sequence>
+
+
+        <xs:attribute name="FrameworkAlternate" use="optional" />
     </xs:complexType>
   </xs:element>
 
