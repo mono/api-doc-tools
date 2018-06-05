@@ -35,7 +35,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void FrameworkAlternate_Attributes_Type()
+        public void FrameworkAlternate_Attributes_Type ()
         {
             string xmlString = @"<Type Name=""AVKitError"" FullName=""AVKit.AVKitError"">
   <Attributes>
@@ -47,6 +47,65 @@ namespace mdoc.Test
     </Attribute>
   </Attributes>
 </Type>";
+
+
+            var context = InitializeTestContext ();
+
+            context.Validator.ValidateFile (new StringReader (xmlString));
+
+
+            Assert.AreEqual (0, context.Errors.Count, context.ErrorText);
+        }
+
+        [Test]
+        public void FrameworkAlternate_MemberSignature ()
+        {
+            string xmlString = @"<Type Name=""blah"" FullName=""blah.blah"">
+            <Members><Member MemberName=""Meth"">
+      <MemberSignature Language=""C#"" Value=""public void Meth (int a, string d, int c);"" FrameworkAlternate=""One;Three"" />
+      <MemberSignature Language=""C#"" Value=""public void Meth (int a, string b, int c);"" FrameworkAlternate=""Two"" />
+      <MemberType>b</MemberType>
+      <Docs></Docs>
+    </Member></Members></Type>";
+
+
+            var context = InitializeTestContext ();
+
+            context.Validator.ValidateFile (new StringReader (xmlString));
+
+
+            Assert.AreEqual (0, context.Errors.Count, context.ErrorText);
+        }
+
+        [Test]
+        public void FrameworkAlternate_TypeSignature ()
+        {
+            string xmlString = @"<Type Name=""blah"" FullName=""blah.blah"">
+      <TypeSignature Language=""C#"" Value=""blah"" FrameworkAlternate=""One;Three"" />
+      <TypeSignature Language=""C#"" Value=""blah2"" FrameworkAlternate=""Two"" />
+</Type>";
+
+
+            var context = InitializeTestContext ();
+
+            context.Validator.ValidateFile (new StringReader (xmlString));
+
+
+            Assert.AreEqual (0, context.Errors.Count, context.ErrorText);
+        }
+
+        [Test]
+        public void FrameworkAlternate_Parameter ()
+        {
+            string xmlString = @"<Member MemberName=""Meth"">
+      <MemberSignature Language=""C#"" Value=""blah"" />
+      <MemberType>Method</MemberType>
+      <Parameters>
+        <Parameter Name = ""a"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One"" />
+        <Parameter Name = ""d"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""Three"" />
+      </Parameters>
+      <Docs></Docs>
+    </Member>";
 
 
             var context = InitializeTestContext ();
