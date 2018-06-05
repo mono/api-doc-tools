@@ -26,5 +26,7 @@ namespace Mono.Documentation
 		public const string RefTypeObsoleteString = "Types with embedded references are not supported in this version of your compiler.";
 		public const string CompilerGeneratedAttribute = "System.Runtime.CompilerServices.CompilerGeneratedAttribute";
 		public const string CompilationMappingAttribute = "Microsoft.FSharp.Core.CompilationMappingAttribute";
+        public const string FrameworksIndex = "FrameworksIndex";
+		public const string FrameworkAlternate = "FrameworkAlternate";
     }
 }

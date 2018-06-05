@@ -443,7 +443,7 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 1);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.AreEqual ("Three", attributes[0].GetAttribute ("FrameworkAlternate"));
+            Assert.AreEqual ("Three", attributes[0].GetAttribute (Consts.FrameworkAlternate));
         }
 
         [Test]
@@ -466,7 +466,7 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 1);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.IsFalse (attributes[0].HasAttribute (Consts.FrameworkAlternate));
         }
 
         [Test]
@@ -492,8 +492,8 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 1);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.IsTrue (attributes[0].HasAttribute ("FrameworkAlternate"));
-            Assert.AreEqual ("Three;Two", attributes[0].GetAttribute ("FrameworkAlternate"));
+            Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
+            Assert.AreEqual ("Three;Two", attributes[0].GetAttribute (Consts.FrameworkAlternate));
         }
 
         [Test]
@@ -519,8 +519,8 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 1);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.IsTrue (attributes[0].HasAttribute ("FrameworkAlternate"));
-            Assert.AreEqual ("One;Three", attributes[0].GetAttribute ("FrameworkAlternate"));
+            Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
+            Assert.AreEqual ("One;Three", attributes[0].GetAttribute (Consts.FrameworkAlternate));
         }
 
         [Test]
@@ -558,10 +558,10 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 2);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.IsFalse (attributes[0].HasAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("Two", attributes[1].FirstChild.InnerText);
-            Assert.IsTrue (attributes[1].HasAttribute ("FrameworkAlternate"));
-            Assert.AreEqual ("Three", attributes[1].GetAttribute ("FrameworkAlternate"));
+            Assert.IsTrue (attributes[1].HasAttribute (Consts.FrameworkAlternate));
+            Assert.AreEqual ("Three", attributes[1].GetAttribute (Consts.FrameworkAlternate));
         }
 
         [Test]
@@ -600,10 +600,10 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 2);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.IsFalse (attributes[0].HasAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("Two", attributes[1].FirstChild.InnerText);
-            Assert.IsTrue (attributes[1].HasAttribute ("FrameworkAlternate"));
-            Assert.AreEqual ("One", attributes[1].GetAttribute ("FrameworkAlternate"));
+            Assert.IsTrue (attributes[1].HasAttribute (Consts.FrameworkAlternate));
+            Assert.AreEqual ("One", attributes[1].GetAttribute (Consts.FrameworkAlternate));
         }
 
         [Test]
@@ -642,10 +642,10 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 2);
             Assert.AreEqual ("One", attributes[1].FirstChild.InnerText);
-            Assert.IsTrue (attributes[1].HasAttribute ("FrameworkAlternate"));
-            Assert.AreEqual ("Two", attributes[1].GetAttribute ("FrameworkAlternate"));
+            Assert.IsTrue (attributes[1].HasAttribute (Consts.FrameworkAlternate));
+            Assert.AreEqual ("Two", attributes[1].GetAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("Two", attributes[0].FirstChild.InnerText);
-            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.IsFalse (attributes[0].HasAttribute (Consts.FrameworkAlternate));
 
         }
 
@@ -672,8 +672,8 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 1);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.IsTrue (attributes[0].HasAttribute ("FrameworkAlternate"));
-            Assert.AreEqual ("One;Two", attributes[0].GetAttribute ("FrameworkAlternate"));
+            Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
+            Assert.AreEqual ("One;Two", attributes[0].GetAttribute (Consts.FrameworkAlternate));
         }
 
 
@@ -705,8 +705,8 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 1);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.IsTrue (attributes[0].HasAttribute ("FrameworkAlternate"));
-            Assert.AreEqual ("One;Two", attributes[0].GetAttribute ("FrameworkAlternate"));
+            Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
+            Assert.AreEqual ("One;Two", attributes[0].GetAttribute (Consts.FrameworkAlternate));
         }
 
         [Test]
@@ -732,7 +732,7 @@ namespace mdoc.Test
 
             Assert.IsTrue (attributes.Count () == 1);
             Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.IsFalse (attributes[0].HasAttribute ("FrameworkAlternate"));
+            Assert.IsFalse (attributes[0].HasAttribute (Consts.FrameworkAlternate));
         }
 
         string Normalize(string xml) {
