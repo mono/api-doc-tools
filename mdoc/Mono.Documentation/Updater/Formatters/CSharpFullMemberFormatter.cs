@@ -551,7 +551,7 @@ namespace Mono.Documentation.Updater
                     break;
                 }
             }
-            buf.Append (name == "this" ? name : DocUtils.GetPropertyName (property));
+            buf.Append (name == "this" ? name : DocUtils.GetPropertyName (property, NestedTypeSeparator));
 
             if (property.Parameters.Count != 0)
             {

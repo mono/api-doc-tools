@@ -5,12 +5,12 @@
 // as shown in the following code.
 type IPrintable =
    abstract member Print : unit -> unit
+   abstract member MyReadOnlyProperty :int
 
 type SomeClass1(x: int, y: float) =
    interface IPrintable with
       member this.Print() = printfn "%d %f" x y
-
-
+      member this.MyReadOnlyProperty = 10 
 
 // To call the interface method when you have an object of type SomeClass, 
 // you must upcast the object to the interface type, as shown in the following code.+
@@ -24,6 +24,7 @@ type SomeClass2(x: int, y: float) =
    member this.Print() = (this :> IPrintable).Print()
    interface IPrintable with
       member this.Print() = printfn "%d %f" x y
+      member this.MyReadOnlyProperty = 10 
 
 let x2 = new SomeClass2(1, 2.0)
 x2.Print()

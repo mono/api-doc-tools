@@ -32,6 +32,7 @@ add masterdoc support?
   <xs:attribute name="location" type="xs:string" />
   <xs:attribute name="Maintainer" type="xs:string" />
   <xs:attribute name="MemberName" type="xs:string" />
+  <xs:attribute name="ExplicitInterfaceMemberName" type="xs:string" />
   <xs:attribute name="name" type="xs:string" />
   <xs:attribute name="Name" type="xs:string" />
   <xs:attribute name="namespace" type="xs:string" />
@@ -495,6 +496,7 @@ add masterdoc support?
         <xs:element ref="Link" minOccurs="0" maxOccurs="1" />
       </xs:sequence>
       <xs:attribute ref="MemberName" />
+      <xs:attribute ref="ExplicitInterfaceMemberName" />
       <xs:attribute ref="Deprecated" />
     </xs:complexType>
   </xs:element>

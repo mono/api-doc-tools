@@ -144,6 +144,8 @@ namespace Mono.Documentation.Updater
 
         protected override string GetPropertyDeclaration(PropertyDefinition property)
         {
+            if (DocUtils.IsExplicitlyImplemented(property))
+                return DocUtils.GetPropertyName(property, NestedTypeSeparator);
             return $"{GetName(property.DeclaringType)}.{property.Name}";
         }
 

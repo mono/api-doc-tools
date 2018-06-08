@@ -37,7 +37,9 @@ namespace Mono.Documentation.Updater
 
         public override void ImportDocumentation (DocsNodeInfo info)
         {
-            XmlNode elem = GetDocs (info.Member ?? info.Type);
+            //first try C# compiler docIds, next other languages
+            XmlNode elem = GetDocs(info.Member ?? info.Type, MDocUpdater.csharpSlashdocFormatter) ??
+                           GetDocs(info.Member ?? info.Type, MDocUpdater.slashdocFormatter);
 
             if (elem == null)
                 return;
@@ -144,9 +146,9 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        private XmlNode GetDocs (MemberReference member)
+        private XmlNode GetDocs (MemberReference member, MemberFormatter formatter)
         {
-            string slashdocsig = MDocUpdater.slashdocFormatter.GetDeclaration (member);
+            string slashdocsig = formatter?.GetDeclaration (member);
             if (slashdocsig != null && slashdocs != null)
                 return slashdocs.SelectSingleNode ("doc/members/member[@name='" + slashdocsig + "']");
             return null;

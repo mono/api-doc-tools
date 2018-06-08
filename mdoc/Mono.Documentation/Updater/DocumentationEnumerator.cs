@@ -66,7 +66,7 @@ namespace Mono.Documentation.Updater
             MemberReference likelyCandidate = null;
 
             // Loop through all members in this type with the same name
-            var reflectedMembers = GetReflectionMembers (type, docName).ToArray ();
+            var reflectedMembers = GetReflectionMembers (type, docName, membertype).ToArray ();
             foreach (MemberReference mi in reflectedMembers)
             {
                 bool matchedMagicType = false;
@@ -209,7 +209,7 @@ namespace Mono.Documentation.Updater
                 return arrayTypes;
         }
 
-        protected static IEnumerable<MemberReference> GetReflectionMembers (TypeDefinition type, string docName)
+        protected static IEnumerable<MemberReference> GetReflectionMembers (TypeDefinition type, string docName, string memberType)
         {
             // In case of dropping the namespace, we have to remove the dropped NS
             // so that docName will match what's in the assembly/type
@@ -237,7 +237,7 @@ namespace Mono.Documentation.Updater
             if (docName.IndexOf ('<') == -1 && docName.IndexOf ('[') == -1)
             {
                 // Cases 1 & 2
-                foreach (MemberReference mi in type.GetMembers (docName))
+                foreach (MemberReference mi in type.GetMembers (docName)) 
                     yield return mi;
                 if (CountChars (docName, '.') > 0)
                 {
@@ -288,11 +288,30 @@ namespace Mono.Documentation.Updater
                     if (memberCount == 0)
                     {
                         foreach (MemberReference mi in
-                                 type
-                                     .GetMembers ()
-                                     .Where (m => m.Name.StartsWith ("I", StringComparison.InvariantCultureIgnoreCase) && m.Name.EndsWith (memberName, StringComparison.InvariantCultureIgnoreCase))
-                                     .Where (verifyInterface))
+                            type
+                                .GetMembers()
+                                .Where(m => m.Name.StartsWith("I", StringComparison.InvariantCultureIgnoreCase) &&
+                                            m.Name.EndsWith(memberName, StringComparison.InvariantCultureIgnoreCase))
+                                .Where(verifyInterface))
+                        {
+                            memberCount++;
                             yield return mi;
+                        }
+                    }
+
+                    if (memberCount == 0 && memberType == "Property")
+                    {
+                        foreach (MemberReference mr in type.GetMembers().Where(x => x is PropertyDefinition))
+                        {
+                            var method = ((PropertyDefinition) mr).GetMethod ?? ((PropertyDefinition) mr).SetMethod;
+                            if (method?.Overrides != null && method.Overrides.Any())
+                            {
+                                DocUtils.GetInfoForExplicitlyImplementedMethod(method, out var iface, out var ifaceMethod);
+                                var newName = DocUtils.GetMemberForProperty(ifaceMethod.Name);
+                                if (newName == memberName && verifyInterface(mr))
+                                    yield return mr;
+                            }
+                        }
                     }
                 }
                 yield break;

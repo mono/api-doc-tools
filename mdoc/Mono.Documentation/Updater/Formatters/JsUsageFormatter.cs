@@ -25,7 +25,7 @@ namespace mdoc.Mono.Documentation.Updater.Formatters
             // [typename].[property name, camel-cased] = [property value type, camel-cased];
             var buf = new StringBuilder();
             var propertyValueType = CamelCase(GetName(property.PropertyType));
-            var propertyName = DocUtils.GetPropertyName(property);
+            var propertyName = DocUtils.GetPropertyName(property, NestedTypeSeparator);
             var propertyNameCamelCased = CamelCase(propertyName);
             var typeName = GetName(property.DeclaringType);
             if (!method.IsStatic)

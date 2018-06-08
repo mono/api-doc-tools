@@ -69,6 +69,7 @@ namespace Mono.Documentation
         };
 
         internal static readonly MemberFormatter slashdocFormatter = new SlashDocMemberFormatter ();
+        internal static readonly MemberFormatter csharpSlashdocFormatter = new SlashDocCSharpMemberFormatter();
 
         MyXmlNodeList extensionMethods = new MyXmlNodeList ();
 
@@ -1466,10 +1467,12 @@ namespace Mono.Documentation
                     // Check for an error condition where the xml MemberName doesn't match the matched member
                     var memberName = GetMemberName (info.Member);
                     var memberAttribute = info.Node.Attributes["MemberName"];
-                    if (memberAttribute == null || (memberAttribute.Value != memberName && memberAttribute.Value.Split (',').Length != memberName.Split (',').Length))
+                    if (NeedToSetMemberName(memberAttribute, memberName, info))
                     {
                         oldmember.SetAttribute ("MemberName", memberName);
                     }
+
+                    AddEiiNameAsAttribute(info.Member, oldmember, memberName);
                 }
 
                 string sig = oldmember2 != null ? memberFormatters[1].GetDeclaration (oldmember2) : null;
@@ -1660,6 +1663,14 @@ namespace Mono.Documentation
                 WriteFile (output, FileMode.Create,
                         writer => WriteXml (basefile.DocumentElement, writer));
             }
+        }
+
+        private bool NeedToSetMemberName(XmlAttribute memberAttribute, string memberName, DocsNodeInfo info)
+        {
+            return memberAttribute == null
+                   || memberAttribute.Value != memberName && memberAttribute.Value.Split(',').Length != memberName.Split(',').Length
+                   //needs to fix the issue with Eii names for VB https://github.com/mono/api-doc-tools/issues/92
+                   || memberAttribute.Value != memberName && DocUtils.IsExplicitlyImplemented(info.Member);
         }
 
         private string GetCodeSource (string lang, string file)
@@ -3744,7 +3755,10 @@ namespace Mono.Documentation
 
             XmlElement me = doc.CreateElement ("Member");
             members.AppendChild (me);
-            me.SetAttribute ("MemberName", GetMemberName (mi));
+            var memberName = GetMemberName(mi);
+            me.SetAttribute ("MemberName", memberName);
+
+            AddEiiNameAsAttribute(mi, me, memberName);
 
             info.Node = me;
             UpdateMember (info, typeEntry, iplementedMembers);
@@ -3783,19 +3797,50 @@ namespace Mono.Documentation
                 sb.Append ('.');
                 sb.Append (ifaceMethod.Name);
             }
-            if (mb.IsGenericMethod ())
+
+            AddGenericParameter(sb, mb);
+            return sb.ToString ();
+        }
+
+        private static void AddGenericParameter(StringBuilder sb, MethodDefinition mb)
+        {
+            if (mb.IsGenericMethod())
             {
                 IList<GenericParameter> typeParams = mb.GenericParameters;
                 if (typeParams.Count > 0)
                 {
-                    sb.Append ("<");
-                    sb.Append (typeParams[0].Name);
+                    sb.Append("<");
+                    sb.Append(typeParams[0].Name);
                     for (int i = 1; i < typeParams.Count; ++i)
-                        sb.Append (",").Append (typeParams[i].Name);
-                    sb.Append (">");
+                        sb.Append(",").Append(typeParams[i].Name);
+                    sb.Append(">");
                 }
             }
-            return sb.ToString ();
+        }
+
+        private void AddEiiNameAsAttribute(MemberReference memberReference, XmlElement memberElement, string memberName)
+        {
+            if (DocUtils.IsExplicitlyImplemented(memberReference))
+            {
+                var eiiName = GetExplicitInterfaceMemberName(memberReference);
+                if (!string.Equals(memberName, eiiName, StringComparison.InvariantCulture))
+                {
+                    memberElement.SetAttribute("ExplicitInterfaceMemberName", eiiName);
+                }
+            }
+        }
+
+        private static string GetExplicitInterfaceMemberName(MemberReference mi)
+        {
+            if (mi is MethodDefinition methodDefinition)
+            {
+                var stringBuilder = new StringBuilder(methodDefinition.Name ?? mi.Name);
+                AddGenericParameter(stringBuilder, methodDefinition);
+                return stringBuilder.ToString();                
+            }
+
+            var propertyDefinition = mi as PropertyDefinition;
+            return propertyDefinition?.Name ?? mi.Name;
         }
 
         /// SIGNATURE GENERATION FUNCTIONS

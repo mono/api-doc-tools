@@ -98,6 +98,13 @@ namespace mdoc.Test
 
         [Test]
         [Category("Properties")]
+        public void Property_EII_implementation_correctDelimeter()
+        {
+            TestPropertySignature(CSharpTestLib, "Mono.DocTest.Generic.MyList`2", "System.Collections.Generic.ICollection<A>.IsReadOnly", @"property bool System::Collections::Generic::ICollection<A>::IsReadOnly { bool get(); };");
+        }
+
+        [Test]
+        [Category("Properties")]
         public void Property_ArrayOfTypeProperty()
         {
             TestPropertySignature(CppCxTestLibName, "Namespace2.Class3", "ArrayOfTypeProperty", @"public:

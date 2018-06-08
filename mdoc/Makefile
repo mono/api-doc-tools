@@ -2,6 +2,7 @@ CONFIGURATION = Release
 PROGRAM = ../bin/$(CONFIGURATION)/mdoc.exe
 MONO = mono
 CSCOMPILE = mcs
+VBCOMPILE = vbnc
 TEST_CSCFLAGS = -target:library
 
 MDOC_COMMON_FLAGS = \
@@ -58,6 +59,9 @@ cleanup:
 nunit: 
 	mono ../packages/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe mdoc.Test/bin/$(CONFIGURATION)/mdoc.Test.dll
 
+Test/DocTest-VB-Eii.dll:
+	$(VBCOMPILE) -out:Test/DocTest-VB-Eii.dll  Test/ClassEnumerator.vb
+	
 Test/DocTest-addNonGeneric.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-addNonGeneric.cs
 
@@ -185,6 +189,24 @@ check-monodocer-vbnet: Test/FrameworkTestData
 	$(MONO) $(PROGRAM) update -lang vb.net -o Test/en.actual -frameworks Test/FrameworkTestData
 	$(DIFF) Test/en.expected-vbnet Test/en.actual
 
+check-monodocer-Eii: 
+	-rm -Rf Test/en.actual
+	$(MAKE) Test/DocTest-VB-Eii.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+	$(DIFF) Test/en.expected-eii-implementation Test/en.actual	
+	
+check-monodocer-Eii-importecmadoc-oldNames: 
+	-rm -Rf Test/en.actual
+	$(MAKE) Test/DocTest-VB-Eii.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt -import Test/ClassEnumeratorECMA.xml
+	$(DIFF) Test/en.expected-eii-implementation-ecmadoc Test/en.actual	
+	
+check-monodocer-Eii-importslashdoc: 
+	-rm -Rf Test/en.actual
+	$(MAKE) Test/DocTest-VB-Eii.dll	
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt -import Test/ClassEnumeratorSlashDoc.xml
+	$(DIFF) Test/en.expected-eii-implementation-slashdoc Test/en.actual	
+	
 check-monodocer-cppcli: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -lang c++/cli -o Test/en.actual -frameworks Test/FrameworkTestData
@@ -668,7 +690,10 @@ run-test-local: check-doc-tools
 
 run-test-update : check-doc-tools-update
 
-check-doc-tools: 	check-monodocer-since \
+check-doc-tools:  check-monodocer-Eii-importslashdoc \
+	check-monodocer-Eii-importecmadoc-oldNames \
+	check-monodocer-Eii \
+	check-monodocer-since \
 	check-monodocer-importecmadoc \
 	check-monodocer-importslashdoc \
 	check-monodocer-import-fx \

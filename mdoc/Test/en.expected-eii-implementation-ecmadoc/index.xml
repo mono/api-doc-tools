@@ -1,0 +1,14 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="DocTest-VB-Eii" Version="0.0.65535.65535" />
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="CustomNamespace">
+      <Type Name="ClassEnumerator" Kind="Class" />
+      <Type Name="CustomInterface" Kind="Interface" />
+    </Namespace>
+  </Types>
+  <Title>DocTest-VB-Eii</Title>
+</Overview>
