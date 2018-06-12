@@ -723,6 +723,7 @@ add masterdoc support?
         <xs:element ref="ReturnType" minOccurs="0" maxOccurs="1" />
         <xs:element ref="Attributes" minOccurs="0" />
       </xs:sequence>
+      <xs:attribute ref="RefType" />
     </xs:complexType>
   </xs:element>
 

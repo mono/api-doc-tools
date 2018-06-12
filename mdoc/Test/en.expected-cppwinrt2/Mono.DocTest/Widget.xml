@@ -481,14 +481,14 @@
             </Attribute>
           </Attributes>
         </Parameter>
-        <Parameter Name="f" Type="System.Single&amp;" RefType="out">
+        <Parameter Name="f" Type="System.Single" RefType="out">
           <Attributes>
             <Attribute>
               <AttributeName>Mono.DocTest.Doc("f", NonFlagsEnum=Mono.DocTest.Color.Red)</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
-        <Parameter Name="v" Type="Mono.DocTest.DocValueType&amp;" RefType="ref">
+        <Parameter Name="v" Type="Mono.DocTest.DocValueType" RefType="ref">
           <Attributes>
             <Attribute>
               <AttributeName>Mono.DocTest.Doc("v")</AttributeName>

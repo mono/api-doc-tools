@@ -84,6 +84,7 @@
     <Compile Include="JsUsageFormatterTests.cs" />
     <Compile Include="MDocFileSourceTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
+    <Compile Include="SampleClasses\ReadOnlySpan.cs" />
     <Compile Include="SampleClasses\SomeDelegate.cs" />
     <Compile Include="SampleClasses\SomeInterface.cs" />
     <Compile Include="SampleClasses\Span.cs" />

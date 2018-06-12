@@ -69,6 +69,7 @@ namespace Mono.Documentation
         };
 
         internal static readonly MemberFormatter slashdocFormatter = new SlashDocMemberFormatter ();
+        internal static readonly MemberFormatter msxdocxSlashdocFormatter = new MsxdocSlashDocMemberFormatter();
 
         MyXmlNodeList extensionMethods = new MyXmlNodeList ();
 
@@ -3084,7 +3085,7 @@ namespace Mono.Documentation
                 e.SetAttribute ("cref", cref);
                 e.InnerXml = "To be added; from:\n" + indent + "<see cref=\"" +
                     string.Join ("\" />,\n" + indent + "<see cref=\"",
-                            source.Sources.Select (m => slashdocFormatter.GetDeclaration (m))
+                            source.Sources.Select (m => msxdocxSlashdocFormatter.GetDeclaration (m))
                             .OrderBy (s => s)) +
                     "\" />";
                 docs.AppendChild (e);
@@ -3693,6 +3694,15 @@ namespace Mono.Documentation
         {
             XmlElement e = WriteElement (root, "ReturnValue");
             var valueToUse = GetDocTypeFullName (type);
+            if (type.IsByReference)
+                e.SetAttribute("RefType", "Ref");
+
+            if (type.IsRequiredModifier && IsReadonlyAttribute(attributes))
+            {
+                e.SetAttribute("RefType", "Readonly");
+                if (valueToUse[valueToUse.Length - 1] == '&')
+                    valueToUse = valueToUse.Remove(valueToUse.Length - 1);
+            }
 
             AddXmlNode (e.SelectNodes ("ReturnType").Cast<XmlElement> ().ToArray (),
                 x => x.InnerText == valueToUse,
@@ -3706,6 +3716,18 @@ namespace Mono.Documentation
                     return newNode;
                 },
             type);
+        }
+
+        private bool IsReadonlyAttribute(IList<CustomAttribute> attributes)
+        {
+            foreach (var attribute in attributes)
+            {
+                if (attribute.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute")
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, MemberReference mi, bool shouldDuplicateWithNew = false)

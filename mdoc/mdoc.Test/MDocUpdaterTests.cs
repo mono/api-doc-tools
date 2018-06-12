@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using mdoc.Test.SampleClasses;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 using Mono.Collections.Generic;
 using Mono.Documentation;
+using Mono.Documentation.Updater;
 using NUnit.Framework;
 using Cpp = Mono_DocTest_Generic;
 
@@ -34,5 +37,14 @@ namespace mdoc.Test
 
             Assert.AreEqual("Mono_DocTest_Generic.GenericBase<U>", parameterType);
         }
+        [Test]
+        public void Test_GetNamespace_IgnoredNamespaceGeneric()
+        {
+            TypeDefinition testType = GetType(typeof(ReadOnlySpan<>).Module.FullyQualifiedName, "mdoc.Test.SampleClasses.ReadOnlySpan`1");
+            var ns = DocUtils.GetNamespace(testType.GenericParameters.First());
+            Assert.AreEqual("", ns);
+        }
+
+
     }
 }

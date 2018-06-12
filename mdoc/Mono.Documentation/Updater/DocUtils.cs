@@ -183,7 +183,7 @@ namespace Mono.Documentation.Updater
 
             if (type.GetElementType ().IsNested)
                 type = type.GetElementType ();
-            while (type != null && type.IsNested)
+            while (type != null && type.IsNested && !type.IsGenericParameter)
                 type = type.DeclaringType;
             if (type == null)
                 return string.Empty;
