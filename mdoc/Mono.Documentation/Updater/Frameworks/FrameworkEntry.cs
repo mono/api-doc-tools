@@ -11,9 +11,7 @@ namespace Mono.Documentation.Updater.Frameworks
         SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
         IList<FrameworkEntry> allframeworks;
-		ISet<AssemblySet> allAssemblies = new SortedSet<AssemblySet> ();
-
-        public int Index = 0;
+        public int index = 0;
 
         public FrameworkEntry (IList<FrameworkEntry> frameworks)
         {
@@ -21,49 +19,12 @@ namespace Mono.Documentation.Updater.Frameworks
             if (allframeworks == null)
                 allframeworks = new List<FrameworkEntry> (0);
 
-            Index = allframeworks.Count;
+            index = allframeworks.Count;
         }
 
         public string Name { get; set; }
         public string Version { get; set; }
         public string Id { get; set; }
-
-        /// <summary>Gets a value indicating whether this <see cref="T:Mono.Documentation.Updater.Frameworks.FrameworkEntry"/> is last framework being processed.</summary>
-        public bool IsLastFramework {
-            get => Index == allframeworks.Count - 1;
-        }
-
-        public IEnumerable<FrameworkEntry> PreviousFrameworks {
-            get => allframeworks.Where (f => f.Index < this.Index);
-        }
-
-		public ISet<AssemblySet> AllProcessedAssemblies { get => allAssemblies; }
-
-		public void AddAssemblySet (AssemblySet assemblySet)
-		{
-			allAssemblies.Add (assemblySet);
-		}
-
-        /// <summary>Checks to see if this assembly is contained in previously processed frameworks</summary>
-        public bool PreviousFXContainsAssembly(string name)
-        {
-            if (name.Contains (System.IO.Path.DirectorySeparatorChar))
-                name = System.IO.Path.GetFileName (name);
-
-            return PreviousFrameworks.Any (pf => pf.ContainsAssembly (name));
-        }
-
-		public bool ContainsAssembly(string name) {
-			if (name.Contains (System.IO.Path.DirectorySeparatorChar))
-				name = System.IO.Path.GetFileName (name);
-			
-			return allAssemblies.Any (a => a.Contains (name));
-		}
-
-		/// <summary>Gets a value indicating whether this <see cref="T:Mono.Documentation.Updater.Frameworks.FrameworkEntry"/> is first framework being processed.</summary>
-		public bool IsFirstFramework { 
-            get => this.Index == 0; 
-        }
 
         /// <summary>Only Use in Unit Tests</summary>
         public string Replace="";

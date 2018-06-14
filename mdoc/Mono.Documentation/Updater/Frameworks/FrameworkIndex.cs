@@ -26,13 +26,10 @@ namespace Mono.Documentation.Updater.Frameworks
 			}
 		}
 
-        public FrameworkEntry StartProcessingAssembly (AssemblySet set, AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers, string Id, string Version) 
+        public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers, string Id, string Version) 
 		{
-            if (string.IsNullOrWhiteSpace (this.path))
-            {
-                set.Framework = FrameworkEntry.Empty;
-                return FrameworkEntry.Empty;
-            }
+			if (string.IsNullOrWhiteSpace (this.path))
+				return FrameworkEntry.Empty;
 
 			string assemblyPath = assembly.MainModule.FileName;
 			var frameworksDirectory = this.path.EndsWith ("frameworks.xml", StringComparison.OrdinalIgnoreCase)
@@ -48,8 +45,6 @@ namespace Mono.Documentation.Updater.Frameworks
 				entry = new FrameworkEntry (frameworks) { Name = shortPath, Importers = importers, Id = Id, Version = Version};
 				frameworks.Add (entry);
 			}
-
-            set.Framework = entry;
 			return entry;
 		}
 
