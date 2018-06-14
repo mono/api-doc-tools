@@ -38,11 +38,16 @@ namespace Mono.Documentation.Updater.Frameworks
                            () => this.Framework.Frameworks
                                .Where (f => f.Index < this.Framework.Index)
                                 .Select (f => f.FindTypeEntry (this))
+                                .Where (te => te != null)
                                 .ToArray ()
                         );
                     }
                 }
                 return previouslyProcessedFXTypes.Value;
+            }
+            /// <summary>only used in unit tests, nulls out the value no matter what</summary>
+            set {
+                previouslyProcessedFXTypes = null;
             }
         }
 

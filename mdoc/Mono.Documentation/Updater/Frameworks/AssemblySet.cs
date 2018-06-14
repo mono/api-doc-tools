@@ -98,7 +98,14 @@ namespace Mono.Documentation.Updater.Frameworks
                 return this.assemblies;
             }
         }
-        public IEnumerable<string> AssemblyPaths { get { return this.assemblyPaths; } }
+        public IEnumerable<string> AssemblyPaths { 
+            get { return this.assemblyPaths; }
+            /// <summary>used only in unit tests</summary>
+            set { 
+                this.assemblyPaths = new HashSet<string>(value);
+                this.assemblyPathsMap = value.ToDictionary (x => x, x => true);
+            }
+        }
 
         /// <summary>Adds all subdirectories to the search directories for the resolver to look in.</summary>
         public void RecurseSearchDirectories ()

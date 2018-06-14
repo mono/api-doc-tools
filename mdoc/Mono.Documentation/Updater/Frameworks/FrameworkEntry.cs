@@ -92,6 +92,13 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		public static readonly FrameworkEntry Empty = new EmptyFrameworkEntry () { Name = "Empty" };
 
+        /// <summary>Only used for unit tests</summary>
+        public void RemoveType (FrameworkTypeEntry typeEntry)
+        {
+            Types.Remove (typeEntry);
+            typeMap.Remove (Str(typeEntry.Name));
+        }
+
 		public virtual FrameworkTypeEntry ProcessType (TypeDefinition type)
 		{
             FrameworkTypeEntry entry;

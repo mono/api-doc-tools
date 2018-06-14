@@ -3272,7 +3272,35 @@ namespace Mono.Documentation
             
             if (e == null)
                 e = root.OwnerDocument.CreateElement ("Attributes");
-            
+
+            // function to get all the relevant prior frameworks
+
+            bool typeExisted = (typeEntry != null && typeEntry.PreviouslyProcessedFrameworkTypes.Any ());
+            bool assemblyExisted = (assemblyFilename != null && fx.PreviousFXContainsAssembly (assemblyFilename)); 
+            Func<string[]> getPriorFX = () =>
+            {
+                if (!typeExisted && !assemblyExisted)
+                    return new string[0];
+                
+                var priorfxList = fx.PreviousFrameworks.Select (f => f.Name).ToArray ();
+                if (typeExisted)
+                {
+                    priorfxList = typeEntry
+                        .PreviouslyProcessedFrameworkTypes
+                        .Select (te => te.Framework.Name)
+                        .ToArray ();
+                }
+                else if (assemblyExisted)
+                {
+                    priorfxList = fx
+                        .PreviousFrameworks
+                        .Where (pfx => pfx.ContainsAssembly (assemblyFilename))
+                        .Select (pfx => pfx.Name).ToArray ();
+                }
+                return priorfxList;
+            };
+            var priors = getPriorFX ();
+
             var attributesCurrent = attributes
                 .Select (FilterSpecialChars)
                 .Distinct () // make sure there aren't any dupes
@@ -3285,7 +3313,6 @@ namespace Mono.Documentation
                                     XElement = elem,
             }).ToArray();
 
-
             // iterate this framework's attributes and compare against the state
             foreach(var currentAttribute in attributesCurrent)
             {
@@ -3293,10 +3320,19 @@ namespace Mono.Documentation
                 if (alreadyExists != null)
                 {
                     // if FXA, add fx.name
-                    if (fx.Frameworks.Count() > 1 && alreadyExists.XElement.HasAttribute(Consts.FrameworkAlternate))
+                    if (fx.Frameworks.Count() > 1)
                     {
-                        var newfxlist = FXUtils.AddFXToList (alreadyExists.XElement.GetAttribute (Consts.FrameworkAlternate), fx.Name);
-                        alreadyExists.XElement.SetAttribute (Consts.FrameworkAlternate, newfxlist);
+                        if (alreadyExists.XElement.HasAttribute (Consts.FrameworkAlternate))
+                        {
+                            var newfxlist = FXUtils.AddFXToList (alreadyExists.XElement.GetAttribute (Consts.FrameworkAlternate), fx.Name);
+                            alreadyExists.XElement.SetAttribute (Consts.FrameworkAlternate, newfxlist);
+                        }
+                        else if (priors.Length > 0 && priors.Length < fx.PreviousFrameworks.Count()) // doesn't have the attribute, let's make sure there's nothing tricky going on
+                        {
+                            var priorsPlus = priors.Union (new[] { fx.Name }).ToArray();
+                            if (priorsPlus.Length > 0)
+                                alreadyExists.XElement.SetAttribute (Consts.FrameworkAlternate, string.Join (";", priorsPlus));
+                        }
                     }
                     continue;
                 }
@@ -3328,27 +3364,31 @@ namespace Mono.Documentation
                 }
                 else // let's remove it 
                 {
-                    
                     if (fx.Frameworks.Count() > 1) {
-                        
+                        // this is a Framework's Mode situation ... let's check the state more thoroughly
                         if (stateAttribute.XElement.HasAttribute (Consts.FrameworkAlternate))
                         {
                             // if has FXA, remove from list
                             var newfxlist = FXUtils.RemoveFXFromList (stateAttribute.XElement.GetAttribute (Consts.FrameworkAlternate), fx.Name);
                             stateAttribute.XElement.SetAttribute (Consts.FrameworkAlternate, newfxlist);
                         }
-                        else if (!fx.IsFirstFramework) // doesn't have FXA, and isn't the first framework
+                        else if (!fx.IsFirstFramework && (typeExisted || assemblyExisted)) // doesn't have FXA, and isn't the first framework
                         {
                             // if not, we need to make sure
-                            var priorfxList = fx.PreviousFrameworks.Select (f => f.Name).ToArray ();
-                            stateAttribute.XElement.SetAttribute (Consts.FrameworkAlternate, string.Join (";", priorfxList));
+
+                            if (priors.Length > 0)
+                                stateAttribute.XElement.SetAttribute (Consts.FrameworkAlternate, string.Join (";", priors));
                         }
-                        else if (fx.IsFirstFramework)
+                        else if (!fx.IsFirstFramework && (!typeExisted && !assemblyExisted)) // no FXA, but is the first instance ... keep going
+                        {
+                            // no action
+                        }
+                        else if (fx.IsFirstFramework || (!typeExisted && !assemblyExisted))
                         {
                             stateAttribute.XElement.ParentNode.RemoveChild (stateAttribute.XElement);
                         }
                     }
-                    else 
+                    else // under normal circumstances, just remove
                         stateAttribute.XElement.ParentNode.RemoveChild (stateAttribute.XElement);
                 }
             }

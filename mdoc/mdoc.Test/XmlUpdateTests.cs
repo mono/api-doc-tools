@@ -497,6 +497,90 @@ namespace mdoc.Test
         }
 
         [Test]
+        public void Attributes_TypeOrMethod_AllFX_OneMissing_Existing ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            Action run = () =>
+            {
+                foreach (var fx in context.fx.Frameworks)
+                {
+                    //var fx = context.fx.Frameworks[1];
+                    FrameworkTypeEntry typeEntry = fx.Types.First ();
+
+                    string[] attributeList = new[] { "One" };
+
+                    if (fx.IsFirstFramework)
+                        attributeList = new string[0];
+
+                    MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+                }
+            };
+            run ();
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            // simulate a run on an existing ecmaxml set 
+            attributes[0].RemoveAttribute (Consts.FrameworkAlternate);
+            run ();
+
+            attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 1, "one attribute expected");
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText, "correct attribute name");
+            Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate), "has FXA attribute");
+            Assert.AreEqual ("Three;Two", attributes[0].GetAttribute (Consts.FrameworkAlternate), "expected frameworks in FXA");
+        }
+
+
+        [Test]
+        public void Attributes_TypeOrMethod_AllFX_OneMissing_EmptyFirstFX_Existing ()
+        {
+            var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            Action run = () =>
+            {
+                foreach (var fx in context.fx.Frameworks)
+                {
+                    //var fx = context.fx.Frameworks[1];
+                    FrameworkTypeEntry typeEntry = fx.Types.FirstOrDefault ();
+                    if (typeEntry == null)
+                        continue;
+                    
+                    string[] attributeList = new[] { "One" };
+
+                    if (fx.IsFirstFramework)
+                        attributeList = new string[0];
+
+                    MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, context.method.DeclaringType, typeEntry);
+                }
+            };
+            run ();
+
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            // simulate a run on an existing ecmaxml set 
+            attributes[0].RemoveAttribute (Consts.FrameworkAlternate);
+
+            context.fx.Frameworks[0].RemoveType (context.fx.Frameworks[0].Types.First ());
+            foreach (var f in context.fx.Frameworks)
+                foreach (var t in f.Types)
+                    t.PreviouslyProcessedFrameworkTypes = null;
+            run ();
+
+            attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
+
+            Assert.IsTrue (attributes.Count () == 1, "one attribute expected");
+            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText, "correct attribute name");
+            Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate), "has FXA attribute");
+            Assert.AreEqual ("Three;Two", attributes[0].GetAttribute (Consts.FrameworkAlternate), "expected frameworks in FXA");
+        }
+
+        [Test]
         public void Attributes_TypeOrMethod_AllFX_OneMissing_Last ()
         {
             var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
@@ -690,14 +774,16 @@ namespace mdoc.Test
                 string assemblyName = "one.dll";
                 if (!fx.IsLastFramework && !fx.IsFirstFramework)
                 {
+                    // this section changes some of the test data to reflect the second FX having a unique assembly
                     attributeList = new string[0];
                     assemblyName = "three.dll";
+                    fx.AllProcessedAssemblies.First().AssemblyPaths = new string[] { "three.dll" };
                 }
 
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx,
 
-                                            assemblyFilename: "three.dll");
+                                            assemblyFilename: assemblyName);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
