@@ -137,6 +137,7 @@
     <Compile Include="Mono.Documentation\Updater\Frameworks\FXUtils.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\MDocMetadataResolver.cs" />
+    <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkItemEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\defaulttemplate.xsl">
