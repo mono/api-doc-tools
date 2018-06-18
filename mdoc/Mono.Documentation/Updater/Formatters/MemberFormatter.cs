@@ -106,6 +106,9 @@ namespace Mono.Documentation.Updater
 
         protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
+            if (type == null)
+                return buf;
+            
             if (type is ArrayType)
             {
                 return AppendArrayTypeName(buf, type, context);
@@ -129,7 +132,9 @@ namespace Mono.Documentation.Updater
             {
                 try
                 {
-                    type = type.Resolve();
+                    var rtype = type.Resolve ();
+                    if (rtype != null)
+                        type = rtype;
                 }
                 catch (Exception)
                 {
@@ -137,6 +142,7 @@ namespace Mono.Documentation.Updater
                     // It seems, they never have `type.IsRequiredModifier == true`, but just in case.
                 }
             }
+
 
             if (type.GenericParameters.Count == 0 &&
                     (genInst == null ? true : genInst.GenericArguments.Count == 0))

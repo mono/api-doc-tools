@@ -228,9 +228,11 @@ namespace Mono.Documentation.Updater
 
             foreach (var interfaceImplementation in type.Interfaces)
             {
+                var resolvedInterface = interfaceImplementation.InterfaceType.Resolve ();
+
                 if (type.IsValueType
                     && ignoredValueTypeInterfaces.Any(i => interfaceImplementation.InterfaceType.FullName.StartsWith(i))
-                    || interfaceImplementation.InterfaceType.Resolve().IsNotPublic)
+                    || (resolvedInterface != null && resolvedInterface.IsNotPublic))
                     continue;
                 buf.Append($"{GetLineEnding()}{Consts.Tab}interface ");
                 AppendTypeName(buf, GetTypeName(interfaceImplementation.InterfaceType));
