@@ -6,7 +6,7 @@ using Mono.Cecil.Rocks;
 
 namespace Mono.Documentation.Updater.Frameworks
 {
-	public class FrameworkTypeEntry : IComparable<FrameworkTypeEntry>
+    public class FrameworkTypeEntry : FrameworkItemEntry, IComparable<FrameworkTypeEntry>
 	{
 		SortedSet<string> members = new SortedSet<string> ();
 		SortedSet<string> memberscsharpsig = new SortedSet<string> ();
@@ -58,8 +58,6 @@ namespace Mono.Documentation.Updater.Frameworks
 			this.fx = fx;
 		}
 
-		public string Id { get; set; }
-		public string Name { get; set; }
 		public string Namespace { get; set; }
 		public FrameworkEntry Framework { get { return fx; } }
 
