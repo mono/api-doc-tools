@@ -35,7 +35,7 @@ namespace Mono.Documentation.Updater
                 if (addIndex)
                     pe.SetAttribute ("Index", index.ToString ());
                 if (addfx)
-                    pe.SetAttribute ("FrameworkAlternate", fx);
+					pe.SetAttribute (Consts.FrameworkAlternate, fx);
 
                 MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""));
             };
@@ -104,7 +104,7 @@ namespace Mono.Documentation.Updater
 
                                 //-find < parameter where index = currentIndex >
                                 var currentNode = paramNodes[parameterIndex] as XmlElement;
-                                currentNode.SetAttribute ("FrameworkAlternate", fxList);
+                                currentNode.SetAttribute (Consts.FrameworkAlternate, fxList);
 
                                 addParameter (p, parameterNode, ptype, parameterIndex - parameterIndexOffset, true, typeEntry.Framework.Name, true);
                                 parameterIndexOffset++;
@@ -149,7 +149,7 @@ namespace Mono.Documentation.Updater
                 {
                     Element = p,
                     Name = p.GetAttribute ("Name"),
-                    FrameworkAlternate = p.GetAttribute ("FrameworkAlternate")
+                    FrameworkAlternate = p.GetAttribute (Consts.FrameworkAlternate)
                 })
                 .Where (p =>
                         !string.IsNullOrWhiteSpace (p.FrameworkAlternate) &&
@@ -163,11 +163,11 @@ namespace Mono.Documentation.Updater
                     string newValue = FXUtils.RemoveFXFromList (a.FrameworkAlternate, typeEntry.Framework.Name);
                     if (string.IsNullOrWhiteSpace (newValue))
                     {
-                        a.Element.RemoveAttribute ("FrameworkAlternate");
+                        a.Element.RemoveAttribute (Consts.FrameworkAlternate);
                     }
                     else
                     {
-                        a.Element.SetAttribute ("FrameworkAlternate", newValue);
+                        a.Element.SetAttribute (Consts.FrameworkAlternate, newValue);
                     }
                 }
             }

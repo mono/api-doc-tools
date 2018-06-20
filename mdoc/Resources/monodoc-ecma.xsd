@@ -51,6 +51,8 @@ add masterdoc support?
   <xs:attribute name="TypeParamName" type="xs:string" />
   <xs:attribute name="overwrite" type="xs:boolean" />
   <xs:attribute name="supported" type="xs:boolean"/>
+  <xs:attribute name="FrameworkAlternate" type="xs:string"/>
+  <xs:attribute name="Index" type="xs:integer"/>
 
   <!-- define simple elements -->
   <xs:element name="AssemblyName" type="xs:string" />
@@ -116,6 +118,7 @@ add masterdoc support?
         <xs:element ref="ExcludedTypeName" minOccurs="0" />
         <xs:element ref="ExcludedLibraryName" minOccurs="0" />
       </xs:sequence>
+      <xs:attribute name="FrameworkAlternate" use="optional" />
     </xs:complexType>
   </xs:element>
 
@@ -467,6 +470,7 @@ add masterdoc support?
       <xs:attribute ref="Language" />
       <xs:attribute ref="Value" />
       <xs:attribute ref="Usage" />
+      <xs:attribute name="FrameworkAlternate" use="optional" />
     </xs:complexType>
   </xs:element>
 
@@ -622,6 +626,8 @@ add masterdoc support?
       <xs:attribute ref="Name" />
       <xs:attribute ref="Type" />
       <xs:attribute ref="RefType" />
+      <xs:attribute name="Index" use="optional" />
+      <xs:attribute name="FrameworkAlternate" use="optional" />
     </xs:complexType>
   </xs:element>
 
@@ -948,6 +954,8 @@ add masterdoc support?
         <xs:element ref="Constraints" />
       </xs:choice>
       <xs:attribute ref="Name" use="required" />
+      <xs:attribute name="Index" use="optional" />
+      <xs:attribute name="FrameworkAlternate" use="optional" />
     </xs:complexType>
   </xs:element>
 
@@ -967,6 +975,7 @@ add masterdoc support?
       <xs:attribute ref="Value"/>
       <xs:attribute ref="Usage"/>
       <xs:attribute ref="Maintainer" />
+      <xs:attribute name="FrameworkAlternate" use="optional" />
     </xs:complexType>
   </xs:element>
 

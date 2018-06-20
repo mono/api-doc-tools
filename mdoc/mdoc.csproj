@@ -120,7 +120,7 @@
     <Compile Include="Mono.Documentation\monodocs2slashdoc.cs" />
     <Compile Include="Mono.Documentation\msitomsx.cs" />
     <Compile Include="Mono.Documentation\normalize.cs" />
-    <Compile Include="Mono.Documentation\validate.cs" />
+    <Compile Include="Mono.Documentation\MDocValidator.cs" />
     <Compile Include="Mono.Documentation\webdoc.cs" />
     <Compile Include="Mono.Documentation\XhtmlWriter.cs" />
     <Compile Include="Mono.Documentation\exceptions.cs" />
