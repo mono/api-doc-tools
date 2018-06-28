@@ -1,9 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Framework Name="Two">
   <Namespace Name="Monodoc.Test">
+    <Type Name="Monodoc.Test.FirstAttribute" Id="T:Monodoc.Test.FirstAttribute">
+      <Member Id="M:Monodoc.Test.FirstAttribute.#ctor" />
+    </Type>
     <Type Name="Monodoc.Test.MyClass" Id="T:Monodoc.Test.MyClass">
       <Member Id="M:Monodoc.Test.MyClass.#ctor" />
       <Member Id="M:Monodoc.Test.MyClass.Meth(System.Int32,System.String,System.Int32)" />
+    </Type>
+    <Type Name="Monodoc.Test.SecondAttribute" Id="T:Monodoc.Test.SecondAttribute">
+      <Member Id="M:Monodoc.Test.SecondAttribute.#ctor" />
     </Type>
   </Namespace>
 </Framework>

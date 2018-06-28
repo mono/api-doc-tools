@@ -8,7 +8,7 @@
   <TypeParameters>
     <TypeParameter Name="T">
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>Mono.DocTest.Doc("Type Parameter!")</AttributeName>
         </Attribute>
       </Attributes>

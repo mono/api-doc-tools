@@ -36,7 +36,7 @@ namespace Mono.Documentation.Updater.Frameworks
                     {
                         previouslyProcessedFXTypes = new Lazy<FrameworkTypeEntry[]> (
                            () => this.Framework.Frameworks
-                               .Where (f => f.index < this.Framework.index)
+                               .Where (f => f.Index < this.Framework.Index)
                                 .Select (f => f.FindTypeEntry (this))
                                 .ToArray ()
                         );
