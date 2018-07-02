@@ -712,7 +712,7 @@ namespace Mono.Documentation.Updater
             }
             AppendModifiers(buf, e.AddMethod);
             if (e.AddMethod.CustomAttributes.All(
-                i => i.AttributeType.FullName != "System.Runtime.CompilerServices.CompilerGeneratedAttribute")
+                i => i.AttributeType.FullName != Consts.CompilerGeneratedAttribute)
                 && !e.DeclaringType.IsInterface)// There is no 'Custom' modifier in interfaces
             {
                 if (buf.Length > 0)

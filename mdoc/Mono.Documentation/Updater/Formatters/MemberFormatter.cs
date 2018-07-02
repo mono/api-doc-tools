@@ -106,6 +106,9 @@ namespace Mono.Documentation.Updater
 
         protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
+            if (type == null)
+                return buf;
+            
             if (type is ArrayType)
             {
                 return AppendArrayTypeName(buf, type, context);
@@ -124,6 +127,23 @@ namespace Mono.Documentation.Updater
             }
             AppendNamespace (buf, type);
             GenericInstanceType genInst = type as GenericInstanceType;
+
+            if (type.IsRequiredModifier)
+            {
+                try
+                {
+                    var rtype = type.Resolve ();
+                    if (rtype != null)
+                        type = rtype;
+                }
+                catch (Exception)
+                {
+                    // Suppress resolving error for UWP libraries.
+                    // It seems, they never have `type.IsRequiredModifier == true`, but just in case.
+                }
+            }
+
+
             if (type.GenericParameters.Count == 0 &&
                     (genInst == null ? true : genInst.GenericArguments.Count == 0))
             {

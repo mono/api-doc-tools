@@ -228,9 +228,11 @@ namespace Mono.Documentation.Updater
 
             foreach (var interfaceImplementation in type.Interfaces)
             {
+                var resolvedInterface = interfaceImplementation.InterfaceType.Resolve ();
+
                 if (type.IsValueType
                     && ignoredValueTypeInterfaces.Any(i => interfaceImplementation.InterfaceType.FullName.StartsWith(i))
-                    || interfaceImplementation.InterfaceType.Resolve().IsNotPublic)
+                    || (resolvedInterface != null && resolvedInterface.IsNotPublic))
                     continue;
                 buf.Append($"{GetLineEnding()}{Consts.Tab}interface ");
                 AppendTypeName(buf, GetTypeName(interfaceImplementation.InterfaceType));
@@ -1012,7 +1014,7 @@ namespace Mono.Documentation.Updater
                                  ca => ca.GetDeclaringType() ==
                                        "System.Diagnostics.Contracts.ContractInvariantMethodAttribute"
                                        || ca.GetDeclaringType() ==
-                                       "System.Runtime.CompilerServices.CompilerGeneratedAttribute"))
+                                       Consts.CompilerGeneratedAttribute))
                             && AppendVisibility(new StringBuilder(), method) != null;
             }
 

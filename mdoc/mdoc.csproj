@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>mdoc</RootNamespace>
     <AssemblyName>mdoc</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -123,7 +123,7 @@
     <Compile Include="Mono.Documentation\monodocs2slashdoc.cs" />
     <Compile Include="Mono.Documentation\msitomsx.cs" />
     <Compile Include="Mono.Documentation\normalize.cs" />
-    <Compile Include="Mono.Documentation\validate.cs" />
+    <Compile Include="Mono.Documentation\MDocValidator.cs" />
     <Compile Include="Mono.Documentation\webdoc.cs" />
     <Compile Include="Mono.Documentation\XhtmlWriter.cs" />
     <Compile Include="Mono.Documentation\exceptions.cs" />

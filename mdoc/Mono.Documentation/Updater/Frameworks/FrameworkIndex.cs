@@ -15,10 +15,15 @@ namespace Mono.Documentation.Updater.Frameworks
 		List<FrameworkEntry> frameworks = new List<FrameworkEntry> ();
 		string path;
 
-		public FrameworkIndex (string pathToFrameworks) 
+		public FrameworkIndex (string pathToFrameworks, int fxCount) 
 		{
 			path = pathToFrameworks;
+            FrameworksCount = fxCount;
 		}
+
+        public int FrameworksCount {
+            get; private set;
+        }
 
 		public IList<FrameworkEntry> Frameworks {
 			get {
@@ -26,10 +31,13 @@ namespace Mono.Documentation.Updater.Frameworks
 			}
 		}
 
-        public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers, string Id, string Version) 
+        public FrameworkEntry StartProcessingAssembly (AssemblySet set, AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers, string Id, string Version) 
 		{
-			if (string.IsNullOrWhiteSpace (this.path))
-				return FrameworkEntry.Empty;
+            if (string.IsNullOrWhiteSpace (this.path))
+            {
+                set.Framework = FrameworkEntry.Empty;
+                return FrameworkEntry.Empty;
+            }
 
 			string assemblyPath = assembly.MainModule.FileName;
 			var frameworksDirectory = this.path.EndsWith ("frameworks.xml", StringComparison.OrdinalIgnoreCase)
@@ -42,9 +50,11 @@ namespace Mono.Documentation.Updater.Frameworks
 
 			var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
 			if (entry == null) {
-				entry = new FrameworkEntry (frameworks) { Name = shortPath, Importers = importers, Id = Id, Version = Version};
+                entry = new FrameworkEntry (frameworks, FrameworksCount) { Name = shortPath, Importers = importers, Id = Id, Version = Version};
 				frameworks.Add (entry);
 			}
+
+            set.Framework = entry;
 			return entry;
 		}
 
@@ -55,7 +65,8 @@ namespace Mono.Documentation.Updater.Frameworks
 			if (string.IsNullOrWhiteSpace (this.path))
 				return;
 			
-			string outputPath = Path.Combine (path, Consts.FrameworksIndexFolderName);
+      string outputPath = Path.Combine (path, Consts.FrameworksIndex);
+
 			if (!Directory.Exists (outputPath))
 				Directory.CreateDirectory (outputPath);
 
