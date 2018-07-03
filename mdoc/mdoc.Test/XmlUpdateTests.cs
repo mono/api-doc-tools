@@ -178,14 +178,14 @@ namespace mdoc.Test
 
             var afterXML = context.doc.OuterXml;
 
-            Assert.AreEqual (Normalize (normalSingleXml2), afterXML);
+            Assert.AreEqual (Normalize (XmlConsts.NormalSingleXml2), afterXML);
 
         }
 
         [Test ()]
         public void Parameters_Updating_Normal22 ()
         {
-            var context = InitContext<MyClass2> (normalSingleXml2, 1);
+            var context = InitContext<MyClass2> (XmlConsts.NormalSingleXml2, 1);
 
             FrameworkTypeEntry typeEntry = context.fx.Frameworks[1].Types.First ();
             bool fxAlternateTriggered = false;
@@ -194,14 +194,14 @@ namespace mdoc.Test
 
             var afterXML = context.doc.OuterXml;
 
-            Assert.AreEqual (Normalize (multiFrameworkXml2_Second), afterXML);
+            Assert.AreEqual (Normalize (XmlConsts.MultiFrameworkXml2Second), afterXML);
 
         }
 
         [Test ()]
         public void Parameters_Updating_Normal32 ()
         {
-            var context = InitContext<MyClass2> (multiFrameworkXml2_Second, 2);
+            var context = InitContext<MyClass2> (XmlConsts.MultiFrameworkXml2Second, 2);
 
             FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
             bool fxAlternateTriggered = false;
@@ -210,14 +210,14 @@ namespace mdoc.Test
 
             var afterXML = context.doc.OuterXml;
 
-            Assert.AreEqual (Normalize (multiFrameworkXml2), afterXML);
+            Assert.AreEqual (Normalize (XmlConsts.MultiFrameworkXml2), afterXML);
 
         }
 
         [Test ()]
         public void Parameters_Updating_Existing_MultiFramework22 ()
         {
-            var context = InitContext<MyClass2> (multiFrameworkXml2, 0);
+            var context = InitContext<MyClass2> (XmlConsts.MultiFrameworkXml2, 0);
 
             FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First ();
             bool fxAlternateTriggered = false;
@@ -233,7 +233,7 @@ namespace mdoc.Test
         [Test ()]
         public void Parameters_Updating_Existing_MultiFramework222 ()
         {
-            var context = InitContext<MyClass2> (multiFrameworkXml2, 2);
+            var context = InitContext<MyClass2> (XmlConsts.MultiFrameworkXml2, 2);
 
             FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
             bool fxAlternateTriggered = false;
@@ -251,7 +251,7 @@ namespace mdoc.Test
         [Test ()]
         public void Parameters_Updating_Existing_Align2 ()
         {
-            var context = InitContext<MyClass2> (multiFrameworkXml2, 1, forceAlignment: true);
+            var context = InitContext<MyClass2> (XmlConsts.MultiFrameworkXml2, 1, forceAlignment: true);
 
             FrameworkTypeEntry typeEntry = context.fx.Frameworks[1].Types.First ();
             bool fxAlternateTriggered = false;
@@ -261,7 +261,7 @@ namespace mdoc.Test
             var afterXML = context.doc.OuterXml;
 
             Assert.IsFalse (fxAlternateTriggered);
-            Assert.AreEqual (Normalize (multiFrameworkAligned2), Normalize (afterXML));
+            Assert.AreEqual (Normalize (XmlConsts.MultiFrameworkAligned2), Normalize (afterXML));
 
         }
         #endregion
@@ -271,7 +271,7 @@ namespace mdoc.Test
         [Test ()]
         public void Parameters_Updating_Existing_NameChange ()
         {
-            var context = InitContext<MyClass2> (normalSingleXml2, 1, forceAlignment: false);
+            var context = InitContext<MyClass2> (XmlConsts.NormalSingleXml2, 1, forceAlignment: false);
 
             Func<int, FrameworkTypeEntry> typeEntry = i => context.fx.Frameworks[i].Types.First ();
             bool fxAlternateTriggered = false;
@@ -287,7 +287,7 @@ namespace mdoc.Test
             Assert.IsFalse (fxAlternateTriggered);
 
             var afterXML = context.doc.OuterXml;
-            Assert.AreEqual (Normalize (multiFrameworkAlignedOther), Normalize (afterXML));
+            Assert.AreEqual (Normalize (XmlConsts.MultiFrameworkAlignedOther), Normalize (afterXML));
 
         }
         #endregion
@@ -802,95 +802,7 @@ namespace mdoc.Test
     </Member>";
         #endregion 
 
-        #region MyClass2 XML
-
-        string normalSingleXml2 = @"<Member MemberName=""Meth"">
-      <MemberType>Method</MemberType>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-          <Parameter Name = ""a"" Type=""System.Int32"" />
-          <Parameter Name = ""b"" Type=""System.String"" />
-          <Parameter Name = ""c"" Type=""System.Int32"" />
-      </Parameters>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>";
-
-        string multiFrameworkXml2_Second = @"<Member MemberName=""Meth"">
-      <MemberType>Method</MemberType>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name = ""a"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One"" />
-        <Parameter Name = ""d"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""Three"" />
-        <Parameter Name = ""b"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One"" />
-        <Parameter Name = ""e"" Type=""System.String"" Index=""1"" FrameworkAlternate=""Three"" />
-        <Parameter Name = ""c"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One"" />
-        <Parameter Name = ""f"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""Three"" />
-      </Parameters>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>";
-
-        string multiFrameworkXml2 = @"<Member MemberName=""Meth"">
-      <MemberType>Method</MemberType>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name = ""a"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One;Two"" />
-        <Parameter Name = ""d"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""Three"" />
-        <Parameter Name = ""b"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One;Two"" />
-        <Parameter Name = ""e"" Type=""System.String"" Index=""1"" FrameworkAlternate=""Three"" />
-        <Parameter Name = ""c"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One;Two"" />
-        <Parameter Name = ""f"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""Three"" />
-      </Parameters>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>";
-
-        string multiFrameworkAligned2 = @"<Member MemberName=""Meth"">
-      <MemberType>Method</MemberType>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name = ""a"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One;Two;Three"" />
-        <Parameter Name = ""b"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One;Two;Three"" />
-        <Parameter Name = ""c"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One;Two;Three"" />
-      </Parameters>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>";
-
-        string multiFrameworkAlignedOther = @"<Member MemberName=""Meth"">
-      <MemberType>Method</MemberType>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name = ""d"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One;Three;Two"" />
-        <Parameter Name = ""e"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One;Three;Two"" />
-        <Parameter Name = ""f"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One;Three;Two"" />
-      </Parameters>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>";
-
-        #endregion
+        
 
         string SigmultiFrameworkXml = @"<Member MemberName=""Meth"">
       <MemberSignature Language=""C#"" Value=""public void Meth (int a, string d, int c);"" FrameworkAlternate=""One;Three"" />
