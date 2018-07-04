@@ -3,7 +3,7 @@ namespace Mono.Documentation
 {
 	public static class Consts
 	{
-		public static string MonoVersion = "5.7.0.1";
+		public static string MonoVersion = "5.7.1";
 		public const string DocId = "DocId";
 		public const string CppCli = "C++ CLI";
 	    public const string CppCx = "C++ CX";
@@ -24,6 +24,7 @@ namespace Mono.Documentation
 		public const string DependencyObjectFullName = "System.Windows.DependencyObject";
 		public const string VoidFullName = "System.Void";
 		public const string RefTypeObsoleteString = "Types with embedded references are not supported in this version of your compiler.";
+		public const string FrameworksIndexFolderName = "FrameworksIndex";
 		public const string CompilerGeneratedAttribute = "System.Runtime.CompilerServices.CompilerGeneratedAttribute";
 		public const string CompilationMappingAttribute = "Microsoft.FSharp.Core.CompilationMappingAttribute";
         public const string FrameworksIndex = "FrameworksIndex";
