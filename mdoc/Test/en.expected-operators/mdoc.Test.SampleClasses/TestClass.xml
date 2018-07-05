@@ -655,8 +655,8 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="a" Type="System.Int32&amp;" RefType="ref" />
-        <Parameter Name="b" Type="System.Int32&amp;" RefType="out" />
+        <Parameter Name="a" Type="System.Int32" RefType="ref" />
+        <Parameter Name="b" Type="System.Int32" RefType="out" />
       </Parameters>
       <Docs>
         <param name="a">To be added.</param>

@@ -70,6 +70,7 @@
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppFullMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppCxMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CSharpMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\MsxdocSlashDocMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\StandardFlagsEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\DefaultAttributeValueFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeValueFormatter.cs" />

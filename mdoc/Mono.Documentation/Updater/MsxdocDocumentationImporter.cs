@@ -11,6 +11,7 @@ namespace Mono.Documentation.Updater
     {
 
         XmlDocument slashdocs;
+        static readonly MemberFormatter slashdocFormatter = new MsxdocSlashDocMemberFormatter();
 
         public MsxdocDocumentationImporter (string file)
         {
@@ -146,7 +147,7 @@ namespace Mono.Documentation.Updater
 
         private XmlNode GetDocs (MemberReference member)
         {
-            string slashdocsig = MDocUpdater.slashdocFormatter.GetDeclaration (member);
+            string slashdocsig = slashdocFormatter.GetDeclaration (member);
             if (slashdocsig != null && slashdocs != null)
                 return slashdocs.SelectSingleNode ("doc/members/member[@name='" + slashdocsig + "']");
             return null;
