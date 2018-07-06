@@ -14,14 +14,21 @@ namespace Mono.Documentation.Updater.Frameworks
 		ISet<AssemblySet> allAssemblies = new SortedSet<AssemblySet> ();
 
         public int Index = 0;
+        int _fxCount;
+        public int FrameworksCount {
+            get => _fxCount < 1 ? allframeworks.Count : _fxCount;
+        }
 
-        public FrameworkEntry (IList<FrameworkEntry> frameworks)
+        public FrameworkEntry (IList<FrameworkEntry> frameworks) : this(frameworks, -1) {}
+
+        public FrameworkEntry (IList<FrameworkEntry> frameworks, int fxCount)
         {
             allframeworks = frameworks;
             if (allframeworks == null)
                 allframeworks = new List<FrameworkEntry> (0);
 
             Index = allframeworks.Count;
+            _fxCount = fxCount;
         }
 
         public string Name { get; set; }
@@ -30,9 +37,23 @@ namespace Mono.Documentation.Updater.Frameworks
 
         /// <summary>Gets a value indicating whether this <see cref="T:Mono.Documentation.Updater.Frameworks.FrameworkEntry"/> is last framework being processed.</summary>
         public bool IsLastFramework {
-            get => Index == allframeworks.Count - 1;
+            get => Index == FrameworksCount - 1;
         }
 
+        string _allFxString = "";
+        public string AllFrameworksString {
+            get 
+            {
+                Lazy<string> fxString = new Lazy<string>(() => string.Join (";", allframeworks.Select (f => f.Name).ToArray ()));
+
+                if (!this.IsLastFramework) return fxString.Value;
+                if (string.IsNullOrWhiteSpace(_allFxString)) 
+                {
+                    _allFxString = fxString.Value;
+                }
+                return _allFxString;
+            }
+        }
         public IEnumerable<FrameworkEntry> PreviousFrameworks {
             get => allframeworks.Where (f => f.Index < this.Index);
         }
@@ -42,22 +63,6 @@ namespace Mono.Documentation.Updater.Frameworks
 		public void AddAssemblySet (AssemblySet assemblySet)
 		{
 			allAssemblies.Add (assemblySet);
-		}
-
-        /// <summary>Checks to see if this assembly is contained in previously processed frameworks</summary>
-        public bool PreviousFXContainsAssembly(string name)
-        {
-            if (name.Contains (System.IO.Path.DirectorySeparatorChar))
-                name = System.IO.Path.GetFileName (name);
-
-            return PreviousFrameworks.Any (pf => pf.ContainsAssembly (name));
-        }
-
-		public bool ContainsAssembly(string name) {
-			if (name.Contains (System.IO.Path.DirectorySeparatorChar))
-				name = System.IO.Path.GetFileName (name);
-			
-			return allAssemblies.Any (a => a.Contains (name));
 		}
 
 		/// <summary>Gets a value indicating whether this <see cref="T:Mono.Documentation.Updater.Frameworks.FrameworkEntry"/> is first framework being processed.</summary>
@@ -129,7 +134,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		class EmptyFrameworkEntry : FrameworkEntry
 		{
-			public EmptyFrameworkEntry () : base (null) { }
+			public EmptyFrameworkEntry () : base (null, 1) { }
 			public override FrameworkTypeEntry ProcessType (TypeDefinition type) { return FrameworkTypeEntry.Empty; }
 		}
 	}

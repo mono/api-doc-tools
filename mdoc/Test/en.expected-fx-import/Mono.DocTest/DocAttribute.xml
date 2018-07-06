@@ -10,7 +10,7 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="one">
       <AttributeName>System.AttributeUsage(System.AttributeTargets.All)</AttributeName>
     </Attribute>
   </Attributes>

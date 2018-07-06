@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>mdoc</RootNamespace>
     <AssemblyName>mdoc</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -53,6 +53,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Mono.Documentation\Framework\FrameworkIndexHelper.cs" />
+    <Compile Include="Mono.Documentation\Framework\FrameworkTypeModel.cs" />
+    <Compile Include="Mono.Documentation\Framework\FrameworkNamespaceModel.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\ApplePlatformEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
@@ -68,6 +71,7 @@
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppCxMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CSharpMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\SlashDocCSharpMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\MsxdocSlashDocMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\StandardFlagsEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\DefaultAttributeValueFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeValueFormatter.cs" />
@@ -121,7 +125,7 @@
     <Compile Include="Mono.Documentation\monodocs2slashdoc.cs" />
     <Compile Include="Mono.Documentation\msitomsx.cs" />
     <Compile Include="Mono.Documentation\normalize.cs" />
-    <Compile Include="Mono.Documentation\validate.cs" />
+    <Compile Include="Mono.Documentation\MDocValidator.cs" />
     <Compile Include="Mono.Documentation\webdoc.cs" />
     <Compile Include="Mono.Documentation\XhtmlWriter.cs" />
     <Compile Include="Mono.Documentation\exceptions.cs" />

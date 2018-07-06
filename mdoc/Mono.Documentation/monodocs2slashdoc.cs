@@ -166,13 +166,23 @@ public class MDocToMSXDocConverter : MDocCommand {
 		StringBuilder args = new StringBuilder ();
 		args.Append ("(");
 		args.Append (XmlDocUtils.ToTypeName (parameters [0].Attributes ["Type"].Value, member));
-		for (int i = 1; i < parameters.Count; ++i) {
+        AppendRefSymbol(args, parameters[0]);
+
+        for (int i = 1; i < parameters.Count; ++i) {
 			args.Append (",");
 			args.Append (XmlDocUtils.ToTypeName (parameters [i].Attributes ["Type"].Value, member));
+            AppendRefSymbol(args, parameters[i]);
 		}
+
 		args.Append (")");
 		return args.ToString ();
 	}
+
+    private static void AppendRefSymbol(StringBuilder args, XmlNode parameter)
+    {
+        if (parameter.Attributes["RefType"]?.Value == "out" || parameter.Attributes["RefType"]?.Value == "ref")
+            args.Append("@");
+        }
 	
 	private static void AddNamespaceSummary(XmlDocument nsSummaries, string basepath, string currentNs) {
 		foreach (var filename in new [] {

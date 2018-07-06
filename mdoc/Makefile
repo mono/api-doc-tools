@@ -439,6 +439,16 @@ check-monodocer-importslashdoc:
 	$(MONO) $(PROGRAM) --debug update --exceptions=all -i Test/DocTest.xml \
 		-o Test/en.actual Test/DocTest.dll 
 	$(DIFF) Test/en.expected.importslashdoc Test/en.actual
+	
+check-multiple-mdoc: 
+	rm -Rf Test/en.actual
+	$(CSCOMPILE) -debug -optimize -unsafe  -target:library Test/DocTest.cs -doc:Test/DocTest.xml
+	$(MONO) $(PROGRAM) --debug update --exceptions=asm -i Test/DocTest.xml \
+		-o Test/en.actual Test/DocTest.dll 
+	cp Test/test-multiple-mdoc/Widget.xml Test/en.actual/Mono.DocTest/Widget.xml	
+	$(MONO) $(PROGRAM) --debug update --exceptions=asm -i Test/DocTest.xml \
+		-o Test/en.actual Test/DocTest.dll 
+	$(DIFF) Test/test-multiple-mdoc/en.expected.test.multiple.mdoc Test/en.actual
 
 check-monodocer-importecmadoc-update: 
 	find Test/en.expected.importecmadoc -name \*.xml -exec rm "{}" \;
@@ -686,6 +696,14 @@ check-overwrite-attribute:
 	cp Test/test-overwrite-attribute/Input_SomeClass.xml Test/en.actual/SomeClass.xml
 	$(MONO) $(PROGRAM) update Test/test-overwrite-attribute/SomeClass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
 	$(DIFF) Test/test-overwrite-attribute/Expected_SomeClass.xml Test/en.actual/SomeClass.xml
+	
+check-ignored-namespace-generic: 
+	rm -Rf Test/en.actual
+	-rm -f Test/test-generic-ignored-namespace/ReadOnlySpan.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -target:library Test/test-generic-ignored-namespace/ReadOnlySpan.cs
+	$(MONO) $(PROGRAM) update Test/test-generic-ignored-namespace/ReadOnlySpan.dll -o Test/en.actual/
+
+	$(DIFF) Test/test-generic-ignored-namespace/en.expected-generic-ignored-namespace Test/en.actual/
 run-test-local: check-doc-tools
 
 run-test-update : check-doc-tools-update
@@ -735,6 +753,8 @@ check-doc-tools:  check-monodocer-Eii-importslashdoc \
 	check-monodocer-frameworkalternate-fromold \
 	check-monodocer-frameworkalternate \
 	check-monodocer-embedded-type \
+	check-ignored-namespace-generic \
+	check-multiple-mdoc \
 
 #check-monodocer-dropns-delete 
 check-doc-tools-update: check-monodocer-since-update \

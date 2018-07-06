@@ -15,10 +15,15 @@ namespace Mono.Documentation.Updater.Frameworks
 		List<FrameworkEntry> frameworks = new List<FrameworkEntry> ();
 		string path;
 
-		public FrameworkIndex (string pathToFrameworks) 
+		public FrameworkIndex (string pathToFrameworks, int fxCount) 
 		{
 			path = pathToFrameworks;
+            FrameworksCount = fxCount;
 		}
+
+        public int FrameworksCount {
+            get; private set;
+        }
 
 		public IList<FrameworkEntry> Frameworks {
 			get {
@@ -45,7 +50,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 			var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
 			if (entry == null) {
-				entry = new FrameworkEntry (frameworks) { Name = shortPath, Importers = importers, Id = Id, Version = Version};
+                entry = new FrameworkEntry (frameworks, FrameworksCount) { Name = shortPath, Importers = importers, Id = Id, Version = Version};
 				frameworks.Add (entry);
 			}
 
@@ -60,7 +65,8 @@ namespace Mono.Documentation.Updater.Frameworks
 			if (string.IsNullOrWhiteSpace (this.path))
 				return;
 			
-			string outputPath = Path.Combine (path, "FrameworksIndex");
+      string outputPath = Path.Combine (path, Consts.FrameworksIndex);
+
 			if (!Directory.Exists (outputPath))
 				Directory.CreateDirectory (outputPath);
 

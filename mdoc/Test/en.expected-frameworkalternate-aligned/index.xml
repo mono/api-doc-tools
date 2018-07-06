@@ -2,20 +2,20 @@
   <Assemblies>
     <Assembly Name="DocTest-frameworkalternate-one" Version="0.0.0.0">
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="One;Three">
           <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.DisableOptimizations | System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="One;Three">
           <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
         </Attribute>
       </Attributes>
     </Assembly>
     <Assembly Name="DocTest-frameworkalternate-two" Version="0.0.0.0">
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="Two">
           <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.DisableOptimizations | System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="Two">
           <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
         </Attribute>
       </Attributes>

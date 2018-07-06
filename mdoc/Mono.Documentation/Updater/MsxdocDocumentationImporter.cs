@@ -11,6 +11,7 @@ namespace Mono.Documentation.Updater
     {
 
         XmlDocument slashdocs;
+        static readonly MemberFormatter slashdocFormatter = new MsxdocSlashDocMemberFormatter();
 
         public MsxdocDocumentationImporter (string file)
         {

@@ -97,13 +97,13 @@
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>Mono.DocTest.Doc("Del event")</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>add: Mono.DocTest.Doc("Del add accessor")</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>remove: Mono.DocTest.Doc("Del remove accessor")</AttributeName>
         </Attribute>
       </Attributes>
@@ -344,7 +344,7 @@
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>System.Obsolete("why not")</AttributeName>
         </Attribute>
       </Attributes>
@@ -422,7 +422,7 @@
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>Mono.DocTest.Doc("Height property")</AttributeName>
         </Attribute>
       </Attributes>
@@ -445,10 +445,10 @@
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>Mono.DocTest.Doc("Item property")</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>set: Mono.DocTest.Doc("Item property set accessor")</AttributeName>
         </Attribute>
       </Attributes>
@@ -517,14 +517,14 @@
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>Mono.DocTest.Doc("normal DocAttribute", Field=true)</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
         <Attributes>
-          <Attribute>
+          <Attribute FrameworkAlternate="one">
             <AttributeName>Mono.DocTest.Doc("return:DocAttribute", Property=typeof(Mono.DocTest.Widget))</AttributeName>
           </Attribute>
         </Attributes>
@@ -532,21 +532,21 @@
       <Parameters>
         <Parameter Name="c" Type="System.Char">
           <Attributes>
-            <Attribute>
+            <Attribute FrameworkAlternate="one">
               <AttributeName>Mono.DocTest.Doc("c", FlagsEnum=System.ConsoleModifiers.Alt | System.ConsoleModifiers.Control)</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
-        <Parameter Name="f" Type="System.Single&amp;" RefType="out">
+        <Parameter Name="f" Type="System.Single" RefType="out">
           <Attributes>
-            <Attribute>
+            <Attribute FrameworkAlternate="one">
               <AttributeName>Mono.DocTest.Doc("f", NonFlagsEnum=Mono.DocTest.Color.Red)</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
-        <Parameter Name="v" Type="Mono.DocTest.DocValueType&amp;" RefType="ref">
+        <Parameter Name="v" Type="Mono.DocTest.DocValueType" RefType="ref">
           <Attributes>
-            <Attribute>
+            <Attribute FrameworkAlternate="one">
               <AttributeName>Mono.DocTest.Doc("v")</AttributeName>
             </Attribute>
           </Attributes>
@@ -670,7 +670,7 @@
         <Parameter Name="i" Type="System.Int32" />
         <Parameter Name="args" Type="System.Object[]">
           <Attributes>
-            <Attribute>
+            <Attribute FrameworkAlternate="one">
               <AttributeName>System.ParamArray</AttributeName>
             </Attribute>
           </Attributes>
@@ -910,13 +910,13 @@
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>Mono.DocTest.Doc("Width property")</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>get: Mono.DocTest.Doc("Width get accessor")</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>set: Mono.DocTest.Doc("Width set accessor")</AttributeName>
         </Attribute>
       </Attributes>

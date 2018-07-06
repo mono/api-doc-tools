@@ -97,7 +97,7 @@
         <TypeParameter Name="T" />
       </TypeParameters>
       <Parameters>
-        <Parameter Name="array" Type="T[]&amp;" RefType="ref" />
+        <Parameter Name="array" Type="T[]" RefType="ref" />
         <Parameter Name="newSize" Type="System.Int32" />
       </Parameters>
       <Docs>

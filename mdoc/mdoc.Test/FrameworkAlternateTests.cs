@@ -41,6 +41,37 @@ namespace mdoc.Test
             Assert.AreEqual ("", newValue);
         }
 
+
+        [Test ()]
+        public void RemoveFromMultiList ()
+        {
+            string existingValue = "Pre;One;Post";
+            string fxToRemove = "One";
+            string postValue = "Pre;Post";
+
+            string newValue = FXUtils.RemoveFXFromList (existingValue, fxToRemove);
+            Assert.AreEqual (postValue, newValue);
+
+            // make sure the cache returns the same value
+            newValue = FXUtils.RemoveFXFromList (existingValue, fxToRemove);
+            Assert.AreEqual (postValue, newValue);
+        }
+
+        [Test ()]
+        public void AddToMultiList ()
+        {
+            string existingValue = "Pre;Post";
+            string fxToAdd = "One";
+            string postValue = "Pre;Post;One";
+
+            string newValue = FXUtils.AddFXToList (existingValue, fxToAdd);
+            Assert.AreEqual (postValue, newValue);
+
+            // make sure the cache returns the same value
+            newValue = FXUtils.AddFXToList (existingValue, fxToAdd);
+            Assert.AreEqual (postValue, newValue);
+        }
+
         [Test]
         public void LastFramework()
         {

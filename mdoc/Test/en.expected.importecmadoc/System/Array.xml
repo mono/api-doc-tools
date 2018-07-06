@@ -189,17 +189,31 @@ and the second dimension indexed by 1, 2, and 3. </para>
         <TypeParameter Name="T" />
       </TypeParameters>
       <Parameters>
-        <Parameter Name="array" Type="T[]&amp;" RefType="ref" />
+        <Parameter Name="array" Type="T[]" RefType="ref" />
         <Parameter Name="newSize" Type="System.Int32" />
       </Parameters>
       <Docs>
         <typeparam name="T">To be added.</typeparam>
-        <param name="array">To be added.</param>
-        <param name="newSize">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">
+							<para>The array to resize.</para>
+							<para>-or-</para>
+							<para>
+								<see langword="null" /> to create a new array with the specified size.</para>
+						</param>
+        <param name="newSize">The size of the new array.</param>
+        <summary>
+							<para>Changes the size of an array to the specified new size.</para>
+						</summary>
+        <remarks>
+							<para>If array is <see langword="null" />, this method creates a new array with the specified size.</para>
+							<para>If array is not <see langword="null" />, then if <paramref name="newSize" /> is equal to <see cref="P:System.Array.Length" /> of the old array, this method does nothing. Otherwise, this method allocates a new array with the specified size, copies elements from the old array to the new one, and then assigns the new array reference to the array parameter. If <paramref name="newSize" />  is greater than <see cref="P:System.Array.Length" />  of the old array, a new array is allocated and all the elements are copied from the old array to the new one.  If <paramref name="newSize" /> is less than <see cref="P:System.Array.Length" />  of the old array, a new array is allocated and elements are copied from the old array to the new one until the new one is filled; the rest of the elements in the old array are ignored.</para>
+						</remarks>
         <exception cref="T:System.Exception">To be added; from:
           <see cref="M:System.Array.Resize``1(``0[]@,System.Int32)" /></exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+							<para>
+								<paramref name="newSize" /> is less than zero.</para>
+						</exception>
       </Docs>
     </Member>
   </Members>

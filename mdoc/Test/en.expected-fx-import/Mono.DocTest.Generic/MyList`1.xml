@@ -8,7 +8,7 @@
   <TypeParameters>
     <TypeParameter Name="T">
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="one">
           <AttributeName>Mono.DocTest.Doc("Type Parameter!")</AttributeName>
         </Attribute>
       </Attributes>
@@ -136,8 +136,8 @@
         <TypeParameter Name="U" />
       </TypeParameters>
       <Parameters>
-        <Parameter Name="t" Type="T&amp;" RefType="ref" />
-        <Parameter Name="u" Type="U&amp;" RefType="ref" />
+        <Parameter Name="t" Type="T" RefType="ref" />
+        <Parameter Name="u" Type="U" RefType="ref" />
       </Parameters>
       <Docs>
         <typeparam name="U">To be added.</typeparam>
