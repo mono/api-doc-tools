@@ -63,6 +63,42 @@ namespace Mono.Documentation.Updater
             {
                 switch (child.Name)
                 {
+                    case "summary":
+                        {
+                            if (DocUtils.NeedsOverwrite (e["summary"]))
+                                break;
+
+                            var summaryNode = e.SelectSingleNode ("summary");
+
+                            if (summaryNode == null)
+                                MDocUpdater.CopyNode (child, e);
+                            else
+                            {
+                                // let's append to it if we can/should
+                                foreach(var content in child.ChildNodes.Cast<XmlNode>())
+                                {
+                                    MDocUpdater.CopyNode (content, summaryNode);
+                                }
+                            }
+
+                            break;
+
+                            var targetNodes = e.ChildNodes.Cast<XmlNode> ()
+                                .Where (n => n.Name == child.Name)
+                                .Select (n => new
+                                {
+                                    Xml = n.OuterXml,
+                                    Overwrite = n.Attributes != null ? n.Attributes["overwrite"] : null
+                                });
+                            string sourceXml = child.OuterXml;
+
+                            if (!targetNodes.Any (n => sourceXml.Equals (n.Xml) || n.Overwrite?.Value == "false"))
+                            {
+                                MDocUpdater.CopyNode (child, e);
+                            }
+                            //else if (targetNodes.Any ())
+                            break;
+                        }
                     case "param":
                     case "typeparam":
                         {
