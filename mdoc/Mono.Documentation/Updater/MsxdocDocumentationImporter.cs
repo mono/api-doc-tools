@@ -9,9 +9,7 @@ namespace Mono.Documentation.Updater
 {
     class MsxdocDocumentationImporter : DocumentationImporter
     {
-
         XmlDocument slashdocs;
-        static readonly MemberFormatter slashdocFormatter = new MsxdocSlashDocMemberFormatter();
 
         public MsxdocDocumentationImporter (string file)
         {
@@ -40,7 +38,7 @@ namespace Mono.Documentation.Updater
         {
             //first try C# compiler docIds, next other languages
             XmlNode elem = GetDocs(info.Member ?? info.Type, MDocUpdater.csharpSlashdocFormatter) ??
-                           GetDocs(info.Member ?? info.Type, MDocUpdater.slashdocFormatter);
+                           GetDocs(info.Member ?? info.Type, MDocUpdater.msxdocxSlashdocFormatter);
 
             if (elem == null)
                 return;

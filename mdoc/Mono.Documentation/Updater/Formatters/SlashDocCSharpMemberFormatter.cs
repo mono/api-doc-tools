@@ -4,7 +4,7 @@ using Mono.Cecil;
 
 namespace Mono.Documentation.Updater
 {
-    class SlashDocCSharpMemberFormatter : SlashDocMemberFormatter
+    class SlashDocCSharpMemberFormatter : MsxdocSlashDocMemberFormatter
     {
         /// <summary>
         /// C# compiler uses complecated logic to generate docIds for Eii properties. Need to have special logic here.
