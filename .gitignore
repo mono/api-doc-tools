@@ -18,6 +18,7 @@ obj
 mdoc/Test/actual_statistics.txt
 mdoc/Test/test-overwrite-attribute/SomeClass.xml
 mdoc/Test/test-overwrite-attribute/SomeClass.dll
+mdoc/Test/test-generic-ignored-namespace/ReadOnlySpan.dll
 mdoc/Test/test-nuget-information/input_data/
 /Debug/UwpTestWinRtComponentCpp
 Debug
