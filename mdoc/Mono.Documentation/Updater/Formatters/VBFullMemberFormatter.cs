@@ -630,8 +630,7 @@ namespace Mono.Documentation.Updater
                 buf.Append("ReadOnly ");
 
             buf.Append("Property ");
-
-            buf.Append(DocUtils.GetPropertyName(property, NestedTypeSeparator).Split('.').Last());
+            buf.Append(property.Name.Split('.').Last());
 
             if (property.Parameters.Count != 0)
             {

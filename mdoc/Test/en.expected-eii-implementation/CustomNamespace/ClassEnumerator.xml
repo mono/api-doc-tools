@@ -45,7 +45,7 @@
     <Member MemberName="CustomNamespace.CustomInterface.Prop1" ExplicitInterfaceMemberName="CustomProp1">
       <MemberSignature Language="C#" Value="int CustomNamespace.CustomInterface.Prop1 { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 CustomProp1" />
-      <MemberSignature Language="VB.NET" Value=" Property Prop1 As Integer Implements CustomInterface.Prop1" />
+      <MemberSignature Language="VB.NET" Value=" Property CustomProp1 As Integer Implements CustomInterface.Prop1" />
       <MemberSignature Language="F#" Usage="CustomNamespace.CustomInterface.Prop1" />
       <MemberSignature Language="C++ CLI" Value="property int CustomNamespace::CustomInterface::Prop1 { int get(); void set(int value); };" />
       <MemberSignature Language="C++ CX" Value="property int CustomNamespace::CustomInterface::Prop1 { int get(); void set(int value); };" />
@@ -65,7 +65,7 @@
     <Member MemberName="CustomNamespace.CustomInterface.Prop2" ExplicitInterfaceMemberName="CustomProp2">
       <MemberSignature Language="C#" Value="object CustomNamespace.CustomInterface.Prop2 { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance object CustomProp2" />
-      <MemberSignature Language="VB.NET" Value=" ReadOnly Property Prop2 As Object Implements CustomInterface.Prop2" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property CustomProp2 As Object Implements CustomInterface.Prop2" />
       <MemberSignature Language="F#" Usage="CustomNamespace.CustomInterface.Prop2" />
       <MemberSignature Language="C++ CLI" Value="property System::Object ^ CustomNamespace::CustomInterface::Prop2 { System::Object ^ get(); };" />
       <MemberSignature Language="C++ CX" Value="property Platform::Object ^ CustomNamespace::CustomInterface::Prop2 { Platform::Object ^ get(); };" />
