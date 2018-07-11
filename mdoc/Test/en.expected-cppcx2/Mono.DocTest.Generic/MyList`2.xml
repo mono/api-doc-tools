@@ -318,7 +318,7 @@
     <Member MemberName="System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly">
       <MemberSignature Language="C#" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly" />
-      <MemberSignature Language="C++ CX" Value="property bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly { bool get(); };" />
+      <MemberSignature Language="C++ CX" Value="property bool System::Collections::Generic::ICollection&lt;A&gt;::IsReadOnly { bool get(); };" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.ICollection`1.IsReadOnly</InterfaceMember>
@@ -382,7 +382,7 @@
     <Member MemberName="System.Collections.Generic.IEnumerator&lt;A&gt;.Current">
       <MemberSignature Language="C#" Value="A System.Collections.Generic.IEnumerator&lt;A&gt;.Current { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance !A System.Collections.Generic.IEnumerator&lt;A&gt;.Current" />
-      <MemberSignature Language="C++ CX" Value="property A System.Collections.Generic.IEnumerator&lt;A&gt;.Current { A get(); };" />
+      <MemberSignature Language="C++ CX" Value="property A System::Collections::Generic::IEnumerator&lt;A&gt;::Current { A get(); };" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.IEnumerator`1.Current</InterfaceMember>
@@ -422,7 +422,7 @@
     <Member MemberName="System.Collections.IEnumerator.Current">
       <MemberSignature Language="C#" Value="object System.Collections.IEnumerator.Current { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance object System.Collections.IEnumerator.Current" />
-      <MemberSignature Language="C++ CX" Value="property Platform::Object ^ System.Collections.IEnumerator.Current { Platform::Object ^ get(); };" />
+      <MemberSignature Language="C++ CX" Value="property Platform::Object ^ System::Collections::IEnumerator::Current { Platform::Object ^ get(); };" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.IEnumerator.Current</InterfaceMember>

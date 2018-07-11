@@ -719,7 +719,8 @@ namespace Mono.Documentation.Updater
                 else
                     buf.Append("member this.");
             }
-            buf.Append(property.Name);
+            
+            buf.Append(DocUtils.GetPropertyName(property, NestedTypeSeparator));
             if (property.Parameters.Count != 0)
             {
                 buf.Append("(");

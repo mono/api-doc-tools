@@ -1,0 +1,116 @@
+<Type Name="ClassEnumerator" FullName="CustomNamespace.ClassEnumerator">
+  <TypeSignature Language="C#" Value="public sealed class ClassEnumerator : CustomNamespace.CustomInterface" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed ClassEnumerator extends System.Object implements class CustomNamespace.CustomInterface" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ClassEnumerator&#xA;Implements CustomInterface" />
+  <TypeSignature Language="F#" Value="type ClassEnumerator = class&#xA;    interface CustomInterface" />
+  <TypeSignature Language="JavaScript" Value="function ClassEnumerator()" Usage="var classEnumerator = new ClassEnumerator();" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ClassEnumerator sealed : CustomNamespace::CustomInterface" />
+  <TypeSignature Language="C++ CX" Value="public ref class ClassEnumerator sealed : CustomNamespace::CustomInterface" />
+  <TypeSignature Language="C++ WINRT" Value="class ClassEnumerator sealed : CustomNamespace::CustomInterface" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest-VB-Eii</AssemblyName>
+    <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>CustomNamespace.CustomInterface</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ClassEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="JavaScript" Value="function ClassEnumerator()" Usage="var classEnumerator = new ClassEnumerator();" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ClassEnumerator();" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; ClassEnumerator();" />
+      <MemberSignature Language="C++ WINRT" Value=" ClassEnumerator();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CustomNamespace.CustomInterface.Prop1" ExplicitInterfaceMemberName="CustomProp1">
+      <MemberSignature Language="C#" Value="int CustomNamespace.CustomInterface.Prop1 { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 CustomProp1" />
+      <MemberSignature Language="VB.NET" Value=" Property CustomProp1 As Integer Implements CustomInterface.Prop1" />
+      <MemberSignature Language="F#" Usage="CustomNamespace.CustomInterface.Prop1" />
+      <MemberSignature Language="C++ CLI" Value="property int CustomNamespace::CustomInterface::Prop1 { int get(); void set(int value); };" />
+      <MemberSignature Language="C++ CX" Value="property int CustomNamespace::CustomInterface::Prop1 { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CustomNamespace.CustomInterface.Prop2" ExplicitInterfaceMemberName="CustomProp2">
+      <MemberSignature Language="C#" Value="object CustomNamespace.CustomInterface.Prop2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object CustomProp2" />
+      <MemberSignature Language="VB.NET" Value=" ReadOnly Property CustomProp2 As Object Implements CustomInterface.Prop2" />
+      <MemberSignature Language="F#" Usage="CustomNamespace.CustomInterface.Prop2" />
+      <MemberSignature Language="C++ CLI" Value="property System::Object ^ CustomNamespace::CustomInterface::Prop2 { System::Object ^ get(); };" />
+      <MemberSignature Language="C++ CX" Value="property Platform::Object ^ CustomNamespace::CustomInterface::Prop2 { Platform::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Main">
+      <MemberSignature Language="C#" Value="public static void Main (string[] cmdArgs);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void Main(string[] cmdArgs) cil managed" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub Main (cmdArgs As String())" />
+      <MemberSignature Language="F#" Value="static member Main : string[] -&gt; unit" Usage="CustomNamespace.ClassEnumerator.Main cmdArgs" />
+      <MemberSignature Language="JavaScript" Value="function main(cmdArgs)" Usage="CustomNamespace.ClassEnumerator.main(cmdArgs)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Main(cli::array &lt;System::String ^&gt; ^ cmdArgs);" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; static void Main(Platform::Array &lt;Platform::String ^&gt; ^ cmdArgs);" />
+      <MemberSignature Language="C++ WINRT" Value=" static void Main(std::Array &lt;std::wstring const &amp;&gt; const &amp; cmdArgs);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.STAThread</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="cmdArgs" Type="System.String[]" />
+      </Parameters>
+      <Docs>
+        <param name="cmdArgs">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

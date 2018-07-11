@@ -819,7 +819,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     break;
                 }
             }
-            buf.Append(propertyName == "default" ? propertyName : DocUtils.GetPropertyName(property));
+            buf.Append(propertyName == "default" ? propertyName : DocUtils.GetPropertyName(property, NestedTypeSeparator));
 
             bool hasParams=false;
             if (property.Parameters.Count != 0)

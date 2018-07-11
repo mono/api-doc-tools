@@ -122,12 +122,28 @@ namespace Mono.Documentation.Updater
             return name.Substring (startType + 1);
         }
 
-        public static string GetMember (string name)
+        public static string GetMember(string name)
         {
-            int i = name.LastIndexOf ('.');
-            if (i == -1)
-                return name;
-            return name.Substring (i + 1);
+            int i = name.LastIndexOf('.');
+            var memberName = i == -1 ? name : name.Substring(i + 1);
+
+            return memberName;
+        }
+
+        public static string GetMemberForProperty(string name)
+        {
+            int i = name.LastIndexOf('.');
+            var memberName = i == -1 ? name : name.Substring(i + 1);
+
+            if (memberName.StartsWith("get_") || memberName.StartsWith("set_"))
+            {
+                var index = memberName.IndexOf("_", StringComparison.InvariantCulture);
+                if (index > 0)
+                    //remove get/set prefix from method name
+                    memberName = memberName.Substring(index + 1);
+            }
+
+            return memberName;
         }
 
         public static void GetInfoForExplicitlyImplementedMethod (
@@ -156,24 +172,22 @@ namespace Mono.Documentation.Updater
             return true;
         }
 
-        public static string GetPropertyName (PropertyDefinition pi)
+        public static string GetPropertyName (PropertyDefinition pi, string delimeter = ".")
         {
             // Issue: (g)mcs-generated assemblies that explicitly implement
             // properties don't specify the full namespace, just the 
             // TypeName.Property; .NET uses Full.Namespace.TypeName.Property.
-            MethodDefinition method = pi.GetMethod;
-            if (method == null)
-                method = pi.SetMethod;
-            if (!IsExplicitlyImplemented (method))
+            MethodDefinition method = pi.GetMethod ?? pi.SetMethod;
+            bool isExplicitlyImplemented = IsExplicitlyImplemented(method);
+            if (!isExplicitlyImplemented)
                 return pi.Name;
 
             // Need to determine appropriate namespace for this member.
-            TypeReference iface;
-            MethodReference ifaceMethod;
-            GetInfoForExplicitlyImplementedMethod (method, out iface, out ifaceMethod);
-            return string.Join (".", new string[]{
-                DocTypeFullMemberFormatter.Default.GetName (iface),
-                GetMember (pi.Name)});
+            GetInfoForExplicitlyImplementedMethod (method, out var iface, out var ifaceMethod);
+            var stringifyIface = DocTypeFullMemberFormatter.Default.GetName(iface).Replace(".", delimeter);
+            return string.Join (delimeter, new string[]{
+                stringifyIface,
+                GetMemberForProperty (ifaceMethod.Name)});
         }
 
         public static string GetNamespace (TypeReference type, string delimeter = null)
@@ -372,7 +386,7 @@ namespace Mono.Documentation.Updater
 
         private static bool IsCompilerGenerated(MemberReference mi)
         {
-            IMemberDefinition memberDefinition = mi.Resolve();
+           IMemberDefinition memberDefinition = mi.Resolve();
             return memberDefinition.IsSpecialName
                    || memberDefinition.CustomAttributes.Any(i =>
                        i.AttributeType.FullName == Consts.CompilerGeneratedAttribute
@@ -380,7 +394,7 @@ namespace Mono.Documentation.Updater
                    );
         }
 
-        public static bool IsAvailablePropertyMethod(MethodDefinition method)
+    public static bool IsAvailablePropertyMethod(MethodDefinition method)
         {
             return method != null 
                 && (IsExplicitlyImplemented(method) 

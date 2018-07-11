@@ -55,7 +55,8 @@ apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BF
 echo "deb http://download.mono-project.com/repo/ubuntu trusty main" | tee /etc/apt/sources.list.d/mono-official.list
 
 apt-get update
-apt-get install git make mono-devel ca-certificates-mono wget nuget fsharp -y
+apt-get install tzdata nuget -y --allow-unauthenticated
+apt-get install git make mono-devel mono-vbnc ca-certificates-mono wget fsharp -y
 
 wget -q 'http://mxr.mozilla.org/seamonkey/source/security/nss/lib/ckfw/builtins/certdata.txt?raw=1' -O "/tmp/certdata.txt" 
 mozroots --import --ask-remove --file /tmp/certdata.txt

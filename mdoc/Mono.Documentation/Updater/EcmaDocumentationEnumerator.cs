@@ -120,7 +120,7 @@ namespace Mono.Documentation.Updater
                                 }
                                 // oldmember lookup may have failed due to type parameter renames.
                                 // Try again.
-                                oldmember = (XmlElement)basefile.SelectSingleNode (MDocUpdater.GetXPathForMember (m));
+                                oldmember = (XmlElement)basefile.SelectSingleNode (MDocUpdater.GetXPathForMember (m)); //todo: why always null???
                                 if (oldmember == null)
                                 {
                                     XmlElement members = MDocUpdater.WriteElement (basefile.DocumentElement, "Members");

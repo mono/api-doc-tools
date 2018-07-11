@@ -630,8 +630,7 @@ namespace Mono.Documentation.Updater
                 buf.Append("ReadOnly ");
 
             buf.Append("Property ");
-
-            buf.Append(DocUtils.GetPropertyName(property).Split('.').Last());
+            buf.Append(property.Name.Split('.').Last());
 
             if (property.Parameters.Count != 0)
             {
@@ -647,7 +646,7 @@ namespace Mono.Documentation.Updater
                 buf.Append(" Implements ")
                     .Append(new VBMemberFormatter().GetName(iface))
                     .Append('.')
-                    .Append(DocUtils.GetPropertyName(property).Split('.').Last());
+                    .Append(DocUtils.GetPropertyName(property, NestedTypeSeparator).Split('.').Last());
             }
             return buf.ToString();
         }

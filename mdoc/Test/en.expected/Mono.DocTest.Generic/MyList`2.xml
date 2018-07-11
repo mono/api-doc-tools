@@ -379,9 +379,9 @@
       <MemberSignature Language="ILAsm" Value=".property instance bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly" />
       <MemberSignature Language="DocId" Value="P:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#IsReadOnly" />
       <MemberSignature Language="VB.NET" Value=" ReadOnly Property IsReadOnly As Boolean Implements ICollection(Of A).IsReadOnly" />
-      <MemberSignature Language="F#" Usage="Mono.DocTest.Generic.MyList&lt;'A, #'A (requires 'A : null and 'A :&gt; System.Collections.Generic.IList&lt;#'A&gt; and 'A : (new : unit -&gt; 'A))&gt;.System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly" />
-      <MemberSignature Language="C++ CLI" Value="property bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly { bool get(); };" />
-      <MemberSignature Language="C++ CX" Value="property bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly { bool get(); };" />
+      <MemberSignature Language="F#" Usage="System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly" />
+      <MemberSignature Language="C++ CLI" Value="property bool System::Collections::Generic::ICollection&lt;A&gt;::IsReadOnly { bool get(); };" />
+      <MemberSignature Language="C++ CX" Value="property bool System::Collections::Generic::ICollection&lt;A&gt;::IsReadOnly { bool get(); };" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.ICollection`1.IsReadOnly</InterfaceMember>
@@ -454,9 +454,9 @@
       <MemberSignature Language="ILAsm" Value=".property instance !A System.Collections.Generic.IEnumerator&lt;A&gt;.Current" />
       <MemberSignature Language="DocId" Value="P:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#IEnumerator&lt;A&gt;#Current" />
       <MemberSignature Language="VB.NET" Value=" ReadOnly Property Current As A Implements IEnumerator(Of A).Current" />
-      <MemberSignature Language="F#" Usage="Mono.DocTest.Generic.MyList&lt;'A, #'A (requires 'A : null and 'A :&gt; System.Collections.Generic.IList&lt;#'A&gt; and 'A : (new : unit -&gt; 'A))&gt;.System.Collections.Generic.IEnumerator&lt;A&gt;.Current" />
-      <MemberSignature Language="C++ CLI" Value="property A System.Collections.Generic.IEnumerator&lt;A&gt;.Current { A get(); };" />
-      <MemberSignature Language="C++ CX" Value="property A System.Collections.Generic.IEnumerator&lt;A&gt;.Current { A get(); };" />
+      <MemberSignature Language="F#" Usage="System.Collections.Generic.IEnumerator&lt;A&gt;.Current" />
+      <MemberSignature Language="C++ CLI" Value="property A System::Collections::Generic::IEnumerator&lt;A&gt;::Current { A get(); };" />
+      <MemberSignature Language="C++ CX" Value="property A System::Collections::Generic::IEnumerator&lt;A&gt;::Current { A get(); };" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.IEnumerator`1.Current</InterfaceMember>
@@ -501,9 +501,9 @@
       <MemberSignature Language="ILAsm" Value=".property instance object System.Collections.IEnumerator.Current" />
       <MemberSignature Language="DocId" Value="P:Mono.DocTest.Generic.MyList`2.System#Collections#IEnumerator#Current" />
       <MemberSignature Language="VB.NET" Value=" ReadOnly Property Current As Object Implements IEnumerator.Current" />
-      <MemberSignature Language="F#" Usage="Mono.DocTest.Generic.MyList&lt;'A, #'A (requires 'A : null and 'A :&gt; System.Collections.Generic.IList&lt;#'A&gt; and 'A : (new : unit -&gt; 'A))&gt;.System.Collections.IEnumerator.Current" />
-      <MemberSignature Language="C++ CLI" Value="property System::Object ^ System.Collections.IEnumerator.Current { System::Object ^ get(); };" />
-      <MemberSignature Language="C++ CX" Value="property Platform::Object ^ System.Collections.IEnumerator.Current { Platform::Object ^ get(); };" />
+      <MemberSignature Language="F#" Usage="System.Collections.IEnumerator.Current" />
+      <MemberSignature Language="C++ CLI" Value="property System::Object ^ System::Collections::IEnumerator::Current { System::Object ^ get(); };" />
+      <MemberSignature Language="C++ CX" Value="property Platform::Object ^ System::Collections::IEnumerator::Current { Platform::Object ^ get(); };" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.IEnumerator.Current</InterfaceMember>

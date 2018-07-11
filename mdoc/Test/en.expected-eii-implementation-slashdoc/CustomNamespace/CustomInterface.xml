@@ -1,0 +1,62 @@
+<Type Name="CustomInterface" FullName="CustomNamespace.CustomInterface">
+  <TypeSignature Language="C#" Value="public interface CustomInterface" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract CustomInterface" />
+  <TypeSignature Language="VB.NET" Value="Public Interface CustomInterface" />
+  <TypeSignature Language="F#" Value="type CustomInterface = interface" />
+  <TypeSignature Language="C++ CLI" Value="public interface class CustomInterface" />
+  <TypeSignature Language="C++ CX" Value="public interface class CustomInterface" />
+  <TypeSignature Language="C++ WINRT" Value="__interface CustomInterface" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest-VB-Eii</AssemblyName>
+    <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Prop1">
+      <MemberSignature Language="C#" Value="public int Prop1 { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Prop1" />
+      <MemberSignature Language="VB.NET" Value="Public Property Prop1 As Integer" />
+      <MemberSignature Language="F#" Value="member this.Prop1 : int with get, set" Usage="CustomNamespace.CustomInterface.Prop1" />
+      <MemberSignature Language="JavaScript" Usage="var int32 = customInterface.prop1;&#xA;customInterface.prop1 = int32;" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Prop1 { int get(); void set(int value); };" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; property int Prop1 { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Prop2">
+      <MemberSignature Language="C#" Value="public object Prop2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Prop2" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Prop2 As Object" />
+      <MemberSignature Language="F#" Value="member this.Prop2 : obj" Usage="CustomNamespace.CustomInterface.Prop2" />
+      <MemberSignature Language="JavaScript" Usage="var object = customInterface.prop2;" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ Prop2 { System::Object ^ get(); };" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; property Platform::Object ^ Prop2 { Platform::Object ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
