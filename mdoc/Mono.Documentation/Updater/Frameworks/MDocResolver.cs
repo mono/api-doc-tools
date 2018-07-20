@@ -553,7 +553,7 @@ namespace Mono.Documentation.Updater.Frameworks
             var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
 
             if (subdirectories)
-                directories = GetAllDirectories(directories);
+                directories = GetAllDirectories(directories).Distinct();
 
             foreach (var dir in directories)
             {
