@@ -3733,9 +3733,11 @@ namespace Mono.Documentation
 
         private bool IsReadonlyAttribute(IList<CustomAttribute> attributes)
         {
+            if (attributes == null) return false;
+
             foreach (var attribute in attributes)
             {
-                if (attribute.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute")
+                if (attribute?.AttributeType?.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute")
                 {
                     return true;
                 }
