@@ -3267,6 +3267,7 @@ namespace Mono.Documentation
 		"System.Diagnostics.DebuggerHiddenAttribute",
         "System.Runtime.CompilerServices.FixedBufferAttribute",
         "System.Runtime.CompilerServices.UnsafeValueTypeAttribute",
+        "System.Runtime.CompilerServices.AsyncStateMachineAttribute",
 		// extension methods
 		"System.Runtime.CompilerServices.ExtensionAttribute",
 		// Used to differentiate 'object' from C#4 'dynamic'
