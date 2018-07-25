@@ -40,6 +40,9 @@ namespace Mono.Documentation.Updater
                     oldmember.RemoveAttribute ("__monodocer-seen__");
                     continue;
                 }
+                if (oldmember.ParentNode == null || oldmember.GetAttribute("ToDelete") == "true")
+                    continue;
+                
                 MemberReference m = GetMember (type, new DocumentationMember (oldmember, typeEntry));
                 if (m == null)
                 {
@@ -131,6 +134,8 @@ namespace Mono.Documentation.Updater
                 bool good = true;
                 for (int i = 0; i < pis.Count; i++)
                 {
+                    bool isRefType = pis[i].ParameterType is ByReferenceType;
+
                     string paramType = GetReplacedString (
                         MDocUpdater.GetDocParameterType (pis[i].ParameterType),
                         typeParams, docTypeParams);
@@ -143,6 +148,17 @@ namespace Mono.Documentation.Updater
                     }
 
                     string xmlMemberType = member.Parameters[i];
+
+                    bool xmlIsRefType = xmlMemberType.Contains ('&');
+                    bool refTypesMatch = isRefType == xmlIsRefType;
+
+                    if (!refTypesMatch) {
+                        good = false;
+                        break;
+                    }
+
+                    xmlMemberType = xmlIsRefType ? xmlMemberType.Substring (0, xmlMemberType.Length - 1) : xmlMemberType;
+
                     if ((!paramType.Equals (xmlMemberType) && paramType.Equals (originalParamType)) ||
                         (MDocUpdater.SwitchingToMagicTypes && !originalParamType.Equals (xmlMemberType) && !paramType.Equals (xmlMemberType) && !paramType.Equals (originalParamType)))
                     {
@@ -166,6 +182,7 @@ namespace Mono.Documentation.Updater
 
                     if (originalParamType != paramType)
                         matchedMagicType = true;
+                    
                 }
                 if (!good) continue;
 

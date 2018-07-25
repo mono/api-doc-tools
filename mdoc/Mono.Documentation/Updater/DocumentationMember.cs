@@ -53,7 +53,7 @@ namespace Mono.Documentation.Updater
                     string apistyle = reader.GetAttribute ("apistyle");
                     shouldUse = string.IsNullOrWhiteSpace (apistyle) || apistyle == "classic"; // only use this tag if it's an 'classic' style node
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
                 switch (reader.Name)
                 {
                     case "MemberSignature":
@@ -71,7 +71,17 @@ namespace Mono.Documentation.Updater
                         break;
                     case "Parameter":
                         if (reader.Depth == depth + 2 && shouldUse)
-                            p.Add (reader.GetAttribute ("Type"));
+                        {
+                            var ptype = reader.GetAttribute ("Type");
+                            var reftypeAttribute = reader.GetAttribute ("RefType");
+                            if (!ptype.EndsWith("&", StringComparison.Ordinal) && 
+                                (reftypeAttribute == "out" || reftypeAttribute == "ref"))
+                            {
+                                // let's add the `&` back, for comparisons
+                                ptype += '&';
+                            }
+                            p.Add (ptype);
+                        }
                         break;
                     case "TypeParameter":
                         if (reader.Depth == depth + 2 && shouldUse)
@@ -118,19 +128,36 @@ namespace Mono.Documentation.Updater
             var p = node.SelectNodes ("Parameters/Parameter[not(@apistyle) or @apistyle='classic']").Cast<XmlElement>().ToArray ();
             if (p.Length > 0)
             {
+                Func<string, string, string> processType = (reftype, typename) => 
+                    !typename.EndsWith("&", StringComparison.Ordinal) && (reftype == "ref" || reftype == "out") ? typename + '&' : typename;
                 if (p.Any (para => para.HasAttribute ("Index")))
                 {
-                    var pgroup = p.GroupBy (para => new
-                    {
-                        Index = para.GetAttribute ("Index"),
-                        Type = para.GetAttribute ("Type")
-                    }).ToArray ();
+                    var pgroup = p
+                        .Select (para => new
+                        {
+                            Index = para.GetAttribute ("Index"),
+                            Type = para.GetAttribute ("Type"),
+                            RefType = para.GetAttribute ("RefType")
+                        })
+                        .GroupBy (para => new
+                        {
+                            para.Index,
+                            Type = processType (para.RefType, para.Type)
+                        })
+                        .ToArray ();
 
                     Parameters = new StringList (pgroup.Length);
                     Parameters.AddRange (pgroup.Select (pg => pg.Key.Type));
                 }
                 else {
-                    var ptypes = p.Select (para => para.GetAttribute ("Type")).ToArray ();
+                    var ptypes = p
+                        .Select (para => new
+                        {
+                            Type = para.GetAttribute ("Type"),
+                            RefType = para.GetAttribute ("RefType")
+                        })
+                        .Select (para => processType(para.RefType, para.Type))
+                        .ToArray ();
 
                     Parameters = new StringList (ptypes);
                 }

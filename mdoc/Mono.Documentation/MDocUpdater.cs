@@ -1465,6 +1465,9 @@ namespace Mono.Documentation
 
             foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers (basefile, type, typeEntry))
             {
+                if (info.Node.ParentNode == null || info.Node.GetAttribute ("ToDelete") == "true")
+                    continue;
+                
                 XmlElement oldmember = info.Node;
                 MemberReference oldmember2 = info.Member;
 
@@ -1533,8 +1536,42 @@ namespace Mono.Documentation
                     }
                     else
                     {
-                        DeleteMember ("Duplicate Member Found", output, oldmember, todelete, type);
+                        bool hasContent = MDocUpdater.MemberDocsHaveUserContent (oldmember);
+                        if (hasContent)
+                        {
+                            // let's see if we can find a dupe with fewer docs ... just in case
+                            var matchingMembers = oldmember.ParentNode.SelectNodes ("Member[MemberSignature[@Language='ILAsm' and @Value='" + sig + "']]");
+                            if (matchingMembers.Count > 1)
+                            {
+                                // ok, there's more than one, let's make sure it's a better candidate for removal
+                                var membersWithNoDocs = matchingMembers
+                                    .Cast<XmlElement> ()
+                                    .TakeWhile (memberElement => !object.ReferenceEquals (memberElement, oldmember))
+                                    .Select (memberElement => new
+                                    {
+                                        Element = memberElement,
+                                        hasContent = MDocUpdater.MemberDocsHaveUserContent (memberElement),
+                                        alreadyDeleted = memberElement.GetAttribute ("ToDelete") == "true"
+                                    })
+                                    .Where (mem => !mem.hasContent && !mem.alreadyDeleted)
+                                    .Select (mem => mem.Element)
+                                    .ToArray();
 
+                                if (membersWithNoDocs.Any())
+                                {
+                                    foreach (var memberToDelete in membersWithNoDocs)
+                                    {
+                                        memberToDelete.SetAttribute ("ToDelete", "true");
+                                        DeleteMember ("Duplicate Member (empty) Found", output, memberToDelete, todelete, type);
+                                        statisticsCollector.AddMetric (typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
+                                    }
+                                    continue;
+                                }
+                            }
+                        }
+
+                        oldmember.SetAttribute ("ToDelete", "true");
+                        DeleteMember ("Duplicate Member Found", output, oldmember, todelete, type);
                         statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
                     }
                     continue;
@@ -1557,7 +1594,7 @@ namespace Mono.Documentation
                     seenmembers.Add (stylesig, oldmember);
                 }
             }
-            foreach (XmlElement oldmember in todelete)
+            foreach (XmlElement oldmember in todelete.Where(mem => mem.ParentNode != null))
                 oldmember.ParentNode.RemoveChild (oldmember);
 
 
@@ -3513,7 +3550,6 @@ namespace Mono.Documentation
                          .ToArray ();
 
             // Now sync up the state
-            int pindex = 0;
             for (int i=0; i < pdata.Length; i++) {
                 var p = pdata[i];
                 // check for name
@@ -3523,8 +3559,11 @@ namespace Mono.Documentation
                     var xelement = xitem.Element;
                     if (xelement.HasAttribute (Consts.FrameworkAlternate) && !xelement.GetAttribute (Consts.FrameworkAlternate).Contains (typeEntry.Framework.Name))
                         xelement.SetAttribute (Consts.FrameworkAlternate, FXUtils.AddFXToList (xelement.GetAttribute (Consts.FrameworkAlternate), typeEntry.Framework.Name));
-                        
                     
+                    // update the type name. This supports the migration to a
+                    // formal `RefType` attribute, rather than appending `&` to the Type attribute.
+                    xelement.SetAttribute ("Type", p.Type);
+
                     continue;
                 }
                 else {

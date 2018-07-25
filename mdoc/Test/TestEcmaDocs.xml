@@ -3449,7 +3449,7 @@ public class ArrayLastIndexOfExample {
 						<ReturnType>System.Void</ReturnType>
 					</ReturnValue>
 					<Parameters>
-						<Parameter Name="array" Type="T[]"/>
+						<Parameter Name="array" Type="T[]&amp;"/>
 						<Parameter Name="newSize" Type="System.Int32"/>
 					</Parameters>
 					<Docs>
