@@ -135,7 +135,7 @@ and the second dimension indexed by 1, 2, and 3. </para>
           <see cref="M:System.Array.AsReadOnly``1(``0[])" /></exception>
       </Docs>
     </Member>
-    <Member MemberName="ConvertAll&lt;T,U&gt;">
+    <Member MemberName="ConvertAll&lt;TInput,TOutput&gt;">
       <MemberSignature Language="C#" Value="public static TOutput[] ConvertAll&lt;TInput,TOutput&gt; (TInput[] array, Converter&lt;TInput,TOutput&gt; converter);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig !!TOutput[] ConvertAll&lt;TInput, TOutput&gt;(!!TInput[] array, class System.Converter`2&lt;!!TInput, !!TOutput&gt; converter) cil managed" />
       <MemberType>Method</MemberType>
