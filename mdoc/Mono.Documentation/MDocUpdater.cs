@@ -1465,7 +1465,7 @@ namespace Mono.Documentation
 
             foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers (basefile, type, typeEntry))
             {
-                if (info.Node.ParentNode == null || info.Node.GetAttribute ("ToDelete") == "true")
+                if (info.Node.ParentNode == null)
                     continue;
                 
                 XmlElement oldmember = info.Node;
@@ -1592,6 +1592,12 @@ namespace Mono.Documentation
                 foreach (var stylesig in styles)
                 {
                     seenmembers.Add (stylesig, oldmember);
+                }
+
+                if (oldmember.HasAttribute("ToDelete"))
+                {
+                    // this is the restult of an error state, let's remove this
+                    oldmember.RemoveAttribute ("ToDelete");
                 }
             }
             foreach (XmlElement oldmember in todelete.Where(mem => mem.ParentNode != null))
@@ -2203,6 +2209,10 @@ namespace Mono.Documentation
             XmlElement me = (XmlElement)info.Node;
             MemberReference mi = info.Member;
             typeEntry.ProcessMember (mi);
+
+
+            var memberName = GetMemberName (mi);
+            me.SetAttribute ("MemberName", memberName);
 
             WriteElementText (me, "MemberType", GetMemberType (mi));
             AddImplementedMembers(mi, implementedMembers, me);
