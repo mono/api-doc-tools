@@ -31,8 +31,6 @@ namespace Mono.Documentation.Updater.Frameworks
                 exportedFiles = new List<string> ();
 
             var a = this.ResolveCore (name, r, exportedFiles);
-            //Console.WriteLine($"resolver, resolving {forType.FullName} in {name}");
-
 
             if (forType != null && a.MainModule.HasExportedTypes) {
                 var etype = a.MainModule.ExportedTypes.SingleOrDefault (t => t.FullName == forType.FullName) as ExportedType;

@@ -40,7 +40,7 @@ namespace Mono.Documentation.Updater
                     oldmember.RemoveAttribute ("__monodocer-seen__");
                     continue;
                 }
-                if (oldmember.ParentNode == null || oldmember.GetAttribute("ToDelete") == "true")
+                if (oldmember.ParentNode == null)
                     continue;
                 
                 MemberReference m = GetMember (type, new DocumentationMember (oldmember, typeEntry));
