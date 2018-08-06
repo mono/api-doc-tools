@@ -3607,6 +3607,17 @@ namespace Mono.Documentation
 
             }
 
+            // this section syncs up the indices
+            for (int i = 0; i < pdata.Length; i++)
+            {
+                var p = pdata[i];
+                var xitem = xdata.FirstOrDefault (x => x.Name == p.Name);
+                if (xitem != null && xitem.Element.HasAttribute ("Index"))
+                {
+                    xitem.Element.SetAttribute ("Index", p.Index.ToString ());
+                }
+            }
+
             //-purge `typeEntry.Framework` from any<parameter> that 
             // has FrameworkAlternate, and “name” doesn’t match any 
             // `parameters`
