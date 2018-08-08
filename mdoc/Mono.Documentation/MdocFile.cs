@@ -52,13 +52,33 @@ namespace Mono.Documentation {
 				}
 
 				if (move) {
-					File.Delete (file);
+					DeleteFile (file);
 					File.Move (temp, file);
 				}
 			}
 			finally {
 				if (!move && File.Exists (temp))
 					File.Delete (temp);
+			}
+		}
+
+		public static void DeleteFile (string fileToDelete, int retries = 10)
+		{
+			var startRetries = retries;
+
+			var fi = new FileInfo(fileToDelete);
+			if (fi.Exists) {
+				fi.Delete ();
+				fi.Refresh ();
+
+				while (fi.Exists && retries-- > 0) {
+					System.Threading.Thread.Sleep (100);
+					fi.Refresh ();
+				}
+
+				fi.Refresh ();
+				if (fi.Exists)
+					throw new IOException ($"Unable to delete file '{fileToDelete}' after {startRetries} attempts.");
 			}
 		}
 

@@ -94,8 +94,7 @@ namespace Mono.Documentation.Updater.Frameworks
 				// now save the document
 				string filePath = Path.Combine (outputPath, fx.Name + ".xml");
 
-				if (File.Exists (filePath))
-					File.Delete (filePath);
+				MdocFile.DeleteFile (filePath);
 
 				var settings = new XmlWriterSettings { Indent = true };
 				using (var writer = XmlWriter.Create (filePath, settings)) {

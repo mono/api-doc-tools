@@ -1291,7 +1291,7 @@ namespace Mono.Documentation
                         Action actuallyDelete = () =>
                         {
                             string newname = typefile.FullName + ".remove";
-                            try { System.IO.File.Delete (newname); } catch (Exception) { Warning ("Unable to delete existing file: {0}", newname); }
+                            try { MdocFile.DeleteFile (newname); } catch (Exception) { Warning ("Unable to delete existing file: {0}", newname); }
                             try { typefile.MoveTo (newname); } catch (Exception) { Warning ("Unable to rename to: {0}", newname); }
                             Console.WriteLine ("Class no longer present; file renamed: " + Path.Combine (nsdir.Name, typefile.Name));
 
