@@ -2457,7 +2457,7 @@ namespace Mono.Documentation
 
             foreach (var implementedMember in implementedMembers)
             {
-                var value = slashdocFormatter.GetDeclaration(implementedMember);
+                var value = msxdocxSlashdocFormatter.GetDeclaration(implementedMember);
                 WriteElementText(e, "InterfaceMember", value, true);
             }
 

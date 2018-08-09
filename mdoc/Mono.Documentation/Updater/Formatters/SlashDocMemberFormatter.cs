@@ -10,7 +10,6 @@ namespace Mono.Documentation.Updater
 {
     class SlashDocMemberFormatter : MemberFormatter
     {
-
         protected override string[] GenericTypeContainer
         {
 
@@ -85,6 +84,11 @@ namespace Mono.Documentation.Updater
                 }
             }
             return buf;
+        }
+
+        protected override StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        {
+            return base.AppendRefTypeName (buf, type, context).Append (RefTypeModifier);
         }
 
         protected override StringBuilder AppendArrayModifiers (StringBuilder buf, ArrayType array)
