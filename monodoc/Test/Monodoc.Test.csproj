@@ -6,6 +6,7 @@
     <RootNamespace>Monodoc.Test</RootNamespace>
     <AssemblyName>Monodoc.Test</AssemblyName>
     <EnableDefaultItems>false</EnableDefaultItems>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
