@@ -1,56 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <TargetFramework>net471</TargetFramework>
+    <OutputTypeEx>Library</OutputTypeEx>
     <RootNamespace>mdoc.Test</RootNamespace>
     <AssemblyName>mdoc.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <EnableDefaultItems>false</EnableDefaultItems>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="FSharp.Core, Version=4.4.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FSharp.Core.4.3.4\lib\net45\FSharp.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <PackageReference Include="FSharp.Core" Version="4.3.4" PrivateAssets="All" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta5" PrivateAssets="All" />
+    <PackageReference Include="NUnit" Version="2.6.4" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\mdoc.csproj" />
+    <ProjectReference Include="..\..\monodoc\monodoc.csproj" />
+    <ProjectReference Include="mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="*.cs" />
+    <Compile Include="FSharp\**\*.cs" />
+    <Compile Include="SampleClasses\**\*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="mdoc.Test.Cplusplus, Version=1.0.6709.28740, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\external\Test\mdoc.Test.Cplusplus.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="Windows">
       <HintPath>..\..\external\Windows\Windows.WinMD</HintPath>
@@ -61,82 +41,11 @@
     <Reference Include="Windows.Foundation.UniversalApiContract">
       <HintPath>..\..\external\Windows\Windows.Foundation.UniversalApiContract.winmd</HintPath>
     </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="BasicFormatterTests.cs" />
-    <Compile Include="BasicTests.cs" />
-    <Compile Include="CppWinRtMembersTests.cs" />
-    <Compile Include="CppWinRtFormatterTests.cs" />
-    <Compile Include="FrameworkIndexHelperTests.cs" />
-    <Compile Include="DocUtilsFSharpTests.cs" />
-    <Compile Include="DocUtilsTests.cs" />
-    <Compile Include="FSharp\BasicFSharpFormatterTests.cs" />
-    <Compile Include="CppCxFormatterMembersTests.cs" />
-    <Compile Include="CppFormatterTests.cs" />
-    <Compile Include="CppCxFormatterTypesTests.cs" />
-    <Compile Include="CppFullFormatterTests.cs" />
-    <Compile Include="FormatterTests.cs" />
-    <Compile Include="FSharp\FSharpFormatterTests.cs" />
-    <Compile Include="FSharp\FSharpUsageFormatterTests.cs" />
-    <Compile Include="JsMemberFormatterTests.cs" />
-    <Compile Include="JsUsageFormatterTests.cs" />
-    <Compile Include="MDocFileSourceTests.cs" />
-    <Compile Include="MDocUpdaterTests.cs" />
-    <Compile Include="SampleClasses\ReadOnlySpan.cs" />
-    <Compile Include="SampleClasses\SomeDelegate.cs" />
-    <Compile Include="SampleClasses\SomeInterface.cs" />
-    <Compile Include="SampleClasses\Span.cs" />
-    <Compile Include="SampleClasses\TestClass.cs" />
-    <Compile Include="SampleClasses\SomeGenericClass.cs" />
-    <Compile Include="SampleClasses\WebHostHiddenTestClass.cs" />
-    <Compile Include="SampleClasses\SomeClass.cs" />
-    <Compile Include="SampleClasses\SomeClassWithManyConstructors.cs" />
-    <Compile Include="SampleClasses\SomeEmptyEnum.cs" />
-    <Compile Include="SampleClasses\SomeEnum.cs" />
-    <Compile Include="SampleClasses\TestPrivateClass.cs" />
-    <Compile Include="SampleClasses\TestClassTwo.cs" />
-    <Compile Include="SampleClasses\SomeStruct.cs" />
-    <Compile Include="SampleClasses\WebHostHiddenAttribute.cs" />
-    <Compile Include="StatisticsTests.cs" />
-    <Compile Include="VBFormatterTests.cs" />
-    <Compile Include="FrameworkAlternateTests.cs" />
-    <Compile Include="XmlConsts.cs" />
-    <Compile Include="XmlUpdateTests.cs" />
-    <Compile Include="ValidationTests.cs" />
+    <None Include="cppcli\cppcli\cppcli.h" Link="SampleClasses\cppcli.h" />
+    <Content Include="cppcli\Debug\cppcli.dll" Link="SampleClasses\cppcli.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="cppcli\cppcli\cppcli.h">
-      <Link>SampleClasses\cppcli.h</Link>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\mdoc.csproj">
-      <Project>{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}</Project>
-      <Name>mdoc</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\monodoc\monodoc.csproj">
-      <Project>{6E644802-B579-4037-9809-9CF4C7172C9D}</Project>
-      <Name>monodoc</Name>
-    </ProjectReference>
-    <ProjectReference Include="mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj">
-      <Project>{979f9f80-12fe-4236-9e93-6d554ab13701}</Project>
-      <Name>mdoc.Test.FSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="cppcli\Debug\cppcli.dll">
-      <Link>SampleClasses\cppcli.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+
 </Project>

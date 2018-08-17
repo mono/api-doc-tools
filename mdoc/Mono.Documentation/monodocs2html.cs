@@ -13,9 +13,11 @@ using System.Xml.XPath;
 using Mono.Documentation;
 using Mono.Options;
 
+#if !EXCLUDE_MONODOCS_TO_HTML_ATTRIBUTES
 [assembly: AssemblyTitle("Monodocs-to-HTML")]
 [assembly: AssemblyCopyright("Copyright (c) 2004 Joshua Tauberer <tauberer@for.net>, released under the GPL.")]
 [assembly: AssemblyDescription("Convert Monodoc XML documentation to static HTML.")]
+#endif
 
 namespace Mono.Documentation {
 
