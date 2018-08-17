@@ -15,6 +15,7 @@ public class MDocToMSXDocConverter : MDocCommand {
 	public override void Run (IEnumerable<string> args)
 	{
 		string file = null;
+		bool quiet = false;
 		var p = new OptionSet () {
 			{ "o|out=", 
 				"The XML {FILE} to generate.\n" + 
@@ -22,6 +23,9 @@ public class MDocToMSXDocConverter : MDocCommand {
 				"based on the //AssemblyInfo/AssemblyName values within the documentation.\n" +
 				"Use '-' to write to standard output.",
 				v => file = v },
+			{ "q|quiet=", 
+				"Reduce logging to the console.",
+				v => quiet = v != null },
 		};
 		List<string> directories = Parse (p, args, "export-slashdoc", 
 				"[OPTIONS]+ DIRECTORIES",
@@ -29,10 +33,10 @@ public class MDocToMSXDocConverter : MDocCommand {
 					"Microsoft XML Documentation format files.");
 		if (directories == null)
 			return;
-		Run (file, directories);
+		Run (file, directories, quiet);
 	}
 	
-	public static void Run (string file, IEnumerable<string> dirs)
+	public static void Run (string file, IEnumerable<string> dirs, bool quiet)
 	{
 		Dictionary<string, XmlElement> outputfiles = new Dictionary<string, XmlElement> ();
 
@@ -64,14 +68,16 @@ public class MDocToMSXDocConverter : MDocCommand {
 		// Write out each of the assembly documents
 		foreach (string assemblyName in outputfiles.Keys) {
 			XmlElement members = (XmlElement)outputfiles[assemblyName];
-			Console.WriteLine(assemblyName + ".xml");
+			if (!quiet)
+				Console.WriteLine(assemblyName + ".xml");
 			using(StreamWriter sw = new StreamWriter(assemblyName + ".xml")) {
 				WriteXml(members.OwnerDocument.DocumentElement, sw);
 			}
 		}
 	
 		// Write out a namespace summaries file.
-		Console.WriteLine("NamespaceSummaries.xml");
+		if (!quiet)
+				Console.WriteLine("NamespaceSummaries.xml");
 		using(StreamWriter writer = new StreamWriter("NamespaceSummaries.xml")) {
 			WriteXml(nsSummaries.DocumentElement, writer);
 		}
