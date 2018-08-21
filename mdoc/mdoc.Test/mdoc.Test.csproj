@@ -105,6 +105,7 @@
     <Compile Include="XmlConsts.cs" />
     <Compile Include="XmlUpdateTests.cs" />
     <Compile Include="ValidationTests.cs" />
+    <Compile Include="Enumeration\EnumeratorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -137,6 +138,9 @@
       <Link>SampleClasses\cppcli.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enumeration\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
