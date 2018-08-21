@@ -117,7 +117,7 @@ type Records.Car = {}");
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_0() =>
             TestTypeSignature(typeof(DiscriminatedUnions.Shape),
-@"[<Sealed>]
+@"[<AbstractClass>]
 type DiscriminatedUnions.Shape =");
 
         [Test]
@@ -147,7 +147,7 @@ type DiscriminatedUnions.Shape =");
         public void TypeSignature_Union_4() =>
             TestTypeSignature(typeof(DiscriminatedUnions.SizeUnion),
 @"[<Sealed>]
-type DiscriminatedUnions.SizeUnion = ");
+type DiscriminatedUnions.SizeUnion =");
 
         [Test]
         [Category("Types")]
@@ -293,8 +293,8 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         public void TypeSignature_Tuple() =>
             TestTypeSignature(typeof(Tuple<,,,>),
 @"type Tuple<'T1, 'T2, 'T3, 'T4> =
-    interface IComparable    
     interface ITuple
+    interface IComparable    
     interface IStructuralEquatable
     interface IStructuralComparable");
         #endregion
@@ -503,21 +503,21 @@ override this.Rotate : double -> unit",
         [Category("Constructors")]
         public void MethodSignature_Constructor_0() =>
             TestMethodSignature(typeof(Interfaces.SomeClass1),
-                "new Interfaces.SomeClass1 : int * double -> Interfaces.SomeClass1",
+                "new : int * double -> Interfaces.SomeClass1",
                 ".ctor");
 
         [Test]
         [Category("Constructors")]
         public void MethodSignature_Constructor_1() =>
             TestMethodSignature(typeof(Constructors.MyClass),
-                "new Constructors.MyClass : int * int * int -> Constructors.MyClass",
+                "new : int * int * int -> Constructors.MyClass",
                 ".ctor");
 
         [Test]
         [Category("Types")]
         public void TypeSignature_ClassWithPrimaryConstructorWithObjArguments() =>
             TestMethodSignature(typeof(Constructors.MyClassObjectParameters),
-                "new Constructors.MyClassObjectParameters : string * obj * obj -> Constructors.MyClassObjectParameters",
+                "new : string * obj * obj -> Constructors.MyClassObjectParameters",
                 ".ctor");
         #endregion
 
@@ -626,10 +626,11 @@ override this.Rotate : double -> unit",
         [Category("Types")]
         [Category("FSharpCore")]
         public void TypeSignature_MailboxProcessor() =>
-            TestTypeSignature(typeof(FSharpMailboxProcessor<>), 
+            TestTypeSignature(typeof(FSharpMailboxProcessor<>),
 @"[<Sealed>]
 type MailboxProcessor<'Msg> =
-    interface IDisposable");
+    interface IDisposable
+    new : (MailboxProcessor<'Msg> -> Async<unit>) * option<CancellationToken> -> MailboxProcessor<'Msg>");
 
         [Test]
         [Category("Constructors")]

@@ -217,7 +217,7 @@ namespace Mono.Documentation.Updater
 
             if (DocUtils.IsDelegate(type))
             {
-                buf.Append(" delgate of");
+                buf.Append(" delegate of");
                 buf.Append(" ");
                 MethodDefinition invoke = type.GetMethod("Invoke");
                 AppendFunctionSignature(buf, invoke);
@@ -270,29 +270,36 @@ namespace Mono.Documentation.Updater
             if (type.HasMethods)
             {
                 var ctorsAndMeths = type.Methods.Where(m => !m.IsGetter && !m.IsSetter).GroupBy(m => m.IsConstructor).ToList();
-                var ctors = ctorsAndMeths[0];
-                var meths = ctorsAndMeths[1];
+                if (ctorsAndMeths is null) return;
 
-                foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
+                if (ctorsAndMeths.Count > 0)
                 {
-                    if (ctor is null) continue;
+                    var ctors = ctorsAndMeths[0];
+                    foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
+                    {
+                        if (ctor is null) continue;
 
-                    var lineEnd = GetLineEnding();
-                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
-                    var ctorDecl = GetConstructorDeclaration(ctor);
+                        var lineEnd = GetLineEnding();
+                        var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                        var ctorDecl = GetConstructorDeclaration(ctor);
 
-                    buf.Append($"{lineEnd}{tab}{ctorDecl}");
-                }
+                        buf.Append($"{lineEnd}{tab}{ctorDecl}");
+                    }
 
-                foreach (var meth in meths.OrderByDescending(m => m.FullName))
-                {
-                    if (meth is null) continue;
+                    if (ctorsAndMeths.Count > 1)
+                    {
+                        var meths = ctorsAndMeths[1];
+                        foreach (var meth in meths.OrderByDescending(m => m.FullName))
+                        {
+                            if (meth is null) continue;
 
-                    var lineEnd = GetLineEnding();
-                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
-                    var methDecl = GetMethodDeclaration(meth);
+                            var lineEnd = GetLineEnding();
+                            var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                            var methDecl = GetMethodDeclaration(meth);
 
-                    buf.Append($"{lineEnd}{tab}{methDecl}");
+                            buf.Append($"{lineEnd}{tab}{methDecl}");
+                        }
+                    }
                 }
             }
         }
@@ -357,22 +364,39 @@ namespace Mono.Documentation.Updater
         private void AppendFunctionSignature(StringBuilder buf, MethodDefinition method)
         {
             bool isTuple = method.Parameters.Count == 1 && IsTuple(method.Parameters[0].ParameterType);
+
             if (isTuple)
+            {
                 buf.Append("(");
+            }
+
             AppendParameters(buf, method, method.Parameters);
+
             if (isTuple)
+            {
                 buf.Append(")");
+            }
 
             buf.Append(" -> ");
+
+            // Return type
             if (method.IsConstructor)
+            {
                 buf.Append(GetTypeName(method.DeclaringType));
+            }
             else
             {
                 if (IsFSharpFunction(method.ReturnType))
+                {
                     buf.Append("(");
+                }
+
                 buf.Append(GetTypeName(method.ReturnType));
+
                 if (IsFSharpFunction(method.ReturnType))
+                {
                     buf.Append(")");
+                }
             }
         }
 
@@ -739,19 +763,27 @@ namespace Mono.Documentation.Updater
             if (parameters.Count > 0)
             {
                 bool isExtensionMethod = IsExtensionMethod(method);
+
+                // If it's an extension method, first parameter is ignored
                 if (!isExtensionMethod)
-                {// If it's an extension method, first parameter is ignored
+                {
                     AppendParameter(buf, parameters[0]);
                 }
+
                 for (int i = 1; i < parameters.Count; ++i)
                 {
                     if (!(isExtensionMethod && i == 1))
                     {
                         if (curryBorders.Contains(i))
+                        {
                             buf.Append(" -> ");
+                        }
                         else
+                        {
                             buf.Append(" * ");
+                        }
                     }
+
                     AppendParameter(buf, parameters[i]);
                 }
             }
@@ -759,6 +791,7 @@ namespace Mono.Documentation.Updater
             {
                 buf.Append("unit");
             }
+
             return buf;
         }
 
@@ -766,11 +799,17 @@ namespace Mono.Documentation.Updater
         {
             bool isFSharpFunction = IsFSharpFunction(parameter.ParameterType);
             if (isFSharpFunction)
+            {
                 buf.Append("(");
+            }
+
             var typeName = GetTypeName(parameter.ParameterType, new DynamicParserContext(parameter));
-            buf.Append(typeName);
+            buf.Append($"{parameter.Name}:{typeName}");
+
             if (isFSharpFunction)
+            {
                 buf.Append(")");
+            }
         }
 
         protected override string GetPropertyDeclaration(PropertyDefinition property)
