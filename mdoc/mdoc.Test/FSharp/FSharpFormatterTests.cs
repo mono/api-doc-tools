@@ -299,7 +299,7 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
     interface IComparable
     interface IStructuralEquatable
     interface IStructuralComparable
-    new : item1:'T1 * item2:'T2 * item3:'T3 * item4:'T4 -> Tuple<'T1,'T2,'T3,'T4>
+    new : item1:'T1 * item2:'T2 * item3:'T3 * item4:'T4 -> Tuple<'T1, 'T2, 'T3, 'T4>
     override this.Equals : obj:obj -> bool
     override this.GetHashCode : unit -> int
     override this.ToString : unit -> string");

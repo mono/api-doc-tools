@@ -133,6 +133,14 @@ namespace Mono.Documentation.Updater
             "System.Collections.IStructuralComparable",
         };
 
+        private static readonly HashSet<string> IgnoredMethodNames = new HashSet<string>()
+        {
+            "CompareTo",
+            "Equals",
+            "GetHashCode",
+            "GetSlice"
+        };
+
         private GenericParameterState genericParameterState = GenericParameterState.None;
 
         protected string GetFSharpType(TypeReference type)
@@ -299,7 +307,11 @@ namespace Mono.Documentation.Updater
                     foreach (var meth in meths.OrderByDescending(m => m.FullName))
                     {
                         if (meth is null) continue;
-                        if (type.IsValueType && GetMethodKind(meth) == FSharpMethodKind.Override) continue;
+
+                        if (IgnoredMethodNames.Contains(meth.Name))
+                        {
+                            continue;
+                        }
 
                         var lineEnd = GetLineEnding();
                         var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
