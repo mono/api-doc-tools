@@ -55,7 +55,7 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        protected static MemberReference GetMember (TypeDefinition type, DocumentationMember member)
+        public static MemberReference GetMember (TypeDefinition type, DocumentationMember member)
         {
             string membertype = member.MemberType;
 
@@ -226,7 +226,13 @@ namespace Mono.Documentation.Updater
                 return arrayTypes;
         }
 
-        protected static IEnumerable<MemberReference> GetReflectionMembers (TypeDefinition type, string docName, string memberType)
+        public static IEnumerable<MemberReference> GetReflectionMembers (TypeDefinition type, string docName, string memberType)
+        {
+            return GetReflectionMembersCore (type, docName, memberType)
+                .Distinct ();
+        }
+
+        private static IEnumerable<MemberReference> GetReflectionMembersCore (TypeDefinition type, string docName, string memberType)
         {
             // In case of dropping the namespace, we have to remove the dropped NS
             // so that docName will match what's in the assembly/type
@@ -235,6 +241,8 @@ namespace Mono.Documentation.Updater
                 int droppedNsLength = MDocUpdater.droppedNamespace.Length;
                 docName = docName.Substring (droppedNsLength + 1, docName.Length - droppedNsLength - 1);
             }
+
+
 
             // need to worry about 4 forms of //@MemberName values:
             //  1. "Normal" (non-generic) member names: GetEnumerator
@@ -253,10 +261,16 @@ namespace Mono.Documentation.Updater
             //    this as (1) or (2).
             if (docName.IndexOf ('<') == -1 && docName.IndexOf ('[') == -1)
             {
+                int memberCount = 0;
+
                 // Cases 1 & 2
-                foreach (MemberReference mi in type.GetMembers (docName)) 
+                foreach (MemberReference mi in type.GetMembers (docName))
+                {
+                    memberCount++;
                     yield return mi;
-                if (CountChars (docName, '.') > 0)
+                }
+
+                if (memberCount == 0 && CountChars (docName, '.') > 0)
                 {
 
                     Func<MemberReference, bool> verifyInterface = (member) =>
@@ -271,7 +285,6 @@ namespace Mono.Documentation.Updater
                         return meth != null && (member.Name.Equals (".ctor") || DocUtils.IsExplicitlyImplemented (meth));
                     };
 
-                    int memberCount = 0;
 
                     // might be a property; try only type.member instead of
                     // namespace.type.member.
@@ -325,7 +338,7 @@ namespace Mono.Documentation.Updater
                             {
                                 DocUtils.GetInfoForExplicitlyImplementedMethod(method, out var iface, out var ifaceMethod);
                                 var newName = DocUtils.GetMemberForProperty(ifaceMethod.Name);
-                                if (newName == memberName && verifyInterface(mr))
+                                if (newName == memberName && verifyInterface(mr) && docName.Contains (iface.Name))
                                     yield return mr;
                             }
                         }
