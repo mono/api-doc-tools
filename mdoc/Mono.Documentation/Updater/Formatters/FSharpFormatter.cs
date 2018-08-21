@@ -121,7 +121,7 @@ namespace Mono.Documentation.Updater
             "Microsoft.FSharp.Linq.FSharp",
             "Microsoft.FSharp.NativeInterop.FSharp",
             "Microsoft.FSharp.Quotations.FSharp",
-            "Microsoft.FSharp.Reflection.FSharp",
+            "Microsoft.FSharp.Reflection.FSharp"
         };
 
         private static readonly HashSet<string> ignoredValueTypeInterfaces = new HashSet<string>()
@@ -183,6 +183,8 @@ namespace Mono.Documentation.Updater
                 return null;
 
             StringBuilder buf = new StringBuilder();
+            var attributes = new List<string>();
+
             if (IsModule(type))
             {
                 AppendModuleDeclaraion(buf, type);
@@ -214,10 +216,24 @@ namespace Mono.Documentation.Updater
                 return buf.ToString();
             }
 
-            buf.Append($"{GetTypeKind(type)}");
+            if (type.IsValueType)
+            {
+                attributes.Add("[<Struct>]");
+            }
+
+            if (type.IsAbstract)
+            {
+                attributes.Add("[<AbstractClass>]");
+            }
+
+            if (type.IsSealed)
+            {
+                attributes.Add("[<Sealed>]");
+            }
 
             if (DocUtils.IsDelegate(type))
             {
+                buf.Append("delgate of");
                 buf.Append(" ");
                 MethodDefinition invoke = type.GetMethod("Invoke");
                 AppendFunctionSignature(buf, invoke);
@@ -238,7 +254,22 @@ namespace Mono.Documentation.Updater
                 AppendTypeName(buf, GetTypeName(interfaceImplementation.InterfaceType));
             }
 
-            return buf.ToString();
+            // Separate interface decls from method decls
+            buf.Append($"{GetLineEnding()}");
+
+            foreach (var meth in type.Methods)
+            {
+                var lineEnd = GetLineEnding();
+                var tab = Consts.Tab;
+                var methDecl = GetMethodDeclaration(meth);
+
+                buf.Append($"{lineEnd}{tab}{methDecl}");
+            }
+
+            var typeDecl = buf.ToString();
+            var attributesString = string.Join(GetLineEnding(), attributes);
+
+            return attributesString + GetLineEnding() + typeDecl;
         }
 
         private void AppendDiscriminatedUnionCase(StringBuilder buf, TypeDefinition type)
