@@ -240,7 +240,7 @@ namespace Mono.Documentation.Updater
 
             if (type.IsValueType || type.IsInterface)
             {
-                buf.Append($"{Consts.Tab}end");
+                buf.Append($"{GetLineEnding()}{Consts.Tab}end");
             }
 
             // List it as an empty class if it doesn't have anything visible or callable (and it's a class).
@@ -385,7 +385,6 @@ namespace Mono.Documentation.Updater
 
             buf.Append(" -> ");
 
-            // Return type
             if (method.IsConstructor)
             {
                 buf.Append(GetTypeName(method.DeclaringType));
@@ -809,7 +808,14 @@ namespace Mono.Documentation.Updater
             // Tooltips in VS ignore name-less params or those with the discard character.
             if (string.IsNullOrWhiteSpace(parameter.Name) || parameter.Name.StartsWith("_"))
             {
-                buf.Append($"{typeName}");
+                if (isFSharpFunction)
+                {
+                    buf.Append($"({typeName})");
+                }
+                else
+                {
+                    buf.Append($"{typeName}");
+                }
             }
             else
             {

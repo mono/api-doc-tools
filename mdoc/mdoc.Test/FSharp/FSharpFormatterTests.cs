@@ -32,7 +32,7 @@ namespace mdoc.Test
 @"[<Sealed>]
 type Constructors.MyStruct =
     struct
-        new : x:int * y:int * z:int -> MyStruct
+        new : x:int * y:int * z:int -> Constructors.MyStruct
         val X : float
         val Y : float
         val Z : float
@@ -633,14 +633,14 @@ override this.Rotate : angle:double -> unit",
 @"[<Sealed>]
 type MailboxProcessor<'Msg> =
     interface IDisposable
-    new : (body:MailboxProcessor<'Msg> -> Async<unit>) * cancellationToken:option<CancellationToken> -> MailboxProcessor<'Msg>");
+    new : body:(mailboxProcessor<'Msg> -> Async<unit>) * cancellationToken:option<CancellationToken> -> MailboxProcessor<'Msg>");
 
         [Test]
         [Category("Constructors")]
         [Category("FSharpCore")]
         public void ConstructorSignature_MailboxProcessor() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "new : (body:MailboxProcessor<'Msg> -> Async<unit>) * cancellationToken:option<CancellationToken> -> MailboxProcessor<'Msg>",
+                "new : body:(MailboxProcessor<'Msg> -> Async<unit>) * cancellationToken:option<CancellationToken> -> MailboxProcessor<'Msg>",
                 ".ctor");
 
         [Test]
@@ -648,7 +648,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void MethodSignature_MailboxProcessor_0() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "member this.TryPostAndReply : (buildMessage:AsyncReplyChannel<'Reply> -> 'Msg) * timeout:option<int> -> option<'Reply>",
+                "member this.TryPostAndReply : buildMessage:(AsyncReplyChannel<'Reply> -> 'Msg) * timeout:option<int> -> option<'Reply>",
                 "TryPostAndReply");
 
         [Test]
@@ -656,7 +656,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void MethodSignature_MailboxProcessor_1() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "member this.Scan : (scanner:'Msg -> option<Async<'T>>) * timeout:option<int> -> Async<'T>",
+                "member this.Scan : scanner:('Msg -> option<Async<'T>>) * timeout:option<int> -> Async<'T>",
                 "Scan");
 
         [Test]
@@ -664,7 +664,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void MethodSignature_MailboxProcessor_2() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "member this.TryScan : (scanner:'Msg -> option<Async<'T>>) * timeout:option<int> -> Async<option<'T>>",
+                "member this.TryScan : scanner:('Msg -> option<Async<'T>>) * timeout:option<int> -> Async<option<'T>>",
                 "TryScan");
 
         [Test]
@@ -704,7 +704,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void TypeSignature_FSharpCore_3() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "member this.PostAndReply : (buildMessage:AsyncReplyChannel<'Reply> -> 'Msg) * timeout:option<int> -> 'Reply", 
+                "member this.PostAndReply : buildMessage:(AsyncReplyChannel<'Reply> -> 'Msg) * timeout:option<int> -> 'Reply", 
                 "PostAndReply");
 
         [Test]
@@ -937,7 +937,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void Operators_2() =>
             TestMethodSignature(typeof(Operators),
-@"( << ) : (func2:'T2 -> 'T3) -> (func1:'T1 -> 'T2) -> ('T1 -> 'T3)",
+@"( << ) : func2:('T2 -> 'T3) -> func1:('T1 -> 'T2) -> ('T1 -> 'T3)",
 "op_ComposeLeft");
 
         [Test]
