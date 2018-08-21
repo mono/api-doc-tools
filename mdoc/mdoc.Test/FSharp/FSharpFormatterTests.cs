@@ -110,7 +110,9 @@ type Records.Car = {}");
         public void TypeSignature_Interface() =>
             TestTypeSignature(typeof(Interfaces.Interface0),
 @"type Interfaces.Interface0 =
-    abstract member Method1 : int -> int");
+    interface
+        abstract member Method1 : int -> int
+    end");
 
         [Test]
         [Category("Types")]
@@ -296,7 +298,8 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
     interface ITuple
     interface IComparable
     interface IStructuralEquatable
-    interface IStructuralComparable");
+    interface IStructuralComparable
+    new : item1:'T1 * item2:'T2 * item3:'T3 * item4:'T4 -> Tuple<'T1,'T2,'T3,'T4>");
         #endregion
 
         #region Functions
@@ -374,7 +377,7 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Category("FSharpCore")]
         public void FunctionsSignature_14() =>
             TestMethodSignature(typeof(Collections),
-                "Collections.f : Map<int, int> -> int",
+                "Collections.f : x:Map<int, int> -> int",
                 nameof(Collections.f));
 
         [Test]
@@ -382,21 +385,21 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Category("FSharpCore")]
         public void FunctionsSignature_15() =>
             TestMethodSignature(typeof(Collections),
-                "Collections.f2 : seq<int> -> int",
+                "Collections.f2 : x:seq<int> -> int",
                 nameof(Collections.f2));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_16() =>
             TestMethodSignature(typeof(PatternMatching.PatternMatchingExamples),
-                "PatternMatchingExamples.countValues : List<'a> -> 'a -> int",
+                "PatternMatchingExamples.countValues : list:List<'a> -> value:'a -> int",
                 "countValues");
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_17() =>
             TestMethodSignature(typeof(FlexibleTypes),
-                "FlexibleTypes.iterate1 : (unit -> seq<int>) -> unit",
+                "FlexibleTypes.iterate1 : f:(unit -> seq<int>) -> unit",
                 nameof(FlexibleTypes.iterate1));
 
         [Test]
@@ -404,7 +407,7 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Category("FlexibleTypes")]
         public void FunctionsSignature_18() =>
             TestMethodSignature(typeof(FlexibleTypes),
-                "FlexibleTypes.iterate2 : (unit -> #seq<int>) -> unit",
+                "FlexibleTypes.iterate2 : f:(unit -> #seq<int>) -> unit",
                 nameof(FlexibleTypes.iterate2));
         #endregion
 
@@ -472,7 +475,7 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         public void MethodSignature_VirtualMethod() =>
             TestMethodSignature(typeof(AbstractClasses.Shape2D),
 @"abstract member Rotate : angle:double -> unit
-override this.Rotate : double -> unit", 
+override this.Rotate : angle:double -> unit", 
             nameof(AbstractClasses.Shape2D.Rotate));
 
         [Test]
@@ -637,7 +640,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void ConstructorSignature_MailboxProcessor() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "new : (body:MailboxProcessor<'Msg> -> Async<unit>) * option<CancellationToken> -> MailboxProcessor<'Msg>",
+                "new : (body:MailboxProcessor<'Msg> -> Async<unit>) * cancellationToken:option<CancellationToken> -> MailboxProcessor<'Msg>",
                 ".ctor");
 
         [Test]

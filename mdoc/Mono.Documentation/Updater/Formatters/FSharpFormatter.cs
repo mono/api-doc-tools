@@ -273,40 +273,38 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasMethods)
             {
-                var ctorsAndMeths = type.Methods.Where(m => !m.IsGetter && !m.IsSetter).GroupBy(m => m.IsConstructor).ToList();
-                if (ctorsAndMeths is null) return;
+                var filtered = type.Methods.Where(m => !m.IsGetter && !m.IsSetter);
+                if (filtered is null) return;
 
-                if (ctorsAndMeths.Count > 0)
+                var ctors = filtered.Where(m => m.IsConstructor);
+                var meths = filtered.Where(m => !m.IsConstructor);
+
+                // There is constructor metadata here for interfaces, but we don't want to actually show it
+                if (!type.IsInterface && !(ctors is null))
                 {
-                    // There is constructor metadata here for interfaces, but we don't want to actually show it
-                    if (!type.IsInterface)
+                    foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
                     {
-                        var ctors = ctorsAndMeths[0];
-                        foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
-                        {
-                            if (ctor is null) continue;
+                        if (ctor is null) continue;
 
-                            var lineEnd = GetLineEnding();
-                            var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
-                            var ctorDecl = GetConstructorDeclaration(ctor);
+                        var lineEnd = GetLineEnding();
+                        var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                        var ctorDecl = GetConstructorDeclaration(ctor);
 
-                            buf.Append($"{lineEnd}{tab}{ctorDecl}");
-                        }
+                        buf.Append($"{lineEnd}{tab}{ctorDecl}");
                     }
+                }
 
-                    if (ctorsAndMeths.Count > 1)
+                if (!(meths is null))
+                {
+                    foreach (var meth in meths.OrderByDescending(m => m.FullName))
                     {
-                        var meths = ctorsAndMeths[1];
-                        foreach (var meth in meths.OrderByDescending(m => m.FullName))
-                        {
-                            if (meth is null) continue;
+                        if (meth is null) continue;
 
-                            var lineEnd = GetLineEnding();
-                            var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
-                            var methDecl = GetMethodDeclaration(meth);
+                        var lineEnd = GetLineEnding();
+                        var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
+                        var methDecl = GetMethodDeclaration(meth);
 
-                            buf.Append($"{lineEnd}{tab}{methDecl}");
-                        }
+                        buf.Append($"{lineEnd}{tab}{methDecl}");
                     }
                 }
             }
@@ -806,11 +804,6 @@ namespace Mono.Documentation.Updater
         private void AppendParameter(StringBuilder buf, ParameterDefinition parameter)
         {
             bool isFSharpFunction = IsFSharpFunction(parameter.ParameterType);
-            if (isFSharpFunction)
-            {
-                buf.Append("(");
-            }
-
             var typeName = GetTypeName(parameter.ParameterType, new DynamicParserContext(parameter));
 
             // Tooltips in VS ignore name-less params or those with the discard character.
@@ -820,12 +813,14 @@ namespace Mono.Documentation.Updater
             }
             else
             {
-                buf.Append($"{parameter.Name}:{typeName}");
-            }
-
-            if (isFSharpFunction)
-            {
-                buf.Append(")");
+                if (isFSharpFunction)
+                {
+                    buf.Append($"{parameter.Name}:({typeName})");
+                }
+                else
+                {
+                    buf.Append($"{parameter.Name}:{typeName}");
+                }
             }
         }
 
