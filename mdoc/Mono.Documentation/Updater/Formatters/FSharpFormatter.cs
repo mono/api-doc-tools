@@ -231,11 +231,7 @@ namespace Mono.Documentation.Updater
 
             AppendBaseType(buf, type);
             AppendInterfaces(type, buf);
-
-            var ctors = type.Methods.Where(m => m.IsConstructor).ToList();
-
-            AppendConstructors(type, buf, ctors);
-            AppendMethods(type, buf);
+            AppendMethodsAndConstructors(type, buf);
             AppendProperties(type, buf);
 
             if (type.IsValueType)
@@ -244,7 +240,7 @@ namespace Mono.Documentation.Updater
             }
 
             // List it as an empty class if it doesn't have anything visible or callable (and it's a class).
-            if (!type.IsValueType && !type.HasInterfaces && ctors.Count == 0 && !type.HasMethods && !type.HasProperties)
+            if (!type.IsValueType && !type.HasInterfaces && !type.HasMethods && !type.HasProperties)
             {
                 buf.Append("class end");
             }
@@ -258,6 +254,8 @@ namespace Mono.Documentation.Updater
             {
                 foreach (var prop in type.Properties.OrderByDescending(p => p.FullName))
                 {
+                    if (prop is null) continue;
+
                     var lineEnd = GetLineEnding();
                     var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
                     var propDecl = GetPropertyDeclaration(prop);
@@ -267,32 +265,34 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        private void AppendMethods(TypeDefinition type, StringBuilder buf)
+        private void AppendMethodsAndConstructors(TypeDefinition type, StringBuilder buf)
         {
             if (type.HasMethods)
             {
-                foreach (var meth in type.Methods.OrderByDescending(m => m.FullName))
-                {
-                    var lineEnd = GetLineEnding();
-                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
-                    var methDecl = GetMethodDeclaration(meth);
+                var ctorsAndMeths = type.Methods.Where(m => !m.IsGetter && !m.IsSetter).GroupBy(m => m.IsConstructor).ToList();
+                var ctors = ctorsAndMeths[0];
+                var meths = ctorsAndMeths[1];
 
-                    buf.Append($"{lineEnd}{tab}{methDecl}");
-                }
-            }
-        }
-
-        private void AppendConstructors(TypeDefinition type, StringBuilder buf, List<MethodDefinition> ctors)
-        {
-            if (ctors.Count > 0)
-            {
                 foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
                 {
+                    if (ctor is null) continue;
+
                     var lineEnd = GetLineEnding();
                     var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
                     var ctorDecl = GetConstructorDeclaration(ctor);
 
                     buf.Append($"{lineEnd}{tab}{ctorDecl}");
+                }
+
+                foreach (var meth in meths.OrderByDescending(m => m.FullName))
+                {
+                    if (meth is null) continue;
+
+                    var lineEnd = GetLineEnding();
+                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                    var methDecl = GetMethodDeclaration(meth);
+
+                    buf.Append($"{lineEnd}{tab}{methDecl}");
                 }
             }
         }
@@ -319,7 +319,7 @@ namespace Mono.Documentation.Updater
 
         private static void AppendAttributes(TypeDefinition type, StringBuilder buf)
         {
-            if (type.IsAbstract)
+            if (type.IsAbstract && !type.IsInterface)
             {
                 buf.Append($"[<AbstractClass>]{GetLineEnding()}");
             }
@@ -501,7 +501,7 @@ namespace Mono.Documentation.Updater
                 IList<TypeReference> constraints = genArg.Constraints;
                 if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     continue;
-                
+
                 bool isref = (attrs & GenericParameterAttributes.ReferenceTypeConstraint) != 0;
                 bool isvt = (attrs & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0;
                 bool isnew = (attrs & GenericParameterAttributes.DefaultConstructorConstraint) != 0;
@@ -547,9 +547,7 @@ namespace Mono.Documentation.Updater
             if (AppendVisibility(buf, constructor) == null)
                 return null;
 
-            buf.Append("new ");
-            buf.Append(GetTypeName(constructor.DeclaringType));
-            buf.Append(" : ");
+            buf.Append("new : ");
             AppendFunctionSignature(buf, constructor);
 
             return buf.ToString();
@@ -724,7 +722,7 @@ namespace Mono.Documentation.Updater
             {
                 buf.Append(property.Name.TrimEnd('@'));
             }
-            
+
             if (property.PropertyType.FullName != "System.Object")
             {
                 var typeName = GetTypeName(property.PropertyType, new DynamicParserContext(property));
@@ -807,7 +805,7 @@ namespace Mono.Documentation.Updater
                 else
                     buf.Append("member this.");
             }
-            
+
             buf.Append(DocUtils.GetPropertyName(property, NestedTypeSeparator));
             if (property.Parameters.Count != 0)
             {
@@ -976,7 +974,7 @@ namespace Mono.Documentation.Updater
             }
             return false;
         }
-        
+
         protected override StringBuilder AppendPointerTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
         {
             TypeSpecification spec = type as TypeSpecification;
@@ -1073,7 +1071,7 @@ namespace Mono.Documentation.Updater
         #region Supported
         public override bool IsSupported(TypeReference tref)
         {
-            if (tref.DeclaringType != null 
+            if (tref.DeclaringType != null
                 && IsDiscriminatedUnion(tref.DeclaringType.Resolve())
                 && tref.Name == "Tags")
             {

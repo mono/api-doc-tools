@@ -29,7 +29,7 @@ namespace mdoc.Test
         [Category("Types")]
         public void TypeSignature_Struct() =>
             TestTypeSignature(typeof(Constructors.MyStruct),
-@"[<Struct>]
+@"[<Sealed>]
 type Constructors.MyStruct =
     struct
         new : x:int * y:int * z:int -> MyStruct
@@ -42,13 +42,15 @@ type Constructors.MyStruct =
         [Category("Types")]
         public void TypeSignature_Record() =>
             TestTypeSignature(typeof(Constructors.PetData), 
-@"type Constructors.PetData = {}");
+@"[<Sealed>]
+type Constructors.PetData = {}");
 
         [Test]
         [Category("Types")]
         public void TypeSignature_Record2() =>
             TestTypeSignature(typeof(Records.Car),
-@"type Records.Car = {}");
+@"[<Sealed>]
+type Records.Car = {}");
 
         [Test]
         [Category("Types")]
@@ -107,14 +109,16 @@ type Constructors.MyStruct =
         [Category("Interfaces")]
         public void TypeSignature_Interface() =>
             TestTypeSignature(typeof(Interfaces.Interface0),
-@"type Interfaces.Interface0 = interface");
+@"type Interfaces.Interface0 =
+    abstract member Method1 : int -> int");
 
         [Test]
         [Category("Types")]
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_0() =>
             TestTypeSignature(typeof(DiscriminatedUnions.Shape),
-@"type DiscriminatedUnions.Shape =");
+@"[<Sealed>]
+type DiscriminatedUnions.Shape =");
 
         [Test]
         [Category("Types")]
@@ -142,7 +146,8 @@ type Constructors.MyStruct =
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_4() =>
             TestTypeSignature(typeof(DiscriminatedUnions.SizeUnion),
-                "type DiscriminatedUnions.SizeUnion = ");
+@"[<Sealed>]
+type DiscriminatedUnions.SizeUnion = ");
 
         [Test]
         [Category("Types")]
@@ -167,7 +172,8 @@ type Constructors.MyStruct =
         [Category("Enums")]
         public void TypeSignature_Enum_0() =>
             TestTypeSignature(typeof(DiscriminatedUnions.ColorEnum),
-                "type DiscriminatedUnions.ColorEnum = ");
+@"[<Sealed>]
+type DiscriminatedUnions.ColorEnum =");
 
         [Test]
         [Category("Types")]
@@ -182,91 +188,104 @@ type Constructors.MyStruct =
         [Category("Delegates")]
         public void TypeSignature_Delegate_0() =>
             TestTypeSignature(typeof(Delegates.Delegate1),
-                @"type Delegates.Delegate1 = delegate of (int * int) -> int");
+@"[<Sealed>]
+type Delegates.Delegate1 = delegate of (int * int) -> int");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_1() =>
             TestTypeSignature(typeof(Delegates.Delegate2),
-                @"type Delegates.Delegate2 = delegate of int * int -> int");
+@"[<Sealed>]
+type Delegates.Delegate2 = delegate of int * int -> int");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_2() =>
             TestTypeSignature(typeof(Delegates.Delegate3),
-                @"type Delegates.Delegate3 = delegate of int * char -> string");
+@"[<Sealed>]
+type Delegates.Delegate3 = delegate of int * char -> string");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_3() =>
             TestTypeSignature(typeof(Delegates.Delegate4),
-                @"type Delegates.Delegate4 = delegate of int -> (int -> char)");
+@"[<Sealed>]
+type Delegates.Delegate4 = delegate of int -> (int -> char)");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_4() =>
             TestTypeSignature(typeof(Delegates.Delegate5),
-                @"type Delegates.Delegate5 = delegate of int -> (int -> char -> string)");
+@"[<Sealed>]
+type Delegates.Delegate5 = delegate of int -> (int -> char -> string)");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_5() =>
             TestTypeSignature(typeof(Delegates.Delegate6),
-                @"type Delegates.Delegate6 = delegate of (int -> double) -> char");
+@"[<Sealed>]
+type Delegates.Delegate6 = delegate of (int -> double) -> char");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_6() =>
             TestTypeSignature(typeof(Delegates.Delegate7),
-                @"type Delegates.Delegate7 = delegate of (int -> char -> string) -> double");
+@"[<Sealed>]
+type Delegates.Delegate7 = delegate of (int -> char -> string) -> double");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_7() =>
             TestTypeSignature(typeof(Delegates.Delegate8),
-                @"type Delegates.Delegate8 = delegate of int -> char");
+@"[<Sealed>]
+type Delegates.Delegate8 = delegate of int -> char");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_8() =>
             TestTypeSignature(typeof(Delegates.Delegate9),
-                @"type Delegates.Delegate9 = delegate of (int * int) -> char");
+@"[<Sealed>]
+type Delegates.Delegate9 = delegate of (int * int) -> char");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_9() =>
             TestTypeSignature(typeof(Delegates.Delegate10),
-                @"type Delegates.Delegate10 = delegate of int * int -> char");
+@"[<Sealed>]
+type Delegates.Delegate10 = delegate of int * int -> char");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_10() =>
             TestTypeSignature(typeof(Delegates.Delegate11),
-                @"type Delegates.Delegate11 = delegate of char -> unit");
+@"[<Sealed>]
+type Delegates.Delegate11 = delegate of char -> unit");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_11() =>
             TestTypeSignature(typeof(Delegates.Delegate12),
-                @"type Delegates.Delegate12 = delegate of unit -> char");
+@"[<Sealed>]
+type Delegates.Delegate12 = delegate of unit -> char");
 
         [Test]
         [Category("Types")]
         [Category("Delegates")]
         public void TypeSignature_Delegate_12() =>
             TestTypeSignature(typeof(Delegates.Delegate13),
-                @"type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> double");
+@"[<Sealed>]
+type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> double");
         
         [Test]
         [Category("Types")]
@@ -274,10 +293,10 @@ type Constructors.MyStruct =
         public void TypeSignature_Tuple() =>
             TestTypeSignature(typeof(Tuple<,,,>),
 @"type Tuple<'T1, 'T2, 'T3, 'T4> =
+    interface IComparable    
+    interface ITuple
     interface IStructuralEquatable
-    interface IStructuralComparable
-    interface IComparable
-    interface ITuple");
+    interface IStructuralComparable");
         #endregion
 
         #region Functions
@@ -608,7 +627,8 @@ override this.Rotate : double -> unit",
         [Category("FSharpCore")]
         public void TypeSignature_MailboxProcessor() =>
             TestTypeSignature(typeof(FSharpMailboxProcessor<>), 
-@"type MailboxProcessor<'Msg> = class
+@"[<Sealed>]
+type MailboxProcessor<'Msg> =
     interface IDisposable");
 
         [Test]
@@ -616,7 +636,7 @@ override this.Rotate : double -> unit",
         [Category("FSharpCore")]
         public void ConstructorSignature_MailboxProcessor() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "new MailboxProcessor<'Msg> : (MailboxProcessor<'Msg> -> Async<unit>) * option<CancellationToken> -> MailboxProcessor<'Msg>",
+                "new : (MailboxProcessor<'Msg> -> Async<unit>) * option<CancellationToken> -> MailboxProcessor<'Msg>",
                 ".ctor");
 
         [Test]
@@ -664,7 +684,7 @@ override this.Rotate : double -> unit",
         [Category("FSharpCore")]
         public void TypeSignature_Map() =>
         TestTypeSignature(typeof(Collections.MDocTestMap<,>),
-                              @"type Collections.MDocTestMap<'Key, 'Value> = class
+@"type Collections.MDocTestMap<'Key, 'Value> =
     interface Collections.MDocInterface<KeyValuePair<'Key, 'Value>>");
 
         [Test]
@@ -698,25 +718,29 @@ override this.Rotate : double -> unit",
         [Category("Constraints")]
         public void TestConstraints_1() => 
             TestTypeSignature(typeof(Constraints.Class1<>),
-                "type Constraints.Class1<'T (requires 'T :> Exception)> = class end");
+@"type Constraints.Class1<'T (requires 'T :> Exception)> =
+    new : unit -> Class1<'T>");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2() => 
             TestTypeSignature(typeof(Constraints.Class2<>),
-                "type Constraints.Class2<'T (requires 'T :> IComparable)> = class end");
+@"type Constraints.Class2<'T (requires 'T :> IComparable)> =
+    new : unit -> Class2<'T>");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2_1() => 
             TestTypeSignature(typeof(Constraints.Class2_1<>),
-                "type Constraints.Class2_1<'T (requires 'T :> IComparable and 'T :> Exception)> = class end");
+@"type Constraints.Class2_1<'T (requires 'T :> IComparable and 'T :> Exception)> =
+    new : unit -> Class2_1<'T>");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2_2() => 
             TestTypeSignature(typeof(Constraints.Class2_2<>),
-                "type Constraints.Class2_2<'T (requires 'T :> IComparable and 'T :> seq<'T>)> = class end");
+@"type Constraints.Class2_2<'T (requires 'T :> IComparable and 'T :> seq<'T>)> =
+    new : unit -> Class2_2<'T>");
 
         [Test]
         [Category("Constraints")]
@@ -934,7 +958,8 @@ nameof(UnitsOfMeasure.xvec));
         [Category("UnitsOfMeasure")]
         public void UnitsOfMeasure_1() =>
             TestTypeSignature(typeof(UnitsOfMeasure.vector3D),
-@"type UnitsOfMeasure.vector3D = {}");
+@"[<Sealed>]
+type UnitsOfMeasure.vector3D = {}");
         #endregion
 
         #region Extensions
