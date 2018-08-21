@@ -2603,6 +2603,12 @@ namespace Mono.Documentation
             if (p != null)
                 attrs = attrs.Concat (GetCustomAttributes (p.CustomAttributes, ""));
 
+            TypeDefinition typeDefinition = mi as TypeDefinition;
+            if (typeDefinition != null && typeDefinition.IsSerializable)
+            {
+                attrs = attrs.Concat (new[] { "Serializable" });
+            }
+
             PropertyDefinition pd = mi as PropertyDefinition;
             if (pd != null)
             {

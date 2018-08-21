@@ -33,6 +33,9 @@
     <Attribute>
       <AttributeName>System.Diagnostics.DebuggerDisplay("{__DebugDisplay(),nq}")</AttributeName>
     </Attribute>
+    <Attribute>
+      <AttributeName>Serializable</AttributeName>
+    </Attribute>
   </Attributes>
   <Docs>
     <summary>To be added.</summary>

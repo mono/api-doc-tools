@@ -13,6 +13,9 @@
     <Attribute>
       <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
     </Attribute>
+    <Attribute>
+      <AttributeName>Serializable</AttributeName>
+    </Attribute>
   </Attributes>
   <Parameters>
     <Parameter Name="" Type="Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.FSharpFunc&lt;System.Char,Microsoft.FSharp.Core.FSharpFunc&lt;System.String,System.Decimal&gt;&gt;&gt;" />
