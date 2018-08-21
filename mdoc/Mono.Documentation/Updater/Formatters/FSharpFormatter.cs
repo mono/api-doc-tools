@@ -299,6 +299,7 @@ namespace Mono.Documentation.Updater
                     foreach (var meth in meths.OrderByDescending(m => m.FullName))
                     {
                         if (meth is null) continue;
+                        if (type.IsValueType && GetMethodKind(meth) == FSharpMethodKind.Override) continue;
 
                         var lineEnd = GetLineEnding();
                         var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
