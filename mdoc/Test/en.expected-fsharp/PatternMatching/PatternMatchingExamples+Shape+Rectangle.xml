@@ -17,6 +17,9 @@
     <Attribute>
       <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(PatternMatching.PatternMatchingExamples/Shape/Rectangle@DebugTypeProxy))</AttributeName>
     </Attribute>
+    <Attribute>
+      <AttributeName>Serializable</AttributeName>
+    </Attribute>
   </Attributes>
   <Docs>
     <summary>To be added.</summary>
