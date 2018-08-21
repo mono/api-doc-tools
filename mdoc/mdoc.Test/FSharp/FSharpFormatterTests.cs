@@ -22,8 +22,8 @@ namespace mdoc.Test
             TestTypeSignature(typeof(Class1),
 @"type Class1 =
     new : unit -> Class1
-    member T : unit -> string
-    member X : unit -> int");
+    member this.T : unit -> string
+    member this.X : unit -> int");
 
         [Test]
         [Category("Types")]
@@ -85,7 +85,7 @@ type Records.Car = {}");
         public void TypeSignature_Attribute() =>
             TestTypeSignature(typeof(Attributes.TypeWithFlagAttribute), 
 @"type Attributes.TypeWithFlagAttribute =
-    member X : string");
+    member this.X : string");
 
         [Test]
         [Category("Types")]
@@ -93,7 +93,7 @@ type Records.Car = {}");
             TestTypeSignature(typeof(Attributes.OwnerAttribute), 
 @"type Attributes.OwnerAttribute =
     inherit Attribute
-    new : name:string -> OwnerAttribute");
+    new : name:string -> Attributes.OwnerAttribute");
 
         [Test]
         [Category("Types")]
@@ -102,7 +102,7 @@ type Records.Car = {}");
             TestTypeSignature(typeof(Interfaces.SomeClass1),
 @"type Interfaces.SomeClass1 =
     interface Interfaces.IPrintable
-    new : x:int * y:float -> SomeClass1");
+    new : x:int * y:double -> Interfaces.SomeClass1");
 
         [Test]
         [Category("Types")]
@@ -294,7 +294,7 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
             TestTypeSignature(typeof(Tuple<,,,>),
 @"type Tuple<'T1, 'T2, 'T3, 'T4> =
     interface ITuple
-    interface IComparable    
+    interface IComparable
     interface IStructuralEquatable
     interface IStructuralComparable");
         #endregion
@@ -303,62 +303,62 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_1() =>
-            TestMethodSignature(typeof(Functions), "Functions.function1 : int -> int", nameof(Functions.function1));
+            TestMethodSignature(typeof(Functions), "Functions.function1 : x:int -> int", nameof(Functions.function1));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_2() =>
-            TestMethodSignature(typeof(Functions), "Functions.function2 : int -> int", nameof(Functions.function2));
+            TestMethodSignature(typeof(Functions), "Functions.function2 : x2:int -> int", nameof(Functions.function2));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_3() =>
-            TestMethodSignature(typeof(Functions), "Functions.function3 : int -> int", nameof(Functions.function3));
+            TestMethodSignature(typeof(Functions), "Functions.function3 : x3:int -> int", nameof(Functions.function3));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_4() =>
-            TestMethodSignature(typeof(Functions), "Functions.function4 : int -> int -> int", nameof(Functions.function4));
+            TestMethodSignature(typeof(Functions), "Functions.function4 : x4:int -> y4:int -> int", nameof(Functions.function4));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_5() =>
-            TestMethodSignature(typeof(Functions), "Functions.function5 : int * int -> int", nameof(Functions.function5));
+            TestMethodSignature(typeof(Functions), "Functions.function5 : x5:int * y5:int -> int", nameof(Functions.function5));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_6() =>
-            TestMethodSignature(typeof(Functions), "Functions.function6 : 'a * 'b -> unit", nameof(Functions.function6));
+            TestMethodSignature(typeof(Functions), "Functions.function6 : x6:'a * y6:'b -> unit", nameof(Functions.function6));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_7() =>
-            TestMethodSignature(typeof(Functions), "Functions.function7 : 'a -> 'b * 'c -> unit", nameof(Functions.function7));
+            TestMethodSignature(typeof(Functions), "Functions.function7 : x7:'a -> y7:'b * z7:'c -> unit", nameof(Functions.function7));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_8() =>
-            TestMethodSignature(typeof(Functions), "Functions.function8 : 'a -> 'b -> 'c -> unit", nameof(Functions.function8));
+            TestMethodSignature(typeof(Functions), "Functions.function8 : x8:'a -> y8:'b -> z8:'c -> unit", nameof(Functions.function8));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_9() =>
-            TestMethodSignature(typeof(Functions), "Functions.function9 : 'a * 'b -> 'c * 'd -> unit", nameof(Functions.function9));
+            TestMethodSignature(typeof(Functions), "Functions.function9 : x9:'a * y9:'b -> z9:'c * a9:'d -> unit", nameof(Functions.function9));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_10() =>
-            TestMethodSignature(typeof(Functions), "Functions.function10 : obj * obj -> obj * obj -> unit", nameof(Functions.function10));
+            TestMethodSignature(typeof(Functions), "Functions.function10 : x:obj * y:obj -> z:obj * a:obj -> unit", nameof(Functions.function10));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_11() =>
-            TestMethodSignature(typeof(Functions), "Functions.function11 : obj * obj * obj -> obj * obj -> unit", nameof(Functions.function11));
+            TestMethodSignature(typeof(Functions), "Functions.function11 : x:obj * y:obj * z:obj -> a:obj * b:obj -> unit", nameof(Functions.function11));
 
         [Test]
         [Category("Functions")]
         public void FunctionsSignature_12() =>
-            TestMethodSignature(typeof(Functions), "Functions.function12 : obj -> obj * obj * obj * obj * obj -> unit", nameof(Functions.function12));
+            TestMethodSignature(typeof(Functions), "Functions.function12 : x:obj -> a:obj * b:obj * c:obj * d:obj * e:obj -> unit", nameof(Functions.function12));
         
         [Test]
         [Category("Functions")]
@@ -413,42 +413,42 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Category("Methods")]
         public void MethodSignature_1() =>
             TestMethodSignature(typeof(Methods.SomeType), 
-                "member this.SomeMethod : int * int * int -> int", 
+                "member this.SomeMethod : a:int * b:int * c:int -> int", 
                 nameof(Methods.SomeType.SomeMethod));
 
         [Test]
         [Category("Methods")]
         public void MethodSignature_2() =>
             TestMethodSignature(typeof(Methods.SomeType), 
-                "member this.SomeOtherMethod : int * int * int -> int", 
+                "member this.SomeOtherMethod : a:int * b:int * c:int -> int", 
                 nameof(Methods.SomeType.SomeOtherMethod));
 
         [Test]
         [Category("Methods")]
         public void MethodSignature_3() =>
             TestMethodSignature(typeof(Collections),
-                "Collections.f : Map<int, int> -> int", 
+                "Collections.f : x:Map<int, int> -> int", 
                 nameof(Collections.f));
 
         [Test]
         [Category("Methods")]
         public void MethodSignature_4() =>
             TestMethodSignature(typeof(Collections),
-                "Collections.f2 : seq<int> -> int", 
+                "Collections.f2 : x:seq<int> -> int", 
                 nameof(Collections.f2));
 
         [Test]
         [Category("Methods")]
         public void MethodSignature_StaticMethod() =>
             TestMethodSignature(typeof(Methods.SomeType), 
-                "static member SomeStaticMethod : int * int * int -> int", 
+                "static member SomeStaticMethod : a:int * b:int * c:int -> int", 
                 nameof(Methods.SomeType.SomeStaticMethod));
 
         [Test]
         [Category("Methods")]
         public void MethodSignature_StaticMethod_2() =>
             TestMethodSignature(typeof(Methods.SomeType), 
-                "static member SomeOtherStaticMethod : int * int * int -> int", 
+                "static member SomeOtherStaticMethod : a:int * b:int * c:int -> int", 
                 nameof(Methods.SomeType.SomeOtherStaticMethod));
         
 
@@ -456,7 +456,7 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Category("Methods")]
         public void MethodSignature_StaticMethod_3() =>
             TestMethodSignature(typeof(Methods.SomeType),
-                "static member SomeOtherStaticMethod3 : int * int -> int -> int -> int", 
+                "static member SomeOtherStaticMethod3 : a:int * b:int -> c:int -> d:int -> int", 
                 nameof(Methods.SomeType.SomeOtherStaticMethod3));
 
         
@@ -471,7 +471,7 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Category("Methods")]
         public void MethodSignature_VirtualMethod() =>
             TestMethodSignature(typeof(AbstractClasses.Shape2D),
-@"abstract member Rotate : double -> unit
+@"abstract member Rotate : angle:double -> unit
 override this.Rotate : double -> unit", 
             nameof(AbstractClasses.Shape2D.Rotate));
 
@@ -486,14 +486,14 @@ override this.Rotate : double -> unit",
         [Category("Methods")]
         public void MethodSignature_MethodWithOptionResult() =>
             TestMethodSignature(typeof(Methods.RectangleXY), 
-                "static member intersection : Methods.RectangleXY * Methods.RectangleXY -> option<Methods.RectangleXY>", 
+                "static member intersection : rect1:Methods.RectangleXY * rect2:Methods.RectangleXY -> option<Methods.RectangleXY>", 
                 nameof(Methods.RectangleXY.intersection));
 
         [Test]
         [Category("Methods")]
         public void MethodSignature_MethodWithRefParameter() =>
             TestMethodSignature(typeof(Methods.SomeType),
-                "member this.TestRefParam : ref<int> -> int", 
+                "member this.TestRefParam : i:ref<int> -> int", 
                 nameof(Methods.SomeType.TestRefParam));
         
         #endregion
@@ -503,21 +503,21 @@ override this.Rotate : double -> unit",
         [Category("Constructors")]
         public void MethodSignature_Constructor_0() =>
             TestMethodSignature(typeof(Interfaces.SomeClass1),
-                "new : int * double -> Interfaces.SomeClass1",
+                "new : x:int * y:double -> Interfaces.SomeClass1",
                 ".ctor");
 
         [Test]
         [Category("Constructors")]
         public void MethodSignature_Constructor_1() =>
             TestMethodSignature(typeof(Constructors.MyClass),
-                "new : int * int * int -> Constructors.MyClass",
+                "new : x0:int * y0:int * z0:int -> Constructors.MyClass",
                 ".ctor");
 
         [Test]
         [Category("Types")]
         public void TypeSignature_ClassWithPrimaryConstructorWithObjArguments() =>
             TestMethodSignature(typeof(Constructors.MyClassObjectParameters),
-                "new : string * obj * obj -> Constructors.MyClassObjectParameters",
+                "new : x0:string * y0:obj * z0:obj -> Constructors.MyClassObjectParameters",
                 ".ctor");
         #endregion
 
@@ -630,14 +630,14 @@ override this.Rotate : double -> unit",
 @"[<Sealed>]
 type MailboxProcessor<'Msg> =
     interface IDisposable
-    new : (MailboxProcessor<'Msg> -> Async<unit>) * option<CancellationToken> -> MailboxProcessor<'Msg>");
+    new : (body:MailboxProcessor<'Msg> -> Async<unit>) * cancellationToken:option<CancellationToken> -> MailboxProcessor<'Msg>");
 
         [Test]
         [Category("Constructors")]
         [Category("FSharpCore")]
         public void ConstructorSignature_MailboxProcessor() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "new : (MailboxProcessor<'Msg> -> Async<unit>) * option<CancellationToken> -> MailboxProcessor<'Msg>",
+                "new : (body:MailboxProcessor<'Msg> -> Async<unit>) * option<CancellationToken> -> MailboxProcessor<'Msg>",
                 ".ctor");
 
         [Test]
@@ -645,7 +645,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void MethodSignature_MailboxProcessor_0() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "member this.TryPostAndReply : (AsyncReplyChannel<'Reply> -> 'Msg) * option<int> -> option<'Reply>",
+                "member this.TryPostAndReply : (buildMessage:AsyncReplyChannel<'Reply> -> 'Msg) * timeout:option<int> -> option<'Reply>",
                 "TryPostAndReply");
 
         [Test]
@@ -653,7 +653,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void MethodSignature_MailboxProcessor_1() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "member this.Scan : ('Msg -> option<Async<'T>>) * option<int> -> Async<'T>",
+                "member this.Scan : (scanner:'Msg -> option<Async<'T>>) * timeout:option<int> -> Async<'T>",
                 "Scan");
 
         [Test]
@@ -661,7 +661,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void MethodSignature_MailboxProcessor_2() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "member this.TryScan : ('Msg -> option<Async<'T>>) * option<int> -> Async<option<'T>>",
+                "member this.TryScan : (scanner:'Msg -> option<Async<'T>>) * timeout:option<int> -> Async<option<'T>>",
                 "TryScan");
 
         [Test]
@@ -693,7 +693,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void PropertySignature_Map() =>
             TestPropertySignature(typeof(FSharpMap<,>),
-                "member this.Item('Key) : 'Value",
+                "member this.Item(key:'Key) : 'Value",
                 "Item");
 
         [Test]
@@ -701,7 +701,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void TypeSignature_FSharpCore_3() =>
             TestMethodSignature(typeof(FSharpMailboxProcessor<>),
-                "member this.PostAndReply : (AsyncReplyChannel<'Reply> -> 'Msg) * option<int> -> 'Reply", 
+                "member this.PostAndReply : (buildMessage:AsyncReplyChannel<'Reply> -> 'Msg) * timeout:option<int> -> 'Reply", 
                 "PostAndReply");
 
         [Test]
@@ -710,7 +710,7 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void TypeSignature_FSharpCore_4() =>
             TestMethodSignature(typeof(ExtraTopLevelOperators),
-                "ExtraTopLevelOperators.array2D : seq<#seq<'T>> -> 'T[,]",
+                "ExtraTopLevelOperators.array2D : rows:seq<#seq<'T>> -> 'T[,]",
                 "CreateArray2D");
         #endregion
 
@@ -855,14 +855,14 @@ type MailboxProcessor<'Msg> =
         [Category("Constraints")]
         public void TestConstraints_17() =>
             TestMethodSignature(typeof(Constraints.Class17),
-                "static member method : 'T * 'T -> unit (requires 'T : null)",
+                "static member method : value1:'T * value2:'T -> unit (requires 'T : null)",
                 nameof(Constraints.Class17.method));
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_18() =>
             TestMethodSignature(typeof(Constraints.Class18),
-@"static member method : obj * obj -> unit",
+@"static member method : value1:obj * value2:obj -> unit",
                 nameof(Constraints.Class18.method));
         
         [Test]
@@ -917,7 +917,7 @@ type MailboxProcessor<'Msg> =
         [Category("Operators")]
         public void Operators_0() =>
             TestMethodSignature(typeof(OperatorsOverloading.Vector),
-"static member ( * ) : OperatorsOverloading.Vector * double -> OperatorsOverloading.Vector",
+"static member ( * ) : v:OperatorsOverloading.Vector * a:double -> OperatorsOverloading.Vector",
 "op_Multiply");
         // Well, there would be OperatorsOverloading.Vector -> double in MSDN, but there are no signs of currying in IL code.
         // Moreover Visual Studio QuickInfo shows Vector * double 
@@ -926,7 +926,7 @@ type MailboxProcessor<'Msg> =
         [Category("Operators")]
         public void Operators_1() =>
             TestMethodSignature(typeof(OperatorsOverloading.Vector),
-@"static member ( |+-+ ) : int * OperatorsOverloading.Vector -> OperatorsOverloading.Vector",
+@"static member ( |+-+ ) : a:int * v:OperatorsOverloading.Vector -> OperatorsOverloading.Vector",
 "op_BarPlusMinusPlus");
         
         [Test]
@@ -934,14 +934,14 @@ type MailboxProcessor<'Msg> =
         [Category("FSharpCore")]
         public void Operators_2() =>
             TestMethodSignature(typeof(Operators),
-@"( << ) : ('T2 -> 'T3) -> ('T1 -> 'T2) -> ('T1 -> 'T3)",
+@"( << ) : (func2:'T2 -> 'T3) -> (func1:'T1 -> 'T2) -> ('T1 -> 'T3)",
 "op_ComposeLeft");
 
         [Test]
         [Category("Operators")]
         public void Operators_3() =>
             TestMethodSignature(typeof(OperatorGlobalLevel),
-@"( +? ) : int -> int -> int",
+@"( +? ) : x:int -> y:int -> int",
 "op_PlusQmark");
 
         #endregion
@@ -974,7 +974,7 @@ type UnitsOfMeasure.vector3D = {}");
         [Category("Extensions")]
         public void Extensions_1() =>
             TestMethodSignature(typeof(Extensions),
-@"Extensions.Int32.FromString : string -> int",
+@"Extensions.Int32.FromString : s:string -> int",
 "Int32.FromString");
         #endregion
     }

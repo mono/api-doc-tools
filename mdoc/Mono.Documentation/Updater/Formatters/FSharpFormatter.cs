@@ -228,13 +228,17 @@ namespace Mono.Documentation.Updater
             {
                 buf.Append($"{GetLineEnding()}{Consts.Tab}struct");
             }
+            else if (type.IsInterface)
+            {
+                buf.Append($"{GetLineEnding()}{Consts.Tab}interface");
+            }
 
             AppendBaseType(buf, type);
             AppendInterfaces(type, buf);
             AppendMethodsAndConstructors(type, buf);
             AppendProperties(type, buf);
 
-            if (type.IsValueType)
+            if (type.IsValueType || type.IsInterface)
             {
                 buf.Append($"{Consts.Tab}end");
             }
@@ -257,7 +261,7 @@ namespace Mono.Documentation.Updater
                     if (prop is null) continue;
 
                     var lineEnd = GetLineEnding();
-                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                    var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
                     var propDecl = GetPropertyDeclaration(prop);
 
                     buf.Append($"{lineEnd}{tab}{propDecl}");
@@ -274,16 +278,20 @@ namespace Mono.Documentation.Updater
 
                 if (ctorsAndMeths.Count > 0)
                 {
-                    var ctors = ctorsAndMeths[0];
-                    foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
+                    // There is constructor metadata here for interfaces, but we don't want to actually show it
+                    if (!type.IsInterface)
                     {
-                        if (ctor is null) continue;
+                        var ctors = ctorsAndMeths[0];
+                        foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
+                        {
+                            if (ctor is null) continue;
 
-                        var lineEnd = GetLineEnding();
-                        var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
-                        var ctorDecl = GetConstructorDeclaration(ctor);
+                            var lineEnd = GetLineEnding();
+                            var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
+                            var ctorDecl = GetConstructorDeclaration(ctor);
 
-                        buf.Append($"{lineEnd}{tab}{ctorDecl}");
+                            buf.Append($"{lineEnd}{tab}{ctorDecl}");
+                        }
                     }
 
                     if (ctorsAndMeths.Count > 1)
@@ -294,7 +302,7 @@ namespace Mono.Documentation.Updater
                             if (meth is null) continue;
 
                             var lineEnd = GetLineEnding();
-                            var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                            var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
                             var methDecl = GetMethodDeclaration(meth);
 
                             buf.Append($"{lineEnd}{tab}{methDecl}");
@@ -317,7 +325,7 @@ namespace Mono.Documentation.Updater
                         || (resolvedInterface != null && resolvedInterface.IsNotPublic))
                         continue;
 
-                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                    var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
                     buf.Append($"{GetLineEnding()}{tab}interface ");
                     AppendTypeName(buf, GetTypeName(interfaceImplementation.InterfaceType));
                 }
@@ -804,7 +812,16 @@ namespace Mono.Documentation.Updater
             }
 
             var typeName = GetTypeName(parameter.ParameterType, new DynamicParserContext(parameter));
-            buf.Append($"{parameter.Name}:{typeName}");
+
+            // Tooltips in VS ignore name-less params or those with the discard character.
+            if (string.IsNullOrWhiteSpace(parameter.Name) || parameter.Name.StartsWith("_"))
+            {
+                buf.Append($"{typeName}");
+            }
+            else
+            {
+                buf.Append($"{parameter.Name}:{typeName}");
+            }
 
             if (isFSharpFunction)
             {
@@ -864,7 +881,7 @@ namespace Mono.Documentation.Updater
 
         protected override string GetFieldDeclaration(FieldDefinition field)
         {
-            TypeDefinition declType = (TypeDefinition)field.DeclaringType;
+            TypeDefinition declType = field.DeclaringType;
             if (declType.IsEnum && field.Name == "value__")
                 return null; // This member of enums aren't documented.
 
