@@ -1,57 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <TargetFramework>net471</TargetFramework>
+    <OutputTypeEx>Exe</OutputTypeEx>
     <RootNamespace>mdoc</RootNamespace>
     <AssemblyName>mdoc</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
-    <OutputPath>..\bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;NET_4_5</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <Externalconsole>True</Externalconsole>
+    <OutputPath>..\bin\$(Configuration)</OutputPath>
+    <DefineConstants>$(DefineConstants);NET_4_5;EXCLUDE_MONODOCS_TO_HTML_ATTRIBUTES</DefineConstants>
     <Prefer32Bit>false</Prefer32Bit>
+    <ExternalConsole>true</ExternalConsole>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <Externalconsole>True</Externalconsole>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta5" PrivateAssets="All" />
+    <PackageReference Include="Mono.Options" Version="5.3.0.1" PrivateAssets="All" />
+    <PackageReference Include="SharpZipLib" Version="1.0.0-alpha2" PrivateAssets="All" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\monodoc\monodoc.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Include="Mono.Documentation\Framework\FrameworkIndexHelper.cs" />
     <Compile Include="Mono.Documentation\Framework\FrameworkTypeModel.cs" />
@@ -132,7 +103,6 @@
     <Compile Include="Mono.Documentation\index.cs" />
     <Compile Include="Mono.Documentation\frameworksbootstrapper.cs" />
     <Compile Include="Consts.cs" />
-    <Compile Include="Options.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkIndex.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkEntry.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkTypeEntry.cs" />
@@ -143,47 +113,16 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Mono.Documentation\Updater\Frameworks\MDocMetadataResolver.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <EmbeddedResource Include="Resources\defaulttemplate.xsl">
-      <LogicalName>defaulttemplate.xsl</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\monodoc-ecma.xsd">
-      <LogicalName>monodoc-ecma.xsd</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\msitomsx.xsl">
-      <LogicalName>msitomsx.xsl</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\overview.xsl">
-      <LogicalName>overview.xsl</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\stylesheet.xsl">
-      <LogicalName>stylesheet.xsl</LogicalName>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\**\*" LogicalName="%(Filename)%(Extension)" />
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="..\..\class\monodoc\Resources\mdoc-html-format.xsl">
-      <Link>Resources\mdoc-html-format.xsl</Link>
-    </None>
-    <None Include="..\..\class\monodoc\Resources\mdoc-html-utils.xsl">
-      <Link>Resources\mdoc-html-utils.xsl</Link>
-    </None>
-    <None Include="..\..\class\monodoc\Resources\mdoc-sections-css.xsl">
-      <Link>Resources\mdoc-sections-css.xsl</Link>
-    </None>
-    <None Include="..\..\class\monodoc\Resources\mono-ecma-css.xsl">
-      <Link>Resources\mono-ecma-css.xsl</Link>
-    </None>
-    <None Include="packages.config" />
+    <None Include="..\..\class\monodoc\Resources\mdoc-html-format.xsl" Link="Resources\mdoc-html-format.xsl" />
+    <None Include="..\..\class\monodoc\Resources\mdoc-html-utils.xsl" Link="Resources\mdoc-html-utils.xsl" />
+    <None Include="..\..\class\monodoc\Resources\mdoc-sections-css.xsl" Link="Resources\mdoc-sections-css.xsl" />
+    <None Include="..\..\class\monodoc\Resources\mono-ecma-css.xsl" Link="Resources\mono-ecma-css.xsl" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\external\SharpZipLib\ICSharpCode.SharpZipLib.NET45\ICSharpCode.SharpZipLib.csproj">
-      <Project>{0e7413ff-eb9e-4714-acf2-be3a6a7b2ffd}</Project>
-      <Name>ICSharpCode.SharpZipLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\monodoc\monodoc.csproj">
-      <Project>{6e644802-b579-4037-9809-9cf4c7172c9d}</Project>
-      <Name>monodoc</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
+
 </Project>
