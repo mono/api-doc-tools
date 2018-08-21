@@ -196,14 +196,13 @@ namespace Mono.Documentation.Updater
                 return buf.ToString();
             }
 
-            buf.Append("type ");
-            buf.Append(visibility);
-            buf.Append(GetTypeName(type));
-            buf.Append(" = ");
+            AppendAttributes(type, buf);
+
+            buf.Append($"type {visibility}{GetTypeName(type)} =");
 
             if (IsRecord(type))
             {
-                buf.Append("{}");
+                buf.Append(" {}");
                 return buf.ToString();
             }
 
@@ -216,60 +215,119 @@ namespace Mono.Documentation.Updater
                 return buf.ToString();
             }
 
-            if (type.IsValueType)
-            {
-                attributes.Add("[<Struct>]");
-            }
-
-            if (type.IsAbstract)
-            {
-                attributes.Add("[<AbstractClass>]");
-            }
-
-            if (type.IsSealed)
-            {
-                attributes.Add("[<Sealed>]");
-            }
-
             if (DocUtils.IsDelegate(type))
             {
-                buf.Append("delgate of");
+                buf.Append(" delgate of");
                 buf.Append(" ");
                 MethodDefinition invoke = type.GetMethod("Invoke");
                 AppendFunctionSignature(buf, invoke);
                 return buf.ToString();
             }
 
+            if (type.IsValueType)
+            {
+                buf.Append($"{GetLineEnding()}{Consts.Tab}struct");
+            }
+
             AppendBaseType(buf, type);
+            AppendInterfaces(type, buf);
 
-            foreach (var interfaceImplementation in type.Interfaces)
+            var ctors = type.Methods.Where(m => m.IsConstructor).ToList();
+
+            AppendConstructors(type, buf, ctors);
+            AppendMethods(type, buf);
+            AppendProperties(type, buf);
+
+            if (type.IsValueType)
             {
-                var resolvedInterface = interfaceImplementation.InterfaceType.Resolve ();
-
-                if (type.IsValueType
-                    && ignoredValueTypeInterfaces.Any(i => interfaceImplementation.InterfaceType.FullName.StartsWith(i))
-                    || (resolvedInterface != null && resolvedInterface.IsNotPublic))
-                    continue;
-                buf.Append($"{GetLineEnding()}{Consts.Tab}interface ");
-                AppendTypeName(buf, GetTypeName(interfaceImplementation.InterfaceType));
+                buf.Append($"{Consts.Tab}end");
             }
 
-            // Separate interface decls from method decls
-            buf.Append($"{GetLineEnding()}");
-
-            foreach (var meth in type.Methods)
+            // List it as an empty class if it doesn't have anything visible or callable (and it's a class).
+            if (!type.IsValueType && !type.HasInterfaces && ctors.Count == 0 && !type.HasMethods && !type.HasProperties)
             {
-                var lineEnd = GetLineEnding();
-                var tab = Consts.Tab;
-                var methDecl = GetMethodDeclaration(meth);
-
-                buf.Append($"{lineEnd}{tab}{methDecl}");
+                buf.Append("class end");
             }
 
-            var typeDecl = buf.ToString();
-            var attributesString = string.Join(GetLineEnding(), attributes);
+            return buf.ToString();
+        }
 
-            return attributesString + GetLineEnding() + typeDecl;
+        private void AppendProperties(TypeDefinition type, StringBuilder buf)
+        {
+            if (type.HasProperties)
+            {
+                foreach (var prop in type.Properties.OrderByDescending(p => p.FullName))
+                {
+                    var lineEnd = GetLineEnding();
+                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                    var propDecl = GetPropertyDeclaration(prop);
+
+                    buf.Append($"{lineEnd}{tab}{propDecl}");
+                }
+            }
+        }
+
+        private void AppendMethods(TypeDefinition type, StringBuilder buf)
+        {
+            if (type.HasMethods)
+            {
+                foreach (var meth in type.Methods.OrderByDescending(m => m.FullName))
+                {
+                    var lineEnd = GetLineEnding();
+                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                    var methDecl = GetMethodDeclaration(meth);
+
+                    buf.Append($"{lineEnd}{tab}{methDecl}");
+                }
+            }
+        }
+
+        private void AppendConstructors(TypeDefinition type, StringBuilder buf, List<MethodDefinition> ctors)
+        {
+            if (ctors.Count > 0)
+            {
+                foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
+                {
+                    var lineEnd = GetLineEnding();
+                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                    var ctorDecl = GetConstructorDeclaration(ctor);
+
+                    buf.Append($"{lineEnd}{tab}{ctorDecl}");
+                }
+            }
+        }
+
+        private void AppendInterfaces(TypeDefinition type, StringBuilder buf)
+        {
+            if (type.HasInterfaces)
+            {
+                foreach (var interfaceImplementation in type.Interfaces.OrderByDescending(iface => iface.InterfaceType.FullName))
+                {
+                    var resolvedInterface = interfaceImplementation.InterfaceType.Resolve();
+
+                    if (type.IsValueType
+                        && ignoredValueTypeInterfaces.Any(i => interfaceImplementation.InterfaceType.FullName.StartsWith(i))
+                        || (resolvedInterface != null && resolvedInterface.IsNotPublic))
+                        continue;
+
+                    var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                    buf.Append($"{GetLineEnding()}{tab}interface ");
+                    AppendTypeName(buf, GetTypeName(interfaceImplementation.InterfaceType));
+                }
+            }
+        }
+
+        private static void AppendAttributes(TypeDefinition type, StringBuilder buf)
+        {
+            if (type.IsAbstract)
+            {
+                buf.Append($"[<AbstractClass>]{GetLineEnding()}");
+            }
+
+            if (type.IsSealed)
+            {
+                buf.Append($"[<Sealed>]{GetLineEnding()}");
+            }
         }
 
         private void AppendDiscriminatedUnionCase(StringBuilder buf, TypeDefinition type)

@@ -19,14 +19,24 @@ namespace mdoc.Test
         [Test]
         [Category("Types")]
         public void TypeSignature_Class1() =>
-            TestTypeSignature(typeof(Class1), @"type Class1 = class");
-
+            TestTypeSignature(typeof(Class1),
+@"type Class1 =
+    new : unit -> Class1
+    member T : unit -> string
+    member X : unit -> int");
 
         [Test]
         [Category("Types")]
         public void TypeSignature_Struct() =>
             TestTypeSignature(typeof(Constructors.MyStruct),
-                "type Constructors.MyStruct = struct");
+@"[<Struct>]
+type Constructors.MyStruct =
+    struct
+        new : x:int * y:int * z:int -> MyStruct
+        val X : float
+        val Y : float
+        val Z : float
+    end");
 
         [Test]
         [Category("Types")]
@@ -38,19 +48,21 @@ namespace mdoc.Test
         [Category("Types")]
         public void TypeSignature_Record2() =>
             TestTypeSignature(typeof(Records.Car),
-                "type Records.Car = {}");
+@"type Records.Car = {}");
 
         [Test]
         [Category("Types")]
         [Category("Modules")]
         public void TypeSignature_Module() =>
-            TestTypeSignature(typeof(Records), "module Records");
+            TestTypeSignature(typeof(Records),
+@"module Records");
 
         [Test]
         [Category("Types")]
         [Category("Modules")]
         public void TypeSignature_TopLevelModule() =>
-            TestTypeSignature(typeof(NestedModules), "module NestedModules");
+            TestTypeSignature(typeof(NestedModules),
+@"module NestedModules");
 
         [Test]
         [Category("Types")]
@@ -70,22 +82,25 @@ namespace mdoc.Test
         [Category("Types")]
         public void TypeSignature_Attribute() =>
             TestTypeSignature(typeof(Attributes.TypeWithFlagAttribute), 
-@"type Attributes.TypeWithFlagAttribute = class");
+@"type Attributes.TypeWithFlagAttribute =
+    member X : string");
 
         [Test]
         [Category("Types")]
         public void TypeSignature_Inheritance() =>
             TestTypeSignature(typeof(Attributes.OwnerAttribute), 
-@"type Attributes.OwnerAttribute = class
-    inherit Attribute");
+@"type Attributes.OwnerAttribute =
+    inherit Attribute
+    new : name:string -> OwnerAttribute");
 
         [Test]
         [Category("Types")]
         [Category("Interfaces")]
         public void TypeSignature_InterfaceImplementation() =>
             TestTypeSignature(typeof(Interfaces.SomeClass1),
-@"type Interfaces.SomeClass1 = class
-    interface Interfaces.IPrintable");
+@"type Interfaces.SomeClass1 =
+    interface Interfaces.IPrintable
+    new : x:int * y:float -> SomeClass1");
 
         [Test]
         [Category("Types")]
@@ -99,7 +114,7 @@ namespace mdoc.Test
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_0() =>
             TestTypeSignature(typeof(DiscriminatedUnions.Shape),
-                "type DiscriminatedUnions.Shape = ");
+@"type DiscriminatedUnions.Shape =");
 
         [Test]
         [Category("Types")]
@@ -258,7 +273,7 @@ namespace mdoc.Test
         [Category("Tuples")]
         public void TypeSignature_Tuple() =>
             TestTypeSignature(typeof(Tuple<,,,>),
-                @"type Tuple<'T1, 'T2, 'T3, 'T4> = class
+@"type Tuple<'T1, 'T2, 'T3, 'T4> =
     interface IStructuralEquatable
     interface IStructuralComparable
     interface IComparable
@@ -683,109 +698,109 @@ override this.Rotate : double -> unit",
         [Category("Constraints")]
         public void TestConstraints_1() => 
             TestTypeSignature(typeof(Constraints.Class1<>),
-                "type Constraints.Class1<'T (requires 'T :> Exception)> = class");
+                "type Constraints.Class1<'T (requires 'T :> Exception)> = class end");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2() => 
             TestTypeSignature(typeof(Constraints.Class2<>),
-                "type Constraints.Class2<'T (requires 'T :> IComparable)> = class");
+                "type Constraints.Class2<'T (requires 'T :> IComparable)> = class end");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2_1() => 
             TestTypeSignature(typeof(Constraints.Class2_1<>),
-                "type Constraints.Class2_1<'T (requires 'T :> IComparable and 'T :> Exception)> = class");
+                "type Constraints.Class2_1<'T (requires 'T :> IComparable and 'T :> Exception)> = class end");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2_2() => 
             TestTypeSignature(typeof(Constraints.Class2_2<>),
-                "type Constraints.Class2_2<'T (requires 'T :> IComparable and 'T :> seq<'T>)> = class");
+                "type Constraints.Class2_2<'T (requires 'T :> IComparable and 'T :> seq<'T>)> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_3() => 
             TestTypeSignature(typeof(Constraints.Class3<>),
-                "type Constraints.Class3<'T (requires 'T : null)> = class");
+                "type Constraints.Class3<'T (requires 'T : null)> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_4() => 
             TestTypeSignature(typeof(Constraints.Class4<>),
-                "type Constraints.Class4<'T (requires 'T : (static member staticMethod1 : unit -> 'T)) > = class");
+                "type Constraints.Class4<'T (requires 'T : (static member staticMethod1 : unit -> 'T)) > = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_5() => 
             TestTypeSignature(typeof(Constraints.Class5<>),
-                "type Constraints.Class5<'T (requires 'T : (member Method1 : 'T -> int))> = class");
+                "type Constraints.Class5<'T (requires 'T : (member Method1 : 'T -> int))> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_6() => 
             TestTypeSignature(typeof(Constraints.Class6<>),
-                "type Constraints.Class6<'T (requires 'T : (member Property1 : int))> = class");
+                "type Constraints.Class6<'T (requires 'T : (member Property1 : int))> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_7() => 
             TestTypeSignature(typeof(Constraints.Class7<>),
-                "type Constraints.Class7<'T (requires 'T : (new : unit -> 'T))> = class");
+                "type Constraints.Class7<'T (requires 'T : (new : unit -> 'T))> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_8() => 
             TestTypeSignature(typeof(Constraints.Class8<>),
-                "type Constraints.Class8<'T (requires 'T : not struct)> = class");
+                "type Constraints.Class8<'T (requires 'T : not struct)> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_9() => 
             TestTypeSignature(typeof(Constraints.Class9<>),
-                "type Constraints.Class9<'T (requires 'T : enum<uint32>)> = class");
+                "type Constraints.Class9<'T (requires 'T : enum<uint32>)> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_10() => 
             TestTypeSignature(typeof(Constraints.Class10<>),
-                "type Constraints.Class10<'T (requires 'T : comparison)> = class");
+                "type Constraints.Class10<'T (requires 'T : comparison)> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_11() => 
             TestTypeSignature(typeof(Constraints.Class11<>),
-                "type Constraints.Class11<'T (requires 'T : equality)> = class");
+                "type Constraints.Class11<'T (requires 'T : equality)> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_12() => 
             TestTypeSignature(typeof(Constraints.Class12<>),
-                "type Constraints.Class12<'T (requires 'T : delegate<obj * System.EventArgs, unit>)> = class");
+                "type Constraints.Class12<'T (requires 'T : delegate<obj * System.EventArgs, unit>)> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_13() => 
             TestTypeSignature(typeof(Constraints.Class13<>),
-                "type Constraints.Class13<'T (requires 'T : unmanaged)> = class");
+                "type Constraints.Class13<'T (requires 'T : unmanaged)> = class end");
 
         [Test]
         [Category("Constraints")]
         [Ignore("No constraint info in IL code")]
         public void TestConstraints_14() => 
             TestTypeSignature(typeof(Constraints.Class14<,>),
-                "type Constraints.Class14<'T,'U (requires 'T : equality and 'U : equality)> = class");
+                "type Constraints.Class14<'T,'U (requires 'T : equality and 'U : equality)> = class end");
 
         [Test]
         [Category("Constraints")]
