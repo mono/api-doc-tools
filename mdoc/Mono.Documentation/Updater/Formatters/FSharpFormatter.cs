@@ -266,7 +266,7 @@ namespace Mono.Documentation.Updater
             {
                 foreach (var prop in type.Properties.OrderBy(p => p.FullName))
                 {
-                    if (prop is null) continue;
+                    if (prop is null || string.IsNullOrEmpty(prop.Name)) continue;
 
                     var lineEnd = GetLineEnding();
                     var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
@@ -292,7 +292,7 @@ namespace Mono.Documentation.Updater
                 {
                     foreach (var ctor in ctors.OrderBy(c => c.Name))
                     {
-                        if (ctor is null) continue;
+                        if (ctor is null || string.IsNullOrEmpty(ctor.Name)) continue;
 
                         var lineEnd = GetLineEnding();
                         var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
@@ -306,7 +306,7 @@ namespace Mono.Documentation.Updater
                 {
                     foreach (var meth in meths.OrderBy(m => m.Name))
                     {
-                        if (meth is null) continue;
+                        if (meth is null || string.IsNullOrEmpty(meth.Name)) continue;
 
                         if (IgnoredMethodNames.Contains(meth.Name))
                         {
