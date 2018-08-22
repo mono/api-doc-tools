@@ -292,6 +292,7 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Test]
         [Category("Types")]
         [Category("Tuples")]
+        [Ignore("This test is tricky, since we want to ignore members for .NET metadata, but not F# types.")]
         public void TypeSignature_Tuple() =>
             TestTypeSignature(typeof(Tuple<,,,>),
 @"type Tuple<'T1, 'T2, 'T3, 'T4> =
