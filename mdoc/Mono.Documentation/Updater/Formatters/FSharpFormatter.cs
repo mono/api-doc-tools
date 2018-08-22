@@ -296,7 +296,7 @@ namespace Mono.Documentation.Updater
             //
             // Note that there is a trailing `}` rather than a newline
             var last = labels.Last();
-            var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(first.PropertyType)}" + " }";
+            var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(last.PropertyType)}" + " }";
 
             // Only a begin and end label.
             if (labels.Count == 2)
