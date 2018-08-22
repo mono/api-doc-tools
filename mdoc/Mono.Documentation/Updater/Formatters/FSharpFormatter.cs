@@ -591,8 +591,6 @@ namespace Mono.Documentation.Updater
         protected override string GetConstructorDeclaration(MethodDefinition constructor)
         {
             StringBuilder buf = new StringBuilder();
-            if (constructor.Parameters.Count == 0)
-                return null;
             if (AppendVisibility(buf, constructor) == null)
                 return null;
 

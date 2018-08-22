@@ -22,8 +22,8 @@ namespace mdoc.Test
             TestTypeSignature(typeof(Class1),
 @"type Class1 =
     new : unit -> Class1
-    member this.T : unit -> string
-    member this.X : unit -> int");
+    member this.T : unit
+    member this.X : string");
 
         [Test]
         [Category("Types")]
