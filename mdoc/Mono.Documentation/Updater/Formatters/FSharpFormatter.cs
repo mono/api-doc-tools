@@ -272,6 +272,8 @@ namespace Mono.Documentation.Updater
                     var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
                     var propDecl = GetPropertyDeclaration(prop);
 
+                    if (string.IsNullOrWhiteSpace(propDecl)) continue;
+
                     buf.Append($"{lineEnd}{tab}{propDecl}");
                 }
             }
@@ -298,6 +300,8 @@ namespace Mono.Documentation.Updater
                         var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
                         var ctorDecl = GetConstructorDeclaration(ctor);
 
+                        if (string.IsNullOrWhiteSpace(ctorDecl)) continue;
+
                         buf.Append($"{lineEnd}{tab}{ctorDecl}");
                     }
                 }
@@ -316,6 +320,8 @@ namespace Mono.Documentation.Updater
                         var lineEnd = GetLineEnding();
                         var tab = type.IsValueType || type.IsInterface ? Consts.Tab + Consts.Tab : Consts.Tab;
                         var methDecl = GetMethodDeclaration(meth);
+
+                        if (string.IsNullOrWhiteSpace(methDecl)) continue;
 
                         buf.Append($"{lineEnd}{tab}{methDecl}");
                     }
