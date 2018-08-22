@@ -307,7 +307,7 @@ namespace Mono.Documentation.Updater
 
             // And now we fill in the middle!
             var middle = labels.Skip(1).Take(labels.Count - 2);
-            foreach (var label in labels)
+            foreach (var label in middle)
             {
                 buf.Append($"{GetLineEnding()}{Consts.Tab}  {GetLabelString(label)} : {GetTypeName(label.PropertyType)}");
             }
