@@ -8,6 +8,12 @@ type MyRecord = {
 
 let myRecord1 = { X = 1; Y = 2; Z = 3; }
 
+type R =
+    { IntVal : int}
+    with
+        member __.Doop = ()
+        member __.Doopty() = ()
+
 type Car = {
     Make : string
     Model : string

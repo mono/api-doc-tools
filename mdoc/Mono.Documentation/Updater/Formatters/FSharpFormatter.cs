@@ -209,7 +209,15 @@ namespace Mono.Documentation.Updater
 
             if (IsRecord(type))
             {
-                return GetRecordLabelDeclarations(type, buf);
+                GetRecordLabelDeclarations(type, buf);
+                AppendMethodsAndConstructors(type, buf);
+
+                if (type.Properties.Any(p => GetFSharpFlags(p.CustomAttributes).Any(ca => ca != SourceConstructFlags.Field)))
+                {
+                    AppendProperties(type, buf);
+                }
+                
+                return buf.ToString();
             }
 
             if (IsDiscriminatedUnion(type))
@@ -258,7 +266,7 @@ namespace Mono.Documentation.Updater
             return buf.ToString();
         }
 
-        private string GetRecordLabelDeclarations(TypeDefinition type, StringBuilder buf)
+        private void GetRecordLabelDeclarations(TypeDefinition type, StringBuilder buf)
         {
             var props = type.Properties; // handle other members later
 
@@ -284,36 +292,39 @@ namespace Mono.Documentation.Updater
             if (labels.Count == 1)
             {
                 buf.Append(" }");
-                return buf.ToString();
             }
-
-            // At least one more label, but we handle the last label differently than the rest.
-            //
-            // Example:
-            // type R =
-            //    { IntVal : int
-            //      StringVal : string }
-            //
-            // Note that there is a trailing `}` rather than a newline
-            var last = labels.Last();
-            var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(last.PropertyType)}" + " }";
-
-            // Only a begin and end label.
-            if (labels.Count == 2)
+            else
             {
-                buf.Append(lastString);
-                return buf.ToString();
-            }
 
-            // And now we fill in the middle!
-            var middle = labels.Skip(1).Take(labels.Count - 2);
-            foreach (var label in middle)
-            {
-                buf.Append($"{GetLineEnding()}{Consts.Tab}  {GetLabelString(label)} : {GetTypeName(label.PropertyType)}");
-            }
+                // At least one more label, but we handle the last label differently than the rest.
+                //
+                // Example:
+                // type R =
+                //    { IntVal : int
+                //      StringVal : string }
+                //
+                // Note that there is a trailing `}` rather than a newline
+                var last = labels.Last();
+                var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(last.PropertyType)}" + " }";
 
-            buf.Append(lastString);
-            return buf.ToString();
+                // Only a begin and end label.
+                if (labels.Count == 2)
+                {
+                    buf.Append(lastString);
+                }
+                else
+                {
+
+                    // And now we fill in the middle!
+                    var middle = labels.Skip(1).Take(labels.Count - 2);
+                    foreach (var label in middle)
+                    {
+                        buf.Append($"{GetLineEnding()}{Consts.Tab}  {GetLabelString(label)} : {GetTypeName(label.PropertyType)}");
+                    }
+
+                    buf.Append(lastString);
+                }
+            }
         }
 
         private void AppendProperties(TypeDefinition type, StringBuilder buf)
