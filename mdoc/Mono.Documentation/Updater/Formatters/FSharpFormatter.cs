@@ -407,14 +407,17 @@ namespace Mono.Documentation.Updater
 
         private static void AppendAttributes(TypeDefinition type, StringBuilder buf)
         {
-            if (type.IsAbstract && !type.IsInterface)
+            if (!IsModule(type))
             {
-                buf.Append($"[<AbstractClass>]{GetLineEnding()}");
-            }
+                if (type.IsAbstract && !type.IsInterface)
+                {
+                    buf.Append($"[<AbstractClass>]{GetLineEnding()}");
+                }
 
-            if (type.IsSealed && !(IsRecord(type) || IsDiscriminatedUnion(type)))
-            {
-                buf.Append($"[<Sealed>]{GetLineEnding()}");
+                if (type.IsSealed && !(IsRecord(type) || IsDiscriminatedUnion(type)))
+                {
+                    buf.Append($"[<Sealed>]{GetLineEnding()}");
+                }
             }
 
             if (type.IsValueType && (IsDiscriminatedUnion(type) || IsRecord(type)))

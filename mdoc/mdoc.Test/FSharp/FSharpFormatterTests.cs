@@ -41,20 +41,20 @@ type Constructors.MyStruct =
         [Test]
         [Category("Types")]
         public void TypeSignature_Record() =>
-            TestTypeSignature(typeof(Constructors.PetData), 
+            TestTypeSignature(typeof(Constructors.PetData),
 @"type Constructors.PetData =
-    { Name : string
-      Age : int
-      Animal : string }");
+    { Constructors.PetData.Name : string
+      Constructors.PetData.Age : int
+      Constructors.PetData.Animal : string }");
 
         [Test]
         [Category("Types")]
         public void TypeSignature_Record2() =>
             TestTypeSignature(typeof(Records.Car),
-@"type Car =
-    { Make : string
-      Model : string
-      mutable Odometer : int }");
+@"type Records.Car =
+    { Records.Car.Make : string
+      Records.Car.Model : string
+      mutable Records.Car.Odometer : int }");
 
         [Test]
         [Category("Types")]
@@ -106,7 +106,7 @@ type Constructors.MyStruct =
             TestTypeSignature(typeof(Interfaces.SomeClass1),
 @"type Interfaces.SomeClass1 =
     interface Interfaces.IPrintable
-    new : x:int * y:double -> Interfaces.SomeClass1");
+    new : x:int * y:float -> Interfaces.SomeClass1");
 
         [Test]
         [Category("Types")]
@@ -138,22 +138,21 @@ type DiscriminatedUnions.Shape =");
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_2() =>
             TestTypeSignature(typeof(DiscriminatedUnions.Shape.Circle),
-                "DiscriminatedUnions.Shape.Circle : double -> DiscriminatedUnions.Shape");
+                "DiscriminatedUnions.Shape.Circle : float -> DiscriminatedUnions.Shape");
         
         [Test]
         [Category("Types")]
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_3() =>
             TestTypeSignature(typeof(DiscriminatedUnions.Shape.Rectangle),
-                "DiscriminatedUnions.Shape.Rectangle : double * double -> DiscriminatedUnions.Shape");
+                "DiscriminatedUnions.Shape.Rectangle : float * float -> DiscriminatedUnions.Shape");
         
         [Test]
         [Category("Types")]
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_4() =>
             TestTypeSignature(typeof(DiscriminatedUnions.SizeUnion),
-@"[<Sealed>]
-type DiscriminatedUnions.SizeUnion =");
+@"type DiscriminatedUnions.SizeUnion =");
 
         [Test]
         [Category("Types")]
@@ -235,7 +234,7 @@ type Delegates.Delegate5 = delegate of int -> (int -> char -> string)");
         public void TypeSignature_Delegate_5() =>
             TestTypeSignature(typeof(Delegates.Delegate6),
 @"[<Sealed>]
-type Delegates.Delegate6 = delegate of (int -> double) -> char");
+type Delegates.Delegate6 = delegate of (int -> float) -> char");
 
         [Test]
         [Category("Types")]
@@ -243,7 +242,7 @@ type Delegates.Delegate6 = delegate of (int -> double) -> char");
         public void TypeSignature_Delegate_6() =>
             TestTypeSignature(typeof(Delegates.Delegate7),
 @"[<Sealed>]
-type Delegates.Delegate7 = delegate of (int -> char -> string) -> double");
+type Delegates.Delegate7 = delegate of (int -> char -> string) -> float");
 
         [Test]
         [Category("Types")]
@@ -291,7 +290,7 @@ type Delegates.Delegate12 = delegate of unit -> char");
         public void TypeSignature_Delegate_12() =>
             TestTypeSignature(typeof(Delegates.Delegate13),
 @"[<Sealed>]
-type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> double");
+type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> float");
         
         [Test]
         [Category("Types")]
@@ -472,22 +471,22 @@ type Delegates.Delegate13 = delegate of (int -> char -> string -> decimal) -> do
         [Category("Methods")]
         public void MethodSignature_AbstractMethod() =>
             TestMethodSignature(typeof(AbstractClasses.Shape2D), 
-                "abstract member Rotate2 : double -> unit", 
+                "abstract member Rotate2 : float -> unit", 
                 nameof(AbstractClasses.Shape2D.Rotate2));
 
         [Test]
         [Category("Methods")]
         public void MethodSignature_VirtualMethod() =>
             TestMethodSignature(typeof(AbstractClasses.Shape2D),
-@"abstract member Rotate : angle:double -> unit
-override this.Rotate : angle:double -> unit", 
+@"abstract member Rotate : angle:float -> unit
+override this.Rotate : angle:float -> unit", 
             nameof(AbstractClasses.Shape2D.Rotate));
 
         [Test]
         [Category("Methods")]
         public void MethodSignature_OverrideMethod() =>
             TestMethodSignature(typeof(AbstractClasses.Circle), 
-                "override this.Rotate : double -> unit", 
+                "override this.Rotate : float -> unit", 
                 nameof(AbstractClasses.Circle.Rotate));
         
         [Test]
@@ -511,7 +510,7 @@ override this.Rotate : angle:double -> unit",
         [Category("Constructors")]
         public void MethodSignature_Constructor_0() =>
             TestMethodSignature(typeof(Interfaces.SomeClass1),
-                "new : x:int * y:double -> Interfaces.SomeClass1",
+                "new : x:int * y:float -> Interfaces.SomeClass1",
                 ".ctor");
 
         [Test]
@@ -534,7 +533,7 @@ override this.Rotate : angle:double -> unit",
         [Category("Properties")]
         public void PropertySignature_0() =>
             TestPropertySignature(typeof(Methods.RectangleXY), 
-                "member this.X1 : double", 
+                "member this.X1 : float", 
                 nameof(Methods.RectangleXY.X1));
 
         [Test]
@@ -926,10 +925,10 @@ type MailboxProcessor<'Msg> =
         [Category("Operators")]
         public void Operators_0() =>
             TestMethodSignature(typeof(OperatorsOverloading.Vector),
-"static member ( * ) : v:OperatorsOverloading.Vector * a:double -> OperatorsOverloading.Vector",
+"static member ( * ) : v:OperatorsOverloading.Vector * a:float -> OperatorsOverloading.Vector",
 "op_Multiply");
-        // Well, there would be OperatorsOverloading.Vector -> double in MSDN, but there are no signs of currying in IL code.
-        // Moreover Visual Studio QuickInfo shows Vector * double 
+        // Well, there would be OperatorsOverloading.Vector -> float in MSDN, but there are no signs of currying in IL code.
+        // Moreover Visual Studio QuickInfo shows Vector * float 
 
         [Test]
         [Category("Operators")]
@@ -966,10 +965,13 @@ nameof(UnitsOfMeasure.xvec));
 
         [Test]
         [Category("UnitsOfMeasure")]
+        [Ignore("Fix when units of measure can be represented")]
         public void UnitsOfMeasure_1() =>
             TestTypeSignature(typeof(UnitsOfMeasure.vector3D),
-@"[<Sealed>]
-type UnitsOfMeasure.vector3D = {}");
+@"type vector3D<'u> = 
+    { x : float<'u>
+      y : float<'u>
+      z : float<u> }");
         #endregion
 
         #region Extensions
