@@ -264,7 +264,7 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasProperties)
             {
-                foreach (var prop in type.Properties.OrderByDescending(p => p.FullName))
+                foreach (var prop in type.Properties.OrderBy(p => p.FullName))
                 {
                     if (prop is null) continue;
 
@@ -290,7 +290,7 @@ namespace Mono.Documentation.Updater
                 // There is constructor metadata here for interfaces, but we don't want to actually show it
                 if (!type.IsInterface && !(ctors is null))
                 {
-                    foreach (var ctor in ctors.OrderByDescending(c => c.FullName))
+                    foreach (var ctor in ctors.OrderBy(c => c.FullName))
                     {
                         if (ctor is null) continue;
 
@@ -304,7 +304,7 @@ namespace Mono.Documentation.Updater
 
                 if (!(meths is null))
                 {
-                    foreach (var meth in meths.OrderByDescending(m => m.FullName))
+                    foreach (var meth in meths.OrderBy(m => m.FullName))
                     {
                         if (meth is null) continue;
 
@@ -327,7 +327,7 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasInterfaces)
             {
-                foreach (var interfaceImplementation in type.Interfaces.OrderByDescending(iface => iface.InterfaceType.FullName))
+                foreach (var interfaceImplementation in type.Interfaces.OrderBy(iface => iface.InterfaceType.FullName))
                 {
                     var resolvedInterface = interfaceImplementation.InterfaceType.Resolve();
 
