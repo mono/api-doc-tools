@@ -725,28 +725,28 @@ type MailboxProcessor<'Msg> =
         public void TestConstraints_1() => 
             TestTypeSignature(typeof(Constraints.Class1<>),
 @"type Constraints.Class1<'T (requires 'T :> Exception)> =
-    new : unit -> Constraints.Class1<'T>");
+    new : unit -> Constraints.Class1<'T (requires 'T :> Exception)>");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2() => 
             TestTypeSignature(typeof(Constraints.Class2<>),
 @"type Constraints.Class2<'T (requires 'T :> IComparable)> =
-    new : unit -> Constraints.Class2<'T>");
+    new : unit -> Constraints.Class2<'T (requires 'T :> IComparable)>");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2_1() => 
             TestTypeSignature(typeof(Constraints.Class2_1<>),
 @"type Constraints.Class2_1<'T (requires 'T :> IComparable and 'T :> Exception)> =
-    new : unit -> Constraints.Class2_1<'T>");
+    new : unit -> Constraints.Class2_1<'T (requires 'T :> IComparable and 'T :> Exception)>");
 
         [Test]
         [Category("Constraints")]
         public void TestConstraints_2_2() => 
             TestTypeSignature(typeof(Constraints.Class2_2<>),
 @"type Constraints.Class2_2<'T (requires 'T :> IComparable and 'T :> seq<'T>)> =
-    new : unit -> Constraints.Class2_2<'T>");
+    new : unit -> Constraints.Class2_2<'T (requires 'T :> IComparable and 'T :> seq<'T>)>");
 
         [Test]
         [Category("Constraints")]
