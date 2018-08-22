@@ -313,7 +313,7 @@ namespace Mono.Documentation.Updater
                     {
                         if (meth is null || string.IsNullOrEmpty(meth.Name)) continue;
 
-                        if (IgnoredMethodNames.Contains(meth.Name))
+                        if (IgnoredMethodOverrideNames.Contains(meth.Name))
                         {
                             continue;
                         }
