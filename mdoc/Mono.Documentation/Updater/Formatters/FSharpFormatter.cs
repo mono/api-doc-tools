@@ -209,60 +209,7 @@ namespace Mono.Documentation.Updater
 
             if (IsRecord(type))
             {
-                var props = type.Properties; // handle other members later
-
-                var labels = props.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.Field)).ToList();
-
-                var first = labels.First(); // You cannot define an empty record in F#
-
-                string GetLabelString(PropertyDefinition p)
-                {
-                    if(p.SetMethod != null && p.SetMethod.IsPublic)
-                    {
-                        return $"mutable {p.Name}";
-                    }
-                    else
-                    {
-                        return p.Name;
-                    }
-
-                }
-                buf.Append($"{GetLineEnding()}{Consts.Tab}" + "{" + $" {GetLabelString(first)} : {GetTypeName(first.DeclaringType)}");
-
-                // Example: type R = { IntVal: int }
-                if (labels.Count == 1)
-                {
-                    buf.Append(" }");
-                    return buf.ToString();
-                }
-
-                // At least one more label, but we handle the last label differently than the rest.
-                //
-                // Example:
-                // type R =
-                //    { IntVal : int
-                //      StringVal : string }
-                //
-                // Note that there is a trailing `}` rather than a newline
-                var last = labels.Last();
-                var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(first.DeclaringType)}" + " }";
-
-                // Only a begin and end label.
-                if (labels.Count == 2)
-                {
-                    buf.Append(lastString);
-                    return buf.ToString();
-                }
-
-                // And now we fill in the middle!
-                var middle = labels.Skip(1).Take(labels.Count - 2);
-                foreach (var label in labels)
-                {
-                    buf.Append($"{GetLineEnding()}{Consts.Tab}  {GetLabelString(label)} : {GetTypeName(label.DeclaringType)}");
-                }
-
-                buf.Append(lastString);
-                return buf.ToString();
+                return GetRecordLabelDeclarations(type, buf);
             }
 
             if (IsDiscriminatedUnion(type))
@@ -308,6 +255,64 @@ namespace Mono.Documentation.Updater
                 buf.Append("class end");
             }
 
+            return buf.ToString();
+        }
+
+        private string GetRecordLabelDeclarations(TypeDefinition type, StringBuilder buf)
+        {
+            var props = type.Properties; // handle other members later
+
+            var labels = props.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.Field)).ToList();
+
+            var first = labels.First(); // You cannot define an empty record in F#
+
+            string GetLabelString(PropertyDefinition p)
+            {
+                if (p.SetMethod != null && p.SetMethod.IsPublic)
+                {
+                    return $"mutable {p.Name}";
+                }
+                else
+                {
+                    return p.Name;
+                }
+
+            }
+            buf.Append($"{GetLineEnding()}{Consts.Tab}" + "{" + $" {GetLabelString(first)} : {GetTypeName(first.DeclaringType)}");
+
+            // Example: type R = { IntVal: int }
+            if (labels.Count == 1)
+            {
+                buf.Append(" }");
+                return buf.ToString();
+            }
+
+            // At least one more label, but we handle the last label differently than the rest.
+            //
+            // Example:
+            // type R =
+            //    { IntVal : int
+            //      StringVal : string }
+            //
+            // Note that there is a trailing `}` rather than a newline
+            var last = labels.Last();
+            var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(first.DeclaringType)}" + " }";
+
+            // Only a begin and end label.
+            if (labels.Count == 2)
+            {
+                buf.Append(lastString);
+                return buf.ToString();
+            }
+
+            // And now we fill in the middle!
+            var middle = labels.Skip(1).Take(labels.Count - 2);
+            foreach (var label in labels)
+            {
+                buf.Append($"{GetLineEnding()}{Consts.Tab}  {GetLabelString(label)} : {GetTypeName(label.DeclaringType)}");
+            }
+
+            buf.Append(lastString);
             return buf.ToString();
         }
 

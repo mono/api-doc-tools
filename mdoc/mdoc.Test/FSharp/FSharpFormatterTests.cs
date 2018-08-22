@@ -578,8 +578,8 @@ override this.Rotate : angle:double -> unit",
         [Category("Records")]
         public void PropertySignature_RecordTypeProperty_0() =>
             TestPropertySignature(typeof(Constructors.PetData),
-                "name : string",
-                nameof(Constructors.PetData.name));
+                "Name : string",
+                nameof(Constructors.PetData.Name));
 
         [Test]
         [Category("Properties")]
