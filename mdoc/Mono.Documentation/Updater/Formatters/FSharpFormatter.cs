@@ -210,7 +210,7 @@ namespace Mono.Documentation.Updater
             if (IsRecord(type))
             {
                 GetRecordLabelDeclarations(type, buf);
-                AppendMethodsAndConstructors(type, buf);
+                AppendMethodsAndConstructors(type, buf, false);
 
                 if (type.Properties.Any(p => GetFSharpFlags(p.CustomAttributes).Any(ca => ca != SourceConstructFlags.Field)))
                 {
@@ -346,32 +346,36 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        private void AppendMethodsAndConstructors(TypeDefinition type, StringBuilder buf)
+        private void AppendMethodsAndConstructors(TypeDefinition type, StringBuilder buf, bool includeConstructors = true)
         {
             if (type.HasMethods)
             {
                 var filtered = type.Methods.Where(m => !m.IsGetter && !m.IsSetter);
                 if (filtered is null) return;
 
-                var ctors = filtered.Where(m => m.IsConstructor);
-                var meths = filtered.Where(m => !m.IsConstructor);
-
-                // There is constructor metadata here for interfaces, but we don't want to actually show it
-                if (!type.IsInterface && !(ctors is null))
+                if (includeConstructors)
                 {
-                    foreach (var ctor in ctors.OrderBy(c => c.Name))
+                    var ctors = filtered.Where(m => m.IsConstructor);
+
+                    // There is constructor metadata here for interfaces, but we don't want to actually show it
+                    if (!type.IsInterface && !(ctors is null))
                     {
-                        if (ctor is null || string.IsNullOrEmpty(ctor.Name)) continue;
+                        foreach (var ctor in ctors.OrderBy(c => c.Name))
+                        {
+                            if (ctor is null || string.IsNullOrEmpty(ctor.Name)) continue;
 
-                        var lineEnd = GetLineEnding();
-                        var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
-                        var ctorDecl = GetConstructorDeclaration(ctor);
+                            var lineEnd = GetLineEnding();
+                            var tab = type.IsValueType ? Consts.Tab + Consts.Tab : Consts.Tab;
+                            var ctorDecl = GetConstructorDeclaration(ctor);
 
-                        if (string.IsNullOrWhiteSpace(ctorDecl)) continue;
+                            if (string.IsNullOrWhiteSpace(ctorDecl)) continue;
 
-                        buf.Append($"{lineEnd}{tab}{ctorDecl}");
+                            buf.Append($"{lineEnd}{tab}{ctorDecl}");
+                        }
                     }
                 }
+
+                var meths = filtered.Where(m => !m.IsConstructor);
 
                 if (!(meths is null))
                 {
