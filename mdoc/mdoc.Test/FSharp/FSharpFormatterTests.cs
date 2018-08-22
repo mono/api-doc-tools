@@ -43,18 +43,18 @@ type Constructors.MyStruct =
         public void TypeSignature_Record() =>
             TestTypeSignature(typeof(Constructors.PetData),
 @"type Constructors.PetData =
-    { Constructors.PetData.Name : string
-      Constructors.PetData.Age : int
-      Constructors.PetData.Animal : string }");
+    { Name : string
+      Age : int
+      Animal : string }");
 
         [Test]
         [Category("Types")]
         public void TypeSignature_Record2() =>
             TestTypeSignature(typeof(Records.Car),
 @"type Records.Car =
-    { Records.Car.Make : string
-      Records.Car.Model : string
-      mutable Records.Car.Odometer : int }");
+    { Make : string
+      Model : string
+      mutable Odometer : int }");
 
         [Test]
         [Category("Types")]

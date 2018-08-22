@@ -278,7 +278,7 @@ namespace Mono.Documentation.Updater
                 }
 
             }
-            buf.Append($"{GetLineEnding()}{Consts.Tab}" + "{" + $" {GetLabelString(first)} : {GetTypeName(first.DeclaringType)}");
+            buf.Append($"{GetLineEnding()}{Consts.Tab}" + "{" + $" {GetLabelString(first)} : {GetTypeName(first.PropertyType)}");
 
             // Example: type R = { IntVal: int }
             if (labels.Count == 1)
@@ -296,7 +296,7 @@ namespace Mono.Documentation.Updater
             //
             // Note that there is a trailing `}` rather than a newline
             var last = labels.Last();
-            var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(first.DeclaringType)}" + " }";
+            var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(first.PropertyType)}" + " }";
 
             // Only a begin and end label.
             if (labels.Count == 2)
@@ -309,7 +309,7 @@ namespace Mono.Documentation.Updater
             var middle = labels.Skip(1).Take(labels.Count - 2);
             foreach (var label in labels)
             {
-                buf.Append($"{GetLineEnding()}{Consts.Tab}  {GetLabelString(label)} : {GetTypeName(label.DeclaringType)}");
+                buf.Append($"{GetLineEnding()}{Consts.Tab}  {GetLabelString(label)} : {GetTypeName(label.PropertyType)}");
             }
 
             buf.Append(lastString);
