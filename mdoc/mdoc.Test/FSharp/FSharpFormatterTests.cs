@@ -60,7 +60,7 @@ type Constructors.MyStruct =
         [Category("Types")]
         public void TypeSignature_RecordWithMembers() =>
             TestTypeSignature(typeof(Records.R),
- @"type R =
+ @"type Records.R =
     { IntVal : int }
     member __.Doopty : unit -> unit
     member __.Doop : unit");
