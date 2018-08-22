@@ -133,12 +133,13 @@ namespace Mono.Documentation.Updater
             "System.Collections.IStructuralComparable",
         };
 
-        private static readonly HashSet<string> IgnoredMethodNames = new HashSet<string>()
+        private static readonly HashSet<string> IgnoredMethodOverrideNames = new HashSet<string>()
         {
             "CompareTo",
             "Equals",
             "GetHashCode",
-            "GetSlice"
+            "GetSlice",
+            "ToString"
         };
 
         private GenericParameterState genericParameterState = GenericParameterState.None;
