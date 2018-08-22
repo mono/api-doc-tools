@@ -211,11 +211,7 @@ namespace Mono.Documentation.Updater
             {
                 GetRecordLabelDeclarations(type, buf);
                 AppendMethodsAndConstructors(type, buf, false);
-
-                if (type.Properties.Any(p => GetFSharpFlags(p.CustomAttributes).Any(ca => ca != SourceConstructFlags.Field)))
-                {
-                    AppendProperties(type, buf);
-                }
+                AppendProperties(type, buf);
                 
                 return buf.ToString();
             }
@@ -295,7 +291,6 @@ namespace Mono.Documentation.Updater
             }
             else
             {
-
                 // At least one more label, but we handle the last label differently than the rest.
                 //
                 // Example:
@@ -331,7 +326,9 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasProperties)
             {
-                foreach (var prop in type.Properties.OrderBy(p => p.FullName))
+                var props = type.Properties.Where(p => !GetFSharpFlags(p.CustomAttributes).Any(ca => ca == SourceConstructFlags.Field))
+                                            .OrderBy(p => p.FullName);
+                foreach (var prop in props)
                 {
                     if (prop is null || string.IsNullOrEmpty(prop.Name)) continue;
 
