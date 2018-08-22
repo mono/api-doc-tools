@@ -104,12 +104,12 @@ namespace Mono.Documentation.Updater
             {"System.Decimal", "decimal"},
             {"System.Void", "unit"},
             {"System.Single", "single"},// Can be float32
-            {"System.Double", "double"},// Can be float
+            {"System.Double", "float"},// Can be double
             {"System.Object", "obj"},
             {"Microsoft.FSharp.Core.Unit", "unit"},
             {"Microsoft.FSharp.Core.FSharpOption`1", "option"},
             {"System.Collections.Generic.IEnumerable`1", "seq"},
-            {"Microsoft.FSharp.Core.FSharpRef`1", "ref"},
+            {"Microsoft.FSharp.Core.FSharpRef`1", "ref"}
         };
 
         private static readonly HashSet<string> fSharpPrefixes = new HashSet<string>()
@@ -138,7 +138,6 @@ namespace Mono.Documentation.Updater
             "CompareTo",
             "Equals",
             "GetHashCode",
-            "GetSlice",
             "ToString"
         };
 
@@ -192,7 +191,8 @@ namespace Mono.Documentation.Updater
                 return null;
 
             StringBuilder buf = new StringBuilder();
-            var attributes = new List<string>();
+
+            AppendAttributes(type, buf);
 
             if (IsModule(type))
             {
@@ -205,13 +205,63 @@ namespace Mono.Documentation.Updater
                 return buf.ToString();
             }
 
-            AppendAttributes(type, buf);
-
             buf.Append($"type {visibility}{GetTypeName(type)} =");
 
             if (IsRecord(type))
             {
-                buf.Append(" {}");
+                var props = type.Properties; // handle other members later
+
+                var labels = props.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.Field)).ToList();
+
+                var first = labels.First(); // You cannot define an empty record in F#
+
+                string GetLabelString(PropertyDefinition p)
+                {
+                    if(p.SetMethod != null && p.SetMethod.IsPublic)
+                    {
+                        return $"mutable {p.Name}";
+                    }
+                    else
+                    {
+                        return p.Name;
+                    }
+
+                }
+                buf.Append($"{GetLineEnding()}{Consts.Tab}" + "{" + $" {GetLabelString(first)} : {GetTypeName(first.DeclaringType)}");
+
+                // Example: type R = { IntVal: int }
+                if (labels.Count == 1)
+                {
+                    buf.Append(" }");
+                    return buf.ToString();
+                }
+
+                // At least one more label, but we handle the last label differently than the rest.
+                //
+                // Example:
+                // type R =
+                //    { IntVal : int
+                //      StringVal : string }
+                //
+                // Note that there is a trailing `}` rather than a newline
+                var last = labels.Last();
+                var lastString = $"{GetLineEnding()}{Consts.Tab}  {GetLabelString(last)} : {GetTypeName(first.DeclaringType)}" + " }";
+
+                // Only a begin and end label.
+                if (labels.Count == 2)
+                {
+                    buf.Append(lastString);
+                    return buf.ToString();
+                }
+
+                // And now we fill in the middle!
+                var middle = labels.Skip(1).Take(labels.Count - 2);
+                foreach (var label in labels)
+                {
+                    buf.Append($"{GetLineEnding()}{Consts.Tab}  {GetLabelString(label)} : {GetTypeName(label.DeclaringType)}");
+                }
+
+                buf.Append(lastString);
                 return buf.ToString();
             }
 
@@ -357,9 +407,14 @@ namespace Mono.Documentation.Updater
                 buf.Append($"[<AbstractClass>]{GetLineEnding()}");
             }
 
-            if (type.IsSealed)
+            if (type.IsSealed && !(IsRecord(type) || IsDiscriminatedUnion(type)))
             {
                 buf.Append($"[<Sealed>]{GetLineEnding()}");
+            }
+
+            if (type.IsValueType && (IsDiscriminatedUnion(type) || IsRecord(type)))
+            {
+                buf.Append($"[<Struct>]{GetLineEnding()}");
             }
         }
 

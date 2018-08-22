@@ -42,15 +42,19 @@ type Constructors.MyStruct =
         [Category("Types")]
         public void TypeSignature_Record() =>
             TestTypeSignature(typeof(Constructors.PetData), 
-@"[<Sealed>]
-type Constructors.PetData = {}");
+@"type Constructors.PetData =
+    { Name : string
+      Age : int
+      Animal : string }");
 
         [Test]
         [Category("Types")]
         public void TypeSignature_Record2() =>
             TestTypeSignature(typeof(Records.Car),
-@"[<Sealed>]
-type Records.Car = {}");
+@"type Car =
+    { Make : string
+      Model : string
+      mutable Odometer : int }");
 
         [Test]
         [Category("Types")]

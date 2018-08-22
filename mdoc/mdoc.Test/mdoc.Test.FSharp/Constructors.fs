@@ -140,9 +140,9 @@ type MyStruct88 =
 
 
 type PetData = {
-    name : string
-    age : int
-    animal : string
+    Name : string
+    Age : int
+    Animal : string
 }
 
 type Pet(name:string, age:int, animal:string) =
@@ -153,7 +153,7 @@ type Pet(name:string, age:int, animal:string) =
         Pet(name, 5, "dog")
 
     new (data:PetData) =
-        Pet(data.name, data.age, data.animal) then System.Console.WriteLine("Pet created from PetData")
+        Pet(data.Name, data.Age, data.Animal) then System.Console.WriteLine("Pet created from PetData")
 
 
 
