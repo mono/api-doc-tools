@@ -187,7 +187,7 @@ namespace mdoc.Test
 
         #endregion
 
-        [TestFixtureTearDown]
+        [TearDown]
         public void TearDown()
         {
             moduleCash.Clear();
