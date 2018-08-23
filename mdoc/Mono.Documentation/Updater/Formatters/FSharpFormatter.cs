@@ -944,11 +944,11 @@ namespace Mono.Documentation.Updater
             bool isField = GetFSharpFlags(property.CustomAttributes).Any(i => i == SourceConstructFlags.Field);
             StringBuilder buf = new StringBuilder();
 
-            if (IsRecord(property.DeclaringType))
-            {
-                AppendRecordParameter(buf, property);
-                return buf.ToString();
-            }
+            //if (IsRecord(property.DeclaringType))
+            //{
+            //    AppendRecordParameter(buf, property);
+            //    return buf.ToString();
+            //}
 
             if (IsModule(property.DeclaringType))
             {
