@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using mdoc.Mono.Documentation.Util;
 using Mono.Cecil;
 using Mono.Collections.Generic;
 using Mono.Documentation.Util;
@@ -210,6 +211,7 @@ namespace Mono.Documentation.Updater
             if (IsRecord(type))
             {
                 AppendRecordLabels(type, buf);
+                AppendInterfaces(type, buf);
                 AppendMethodsAndConstructors(type, buf, includeConstructors:false);
                 AppendProperties(type, buf);
                 
@@ -219,6 +221,7 @@ namespace Mono.Documentation.Updater
             if (IsDiscriminatedUnion(type))
             {
                 AppendDULableDeclarations(type, buf);
+                AppendInterfaces(type, buf);
                 AppendMethodsAndConstructors(type, buf, includeConstructors:false);
                 AppendProperties(type, buf);
 
@@ -385,7 +388,7 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasProperties)
             {
-                var props = type.Properties.OrderBy(p => p.FullName);
+                var props = type.Properties.Where(p => DocUtils.IsIgnored(p)).OrderBy(p => p.FullName);
 
                 if (IsRecord(type) || IsDiscriminatedUnion(type))
                 {
@@ -412,7 +415,7 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasMethods)
             {
-                var filtered = type.Methods.Where(m => !m.IsGetter && !m.IsSetter);
+                var filtered = type.Methods.Where(m => DocUtils.IsIgnored(m) && !m.IsGetter && !m.IsSetter);
                 if (filtered is null) return;
 
                 if (includeConstructors)
