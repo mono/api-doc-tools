@@ -284,7 +284,8 @@ namespace Mono.Documentation.Updater
                 }
                 else
                 {
-                    return $"{p.Name}:{GetTypeName(p.ParameterType)}";
+                    // Substring off the first char, since the names are compiled with a '_' character
+                    return $"{p.Name}: {GetTypeName(p.ParameterType).Substring(1)}";
                 }
             }
 
