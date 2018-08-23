@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using mdoc.Mono.Documentation.Util;
 using Mono.Cecil;
 using Mono.Collections.Generic;
 using Mono.Documentation.Util;
@@ -385,7 +384,7 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasProperties)
             {
-                var props = type.Properties.Where(p => p.IsUserDefined()).OrderBy(p => p.FullName);
+                var props = type.Properties.OrderBy(p => p.FullName);
 
                 if (IsRecord(type) || IsDiscriminatedUnion(type))
                 {
@@ -422,7 +421,7 @@ namespace Mono.Documentation.Updater
                     // There is constructor metadata here for interfaces, but we don't want to actually show it
                     if (!type.IsInterface && !(ctors is null))
                     {
-                        foreach (var ctor in ctors.Where(m => m.IsUserDefined()).OrderBy(c => c.Name))
+                        foreach (var ctor in ctors.OrderBy(c => c.Name))
                         {
                             if (ctor is null || string.IsNullOrEmpty(ctor.Name)) continue;
 
@@ -441,7 +440,7 @@ namespace Mono.Documentation.Updater
 
                 if (!(meths is null))
                 {
-                    foreach (var meth in meths.Where(m => m.IsUserDefined()).OrderBy(m => m.Name))
+                    foreach (var meth in meths.OrderBy(m => m.Name))
                     {
                         if (meth is null || string.IsNullOrEmpty(meth.Name)) continue;
 
