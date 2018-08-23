@@ -326,8 +326,14 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasProperties)
             {
-                var props = type.Properties.Where(p => !GetFSharpFlags(p.CustomAttributes).Any(ca => ca == SourceConstructFlags.Field))
-                                            .OrderBy(p => p.FullName);
+                var props = type.Properties.OrderBy(p => p.FullName);
+
+                if (IsRecord(type) || IsDiscriminatedUnion(type))
+                {
+                    props = props.Where(p => !GetFSharpFlags(p.CustomAttributes).Any(ca => ca == SourceConstructFlags.Field))
+                                 .OrderBy(p => p.FullName);
+                }
+
                 foreach (var prop in props)
                 {
                     if (prop is null || string.IsNullOrEmpty(prop.Name)) continue;
