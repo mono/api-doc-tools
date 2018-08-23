@@ -209,8 +209,8 @@ namespace Mono.Documentation.Updater
 
             if (IsRecord(type))
             {
-                GetRecordLabelDeclarations(type, buf);
-                AppendMethodsAndConstructors(type, buf, false);
+                AppendRecordLabels(type, buf);
+                AppendMethodsAndConstructors(type, buf, includeConstructors:false);
                 AppendProperties(type, buf);
                 
                 return buf.ToString();
@@ -218,10 +218,19 @@ namespace Mono.Documentation.Updater
 
             if (IsDiscriminatedUnion(type))
             {
+                AppendDULableDeclarations(type, buf);
+                AppendMethodsAndConstructors(type, buf, includeConstructors:false);
+                AppendProperties(type, buf);
+
                 return buf.ToString();
             }
             if (type.IsEnum)
             {
+                foreach (var field in type.Fields)
+                {
+                    buf.Append($"{GetLineEnding()}{Consts.Tab}| {field.Name} = {field.Constant}");
+                }
+
                 return buf.ToString();
             }
 
@@ -262,11 +271,53 @@ namespace Mono.Documentation.Updater
             return buf.ToString();
         }
 
-        private void GetRecordLabelDeclarations(TypeDefinition type, StringBuilder buf)
+        private void AppendDULableDeclarations(TypeDefinition type, StringBuilder buf)
         {
-            var props = type.Properties; // handle other members later
+            string ToParamString(ParameterDefinition p)
+            {
+                // Example (no name applied to type arg):
+                //
+                // | Baz of double
+                if (string.Equals(p.Name, "Item", StringComparison.OrdinalIgnoreCase))
+                {
+                    return $"{GetTypeName(p.ParameterType)}";
+                }
+                else
+                {
+                    return $"{p.Name}:{GetTypeName(p.ParameterType)}";
+                }
+            }
 
-            var labels = props.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.Field)).ToList();
+            // Example:
+            //
+            // type Foo = Bar | Baz
+            var labelsWithNoCtors = type.Properties.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.UnionCase)).ToList();
+
+            // Example:
+            //
+            // type Foo = Bar of string | Baz of int
+            var labelsWithCtors = type.Methods.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.UnionCase)).ToList();
+
+
+            foreach (var label in labelsWithNoCtors)
+            {
+                buf.Append($"{GetLineEnding()}{Consts.Tab}| {label.Name}");
+            }
+
+            foreach (var label in labelsWithCtors)
+            {
+                var name = label.Name.Substring(2); // Strip "New"
+
+                buf.Append($"{GetLineEnding()}{Consts.Tab}| {name} of");
+
+                var paramStr = string.Join(" * ", label.Parameters.Select(p => ToParamString(p)));
+                buf.Append(paramStr);
+            }
+        }
+
+        private void AppendRecordLabels(TypeDefinition type, StringBuilder buf)
+        {
+            var labels = type.Properties.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.Field)).ToList();
 
             var first = labels.First(); // You cannot define an empty record in F#
 
@@ -425,14 +476,14 @@ namespace Mono.Documentation.Updater
 
         private static void AppendAttributes(TypeDefinition type, StringBuilder buf)
         {
-            if (!IsModule(type))
+            if (!IsModule(type) && !(IsRecord(type) || IsDiscriminatedUnion(type)))
             {
                 if (type.IsAbstract && !type.IsInterface)
                 {
                     buf.Append($"[<AbstractClass>]{GetLineEnding()}");
                 }
 
-                if (type.IsSealed && !(IsRecord(type) || IsDiscriminatedUnion(type)))
+                if (type.IsSealed)
                 {
                     buf.Append($"[<Sealed>]{GetLineEnding()}");
                 }

@@ -132,8 +132,10 @@ type Constructors.MyStruct =
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_0() =>
             TestTypeSignature(typeof(DiscriminatedUnions.Shape),
-@"[<AbstractClass>]
-type DiscriminatedUnions.Shape =");
+@"type DiscriminatedUnions.Shape =
+    | Rectangle of width:float * length:float
+    | Circle of radius:float
+    | Prism of width:float * float * height:float");
 
         [Test]
         [Category("Types")]
@@ -141,53 +143,26 @@ type DiscriminatedUnions.Shape =");
         public void TypeSignature_Union_1() =>
             TestTypeSignature(typeof(DiscriminatedUnions.Shape.Tags),
                 null);
-
-        [Test]
-        [Category("Types")]
-        [Category("DiscriminatedUnions")]
-        public void TypeSignature_Union_2() =>
-            TestTypeSignature(typeof(DiscriminatedUnions.Shape.Circle),
-                "DiscriminatedUnions.Shape.Circle : float -> DiscriminatedUnions.Shape");
-        
-        [Test]
-        [Category("Types")]
-        [Category("DiscriminatedUnions")]
-        public void TypeSignature_Union_3() =>
-            TestTypeSignature(typeof(DiscriminatedUnions.Shape.Rectangle),
-                "DiscriminatedUnions.Shape.Rectangle : float * float -> DiscriminatedUnions.Shape");
         
         [Test]
         [Category("Types")]
         [Category("DiscriminatedUnions")]
         public void TypeSignature_Union_4() =>
             TestTypeSignature(typeof(DiscriminatedUnions.SizeUnion),
-@"type DiscriminatedUnions.SizeUnion =");
-
-        [Test]
-        [Category("Types")]
-        [Category("DiscriminatedUnions")]
-        public void TypeSignature_Union_5() =>
-            TestPropertySignature(
-                typeof(DiscriminatedUnions.SizeUnion),
-                "member this.Small : DiscriminatedUnions.SizeUnion",
-                nameof(DiscriminatedUnions.SizeUnion.Small));
-
-        [Test]
-        [Category("Types")]
-        [Category("DiscriminatedUnions")]
-        public void TypeSignature_Union_6() =>
-            TestPropertySignature(
-                typeof(DiscriminatedUnions.SizeUnion),
-                null,
-                "IsSmall");
+@"type DiscriminatedUnions.SizeUnion =
+    | Small
+    | Medium
+    | Large");
 
         [Test]
         [Category("Types")]
         [Category("Enums")]
         public void TypeSignature_Enum_0() =>
             TestTypeSignature(typeof(DiscriminatedUnions.ColorEnum),
-@"[<Sealed>]
-type DiscriminatedUnions.ColorEnum =");
+@"type DiscriminatedUnions.ColorEnum =
+    | Red = 5
+    | Yellow = 7
+    | Blue = 9");
 
         [Test]
         [Category("Types")]
