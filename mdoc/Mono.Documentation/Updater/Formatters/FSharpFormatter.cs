@@ -306,12 +306,16 @@ namespace Mono.Documentation.Updater
 
             foreach (var label in labelsWithCtors)
             {
-                var name = label.Name.Substring(2); // Strip "New"
+//                var name = label.Name.Substring(2); // Strip "New"
 
-                buf.Append($"{GetLineEnding()}{Consts.Tab}| {name} of");
+                buf.Append($"{GetLineEnding()}{Consts.Tab}| {name}");
 
-                var paramStr = string.Join(" * ", label.Parameters.Select(p => ToParamString(p)));
-                buf.Append(paramStr);
+                if (label.HasParameters)
+                {
+                    buf.Append(" of ");
+                    var paramStr = string.Join(" * ", label.Parameters.Select(p => ToParamString(p)));
+                    buf.Append(paramStr);
+                }
             }
         }
 
