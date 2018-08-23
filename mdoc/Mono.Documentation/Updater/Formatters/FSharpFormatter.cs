@@ -288,27 +288,29 @@ namespace Mono.Documentation.Updater
                 }
             }
 
-            // Example:
-            //
-            // type Foo = Bar | Baz
-            //var labelsWithNoCtors = type.Properties.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.UnionCase)).ToList();
-
-            // Example:
-            //
-            // type Foo = Bar of string | Baz of int
-            var labelsWithCtors = type.Methods.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.UnionCase)).ToList();
-
-
-            //foreach (var label in labelsWithNoCtors)
-            //{
-            //    buf.Append($"{GetLineEnding()}{Consts.Tab}| {label.Name}");
-            //}
-
-            foreach (var label in labelsWithCtors)
+            string GetName(MethodDefinition label)
             {
-//                var name = label.Name.Substring(2); // Strip "New"
+                var name = label.Name;
 
-                buf.Append($"{GetLineEnding()}{Consts.Tab}| {label.Name}");
+                if (name.StartsWith("New"))
+                {
+                    return name.Substring(3);
+                }
+                else if (name.StartsWith("get_"))
+                {
+                    return name.Substring(4);
+                }
+                else
+                {
+                    return name;
+                }
+            }
+
+            var labels = type.Methods.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.UnionCase));
+
+            foreach (var label in labels)
+            {
+                buf.Append($"{GetLineEnding()}{Consts.Tab}| {GetName(label)}");
 
                 if (label.HasParameters)
                 {
