@@ -583,30 +583,6 @@ override this.Rotate : angle:float -> unit",
 
         [Test]
         [Category("Properties")]
-        [Category("Records")]
-        public void PropertySignature_RecordTypeProperty_0() =>
-            TestPropertySignature(typeof(Constructors.PetData),
-                "Name : string",
-                nameof(Constructors.PetData.Name));
-
-        [Test]
-        [Category("Properties")]
-        [Category("Records")]
-        public void PropertySignature_RecordTypeProperty_1() =>
-            TestPropertySignature(typeof(Records.Car),
-                "mutable Odometer : int",
-                nameof(Records.Car.Odometer));
-
-        [Test]
-        [Category("Properties")]
-        [Category("Records")]
-        public void PropertySignature_RecordTypeProperty_2() =>
-            TestPropertySignature(typeof(Records.Car),
-                "Make : string",
-                nameof(Records.Car.Make));
-
-        [Test]
-        [Category("Properties")]
         public void PropertySignature_6() =>
             TestPropertySignature(typeof(Methods.SomeType),
                 "member this.SomeOtherMethod2 : int -> int * int -> int * int",
