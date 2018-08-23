@@ -133,7 +133,7 @@ namespace mdoc.Test
             TestMethodSignature(CSharpTestLib, "Mono.DocTest.Widget", "Default", null);
         }
         
-        [TestFixtureTearDown]
+        [TearDown]
         public void TearDown()
         {
             moduleCash.Clear();
