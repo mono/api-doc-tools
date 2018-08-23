@@ -942,13 +942,8 @@ namespace Mono.Documentation.Updater
                 return null;
 
             bool isField = GetFSharpFlags(property.CustomAttributes).Any(i => i == SourceConstructFlags.Field);
+            bool isRecordOrDU = IsRecord(property.DeclaringType) || IsDiscriminatedUnion(property.DeclaringType);
             StringBuilder buf = new StringBuilder();
-
-            //if (IsRecord(property.DeclaringType))
-            //{
-            //    AppendRecordParameter(buf, property);
-            //    return buf.ToString();
-            //}
 
             if (IsModule(property.DeclaringType))
             {
@@ -956,7 +951,7 @@ namespace Mono.Documentation.Updater
             }
             else
             {
-                if (isField)
+                if (isField && !isRecordOrDU)
                     buf.Append("val ");
                 else
                     buf.Append("member this.");
