@@ -275,10 +275,11 @@ namespace Mono.Documentation.Updater
         {
             string ToParamString(ParameterDefinition p)
             {
-                // Example (no name applied to type arg):
+                // No name applied to type arg. Example:
                 //
-                // | Baz of double
-                if (string.Equals(p.Name, "Item", StringComparison.OrdinalIgnoreCase))
+                // type Bar =
+                //     | Baz of double
+                if (p.Name.StartsWith("item", StringComparison.OrdinalIgnoreCase))
                 {
                     return $"{GetTypeName(p.ParameterType)}";
                 }
