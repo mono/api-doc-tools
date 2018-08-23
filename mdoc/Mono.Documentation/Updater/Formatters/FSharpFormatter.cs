@@ -308,7 +308,7 @@ namespace Mono.Documentation.Updater
             {
 //                var name = label.Name.Substring(2); // Strip "New"
 
-                buf.Append($"{GetLineEnding()}{Consts.Tab}| {name}");
+                buf.Append($"{GetLineEnding()}{Consts.Tab}| {label.Name}");
 
                 if (label.HasParameters)
                 {
