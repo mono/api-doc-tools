@@ -226,7 +226,7 @@ namespace Mono.Documentation.Updater
             }
             if (type.IsEnum)
             {
-                foreach (var field in type.Fields)
+                foreach (var field in type.Fields.Where(f => !f.IsRuntimeSpecialName))
                 {
                     buf.Append($"{GetLineEnding()}{Consts.Tab}| {field.Name} = {field.Constant}");
                 }
@@ -291,7 +291,7 @@ namespace Mono.Documentation.Updater
             // Example:
             //
             // type Foo = Bar | Baz
-            var labelsWithNoCtors = type.Properties.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.UnionCase)).ToList();
+            //var labelsWithNoCtors = type.Properties.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.UnionCase)).ToList();
 
             // Example:
             //
@@ -299,10 +299,10 @@ namespace Mono.Documentation.Updater
             var labelsWithCtors = type.Methods.Where(p => GetFSharpFlags(p.CustomAttributes).Any(f => f == SourceConstructFlags.UnionCase)).ToList();
 
 
-            foreach (var label in labelsWithNoCtors)
-            {
-                buf.Append($"{GetLineEnding()}{Consts.Tab}| {label.Name}");
-            }
+            //foreach (var label in labelsWithNoCtors)
+            //{
+            //    buf.Append($"{GetLineEnding()}{Consts.Tab}| {label.Name}");
+            //}
 
             foreach (var label in labelsWithCtors)
             {
@@ -476,7 +476,7 @@ namespace Mono.Documentation.Updater
 
         private static void AppendAttributes(TypeDefinition type, StringBuilder buf)
         {
-            if (!IsModule(type) && !(IsRecord(type) || IsDiscriminatedUnion(type)))
+            if (!IsModule(type) && !(IsRecord(type) || IsDiscriminatedUnion(type)) && !type.IsEnum)
             {
                 if (type.IsAbstract && !type.IsInterface)
                 {

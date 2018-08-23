@@ -133,9 +133,9 @@ type Constructors.MyStruct =
         public void TypeSignature_Union_0() =>
             TestTypeSignature(typeof(DiscriminatedUnions.Shape),
 @"type DiscriminatedUnions.Shape =
-    | Rectangle of width:float * length:float
-    | Circle of radius:float
-    | Prism of width:float * float * height:float");
+    | Rectangle of width: float * length: float
+    | Circle of radius: float
+    | Prism of width: float * float * height: float");
 
         [Test]
         [Category("Types")]
