@@ -124,7 +124,7 @@ namespace Mono.Documentation.Updater
             "Microsoft.FSharp.Reflection.FSharp"
         };
 
-        private static readonly HashSet<string> ignoredValueTypeInterfaces = new HashSet<string>()
+        private static readonly HashSet<string> ignoredInterfaces = new HashSet<string>()
         {
             "System.IEquatable`1",
             "System.Collections.IStructuralEquatable",
@@ -468,12 +468,11 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasInterfaces)
             {
-                foreach (var interfaceImplementation in type.Interfaces.Where(i => !DocUtils.IsIgnored(i)).OrderBy(i => i.InterfaceType.Name))
+                foreach (var interfaceImplementation in type.Interfaces.OrderBy(iface => iface.InterfaceType.Name))
                 {
                     var resolvedInterface = interfaceImplementation.InterfaceType.Resolve();
 
-                    if (type.IsValueType
-                        && ignoredValueTypeInterfaces.Any(i => interfaceImplementation.InterfaceType.FullName.StartsWith(i))
+                    if (ignoredInterfaces.Any(i => interfaceImplementation.InterfaceType.FullName.StartsWith(i))
                         || (resolvedInterface != null && resolvedInterface.IsNotPublic))
                         continue;
 
