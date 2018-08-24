@@ -414,7 +414,8 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasMethods)
             {
-                var filtered = type.Methods.Where(m => !DocUtils.IsIgnored(m) && !m.IsGetter && !m.IsSetter);
+                // Don't want compiler generated stuff or getters or setters.
+                var filtered = type.Methods.Where(m => !DocUtils.IsIgnored(m) && !m.IsGetter && !m.IsSetter && !GetFSharpFlags(m.CustomAttributes).Any(ca => ca == SourceConstructFlags.UnionCase));
                 if (filtered is null) return;
 
                 if (includeConstructors)
