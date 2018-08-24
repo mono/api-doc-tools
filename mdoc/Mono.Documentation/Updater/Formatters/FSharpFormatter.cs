@@ -387,7 +387,7 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasProperties)
             {
-                var props = type.Properties.Where(p => DocUtils.IsIgnored(p)).OrderBy(p => p.FullName);
+                var props = type.Properties.Where(p => !DocUtils.IsIgnored(p)).OrderBy(p => p.FullName);
 
                 if (IsRecord(type) || IsDiscriminatedUnion(type))
                 {
@@ -414,7 +414,7 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasMethods)
             {
-                var filtered = type.Methods.Where(m => DocUtils.IsIgnored(m) && !m.IsGetter && !m.IsSetter);
+                var filtered = type.Methods.Where(m => !DocUtils.IsIgnored(m) && !m.IsGetter && !m.IsSetter);
                 if (filtered is null) return;
 
                 if (includeConstructors)
