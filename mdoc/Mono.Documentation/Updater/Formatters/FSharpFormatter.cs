@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using mdoc.Mono.Documentation.Util;
 using Mono.Cecil;
 using Mono.Collections.Generic;
 using Mono.Documentation.Util;
