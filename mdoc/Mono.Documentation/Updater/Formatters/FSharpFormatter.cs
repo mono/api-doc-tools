@@ -391,7 +391,7 @@ namespace Mono.Documentation.Updater
 
                 if (IsRecord(type) || IsDiscriminatedUnion(type))
                 {
-                    props = props.Where(p => !GetFSharpFlags(p.CustomAttributes).Any(ca => ca == SourceConstructFlags.Field))
+                    props = props.Where(p => !GetFSharpFlags(p.CustomAttributes).Any(ca => ca == SourceConstructFlags.Field || ca == SourceConstructFlags.UnionCase))
                                  .OrderBy(p => p.FullName);
                 }
 
