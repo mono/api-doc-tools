@@ -468,7 +468,7 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasInterfaces)
             {
-                foreach (var interfaceImplementation in type.Interfaces.OrderBy(iface => iface.InterfaceType.Name))
+                foreach (var interfaceImplementation in type.Interfaces.Where(i => !DocUtils.IsIgnored(i)).OrderBy(i => i.InterfaceType.Name))
                 {
                     var resolvedInterface = interfaceImplementation.InterfaceType.Resolve();
 
