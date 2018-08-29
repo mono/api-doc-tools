@@ -52,7 +52,7 @@ namespace Mono.Documentation {
 		}
 
 		public TypeReference Exception { get; private set; }
-		internal  HashSet<MemberReference>  Sources;
+		public  HashSet<MemberReference>  Sources;
 	}
 
 

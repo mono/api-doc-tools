@@ -131,8 +131,6 @@ and the second dimension indexed by 1, 2, and 3. </para>
         <summary>To be added.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.NotImplementedException">To be added; from:
-          <see cref="M:System.Array.AsReadOnly``1(``0[])" /></exception>
       </Docs>
     </Member>
     <Member MemberName="ConvertAll&lt;TInput,TOutput&gt;">
@@ -169,8 +167,6 @@ and the second dimension indexed by 1, 2, and 3. </para>
         <remarks>
 							<para>The <see cref="T:System.Converter&lt;T,U&gt;" /> is a delegate that converts an array element to the target type.  The elements of  <paramref name="array" /> are individually passed to this converter, and the converted elements are saved in the new array. The source array remains unchanged.</para>
 						</remarks>
-        <exception cref="T:System.InvalidOperationException">To be added; from:
-          <see cref="M:System.Array.ConvertAll``2(``0[],System.Converter{``0,``1})" /></exception>
         <exception cref="T:System.ArgumentNullException">
 							<paramref name="array" /> is <see langword="null" /> or <paramref name="converter" /> is <see langword="null" />.</exception>
       </Docs>
@@ -208,8 +204,6 @@ and the second dimension indexed by 1, 2, and 3. </para>
 							<para>If array is <see langword="null" />, this method creates a new array with the specified size.</para>
 							<para>If array is not <see langword="null" />, then if <paramref name="newSize" /> is equal to <see cref="P:System.Array.Length" /> of the old array, this method does nothing. Otherwise, this method allocates a new array with the specified size, copies elements from the old array to the new one, and then assigns the new array reference to the array parameter. If <paramref name="newSize" />  is greater than <see cref="P:System.Array.Length" />  of the old array, a new array is allocated and all the elements are copied from the old array to the new one.  If <paramref name="newSize" /> is less than <see cref="P:System.Array.Length" />  of the old array, a new array is allocated and elements are copied from the old array to the new one until the new one is filled; the rest of the elements in the old array are ignored.</para>
 						</remarks>
-        <exception cref="T:System.Exception">To be added; from:
-          <see cref="M:System.Array.Resize``1(``0[]@,System.Int32)" /></exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
 							<para>
 								<paramref name="newSize" /> is less than zero.</para>

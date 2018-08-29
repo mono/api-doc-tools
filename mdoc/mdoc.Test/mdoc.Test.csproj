@@ -106,6 +106,8 @@
     <Compile Include="XmlUpdateTests.cs" />
     <Compile Include="ValidationTests.cs" />
     <Compile Include="Enumeration\EnumeratorTests.cs" />
+    <Compile Include="Enumeration\ExceptionTests.cs" />
+    <Compile Include="Enumeration\CecilBaseTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

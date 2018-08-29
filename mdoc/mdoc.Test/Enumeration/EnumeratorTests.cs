@@ -13,9 +13,9 @@ namespace mdoc.Test
     /// This is for testing the DocumentationEnumerator
     /// </summary>
     [TestFixture ()]
-    public class EnumeratorTests
+    public class EnumeratorTests : CecilBaseTest
     {
-        ModuleDefinition module;
+
 
         [Test]
         public void FindProperty_NonEII () => TestProperty ("AProperty");
@@ -72,16 +72,6 @@ namespace mdoc.Test
 
             Assert.NotNull (member, "didn't find the node");
             Assert.AreEqual (propertyName, member.Name);
-        }
-
-        private TypeDefinition GetTypeDef<T> ()
-        {
-            var type = typeof (T);
-            if (module == null)
-                module = ModuleDefinition.ReadModule (type.Module.FullyQualifiedName);
-
-            var typeref = module.GetAllTypes ().Single (t => t.Name == type.Name);
-            return typeref;
         }
 
         #endregion
