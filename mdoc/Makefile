@@ -261,19 +261,19 @@ check-monodocer-addNonGeneric:
 	-rm -Rf Test/en.actual
 	# first, make a docset with the generic method
 	$(MAKE) Test/DocTest-addNonGeneric.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-addNonGeneric.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-addNonGeneric.dll
 
 	# now add a non-generic version of the method and update several times
 	$(MAKE) Test/DocTest-addNonGeneric-v2.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
 	$(DIFF) Test/en.expected-addNonGeneric Test/en.actual
 
 check-monodocer-membergroup: Test/DocTest-addNonGeneric-v2.dll Test/DocTest-addNonGeneric.dll
 	-rm -Rf Test/en.actual
 	cp -r Test/en.expected-membergroup Test/en.actual
-	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+	$(MONO) $(PROGRAM) update --debug -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
 	$(DIFF) Test/en.expected-membergroup Test/en.actual
 	$(MONO) $(PROGRAM) validate -f ecma Test/en.actual
 
@@ -281,7 +281,7 @@ check-monodocer-dropns-classic:
 	# tests the simplest --dropns case, a single class where the root namespace was dropped.
 	-rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest-DropNS-classic.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-DropNS-classic.dll --api-style=classic
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-DropNS-classic.dll --api-style=classic
 	$(MAKE) update-monodocer-dropns-unified
 	$(DIFF) Test/en.expected-dropns-classic-v1 Test/en.actual
 
@@ -293,12 +293,12 @@ check-monodocer-dropns-multi:
 	$(MAKE) Test/DocTest-DropNS-unified-multitest.dll
 
 	# mdoc update for both classic and unified
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual $(MULTI-CLASSIC) --api-style=classic 
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual $(MULTI-UNIFIED) --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
+	$(MONO) $(PROGRAM) update -o Test/en.actual $(MULTI-CLASSIC) --api-style=classic 
+	$(MONO) $(PROGRAM) update -o Test/en.actual $(MULTI-UNIFIED) --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
 	
 	# now run it again to verify idempotency
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual $(MULTI-CLASSIC) --api-style=classic 
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual $(MULTI-UNIFIED) --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
+	$(MONO) $(PROGRAM) update -o Test/en.actual $(MULTI-CLASSIC) --api-style=classic 
+	$(MONO) $(PROGRAM) update -o Test/en.actual $(MULTI-UNIFIED) --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
 	
 	$(DIFF) Test/en.expected-dropns-multi Test/en.actual
 
@@ -311,12 +311,12 @@ check-monodocer-dropns-multi-withexisting:
 	$(MAKE) Test/DocTest-DropNS-unified-multitest.dll
 
 	# mdoc update to show a pre-existing set of documents
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-DropNS-classic.dll --api-style=classic
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-DropNS-unified.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework 
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-DropNS-classic.dll --api-style=classic
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-DropNS-unified.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework 
 	
 	# mdoc update for both classic and unified
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual $(MULTI-CLASSIC) --api-style=classic 
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual $(MULTI-UNIFIED) --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
+	$(MONO) $(PROGRAM) update -o Test/en.actual $(MULTI-CLASSIC) --api-style=classic 
+	$(MONO) $(PROGRAM) update -o Test/en.actual $(MULTI-UNIFIED) --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
 	
 	$(DIFF) Test/en.expected-dropns-multi-withexisting Test/en.actual
 
@@ -326,13 +326,13 @@ check-monodocer-dropns-delete:
 	rm -Rf Test/DocTest-DropNS-classic-deletetest.dll
 	rm -Rf Test/DocTest-DropNS-unified-deletetest.dll
 	$(MAKE) Test/DocTest-DropNS-classic-deletetest.dll
-	$(MONO) $(PROGRAM) update --delete --exceptions=all -o Test/en.actual Test/DocTest-DropNS-classic-deletetest.dll --api-style=classic
+	$(MONO) $(PROGRAM) update --delete -o Test/en.actual Test/DocTest-DropNS-classic-deletetest.dll --api-style=classic
 	$(MAKE) Test/DocTest-DropNS-unified-deletetest.dll
-	$(MONO) $(PROGRAM) update --delete --exceptions=all -o Test/en.actual Test/DocTest-DropNS-unified-deletetest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified-deletetest.dll=MyFramework
+	$(MONO) $(PROGRAM) update --delete -o Test/en.actual Test/DocTest-DropNS-unified-deletetest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified-deletetest.dll=MyFramework
 	$(MAKE) Test/DocTest-DropNS-classic-deletetest-V2.dll
-	$(MONO) $(PROGRAM) update --delete --exceptions=all -o Test/en.actual Test/DocTest-DropNS-classic-deletetest.dll --api-style=classic
+	$(MONO) $(PROGRAM) update --delete -o Test/en.actual Test/DocTest-DropNS-classic-deletetest.dll --api-style=classic
 	$(MAKE) Test/DocTest-DropNS-unified-deletetest-V2.dll
-	$(MONO) $(PROGRAM) update --delete --exceptions=all -o Test/en.actual Test/DocTest-DropNS-unified-deletetest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified-deletetest.dll=MyFramework -statistics Test/actual_statistics.txt
+	$(MONO) $(PROGRAM) update --delete -o Test/en.actual Test/DocTest-DropNS-unified-deletetest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified-deletetest.dll=MyFramework -statistics Test/actual_statistics.txt
 	$(DIFF) Test/en.expected-dropns-delete Test/en.actual
 	$(DIFF) Test/expected_remove_statistics.txt Test/actual_statistics.txt
 
@@ -341,83 +341,83 @@ check-monodocer-dropns-classic-withsecondary:
 	-rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest-DropNS-classic.dll
 	$(MAKE) Test/DocTest-DropNS-classic-secondary.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll --api-style=classic
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll --api-style=classic
 	$(MAKE) update-monodocer-dropns-unified-withsecondary
 	$(DIFF) Test/en.expected-dropns-classic-withsecondary Test/en.actual
 
 update-monodocer-dropns-unified: 
 	$(MAKE) Test/DocTest-DropNS-unified.dll
-	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest-DropNS-unified.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework
+	$(MONO) $(PROGRAM) update --debug -o Test/en.actual Test/DocTest-DropNS-unified.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework
 
 update-monodocer-dropns-unified-withsecondary: 
 	$(MAKE) Test/DocTest-DropNS-unified.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-classic-secondary.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-classic-secondary.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework
 
 update-monodocer-dropns-classic-secondary: 
 	$(MAKE) Test/DocTest-DropNS-classic-secondary.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-DropNS-classic-secondary.dll --api-style=classic
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-DropNS-classic-secondary.dll --api-style=classic
 
 check-monodocer-internal-interface: 
 	# Tests to make sure internal interfaces that are explicitly implemented are not documented
 	-rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest-InternalInterface.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-InternalInterface.dll -lang VB.NET
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-InternalInterface.dll -lang VB.NET
 	$(DIFF) Test/en.expected-internal-interface Test/en.actual
 
 check-monodocer-enumerations: 
 	-rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest-enumerations.dll
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.actual Test/DocTest-enumerations.dll
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/DocTest-enumerations.dll
 	$(DIFF) Test/en.expected-enumerations Test/en.actual
 
 check-monodocer-update: 
 	find Test/en.expected -name \*.xml -exec rm "{}" \;
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.expected Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+	$(MONO) $(PROGRAM) update -o Test/en.expected Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 
 check-monodocer: 
 	-rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+	$(MONO) $(PROGRAM) update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected Test/en.actual
-	$(MONO) $(PROGRAM) update --debug --exceptions=all -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+	$(MONO) $(PROGRAM) update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected Test/en.actual
 
 check-monodocer-since-update: 
 	find Test/en.expected.since -name \*.xml -exec rm "{}" \;
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.expected.since Test/DocTest.dll 
+	$(MONO) $(PROGRAM) update -o Test/en.expected.since Test/DocTest.dll 
 	$(MAKE) Test/DocTest.dll-v2
-	$(MONO) $(PROGRAM) update --exceptions=all --since="Version 2.0" \
+	$(MONO) $(PROGRAM) update --since="Version 2.0" \
 		-o Test/en.expected.since Test/DocTest.dll 
 
 check-monodocer-since: 
 	rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) --debug update --exceptions=all -o Test/en.actual Test/DocTest.dll 
+	$(MONO) $(PROGRAM) --debug update -o Test/en.actual Test/DocTest.dll 
 	$(MAKE) Test/DocTest.dll-v2
-	$(MONO) $(PROGRAM) --debug update --exceptions=all --since="Version 2.0" \
+	$(MONO) $(PROGRAM) --debug update --since="Version 2.0" \
 		-o Test/en.actual Test/DocTest.dll 
 	$(DIFF) Test/en.expected.since Test/en.actual
 
 check-monodocer-delete-update: 
 	find Test/en.expected.delete -type f -exec rm "{}" \;
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.expected.delete Test/DocTest.dll
+	$(MONO) $(PROGRAM) update -o Test/en.expected.delete Test/DocTest.dll
 	$(MAKE) Test/DocTest.dll-v2
-	$(MONO) $(PROGRAM) update --exceptions=all -o Test/en.expected.delete Test/DocTest.dll
+	$(MONO) $(PROGRAM) update -o Test/en.expected.delete Test/DocTest.dll
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) update -fno-assembly-versions --delete --exceptions=all \
+	$(MONO) $(PROGRAM) update -fno-assembly-versions --delete \
 		-o Test/en.expected.delete Test/DocTest.dll
 
 check-monodocer-delete: 
 	rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) --debug update --exceptions=all -o Test/en.actual Test/DocTest.dll
+	$(MONO) $(PROGRAM) --debug update -o Test/en.actual Test/DocTest.dll
 	$(MAKE) Test/DocTest.dll-v2
-	$(MONO) $(PROGRAM) --debug update --exceptions=all -o Test/en.actual Test/DocTest.dll
+	$(MONO) $(PROGRAM) --debug update -o Test/en.actual Test/DocTest.dll
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) --debug update -fno-assembly-versions --delete --exceptions=all -o Test/en.actual Test/DocTest.dll
+	$(MONO) $(PROGRAM) --debug update -fno-assembly-versions --delete -o Test/en.actual Test/DocTest.dll
 	$(DIFF) Test/en.expected.delete Test/en.actual
 
 check-monodocer-ignore-invalid-assemblies: Test/DocTest-addNonGeneric.dll Test/DocTest-addNonGeneric-v2.dll
@@ -430,13 +430,13 @@ check-monodocer-ignore-invalid-assemblies: Test/DocTest-addNonGeneric.dll Test/D
 check-monodocer-importslashdoc-update: 
 	find Test/en.expected.importslashdoc -name \*.xml -exec rm "{}" \;
 	$(MAKE) Test/DocTest.dll-v1 TEST_CSCFLAGS=-doc:Test/DocTest.xml
-	$(MONO) $(PROGRAM) --debug update --exceptions=all -i Test/DocTest.xml \
+	$(MONO) $(PROGRAM) --debug update -i Test/DocTest.xml \
 		-o Test/en.expected.importslashdoc Test/DocTest.dll 
 
 check-monodocer-importslashdoc: 
 	rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest.dll-v1 TEST_CSCFLAGS=-doc:Test/DocTest.xml
-	$(MONO) $(PROGRAM) --debug update --exceptions=all -i Test/DocTest.xml \
+	$(MONO) $(PROGRAM) --debug update -i Test/DocTest.xml \
 		-o Test/en.actual Test/DocTest.dll 
 	$(DIFF) Test/en.expected.importslashdoc Test/en.actual
 	
@@ -453,7 +453,7 @@ check-multiple-mdoc:
 check-monodocer-importecmadoc-update: 
 	find Test/en.expected.importecmadoc -name \*.xml -exec rm "{}" \;
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) --debug update --exceptions=all -i Test/TestEcmaDocs.xml \
+	$(MONO) $(PROGRAM) --debug update -i Test/TestEcmaDocs.xml \
 		'--type=System.Action`1' --type=System.AsyncCallback \
 		--type=System.Environment --type=System.Array \
 		-o Test/en.expected.importecmadoc Test/DocTest.dll 
@@ -461,7 +461,7 @@ check-monodocer-importecmadoc-update:
 check-monodocer-importecmadoc: 
 	rm -Rf Test/en.actual
 	$(MAKE) Test/DocTest.dll-v1
-	$(MONO) $(PROGRAM) --debug update --exceptions=all -i Test/TestEcmaDocs.xml \
+	$(MONO) $(PROGRAM) --debug update -i Test/TestEcmaDocs.xml \
 		'--type=System.Action`1' --type=System.AsyncCallback \
 		--type=System.Environment --type=System.Array \
 		-o Test/en.actual Test/DocTest.dll 
