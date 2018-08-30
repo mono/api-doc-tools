@@ -21,7 +21,18 @@ namespace mdoc.Test
 
             if (!moduleCash.ContainsKey(filepath))
             {
-                var readModule = ModuleDefinition.ReadModule(filepath);
+                var fullpath = Path.Combine (Path.GetDirectoryName (this.GetType ().Module.Assembly.Location), filepath);
+                var resolver = new DefaultAssemblyResolver ();
+                var testAssemblyPath = Path.GetDirectoryName (this.GetType ().Module.Assembly.Location);
+                resolver.AddSearchDirectory (testAssemblyPath);
+
+                ReaderParameters p = new ReaderParameters ()
+                {
+                    AssemblyResolver = resolver
+                };
+
+
+                var readModule = ModuleDefinition.ReadModule(fullpath, p);
                 moduleCash.Add(filepath, readModule);
             }
 
