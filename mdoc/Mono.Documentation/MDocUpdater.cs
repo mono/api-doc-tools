@@ -3452,6 +3452,15 @@ namespace Mono.Documentation
         };
 
             ResolvedTypeInfo type = new ResolvedTypeInfo (valueType);
+
+            if (valueType is ArrayType && v is CustomAttributeArgument[])
+            {
+                ArrayType atype = valueType as ArrayType;
+                CustomAttributeArgument[] args = v as CustomAttributeArgument[];
+                var returnvalue = $"new {atype.FullName}{(atype.FullName.EndsWith ("[]") ? "" : "[]")} {{ { string.Join (", ", args.Select (a => MakeAttributesValueString (a.Value, a.Type)).ToArray ()) } }}";
+                return returnvalue;
+            }
+
             foreach (var formatter in formatters)
             {
                 string formattedValue;

@@ -72,7 +72,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 2, 2 })</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -107,7 +107,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 3, 2 })</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -144,7 +144,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 5 })</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -249,7 +249,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -328,7 +328,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 2 })</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -365,7 +365,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1, 1 })</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -402,7 +402,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(Mono.Cecil.CustomAttributeArgument[])</AttributeName>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 2, 2 })</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
