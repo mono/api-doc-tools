@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="One">
+  <Namespace Name="TheNamespace">
+    <Type Name="TheNamespace.TheClass" Id="T:TheNamespace.TheClass">
+      <Member Id="M:TheNamespace.TheClass.#ctor" />
+    </Type>
+  </Namespace>
+</Framework>

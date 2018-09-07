@@ -134,6 +134,17 @@ Test/DocTest-enumerations.dll:
 Test/DocTest-embedded-type.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-embedded-type.cs
 
+Test/DocTest-typeForwards-First.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
+
+.PHONY: Test/DocTest-typeForwards-Second.dll
+Test/DocTest-typeForwards-Second.dll:
+	rm -f $@
+	rm -f Test/DocTest-typeForwards-Second-First.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Second-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:SECOND
+
 .PHONY: Test/FrameworkTestData
 Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll
 	rm -rf Test/FrameworkTestData
@@ -154,6 +165,26 @@ Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dl
 	cp Test/DocTest-framework-inheritance-one.dll Test/FrameworkTestData-fx-inheritance/One/
 	cp Test/DocTest-framework-inheritance-two.dll Test/FrameworkTestData-fx-inheritance/Two/
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-inheritance
+
+.PHONY: check-monodocer-typeForwards
+check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll
+	-rm -Rf Test/en.actual
+
+	# set up the fx test data
+	-rm -Rf Test/FrameworkTestData-fx-typeForwards
+	mkdir Test/FrameworkTestData-fx-typeForwards
+	mkdir Test/FrameworkTestData-fx-typeForwards/One
+	mkdir Test/FrameworkTestData-fx-typeForwards/Two
+	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies
+	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/Two
+	cp Test/DocTest-typeForwards-First.dll Test/FrameworkTestData-fx-typeForwards/One
+	cp Test/DocTest-typeForwards-Second-First.dll Test/FrameworkTestData-fx-typeForwards/Two
+	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Two
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-typeForwards
+
+	# now run mdoc update
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-typeForwards
+	$(DIFF) Test/en.expected.typeForwards Test/en.actual
 
 check-monodocer-frameworks: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
@@ -708,7 +739,9 @@ run-test-local: check-doc-tools
 
 run-test-update : check-doc-tools-update
 
-check-doc-tools:  check-monodocer-Eii-importslashdoc \
+check-doc-tools:  \
+	check-monodocer-typeForwards \
+	check-monodocer-Eii-importslashdoc \
 	check-monodocer-Eii-importecmadoc-oldNames \
 	check-monodocer-Eii \
 	check-monodocer-since \
