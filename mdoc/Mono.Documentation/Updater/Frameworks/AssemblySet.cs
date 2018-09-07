@@ -40,12 +40,19 @@ namespace Mono.Documentation.Updater.Frameworks
             get => assemblyPathsMap;
         }
 
+        private IDictionary<string, List<MDocResolver.TypeForwardEventArgs>> forwardedTypesTo = new Dictionary<string, List<MDocResolver.TypeForwardEventArgs>> ();
+
+
         public AssemblySet (IEnumerable<string> paths) : this ("Default", paths, new string[0]) { }
 
         public AssemblySet (string name, IEnumerable<string> paths, IEnumerable<string> resolverSearchPaths, IEnumerable<string> imports = null, string version = null, string id = null)
         {
             cachedResolver = cachedResolver ?? new CachedResolver (resolver);
             metadataResolver = metadataResolver ?? new Frameworks.MDocMetadataResolver (cachedResolver);
+            ((MDocResolver)resolver).TypeExported += (sender, e) =>
+            {
+                TrackTypeExported (e);
+            };
 
             Name = name;
             Version = version;
@@ -81,6 +88,17 @@ namespace Mono.Documentation.Updater.Frameworks
             }
             else
                 this.Importers = new DocumentationImporter[0];
+        }
+
+        private void TrackTypeExported (MDocResolver.TypeForwardEventArgs e)
+        {
+            // keep track of types that have been exported for this assemblyset
+            if (!forwardedTypesTo.ContainsKey (e.ForType.FullName))
+            {
+                forwardedTypesTo.Add (e.ForType.FullName, new List<MDocResolver.TypeForwardEventArgs> ());
+            }
+
+            forwardedTypesTo[e.ForType.FullName].Add (e);
         }
 
         public string Name { get; private set; }
@@ -133,6 +151,40 @@ namespace Mono.Documentation.Updater.Frameworks
             return forwardedTypes.Contains (name);
         }
 
+        /// <summary>
+        /// Forwardeds the assemblies.
+        /// </summary>
+        /// <returns>The assemblies.</returns>
+        /// <param name="type">Type.</param>
+        public IEnumerable<AssemblyNameReference> FullAssemblyChain(TypeDefinition type)
+        {
+            if (forwardedTypesTo.ContainsKey (type.FullName))
+            {
+                var list = forwardedTypesTo[type.FullName];
+                var assemblies = (new[] { type.Module.Assembly.Name })
+                    .Union (list.Select (f => f.To))
+                    .Union (list.Select (f => f.From))
+                    .Distinct (anc);
+                return assemblies;
+            }
+            else
+                return new[] { type.Module.Assembly.Name };
+        }
+
+        AssemblyNameComparer anc = new AssemblyNameComparer ();
+        class AssemblyNameComparer : IEqualityComparer<AssemblyNameReference>
+        {
+            public bool Equals (AssemblyNameReference x, AssemblyNameReference y)
+            {
+                return x.FullName.Equals (y.FullName, StringComparison.Ordinal);
+            }
+
+            public int GetHashCode (AssemblyNameReference obj)
+            {
+                return obj.FullName.GetHashCode ();
+            }
+        }
+
         public void Dispose () 
         {
             this.assemblies = null;
@@ -149,8 +201,11 @@ namespace Mono.Documentation.Updater.Frameworks
 			foreach (var path in this.assemblyPaths) {
                 var assembly = MDocUpdater.Instance.LoadAssembly (path, metadataResolver, cachedResolver);
 				if (assembly != null) {
-					foreach (var type in assembly.MainModule.ExportedTypes.Where (t => t.IsForwarder).Select (t => t.FullName))
-						forwardedTypes.Add (type);
+                    foreach (var type in assembly.MainModule.ExportedTypes.Where (t => t.IsForwarder).Cast<ExportedType>())
+                    {
+                        forwardedTypes.Add (type.FullName);
+                        TrackTypeExported (new MDocResolver.TypeForwardEventArgs (assembly.Name, (AssemblyNameReference)type.Scope, type.Resolve ()));
+                    }
 				}
 				yield return assembly;
 			}

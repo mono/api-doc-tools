@@ -75,7 +75,8 @@ namespace Mono.Documentation.Util
 
         public static IEnumerable<TypeDefinition> GetTypes (this AssemblyDefinition assembly)
         {
-            return assembly.Modules.SelectMany (md => md.GetAllTypes ());
+            var types = assembly.Modules.SelectMany (md => md.GetAllTypes ()).Union(assembly.MainModule.ExportedTypes.Select(et => et.Resolve()));
+            return types;
         }
 
         public static TypeDefinition GetType (this AssemblyDefinition assembly, string type)

@@ -18,12 +18,28 @@ namespace Mono.Documentation.Updater.Frameworks
     /// <para>Please note that you will need to provide a reference
     /// to the UWP framework directory, if you are trying to document
     /// a UWP library. </para></remarks>
-    class MDocResolver : MDocBaseResolver
+    public class MDocResolver : MDocBaseResolver
     {
+        public class TypeForwardEventArgs : EventArgs
+        {
+            public AssemblyNameReference From { get; private set; }
+            public AssemblyNameReference To { get; private set; }
+            public TypeReference ForType { get; set; }
+
+            public TypeForwardEventArgs(AssemblyNameReference from, AssemblyNameReference to, TypeReference forType)
+            {
+                From = from;
+                To = to;
+                ForType = forType;
+            }
+        }
+
         public override AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters)
         {
             return Resolve (name, parameters, null, null);
         }
+
+        public event EventHandler<TypeForwardEventArgs> TypeExported;
 
         internal AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters r, TypeReference forType, List<string> exportedFiles)
         {
@@ -39,6 +55,9 @@ namespace Mono.Documentation.Updater.Frameworks
                     string file = a.MainModule.FileName;
                     AssemblyNameReference exportedTo = (AssemblyNameReference)etype.Scope;
                     Console.WriteLine ($"resolving {forType.FullName} in {name.FullName}. Found {file}, but it's exported to {exportedTo.FullName}");
+                    if (forType != null)
+                        TypeExported?.Invoke (this, new TypeForwardEventArgs(name, exportedTo, forType));
+
                     exportedFiles.Add (file);
                     return Resolve (exportedTo, r, forType, exportedFiles);
                 }
@@ -278,7 +297,7 @@ namespace Mono.Documentation.Updater.Frameworks
     /// <remarks>
     /// There are two changes made from the original source
     /// </remarks>
-    abstract class MDocBaseResolver : BaseAssemblyResolver 
+    public abstract class MDocBaseResolver : BaseAssemblyResolver 
     {
         static readonly bool on_mono = Type.GetType ("Mono.Runtime") != null;
 

@@ -97,7 +97,12 @@ namespace Mono.Documentation
 
         public static bool HasDroppedNamespace (ModuleDefinition forModule)
         {
-            return !string.IsNullOrWhiteSpace (droppedNamespace) && droppedAssemblies.Any (da => da == forModule.Name);
+            return HasDroppedNamespace (forModule.Assembly.Name);
+        }
+
+        public static bool HasDroppedNamespace (AssemblyNameReference assemblyRef)
+        {
+            return !string.IsNullOrWhiteSpace (droppedNamespace) && droppedAssemblies.Any (da => Path.GetFileNameWithoutExtension(da) == assemblyRef.Name);
         }
 
         public static bool HasDroppedAnyNamespace ()
@@ -2137,14 +2142,27 @@ namespace Mono.Documentation
 
         /// <summary>Adds an AssemblyInfo with AssemblyName node to an XmlElement.</summary>
         /// <returns>The assembly that was either added, or was already present</returns>
-        XmlElement AddAssemblyNameToNode (XmlElement root, TypeDefinition type)
+        XmlElement AddAssemblyNameToNode (XmlElement root, TypeDefinition forType)
         {
-            return AddAssemblyNameToNode (root, type.Module);
+            return AddAssemblyNameToNode (root, forType.Module, forType);
+        }
+
+        XmlElement AddAssemblyNameToNode (XmlElement root, ModuleDefinition module, TypeDefinition forType)
+        {
+            var list = this.assemblies.SelectMany (a => a.FullAssemblyChain (forType));
+            
+            var names = list.Select(a => AddAssemblyNameToNodeCore (root, a, forType));
+            return names.ToArray().First ();
+        }
+
+        XmlElement AddAssemblyNameToNodeCore (XmlElement root, ModuleDefinition module, TypeDefinition forType)
+        {
+            return AddAssemblyNameToNodeCore (root, module.Assembly.Name, forType);
         }
 
         /// <summary>Adds an AssemblyInfo with AssemblyName node to an XmlElement.</summary>
         /// <returns>The assembly that was either added, or was already present</returns>
-        XmlElement AddAssemblyNameToNode (XmlElement root, ModuleDefinition module)
+        XmlElement AddAssemblyNameToNodeCore (XmlElement root, AssemblyNameReference assembly, TypeDefinition forType)
         {
             Func<XmlElement, bool> assemblyFilter = x =>
             {
@@ -2152,27 +2170,27 @@ namespace Mono.Documentation
 
                 bool apiStyleMatches = true;
                 string currentApiStyle = x.GetAttribute ("apistyle");
-                if ((HasDroppedNamespace (module) && !string.IsNullOrWhiteSpace (currentApiStyle) && currentApiStyle != "unified") ||
+                if ((HasDroppedNamespace (assembly) && !string.IsNullOrWhiteSpace (currentApiStyle) && currentApiStyle != "unified") ||
                         (isClassicRun && (string.IsNullOrWhiteSpace (currentApiStyle) || currentApiStyle != "classic")))
                 {
                     apiStyleMatches = false;
                 }
-                return apiStyleMatches && (existingName == null || (existingName != null && existingName.InnerText == module.Assembly.Name.Name));
+                return apiStyleMatches && (existingName == null || (existingName != null && existingName.InnerText == assembly.Name));
             };
 
             return AddAssemblyXmlNode (
                 root.SelectNodes ("AssemblyInfo").Cast<XmlElement> ().ToArray (),
-                assemblyFilter, x => WriteElementText (x, "AssemblyName", module.Assembly.Name.Name),
+                assemblyFilter, x => WriteElementText (x, "AssemblyName", assembly.Name),
                 () =>
                 {
                     XmlElement ass = WriteElement (root, "AssemblyInfo", forceNewElement: true);
 
-                    if (MDocUpdater.HasDroppedNamespace (module))
+                    if (MDocUpdater.HasDroppedNamespace (assembly))
                         ass.AddApiStyle (ApiStyle.Unified);
                     if (isClassicRun)
                         ass.AddApiStyle (ApiStyle.Classic);
                     return ass;
-                }, module);
+                }, assembly);
         }
 
         static readonly string[] TypeNodeOrder = {
@@ -2223,7 +2241,7 @@ namespace Mono.Documentation
                     UpdateAssemblyVersions (me, mi, true);
                 else
                 {
-                    var node = AddAssemblyNameToNode (me, mi.Module);
+                    var node = AddAssemblyNameToNode (me, mi.Module, mi.DeclaringType.Resolve());
 
                     UpdateAssemblyVersionForAssemblyInfo (node, me, new[] { GetAssemblyVersion (mi.Module.Assembly) }, add: true);
                 }
@@ -2477,7 +2495,12 @@ namespace Mono.Documentation
 
         static XmlElement AddAssemblyXmlNode (XmlElement[] relevant, Func<XmlElement, bool> valueMatches, Action<XmlElement> setValue, Func<XmlElement> makeNewNode, ModuleDefinition module)
         {
-            bool isUnified = MDocUpdater.HasDroppedNamespace (module);
+            return AddAssemblyXmlNode (relevant, valueMatches, setValue, makeNewNode, module.Assembly.Name);
+        }
+
+        static XmlElement AddAssemblyXmlNode (XmlElement[] relevant, Func<XmlElement, bool> valueMatches, Action<XmlElement> setValue, Func<XmlElement> makeNewNode, AssemblyNameReference assembly)
+        {
+            bool isUnified = MDocUpdater.HasDroppedNamespace (assembly);
             XmlElement thisAssemblyNode = relevant.FirstOrDefault (valueMatches);
             if (thisAssemblyNode == null)
             {
