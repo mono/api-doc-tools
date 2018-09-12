@@ -1334,7 +1334,7 @@ namespace Mono.Documentation
                                 var styledNodes = doc.SelectNodes ("//*[@apistyle='" + style.ToString ().ToLowerInvariant () + "']");
                                 if (styledNodes != null && styledNodes.Count > 0)
                                 {
-                                    foreach (var node in styledNodes.Cast<XmlNode> ())
+                                    foreach (var node in styledNodes.SafeCast<XmlNode> ())
                                     {
                                         node.ParentNode.RemoveChild (node);
                                     }
@@ -2824,7 +2824,7 @@ namespace Mono.Documentation
 
         internal static XmlElement WriteElement (XmlNode parent, string element, bool forceNewElement = false)
         {
-            XmlElement ret = parent.ChildNodes.Cast<XmlElement>().FirstOrDefault(e => e.LocalName == element); //(XmlElement)parent.SelectSingleNode (element);
+            XmlElement ret = parent.ChildNodes.SafeCast<XmlElement>().FirstOrDefault(e => e.LocalName == element);
             if (ret == null || forceNewElement)
             {
                 string[] path = element.Split ('/');
@@ -3372,7 +3372,7 @@ namespace Mono.Documentation
                 .Distinct () // make sure there aren't any dupes
                 .ToDictionary (a => a, a => false); // key is the attribute, value is whether it was found
 
-            var attributesState = e.ChildNodes.Cast<XmlElement> ()
+            var attributesState = e.ChildNodes.SafeCast<XmlElement> ()
                                 .Select (elem => new
                                 {
                                     ExistingValue = elem.FirstChild.InnerText,
@@ -3431,7 +3431,7 @@ namespace Mono.Documentation
 
             // clean up
             if (fx.IsLastFramework) {
-                foreach(var attr in e.ChildNodes.Cast<XmlElement> ().ToArray()) {
+                foreach(var attr in e.ChildNodes.SafeCast<XmlElement> ().ToArray()) {
                     if (attr.HasAttribute (Consts.FrameworkAlternate))
                     {
                         var fxAttributeValue = attr.GetAttribute (Consts.FrameworkAlternate);
