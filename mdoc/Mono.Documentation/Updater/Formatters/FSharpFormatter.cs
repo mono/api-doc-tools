@@ -366,8 +366,7 @@ namespace Mono.Documentation.Updater
                     {
                         AppendConstraints(buf,
                             genArgs.GetRange(0, notYetDisplayedArguments)
-                                .Where(i => i is GenericParameter)
-                                .Cast<GenericParameter>()
+                                .SafeCast<GenericParameter>()
                                 .ToList());
                     }
                     if (!isTuple && !isFSharpFunction)

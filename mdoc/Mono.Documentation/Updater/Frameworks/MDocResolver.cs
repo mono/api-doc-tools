@@ -24,13 +24,19 @@ namespace Mono.Documentation.Updater.Frameworks
         {
             public AssemblyNameReference From { get; private set; }
             public AssemblyNameReference To { get; private set; }
-            public TypeReference ForType { get; set; }
+            /// <summary>The Type's FullName</summary>
+            public string ForType { get; set; }
 
-            public TypeForwardEventArgs(AssemblyNameReference from, AssemblyNameReference to, TypeReference forType)
+            public TypeForwardEventArgs(AssemblyNameReference from, AssemblyNameReference to, string forType)
             {
                 From = from;
                 To = to;
                 ForType = forType;
+            }
+
+            public override string ToString ()
+            {
+                return $"forward {ForType} from {From} to {To}";
             }
         }
 
@@ -56,7 +62,7 @@ namespace Mono.Documentation.Updater.Frameworks
                     AssemblyNameReference exportedTo = (AssemblyNameReference)etype.Scope;
                     Console.WriteLine ($"resolving {forType.FullName} in {name.FullName}. Found {file}, but it's exported to {exportedTo.FullName}");
                     if (forType != null)
-                        TypeExported?.Invoke (this, new TypeForwardEventArgs(name, exportedTo, forType));
+                        TypeExported?.Invoke (this, new TypeForwardEventArgs(name, exportedTo, forType?.FullName));
 
                     exportedFiles.Add (file);
                     return Resolve (exportedTo, r, forType, exportedFiles);
@@ -565,14 +571,23 @@ namespace Mono.Documentation.Updater.Frameworks
                 reference.Name + ".dll");
         }
 
-        internal static IEnumerable<string> GetAssemblyPaths(AssemblyNameReference name, IEnumerable<string> directories, IEnumerable<string> filesToIgnore, bool subdirectories)
+        string[] allDirectories = null;
+
+        internal IEnumerable<string> GetAssemblyPaths(AssemblyNameReference name, IEnumerable<string> directories, IEnumerable<string> filesToIgnore, bool subdirectories)
         {
             var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
 
-            if (subdirectories)
-                directories = GetAllDirectories(directories).Distinct();
+            if (allDirectories == null)
+            {
+                if (subdirectories)
+                {
+                    directories = GetAllDirectories (directories).Distinct ();
+                }
 
-            foreach (var dir in directories)
+                allDirectories = directories.ToArray ();
+            }
+
+            foreach (var dir in allDirectories)
             {
                 foreach (var extension in extensions)
                 {
@@ -586,7 +601,7 @@ namespace Mono.Documentation.Updater.Frameworks
             }
         }
 
-        internal static IEnumerable<string> GetAllDirectories(IEnumerable<string> directories)
+        internal IEnumerable<string> GetAllDirectories(IEnumerable<string> directories)
         {
             foreach (var dir in directories)
             {
