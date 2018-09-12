@@ -16,7 +16,7 @@ namespace Mono.Documentation.Updater
         {
             CustomAttribute da;
             if (provider.HasCustomAttributes &&
-                    (da = (provider.CustomAttributes.Cast<CustomAttribute> ()
+                    (da = (provider.CustomAttributes.SafeCast<CustomAttribute> ()
                         .SingleOrDefault (ca => ca.GetDeclaringType () == "System.Runtime.CompilerServices.DynamicAttribute"))) != null)
             {
                 CustomAttributeArgument[] values = da.ConstructorArguments.Count == 0

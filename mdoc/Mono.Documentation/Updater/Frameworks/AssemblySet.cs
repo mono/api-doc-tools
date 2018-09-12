@@ -40,7 +40,7 @@ namespace Mono.Documentation.Updater.Frameworks
             get => assemblyPathsMap;
         }
 
-        private IDictionary<string, List<MDocResolver.TypeForwardEventArgs>> forwardedTypesTo = new Dictionary<string, List<MDocResolver.TypeForwardEventArgs>> ();
+        private IDictionary<string, HashSet<MDocResolver.TypeForwardEventArgs>> forwardedTypesTo = new Dictionary<string, HashSet<MDocResolver.TypeForwardEventArgs>> ();
 
 
         public AssemblySet (IEnumerable<string> paths) : this ("Default", paths, new string[0]) { }
@@ -92,13 +92,15 @@ namespace Mono.Documentation.Updater.Frameworks
 
         private void TrackTypeExported (MDocResolver.TypeForwardEventArgs e)
         {
+            if (e.ForType == null) return;
+
             // keep track of types that have been exported for this assemblyset
-            if (!forwardedTypesTo.ContainsKey (e.ForType.FullName))
+            if (!forwardedTypesTo.ContainsKey (e.ForType))
             {
-                forwardedTypesTo.Add (e.ForType.FullName, new List<MDocResolver.TypeForwardEventArgs> ());
+                forwardedTypesTo.Add (e.ForType, new HashSet<MDocResolver.TypeForwardEventArgs> ());
             }
 
-            forwardedTypesTo[e.ForType.FullName].Add (e);
+            forwardedTypesTo[e.ForType].Add (e);
         }
 
         public string Name { get; private set; }
@@ -188,7 +190,8 @@ namespace Mono.Documentation.Updater.Frameworks
         public void Dispose () 
         {
             this.assemblies = null;
-            cachedResolver.Dispose();
+            cachedResolver?.Dispose();
+            cachedResolver = null;
         }
 
 		public override string ToString ()
@@ -204,7 +207,7 @@ namespace Mono.Documentation.Updater.Frameworks
                     foreach (var type in assembly.MainModule.ExportedTypes.Where (t => t.IsForwarder).Cast<ExportedType>())
                     {
                         forwardedTypes.Add (type.FullName);
-                        TrackTypeExported (new MDocResolver.TypeForwardEventArgs (assembly.Name, (AssemblyNameReference)type.Scope, type.Resolve ()));
+                        TrackTypeExported (new MDocResolver.TypeForwardEventArgs (assembly.Name, (AssemblyNameReference)type.Scope, type?.FullName));
                     }
 				}
 				yield return assembly;

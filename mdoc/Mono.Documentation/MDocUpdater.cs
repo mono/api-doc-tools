@@ -97,12 +97,12 @@ namespace Mono.Documentation
 
         public static bool HasDroppedNamespace (ModuleDefinition forModule)
         {
-            return HasDroppedNamespace (forModule.Assembly.Name);
+            return HasDroppedNamespace (forModule?.Assembly?.Name);
         }
 
         public static bool HasDroppedNamespace (AssemblyNameReference assemblyRef)
         {
-            return !string.IsNullOrWhiteSpace (droppedNamespace) && droppedAssemblies.Any (da => Path.GetFileNameWithoutExtension(da) == assemblyRef.Name);
+            return assemblyRef != null && !string.IsNullOrWhiteSpace (droppedNamespace) && droppedAssemblies.Any (da => Path.GetFileNameWithoutExtension(da) == assemblyRef.Name);
         }
 
         public static bool HasDroppedAnyNamespace ()
