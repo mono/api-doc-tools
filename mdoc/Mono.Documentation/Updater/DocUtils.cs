@@ -102,6 +102,19 @@ namespace Mono.Documentation.Updater
             }
         }
 
+        public static IEnumerable<T> SafeCast<T> (this System.Collections.IEnumerable list)
+        {
+            if (list == null) yield break;
+
+            foreach (object item in list)
+            {
+                if (item is T castedItem)
+                {
+                    yield return castedItem;
+                }
+            }
+        }
+
         public static bool IsExplicitlyImplemented (MethodDefinition method)
         {
             return method != null && method.IsPrivate && method.IsFinal && method.IsVirtual;
