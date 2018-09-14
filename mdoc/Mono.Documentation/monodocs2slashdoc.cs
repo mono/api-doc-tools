@@ -23,7 +23,7 @@ public class MDocToMSXDocConverter : MDocCommand {
 				"based on the //AssemblyInfo/AssemblyName values within the documentation.\n" +
 				"Use '-' to write to standard output.",
 				v => file = v },
-			{ "q|quiet=", 
+			{ "q|quiet", 
 				"Reduce logging to the console.",
 				v => quiet = v != null },
 		};
