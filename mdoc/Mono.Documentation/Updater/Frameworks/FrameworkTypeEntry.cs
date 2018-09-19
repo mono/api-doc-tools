@@ -74,14 +74,15 @@ namespace Mono.Documentation.Updater.Frameworks
 			else 
 				members.Add (member.FullName);
 
-			// this is for lookup purposes
-			try {
+            // this is for lookup purposes
+            try
+            {
                 var sig = formatter.GetDeclaration (member);
-				memberscsharpsig.Add(sig);
+                memberscsharpsig.Add (sig);
                 if (sig != null && !sigMap.ContainsKey (sig))
                     sigMap.Add (sig, true);
-			}
-			catch {}
+            }
+            catch { }
 		}
 
 		public bool ContainsCSharpSig (string sig)
