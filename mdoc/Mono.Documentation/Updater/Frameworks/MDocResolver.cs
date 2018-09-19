@@ -449,7 +449,8 @@ namespace Mono.Documentation.Updater.Frameworks
             if (File.Exists (file))
                 return GetAssembly (file, parameters);
 
-            return null;
+            // if we haven't found mscorlib so far, let's just fall back on the currently executing version:
+            return GetAssembly (typeof (object).Module.FullyQualifiedName, parameters);
         }
 
         protected static Collection<string> GetGacPaths ()
