@@ -22,6 +22,8 @@ namespace Mono.Documentation.Updater.Frameworks
             parameters.AssemblyResolver = assembly_resolver;
             parameters.MetadataResolver = this;
 
+            try {
+
             switch (scope.MetadataScopeType)
             {
                 case MetadataScopeType.AssemblyNameReference:
@@ -43,8 +45,17 @@ namespace Mono.Documentation.Updater.Frameworks
                     }
                     break;
             }
+            }
+            catch(AssemblyResolutionException are)
+            {
+                throw new MDocException ($"Failed to resolve type '{type.FullName}'", are);
+            }
+            catch
+            {
+                throw;
+            }
 
-            throw new NotSupportedException ();
+            throw new NotSupportedException ($"metadata scope type {scope.MetadataScopeType.ToString("G")} is not supported");
         }
         static TypeDefinition GetType (ModuleDefinition module, TypeReference reference)
         {
