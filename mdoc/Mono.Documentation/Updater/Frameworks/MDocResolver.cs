@@ -613,7 +613,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
                 foreach (var sub in Directory.EnumerateDirectories(dir, "*", SearchOption.AllDirectories))
                 {
-                    yield return dir;
+                    yield return sub;
                 }
             }
         }
