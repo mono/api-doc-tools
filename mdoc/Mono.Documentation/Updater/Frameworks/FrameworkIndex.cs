@@ -31,36 +31,42 @@ namespace Mono.Documentation.Updater.Frameworks
 			}
 		}
 
-        public FrameworkEntry StartProcessingAssembly (AssemblySet set, AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers, string Id, string Version) 
-		{
+        public FrameworkEntry StartProcessingAssembly (AssemblySet set, AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers, string Id, string Version)
+        {
             if (string.IsNullOrWhiteSpace (this.path))
             {
                 set.Framework = FrameworkEntry.Empty;
                 return FrameworkEntry.Empty;
             }
 
-			string assemblyPath = assembly.MainModule.FileName;
-			var frameworksDirectory = this.path.EndsWith ("frameworks.xml", StringComparison.OrdinalIgnoreCase)
-	                                        ? Path.GetDirectoryName (this.path) : this.path;
-			string relativePath = assemblyPath.Replace (frameworksDirectory, string.Empty);
-			string shortPath = Path.GetDirectoryName (relativePath);
-			if (shortPath.StartsWith (Path.DirectorySeparatorChar.ToString (), StringComparison.InvariantCultureIgnoreCase))
-				shortPath = shortPath.Substring (1, shortPath.Length - 1);
-			
+            string assemblyPath = assembly.MainModule.FileName;
+            string shortPath = GetFrameworkNameFromPath (this.path, assemblyPath);
 
-			var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
-			if (entry == null) {
-                entry = new FrameworkEntry (frameworks, FrameworksCount) { Name = shortPath, Importers = importers, Id = Id, Version = Version};
-				frameworks.Add (entry);
-			}
+            var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
+            if (entry == null)
+            {
+                entry = new FrameworkEntry (frameworks, FrameworksCount) { Name = shortPath, Importers = importers, Id = Id, Version = Version };
+                frameworks.Add (entry);
+            }
 
             set.Framework = entry;
-			return entry;
-		}
+            return entry;
+        }
 
-		/// <summary>Writes the framework indices to disk.</summary>
-		/// <param name="path">The folder where one file for every FrameworkEntry will be written.</param>
-		public void WriteToDisk (string path) 
+        public static string GetFrameworkNameFromPath (string rootpath, string assemblyPath)
+        {
+            var frameworksDirectory = rootpath.EndsWith ("frameworks.xml", StringComparison.OrdinalIgnoreCase)
+                                                        ? Path.GetDirectoryName (rootpath) : rootpath;
+            string relativePath = assemblyPath.Replace (frameworksDirectory, string.Empty);
+            string shortPath = Path.GetDirectoryName (relativePath);
+            if (shortPath.StartsWith (Path.DirectorySeparatorChar.ToString (), StringComparison.InvariantCultureIgnoreCase))
+                shortPath = shortPath.Substring (1, shortPath.Length - 1);
+            return shortPath;
+        }
+
+        /// <summary>Writes the framework indices to disk.</summary>
+        /// <param name="path">The folder where one file for every FrameworkEntry will be written.</param>
+        public void WriteToDisk (string path) 
 		{
 			if (string.IsNullOrWhiteSpace (this.path))
 				return;
