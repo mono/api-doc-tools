@@ -219,7 +219,7 @@ namespace Mono.Documentation.Updater
 
             if (IsDiscriminatedUnion(type))
             {
-                AppendDULableDeclarations(type, buf);
+                AppendDULabelDeclarations(type, buf);
                 AppendInterfaces(type, buf);
                 AppendMethodsAndConstructors(type, buf, includeConstructors:false);
                 AppendProperties(type, buf);
@@ -273,7 +273,7 @@ namespace Mono.Documentation.Updater
             return buf.ToString();
         }
 
-        private void AppendDULableDeclarations(TypeDefinition type, StringBuilder buf)
+        private void AppendDULabelDeclarations(TypeDefinition type, StringBuilder buf)
         {
             string ToParamString(ParameterDefinition p)
             {
@@ -387,15 +387,20 @@ namespace Mono.Documentation.Updater
         {
             if (type.HasProperties)
             {
-                var props = type.Properties.Where(p => !DocUtils.IsIgnored(p)).OrderBy(p => p.FullName);
+                var props = type.Properties.Where(p => !DocUtils.IsIgnored(p));
 
                 if (IsRecord(type) || IsDiscriminatedUnion(type))
                 {
-                    props = props.Where(p => !GetFSharpFlags(p.CustomAttributes).Any(ca => ca == SourceConstructFlags.Field || ca == SourceConstructFlags.UnionCase))
-                                 .OrderBy(p => p.FullName);
+                    props = props.Where(p => !GetFSharpFlags(p.CustomAttributes).Any(ca => ca == SourceConstructFlags.Field || ca == SourceConstructFlags.UnionCase));
+
+                    if (IsDiscriminatedUnion(type))
+                    {
+                        var caseMeths = type.Methods.Where(m => m.Name.Contains("get_")).Select(m => m.Name);
+                        props = props.Where(p => !caseMeths.Any(m => m.Contains(p.Name)));
+                    }
                 }
 
-                foreach (var prop in props)
+                foreach (var prop in props.OrderBy(p => p.FullName))
                 {
                     if (prop is null || string.IsNullOrEmpty(prop.Name)) continue;
 
