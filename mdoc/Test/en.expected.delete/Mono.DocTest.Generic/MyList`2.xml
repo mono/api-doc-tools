@@ -36,7 +36,19 @@
       <InterfaceName>System.Collections.Generic.IEnumerable&lt;A&gt;</InterfaceName>
     </Interface>
     <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;T&gt;</InterfaceName>
+    </Interface>
+    <Interface>
       <InterfaceName>System.Collections.Generic.IEnumerator&lt;A&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerable</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerator</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
     </Interface>
   </Interfaces>
   <Docs>

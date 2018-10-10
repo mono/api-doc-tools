@@ -287,6 +287,44 @@ namespace Mono.Documentation.Updater
                     : type.GenericParameters.Count;
         }
 
+        class TypeEquality : IEqualityComparer<TypeReference>
+        {
+            bool IEqualityComparer<TypeReference>.Equals (TypeReference x, TypeReference y)
+            {
+                if (x is null && y is null) return true;
+                if (x is null || y is null) return false;
+                return x.FullName == y.FullName;
+            }
+
+            int IEqualityComparer<TypeReference>.GetHashCode (TypeReference obj)
+            {
+                return obj.GetHashCode ();
+            }
+        }
+        static TypeEquality typeEqualityComparer = new TypeEquality ();
+
+        public static IEnumerable<TypeReference> GetAllPublicInterfaces (TypeDefinition type)
+        {
+            return GetAllInterfacesFromType (type)
+                .Where (i => IsPublic (i.Resolve ()))
+                .Distinct (typeEqualityComparer);
+        }
+
+        private static IEnumerable<TypeReference> GetAllInterfacesFromType(TypeDefinition type)
+        {
+            if (type is null)
+                yield break;
+
+            foreach(var i in type.Interfaces)
+            {
+                yield return i.InterfaceType;
+                foreach(var ii in GetAllInterfacesFromType(i.InterfaceType.Resolve()))
+                {
+                    yield return ii;
+                }
+            }
+        }
+
         public static IEnumerable<TypeReference> GetUserImplementedInterfaces (TypeDefinition type)
         {
             HashSet<string> inheritedInterfaces = GetInheritedInterfaces (type);

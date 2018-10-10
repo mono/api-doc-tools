@@ -11,6 +11,12 @@
   </Base>
   <Interfaces>
     <Interface>
+      <InterfaceName>Interfaces+Interface1</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>Interfaces+Interface2</InterfaceName>
+    </Interface>
+    <Interface>
       <InterfaceName>Interfaces+Interface3</InterfaceName>
     </Interface>
   </Interfaces>
