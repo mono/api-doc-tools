@@ -2098,10 +2098,11 @@ namespace Mono.Documentation
 
             if (!DocUtils.IsDelegate (type) && !type.IsEnum)
             {
-                IEnumerable<TypeReference> userInterfaces = DocUtils.GetUserImplementedInterfaces (type);
+                IEnumerable<TypeReference> userInterfaces = DocUtils.GetAllPublicInterfaces (type);
                 List<string> interface_names = userInterfaces
                         .Select (iface => GetDocTypeFullName (iface))
                         .OrderBy (s => s)
+                        .Distinct()
                         .ToList ();
 
                 XmlElement interfaces = WriteElement (root, "Interfaces");

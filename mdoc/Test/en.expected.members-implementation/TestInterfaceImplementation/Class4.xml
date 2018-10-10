@@ -10,6 +10,9 @@
   </Base>
   <Interfaces>
     <Interface>
+      <InterfaceName>TestInterfaceImplementation.Interface4</InterfaceName>
+    </Interface>
+    <Interface>
       <InterfaceName>TestInterfaceImplementation.Interface5</InterfaceName>
     </Interface>
   </Interfaces>
