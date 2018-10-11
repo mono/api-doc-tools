@@ -692,7 +692,7 @@ namespace Mono.Documentation
                             {
                                 var typeEntry = frameworkEntry.ProcessType(type);
 
-                                string relpath = DoUpdateType(assemblySet, type, typeEntry, basepath, dest);
+                                string relpath = DoUpdateType(assemblySet, assembly, type, typeEntry, basepath, dest);
                                 if (relpath == null)
                                     continue;
 
@@ -791,7 +791,7 @@ namespace Mono.Documentation
             return file.Exists;
         }
 
-        public string DoUpdateType (AssemblySet set, TypeDefinition type, FrameworkTypeEntry typeEntry, string basepath, string dest)
+        public string DoUpdateType (AssemblySet set, AssemblyDefinition assembly, TypeDefinition type, FrameworkTypeEntry typeEntry, string basepath, string dest)
         {
             if (type.Namespace == null)
                 Warning ("warning: The type `{0}' is in the root namespace.  This may cause problems with display within monodoc.",
@@ -888,7 +888,7 @@ namespace Mono.Documentation
             else
             {
                 // Stub
-                XmlElement td = StubType (set, type, output, typeEntry.Framework.Importers, typeEntry.Framework.Id, typeEntry.Framework.Version);
+                XmlElement td = StubType (set, assembly, type, output, typeEntry.Framework.Importers, typeEntry.Framework.Id, typeEntry.Framework.Version);
                 if (td == null)
                     return null;
             }
@@ -1079,12 +1079,12 @@ namespace Mono.Documentation
             foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null))
             {
                 string typename = GetTypeFileName (type);
-                if (!IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
+                if (!DocUtils.IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
                     continue;
 
                 var typeEntry = frameworkEntry.ProcessType (type);
 
-                string reltypepath = DoUpdateType (assemblySet, type, typeEntry, source, dest);
+                string reltypepath = DoUpdateType (assemblySet, assembly, type, typeEntry, source, dest);
                 if (reltypepath == null)
                     continue;
 
@@ -1957,7 +1957,7 @@ namespace Mono.Documentation
 
         // CREATE A STUB DOCUMENTATION FILE	
 
-        public XmlElement StubType (AssemblySet set, TypeDefinition type, string output, IEnumerable<DocumentationImporter> importers, string Id, string Version)
+        public XmlElement StubType (AssemblySet set, AssemblyDefinition assembly, TypeDefinition type, string output, IEnumerable<DocumentationImporter> importers, string Id, string Version)
         {
             string typesig = typeFormatters[0].GetDeclaration (type);
             if (typesig == null) return null; // not publicly visible
@@ -1966,7 +1966,7 @@ namespace Mono.Documentation
             XmlElement root = doc.CreateElement ("Type");
             doc.AppendChild (root);
 
-            var frameworkEntry = frameworks.StartProcessingAssembly (set, type.Module.Assembly, importers, Id, Version);
+            var frameworkEntry = frameworks.StartProcessingAssembly (set, assembly, importers, Id, Version);
             var typeEntry = frameworkEntry.ProcessType (type);
             DoUpdateType2 ("New Type", doc, type, typeEntry, output, true);
             statisticsCollector.AddMetric (typeEntry.Framework.Name, StatisticsItem.Types, StatisticsMetrics.Added);
