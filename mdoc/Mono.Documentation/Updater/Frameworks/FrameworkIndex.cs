@@ -50,6 +50,8 @@ namespace Mono.Documentation.Updater.Frameworks
             }
 
             set.Framework = entry;
+            entry.AddProcessedAssembly (assembly);
+
             return entry;
         }
 
@@ -88,6 +90,19 @@ namespace Mono.Documentation.Updater.Frameworks
 						new XAttribute("Version", fx.Version)
 						));
 				}
+                if (fx.AssemblyNames.Any())
+                {
+                    frameworkElement.Add (
+                        new XElement (
+                            "Assemblies",
+                            fx.AssemblyNames.Distinct().Select(an => 
+                                                               new XElement("Assembly",
+                                                                            new XAttribute("Name", an.Item1),
+                                                                            new XAttribute("Version", an.Item2)
+                                                                          ))
+                                    ));
+                }
+
 				frameworkElement.Add(fx.Types.GroupBy(t => t.Namespace)
 					.Select(g => new XElement("Namespace",
 						new XAttribute("Name", g.Key),
