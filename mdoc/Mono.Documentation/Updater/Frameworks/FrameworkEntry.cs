@@ -54,6 +54,14 @@ namespace Mono.Documentation.Updater.Frameworks
                 return _allFxString;
             }
         }
+
+        public readonly List<Tuple<string,string>> AssemblyNames = new List<Tuple<string, string>> ();
+
+        public void AddProcessedAssembly (AssemblyDefinition assembly)
+        {
+            AssemblyNames.Add (new Tuple<string, string>(assembly.Name.Name, assembly.Name.Version.ToString()));
+        }
+
         public IEnumerable<FrameworkEntry> PreviousFrameworks {
             get => allframeworks.Where (f => f.Index < this.Index);
         }

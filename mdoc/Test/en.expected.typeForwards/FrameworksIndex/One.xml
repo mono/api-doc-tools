@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Framework Name="One">
+  <Assemblies>
+    <Assembly Name="DocTest-typeForwards-First" Version="0.0.0.0" />
+  </Assemblies>
   <Namespace Name="TheNamespace">
     <Type Name="TheNamespace.TheClass" Id="T:TheNamespace.TheClass">
       <Member Id="M:TheNamespace.TheClass.#ctor" />
