@@ -474,6 +474,19 @@ namespace Mono.Documentation.Updater.Frameworks
             var framework_dirs = on_mono
                 ? new[] { framework_dir, Path.Combine (framework_dir, "Facades") }
                 : new[] { framework_dir };
+
+            if (!on_mono)
+            {
+                framework_dirs = framework_dirs
+                    .Concat(new[] 
+                    {
+                        @"C:\Program Files\dotnet\sdk",
+                        @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework",
+                        @"C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework"
+                    })
+                    .Where(Directory.Exists)
+                    .ToArray();
+            }
             return framework_dirs;
         }
 
@@ -572,23 +585,26 @@ namespace Mono.Documentation.Updater.Frameworks
                 reference.Name + ".dll");
         }
 
-        string[] allDirectories = null;
+        Dictionary<string,string[]> allDirectories = new Dictionary<string, string[]>();
 
         internal IEnumerable<string> GetAssemblyPaths(AssemblyNameReference name, IEnumerable<string> directories, IEnumerable<string> filesToIgnore, bool subdirectories)
         {
             var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
 
-            if (allDirectories == null)
+            string[] darray = directories.ToArray();
+            string dkey = string.Join("|", directories.ToArray());
+
+            if (!allDirectories.ContainsKey(dkey))
             {
                 if (subdirectories)
                 {
                     directories = GetAllDirectories (directories).Distinct ();
                 }
 
-                allDirectories = directories.ToArray ();
+                allDirectories.Add(dkey, darray);
             }
 
-            foreach (var dir in allDirectories)
+            foreach (var dir in allDirectories[dkey])
             {
                 foreach (var extension in extensions)
                 {
