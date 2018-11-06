@@ -2630,7 +2630,7 @@ namespace Mono.Documentation
             TypeDefinition typeDefinition = mi as TypeDefinition;
             if (typeDefinition != null && typeDefinition.IsSerializable)
             {
-                attrs = attrs.Concat (new[] { "Serializable" });
+                attrs = attrs.Concat (new[] { "System.Serializable" });
             }
 
             PropertyDefinition pd = mi as PropertyDefinition;

@@ -18,7 +18,7 @@
       <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(PatternMatching.PatternMatchingExamples/PersonName/LastOnly@DebugTypeProxy))</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Serializable</AttributeName>
+      <AttributeName>System.Serializable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
