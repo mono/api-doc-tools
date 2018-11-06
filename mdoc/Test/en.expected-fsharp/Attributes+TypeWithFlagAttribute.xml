@@ -18,7 +18,7 @@
       <AttributeName>System.AttributeUsage(System.AttributeTargets.Module | System.AttributeTargets.Event | System.AttributeTargets.Delegate, AllowMultiple=false)</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Serializable</AttributeName>
+      <AttributeName>System.Serializable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
