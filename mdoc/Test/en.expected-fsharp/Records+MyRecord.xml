@@ -31,7 +31,7 @@
       <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.RecordType)</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Serializable</AttributeName>
+      <AttributeName>System.Serializable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>

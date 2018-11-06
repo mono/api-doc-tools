@@ -34,7 +34,7 @@
       <AttributeName>Microsoft.FSharp.Core.Struct</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Serializable</AttributeName>
+      <AttributeName>System.Serializable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
