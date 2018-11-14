@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -57,7 +57,9 @@
     <Compile Include="Mono.Documentation\Framework\FrameworkTypeModel.cs" />
     <Compile Include="Mono.Documentation\Framework\FrameworkNamespaceModel.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\ApplePlatformEnumFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeDefinitionFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpAttributeFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\JsFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\JsMemberFormatter.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Mono.Documentation\Util\AttachedPropertyReference.cs" />
     <Compile Include="Mono.Documentation\Util\CecilExtensions.cs" />
     <Compile Include="Mono.Documentation\Util\NativeTypeManager.cs" />
+    <Compile Include="Mono.Documentation\Util\OtherExtensions.cs" />
     <Compile Include="Mono.Rocks\ObjectRocks.cs" />
     <Compile Include="Mono.Rocks\StreamRocks.cs" />
     <Compile Include="Mono.Documentation\assembler.cs" />

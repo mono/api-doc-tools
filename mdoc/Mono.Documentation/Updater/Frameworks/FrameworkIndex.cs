@@ -57,6 +57,9 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public static string GetFrameworkNameFromPath (string rootpath, string assemblyPath)
         {
+            rootpath = rootpath.Canonicalize();
+            assemblyPath.Canonicalize();
+
             var frameworksDirectory = rootpath.EndsWith ("frameworks.xml", StringComparison.OrdinalIgnoreCase)
                                                         ? Path.GetDirectoryName (rootpath) : rootpath;
             string relativePath = assemblyPath.Replace (frameworksDirectory, string.Empty);
