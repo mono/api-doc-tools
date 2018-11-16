@@ -34,58 +34,59 @@ namespace Mono.Documentation.Updater.Frameworks
                 ForType = forType;
             }
 
-            public override string ToString ()
+            public override string ToString()
             {
                 return $"forward {ForType} from {From} to {To}";
             }
         }
 
-        public override AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters)
+        public override AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters)
         {
-            return Resolve (name, parameters, null, null);
+            return Resolve(name, parameters, null, null);
         }
 
         public event EventHandler<TypeForwardEventArgs> TypeExported;
 
-        internal AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters r, TypeReference forType, List<string> exportedFiles)
+        internal AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters r, TypeReference forType, List<string> exportedFiles)
         {
             if (exportedFiles == null)
-                exportedFiles = new List<string> ();
+                exportedFiles = new List<string>();
 
-            var a = this.ResolveCore (name, r, exportedFiles);
+            var a = this.ResolveCore(name, r, exportedFiles);
 
-            if (forType != null && a.MainModule.HasExportedTypes) {
-                var etype = a.MainModule.ExportedTypes.SingleOrDefault (t => t.FullName == forType.FullName) as ExportedType;
+            if (forType != null && a.MainModule.HasExportedTypes)
+            {
+                var etype = a.MainModule.ExportedTypes.SingleOrDefault(t => t.FullName == forType.FullName) as ExportedType;
                 if (etype != null)
                 {
                     string file = a.MainModule.FileName;
                     AssemblyNameReference exportedTo = (AssemblyNameReference)etype.Scope;
-                    Console.WriteLine ($"resolving {forType.FullName} in {name.FullName}. Found {file}, but it's exported to {exportedTo.FullName}");
+                    Console.WriteLine($"resolving {forType.FullName} in {name.FullName}. Found {file}, but it's exported to {exportedTo.FullName}");
                     if (forType != null)
-                        TypeExported?.Invoke (this, new TypeForwardEventArgs(name, exportedTo, forType?.FullName));
+                        TypeExported?.Invoke(this, new TypeForwardEventArgs(name, exportedTo, forType?.FullName));
 
-                    exportedFiles.Add (file);
-                    return Resolve (exportedTo, r, forType, exportedFiles);
+                    exportedFiles.Add(file);
+                    return Resolve(exportedTo, r, forType, exportedFiles);
                 }
             }
 
             return a;
         }
 
-        AssemblyDefinition ResolveCore (AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> assembliesToIgnore)
+        AssemblyDefinition ResolveCore(AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> assembliesToIgnore)
         {
             var ver = name.Version;
             if (ver.Major == 255 && ver.Minor == 255 && ver.Revision == 255 && name.Name == "mscorlib")
             {
-                var v = new Version (4, 5, 0);
-                var anr = new AssemblyNameReference (name.Name, v);
-                return base.Resolve (anr, parameters, assembliesToIgnore);
+                var v = new Version(4, 5, 0);
+                var anr = new AssemblyNameReference(name.Name, v);
+                return base.Resolve(anr, parameters, assembliesToIgnore);
             }
             else
-                return base.Resolve (name, parameters, assembliesToIgnore);
+                return base.Resolve(name, parameters, assembliesToIgnore);
         }
 
-        IEnumerable<AssemblyDefinition> GetInstalledAssemblies (AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
+        IEnumerable<AssemblyDefinition> GetInstalledAssemblies(AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
             AssemblyDefinition assembly;
             if (name.IsRetargetable)
@@ -125,7 +126,7 @@ namespace Mono.Documentation.Updater.Frameworks
         protected override AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
             // look in all sub directies for assemblies
-            var namedPaths = GetAssemblyPaths (name, directories, filesToIgnore, true).ToArray();
+            var namedPaths = GetAssemblyPaths(name, directories, filesToIgnore, true).ToArray();
 
             if (!namedPaths.Any()) return null;
 
@@ -137,61 +138,81 @@ namespace Mono.Documentation.Updater.Frameworks
             Func<string, AssemblyDefinition> getAssemblies = (path) => {
                 return GetAssembly(path, parameters);
             };
-            
+
             var applicableVersions = namedPaths
-                .Select (getAssemblies)
-                .Concat (GetInstalledAssemblies(name, parameters, filesToIgnore))
-                .Select (a => new
+                .Select(getAssemblies)
+                .Concat(GetInstalledAssemblies(name, parameters, filesToIgnore))
+                .Select(a => new
                 {
                     Assembly = a,
-                    SuppliedDependency = namedPaths.Any (np => np == a.MainModule.FileName),
-                    VersionSort = aggregateVersion (a.Name.Version),
-                    VersionDiff = aggregateVersion (a.Name.Version) - aggregateVersion (name.Version),
+                    SuppliedDependency = namedPaths.Any(np => np == a.MainModule.FileName),
+                    VersionSort = aggregateVersion(a.Name.Version),
+                    VersionDiff = aggregateVersion(a.Name.Version) - aggregateVersion(name.Version),
                     MajorMatches = a.Name.Version.Major == name.Version.Major
                 })
-                .ToArray ();
+                .ToArray();
+
+            AssemblyDefinition assemblyToUse = null;
 
             // If the assembly has all zeroes, just grab the latest assembly
-            if (IsZero(name.Version)) {
+            if (IsZero(name.Version))
+            {
                 var possibleSet = applicableVersions;
-                if (applicableVersions.Any (s => s.SuppliedDependency))
-                    possibleSet = applicableVersions.Where (av => av.SuppliedDependency).ToArray ();
-                
-                var sorted = possibleSet.OrderByDescending (v => v.VersionSort).ToArray ();
+                if (applicableVersions.Any(s => s.SuppliedDependency))
+                    possibleSet = applicableVersions.Where(av => av.SuppliedDependency).ToArray();
 
-                var highestMatch = sorted.FirstOrDefault ();
+                var sorted = possibleSet.OrderByDescending(v => v.VersionSort).ToArray();
+
+                var highestMatch = sorted.FirstOrDefault();
                 if (highestMatch != null)
-                    return highestMatch.Assembly;
+                {
+                    assemblyToUse = highestMatch.Assembly;
+                    goto TheReturn;
+                }
             }
 
             // Perfect Match
-            var exactMatch = applicableVersions.FirstOrDefault (v => v.VersionDiff == 0);
+            var exactMatch = applicableVersions.FirstOrDefault(v => v.VersionDiff == 0);
             if (exactMatch != null)
-                return exactMatch.Assembly;
+            {
+                assemblyToUse = exactMatch.Assembly;
+                goto TheReturn;
+            }
 
             // closest high version
             var newerVersions = applicableVersions
-                .Where (v => v.VersionDiff > 0)
-                .OrderBy (a => a.VersionSort)
-                .Select (v => v.Assembly)
-                .ToArray ();
-            if (newerVersions.Any ())
-                return newerVersions.First ();
+                .Where(v => v.VersionDiff > 0)
+                .OrderBy(a => a.VersionSort)
+                .Select(v => v.Assembly)
+                .ToArray();
+            if (newerVersions.Any())
+            {
+                assemblyToUse = newerVersions.First();
+                goto TheReturn;
+            }
 
             // Are there any lower versions as a last resort?
             var olderVersions = applicableVersions
-                .Where (v => v.VersionDiff < 0)
-                .OrderByDescending (v => v.VersionSort)
-                .Select (v => v.Assembly)
-                .ToArray ();
-            if (olderVersions.Any ())
-                return olderVersions.First ();
+                .Where(v => v.VersionDiff < 0)
+                .OrderByDescending(v => v.VersionSort)
+                .Select(v => v.Assembly)
+                .ToArray();
+            if (olderVersions.Any())
+            {
+                assemblyToUse = olderVersions.First();
+                goto TheReturn;
+            }
 
             // return null if you don't find anything
-            return null;
+            TheReturn:
+            foreach (var assemblyToDisposeOf in applicableVersions.Where(a => a.Assembly != assemblyToUse))
+            {
+                assemblyToDisposeOf.Assembly.Dispose();
+            }
+            return assemblyToUse;
 
         }
-        
+
         // some helper classes
         static class Empty<T>
         {
@@ -200,7 +221,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
         class MDocResolverMixin
         {
-            public static Version ZeroVersion = new Version (0, 0, 0, 0);
+            public static Version ZeroVersion = new Version(0, 0, 0, 0);
         }
     }
 
@@ -217,44 +238,48 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public IAssemblyResolver Resolver { get; private set; }
 
-        public CachedResolver (IAssemblyResolver resolver)
+        public CachedResolver(IAssemblyResolver resolver)
         {
             Resolver = resolver;
-            cache = new Dictionary<string, AssemblyDefinition> (StringComparer.Ordinal);
+            cache = new Dictionary<string, AssemblyDefinition>(StringComparer.Ordinal);
         }
 
-        public AssemblyDefinition Resolve (AssemblyNameReference name)
+        public AssemblyDefinition Resolve(AssemblyNameReference name)
         {
-            return Resolve (name, new ReaderParameters () { AssemblyResolver = this });
+            return Resolve(name, new ReaderParameters() { AssemblyResolver = this });
         }
 
         float lastAverageStackLength = 0;
         int stackTraceIncrease = 0;
-        Dictionary<string, int> dict = new Dictionary<string, int> ();
-        Queue<float> traces = new Queue<float> (10);
+        Dictionary<string, int> dict = new Dictionary<string, int>();
+        Queue<float> traces = new Queue<float>(10);
 
-        public AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters) 
+        public AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters)
         {
-            return ResolveCore (name, parameters, null);
+            return ResolveCore(name, parameters, null);
         }
 
-        internal AssemblyDefinition ResolveCore (AssemblyNameReference name, ReaderParameters parameters, TypeReference forType)
+        internal AssemblyDefinition ResolveCore(AssemblyNameReference name, ReaderParameters parameters, TypeReference forType)
         {
             string cacheKey = name.FullName;
             AssemblyDefinition assembly;
 
-            if (cache.TryGetValue (cacheKey, out assembly))
+            if (cache.TryGetValue(cacheKey, out assembly))
             {
-                if (forType != null && assembly.MainModule.HasExportedTypes) {
+                if (forType != null && assembly.MainModule.HasExportedTypes)
+                {
                     // check to see if the type is in the exported assemblies
-                    var etype = assembly.MainModule.ExportedTypes.SingleOrDefault (et => et.FullName == forType.FullName);
-                    if (etype != null) {
+                    var etype = assembly.MainModule.ExportedTypes.SingleOrDefault(et => et.FullName == forType.FullName);
+                    if (etype != null)
+                    {
                         var escope = (AssemblyNameReference)etype.Scope;
-                        if (cache.TryGetValue (escope.FullName, out assembly)) {
+                        if (cache.TryGetValue(escope.FullName, out assembly))
+                        {
                             return assembly;
                         }
-                        else {
-                            assembly = ((MDocResolver)this.Resolver).Resolve (escope, parameters, forType, null);
+                        else
+                        {
+                            assembly = ((MDocResolver)this.Resolver).Resolve(escope, parameters, forType, null);
                             cache[escope.FullName] = assembly;
                         }
                     }
@@ -262,35 +287,35 @@ namespace Mono.Documentation.Updater.Frameworks
                 return assembly;
             }
 
-            assembly = ((MDocResolver)this.Resolver).Resolve (name, parameters, forType, null);
+            assembly = ((MDocResolver)this.Resolver).Resolve(name, parameters, forType, null);
             cache[cacheKey] = assembly;
 
             return assembly;
         }
 
-        protected void RegisterAssembly (AssemblyDefinition assembly)
+        protected void RegisterAssembly(AssemblyDefinition assembly)
         {
             if (assembly == null)
-                throw new ArgumentNullException (nameof(assembly));
+                throw new ArgumentNullException(nameof(assembly));
 
             var name = assembly.Name.FullName;
-            if (cache.ContainsKey (name))
+            if (cache.ContainsKey(name))
                 return;
 
             cache[name] = assembly;
         }
 
         bool disposed = false;
-        public void Dispose ()
+        public void Dispose()
         {
             if (disposed) return;
 
             foreach (var assembly in cache.Values)
-                assembly.Dispose ();
+                assembly.Dispose();
 
-            cache.Clear ();
+            cache.Clear();
 
-            Resolver.Dispose ();
+            Resolver.Dispose();
 
             disposed = true;
         }
@@ -303,73 +328,73 @@ namespace Mono.Documentation.Updater.Frameworks
     /// <remarks>
     /// There are two changes made from the original source
     /// </remarks>
-    public abstract class MDocBaseResolver : BaseAssemblyResolver 
+    public abstract class MDocBaseResolver : BaseAssemblyResolver
     {
-        static readonly bool on_mono = Type.GetType ("Mono.Runtime") != null;
+        static readonly bool on_mono = Type.GetType("Mono.Runtime") != null;
 
         Collection<string> gac_paths;
 
-        protected AssemblyDefinition GetAssembly (string file, ReaderParameters parameters)
+        protected AssemblyDefinition GetAssembly(string file, ReaderParameters parameters)
         {
             if (parameters.AssemblyResolver == null)
                 parameters.AssemblyResolver = this;
 
-            return ModuleDefinition.ReadModule (file, parameters).Assembly;
+            return ModuleDefinition.ReadModule(file, parameters).Assembly;
         }
 
-        public override AssemblyDefinition Resolve (AssemblyNameReference name)
+        public override AssemblyDefinition Resolve(AssemblyNameReference name)
         {
-            return this.Resolve (name, new ReaderParameters ());
+            return this.Resolve(name, new ReaderParameters());
         }
 
         string[] emptyStringArray = new string[0];
 
-        public override AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters)
+        public override AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters)
         {
-            return Resolve (name, parameters, emptyStringArray);
+            return Resolve(name, parameters, emptyStringArray);
         }
 
-        internal AssemblyDefinition Resolve (AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
+        internal AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
-            var directories = this.GetSearchDirectories ();
-            var assembly = SearchDirectory (name, directories, parameters, filesToIgnore);
+            var directories = this.GetSearchDirectories();
+            var assembly = SearchDirectory(name, directories, parameters, filesToIgnore);
             if (assembly != null)
                 return assembly;
 
             if (name.IsRetargetable)
             {
                 // if the reference is retargetable, zero it
-                name = new AssemblyNameReference (name.Name, MDocResolverMixin.ZeroVersion)
+                name = new AssemblyNameReference(name.Name, MDocResolverMixin.ZeroVersion)
                 {
                     PublicKeyToken = Empty<byte>.Array,
                 };
             }
 
-            string[] framework_dirs = GetFrameworkPaths ();
+            string[] framework_dirs = GetFrameworkPaths();
 
-            if (IsZero (name.Version))
+            if (IsZero(name.Version))
             {
-                assembly = SearchDirectory (name, framework_dirs, parameters, filesToIgnore);
+                assembly = SearchDirectory(name, framework_dirs, parameters, filesToIgnore);
                 if (assembly != null)
                     return assembly;
             }
 
             if (name.Name == "mscorlib")
             {
-                assembly = GetCorlib (name, parameters);
+                assembly = GetCorlib(name, parameters);
                 if (assembly != null)
                     return assembly;
             }
 
-            assembly = GetAssemblyInGac (name, parameters);
+            assembly = GetAssemblyInGac(name, parameters);
             if (assembly != null)
                 return assembly;
 
-            assembly = SearchDirectory (name, framework_dirs, parameters, filesToIgnore);
+            assembly = SearchDirectory(name, framework_dirs, parameters, filesToIgnore);
             if (assembly != null)
                 return assembly;
 
-            throw new AssemblyResolutionException (name);
+            throw new AssemblyResolutionException(name);
         }
 
         protected virtual AssemblyDefinition SearchDirectory(AssemblyNameReference name, IEnumerable<string> directories, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
@@ -390,39 +415,39 @@ namespace Mono.Documentation.Updater.Frameworks
             return null;
         }
 
-        internal static bool IsZero (Version version)
+        internal static bool IsZero(Version version)
         {
             return version.Major == 0 && version.Minor == 0 && version.Build == 0 && version.Revision == 0;
         }
 
-        internal AssemblyDefinition GetCorlib (AssemblyNameReference reference, ReaderParameters parameters)
+        internal AssemblyDefinition GetCorlib(AssemblyNameReference reference, ReaderParameters parameters)
         {
             var version = reference.Version;
-            var corlib = typeof (object).Assembly.GetName ();
+            var corlib = typeof(object).Assembly.GetName();
 
-            if (corlib.Version == version || IsZero (version))
-                return GetAssembly (typeof (object).Module.FullyQualifiedName, parameters);
+            if (corlib.Version == version || IsZero(version))
+                return GetAssembly(typeof(object).Module.FullyQualifiedName, parameters);
 
-            var path = Directory.GetParent (
-                Directory.GetParent (
-                    typeof (object).Module.FullyQualifiedName).FullName
+            var path = Directory.GetParent(
+                Directory.GetParent(
+                    typeof(object).Module.FullyQualifiedName).FullName
                 ).FullName;
 
             if (on_mono)
             {
                 if (version.Major == 1)
-                    path = Path.Combine (path, "1.0");
+                    path = Path.Combine(path, "1.0");
                 else if (version.Major == 2)
                 {
                     if (version.MajorRevision == 5)
-                        path = Path.Combine (path, "2.1");
+                        path = Path.Combine(path, "2.1");
                     else
-                        path = Path.Combine (path, "2.0");
+                        path = Path.Combine(path, "2.0");
                 }
                 else if (version.Major == 4)
-                    path = Path.Combine (path, "4.0");
+                    path = Path.Combine(path, "4.0");
                 else
-                    throw new NotSupportedException ("Version not supported: " + version);
+                    throw new NotSupportedException("Version not supported: " + version);
             }
             else
             {
@@ -430,55 +455,55 @@ namespace Mono.Documentation.Updater.Frameworks
                 {
                     case 1:
                         if (version.MajorRevision == 3300)
-                            path = Path.Combine (path, "v1.0.3705");
+                            path = Path.Combine(path, "v1.0.3705");
                         else
-                            path = Path.Combine (path, "v1.0.5000.0");
+                            path = Path.Combine(path, "v1.0.5000.0");
                         break;
                     case 2:
-                        path = Path.Combine (path, "v2.0.50727");
+                        path = Path.Combine(path, "v2.0.50727");
                         break;
                     case 4:
-                        path = Path.Combine (path, "v4.0.30319");
+                        path = Path.Combine(path, "v4.0.30319");
                         break;
                     default:
-                        throw new NotSupportedException ("Version not supported: " + version);
+                        throw new NotSupportedException("Version not supported: " + version);
                 }
             }
 
-            var file = Path.Combine (path, "mscorlib.dll");
-            if (File.Exists (file))
-                return GetAssembly (file, parameters);
+            var file = Path.Combine(path, "mscorlib.dll");
+            if (File.Exists(file))
+                return GetAssembly(file, parameters);
 
             // if we haven't found mscorlib so far, let's just fall back on the currently executing version:
-            return GetAssembly (typeof (object).Module.FullyQualifiedName, parameters);
+            return GetAssembly(typeof(object).Module.FullyQualifiedName, parameters);
         }
 
-        protected static Collection<string> GetGacPaths ()
+        protected static Collection<string> GetGacPaths()
         {
             if (on_mono)
-                return GetDefaultMonoGacPaths ();
+                return GetDefaultMonoGacPaths();
 
-            var paths = new Collection<string> (2);
-            var windir = Environment.GetEnvironmentVariable ("WINDIR");
+            var paths = new Collection<string>(2);
+            var windir = Environment.GetEnvironmentVariable("WINDIR");
             if (windir == null)
                 return paths;
 
-            paths.Add (Path.Combine (windir, "assembly"));
-            paths.Add (Path.Combine (windir, Path.Combine ("Microsoft.NET", "assembly")));
+            paths.Add(Path.Combine(windir, "assembly"));
+            paths.Add(Path.Combine(windir, Path.Combine("Microsoft.NET", "assembly")));
             return paths;
         }
 
-        protected static string[] GetFrameworkPaths ()
+        protected static string[] GetFrameworkPaths()
         {
-            var framework_dir = Path.GetDirectoryName (typeof (object).Module.FullyQualifiedName);
+            var framework_dir = Path.GetDirectoryName(typeof(object).Module.FullyQualifiedName);
             var framework_dirs = on_mono
-                ? new[] { framework_dir, Path.Combine (framework_dir, "Facades") }
+                ? new[] { framework_dir, Path.Combine(framework_dir, "Facades") }
                 : new[] { framework_dir };
 
             if (!on_mono)
             {
                 framework_dirs = framework_dirs
-                    .Concat(new[] 
+                    .Concat(new[]
                     {
                         @"C:\Program Files\dotnet\sdk",
                         @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework",
@@ -490,67 +515,67 @@ namespace Mono.Documentation.Updater.Frameworks
             return framework_dirs;
         }
 
-        static Collection<string> GetDefaultMonoGacPaths ()
+        static Collection<string> GetDefaultMonoGacPaths()
         {
-            var paths = new Collection<string> (1);
-            var gac = GetCurrentMonoGac ();
+            var paths = new Collection<string>(1);
+            var gac = GetCurrentMonoGac();
             if (gac != null)
-                paths.Add (gac);
+                paths.Add(gac);
 
-            var gac_paths_env = Environment.GetEnvironmentVariable ("MONO_GAC_PREFIX");
-            if (string.IsNullOrEmpty (gac_paths_env))
+            var gac_paths_env = Environment.GetEnvironmentVariable("MONO_GAC_PREFIX");
+            if (string.IsNullOrEmpty(gac_paths_env))
                 return paths;
 
-            var prefixes = gac_paths_env.Split (Path.PathSeparator);
+            var prefixes = gac_paths_env.Split(Path.PathSeparator);
             foreach (var prefix in prefixes)
             {
-                if (string.IsNullOrEmpty (prefix))
+                if (string.IsNullOrEmpty(prefix))
                     continue;
 
-                var gac_path = Path.Combine (Path.Combine (Path.Combine (prefix, "lib"), "mono"), "gac");
-                if (Directory.Exists (gac_path) && !paths.Contains (gac))
-                    paths.Add (gac_path);
+                var gac_path = Path.Combine(Path.Combine(Path.Combine(prefix, "lib"), "mono"), "gac");
+                if (Directory.Exists(gac_path) && !paths.Contains(gac))
+                    paths.Add(gac_path);
             }
 
             return paths;
         }
 
-        static string GetCurrentMonoGac ()
+        static string GetCurrentMonoGac()
         {
-            return Path.Combine (
-                Directory.GetParent (
-                    Path.GetDirectoryName (typeof (object).Module.FullyQualifiedName)).FullName,
+            return Path.Combine(
+                Directory.GetParent(
+                    Path.GetDirectoryName(typeof(object).Module.FullyQualifiedName)).FullName,
                 "gac");
         }
 
-        internal AssemblyDefinition GetAssemblyInGac (AssemblyNameReference reference, ReaderParameters parameters)
+        internal AssemblyDefinition GetAssemblyInGac(AssemblyNameReference reference, ReaderParameters parameters)
         {
             if (reference.PublicKeyToken == null || reference.PublicKeyToken.Length == 0)
                 return null;
 
             if (gac_paths == null)
-                gac_paths = GetGacPaths ();
+                gac_paths = GetGacPaths();
 
             if (on_mono)
-                return GetAssemblyInMonoGac (reference, parameters);
+                return GetAssemblyInMonoGac(reference, parameters);
 
-            return GetAssemblyInNetGac (reference, parameters);
+            return GetAssemblyInNetGac(reference, parameters);
         }
 
-        AssemblyDefinition GetAssemblyInMonoGac (AssemblyNameReference reference, ReaderParameters parameters)
+        AssemblyDefinition GetAssemblyInMonoGac(AssemblyNameReference reference, ReaderParameters parameters)
         {
             for (int i = 0; i < gac_paths.Count; i++)
             {
                 var gac_path = gac_paths[i];
-                var file = GetAssemblyFile (reference, string.Empty, gac_path);
-                if (File.Exists (file))
-                    return GetAssembly (file, parameters);
+                var file = GetAssemblyFile(reference, string.Empty, gac_path);
+                if (File.Exists(file))
+                    return GetAssembly(file, parameters);
             }
 
             return null;
         }
 
-        AssemblyDefinition GetAssemblyInNetGac (AssemblyNameReference reference, ReaderParameters parameters)
+        AssemblyDefinition GetAssemblyInNetGac(AssemblyNameReference reference, ReaderParameters parameters)
         {
             var gacs = new[] { "GAC_MSIL", "GAC_32", "GAC_64", "GAC" };
             var prefixes = new[] { string.Empty, "v4.0_" };
@@ -559,47 +584,52 @@ namespace Mono.Documentation.Updater.Frameworks
             {
                 for (int j = 0; j < gacs.Length; j++)
                 {
-                    var gac = Path.Combine (gac_paths[i], gacs[j]);
-                    var file = GetAssemblyFile (reference, prefixes[i], gac);
-                    if (Directory.Exists (gac) && File.Exists (file))
-                        return GetAssembly (file, parameters);
+                    var gac = Path.Combine(gac_paths[i], gacs[j]);
+                    var file = GetAssemblyFile(reference, prefixes[i], gac);
+                    if (Directory.Exists(gac) && File.Exists(file))
+                        return GetAssembly(file, parameters);
                 }
             }
 
             return null;
         }
 
-        static string GetAssemblyFile (AssemblyNameReference reference, string prefix, string gac)
+        static string GetAssemblyFile(AssemblyNameReference reference, string prefix, string gac)
         {
-            var gac_folder = new StringBuilder ()
-                .Append (prefix)
-                .Append (reference.Version)
-                .Append ("__");
+            var gac_folder = new StringBuilder()
+                .Append(prefix)
+                .Append(reference.Version)
+                .Append("__");
 
             for (int i = 0; i < reference.PublicKeyToken.Length; i++)
-                gac_folder.Append (reference.PublicKeyToken[i].ToString ("x2"));
+                gac_folder.Append(reference.PublicKeyToken[i].ToString("x2"));
 
-            return Path.Combine (
-                Path.Combine (
-                    Path.Combine (gac, reference.Name), gac_folder.ToString ()),
+            return Path.Combine(
+                Path.Combine(
+                    Path.Combine(gac, reference.Name), gac_folder.ToString()),
                 reference.Name + ".dll");
         }
 
-        Dictionary<string,string[]> allDirectories = new Dictionary<string, string[]>();
+        Dictionary<string, string[]> allDirectories = new Dictionary<string, string[]>();
 
         internal IEnumerable<string> GetAssemblyPaths(AssemblyNameReference name, IEnumerable<string> directories, IEnumerable<string> filesToIgnore, bool subdirectories)
         {
             var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
 
-            string[] darray = directories.ToArray();
-            string dkey = string.Join("|", directories.ToArray());
+            string[] darray = directories.Distinct().ToArray();
+            string dkey = string.Join("|", darray);
 
             if (!allDirectories.ContainsKey(dkey))
             {
                 if (subdirectories)
                 {
-                    directories = GetAllDirectories (directories).Distinct ();
+                    darray = GetAllDirectories(darray).Distinct().ToArray();
                 }
+
+                // filter out directories that don't have any assemblies
+                darray = darray
+                    .Where(d => Directory.Exists(d) && Directory.EnumerateFiles(d, "*.*").Any(f => extensions.Any(e => f.EndsWith(e))))
+                    .ToArray();
 
                 allDirectories.Add(dkey, darray);
             }
@@ -642,7 +672,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
         class MDocResolverMixin
         {
-            public static Version ZeroVersion = new Version (0, 0, 0, 0);
+            public static Version ZeroVersion = new Version(0, 0, 0, 0);
         }
     }
 }

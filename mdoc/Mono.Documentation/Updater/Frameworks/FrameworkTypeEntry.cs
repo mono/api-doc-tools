@@ -8,9 +8,7 @@ namespace Mono.Documentation.Updater.Frameworks
 {
 	public class FrameworkTypeEntry : IComparable<FrameworkTypeEntry>
 	{
-		SortedSet<string> members = new SortedSet<string> ();
-		SortedSet<string> memberscsharpsig = new SortedSet<string> ();
-        Dictionary<string, bool> sigMap = new Dictionary<string, bool> ();
+        Dictionary<string, string> sigMap = new Dictionary<string, string> ();
 
 		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
         DocIdFormatter docidFormatter = new DocIdFormatter ();
@@ -58,31 +56,36 @@ namespace Mono.Documentation.Updater.Frameworks
 		public string Namespace { get; set; }
 		public FrameworkEntry Framework { get { return fx; } }
 
-		public ISet<string> Members {
+		public IEnumerable<string> Members {
 			get {
-				return this.members;
+				return this.sigMap.Values.OrderBy(v => v);
 			}
 		}
 
 		public virtual void ProcessMember (MemberReference member)
-		{
-			var resolvedMember = member.Resolve ();
-			if (resolvedMember != null) {
-                var docid = docidFormatter.GetDeclaration (member);
-				members.Add (docid);
-			}
-			else 
-				members.Add (member.FullName);
+        {
+            string key = null;
 
             // this is for lookup purposes
             try
             {
-                var sig = formatter.GetDeclaration (member);
-                memberscsharpsig.Add (sig);
-                if (sig != null && !sigMap.ContainsKey (sig))
-                    sigMap.Add (sig, true);
+                var sig = formatter.GetDeclaration(member);
+                if (sig != null && !sigMap.ContainsKey(sig))
+                    sigMap.Add(sig, string.Empty);
             }
             catch { }
+
+            if (key == null)
+                return;
+
+            var resolvedMember = member.Resolve ();
+			if (resolvedMember != null) {
+                var docid = docidFormatter.GetDeclaration (member);
+				sigMap[key] = docid;
+			}
+			else 
+				sigMap[key] = member.FullName;
+
 		}
 
 		public bool ContainsCSharpSig (string sig)
