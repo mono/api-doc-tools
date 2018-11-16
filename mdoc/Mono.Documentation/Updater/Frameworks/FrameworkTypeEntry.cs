@@ -70,8 +70,11 @@ namespace Mono.Documentation.Updater.Frameworks
             try
             {
                 var sig = formatter.GetDeclaration(member);
-                if (sig != null && !sigMap.ContainsKey(sig))
-                    sigMap.Add(sig, string.Empty);
+                if (sig != null && !sigMap.ContainsKey (sig))
+                {
+                    sigMap.Add (sig, string.Empty);
+                    key = sig;
+                }
             }
             catch { }
 
