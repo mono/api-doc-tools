@@ -3,6 +3,7 @@
   <Namespace Name="MyFramework.MyOtherNamespace">
     <Type Name="MyFramework.MyOtherNamespace.MyOtherClass" Id="T:MyFramework.MyOtherNamespace.MyOtherClass">
       <Member Id="M:MyFramework.MyOtherNamespace.MyOtherClass.#ctor" />
+      <Member Id="M:MyFramework.MyOtherNamespace.MyOtherClass.Hello(System.Double)" />
       <Member Id="M:MyFramework.MyOtherNamespace.MyOtherClass.Hello(System.Int32)" />
       <Member Id="P:MyFramework.MyOtherNamespace.MyOtherClass.MyProperty" />
     </Type>

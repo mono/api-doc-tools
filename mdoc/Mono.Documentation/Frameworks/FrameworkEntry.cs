@@ -21,6 +21,8 @@ namespace Mono.Documentation
 
 		public string Name { get; set; }
 
+		public IEnumerable<DocumentationImporter> Importers { get; set; }
+
 		public ISet<FrameworkTypeEntry> Types { get { return this.types; } }
 
 		public IEnumerable<FrameworkEntry> Frameworks { get { return this.allframeworks; } }

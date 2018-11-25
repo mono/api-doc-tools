@@ -1,0 +1,423 @@
+﻿<Type Name="MPPlayableContentManager" FullName="MonoTouch.MediaPlayer.MPPlayableContentManager">
+  <TypeSignature Language="C#" Value="public class MPPlayableContentManager : MonoTouch.Foundation.NSObject" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit MPPlayableContentManager extends MonoTouch.Foundation.NSObject" />
+  <AssemblyInfo apistyle="classic">
+    <AssemblyName>monotouch</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo apistyle="unified">
+    <AssemblyName>Xamarin.iOS</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>MonoTouch.Foundation.NSObject</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>MonoTouch.Foundation.Register("MPPlayableContentManager", true)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>MonoTouch.ObjCRuntime.Introduced(MonoTouch.ObjCRuntime.PlatformName.iOS, 7, 1, MonoTouch.ObjCRuntime.PlatformArchitecture.None, null)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>MonoTouch.ObjCRuntime.Unavailable(MonoTouch.ObjCRuntime.PlatformName.MacOSX, MonoTouch.ObjCRuntime.PlatformArchitecture.All, null)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>MonoTouch.ObjCRuntime.Unavailable(MonoTouch.ObjCRuntime.PlatformName.TvOS, MonoTouch.ObjCRuntime.PlatformArchitecture.All, null)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>Controls interactions between the app and external media players.</summary>
+    <remarks>To be added.</remarks>
+    <related type="PlatformDocAPI" href="https://developer.apple.com/library/ios/documentation/MediaPlayer/Reference/MPPlayableContentManager_Ref/index.html">Apple documentation for <c>MPPlayableContentManager</c></related>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor" apistyle="classic">
+      <MemberSignature Language="C#" Value="public MPPlayableContentManager (MonoTouch.Foundation.NSCoder coder);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoTouch.Foundation.NSCoder coder) cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoTouch.Foundation.Export("initWithCoder:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>MonoTouch.ObjCRuntime.DesignatedInitializer</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="coder" Type="MonoTouch.Foundation.NSCoder" />
+      </Parameters>
+      <Docs>
+        <param name="coder">The unarchiver object.</param>
+        <summary>A constructor that initializes the object from the data stored in the unarchiver object.</summary>
+        <remarks>
+          <para>This constructor is provided to allow the class to be initialized from an unarchiver (for example, during NIB deserialization).   This is part of the <see cref="T:MonoTouch.Foundation.NSCoding" />  protocol.</para>
+          <para>If developers want to create a subclass of this object and continue to support deserialization from an archive, they should implement a constructor with an identical signature: taking a single parameter of type <see cref="T:MonoTouch.Foundation.NSCoder" /> and decorate it with the [Export("initWithCoder:"] attribute declaration.</para>
+          <para>The state of this object can also be serialized by using the companion method, EncodeTo.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MPPlayableContentManager (MonoTouch.Foundation.NSObjectFlag t);" apistyle="classic" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class MonoTouch.Foundation.NSObjectFlag t) cil managed" apistyle="classic" />
+      <MemberSignature Language="C#" Value="protected MPPlayableContentManager (MonoTouch.Foundation.NSObjectFlag t);" apistyle="unified" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(class MonoTouch.Foundation.NSObjectFlag t) cil managed" apistyle="unified" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="t" Type="MonoTouch.Foundation.NSObjectFlag" />
+      </Parameters>
+      <Docs>
+        <param name="t">Unused sentinel value, pass NSObjectFlag.Empty.</param>
+        <summary>Constructor to call on derived classes to skip initialization and merely allocate the object.</summary>
+        <remarks>
+          <para>This constructor should be called by derived classes when they completely construct the object in managed code and merely want the runtime to allocate and initialize the NSObject.   This is required to implement the two-step initialization process that Objective-C uses, the first step is to perform the object allocation, the second step is to initialize the object.   When developers invoke the constructor that takes the NSObjectFlag.Empty they take advantage of a direct path that goes all the way up to NSObject to merely allocate the object's memory and bind the Objective-C and C# objects together.    The actual initialization of the object is up to the developer.</para>
+          <para>This constructor is typically used by the binding generator to allocate the object, but prevent the actual initialization to take place.   Once the allocation has taken place, the constructor has to initialize the object.   With constructors generated by the binding generator this means that it manually invokes one of the "init" methods to initialize the object.</para>
+          <para>It is the developer's responsibility to completely initialize the object if they chain up using the NSObjectFlag.Empty path.</para>
+          <para>In general, if the developer's constructor invokes the NSObjectFlag.Empty base implementation, then it should be calling an Objective-C init method.   If this is not the case, developers should instead chain to the proper constructor in their class. </para>
+          <para>The argument value is ignored and merely ensures that the only code that is executed is the construction phase is the basic NSObject allocation and runtime type registration.  Typically the chaining would look like this:</para>
+          <example>
+            <code lang="C#"><![CDATA[
+//
+// The NSObjectFlag merely allocates the object and registers the
+// C# class with the Objective-C runtime if necessary, but no actual
+// initXxx method is invoked, that is done later in the constructor
+//
+// This is taken from MonoTouch's source code:
+//
+[Export ("initWithFrame:")]
+public UIView (System.Drawing.RectangleF frame) : base (NSObjectFlag.Empty)
+{
+// Invoke the init method now.
+    var initWithFrame = new Selector ("initWithFrame:").Handle;
+    if (IsDirectBinding)
+        Handle = MonoTouch.ObjCRuntime.Messaging.IntPtr_objc_msgSend_RectangleF (this.Handle, initWithFrame, frame);
+    else
+        Handle = MonoTouch.ObjCRuntime.Messaging.IntPtr_objc_msgSendSuper_RectangleF (this.SuperHandle, initWithFrame, frame);
+}
+]]></code>
+          </example>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MPPlayableContentManager (IntPtr handle);" apistyle="classic" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" apistyle="classic" />
+      <MemberSignature Language="C#" Value="protected MPPlayableContentManager (IntPtr handle);" apistyle="unified" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig specialname rtspecialname instance void .ctor(native int handle) cil managed" apistyle="unified" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="handle" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="handle">Pointer (handle) to the unmanaged object.</param>
+        <summary>A constructor used when creating managed representations of unmanaged objects;  Called by the runtime.</summary>
+        <remarks>
+          <para>This constructor is invoked by the runtime infrastructure (<see cref="M:MonoTouch.ObjCRuntime.GetNSObject (System.IntPtr)" />) to create a new managed representation for a pointer to an unmanaged Objective-C object.    Developers should not invoke this method directly, instead they should call the GetNSObject method as it will prevent two instances of a managed object to point to the same native object.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BeginUpdates">
+      <MemberSignature Language="C#" Value="public virtual void BeginUpdates ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void BeginUpdates() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoTouch.Foundation.Export("beginUpdates")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Begins simultanewously updating multiple Media Player content items.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClassHandle">
+      <MemberSignature Language="C#" Value="public override IntPtr ClassHandle { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance native int ClassHandle" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IntPtr</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>The handle for this class.</summary>
+        <value>The pointer to the Objective-C class.</value>
+        <remarks>Each MonoTouch class mirrors an unmanaged Objective-C class.   This value contains the pointer to the Objective-C class, it is similar to calling objc_getClass with the object name.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Context">
+      <MemberSignature Language="C#" Value="public virtual MonoTouch.MediaPlayer.MPPlayableContentManagerContext Context { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoTouch.MediaPlayer.MPPlayableContentManagerContext Context" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoTouch.ObjCRuntime.Introduced(MonoTouch.ObjCRuntime.PlatformName.iOS, 8, 4, MonoTouch.ObjCRuntime.PlatformArchitecture.None, null)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>get: MonoTouch.Foundation.Export("context")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>get: MonoTouch.ObjCRuntime.Introduced(MonoTouch.ObjCRuntime.PlatformName.iOS, 8, 4, MonoTouch.ObjCRuntime.PlatformArchitecture.None, null)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoTouch.MediaPlayer.MPPlayableContentManagerContext</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataSource">
+      <MemberSignature Language="C#" Value="public MonoTouch.MediaPlayer.MPPlayableContentDataSource DataSource { get; set; }" apistyle="classic" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoTouch.MediaPlayer.MPPlayableContentDataSource DataSource" apistyle="classic" />
+      <MemberSignature Language="C#" Value="public MonoTouch.MediaPlayer.IMPPlayableContentDataSource DataSource { get; set; }" apistyle="unified" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoTouch.MediaPlayer.IMPPlayableContentDataSource DataSource" apistyle="unified" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType apistyle="classic">MonoTouch.MediaPlayer.MPPlayableContentDataSource</ReturnType>
+        <ReturnType apistyle="unified">MonoTouch.MediaPlayer.IMPPlayableContentDataSource</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>Gets or sets the application data source.</summary>
+        <value>
+          <para>(More documentation for this node is coming)</para>
+          <para tool="nullallowed">This value can be <see langword="null" />.</para>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Delegate">
+      <MemberSignature Language="C#" Value="public MonoTouch.MediaPlayer.MPPlayableContentDelegate Delegate { get; set; }" apistyle="classic" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoTouch.MediaPlayer.MPPlayableContentDelegate Delegate" apistyle="classic" />
+      <MemberSignature Language="C#" Value="public MonoTouch.MediaPlayer.IMPPlayableContentDelegate Delegate { get; set; }" apistyle="unified" />
+      <MemberSignature Language="ILAsm" Value=".property instance class MonoTouch.MediaPlayer.IMPPlayableContentDelegate Delegate" apistyle="unified" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType apistyle="classic">MonoTouch.MediaPlayer.MPPlayableContentDelegate</ReturnType>
+        <ReturnType apistyle="unified">MonoTouch.MediaPlayer.IMPPlayableContentDelegate</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>An instance of the MonoTouch.MediaPlayer.MPPlayableContentDelegate model class which acts as the class delegate.</summary>
+        <value>
+          <para>The instance of the MonoTouch.MediaPlayer.MPPlayableContentDelegate model class</para>
+          <para tool="nullallowed">This value can be <see langword="null" />.</para>
+        </value>
+        <remarks>
+          <para>The delegate instance assigned to this object will be used to handle events or provide data on demand to this class.</para>
+          <para>When setting the Delegate or WeakDelegate values events will be delivered to the specified instance instead of being delivered to the C#-style events</para>
+          <para>This is the strongly typed version of the object, developers should use the WeakDelegate property instead if they want to merely assign a class derived from NSObject that has been decorated with [Export] attributes.</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">If set to <see langword="true" />, the method is invoked directly and will dispose manage and unmanaged resources;   If set to <see langword="false" /> the method is being called by the garbage collector finalizer and should only release unmanaged resources.</param>
+        <summary>Releases the resources used by the MPPlayableContentManager object.</summary>
+        <remarks>
+          <para>This Dispose method releases the resources used by the MPPlayableContentManager class.</para>
+          <para>This method is called by both the Dispose() method and the object finalizer (Finalize).    When invoked by the Dispose method, the parameter disposing <paramref name="disposing" /> is set to <see langword="true" /> and any managed object references that this object holds are also disposed or released;  when invoked by the object finalizer, on the finalizer thread the value is set to <see langword="false" />. </para>
+          <para>Calling the Dispose method when the application is finished using the MPPlayableContentManager ensures that all external resources used by this managed object are released as soon as possible.  Once developers have invoked the Dispose method, the object is no longer useful and developers should no longer make any calls to it.</para>
+          <para>  For more information on how to override this method and on the Dispose/IDisposable pattern, read the ``Implementing a Dispose Method'' document at http://msdn.microsoft.com/en-us/library/fs2xkftw.aspx</para>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="EndUpdates">
+      <MemberSignature Language="C#" Value="public virtual void EndUpdates ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void EndUpdates() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoTouch.Foundation.Export("endUpdates")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Ends updates.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="NowPlayingIdentifiers">
+      <MemberSignature Language="C#" Value="public virtual string[] NowPlayingIdentifiers { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string[] NowPlayingIdentifiers" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoTouch.ObjCRuntime.Introduced(MonoTouch.ObjCRuntime.PlatformName.iOS, 10, 0, MonoTouch.ObjCRuntime.PlatformArchitecture.None, null)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>get: MonoTouch.Foundation.Export("nowPlayingIdentifiers")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>get: MonoTouch.ObjCRuntime.Introduced(MonoTouch.ObjCRuntime.PlatformName.iOS, 10, 0, MonoTouch.ObjCRuntime.PlatformArchitecture.None, null)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoTouch.Foundation.Export("setNowPlayingIdentifiers:")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>set: MonoTouch.ObjCRuntime.Introduced(MonoTouch.ObjCRuntime.PlatformName.iOS, 10, 0, MonoTouch.ObjCRuntime.PlatformArchitecture.None, null)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReloadData">
+      <MemberSignature Language="C#" Value="public virtual void ReloadData ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ReloadData() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>MonoTouch.Foundation.Export("reloadData")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Reloads the source data.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Shared">
+      <MemberSignature Language="C#" Value="public static MonoTouch.MediaPlayer.MPPlayableContentManager Shared { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class MonoTouch.MediaPlayer.MPPlayableContentManager Shared" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo apistyle="classic">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo apistyle="unified">
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>Xamarin.iOS</AssemblyName>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: MonoTouch.Foundation.Export("sharedContentManager")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>MonoTouch.MediaPlayer.MPPlayableContentManager</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

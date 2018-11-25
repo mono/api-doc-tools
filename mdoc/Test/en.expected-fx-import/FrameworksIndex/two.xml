@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="two">
+  <Namespace Name="MyFramework.MyNamespace">
+    <Type Name="MyFramework.MyNamespace.MyClass" Id="T:MyFramework.MyNamespace.MyClass">
+      <Member Id="M:MyFramework.MyNamespace.MyClass.#ctor" />
+      <Member Id="M:MyFramework.MyNamespace.MyClass.Hello(System.Int32)" />
+      <Member Id="P:MyFramework.MyNamespace.MyClass.MyProperty" />
+      <Member Id="P:MyFramework.MyNamespace.MyClass.OnlyInClassic" />
+    </Type>
+    <Type Name="MyFramework.MyNamespace.MyClassExtensions" Id="T:MyFramework.MyNamespace.MyClassExtensions">
+      <Member Id="M:MyFramework.MyNamespace.MyClassExtensions.AnExtension(MyFramework.MyNamespace.MyClass)" />
+    </Type>
+  </Namespace>
+  <Namespace Name="MyFramework.MyOtherNamespace">
+    <Type Name="MyFramework.MyOtherNamespace.MyOtherClass" Id="T:MyFramework.MyOtherNamespace.MyOtherClass">
+      <Member Id="M:MyFramework.MyOtherNamespace.MyOtherClass.#ctor" />
+      <Member Id="M:MyFramework.MyOtherNamespace.MyOtherClass.Hello(System.Double)" />
+      <Member Id="M:MyFramework.MyOtherNamespace.MyOtherClass.Hello(System.Int32)" />
+      <Member Id="P:MyFramework.MyOtherNamespace.MyOtherClass.MyProperty" />
+    </Type>
+  </Namespace>
+</Framework>

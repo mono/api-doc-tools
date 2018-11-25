@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace Mono.Documentation
 			}
 		}
 
-		public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly) 
+        public FrameworkEntry StartProcessingAssembly (AssemblyDefinition assembly, IEnumerable<DocumentationImporter> importers) 
 		{
 			if (string.IsNullOrWhiteSpace (this.path))
 				return FrameworkEntry.Empty;
@@ -40,7 +40,7 @@ namespace Mono.Documentation
 
 			var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
 			if (entry == null) {
-				entry = new FrameworkEntry (frameworks) { Name = shortPath };
+				entry = new FrameworkEntry (frameworks) { Name = shortPath, Importers = importers };
 				frameworks.Add (entry);
 			}
 			return entry;

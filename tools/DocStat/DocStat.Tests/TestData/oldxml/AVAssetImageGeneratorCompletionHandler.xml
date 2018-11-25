@@ -1,0 +1,34 @@
+<Type Name="AVAssetImageGeneratorCompletionHandler" FullName="MonoTouch.AVFoundation.AVAssetImageGeneratorCompletionHandler">
+  <TypeSignature Language="C#" Value="public delegate void AVAssetImageGeneratorCompletionHandler(CMTime requestedTime, IntPtr imageRef, CMTime actualTime, AVAssetImageGeneratorResult result, NSError error);" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed AVAssetImageGeneratorCompletionHandler extends System.MulticastDelegate" />
+  <AssemblyInfo apistyle="classic">
+    <AssemblyName>monotouch</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo apistyle="unified">
+    <AssemblyName>Xamarin.iOS</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters>
+    <Parameter Name="requestedTime" Type="MonoTouch.CoreMedia.CMTime" />
+    <Parameter Name="imageRef" Type="System.IntPtr" />
+    <Parameter Name="actualTime" Type="MonoTouch.CoreMedia.CMTime" />
+    <Parameter Name="result" Type="MonoTouch.AVFoundation.AVAssetImageGeneratorResult" />
+    <Parameter Name="error" Type="MonoTouch.Foundation.NSError" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="requestedTime">To be added.</param>
+    <param name="imageRef">To be added.</param>
+    <param name="actualTime">To be added.</param>
+    <param name="result">To be added.</param>
+    <param name="error">To be added.</param>
+    <summary>A delegate that defines the handler for <see cref="M:MonoTouch.AVFoundation.AVAssetImageGenerator.GenerateCGImagesAsynchronously" />.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

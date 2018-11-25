@@ -449,7 +449,7 @@
       </Docs>
     </Member>
     <Member MemberName="op_Explicit">
-      <MemberSignature Language="C#" Value="public static U op_Explicit (Mono.DocTest.Generic.GenericBase&lt;U&gt; list);" />
+      <MemberSignature Language="C#" Value="public static explicit operator U (Mono.DocTest.Generic.GenericBase&lt;U&gt; list);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname !U op_Explicit(class Mono.DocTest.Generic.GenericBase`1&lt;!U&gt; list) cil managed" />
       <MemberType>Method</MemberType>
       <ReturnValue>

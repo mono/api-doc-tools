@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Frameworks>
+  <Framework Name="one" Source="one">
+    <assemblySearchPath>dependencies/one</assemblySearchPath>
+    <import>TestEcmaDocs.xml</import>
+  </Framework>
+  <Framework Name="two" Source="two">
+    <assemblySearchPath>dependencies/two</assemblySearchPath>
+    <import>TestEcmaDocs2.xml</import>
+    <import>DocTest-DropNS-classic.xml</import>
+  </Framework>
+</Frameworks>

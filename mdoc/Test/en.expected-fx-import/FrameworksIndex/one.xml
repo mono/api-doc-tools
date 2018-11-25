@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="one">
+  <Namespace Name="Mono.DocTest">
+    <Type Name="Mono.DocTest.Color" Id="T:Mono.DocTest.Color">
+      <Member Id="F:Mono.DocTest.Color.AnotherGreen" />
+      <Member Id="F:Mono.DocTest.Color.Blue" />
+      <Member Id="F:Mono.DocTest.Color.Green" />
+      <Member Id="F:Mono.DocTest.Color.Red" />
+    </Type>
+    <Type Name="Mono.DocTest.D" Id="T:Mono.DocTest.D" />
+    <Type Name="Mono.DocTest.DocAttribute" Id="T:Mono.DocTest.DocAttribute">
+      <Member Id="F:Mono.DocTest.DocAttribute.Field" />
+      <Member Id="F:Mono.DocTest.DocAttribute.FlagsEnum" />
+      <Member Id="F:Mono.DocTest.DocAttribute.NonFlagsEnum" />
+      <Member Id="M:Mono.DocTest.DocAttribute.#ctor(System.String)" />
+      <Member Id="P:Mono.DocTest.DocAttribute.Property" />
+    </Type>
+    <Type Name="Mono.DocTest.DocValueType" Id="T:Mono.DocTest.DocValueType">
+      <Member Id="F:Mono.DocTest.DocValueType.total" />
+      <Member Id="M:Mono.DocTest.DocValueType.M(System.Int32)" />
+    </Type>
+    <Type Name="Mono.DocTest.IProcess" Id="T:Mono.DocTest.IProcess" />
+    <Type Name="Mono.DocTest.UseLists" Id="T:Mono.DocTest.UseLists">
+      <Member Id="M:Mono.DocTest.UseLists.#ctor" />
+      <Member Id="M:Mono.DocTest.UseLists.GetValues``1(``0)" />
+      <Member Id="M:Mono.DocTest.UseLists.Process(Mono.DocTest.Generic.MyList{System.Int32})" />
+      <Member Id="M:Mono.DocTest.UseLists.Process(System.Collections.Generic.List{System.Int32})" />
+      <Member Id="M:Mono.DocTest.UseLists.Process(System.Collections.Generic.List{System.Predicate{System.Int32}})" />
+      <Member Id="M:Mono.DocTest.UseLists.Process``1(System.Collections.Generic.List{System.Predicate{``0}})" />
+      <Member Id="M:Mono.DocTest.UseLists.UseHelper``3(Mono.DocTest.Generic.MyList`1.Helper{``0,``1,``2})" />
+    </Type>
+    <Type Name="Mono.DocTest.Widget" Id="T:Mono.DocTest.Widget">
+      <Member Id="E:Mono.DocTest.Widget.AnEvent" />
+      <Member Id="E:Mono.DocTest.Widget.AnotherEvent" />
+      <Member Id="E:Mono.DocTest.Widget.DynamicE1" />
+      <Member Id="E:Mono.DocTest.Widget.DynamicE2" />
+      <Member Id="F:Mono.DocTest.Widget.array1" />
+      <Member Id="F:Mono.DocTest.Widget.array2" />
+      <Member Id="F:Mono.DocTest.Widget.classCtorError" />
+      <Member Id="F:Mono.DocTest.Widget.defaultColor" />
+      <Member Id="F:Mono.DocTest.Widget.DynamicF" />
+      <Member Id="F:Mono.DocTest.Widget.message" />
+      <Member Id="F:Mono.DocTest.Widget.monthlyAverage" />
+      <Member Id="F:Mono.DocTest.Widget.op_Division" />
+      <Member Id="F:Mono.DocTest.Widget.pCount" />
+      <Member Id="F:Mono.DocTest.Widget.PI" />
+      <Member Id="F:Mono.DocTest.Widget.ppValues" />
+      <Member Id="M:Mono.DocTest.Widget.#ctor" />
+      <Member Id="M:Mono.DocTest.Widget.#ctor(System.Converter{System.String,System.String})" />
+      <Member Id="M:Mono.DocTest.Widget.#ctor(System.String)" />
+      <Member Id="M:Mono.DocTest.Widget.Default(System.Int32,System.Int32)" />
+      <Member Id="M:Mono.DocTest.Widget.Default(System.String,System.Char)" />
+      <Member Id="M:Mono.DocTest.Widget.Dynamic0(System.Object,System.Object)" />
+      <Member Id="M:Mono.DocTest.Widget.Dynamic1(System.Collections.Generic.Dictionary{System.Object,System.String})" />
+      <Member Id="M:Mono.DocTest.Widget.Dynamic2(System.Func{System.String,System.Object})" />
+      <Member Id="M:Mono.DocTest.Widget.Dynamic3(System.Func{System.Func{System.String,System.Object},System.Func{System.Object,System.String}})" />
+      <Member Id="M:Mono.DocTest.Widget.M0" />
+      <Member Id="M:Mono.DocTest.Widget.M1(System.Char,System.Single@,Mono.DocTest.DocValueType@)" />
+      <Member Id="M:Mono.DocTest.Widget.M2(System.Int16[],System.Int32[0:,0:],System.Int64[][])" />
+      <Member Id="M:Mono.DocTest.Widget.M3(System.Int64[][],Mono.DocTest.Widget[0:,0:,0:][])" />
+      <Member Id="M:Mono.DocTest.Widget.M4(System.Char*,Mono.DocTest.Color**)" />
+      <Member Id="M:Mono.DocTest.Widget.M5(System.Void*,System.Double*[0:,0:][])" />
+      <Member Id="M:Mono.DocTest.Widget.M6(System.Int32,System.Object[])" />
+      <Member Id="M:Mono.DocTest.Widget.M7(Mono.DocTest.Widget.NestedClass.Double.Triple.Quadruple)" />
+      <Member Id="M:Mono.DocTest.Widget.op_Addition(Mono.DocTest.Widget,Mono.DocTest.Widget)" />
+      <Member Id="M:Mono.DocTest.Widget.op_Explicit(Mono.DocTest.Widget)~System.Int32" />
+      <Member Id="M:Mono.DocTest.Widget.op_Implicit(Mono.DocTest.Widget)~System.Int64" />
+      <Member Id="M:Mono.DocTest.Widget.op_UnaryPlus(Mono.DocTest.Widget)" />
+      <Member Id="P:Mono.DocTest.Widget.DynamicP" />
+      <Member Id="P:Mono.DocTest.Widget.Height" />
+      <Member Id="P:Mono.DocTest.Widget.Item(System.Int32)" />
+      <Member Id="P:Mono.DocTest.Widget.Item(System.String,System.Int32)" />
+      <Member Id="P:Mono.DocTest.Widget.Width" />
+      <Member Id="P:Mono.DocTest.Widget.X" />
+      <Member Id="P:Mono.DocTest.Widget.Y" />
+    </Type>
+  </Namespace>
+  <Namespace Name="Mono.DocTest.Generic">
+    <Type Name="Mono.DocTest.Generic.Extensions" Id="T:Mono.DocTest.Generic.Extensions">
+      <Member Id="M:Mono.DocTest.Generic.Extensions.Bar``1(Mono.DocTest.Generic.IFoo{``0},System.String)" />
+      <Member Id="M:Mono.DocTest.Generic.Extensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})" />
+      <Member Id="M:Mono.DocTest.Generic.Extensions.ToDouble(System.Collections.Generic.IEnumerable{System.Int32})" />
+      <Member Id="M:Mono.DocTest.Generic.Extensions.ToDouble``1(``0)" />
+      <Member Id="M:Mono.DocTest.Generic.Extensions.ToEnumerable``1(``0)" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.Func`2" Id="T:Mono.DocTest.Generic.Func`2" />
+    <Type Name="Mono.DocTest.Generic.GenericBase`1" Id="T:Mono.DocTest.Generic.GenericBase`1">
+      <Member Id="E:Mono.DocTest.Generic.GenericBase`1.ItemChanged" />
+      <Member Id="E:Mono.DocTest.Generic.GenericBase`1.MyEvent" />
+      <Member Id="F:Mono.DocTest.Generic.GenericBase`1.ConstField1" />
+      <Member Id="F:Mono.DocTest.Generic.GenericBase`1.StaticField1" />
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.BaseMethod``1(``0)" />
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.op_Explicit(Mono.DocTest.Generic.GenericBase{`0})~`0" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.IFoo`1" Id="T:Mono.DocTest.Generic.IFoo`1">
+      <Member Id="M:Mono.DocTest.Generic.IFoo`1.Method``1(`0,``0)" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.MyList`1" Id="T:Mono.DocTest.Generic.MyList`1">
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.GetEnumerator" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.GetHelper``2" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.Method``1(`0,``0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.RefMethod``1(`0@,``0@)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.System#Collections#IEnumerable#GetEnumerator" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.Test(`0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.UseHelper``2(Mono.DocTest.Generic.MyList`1.Helper{`0,``0,``1})" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.MyList`2" Id="T:Mono.DocTest.Generic.MyList`2">
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.CopyTo(`0[],System.Int32)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.Dispose" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.Foo" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.GetEnumerator" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.Mono#DocTest#Generic#IFoo&lt;A&gt;#Method``1(`0,``0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.MoveNext" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.Reset" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Add(`0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Clear" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Contains(`0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#Remove(`0)" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#IEnumerable&lt;A&gt;#GetEnumerator" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`2.System#Collections#IEnumerable#GetEnumerator" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.Count" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.Current" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#ICollection&lt;A&gt;#IsReadOnly" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#Generic#IEnumerator&lt;A&gt;#Current" />
+      <Member Id="P:Mono.DocTest.Generic.MyList`2.System#Collections#IEnumerator#Current" />
+    </Type>
+  </Namespace>
+  <Namespace Name="">
+    <Type Name="Mono.DocTest.Generic.GenericBase`1/FooEventArgs" Id="T:Mono.DocTest.Generic.GenericBase`1.FooEventArgs">
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.FooEventArgs.#ctor" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.GenericBase`1/NestedCollection" Id="T:Mono.DocTest.Generic.GenericBase`1.NestedCollection">
+      <Member Id="M:Mono.DocTest.Generic.GenericBase`1.NestedCollection.#ctor" />
+    </Type>
+    <Type Name="Mono.DocTest.Generic.GenericBase`1/NestedCollection/Enumerator" Id="T:Mono.DocTest.Generic.GenericBase`1.NestedCollection.Enumerator" />
+    <Type Name="Mono.DocTest.Generic.MyList`1/Helper`2" Id="T:Mono.DocTest.Generic.MyList`1.Helper`2">
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.Helper`2.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.MyList`1.Helper`2.UseT(`0,`1,`2)" />
+    </Type>
+    <Type Name="Mono.DocTest.Widget/Del" Id="T:Mono.DocTest.Widget.Del" />
+    <Type Name="Mono.DocTest.Widget/Direction" Id="T:Mono.DocTest.Widget.Direction">
+      <Member Id="F:Mono.DocTest.Widget.Direction.East" />
+      <Member Id="F:Mono.DocTest.Widget.Direction.North" />
+      <Member Id="F:Mono.DocTest.Widget.Direction.South" />
+      <Member Id="F:Mono.DocTest.Widget.Direction.West" />
+    </Type>
+    <Type Name="Mono.DocTest.Widget/IMenuItem" Id="T:Mono.DocTest.Widget.IMenuItem">
+      <Member Id="M:Mono.DocTest.Widget.IMenuItem.A" />
+      <Member Id="P:Mono.DocTest.Widget.IMenuItem.B" />
+    </Type>
+    <Type Name="Mono.DocTest.Widget/NestedClass" Id="T:Mono.DocTest.Widget.NestedClass">
+      <Member Id="F:Mono.DocTest.Widget.NestedClass.value" />
+      <Member Id="M:Mono.DocTest.Widget.NestedClass.#ctor" />
+      <Member Id="M:Mono.DocTest.Widget.NestedClass.M(System.Int32)" />
+    </Type>
+    <Type Name="Mono.DocTest.Widget/NestedClass/Double" Id="T:Mono.DocTest.Widget.NestedClass.Double">
+      <Member Id="M:Mono.DocTest.Widget.NestedClass.Double.#ctor" />
+    </Type>
+    <Type Name="Mono.DocTest.Widget/NestedClass/Double/Triple" Id="T:Mono.DocTest.Widget.NestedClass.Double.Triple">
+      <Member Id="M:Mono.DocTest.Widget.NestedClass.Double.Triple.#ctor" />
+    </Type>
+    <Type Name="Mono.DocTest.Widget/NestedClass/Double/Triple/Quadruple" Id="T:Mono.DocTest.Widget.NestedClass.Double.Triple.Quadruple">
+      <Member Id="M:Mono.DocTest.Widget.NestedClass.Double.Triple.Quadruple.#ctor" />
+    </Type>
+    <Type Name="Mono.DocTest.Widget/NestedClass`1" Id="T:Mono.DocTest.Widget.NestedClass`1">
+      <Member Id="F:Mono.DocTest.Widget.NestedClass`1.value" />
+      <Member Id="M:Mono.DocTest.Widget.NestedClass`1.#ctor" />
+      <Member Id="M:Mono.DocTest.Widget.NestedClass`1.M(System.Int32)" />
+    </Type>
+    <Type Name="NoNamespace" Id="T:NoNamespace">
+      <Member Id="M:NoNamespace.#ctor" />
+    </Type>
+    <Type Name="System.Environment/SpecialFolder" Id="T:System.Environment.SpecialFolder" />
+  </Namespace>
+  <Namespace Name="System">
+    <Type Name="System.Action`1" Id="T:System.Action`1" />
+    <Type Name="System.Array" Id="T:System.Array">
+      <Member Id="M:System.Array.#ctor" />
+      <Member Id="M:System.Array.AsReadOnly``1(``0[])" />
+      <Member Id="M:System.Array.ConvertAll``2(``0[],System.Converter{``0,``1})" />
+      <Member Id="M:System.Array.Resize``1(``0[]@,System.Int32)" />
+    </Type>
+    <Type Name="System.AsyncCallback" Id="T:System.AsyncCallback" />
+    <Type Name="System.Environment" Id="T:System.Environment">
+      <Member Id="M:System.Environment.GetFolderPath(System.Environment.SpecialFolder)" />
+      <Member Id="M:System.Environment.IsAligned``1(``0[],System.Int32)" />
+    </Type>
+  </Namespace>
+</Framework>
