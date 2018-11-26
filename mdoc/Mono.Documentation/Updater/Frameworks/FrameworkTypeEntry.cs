@@ -58,7 +58,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		public IEnumerable<string> Members {
 			get {
-				return this.sigMap.Values.OrderBy(v => v);
+				return this.sigMap.Values.OrderBy(v => v).Distinct();
 			}
 		}
 
