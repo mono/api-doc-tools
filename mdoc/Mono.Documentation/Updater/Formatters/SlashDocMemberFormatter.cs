@@ -54,19 +54,13 @@ namespace Mono.Documentation.Updater
                         }
                     }
                 }
-                if (genDeclType == null && genDeclMethod == null)
+                if ((genDeclType == null && genDeclMethod == null) || buf.Length == l)
                 {
                     // Probably from within an explicitly implemented interface member,
                     // where CSC uses parameter names instead of indices (why?), e.g.
                     // MyList`2.Mono#DocTest#Generic#IFoo{A}#Method``1(`0,``0) instead of
                     // MyList`2.Mono#DocTest#Generic#IFoo{`0}#Method``1(`0,``0).
                     buf.Append (type.Name);
-                }
-                if (buf.Length == l)
-                {
-                    throw new Exception (string.Format (
-                            "Unable to translate generic parameter {0}; genDeclType={1}, genDeclMethod={2}",
-                            type.Name, genDeclType, genDeclMethod));
                 }
             }
             else
