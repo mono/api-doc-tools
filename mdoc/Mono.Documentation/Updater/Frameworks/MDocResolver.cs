@@ -20,6 +20,8 @@ namespace Mono.Documentation.Updater.Frameworks
     /// a UWP library. </para></remarks>
     public class MDocResolver : MDocBaseResolver
     {
+        public bool MatchHighestVersionOnZeroVersion { get; private set; }
+
         public class TypeForwardEventArgs : EventArgs
         {
             public AssemblyNameReference From { get; private set; }
@@ -149,27 +151,33 @@ namespace Mono.Documentation.Updater.Frameworks
                     VersionSort = aggregateVersion(a.Name.Version),
                     VersionDiff = aggregateVersion(a.Name.Version) - aggregateVersion(name.Version),
                     MajorMatches = a.Name.Version.Major == name.Version.Major
-                })
-                .ToArray();
+                });
 
             AssemblyDefinition assemblyToUse = null;
 
             // If the assembly has all zeroes, just grab the latest assembly
             if (IsZero(name.Version))
             {
-                var possibleSet = applicableVersions;
-                if (applicableVersions.Any(s => s.SuppliedDependency))
-                    possibleSet = applicableVersions.Where(av => av.SuppliedDependency).ToArray();
-
-                var sorted = possibleSet.OrderByDescending(v => v.VersionSort).ToArray();
-
-                var highestMatch = sorted.FirstOrDefault();
-                if (highestMatch != null)
+                if (!this.MatchHighestVersionOnZeroVersion)
+                    return applicableVersions.First().Assembly;
+                else
                 {
-                    assemblyToUse = highestMatch.Assembly;
-                    goto TheReturn;
+                    var possibleSet = applicableVersions;
+                    if (applicableVersions.Any(s => s.SuppliedDependency))
+                        possibleSet = applicableVersions.Where(av => av.SuppliedDependency).ToArray();
+
+                    var sorted = possibleSet.OrderByDescending(v => v.VersionSort).ToArray();
+
+                    var highestMatch = sorted.FirstOrDefault();
+                    if (highestMatch != null)
+                    {
+                        assemblyToUse = highestMatch.Assembly;
+                        goto TheReturn;
+                    }
                 }
             }
+
+            applicableVersions = applicableVersions.ToArray();
 
             // Perfect Match
             var exactMatch = applicableVersions.FirstOrDefault(v => v.VersionDiff == 0);

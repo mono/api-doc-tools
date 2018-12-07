@@ -312,7 +312,7 @@ namespace Mono.Documentation
                 var sets = fxd.Select (d => new AssemblySet (
                     d.Name,
                     getFiles (d.Path, "*.dll|*.exe|*.winmd"),
-                    this.globalSearchPaths.Union (d.SearchPaths),
+                    d.SearchPaths.Union(this.globalSearchPaths),
                     d.Imports,
                     d.Version,
                     d.Id

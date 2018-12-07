@@ -12,9 +12,9 @@ namespace Mono.Documentation.Updater.Frameworks
     /// </summary>
     public class AssemblySet : IDisposable
     {
-        static readonly BaseAssemblyResolver resolver = new Frameworks.MDocResolver ();
-        static IAssemblyResolver cachedResolver;
-        static IMetadataResolver metadataResolver;
+        BaseAssemblyResolver resolver = new Frameworks.MDocResolver ();
+        IAssemblyResolver cachedResolver;
+        IMetadataResolver metadataResolver;
 
         HashSet<string> assemblyPaths = new HashSet<string> ();
         Dictionary<string, bool> assemblyPathsMap = new Dictionary<string, bool> ();
@@ -71,7 +71,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 .Where (p => p.Contains (Path.DirectorySeparatorChar))
                 .Select (p => Path.GetDirectoryName (p));
 
-            foreach (var searchPath in resolverSearchPaths.Union (assemblyDirectories))
+            foreach (var searchPath in assemblyDirectories.Union(resolverSearchPaths))
                 assemblySearchPaths.Add (searchPath);
 
             char oppositeSeparator = Path.DirectorySeparatorChar == '/' ? '\\' : '/';
