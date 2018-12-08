@@ -329,16 +329,23 @@ namespace Mono.Documentation
                 {
                     using (assemblySet)
                     {
-                        Console.Write (".");
                         foreach (var assembly in assemblySet.Assemblies)
                         {
-                            var a = cacheIndex.StartProcessingAssembly (assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
-
-                            foreach (var type in assembly.GetTypes ())
+                            Console.WriteLine($"Caching {assembly.MainModule.FileName}");
+                            try
                             {
-                                var t = a.ProcessType (type);
-                                foreach (var member in type.GetMembers ().Where (i => !DocUtils.IsIgnored(i)))
-                                    t.ProcessMember (member);
+                                var a = cacheIndex.StartProcessingAssembly(assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
+
+                                foreach (var type in assembly.GetTypes())
+                                {
+                                    var t = a.ProcessType(type);
+                                    foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i)))
+                                        t.ProcessMember(member);
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                throw new MDocAssemblyException(assembly.FullName, $"Error caching {assembly.FullName} from {assembly.MainModule.FileName}", ex);
                             }
                         }
                     }
@@ -681,36 +688,43 @@ namespace Mono.Documentation
                     {
                         using (assembly)
                         {
-                            var typeSet = new HashSet<string>();
-                            var namespacesSet = new HashSet<string>();
-                            memberSet = new HashSet<string>();
-
-                            var frameworkEntry = frameworks.StartProcessingAssembly(assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
-                            assemblySet.Framework = frameworkEntry;
-
-                            foreach (TypeDefinition type in docEnum.GetDocumentationTypes(assembly, typenames))
+                            try
                             {
-                                var typeEntry = frameworkEntry.ProcessType(type);
+                                var typeSet = new HashSet<string>();
+                                var namespacesSet = new HashSet<string>();
+                                memberSet = new HashSet<string>();
 
-                                string relpath = DoUpdateType(assemblySet, assembly, type, typeEntry, basepath, dest);
-                                if (relpath == null)
-                                    continue;
+                                var frameworkEntry = frameworks.StartProcessingAssembly(assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
+                                assemblySet.Framework = frameworkEntry;
 
-                                found.Add(type.FullName);
+                                foreach (TypeDefinition type in docEnum.GetDocumentationTypes(assembly, typenames))
+                                {
+                                    var typeEntry = frameworkEntry.ProcessType(type);
 
-                                if (index == null)
-                                    continue;
+                                    string relpath = DoUpdateType(assemblySet, assembly, type, typeEntry, basepath, dest);
+                                    if (relpath == null)
+                                        continue;
 
-                                index.Add(assemblySet, assembly);
-                                index.Add(type);
+                                    found.Add(type.FullName);
 
-                                namespacesSet.Add(type.Namespace);
-                                typeSet.Add(type.FullName);
+                                    if (index == null)
+                                        continue;
+
+                                    index.Add(assemblySet, assembly);
+                                    index.Add(type);
+
+                                    namespacesSet.Add(type.Namespace);
+                                    typeSet.Add(type.FullName);
+                                }
+
+                                statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Types, StatisticsMetrics.Total, typeSet.Count);
+                                statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Total, namespacesSet.Count);
+                                statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Members, StatisticsMetrics.Total, memberSet.Count);
                             }
-
-                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Types, StatisticsMetrics.Total, typeSet.Count);
-                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Namespaces, StatisticsMetrics.Total, namespacesSet.Count);
-                            statisticsCollector.AddMetric(frameworkEntry.Name, StatisticsItem.Members, StatisticsMetrics.Total, memberSet.Count);
+                            catch (Exception ex)
+                            {
+                                throw new MDocAssemblyException(assembly.FullName, $"Error processing {assembly.FullName} from {assembly.MainModule.FileName}", ex);
+                            }
                         }
                     }
                 }
@@ -1037,10 +1051,17 @@ namespace Mono.Documentation
                     {
                         using (assm)
                         {
-                            DoUpdateAssembly(assemblySet, assm, index_types, source, dest, goodfiles);
-                            AddIndexAssembly (assm, index_assemblies, assemblySet.Framework);
+                            try
+                            {
+                                DoUpdateAssembly(assemblySet, assm, index_types, source, dest, goodfiles);
+                                AddIndexAssembly(assm, index_assemblies, assemblySet.Framework);
 
-                            processedAssemblyCount++;
+                                processedAssemblyCount++;
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new MDocAssemblyException(assm.FullName, $"Error processing {assm.FullName} from {assm.MainModule.FileName}", ex);
+                            }
                         }
                     }
                 }
@@ -1071,6 +1092,8 @@ namespace Mono.Documentation
 
         private void DoUpdateAssembly (AssemblySet assemblySet, AssemblyDefinition assembly, XmlElement index_types, string source, string dest, HashSet<string> goodfiles)
         {
+            Console.WriteLine($"Updating {assembly.FullName} from {assembly.MainModule.FileName}");
+
             var namespacesSet = new HashSet<string> ();
             var typeSet = new HashSet<string> ();
             memberSet = new HashSet<string> ();
