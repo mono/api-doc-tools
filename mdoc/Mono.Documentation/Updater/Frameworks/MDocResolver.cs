@@ -42,6 +42,16 @@ namespace Mono.Documentation.Updater.Frameworks
             }
         }
 
+        public MDocResolver() : base()
+        {
+            try
+            {
+                this.RemoveSearchDirectory(".");
+                this.RemoveSearchDirectory("bin");
+            }
+            catch { }
+        }
+
         public override AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters)
         {
             return Resolve(name, parameters, null, null);
@@ -361,10 +371,11 @@ namespace Mono.Documentation.Updater.Frameworks
         {
             return Resolve(name, parameters, emptyStringArray);
         }
-
+        
         internal AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> filesToIgnore)
         {
             var directories = this.GetSearchDirectories();
+            
             var assembly = SearchDirectory(name, directories, parameters, filesToIgnore);
             if (assembly != null)
                 return assembly;
