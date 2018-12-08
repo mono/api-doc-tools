@@ -245,7 +245,7 @@ check-monodocer-cppcli: Test/FrameworkTestData
 
 check-monodocer-cppwinrtUwp: 
 	-rm -Rf Test/en.actual
-	$(MONO) $(PROGRAM) update -lib ..\external\Windows --lang c++/winrt -o Test/en.actual Test/UwpTestWinRtComponentCpp.winmd
+	$(MONO) $(PROGRAM) update -lib ../external/Windows --lang c++/winrt -o Test/en.actual Test/UwpTestWinRtComponentCpp.winmd
 	$(DIFF) Test/ex.expected-cppwinrtuwp Test/en.actual
 	
 check-monodocer-cppcx: Test/FrameworkTestData

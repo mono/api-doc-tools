@@ -633,7 +633,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
         internal IEnumerable<string> GetAssemblyPaths(AssemblyNameReference name, IEnumerable<string> directories, IEnumerable<string> filesToIgnore, bool subdirectories)
         {
-            var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll" } : new[] { ".exe", ".dll" };
+            var extensions = name.IsWindowsRuntime ? new[] { ".winmd", ".dll", ".exe" } : new[] { ".exe", ".dll", ".winmd" };
 
             string[] darray = directories.Distinct().ToArray();
             string dkey = string.Join("|", darray);
