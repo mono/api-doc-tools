@@ -2,6 +2,10 @@
 
 This repository contains the source for Mono's [documentation toolchain](http://www.mono-project.com/docs/tools+libraries/tools/monodoc/generating-documentation/).
 
+## Contribution Guide
+
+You can read the [contribution guide](CONTRIBUTING.md) for information about coding standards, and (perhaps most importantly), information about writing [unit and integration tests](CONTRIBUTING.md#tests).
+
 ## Compiling
 
 ### Dependencies
@@ -17,7 +21,7 @@ This repository uses submodules, so firstly, you have several options:
 On windows, you can build and compile [`apidoctools.sln`](apidoctools.sln). And you can run unit tests if you have NUnit installed. If you use [Visual Studio for Mac](https://www.visualstudio.com/vs/visual-studio-mac/), you can use its built-in support for NUnit tests to also run tests.
 
 ### CLI
-If you've got `make` and `mono` installed, you can run `make prepare all check` to do a release build and run the full test suite (which for mdoc includes more than just the nunit tests). The available targets are:
+If you've got `make` and `mono` installed, you can run `make prepare all check` in a _bash_ prompt to do a release build and run the full test suite (which for mdoc includes more than just the nunit tests). The available targets are:
 
 - `prepare`: initializes the submodules, and restores the nuget dependency of NUnit
 - `all`: compiles everything
@@ -29,11 +33,13 @@ You can also control some parameters from the command line:
 
 If you want to compile in debug mode: `make all CONFIGURATION=Debug`  
 
+Feel free to open a pull request early in order to make it easy to ask questions during development, and for the maintainers to offer feedback.
+
 ## Troubleshooting
 
 ### Forcing Changes
 
-When you make certain kinds of changes, it can confuse _Make_'s dependency ... if you're running the test suite, and it doesn't seem to be reflecting your changes, add the `-B` parameter to the `make` invocation, and it will force a rebuild of all targets.
+When you make certain kinds of changes, it can confuse _Make_'s dependency ... if you're running the test suite and it doesn't seem to be reflecting your changes, add the `-B` parameter to the `make` invocation, and it will force a rebuild of all targets.
 
 ### WSL
 
@@ -48,7 +54,7 @@ If you are running an older version (for example, if you originally installed WS
     - `sudo apt-get upgrade`
     - `sudo apt-get dist-upgrade`
 
-With that run ... you should be able to run the build locally.
+With that run ... you should be able to run the build locally. 
 
 ### Linux
 
