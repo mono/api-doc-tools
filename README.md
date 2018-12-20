@@ -31,6 +31,10 @@ If you want to compile in debug mode: `make all CONFIGURATION=Debug`
 
 ## Troubleshooting
 
+### Forcing Changes
+
+When you make certain kinds of changes, it can confuse _Make_'s dependency ... if you're running the test suite, and it doesn't seem to be reflecting your changes, add the `-B` parameter to the `make` invocation, and it will force a rebuild of all targets.
+
 ### WSL
 
 Make sure you are at least on 16.04 (Xenial). You can check which version is currently installed by running the command `lsb_release -a`.
