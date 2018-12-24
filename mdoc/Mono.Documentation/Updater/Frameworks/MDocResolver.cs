@@ -647,7 +647,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
                 // filter out directories that don't have any assemblies
                 darray = darray
-                    .Where(d => Directory.Exists(d) && Directory.EnumerateFiles(d, "*.*").Any(f => extensions.Any(e => f.EndsWith(e))))
+                    .Where(d => Directory.Exists(d) && Directory.EnumerateFiles(d, "*.*").Any(f => extensions.Any(e => f.EndsWith(e, StringComparison.OrdinalIgnoreCase))))
                     .ToArray();
 
                 allDirectories.Add(dkey, darray);
