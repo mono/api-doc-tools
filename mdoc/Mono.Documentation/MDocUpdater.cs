@@ -3546,6 +3546,11 @@ namespace Mono.Documentation
         {
             XmlElement e = WriteElement (root, "Parameters");
 
+            if (typeEntry.Framework.IsFirstFramework)
+            {
+                e.RemoveAll();
+            }
+
             #region helper functions
             /// addParameter does the work of adding the actual parameter to the XML
             Action<ParameterDefinition, XmlElement, string, int, bool, string, bool> addParameter = (ParameterDefinition param, XmlElement nextTo, string paramType, int index, bool addIndex, string fx, bool addfx) =>
@@ -3566,9 +3571,9 @@ namespace Mono.Documentation
                     else
                         pe.SetAttribute ("RefType", "ref");
                 }
-                if (addIndex)
+                //if (addIndex)
                     pe.SetAttribute ("Index", index.ToString ());
-                if (addfx)
+                //if (addfx)
                     pe.SetAttribute (Consts.FrameworkAlternate, fx);
 
 				MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""), typeEntry.Framework);
@@ -3630,7 +3635,7 @@ namespace Mono.Documentation
                 if (xitem != null)
                 {
                     var xelement = xitem.Element;
-                    if (xelement.HasAttribute (Consts.FrameworkAlternate) && !xelement.GetAttribute (Consts.FrameworkAlternate).Contains (typeEntry.Framework.Name))
+                    //if (xelement.HasAttribute (Consts.FrameworkAlternate) && !xelement.GetAttribute (Consts.FrameworkAlternate).Contains (typeEntry.Framework.Name))
                         xelement.SetAttribute (Consts.FrameworkAlternate, FXUtils.AddFXToList (xelement.GetAttribute (Consts.FrameworkAlternate), typeEntry.Framework.Name));
                     
                     // update the type name. This supports the migration to a
