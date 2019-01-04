@@ -1491,7 +1491,7 @@ namespace Mono.Documentation
 
             Dictionary<string, List<MemberReference>> implementedMembers = DocUtils.GetImplementedMembersFingerprintLookup(type);
 
-            foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers (basefile, type, typeEntry))
+            foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers(basefile, type, typeEntry))
             {
                 if (info.Node.ParentNode == null)
                     continue;
@@ -1624,7 +1624,7 @@ namespace Mono.Documentation
 
                 if (oldmember.HasAttribute("ToDelete"))
                 {
-                    // this is the restult of an error state, let's remove this
+                    // this is the result of an error state, let's remove this
                     oldmember.RemoveAttribute ("ToDelete");
                 }
             }
@@ -2376,6 +2376,11 @@ namespace Mono.Documentation
                                 }
                             }
 
+                        }
+                        else
+                        {
+                            var newelement = makeNewNode();
+                            newelement.SetAttribute(Consts.FrameworkAlternate, currentFX);
                         }
                         return;
                     }
@@ -3670,8 +3675,6 @@ namespace Mono.Documentation
                         addParameter (p.Definition, lastElement, p.Type, i, false, typeEntry.Framework.Name, false);
                     }
                 }
-
-
             }
 
             // this section syncs up the indices
@@ -3682,7 +3685,7 @@ namespace Mono.Documentation
                 if (xitem != null && xitem.Element.HasAttribute ("Index"))
                 {
                     xitem.Element.SetAttribute ("Index", p.Index.ToString ());
-                }
+                } 
             }
 
             //-purge `typeEntry.Framework` from any<parameter> that 
@@ -3718,6 +3721,17 @@ namespace Mono.Documentation
                     {
                         a.Element.SetAttribute (Consts.FrameworkAlternate, newValue);
                     }
+                }
+            }
+
+            var allFrameworks = typeEntry.Framework.AllFrameworksString;
+            foreach (var parameter in paramNodes
+                .Cast<XmlElement>())
+            {
+                // if FXAlternate is entire list, just remove it
+                if (parameter.HasAttribute(Consts.FrameworkAlternate) && parameter.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
+                {
+                    parameter.RemoveAttribute(Consts.FrameworkAlternate);
                 }
             }
         }
