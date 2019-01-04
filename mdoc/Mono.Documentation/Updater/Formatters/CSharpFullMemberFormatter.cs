@@ -411,6 +411,19 @@ namespace Mono.Documentation.Updater
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
 
+            if (method.ReturnType.IsRequiredModifier)
+            {
+                if (((RequiredModifierType)method.ReturnType).ElementType.IsByReference)
+                {
+                    modifiers += " ref";
+                }
+
+                if (method.MethodReturnType.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute"))
+                {
+                    modifiers += " readonly";
+                }
+            }
+
             switch (method.Name)
             {
                 case "op_Implicit":

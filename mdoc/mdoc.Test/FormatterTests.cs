@@ -207,6 +207,15 @@ namespace mdoc.Test
                 "~SomeGenericClass ();",
                 "Finalize");
 
+        [Test]
+        public void CSharpReadonlyRef()
+        {
+            var member = GetMethod(typeof(ReadonlyRefClass), m => m.Name == "ReadonlyRef");
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public ref readonly int ReadonlyRef ();", sig);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
