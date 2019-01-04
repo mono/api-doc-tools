@@ -21,12 +21,14 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
@@ -88,6 +90,7 @@
     <Compile Include="JsUsageFormatterTests.cs" />
     <Compile Include="MDocFileSourceTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
+    <Compile Include="SampleClasses\ReadonlyRefClass.cs" />
     <Compile Include="SampleClasses\ReadOnlySpan.cs" />
     <Compile Include="SampleClasses\SomeDelegate.cs" />
     <Compile Include="SampleClasses\SomeInterface.cs" />
