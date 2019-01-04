@@ -48,6 +48,9 @@ namespace mdoc.Test
         [Test]
         public void GetMember_EII2 () => TestPropertyMember ("mdoc.Test.EnumeratorTests.IFace2.AProperty", XML_PROPERTY_IFACE2);
 
+        [Test]
+        public void GetMethod() => TestMethodMember("BeginRead", XML_METHOD_TESTMETHOD);
+
         #region Test infrastructure
 
         private void TestProperty (string propertyName)
@@ -74,6 +77,19 @@ namespace mdoc.Test
             Assert.AreEqual (propertyName, member.Name);
         }
 
+        private void TestMethodMember(string methodName, string theXml)
+        {
+            TypeDefinition theclass = GetTypeDef<ConcreteClass>();
+
+            XmlDocument document = new XmlDocument();
+            document.LoadXml(theXml);
+
+            var member = DocumentationEnumerator.GetMember(theclass, new DocumentationMember(document.FirstChild, FrameworkTypeEntry.Empty));
+
+            Assert.NotNull(member, "didn't find the node");
+            Assert.AreEqual(methodName, member.Name);
+        }
+
         #endregion
 
         #region Test Types
@@ -93,6 +109,7 @@ namespace mdoc.Test
             public string AProperty { get; set; }
             string IFace1.AProperty { get; set; }
             string IFace2.AProperty { get; set; }
+            public IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback asyncCallback, object asyncState) => null;
         }
 
         #endregion
@@ -128,6 +145,21 @@ namespace mdoc.Test
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
+    </Member>";
+
+        private string XML_METHOD_TESTMETHOD = @"<Member MemberName=""BeginRead"">
+      <MemberType>Method</MemberType>
+      <ReturnValue>
+        <ReturnType>System.IAsyncResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name = ""buffer"" Type=""System.Byte[]"" Index=""0"" FrameworkAlternate=""netcore-1.0;netcore-1.1;netcore-2.0"" />
+        <Parameter Name = ""array"" Type=""System.Byte[]"" Index=""0"" FrameworkAlternate=""netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netstandard-2.0"" />
+        <Parameter Name = ""offset"" Type=""System.Int32"" Index=""1"" FrameworkAlternate=""netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netstandard-2.0"" />
+        <Parameter Name = ""count"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netstandard-2.0"" />
+        <Parameter Name = ""asyncCallback"" Type=""System.AsyncCallback"" Index=""3"" FrameworkAlternate=""netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netstandard-2.0"" />
+        <Parameter Name = ""asyncState"" Type=""System.Object"" Index=""4"" FrameworkAlternate=""netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netstandard-2.0"" />
+      </Parameters>
     </Member>";
 
         #endregion
