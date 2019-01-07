@@ -208,12 +208,21 @@ namespace mdoc.Test
                 "Finalize");
 
         [Test]
-        public void CSharpReadonlyRef()
+        public void CSharpReadonlyRefReturn()
         {
             var member = GetMethod(typeof(ReadonlyRefClass), m => m.Name == "ReadonlyRef");
             var formatter = new CSharpFullMemberFormatter();
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual("public ref readonly int ReadonlyRef ();", sig);
+        }
+
+        [Test]
+        public void CSharpRefReturn()
+        {
+            var member = GetMethod(typeof(ReadonlyRefClass), m => m.Name == "Ref");
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public ref int Ref ();", sig);
         }
 
         #region Helper Methods

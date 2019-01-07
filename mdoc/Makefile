@@ -48,7 +48,7 @@ MULTI-UNIFIED = Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-mult
 
 DIFF = diff -rup
 DIFF_QUIET = diff --brief
-ifeq ($(OS), Windows_NT)
+ifeq ($(PLATFORM), win32)
 DIFF = diff -rupZ
 DIFF_QUIET = diff --brief -Z
 endif
