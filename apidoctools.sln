@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mdoc.Test", "mdoc\mdoc.Test
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "mdoc.Test.FSharp", "mdoc\mdoc.Test\mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj", "{979F9F80-12FE-4236-9E93-6D554AB13701}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mdoc.Test.Cplusplus", "mdoc.Test.Cplusplus\mdoc.Test.Cplusplus.vcxproj", "{9398D4E3-1779-44FD-AF8C-BB46562DCD88}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,18 +123,6 @@ Global
 		{979F9F80-12FE-4236-9E93-6D554AB13701}.Release|x64.Build.0 = Release|Any CPU
 		{979F9F80-12FE-4236-9E93-6D554AB13701}.Release|x86.ActiveCfg = Release|Any CPU
 		{979F9F80-12FE-4236-9E93-6D554AB13701}.Release|x86.Build.0 = Release|Any CPU
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Debug|ARM.ActiveCfg = Debug|Win32
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Debug|x64.ActiveCfg = Debug|x64
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Debug|x64.Build.0 = Debug|x64
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Debug|x86.ActiveCfg = Debug|Win32
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Debug|x86.Build.0 = Debug|Win32
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Release|Any CPU.ActiveCfg = Release|Win32
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Release|ARM.ActiveCfg = Release|Win32
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Release|x64.ActiveCfg = Release|x64
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Release|x64.Build.0 = Release|x64
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Release|x86.ActiveCfg = Release|Win32
-		{9398D4E3-1779-44FD-AF8C-BB46562DCD88}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

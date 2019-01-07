@@ -3830,17 +3830,15 @@ namespace Mono.Documentation
         {
             XmlElement e = WriteElement (root, "ReturnValue");
             var valueToUse = GetDocTypeFullName (type);
-            if (type.IsRequiredModifier)
-            {
-                if (((RequiredModifierType)type).ElementType.IsByReference)
-                    e.SetAttribute("RefType", "Ref");
+            if ((type.IsRequiredModifier && ((RequiredModifierType)type).ElementType.IsByReference)
+                    || type.IsByReference)
+                e.SetAttribute("RefType", "Ref");
 
-                if (IsReadonlyAttribute(attributes))
-                {
-                    e.SetAttribute("RefType", "Readonly");
-                    if (valueToUse[valueToUse.Length - 1] == '&')
-                        valueToUse = valueToUse.Remove(valueToUse.Length - 1);
-                }
+            if (type.IsRequiredModifier && IsReadonlyAttribute(attributes))
+            {
+                e.SetAttribute("RefType", "Readonly");
+                if (valueToUse[valueToUse.Length - 1] == '&')
+                    valueToUse = valueToUse.Remove(valueToUse.Length - 1);
             }
 
             AddXmlNode (e.SelectNodes ("ReturnType").Cast<XmlElement> ().ToArray (),
