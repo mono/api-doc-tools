@@ -10,9 +10,25 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-          <Parameter Name = ""a"" Type=""System.Int32"" />
-          <Parameter Name = ""b"" Type=""System.String"" />
-          <Parameter Name = ""c"" Type=""System.Int32"" />
+          <Parameter Name = ""a"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One"" />
+          <Parameter Name = ""b"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One"" />
+          <Parameter Name = ""c"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One"" />
+      </Parameters>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>";
+
+        public const string NormalSingleXml = @"<Member MemberName=""Meth"">
+      <MemberType>Method</MemberType>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+          <Parameter Name = ""a"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One"" />
+          <Parameter Name = ""d"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One"" />
+          <Parameter Name = ""c"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One"" />
       </Parameters>
       <Docs>
         <summary>To be added.</summary>
@@ -80,14 +96,47 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name = ""d"" Type=""System.Int32"" Index=""0"" FrameworkAlternate=""One;Three;Two"" />
-        <Parameter Name = ""e"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One;Three;Two"" />
-        <Parameter Name = ""f"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One;Three;Two"" />
+        <Parameter Name = ""d"" Type=""System.Int32"" />
+        <Parameter Name = ""e"" Type=""System.String"" />
+        <Parameter Name = ""f"" Type=""System.Int32"" />
       </Parameters>
       <Docs>
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
+    </Member>";
+
+        public const string XML_METHOD_TESTMETHOD_BEFORE = @"<Member MemberName=""BeginRead"">
+      <MemberType>Method</MemberType>
+      <ReturnValue>
+        <ReturnType>System.IAsyncResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name = ""buffer"" Type=""System.Byte[]"" Index=""0"" FrameworkAlternate=""One"" />
+        <Parameter Name = ""array"" Type=""System.Byte[]"" Index=""0"" FrameworkAlternate=""Two"" />
+        <Parameter Name = ""offset"" Type=""System.Int32"" Index=""1"" FrameworkAlternate=""One;Two"" />
+        <Parameter Name = ""count"" Type=""System.Int32"" Index=""2"" FrameworkAlternate=""One;Two"" />
+        <Parameter Name = ""asyncCallback"" Type=""System.AsyncCallback"" Index=""3"" FrameworkAlternate=""One;Two"" />
+        <Parameter Name = ""asyncState"" Type=""System.Object"" Index=""4"" FrameworkAlternate=""One;Two"" />
+      </Parameters>
+    </Member>";
+
+        //byte[] buffer, int offset, int count, AsyncCallback cback, object state
+        public const string XML_METHOD_TESTMETHOD_AFTER = @"<Member MemberName=""BeginRead"">
+      <MemberType>Method</MemberType>
+      <ReturnValue>
+        <ReturnType>System.IAsyncResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name = ""buffer"" Type=""System.Byte[]"" Index=""0"" FrameworkAlternate=""One;Three"" />
+        <Parameter Name = ""array"" Type=""System.Byte[]"" Index=""0"" FrameworkAlternate=""Two"" />
+        <Parameter Name = ""offset"" Type=""System.Int32"" Index=""1"" />
+        <Parameter Name = ""count"" Type=""System.Int32"" Index=""2"" />
+        <Parameter Name = ""asyncCallback"" Type=""System.AsyncCallback"" Index=""3"" FrameworkAlternate=""One;Two"" />
+        <Parameter Name = ""cback"" Type=""System.AsyncCallback"" Index=""3"" FrameworkAlternate=""Three"" />
+        <Parameter Name = ""asyncState"" Type=""System.Object"" Index=""4"" FrameworkAlternate=""One;Two"" />
+        <Parameter Name = ""state"" Type=""System.Object"" Index=""4"" FrameworkAlternate=""Three"" />
+      </Parameters>
     </Member>";
 
         #endregion
