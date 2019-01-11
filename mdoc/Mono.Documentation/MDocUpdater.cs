@@ -3590,7 +3590,16 @@ namespace Mono.Documentation
                 var i = 0;
                 foreach (var node in nodes)
                 {
-                    node.SetAttribute ("Index", i.ToString ());
+                    if (!node.HasAttribute("Index"))
+                    {
+                        node.SetAttribute("Index", i.ToString());
+                    }
+                    else
+                    {
+                        int thisIndex;
+                        if (Int32.TryParse(node.GetAttribute("Index"), out thisIndex))
+                            i = thisIndex;
+                    }
                     i++;
                 }
             };
@@ -3656,14 +3665,19 @@ namespace Mono.Documentation
                         addFXAttributes (xdata.Select (x => x.Element));
                         //-find type in previous frameworks
 
-
-                        string fxList = FXUtils.PreviouslyProcessedFXString (typeEntry);
-
                         //-find < parameter where index = currentIndex >
-                        var currentNode = xdata[i].Element;
-                        currentNode.SetAttribute (Consts.FrameworkAlternate, fxList);
+                        var existingElements = xdata.Where(x => x.ActualIndex == i && x.Type == p.Type).ToArray();
+                        foreach (var currentNode in existingElements.Select(el => el.Element))
+                        {
 
-                        addParameter (p.Definition, currentNode, p.Type, i, true, typeEntry.Framework.Name, true);
+                            if (!currentNode.HasAttribute(Consts.FrameworkAlternate))
+                            {
+                                string fxList = FXUtils.PreviouslyProcessedFXString(typeEntry);
+                                currentNode.SetAttribute(Consts.FrameworkAlternate, fxList);
+                            }
+                        }
+
+                        addParameter (p.Definition, existingElements.Last().Element, p.Type, i, true, typeEntry.Framework.Name, true);
 
                         fxAlternateTriggered = true;
                     }
@@ -3724,15 +3738,24 @@ namespace Mono.Documentation
                 }
             }
 
+            // Now clean up
             var allFrameworks = typeEntry.Framework.AllFrameworksString;
-            foreach (var parameter in paramNodes
-                .Cast<XmlElement>())
+            var finalNodes = paramNodes
+                .Cast<XmlElement>().ToArray();
+            foreach (var parameter in finalNodes)
             {
                 // if FXAlternate is entire list, just remove it
                 if (parameter.HasAttribute(Consts.FrameworkAlternate) && parameter.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
                 {
                     parameter.RemoveAttribute(Consts.FrameworkAlternate);
                 }
+            }
+
+            // if there are no fx attributes left, just remove the indices entirely
+            if (typeEntry.Framework.IsLastFramework && !finalNodes.Any(n => n.HasAttribute(Consts.FrameworkAlternate)))
+            {
+                foreach (var parameter in finalNodes)
+                    parameter.RemoveAttribute(Consts.Index);
             }
         }
 

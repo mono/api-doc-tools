@@ -2,6 +2,7 @@
 using System;
 using Mono.Documentation;
 using System.Xml;
+using System.Xml.XPath;
 using System.Linq;
 using Mono.Cecil;
 using System.Collections.Generic;
@@ -25,6 +26,10 @@ namespace mdoc.Test
         public void Meth (int a, string b, int c) { }
     }
 
+    public class MyComplicatedClass
+    {
+        public IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback cback, object state) => null;
+    }
 }
 
 namespace mdoc.Test2
@@ -70,6 +75,8 @@ namespace mdoc.Test
             var context = InitContext <MyClass>(startingEmptyXml, 0);
 
             FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First ();
+            context.fx.Frameworks.RemoveAt(2);
+            context.fx.Frameworks.RemoveAt(1);
             bool fxAlternateTriggered = false;
 
             context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
@@ -77,38 +84,6 @@ namespace mdoc.Test
             var afterXML = context.doc.OuterXml;
 
             Assert.AreEqual (Normalize(normalSingleXml), afterXML);
-
-        }
-
-        [Test ()]
-        public void Parameters_Updating_Normal2 ()
-        {
-            var context = InitContext <MyClass>(normalSingleXml,1);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[1].Types.First ();
-            bool fxAlternateTriggered = false;
-
-            context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (normalSingleXml), afterXML);
-
-        }
-
-        [Test ()]
-        public void Parameters_Updating_Normal3 ()
-        {
-            var context = InitContext <MyClass>(normalSingleXml, 2);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
-            bool fxAlternateTriggered = false;
-
-            context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (multiFrameworkXml), afterXML);
 
         }
 
@@ -124,44 +99,11 @@ namespace mdoc.Test
 
             var afterXML = context.doc.OuterXml;
 
-            Assert.AreEqual (context.beforeXML, Normalize(afterXML));
+            // the original state was cleared out on account that this was the first of the frameworks
+            Assert.AreEqual (Normalize(XmlConsts.NormalSingleXml), Normalize(afterXML));
 
         }
-
-        [Test ()]
-        public void Parameters_Updating_Existing_MultiFramework2 ()
-        {
-            var context = InitContext <MyClass>(multiFrameworkXml, 2);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
-            bool fxAlternateTriggered = false;
-
-            context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (context.beforeXML, Normalize (afterXML));
-
-        }
-
-
-
-        [Test ()]
-        public void Parameters_Updating_Existing_Align ()
-        {
-            var context = InitContext<MyClass> (multiFrameworkXml, 2, forceAlignment: true);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
-            bool fxAlternateTriggered = false;
-
-            context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.IsFalse (fxAlternateTriggered);
-            Assert.AreEqual (Normalize (multiFrameworkAligned), Normalize (afterXML));
-
-        }
+        
         #endregion
 
         #region MyClass2 tests
@@ -214,6 +156,40 @@ namespace mdoc.Test
 
         }
 
+        [Test()]
+        public void Parameters_Updating_BeginRead()
+        {
+            FrameworkIndex fx = new FrameworkIndex("", 3);
+
+            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks) { Id = "One", Name = "One", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks) { Id = "Two", Name = "Two", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks) { Id = "Three", Name = "Three", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            
+            var context = InitComplexContext<MyComplicatedClass>(XmlConsts.XML_METHOD_TESTMETHOD_BEFORE, "mdoc.Test", "BeginRead", fx);
+            var theType = context.method.DeclaringType.Resolve();
+
+            foreach (var it in fx.Frameworks)
+            {
+                var t = it.ProcessType(theType);
+                foreach(var m in theType.Methods)
+                {
+                    t.ProcessMember(m);
+                }
+            }
+
+            var typeEntry = context.fx.Frameworks[2].Types.First();
+            
+            bool fxAlternateTriggered = true;
+
+            context.updater.MakeParameters(context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
+
+            var afterXML = context.doc.OuterXml;
+
+            // TODO: make representative post-method XML
+            Assert.AreEqual(Normalize(XmlConsts.XML_METHOD_TESTMETHOD_AFTER), afterXML);
+
+        }
+
         [Test ()]
         public void Parameters_Updating_Existing_MultiFramework22 ()
         {
@@ -226,7 +202,7 @@ namespace mdoc.Test
 
             var afterXML = context.doc.OuterXml;
 
-            Assert.AreEqual (context.beforeXML, Normalize (afterXML));
+            Assert.AreEqual (Normalize(XmlConsts.NormalSingleXml2), Normalize (afterXML));
 
         }
 
@@ -276,15 +252,16 @@ namespace mdoc.Test
             Func<int, FrameworkTypeEntry> typeEntry = i => context.fx.Frameworks[i].Types.First ();
             bool fxAlternateTriggered = false;
             context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry(0), ref fxAlternateTriggered);
-            Assert.IsTrue (fxAlternateTriggered);
+            // this will be false, since it clears out the parameters list on the first run
+            Assert.IsFalse (fxAlternateTriggered, "first run");
 
             fxAlternateTriggered = false;
             context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry (1), ref fxAlternateTriggered);
-            Assert.IsFalse (fxAlternateTriggered);
+            Assert.IsFalse (fxAlternateTriggered, "second run");
 
             fxAlternateTriggered = false;
             context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry (2), ref fxAlternateTriggered);
-            Assert.IsFalse (fxAlternateTriggered);
+            Assert.IsFalse (fxAlternateTriggered, "third run");
 
             var afterXML = context.doc.OuterXml;
             Assert.AreEqual (Normalize (XmlConsts.MultiFrameworkAlignedOther), Normalize (afterXML));
@@ -731,10 +708,11 @@ namespace mdoc.Test
             Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
         }
 
-        string Normalize(string xml) {
+        string Normalize(string xml, bool clearFx = false) {
             XmlDocument doc = new XmlDocument ();
 
             doc.LoadXml (xml);
+            
             return doc.OuterXml;
         }
         string typeFrameXml = @"<Type><Members>{0}</Members></Type>";
@@ -792,7 +770,7 @@ namespace mdoc.Test
       </ReturnValue>
       <Parameters>
         <Parameter Name = ""a"" Type=""System.Int32"" Index=""0"" />
-        <Parameter Name = ""d"" Type=""System.String"" Index=""1"" FrameworkAlternate=""One;Three;Two"" />
+        <Parameter Name = ""d"" Type=""System.String"" Index=""1"" />
         <Parameter Name = ""c"" Type=""System.Int32"" Index=""2"" />
       </Parameters>
       <Docs>
@@ -826,6 +804,27 @@ namespace mdoc.Test
     </Member>";
 
 
+        private ParamContext InitComplexContext<T>(string methodXml, string ns, string methodName, FrameworkIndex fx)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(methodXml);
+            var beforeXML = doc.OuterXml;
+            
+            TypeDefinition type = GetDefinition<T>(ns);
+            var method = type.Methods.First(m => m.Name == methodName) as MethodReference;
+
+            var updater = new MDocUpdater();
+
+            return new ParamContext()
+            {
+                doc = doc,
+                beforeXML = beforeXML,
+                method = method,
+                parameters = method.Parameters.ToList(),
+                fx = fx,
+                updater = updater
+            };
+        }
 
         private ParamContext InitContext <T>(string methodXml, int fxIndex, bool forceAlignment=false)
         {
