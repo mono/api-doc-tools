@@ -1476,6 +1476,9 @@ namespace Mono.Documentation
 
         static readonly XmlNodeComparer DefaultExtensionMethodComparer = new ExtensionMethodComparer ();
 
+        /// <summary> Holds a list of items that we want</summary>
+        static readonly Dictionary<string, string> deleteRequestMap = new Dictionary<string, string>();
+
         public void DoUpdateType2 (string message, XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry, string output, bool insertSince)
         {
             Console.WriteLine (message + ": " + type.FullName);
@@ -1542,8 +1545,29 @@ namespace Mono.Documentation
                                 }
                                 return false;
                             };
-                            if (frameworksCache.Frameworks.Any (findTypes))
-                                continue;
+                            if (frameworksCache.Frameworks.Any(findTypes))
+                            {
+                                if (deleteRequestMap.ContainsKey(sigvalue))
+                                    deleteRequestMap[sigvalue] = FXUtils.AddFXToList(deleteRequestMap[sigvalue], typeEntry.Framework.Name);
+                                else
+                                    deleteRequestMap[sigvalue] = typeEntry.Framework.Name;
+
+                                // If this is the last framework, and this has been requested for deletion
+                                // in every other framework where this type exists, let's just delete it.
+                                if (!typeEntry.Framework.IsLastFramework)
+                                    continue;
+                                else
+                                {
+                                    var allReportingFx = frameworksCache.Frameworks.Where(fx =>
+                                    {
+                                        var tInstance = fx.FindTypeEntry(typeEntry.Name);
+                                        return tInstance != null;
+                                    }).Select(f => f.Name);
+                                    var allFxString = string.Join(";", allReportingFx.ToArray());
+                                    if (deleteRequestMap[sigvalue] != allFxString)
+                                        continue; // on the last framework, only continue on if it wasn't deleted in every framework
+                                }
+                            }
                         }
                     }
 
