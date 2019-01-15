@@ -324,7 +324,7 @@ namespace Mono.Documentation
                 // Create a cache of all frameworks, so we can look up 
                 // members that may exist only other frameworks before deleting them
                 Console.Write ("Creating frameworks cache: ");
-                FrameworkIndex cacheIndex = new FrameworkIndex (FrameworksPath, fxCount);
+                FrameworkIndex cacheIndex = new FrameworkIndex (FrameworksPath, fxCount, cachedfx:null);
                 foreach (var assemblySet in this.assemblies)
                 {
                     using (assemblySet)
@@ -391,7 +391,7 @@ namespace Mono.Documentation
             docEnum = docEnum ?? new DocumentationEnumerator ();
 
             // PERFORM THE UPDATES
-            frameworks = new FrameworkIndex (FrameworksPath, fxCount);
+            frameworks = new FrameworkIndex (FrameworksPath, fxCount, cachedfx: this.frameworksCache?.Frameworks);
 
             if (types.Count > 0)
             {
@@ -2344,7 +2344,7 @@ namespace Mono.Documentation
                 xmlElement.SelectNodes (elementXPath).Cast<XmlElement> ().ToArray (),
                 valueMatches,
                 setValue,
-                makeNewNode,
+                () => makeNewNode(true),
                 type);
         }
 
@@ -2403,7 +2403,7 @@ namespace Mono.Documentation
                         }
                         else
                         {
-                            var newelement = makeNewNode();
+                            var newelement = makeNewNode(false);
                             newelement.SetAttribute(Consts.FrameworkAlternate, currentFX);
                         }
                         return;
@@ -2434,7 +2434,7 @@ namespace Mono.Documentation
                     node.ParentNode.RemoveChild (node);
                 }
 
-                var newelement = makeNewNode ();
+                var newelement = makeNewNode (true);
                 newelement.SetAttribute (Consts.FrameworkAlternate, currentFX);
                 return;
             }
@@ -2449,12 +2449,12 @@ namespace Mono.Documentation
                 existingNodes,
                 valueMatches,
                 setValue,
-                makeNewNode,
+                () => makeNewNode(true),
                 member);
         }
 
         private static void GetUpdateXmlMethods(MemberFormatter formatter, XmlElement xmlElement, string elementXPath, string valueToUse,
-            string usageSample, out Func<XmlElement, bool> valueMatches, out Action<XmlElement> setValue, out Func<XmlElement> makeNewNode)
+            string usageSample, out Func<XmlElement, bool> valueMatches, out Action<XmlElement> setValue, out Func<bool, XmlElement> makeNewNode)
         {
             valueMatches = x =>
                 x.GetAttribute("Value") == valueToUse 
@@ -2472,9 +2472,32 @@ namespace Mono.Documentation
                 }
             };
 
-            makeNewNode = () =>
+            makeNewNode = (forceIt) =>
             {
-                var node = WriteElementAttribute(xmlElement, elementXPath, "Language", formatter.Language, forceNewElement: true);
+                XmlElement node = null;
+
+                if(!forceIt) // let's reuse based on lang, value, and usage if this is false
+                {
+                    var existingLangs = xmlElement.SelectNodes (elementXPath);
+                    if (existingLangs != null && existingLangs.Count > 0)
+                    {
+                        var withValue = existingLangs.Cast<XmlElement> ().Where (e => e.GetAttribute ("Value") == (valueToUse??"") && e.GetAttribute ("Usage") == (usageSample??""));
+                        if (withValue.Any ())
+                        {
+                            node = withValue.First ();
+                        }
+                        else
+                            forceIt = true;
+                    }
+                    else // oh well, there are none to reuse anyways
+                    {
+                        forceIt = true;
+                    }
+                }
+                if (forceIt)
+                {
+                    node = WriteElementAttribute (xmlElement, elementXPath, "Language", formatter.Language, forceNewElement: true);
+                }
                 if (valueToUse != null)
                 {
                     node = WriteElementAttribute(xmlElement, node, "Value", valueToUse);
@@ -3762,24 +3785,27 @@ namespace Mono.Documentation
                 }
             }
 
-            // Now clean up
-            var allFrameworks = typeEntry.Framework.AllFrameworksString;
-            var finalNodes = paramNodes
-                .Cast<XmlElement>().ToArray();
-            foreach (var parameter in finalNodes)
+            if (typeEntry.Framework.IsLastFrameworkForType(typeEntry))
             {
-                // if FXAlternate is entire list, just remove it
-                if (parameter.HasAttribute(Consts.FrameworkAlternate) && parameter.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
-                {
-                    parameter.RemoveAttribute(Consts.FrameworkAlternate);
-                }
-            }
-
-            // if there are no fx attributes left, just remove the indices entirely
-            if (typeEntry.Framework.IsLastFramework && !finalNodes.Any(n => n.HasAttribute(Consts.FrameworkAlternate)))
-            {
+                // Now clean up
+                var allFrameworks = typeEntry.Framework.AllFrameworksWithType(typeEntry);
+                var finalNodes = paramNodes
+                    .Cast<XmlElement> ().ToArray ();
                 foreach (var parameter in finalNodes)
-                    parameter.RemoveAttribute(Consts.Index);
+                {
+                    // if FXAlternate is entire list, just remove it
+                    if (parameter.HasAttribute (Consts.FrameworkAlternate) && parameter.GetAttribute (Consts.FrameworkAlternate) == allFrameworks)
+                    {
+                        parameter.RemoveAttribute (Consts.FrameworkAlternate);
+                    }
+                }
+
+                // if there are no fx attributes left, just remove the indices entirely
+                if (!finalNodes.Any (n => n.HasAttribute (Consts.FrameworkAlternate)))
+                {
+                    foreach (var parameter in finalNodes)
+                        parameter.RemoveAttribute (Consts.Index);
+                }
             }
         }
 
