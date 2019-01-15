@@ -10,6 +10,7 @@ namespace Mono.Documentation.Updater.Frameworks
     {
         SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
+        IList<FrameworkEntry> allcachedframeworks;
         IList<FrameworkEntry> allframeworks;
 		ISet<AssemblySet> allAssemblies = new SortedSet<AssemblySet> ();
 
@@ -19,15 +20,24 @@ namespace Mono.Documentation.Updater.Frameworks
             get => _fxCount < 1 ? allframeworks.Count : _fxCount;
         }
 
-        public FrameworkEntry (IList<FrameworkEntry> frameworks) : this(frameworks, -1) {}
+        public FrameworkEntry (IList<FrameworkEntry> frameworks, IList<FrameworkEntry> cachedfx) : this(frameworks, -1, cachedfx) {}
 
-        public FrameworkEntry (IList<FrameworkEntry> frameworks, int fxCount)
+        public FrameworkEntry (IList<FrameworkEntry> frameworks, int fxCount, IList<FrameworkEntry> cachedFx)
         {
             allframeworks = frameworks;
             if (allframeworks == null)
-                allframeworks = new List<FrameworkEntry> (0);
+            {
+                allframeworks = new List<FrameworkEntry> (1);
+                allframeworks.Add (this);
+                Index = 0;
+                allcachedframeworks = allframeworks;
+            }
+            else
+            {
+                Index = allframeworks.Count;
 
-            Index = allframeworks.Count;
+                allcachedframeworks = cachedFx;
+            }
             _fxCount = fxCount;
         }
 
@@ -38,6 +48,26 @@ namespace Mono.Documentation.Updater.Frameworks
         /// <summary>Gets a value indicating whether this <see cref="T:Mono.Documentation.Updater.Frameworks.FrameworkEntry"/> is last framework being processed.</summary>
         public bool IsLastFramework {
             get => Index == FrameworksCount - 1;
+        }
+
+        public bool IsLastFrameworkForType(FrameworkTypeEntry typeEntry)
+        {
+            if (this == Empty) return true;
+
+            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null).ToArray();
+
+            if (!fxlist.Any ()) return false;
+
+            var lastListed = fxlist.Last ();
+            return lastListed.Name == this.Name;
+        }
+
+        public string AllFrameworksWithType(FrameworkTypeEntry typeEntry)
+        {
+            if (this == Empty) return this.Name;
+
+            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null);
+            return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
         }
 
         string _allFxString = "";
@@ -142,8 +172,10 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		class EmptyFrameworkEntry : FrameworkEntry
 		{
-			public EmptyFrameworkEntry () : base (null, 1) { }
+			public EmptyFrameworkEntry () : base (null, 1, null) { }
 			public override FrameworkTypeEntry ProcessType (TypeDefinition type) { return FrameworkTypeEntry.Empty; }
+
+
 		}
 	}
 }

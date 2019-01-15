@@ -76,10 +76,10 @@ namespace mdoc.Test
         public void LastFramework()
         {
             List<FrameworkEntry> entries = new List<FrameworkEntry>();
-            entries.Add (new FrameworkEntry (entries));
-            entries.Add (new FrameworkEntry (entries));
-            entries.Add (new FrameworkEntry (entries));
-            entries.Add (new FrameworkEntry (entries));
+            entries.Add (new FrameworkEntry (entries, entries));
+            entries.Add (new FrameworkEntry (entries, entries));
+            entries.Add (new FrameworkEntry (entries, entries));
+            entries.Add (new FrameworkEntry (entries, entries));
 
             Assert.IsFalse (entries[0].IsLastFramework);
             Assert.IsFalse (entries[1].IsLastFramework);
@@ -91,10 +91,10 @@ namespace mdoc.Test
         public void FirstFramework ()
         {
             List<FrameworkEntry> entries = new List<FrameworkEntry> ();
-            entries.Add (new FrameworkEntry (entries));
-            entries.Add (new FrameworkEntry (entries));
-            entries.Add (new FrameworkEntry (entries));
-            entries.Add (new FrameworkEntry (entries));
+            entries.Add (new FrameworkEntry (entries, entries));
+            entries.Add (new FrameworkEntry (entries, entries));
+            entries.Add (new FrameworkEntry (entries, entries));
+            entries.Add (new FrameworkEntry (entries, entries));
 
             Assert.IsTrue (entries[0].IsFirstFramework);
             Assert.IsFalse (entries[1].IsFirstFramework);

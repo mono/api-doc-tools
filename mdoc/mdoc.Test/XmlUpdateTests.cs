@@ -159,11 +159,11 @@ namespace mdoc.Test
         [Test()]
         public void Parameters_Updating_BeginRead()
         {
-            FrameworkIndex fx = new FrameworkIndex("", 3);
+            FrameworkIndex fx = new FrameworkIndex("", 3, null);
 
-            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks) { Id = "One", Name = "One", Replace = "mdoc.Test2", With = "mdoc.Test" });
-            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks) { Id = "Two", Name = "Two", Replace = "mdoc.Test2", With = "mdoc.Test" });
-            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks) { Id = "Three", Name = "Three", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks, fx.Frameworks) { Id = "One", Name = "One", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks, fx.Frameworks) { Id = "Two", Name = "Two", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks, fx.Frameworks) { Id = "Three", Name = "Three", Replace = "mdoc.Test2", With = "mdoc.Test" });
             
             var context = InitComplexContext<MyComplicatedClass>(XmlConsts.XML_METHOD_TESTMETHOD_BEFORE, "mdoc.Test", "BeginRead", fx);
             var theType = context.method.DeclaringType.Resolve();
@@ -848,10 +848,10 @@ namespace mdoc.Test
 
             // updater
             var updater = new MDocUpdater ();
-            var fx = new FrameworkIndex ("", 3);
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks) { Id = "One", Name = "One", Replace="mdoc.Test2", With="mdoc.Test" });
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks) { Id = "Three", Name = "Three", Replace = "mdoc.Test2", With = "mdoc.Test"  });
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks) { Id = "Two", Name = "Two", Replace = "mdoc.Test2", With = "mdoc.Test"  });
+            var fx = new FrameworkIndex ("", 3, null);
+            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "One", Name = "One", Replace="mdoc.Test2", With="mdoc.Test" });
+            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "Three", Name = "Three", Replace = "mdoc.Test2", With = "mdoc.Test"  });
+            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "Two", Name = "Two", Replace = "mdoc.Test2", With = "mdoc.Test"  });
 
             var i = 0;
             foreach (var f in fx.Frameworks)

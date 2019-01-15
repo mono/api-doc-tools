@@ -584,14 +584,17 @@ check-monodocer-frameworkalternate: Test/FrameworkTestData-frameworkalternate
 	-rm -Rf Test/en.actual
 
 	# Run Test
+	echo "First run"
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
 	$(DIFF) Test/en.expected-frameworkalternate Test/en.actual
 	# run test again to make sure subsequent runs maintain data
+	echo "Second run"
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
 	$(DIFF) Test/en.expected-frameworkalternate Test/en.actual
 
 	# Test Future FX Alignment ... 
-	# compile new version of `two` that looks like `one`
+	echo "compile new version of 'two' that looks like 'one'"
+	
 	rm Test/DocTest-frameworkalternate-two.dll
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -debug -target:library -out:Test/DocTest-frameworkalternate-two.dll Test/DocTest-frameworkalternate.cs /define:FXONE
 	yes | cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate/Two/DocTest-frameworkalternate-two.dll
