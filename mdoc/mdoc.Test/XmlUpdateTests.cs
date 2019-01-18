@@ -406,7 +406,25 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void Attributes_TypeOrMethod() 
+        public void Attributes_TypeOrMethod()
+        {
+            var context = InitContext<MyClass>(string.Format(typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+            var fx = context.fx.Frameworks[1];
+            FrameworkTypeEntry typeEntry = fx.Types.First();
+
+            string[] attributeList = new[] { "One" };
+
+            MDocUpdater.MakeAttributes(context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
+            var attrNode = context.doc.FirstChild.SelectSingleNode("Attributes");
+            var attributes = attrNode.SelectNodes("Attribute").Cast<XmlElement>().ToArray();
+
+            Assert.IsTrue(attributes.Count() == 1);
+            Assert.AreEqual("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual("Three", attributes[0].GetAttribute(Consts.FrameworkAlternate));
+        }
+
+        [Test]
+        public void Attributes_TypeOrMethod_AttributeRemoved() 
         {
             var context = InitContext<MyClass> (string.Format (typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
             var fx = context.fx.Frameworks[1];
@@ -414,13 +432,12 @@ namespace mdoc.Test
 
             string[] attributeList = new[] { "One" };
 
-            MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
-            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
-            var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement>().ToArray();
+            MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
 
-            Assert.IsTrue (attributes.Count () == 1);
-            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
-            Assert.AreEqual ("Three", attributes[0].GetAttribute (Consts.FrameworkAlternate));
+            MDocUpdater.MakeAttributes(context.doc.FirstChild as XmlElement, new string[0], fx, typeEntry);
+            MDocUpdater.MakeAttributes(context.doc.FirstChild as XmlElement, new string[0], context.fx.Frameworks[2] , typeEntry);
+            var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
+            Assert.IsNull(attrNode);
         }
 
         [Test]
@@ -435,7 +452,7 @@ namespace mdoc.Test
 
                 string[] attributeList = new[] { "One" };
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -461,7 +478,7 @@ namespace mdoc.Test
                 if (fx.IsFirstFramework)
                     attributeList = new string[0];
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -488,7 +505,7 @@ namespace mdoc.Test
                 if (fx.IsLastFramework)
                     attributeList = new string[0];
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -512,7 +529,7 @@ namespace mdoc.Test
 
                 string[] attributeList = new[] { "One", "Two" };
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             // Now, to test the first deployment on an existing set
@@ -527,7 +544,7 @@ namespace mdoc.Test
                     attributeList = new[] { "One", "Two" };
                 }
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -553,7 +570,7 @@ namespace mdoc.Test
 
                 string[] attributeList = new[] { "One", "Two" };
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             // Now, to test the first deployment on an existing set
@@ -569,7 +586,7 @@ namespace mdoc.Test
                     attributeList = new[] { "One", "Two" };
                 }
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -595,11 +612,9 @@ namespace mdoc.Test
 
                 string[] attributeList = new[] { "One", "Two" };
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
-
-            // Now, to test the first deployment on an existing set
-            // in this case, the truth of the matter is that `Two` only exists in the middle
+            
             foreach (var fx in context.fx.Frameworks)
             {
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
@@ -611,7 +626,7 @@ namespace mdoc.Test
                     attributeList = new[] { "One", "Two" };
                 }
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -641,7 +656,7 @@ namespace mdoc.Test
                 if (!fx.IsLastFramework && !fx.IsFirstFramework)
                     attributeList = new string[0];
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -671,7 +686,7 @@ namespace mdoc.Test
                 }
 
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -697,7 +712,7 @@ namespace mdoc.Test
                 
                 // this is the 'second' fx, and we've changed the expected assembly name, 
                 // so the attribute, while it doesn't exist yet, shouldn't have an FX made since it doesn't exist in any other FX
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");

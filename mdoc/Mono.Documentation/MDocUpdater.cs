@@ -983,7 +983,7 @@ namespace Mono.Documentation
                 index_assembly.AppendChild (culture);
             }
 
-            MakeAttributes (index_assembly, GetCustomAttributes (assembly.CustomAttributes, ""), fx);
+            MakeAttributes (index_assembly, GetCustomAttributes (assembly.CustomAttributes, ""), fx, null);
             parent.AppendChild (index_assembly);
         }
 
@@ -2166,7 +2166,7 @@ namespace Mono.Documentation
                 ClearElement (root, "Interfaces");
             }
 
-			MakeAttributes (root, GetCustomAttributes (type), typeEntry.Framework);
+			MakeAttributes (root, GetCustomAttributes (type), typeEntry.Framework, typeEntry);
 
             if (DocUtils.IsDelegate (type))
             {
@@ -2299,7 +2299,7 @@ namespace Mono.Documentation
                 ClearElement (me, "AssemblyInfo");
             }
 
-			MakeAttributes (me, GetCustomAttributes (mi), typeEntry.Framework);
+			MakeAttributes (me, GetCustomAttributes (mi), typeEntry.Framework, typeEntry);
 
             MakeReturnValue (typeEntry, me, mi, MDocUpdater.HasDroppedNamespace (mi));
             if (mi is MethodReference)
@@ -3432,7 +3432,7 @@ namespace Mono.Documentation
             }
         }
 
-		public static void MakeAttributes (XmlElement root, IEnumerable<string> attributes, FrameworkEntry fx)
+		public static void MakeAttributes (XmlElement root, IEnumerable<string> attributes, FrameworkEntry fx, FrameworkTypeEntry typeEntry)
         {
             XmlElement e = (XmlElement)root.SelectSingleNode ("Attributes");
             bool isLastFx = fx != null && fx.IsLastFramework;
@@ -3506,20 +3506,22 @@ namespace Mono.Documentation
             }
 
             // clean up
-            if (fx.IsLastFramework) {
-                foreach(var attr in e.ChildNodes.SafeCast<XmlElement> ().ToArray()) {
-                    if (attr.HasAttribute (Consts.FrameworkAlternate))
+            if (typeEntry == null || (typeEntry != null && fx.IsLastFrameworkForType(typeEntry)))
+            {
+                foreach (var attr in e.ChildNodes.SafeCast<XmlElement>().ToArray())
+                {
+                    if (attr.HasAttribute(Consts.FrameworkAlternate))
                     {
-                        var fxAttributeValue = attr.GetAttribute (Consts.FrameworkAlternate);
+                        var fxAttributeValue = attr.GetAttribute(Consts.FrameworkAlternate);
 
-                        if (string.IsNullOrWhiteSpace (fxAttributeValue))
+                        if (string.IsNullOrWhiteSpace(fxAttributeValue))
                         {
-                            attr.ParentNode.RemoveChild (attr);
+                            attr.ParentNode.RemoveChild(attr);
                             continue;
                         }
 
                         if (fxAttributeValue.Equals(fx.AllFrameworksString, StringComparison.Ordinal))
-                            attr.RemoveAttribute (Consts.FrameworkAlternate);
+                            attr.RemoveAttribute(Consts.FrameworkAlternate);
 
                     }
                 }
@@ -3628,7 +3630,7 @@ namespace Mono.Documentation
                 //if (addfx)
                     pe.SetAttribute (Consts.FrameworkAlternate, fx);
 
-				MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""), typeEntry.Framework);
+				MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""), typeEntry.Framework, typeEntry);
             };
             /// addFXAttributes, adds the index attribute to all existing elements.
             /// Used when we first detect the scenario which requires this.
@@ -3844,7 +3846,7 @@ namespace Mono.Documentation
                         XmlElement pe = root.OwnerDocument.CreateElement ("TypeParameter");
                         e.AppendChild (pe);
                         pe.SetAttribute ("Name", t.Name);
-					    MakeAttributes (pe, GetCustomAttributes (t.CustomAttributes, ""), entry.Framework);
+					    MakeAttributes (pe, GetCustomAttributes (t.CustomAttributes, ""), entry.Framework, entry);
                         XmlElement ce = (XmlElement)e.SelectSingleNode ("Constraints");
                         if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                         {
@@ -3940,7 +3942,7 @@ namespace Mono.Documentation
                 {
                     var newNode = WriteElementText (e, "ReturnType", valueToUse, forceNewElement: true);
                     if (attributes != null)
-					MakeAttributes (e, GetCustomAttributes (attributes, ""), typeEntry.Framework);
+					MakeAttributes (e, GetCustomAttributes (attributes, ""), typeEntry.Framework, typeEntry);
 
                     return newNode;
                 },
