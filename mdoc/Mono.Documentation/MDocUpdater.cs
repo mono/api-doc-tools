@@ -983,7 +983,7 @@ namespace Mono.Documentation
                 index_assembly.AppendChild (culture);
             }
 
-            MakeAttributes (index_assembly, GetCustomAttributes (assembly.CustomAttributes, ""), fx, null);
+            MakeAttributes (index_assembly, GetCustomAttributes (assembly.CustomAttributes, ""), fx, typeEntry: null, assemblyName: assembly.Name.Name);
             parent.AppendChild (index_assembly);
         }
 
@@ -3432,7 +3432,7 @@ namespace Mono.Documentation
             }
         }
 
-		public static void MakeAttributes (XmlElement root, IEnumerable<string> attributes, FrameworkEntry fx, FrameworkTypeEntry typeEntry)
+		public static void MakeAttributes (XmlElement root, IEnumerable<string> attributes, FrameworkEntry fx, FrameworkTypeEntry typeEntry, string assemblyName=null)
         {
             XmlElement e = (XmlElement)root.SelectSingleNode ("Attributes");
             bool isLastFx = fx != null && fx.IsLastFramework;
@@ -3506,7 +3506,7 @@ namespace Mono.Documentation
             }
 
             // clean up
-            if (typeEntry == null || (typeEntry != null && fx.IsLastFrameworkForType(typeEntry)))
+            if ((!string.IsNullOrWhiteSpace(assemblyName) && fx.IsLastFrameworkForAssembly(assemblyName)) || (typeEntry != null && fx.IsLastFrameworkForType(typeEntry)))
             {
                 foreach (var attr in e.ChildNodes.SafeCast<XmlElement>().ToArray())
                 {
