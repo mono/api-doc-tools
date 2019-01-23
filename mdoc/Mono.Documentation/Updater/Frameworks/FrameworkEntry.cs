@@ -50,6 +50,11 @@ namespace Mono.Documentation.Updater.Frameworks
             get => Index == FrameworksCount - 1;
         }
 
+        public bool IsLastFrameworkForAssembly(string assemblyName)
+        {
+            return this.allcachedframeworks.Any(f => f.AllProcessedAssemblies.Any(a => a.Contains(assemblyName)));
+        }
+
         public bool IsLastFrameworkForType(FrameworkTypeEntry typeEntry)
         {
             if (this == Empty) return true;
