@@ -2,30 +2,30 @@
   <Assemblies>
     <Assembly Name="DocTest" Version="0.0.0.0">
       <Attributes>
-        <Attribute FrameworkAlternate="one">
+        <Attribute>
           <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
         </Attribute>
-        <Attribute FrameworkAlternate="one">
+        <Attribute>
           <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
         </Attribute>
       </Attributes>
     </Assembly>
     <Assembly Name="DocTest-DropNS-classic-secondary" Version="0.0.0.0">
       <Attributes>
-        <Attribute FrameworkAlternate="two">
+        <Attribute>
           <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
         </Attribute>
-        <Attribute FrameworkAlternate="two">
+        <Attribute>
           <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
         </Attribute>
       </Attributes>
     </Assembly>
     <Assembly Name="DocTest-DropNS-classic" Version="0.0.0.0">
       <Attributes>
-        <Attribute FrameworkAlternate="two">
+        <Attribute>
           <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
         </Attribute>
-        <Attribute FrameworkAlternate="two">
+        <Attribute>
           <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
         </Attribute>
       </Attributes>

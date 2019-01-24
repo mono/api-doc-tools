@@ -50,9 +50,21 @@ namespace Mono.Documentation.Updater.Frameworks
             get => Index == FrameworksCount - 1;
         }
 
+        /// <param name="assemblyName">should be the assembly name (without version and file extension)</param>
         public bool IsLastFrameworkForAssembly(string assemblyName)
         {
-            return this.allcachedframeworks.Any(f => f.AllProcessedAssemblies.Any(a => a.Contains(assemblyName)));
+            if (this == Empty) return true;
+
+            var retval = this.allcachedframeworks
+                .Where(f => f.AllProcessedAssemblies
+                                .Any(ass => ass.Assemblies
+                                                .Any(a => a.Name.Name.Equals(assemblyName, StringComparison.OrdinalIgnoreCase))))
+                .ToArray();
+
+            if (!retval.Any ()) return false;
+
+            var lastListed = retval.Last ();
+            return lastListed.Name == this.Name;
         }
 
         public bool IsLastFrameworkForType(FrameworkTypeEntry typeEntry)
@@ -67,6 +79,14 @@ namespace Mono.Documentation.Updater.Frameworks
             return lastListed.Name == this.Name;
         }
 
+        public string AllFrameworksWithAssembly(string assemblyName)
+        {
+            if (this == Empty) return this.Name;
+
+            var fxlist = this.allcachedframeworks.Where (f => f.allAssemblies.Any (ass => ass.Assemblies.Any (a => a.Name.Name.Equals (assemblyName, StringComparison.OrdinalIgnoreCase))));
+            return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
+        }
+
         public string AllFrameworksWithType(FrameworkTypeEntry typeEntry)
         {
             if (this == Empty) return this.Name;
@@ -79,7 +99,7 @@ namespace Mono.Documentation.Updater.Frameworks
         public string AllFrameworksString {
             get 
             {
-                Lazy<string> fxString = new Lazy<string>(() => string.Join (";", allframeworks.Select (f => f.Name).ToArray ()));
+                Lazy<string> fxString = new Lazy<string>(() => string.Join (";", allcachedframeworks.Select (f => f.Name).ToArray ()));
 
                 if (!this.IsLastFramework) return fxString.Value;
                 if (string.IsNullOrWhiteSpace(_allFxString)) 

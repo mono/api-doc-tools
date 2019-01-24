@@ -9,7 +9,7 @@
     <BaseTypeName>System.Enum</BaseTypeName>
   </Base>
   <Attributes>
-    <Attribute FrameworkAlternate="one">
+    <Attribute>
       <AttributeName>System.Flags</AttributeName>
     </Attribute>
   </Attributes>
