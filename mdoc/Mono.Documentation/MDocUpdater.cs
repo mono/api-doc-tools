@@ -3506,8 +3506,12 @@ namespace Mono.Documentation
             }
 
             // clean up
-            if ((!string.IsNullOrWhiteSpace(assemblyName) && fx.IsLastFrameworkForAssembly(assemblyName)) || (typeEntry != null && fx.IsLastFrameworkForType(typeEntry)))
+            bool lastFxForAssembly = (!string.IsNullOrWhiteSpace (assemblyName) && fx.IsLastFrameworkForAssembly (assemblyName));
+            bool lastFxForType = (typeEntry != null && fx.IsLastFrameworkForType (typeEntry));
+            if (lastFxForAssembly || lastFxForType)
             {
+                string allFxString = null;
+
                 foreach (var attr in e.ChildNodes.SafeCast<XmlElement>().ToArray())
                 {
                     if (attr.HasAttribute(Consts.FrameworkAlternate))
@@ -3520,7 +3524,17 @@ namespace Mono.Documentation
                             continue;
                         }
 
-                        if (fxAttributeValue.Equals(fx.AllFrameworksString, StringComparison.Ordinal))
+                        if (string.IsNullOrWhiteSpace(allFxString))
+                        {
+                            if (lastFxForType)
+                                allFxString = fx.AllFrameworksWithType (typeEntry);
+                            else if (lastFxForAssembly)
+                                allFxString = fx.AllFrameworksWithAssembly (assemblyName);
+                            else
+                                allFxString = fx.AllFrameworksString;
+                        }
+
+                        if (fxAttributeValue.Equals(allFxString, StringComparison.Ordinal))
                             attr.RemoveAttribute(Consts.FrameworkAlternate);
 
                     }

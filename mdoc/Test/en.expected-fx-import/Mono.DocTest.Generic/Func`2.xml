@@ -8,7 +8,7 @@
   <TypeParameters>
     <TypeParameter Name="TArg">
       <Attributes>
-        <Attribute FrameworkAlternate="one">
+        <Attribute>
           <AttributeName>Mono.DocTest.Doc("arg!")</AttributeName>
         </Attribute>
       </Attributes>
@@ -19,7 +19,7 @@
     </TypeParameter>
     <TypeParameter Name="TRet">
       <Attributes>
-        <Attribute FrameworkAlternate="one">
+        <Attribute>
           <AttributeName>Mono.DocTest.Doc("ret!")</AttributeName>
         </Attribute>
       </Attributes>
@@ -32,14 +32,14 @@
     <BaseTypeName>System.Delegate</BaseTypeName>
   </Base>
   <Attributes>
-    <Attribute FrameworkAlternate="one">
+    <Attribute>
       <AttributeName>Mono.DocTest.Doc("method")</AttributeName>
     </Attribute>
   </Attributes>
   <Parameters>
     <Parameter Name="a" Type="TArg">
       <Attributes>
-        <Attribute FrameworkAlternate="one">
+        <Attribute>
           <AttributeName>Mono.DocTest.Doc("arg-actual")</AttributeName>
         </Attribute>
       </Attributes>
@@ -48,7 +48,7 @@
   <ReturnValue>
     <ReturnType>TRet</ReturnType>
     <Attributes>
-      <Attribute FrameworkAlternate="one">
+      <Attribute>
         <AttributeName>Mono.DocTest.Doc("return", Field=false)</AttributeName>
       </Attribute>
     </Attributes>
