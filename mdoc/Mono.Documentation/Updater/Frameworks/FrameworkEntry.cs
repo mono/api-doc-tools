@@ -133,6 +133,13 @@ namespace Mono.Documentation.Updater.Frameworks
             get => this.Index == 0; 
         }
 
+        public bool IsFirstFrameworkForType(FrameworkTypeEntry typeEntry)
+        {
+            var firstFx = this.allcachedframeworks.FirstOrDefault(f => f.FindTypeEntry(typeEntry) != null);
+
+            return firstFx == null || firstFx.Name == this.Name;
+        }
+
         /// <summary>Only Use in Unit Tests</summary>
         public string Replace="";
 
