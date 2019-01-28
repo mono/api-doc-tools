@@ -3434,7 +3434,6 @@ namespace Mono.Documentation
 		public static void MakeAttributes (XmlElement root, IEnumerable<string> attributes, FrameworkEntry fx, FrameworkTypeEntry typeEntry, string assemblyName=null)
         {
             XmlElement e = (XmlElement)root.SelectSingleNode ("Attributes");
-            bool isLastFx = fx != null && fx.IsLastFramework;
             bool noAttributes = attributes.Any ();
             bool currentlyHasAttributes = e != null && e.ChildNodes.Count > 0;
             
@@ -3613,7 +3612,7 @@ namespace Mono.Documentation
         {
             XmlElement e = WriteElement (root, "Parameters");
 
-            if (typeEntry.Framework.IsFirstFramework)
+            if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
             {
                 e.RemoveAll();
             }
