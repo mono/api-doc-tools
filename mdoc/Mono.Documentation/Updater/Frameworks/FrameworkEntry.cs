@@ -135,6 +135,8 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public bool IsFirstFrameworkForType(FrameworkTypeEntry typeEntry)
         {
+            if (this == Empty) return true;
+
             var firstFx = this.allcachedframeworks.FirstOrDefault(f => f.FindTypeEntry(typeEntry) != null);
 
             return firstFx == null || firstFx.Name == this.Name;
