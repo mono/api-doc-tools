@@ -3156,7 +3156,7 @@ namespace Mono.Documentation
                     if (realParamNode != null)
                     {
                         int explicitIndex;
-                        if (int.TryParse (((XmlElement)realParamNode).GetAttribute ("Index"), out explicitIndex))
+                        if (int.TryParse (((XmlElement)realParamNode).GetAttribute (Consts.Index), out explicitIndex))
                             idxToUse = explicitIndex;
                     }
                     if ((int)seenParams[name] != idxToUse)
@@ -3638,7 +3638,7 @@ namespace Mono.Documentation
                         pe.SetAttribute ("RefType", "ref");
                 }
                 //if (addIndex)
-                    pe.SetAttribute ("Index", index.ToString ());
+                    pe.SetAttribute (Consts.Index, index.ToString ());
                 //if (addfx)
                     pe.SetAttribute (Consts.FrameworkAlternate, fx);
 
@@ -3651,14 +3651,14 @@ namespace Mono.Documentation
                 var i = 0;
                 foreach (var node in nodes)
                 {
-                    if (!node.HasAttribute("Index"))
+                    if (!node.HasAttribute(Consts.Index))
                     {
-                        node.SetAttribute("Index", i.ToString());
+                        node.SetAttribute(Consts.Index, i.ToString());
                     }
                     else
                     {
                         int thisIndex;
-                        if (Int32.TryParse(node.GetAttribute("Index"), out thisIndex))
+                        if (Int32.TryParse(node.GetAttribute(Consts.Index), out thisIndex))
                             i = thisIndex;
                     }
                     i++;
@@ -3686,8 +3686,8 @@ namespace Mono.Documentation
                          .Select ((n, i) =>
                          {
                              int actualIndex = i;
-                             if (n.HasAttribute ("Index"))
-                                 int.TryParse (n.GetAttribute ("Index"), out actualIndex);
+                             if (n.HasAttribute (Consts.Index))
+                                 int.TryParse (n.GetAttribute (Consts.Index), out actualIndex);
 
 
                              return new
@@ -3710,13 +3710,18 @@ namespace Mono.Documentation
                 if (xitem != null)
                 {
                     var xelement = xitem.Element;
-                    //if (xelement.HasAttribute (Consts.FrameworkAlternate) && !xelement.GetAttribute (Consts.FrameworkAlternate).Contains (typeEntry.Framework.Name))
-                        xelement.SetAttribute (Consts.FrameworkAlternate, FXUtils.AddFXToList (xelement.GetAttribute (Consts.FrameworkAlternate), typeEntry.Framework.Name));
-                    
+
                     // update the type name. This supports the migration to a
                     // formal `RefType` attribute, rather than appending `&` to the Type attribute.
-                    xelement.SetAttribute ("Type", p.Type);
+                    xelement.SetAttribute("Type", p.Type);
 
+                    // set FXA Values (they'll be filtered out on the last run if necessary)
+                    var fxaValue = FXUtils.AddFXToList(xelement.GetAttribute(Consts.FrameworkAlternate), typeEntry.Framework.Name);
+                    xelement.RemoveAttribute(Consts.FrameworkAlternate);
+                    xelement.RemoveAttribute(Consts.Index);
+                    xelement.SetAttribute(Consts.Index, i.ToString());
+                    xelement.SetAttribute (Consts.FrameworkAlternate, fxaValue);
+                    
                     continue;
                 }
                 else {
@@ -3757,9 +3762,9 @@ namespace Mono.Documentation
             {
                 var p = pdata[i];
                 var xitem = xdata.FirstOrDefault (x => x.Name == p.Name);
-                if (xitem != null && xitem.Element.HasAttribute ("Index"))
+                if (xitem != null && xitem.Element.HasAttribute (Consts.Index))
                 {
-                    xitem.Element.SetAttribute ("Index", p.Index.ToString ());
+                    xitem.Element.SetAttribute (Consts.Index, p.Index.ToString ());
                 } 
             }
 
