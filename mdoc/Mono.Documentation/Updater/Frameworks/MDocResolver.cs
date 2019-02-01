@@ -250,7 +250,7 @@ namespace Mono.Documentation.Updater.Frameworks
     /// Inspired by Mono.Cecil's DefaultAssemblyResolver (<see href="https://github.com/jbevain/cecil/blob/master/Mono.Cecil/DefaultAssemblyResolver.cs"/>).
     /// The big difference with this implementation, is one of using composition over inheritance.
     /// </remarks>
-    class CachedResolver : IAssemblyResolver
+    public class CachedResolver : IAssemblyResolver
     {
         readonly IDictionary<string, AssemblyDefinition> cache;
 
