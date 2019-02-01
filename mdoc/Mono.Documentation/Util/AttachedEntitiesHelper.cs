@@ -137,10 +137,8 @@ namespace Mono.Documentation.Util
                 && field.IsInitOnly
 
                 // Class X also has static methods with the following names: Get[Name] and Set[Name]
-                && methods.ContainsKey(getMethodName)
-                && methods.ContainsKey(setMethodName)
-                && methods[getMethodName].Any(IsAttachedPropertyGetMethod)
-                && methods[setMethodName].Any(IsAttachedPropertySetMethod);
+                && ((methods.ContainsKey(getMethodName) && methods[getMethodName].Any(IsAttachedPropertyGetMethod))
+                    || (methods.ContainsKey(setMethodName) && methods[setMethodName].Any(IsAttachedPropertySetMethod)));
 
         }
 

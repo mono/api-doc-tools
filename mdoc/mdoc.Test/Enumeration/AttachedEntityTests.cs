@@ -27,7 +27,7 @@ namespace mdoc.Test.Enumeration
             var type = GetTypeDef<AttachedTestClass>();
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
 
-            Assert.AreEqual(1, list.Count());
+            Assert.AreEqual(3, list.Count());
         }
 
         public class AttachedTestClassNoAttachedEntities { }
@@ -37,6 +37,14 @@ namespace mdoc.Test.Enumeration
             public static readonly DependencyProperty SomeProperty;
             public static bool GetSome(DependencyObject obj) { return false;  }
             public static void SetSome(DependencyObject obj, bool val) { }
+
+
+            public static readonly DependencyProperty SomeGetProperty;
+            public static bool GetSomeGet(DependencyObject obj) { return false; }
+
+
+            public static readonly DependencyProperty SomeSetProperty;
+            public static void SetSomeSet(DependencyObject obj, bool val) { }
 
 
             public static DependencyProperty SomeNotReadonlyProperty;
