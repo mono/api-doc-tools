@@ -13,7 +13,7 @@ namespace Mono.Documentation.Updater.Frameworks
     public class AssemblySet : IDisposable
     {
         BaseAssemblyResolver resolver = new Frameworks.MDocResolver ();
-        IAssemblyResolver cachedResolver;
+        CachedResolver cachedResolver;
         IMetadataResolver metadataResolver;
 
         HashSet<string> assemblyPaths = new HashSet<string> ();
