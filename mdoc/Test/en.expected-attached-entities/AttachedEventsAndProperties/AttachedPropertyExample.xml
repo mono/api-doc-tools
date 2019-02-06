@@ -111,6 +111,22 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="IsBubbleSource2">
+      <MemberSignature Language="C#" Value="see SetIsBubbleSource2" />
+      <MemberSignature Language="ILAsm" Value="see SetIsBubbleSource2" />
+      <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AttachedPropertyExample.IsBubbleSource2" />
+      <MemberSignature Language="VB.NET" Value="see SetIsBubbleSource2" />
+      <MemberSignature Language="F#" Value="see SetIsBubbleSource2" Usage="see SetIsBubbleSource2" />
+      <MemberSignature Language="JavaScript" Value="see SetIsBubbleSource2" Usage="see SetIsBubbleSource2" />
+      <MemberType>AttachedProperty</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="IsBubbleSource2Property">
       <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty IsBubbleSource2Property;" />
       <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty IsBubbleSource2Property" />

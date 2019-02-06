@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Mono.Documentation.Util;
 using Windows.UI.Xaml;
+using Mono.Documentation.Updater;
 
 namespace mdoc.Test.Enumeration
 {
@@ -28,6 +29,45 @@ namespace mdoc.Test.Enumeration
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
 
             Assert.AreEqual(3, list.Count());
+        }
+
+        [TestCase]
+        public void Test_AttachedProperty_Formatter()
+        {
+            string expected = "see GetSome, and SetSome";
+
+            var type = GetTypeDef<AttachedTestClass>();
+            var list = AttachedEntitiesHelper.GetAttachedEntities(type);
+
+            MemberFormatter formatter = new CSharpMemberFormatter();
+            string def = formatter.GetDeclaration(list.First());
+            Assert.AreEqual(expected, def);
+        }
+
+        [TestCase]
+        public void Test_AttachedProperty_Formatter_GetOnly()
+        {
+            string expected = "see GetSomeGet";
+
+            var type = GetTypeDef<AttachedTestClass>();
+            var list = AttachedEntitiesHelper.GetAttachedEntities(type);
+
+            MemberFormatter formatter = new CSharpMemberFormatter();
+            string def = formatter.GetDeclaration(list.Skip(1).First());
+            Assert.AreEqual(expected, def);
+        }
+
+        [TestCase]
+        public void Test_AttachedProperty_Formatter_SetOnly()
+        {
+            string expected = "see SetSomeSet";
+
+            var type = GetTypeDef<AttachedTestClass>();
+            var list = AttachedEntitiesHelper.GetAttachedEntities(type);
+
+            MemberFormatter formatter = new CSharpMemberFormatter();
+            string def = formatter.GetDeclaration(list.Skip(2).First());
+            Assert.AreEqual(expected, def);
         }
 
         public class AttachedTestClassNoAttachedEntities { }
