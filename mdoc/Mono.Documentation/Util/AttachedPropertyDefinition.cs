@@ -7,10 +7,19 @@ namespace Mono.Documentation.Util
     {
         private readonly FieldDefinition fieldDefinition;
 
-        public AttachedPropertyDefinition(FieldDefinition fieldDefinition, MetadataToken metadataToken): base(fieldDefinition)
+        public AttachedPropertyDefinition(FieldDefinition fieldDefinition, MetadataToken metadataToken) : base(fieldDefinition)
         {
             this.fieldDefinition = fieldDefinition;
             MetadataToken = metadataToken;
+        }
+
+        public MemberReference GetMethod 
+        {
+            get => this.DeclaringType.GetMember($"Get{AttachedEntitiesHelper.GetPropertyName(fieldDefinition.Name)}");
+        }
+        public MemberReference SetMethod
+        {
+            get => this.DeclaringType.GetMember($"Set{AttachedEntitiesHelper.GetPropertyName(fieldDefinition.Name)}");
         }
 
         public Collection<CustomAttribute> CustomAttributes => fieldDefinition.CustomAttributes;

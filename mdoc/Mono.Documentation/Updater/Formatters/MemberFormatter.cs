@@ -459,7 +459,19 @@ namespace Mono.Documentation.Updater
 
         protected virtual string GetAttachedPropertyDeclaration(AttachedPropertyDefinition a)
         {
-            return $"see Get{a.Name}, and Set{a.Name}";
+            // check get and set member and craft string according
+            string getter = $"Get{a.Name}";
+            string setter = $"Set{a.Name}";
+
+            var get = a.GetMethod;
+            var set = a.SetMethod;
+
+            if (get != null && set == null)
+                return $"see {getter}";
+            else if (set != null && get == null)
+                return $"see {setter}";
+            else
+                return $"see {getter}, and {setter}";
         }
 
         public virtual bool IsSupported(TypeReference tref) => true;
