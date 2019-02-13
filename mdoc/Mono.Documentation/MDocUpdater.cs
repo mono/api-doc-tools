@@ -2178,7 +2178,7 @@ namespace Mono.Documentation
             }
 
             DocsNodeInfo typeInfo = new DocsNodeInfo (WriteElement (root, "Docs"), type);
-            MakeDocNode (typeInfo, typeEntry.Framework.Importers);
+            MakeDocNode (typeInfo, typeEntry.Framework.Importers, typeEntry);
 
             if (!DocUtils.IsDelegate (type))
                 WriteElement (root, "Members");
@@ -2315,7 +2315,7 @@ namespace Mono.Documentation
                 WriteElementText (me, "MemberValue", fieldValue);
 
             info.Node = WriteElement (me, "Docs");
-            MakeDocNode (info, typeEntry.Framework.Importers);
+            MakeDocNode (info, typeEntry.Framework.Importers, typeEntry);
 
             foreach (MemberFormatter f in memberFormatters)
             {
@@ -2983,7 +2983,7 @@ namespace Mono.Documentation
 
         // DOCUMENTATION HELPER FUNCTIONS
 
-        private void MakeDocNode (DocsNodeInfo info, IEnumerable<DocumentationImporter> setimporters)
+        private void MakeDocNode (DocsNodeInfo info, IEnumerable<DocumentationImporter> setimporters, FrameworkTypeEntry typeEntry)
         {
             List<GenericParameter> genericParams = info.GenericParameters;
             IList<ParameterDefinition> parameters = info.Parameters;
@@ -2999,7 +2999,7 @@ namespace Mono.Documentation
                 string[] values = new string[parameters.Count];
                 for (int i = 0; i < values.Length; ++i)
                     values[i] = parameters[i].Name;
-                UpdateParameters (e, "param", values);
+                UpdateParameters (e, "param", values, typeEntry);
             }
 
             if (genericParams != null)
@@ -3007,7 +3007,7 @@ namespace Mono.Documentation
                 string[] values = new string[genericParams.Count];
                 for (int i = 0; i < values.Length; ++i)
                     values[i] = genericParams[i].Name;
-                UpdateParameters (e, "typeparam", values);
+                UpdateParameters (e, "typeparam", values, typeEntry);
             }
 
             string retnodename = null;
@@ -3070,7 +3070,7 @@ namespace Mono.Documentation
             ReorderNodes (docs, children, DocsNodeOrder);
         }
 
-        private void UpdateParameters (XmlElement e, string element, string[] values)
+        private void UpdateParameters (XmlElement e, string element, string[] values, FrameworkTypeEntry typeEntry)
         {
             string parentElement = element == "typeparam" ? "TypeParameter" : "Parameter";
             string rootParentElement = element == "typeparam" ? "TypeParameters" : "Parameters";
@@ -3116,58 +3116,61 @@ namespace Mono.Documentation
                     reinsert = true;
                 }
 
-                // Remove parameters that no longer exist and check all params are in the right order.
-                int idx = 0;
-                MyXmlNodeList todelete = new MyXmlNodeList ();
-                foreach (XmlElement paramnode in e.SelectNodes (element))
+                if (typeEntry.Framework.IsLastFrameworkForType(typeEntry))
                 {
-                    string name = paramnode.GetAttribute ("name");
-                    // TODO: pick the right parameters
-                    XmlNode realParamNode = e.ParentNode.SelectSingleNode ($"./{rootParentElement}/{parentElement}[@Name='{paramnode.GetAttribute ("name")}']");
-                    if (!seenParams.ContainsKey (name))
+                    // Remove parameters that no longer exist and check all params are in the right order.
+                    int idx = 0;
+                    MyXmlNodeList todelete = new MyXmlNodeList();
+                    foreach (XmlElement paramnode in e.SelectNodes(element))
                     {
-                        if (!delete && !paramnode.InnerText.StartsWith ("To be added", StringComparison.Ordinal))
+                        string name = paramnode.GetAttribute("name");
+                        // TODO: pick the right parameters
+                        XmlNode realParamNode = e.ParentNode.SelectSingleNode($"./{rootParentElement}/{parentElement}[@Name='{paramnode.GetAttribute("name")}']");
+                        if (!seenParams.ContainsKey(name))
                         {
-                            Warning ("The following param node can only be deleted if the --delete option is given: ");
-                            if (e.ParentNode == e.OwnerDocument.DocumentElement)
+                            if (!delete && !paramnode.InnerText.StartsWith("To be added", StringComparison.Ordinal))
                             {
-                                // delegate type
-                                Warning ("\tXPath=/Type[@FullName=\"{0}\"]/Docs/param[@name=\"{1}\"]",
-                                        e.OwnerDocument.DocumentElement.GetAttribute ("FullName"),
-                                        name);
+                                Warning("The following param node can only be deleted if the --delete option is given: ");
+                                if (e.ParentNode == e.OwnerDocument.DocumentElement)
+                                {
+                                    // delegate type
+                                    Warning("\tXPath=/Type[@FullName=\"{0}\"]/Docs/param[@name=\"{1}\"]",
+                                            e.OwnerDocument.DocumentElement.GetAttribute("FullName"),
+                                            name);
+                                }
+                                else
+                                {
+                                    Warning("\tXPath=/Type[@FullName=\"{0}\"]//Member[@MemberName=\"{1}\"]/Docs/param[@name=\"{2}\"]",
+                                            e.OwnerDocument.DocumentElement.GetAttribute("FullName"),
+                                            e.ParentNode.Attributes["MemberName"].Value,
+                                            name);
+                                }
+                                Warning("\tValue={0}", paramnode.OuterXml);
                             }
-                            else
+                            else if (realParamNode == null)
                             {
-                                Warning ("\tXPath=/Type[@FullName=\"{0}\"]//Member[@MemberName=\"{1}\"]/Docs/param[@name=\"{2}\"]",
-                                        e.OwnerDocument.DocumentElement.GetAttribute ("FullName"),
-                                        e.ParentNode.Attributes["MemberName"].Value,
-                                        name);
+                                todelete.Add(paramnode);
                             }
-                            Warning ("\tValue={0}", paramnode.OuterXml);
+                            continue;
                         }
-                        else if (realParamNode == null)
+
+                        int idxToUse = idx;
+                        if (realParamNode != null)
                         {
-                            todelete.Add (paramnode);
+                            int explicitIndex;
+                            if (int.TryParse(((XmlElement)realParamNode).GetAttribute(Consts.Index), out explicitIndex))
+                                idxToUse = explicitIndex;
                         }
-                        continue;
+                        if ((int)seenParams[name] != idxToUse)
+                            reinsert = true;
+
+                        idx++;
                     }
 
-                    int idxToUse = idx;
-                    if (realParamNode != null)
+                    foreach (XmlNode n in todelete)
                     {
-                        int explicitIndex;
-                        if (int.TryParse (((XmlElement)realParamNode).GetAttribute (Consts.Index), out explicitIndex))
-                            idxToUse = explicitIndex;
+                        n.ParentNode.RemoveChild(n);
                     }
-                    if ((int)seenParams[name] != idxToUse)
-                        reinsert = true;
-
-                    idx++;
-                }
-
-                foreach (XmlNode n in todelete)
-                {
-                    n.ParentNode.RemoveChild (n);
                 }
 
                 // Re-insert the parameter nodes at the top of the doc section.
