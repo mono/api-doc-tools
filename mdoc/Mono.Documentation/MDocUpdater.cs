@@ -3128,7 +3128,7 @@ namespace Mono.Documentation
                         XmlNode realParamNode = e.ParentNode.SelectSingleNode($"./{rootParentElement}/{parentElement}[@Name='{paramnode.GetAttribute("name")}']");
                         if (!seenParams.ContainsKey(name))
                         {
-                            if (!delete && !paramnode.InnerText.StartsWith("To be added", StringComparison.Ordinal))
+                            if (realParamNode == null && !delete && !paramnode.InnerText.StartsWith("To be added", StringComparison.Ordinal))
                             {
                                 Warning("The following param node can only be deleted if the --delete option is given: ");
                                 if (e.ParentNode == e.OwnerDocument.DocumentElement)
