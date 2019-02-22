@@ -23,7 +23,7 @@ namespace Mono.Documentation.Util
         {
             get => this.DeclaringType.GetMember(
                 $"Set{AttachedEntitiesHelper.GetPropertyName(fieldDefinition.Name)}",
-                m => (m as MethodReference)?.Parameters.Count == 1);
+                m => (m as MethodReference)?.Parameters.Count == 2);
         }
 
         public Collection<CustomAttribute> CustomAttributes => fieldDefinition.CustomAttributes;
