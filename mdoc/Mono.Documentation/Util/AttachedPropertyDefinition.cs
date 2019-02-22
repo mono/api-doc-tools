@@ -15,11 +15,15 @@ namespace Mono.Documentation.Util
 
         public MemberReference GetMethod 
         {
-            get => this.DeclaringType.GetMember($"Get{AttachedEntitiesHelper.GetPropertyName(fieldDefinition.Name)}");
+            get => this.DeclaringType.GetMember(
+                $"Get{AttachedEntitiesHelper.GetPropertyName(fieldDefinition.Name)}", 
+                m => (m as MethodReference)?.Parameters.Count == 1);
         }
         public MemberReference SetMethod
         {
-            get => this.DeclaringType.GetMember($"Set{AttachedEntitiesHelper.GetPropertyName(fieldDefinition.Name)}");
+            get => this.DeclaringType.GetMember(
+                $"Set{AttachedEntitiesHelper.GetPropertyName(fieldDefinition.Name)}",
+                m => (m as MethodReference)?.Parameters.Count == 1);
         }
 
         public Collection<CustomAttribute> CustomAttributes => fieldDefinition.CustomAttributes;
