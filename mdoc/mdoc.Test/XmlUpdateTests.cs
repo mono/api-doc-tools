@@ -50,6 +50,20 @@ namespace mdoc.Test2
         public void Meth (int d, string e, int f) { }
     }
 }
+
+namespace mdoc.Test3
+{
+    
+    public class MyClass
+    {
+        public void Meth(int a, string b, int c) { }
+    }
+    
+    public class MyClass2
+    {
+        public void Meth(int A, string B, int C) { }
+    }
+}
 namespace mdoc.Test
 {
     /// <summary>
@@ -269,6 +283,26 @@ namespace mdoc.Test
         }
         #endregion
 
+        #region Parameter Name Alpha Diff
+        [Test()]
+        public void Parameters3_Updating_NameDiff()
+        {
+            var context = InitContext<mdoc.Test3.MyClass>(startingEmptyXml, 0, false, ns1:"mdoc.Test3", ns2:"mdoc.Test3");
+            var context2 = InitContext<mdoc.Test3.MyClass2>(startingEmptyXml, 1, false, ns1:"mdoc.Test3", ns2:"mdoc.Test3");
+
+            FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First();
+            FrameworkTypeEntry typeEntry2 = context.fx.Frameworks[1].Types.First();
+            bool fxAlternateTriggered = false;
+
+            context.updater.MakeParameters(context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
+            context.updater.MakeParameters(context.doc.FirstChild as XmlElement, context2.method, context2.parameters, typeEntry2, ref fxAlternateTriggered);
+
+            var afterXML = context.doc.OuterXml;
+
+            Assert.AreEqual(Normalize(XmlConsts.NormalSingleXml2), afterXML);
+
+        }
+        #endregion
 
         [Test ()]
         public void MemberSignature_Updating_Existing_Align ()
@@ -841,7 +875,7 @@ namespace mdoc.Test
             };
         }
 
-        private ParamContext InitContext <T>(string methodXml, int fxIndex, bool forceAlignment=false)
+        private ParamContext InitContext <T>(string methodXml, int fxIndex, bool forceAlignment=false, string ns1="mdoc.Test", string ns2="mdoc.Test2")
         {
             Func<int, bool> indexCheck = fi => fi < 2;
             if (typeof(T) == typeof(MyClass2))
@@ -854,19 +888,19 @@ namespace mdoc.Test
             var beforeXML = doc.OuterXml;
             XmlElement root = doc.SelectSingleNode ("//Docs") as XmlElement; // Docs
 
-            TypeDefinition type = GetDefinition<T> ("mdoc.Test");
+            TypeDefinition type = GetDefinition<T> (ns1);
             var method = type.Methods.First (m => m.Name == "Meth") as MethodReference;
             var parameters = method.Parameters.ToList ();
-            TypeDefinition type2 = GetDefinition<T> ("mdoc.Test2");
+            TypeDefinition type2 = GetDefinition<T> (ns2);
             var method2 = type2.Methods.First (m => m.Name == "Meth") as MethodReference;
             var parameters2 = method2.Parameters.ToList ();
 
             // updater
             var updater = new MDocUpdater ();
             var fx = new FrameworkIndex ("", 3, null);
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "One", Name = "One", Replace="mdoc.Test2", With="mdoc.Test" });
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "Three", Name = "Three", Replace = "mdoc.Test2", With = "mdoc.Test"  });
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "Two", Name = "Two", Replace = "mdoc.Test2", With = "mdoc.Test"  });
+            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "One", Name = "One", Replace=ns2, With=ns1 });
+            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "Three", Name = "Three", Replace = ns2, With = ns1  });
+            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "Two", Name = "Two", Replace = ns2, With = ns1  });
 
             var i = 0;
             foreach (var f in fx.Frameworks)
