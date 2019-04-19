@@ -3070,8 +3070,11 @@ namespace Mono.Documentation
             ReorderNodes (docs, children, DocsNodeOrder);
         }
 
-        private void UpdateParameters (XmlElement e, string element, string[] values, FrameworkTypeEntry typeEntry)
+        public void UpdateParameters (XmlElement e, string element, string[] values, FrameworkTypeEntry typeEntry)
         {
+            if (e.Name != "Docs") // make sure we're working with the Docs node
+                e = (e.SelectSingleNode("Docs") as XmlElement) ?? e;
+
             string parentElement = element == "typeparam" ? "TypeParameter" : "Parameter";
             string rootParentElement = element == "typeparam" ? "TypeParameters" : "Parameters";
 
