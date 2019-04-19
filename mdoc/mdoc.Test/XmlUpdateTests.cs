@@ -285,10 +285,10 @@ namespace mdoc.Test
 
         #region Parameter Name Alpha Diff
         [Test()]
-        public void Parameters3_Updating_NameDiff()
+        public void Parameters3_Making_NameDiff()
         {
-            var context = InitContext<mdoc.Test3.MyClass>(startingEmptyXml, 0, false, ns1:"mdoc.Test3", ns2:"mdoc.Test3");
-            var context2 = InitContext<mdoc.Test3.MyClass2>(startingEmptyXml, 1, false, ns1:"mdoc.Test3", ns2:"mdoc.Test3");
+            var context = InitContext<mdoc.Test3.MyClass>(startingEmptyXml, 0, false, ns1: "mdoc.Test3", ns2: "mdoc.Test3");
+            var context2 = InitContext<mdoc.Test3.MyClass2>(startingEmptyXml, 1, false, ns1: "mdoc.Test3", ns2: "mdoc.Test3");
 
             FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First();
             FrameworkTypeEntry typeEntry2 = context.fx.Frameworks[1].Types.First();
@@ -299,8 +299,42 @@ namespace mdoc.Test
 
             var afterXML = context.doc.OuterXml;
 
-            Assert.AreEqual(Normalize(XmlConsts.NormalSingleXml2), afterXML);
+            Assert.IsTrue(afterXML.Contains("Parameter Name=\"a\""), "missing 'a'");
+            Assert.IsTrue(afterXML.Contains("Parameter Name=\"b\""), "missing 'b'");
+            Assert.IsTrue(afterXML.Contains("Parameter Name=\"c\""), "missing 'c'");
+            Assert.IsTrue(afterXML.Contains("Parameter Name=\"A\""), "missing 'A'");
+            Assert.IsTrue(afterXML.Contains("Parameter Name=\"B\""), "missing 'B'");
+            Assert.IsTrue(afterXML.Contains("Parameter Name=\"C\""), "missing 'C'");
+        }
+        [Test()]
+        public void Parameters3_Updating_NameDiff()
+        {
+            var context = InitContext<mdoc.Test3.MyClass>(startingEmptyXml, 0, false, ns1: "mdoc.Test3", ns2: "mdoc.Test3");
+            var context2 = InitContext<mdoc.Test3.MyClass2>(startingEmptyXml, 1, false, ns1: "mdoc.Test3", ns2: "mdoc.Test3");
+            var context3 = InitContext<mdoc.Test3.MyClass2>(startingEmptyXml, 2, false, ns1: "mdoc.Test3", ns2: "mdoc.Test3");
 
+            FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First();
+            FrameworkTypeEntry typeEntry2 = context.fx.Frameworks[1].Types.First();
+            FrameworkTypeEntry typeEntry3 = context.fx.Frameworks[2].Types.First();
+            bool fxAlternateTriggered = false;
+
+            context.updater.MakeParameters(context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
+            context.updater.UpdateParameters(context.doc.FirstChild as XmlElement, "param", context.parameters.Select(p => p.Name).ToArray(), typeEntry);
+
+            context.updater.MakeParameters(context.doc.FirstChild as XmlElement, context2.method, context2.parameters, typeEntry2, ref fxAlternateTriggered);
+            context.updater.UpdateParameters(context.doc.FirstChild as XmlElement, "param", context2.parameters.Select(p => p.Name).ToArray(), typeEntry2);
+
+            context.updater.MakeParameters(context.doc.FirstChild as XmlElement, context3.method, context3.parameters, typeEntry3, ref fxAlternateTriggered);
+            context.updater.UpdateParameters(context.doc.FirstChild as XmlElement, "param", context3.parameters.Select(p => p.Name).ToArray(), typeEntry3);
+
+            var afterXML = context.doc.OuterXml;
+
+            Assert.IsTrue(afterXML.Contains("param name=\"a\""), "missing 'a'");
+            Assert.IsTrue(afterXML.Contains("param name=\"b\""), "missing 'b'");
+            Assert.IsTrue(afterXML.Contains("param name=\"c\""), "missing 'c'");
+            Assert.IsTrue(afterXML.Contains("param name=\"A\""), "missing 'A'");
+            Assert.IsTrue(afterXML.Contains("param name=\"B\""), "missing 'B'");
+            Assert.IsTrue(afterXML.Contains("param name=\"C\""), "missing 'C'");
         }
         #endregion
 
