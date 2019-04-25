@@ -1553,16 +1553,11 @@ namespace Mono.Documentation
 
                                 // If this is the last framework, and this has been requested for deletion
                                 // in every other framework where this type exists, let's just delete it.
-                                if (!typeEntry.Framework.IsLastFramework)
+                                if (!typeEntry.Framework.IsLastFrameworkForType(typeEntry))
                                     continue;
                                 else
                                 {
-                                    var allReportingFx = frameworksCache.Frameworks.Where(fx =>
-                                    {
-                                        var tInstance = fx.FindTypeEntry(typeEntry.Name);
-                                        return tInstance != null;
-                                    }).Select(f => f.Name);
-                                    var allFxString = string.Join(";", allReportingFx.ToArray());
+                                    var allFxString = typeEntry.Framework.AllFrameworksWithType(typeEntry);
                                     if (deleteRequestMap[sigvalue] != allFxString)
                                         continue; // on the last framework, only continue on if it wasn't deleted in every framework
                                 }
