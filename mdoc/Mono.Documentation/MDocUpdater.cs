@@ -1551,6 +1551,8 @@ namespace Mono.Documentation
                                 else
                                     deleteRequestMap[sigvalue] = typeEntry.Framework.Name;
 
+                                Console.WriteLine($"-X- looks like we need to remove {typeEntry.Name}'s {sigvalue} as it's not in {typeEntry.Framework.Name}");
+
                                 // If this is the last framework, and this has been requested for deletion
                                 // in every other framework where this type exists, let's just delete it.
                                 if (!typeEntry.Framework.IsLastFrameworkForType(typeEntry))
@@ -1560,6 +1562,9 @@ namespace Mono.Documentation
                                     var allFxString = typeEntry.Framework.AllFrameworksWithType(typeEntry);
                                     if (deleteRequestMap[sigvalue] != allFxString)
                                         continue; // on the last framework, only continue on if it wasn't deleted in every framework
+
+                                    // print 
+                                    Console.WriteLine($"-X- {typeEntry.Framework.Name} is the last fx for {typeEntry.Name} and {sigvalue} isn't here.\n\tdelete requested by: {deleteRequestMap[sigvalue]}\n\tall fx: {allFxString}");
                                 }
                             }
                         }
