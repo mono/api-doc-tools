@@ -148,7 +148,7 @@ namespace Mono.Documentation.Updater
             int i = name.LastIndexOf('.');
             var memberName = i == -1 ? name : name.Substring(i + 1);
 
-            if (memberName.StartsWith("get_") || memberName.StartsWith("set_"))
+            if (memberName.StartsWith("get_") || memberName.StartsWith("set_") || memberName.StartsWith("put_"))
             {
                 var index = memberName.IndexOf("_", StringComparison.InvariantCulture);
                 if (index > 0)
@@ -427,6 +427,7 @@ namespace Mono.Documentation.Updater
             {
                 if (mi.Name.StartsWith("get_", StringComparison.Ordinal)) return true;
                 if (mi.Name.StartsWith("set_", StringComparison.Ordinal)) return true;
+                if (mi.Name.StartsWith("put_", StringComparison.Ordinal)) return true;
                 if (mi.Name.StartsWith("add_", StringComparison.Ordinal)) return true;
                 if (mi.Name.StartsWith("remove_", StringComparison.Ordinal)) return true;
                 if (mi.Name.StartsWith("raise_", StringComparison.Ordinal)) return true;
