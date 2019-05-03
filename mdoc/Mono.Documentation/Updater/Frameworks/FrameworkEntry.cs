@@ -95,6 +95,14 @@ namespace Mono.Documentation.Updater.Frameworks
             return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
         }
 
+        public string AllFrameworksThatMatch(Func<FrameworkEntry, bool> clause)
+        {
+            if (this == Empty) return this.Name;
+
+            var fxlist = this.allcachedframeworks.Where(clause).ToArray();
+            return string.Join(";", fxlist.Select(f => f.Name).ToArray());
+        }
+
         string _allFxString = "";
         public string AllFrameworksString {
             get 

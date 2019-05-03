@@ -33,7 +33,7 @@ namespace Mono.Documentation
 
         string apistyle = string.Empty;
         bool isClassicRun;
-
+        bool verbose;
         bool delete;
         bool show_exceptions;
         bool no_assembly_versions, ignore_missing_types;
@@ -254,6 +254,9 @@ namespace Mono.Documentation
                     if (!string.IsNullOrEmpty(v))
                         statisticsFilePath = v;
                 } },
+            { "verbose",
+                "Adds extra output to the log",
+                v => verbose = true },
         };
             var assemblyPaths = Parse (p, args, "update",
                     "[OPTIONS]+ ASSEMBLIES",
@@ -1474,10 +1477,7 @@ namespace Mono.Documentation
         }
 
         static readonly XmlNodeComparer DefaultExtensionMethodComparer = new ExtensionMethodComparer ();
-
-        /// <summary> Holds a list of items that we want</summary>
-        static readonly Dictionary<string, string> deleteRequestMap = new Dictionary<string, string>();
-
+        
         public void DoUpdateType2 (string message, XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry, string output, bool insertSince)
         {
             Console.WriteLine (message + ": " + type.FullName);
@@ -1535,7 +1535,7 @@ namespace Mono.Documentation
                         if (sigFromXml != null)
                         {
                             var sigvalue = sigFromXml.GetAttribute ("Value");
-                            Func<FrameworkEntry, bool> findTypes = fx =>
+                            Func<FrameworkEntry, bool> hasMember = fx =>
                             {
                                 var tInstance = fx.FindTypeEntry (typeEntry.Name);
                                 if (tInstance != null)
@@ -1544,28 +1544,9 @@ namespace Mono.Documentation
                                 }
                                 return false;
                             };
-                            if (frameworksCache.Frameworks.Any(findTypes))
+                            if (frameworksCache.Frameworks.Any(hasMember)) // does this function exist in *any* frameworks
                             {
-                                if (deleteRequestMap.ContainsKey(sigvalue))
-                                    deleteRequestMap[sigvalue] = FXUtils.AddFXToList(deleteRequestMap[sigvalue], typeEntry.Framework.Name);
-                                else
-                                    deleteRequestMap[sigvalue] = typeEntry.Framework.Name;
-
-                                Console.WriteLine($"-X- looks like we need to remove {typeEntry.Name}'s {sigvalue} as it's not in {typeEntry.Framework.Name}");
-
-                                // If this is the last framework, and this has been requested for deletion
-                                // in every other framework where this type exists, let's just delete it.
-                                if (!typeEntry.Framework.IsLastFrameworkForType(typeEntry))
-                                    continue;
-                                else
-                                {
-                                    var allFxString = typeEntry.Framework.AllFrameworksWithType(typeEntry);
-                                    if (deleteRequestMap[sigvalue] != allFxString)
-                                        continue; // on the last framework, only continue on if it wasn't deleted in every framework
-
-                                    // print 
-                                    Console.WriteLine($"-X- {typeEntry.Framework.Name} is the last fx for {typeEntry.Name} and {sigvalue} isn't here.\n\tdelete requested by: {deleteRequestMap[sigvalue]}\n\tall fx: {allFxString}");
-                                }
+                                continue; // we won't be deleting it
                             }
                         }
                     }
