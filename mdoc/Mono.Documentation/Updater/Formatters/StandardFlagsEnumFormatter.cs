@@ -22,7 +22,9 @@ namespace Mono.Documentation.Updater
                     (from i in values.Keys
                      where (c & i) == i && i != 0
                      select typename + "." + values[i])
-                    .DefaultIfEmpty (c.ToString ()).ToArray ());
+                    .DefaultIfEmpty (c.ToString ())
+                    .OrderBy (val => val) // to maintain a consistent list across frameworks/versions
+                    .ToArray ());
 
                 return true;
             }
