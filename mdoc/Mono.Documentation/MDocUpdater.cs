@@ -3074,27 +3074,31 @@ namespace Mono.Documentation
             if (values != null)
             {
                 // Add whichever `param` values aren't present from `values`
+                Dictionary<string, StringList> seen = new Dictionary<string, StringList>(values.Length);
                 for (int i = 0; i < values.Length; i++)
                 {
                     var value = values[i];
 
+                    if (!seen.ContainsKey(value))
+                        seen.Add(value, new StringList(2));
+
+                    var seenlist = seen[value];
+                    seenlist.Add(value);
+
                     // query for `param` of `value`
                     var existingParameters = e.SelectNodes(element + "[@name='" + value + "']");
-
+                    
                     // if not exists, add
-                    if (existingParameters.Count == 0)
+                    if (existingParameters.Count < seenlist.Count)
                     {
                         XmlElement pe = e.OwnerDocument.CreateElement(element);
                         pe.SetAttribute("name", value);
+                        // TODO: set index attribute with `i`
                         pe.InnerText = "To be added.";
                         e.AppendChild(pe);
                     }
-                    else if (existingParameters.Count > 1)
-                    {
-                        // we only care if there's more than one
-                        throw new MDocException($"More than one param for {value}");
-                    }
                 }
+                seen = null;
 
                 // on last, get a list of all parent elements, and then nuke `param` if name doesn't match one on the list
                 if (typeEntry.IsOnLastFramework)
@@ -3106,17 +3110,28 @@ namespace Mono.Documentation
 
                     // query all `param`
                     var paramsToDelete = new List<XmlElement>(1);
-                    foreach (XmlElement paramnode in e.SelectNodes(element))
+                    foreach (var paramnodes in e.SelectNodes(element).Cast<XmlElement>().GroupBy(el => el.GetAttribute("name") ).ToArray())
                     {
                         // if doesn't exist in `mainRoots` ... delete
-                        var pname = paramnode.GetAttribute("name");
-                        if (!mainRoots.ContainsKey(pname))
+                        var pname = paramnodes.Key;
+                        bool containsRoot = mainRoots.ContainsKey(pname);
+                        if (!containsRoot || mainRoots[pname].Count() < paramnodes.Count())
                         {
-                            bool istba = paramnode.InnerText.StartsWith("To be added", StringComparison.Ordinal);
-                            if (delete || istba)
-                                paramsToDelete.Add(paramnode);
-                            else
-                                Warning($"Would have deleted param '{pname}', but -delete is {delete}{(istba ? "" : " it's not empty ('" + paramnode.InnerText + "')") }");
+                            int rootCount = containsRoot ? mainRoots[pname].Count() : 0;
+                            int currentParamCount = 0;
+                            foreach (var paramnode in paramnodes)
+                            {
+                                currentParamCount++;
+
+                                if (currentParamCount <= rootCount) continue;
+
+                                bool istba = paramnode.InnerText.StartsWith("To be added", StringComparison.Ordinal);
+                                if (delete || istba)
+                                    paramsToDelete.Add(paramnode);
+                                else
+                                    Warning($"Would have deleted param '{pname}', but -delete is {delete}{(istba ? "" : " it's not empty ('" + paramnode.InnerText + "')") }");
+
+                            }
                         }
                     }
 
