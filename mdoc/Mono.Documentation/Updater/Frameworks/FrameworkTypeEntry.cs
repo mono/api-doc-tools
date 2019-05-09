@@ -56,6 +56,8 @@ namespace Mono.Documentation.Updater.Frameworks
 		public string Namespace { get; set; }
 		public FrameworkEntry Framework { get { return fx; } }
 
+        public bool IsOnLastFramework { get { return this.Framework.IsLastFrameworkForType(this); } }
+
 		public IEnumerable<string> Members {
 			get {
 				return this.sigMap.Values.OrderBy(v => v).Distinct();
