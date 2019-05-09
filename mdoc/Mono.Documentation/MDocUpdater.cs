@@ -3073,128 +3073,66 @@ namespace Mono.Documentation
 
             if (values != null)
             {
-                // Some documentation had param nodes with leading spaces.
-                foreach (XmlElement paramnode in e.SelectNodes (element))
+                // Add whichever `param` values aren't present from `values`
+                for (int i = 0; i < values.Length; i++)
                 {
-                    paramnode.SetAttribute ("name", paramnode.GetAttribute ("name").Trim ());
-                }
+                    var value = values[i];
 
-                bool reinsert = false;
+                    // query for `param` of `value`
+                    var existingParameters = e.SelectNodes(element + "[@name='" + value + "']");
 
-                // Pick out existing and still-valid param nodes, and
-                // create nodes for parameters not in the file.
-                Hashtable seenParams = new Hashtable ();
-                var roots = e.ParentNode.SelectNodes ($"{rootParentElement}/{parentElement}")
-                             .Cast<XmlElement> ()
-                             .GroupBy (pe => pe.GetAttribute ("Name"))
-                             .ToDictionary (k => k.Key, k => k);
-                for (int pi = 0; pi < values.Length; pi++)
-                {
-                    string p = values[pi];
-                    seenParams[p] = pi;
-
-                    var nodes = e.SelectNodes(element + "[@name='" + p + "']");
-                    if (nodes.Count > 0) {
-                        // check and see if there _should_ be more than one
-                        if (roots.ContainsKey (p) && nodes.Count < roots[p].Count ())
-                        {
-                            // we should have more
-                        }
-                        else // let's keep moving
-                            continue;
+                    // if not exists, add
+                    if (existingParameters.Count == 0)
+                    {
+                        XmlElement pe = e.OwnerDocument.CreateElement(element);
+                        pe.SetAttribute("name", value);
+                        pe.InnerText = "To be added.";
+                        e.AppendChild(pe);
                     }
-
-
-                    XmlElement pe = e.OwnerDocument.CreateElement (element);
-                    pe.SetAttribute ("name", p);
-                    pe.InnerText = "To be added.";
-                    e.AppendChild (pe);
-                    reinsert = true;
+                    else if (existingParameters.Count > 1)
+                    {
+                        // we only care if there's more than one
+                        throw new MDocException($"More than one param for {value}");
+                    }
                 }
 
-                if (typeEntry.Framework.IsLastFrameworkForType(typeEntry))
+                // on last, get a list of all parent elements, and then nuke `param` if name doesn't match one on the list
+                if (typeEntry.IsOnLastFramework)
                 {
-                    // Remove parameters that no longer exist and check all params are in the right order.
-                    int idx = 0;
-                    MyXmlNodeList todelete = new MyXmlNodeList();
+                    var mainRoots = e.ParentNode.SelectNodes($"{rootParentElement}/{parentElement}")
+                                 .Cast<XmlElement>()
+                                 .GroupBy(pe => pe.GetAttribute("Name"))
+                                 .ToDictionary(k => k.Key, k => k);
+
+                    // query all `param`
+                    var paramsToDelete = new List<XmlElement>(1);
                     foreach (XmlElement paramnode in e.SelectNodes(element))
                     {
-                        string name = paramnode.GetAttribute("name");
-                        // TODO: pick the right parameters
-                        XmlNode realParamNode = e.ParentNode.SelectSingleNode($"./{rootParentElement}/{parentElement}[@Name='{paramnode.GetAttribute("name")}']");
-                        if (!seenParams.ContainsKey(name))
+                        // if doesn't exist in `mainRoots` ... delete
+                        var pname = paramnode.GetAttribute("name");
+                        if (!mainRoots.ContainsKey(pname))
                         {
-                            if (realParamNode == null && !delete && !paramnode.InnerText.StartsWith("To be added", StringComparison.Ordinal))
-                            {
-                                Warning("The following param node can only be deleted if the --delete option is given: ");
-                                if (e.ParentNode == e.OwnerDocument.DocumentElement)
-                                {
-                                    // delegate type
-                                    Warning("\tXPath=/Type[@FullName=\"{0}\"]/Docs/param[@name=\"{1}\"]",
-                                            e.OwnerDocument.DocumentElement.GetAttribute("FullName"),
-                                            name);
-                                }
-                                else
-                                {
-                                    Warning("\tXPath=/Type[@FullName=\"{0}\"]//Member[@MemberName=\"{1}\"]/Docs/param[@name=\"{2}\"]",
-                                            e.OwnerDocument.DocumentElement.GetAttribute("FullName"),
-                                            e.ParentNode.Attributes["MemberName"].Value,
-                                            name);
-                                }
-                                Warning("\tValue={0}", paramnode.OuterXml);
-                            }
-                            else if (realParamNode == null)
-                            {
-                                todelete.Add(paramnode);
-                            }
-                            continue;
+                            bool istba = paramnode.InnerText.StartsWith("To be added", StringComparison.Ordinal);
+                            if (delete || istba)
+                                paramsToDelete.Add(paramnode);
+                            else
+                                Warning($"Would have deleted param '{pname}', but -delete is {delete}{(istba ? "" : " it's not empty ('" + paramnode.InnerText + "')") }");
                         }
-
-                        int idxToUse = idx;
-                        if (realParamNode != null)
-                        {
-                            int explicitIndex;
-                            if (int.TryParse(((XmlElement)realParamNode).GetAttribute(Consts.Index), out explicitIndex))
-                                idxToUse = explicitIndex;
-                        }
-                        if ((int)seenParams[name] != idxToUse)
-                            reinsert = true;
-
-                        idx++;
                     }
 
-                    foreach (XmlNode n in todelete)
+                    for (int i = 0; i < paramsToDelete.Count; i++)
                     {
-                        n.ParentNode.RemoveChild(n);
+                        var item = paramsToDelete[i];
+                        item.ParentNode.RemoveChild(item);
                     }
-                }
 
-                // Re-insert the parameter nodes at the top of the doc section.
-                if (reinsert)
-                {
-                    var paramParent = e.ParentNode.SelectSingleNode (rootParentElement);
+                    // sort
+                    var paramParent = e.ParentNode.SelectSingleNode(rootParentElement);
                     if (paramParent != null)
-                        SortXmlNodes (
-                            e, 
-                            e.SelectNodes (element), 
+                        SortXmlNodes(
+                            e,
+                            e.SelectNodes(element),
                             new MemberParameterNameComparer(paramParent as XmlElement, parentElement));
-
-                }
-            }
-            else
-            {
-                // Clear all existing param nodes
-                foreach (XmlNode paramnode in e.SelectNodes (element))
-                {
-                    if (!delete && !paramnode.InnerText.StartsWith ("To be added", StringComparison.Ordinal))
-                    {
-                        Console.WriteLine ("The following param node can only be deleted if the --delete option is given:");
-                        Console.WriteLine (paramnode.OuterXml);
-                    }
-                    else
-                    {
-                        paramnode.ParentNode.RemoveChild (paramnode);
-                    }
                 }
             }
         }
