@@ -15,7 +15,7 @@
       <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>System.AttributeUsage(System.AttributeTargets.Module | System.AttributeTargets.Event | System.AttributeTargets.Delegate, AllowMultiple=false)</AttributeName>
+      <AttributeName>System.AttributeUsage(System.AttributeTargets.Delegate | System.AttributeTargets.Event | System.AttributeTargets.Module, AllowMultiple=false)</AttributeName>
     </Attribute>
     <Attribute>
       <AttributeName>System.Serializable</AttributeName>
