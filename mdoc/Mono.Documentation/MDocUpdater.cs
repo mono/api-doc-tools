@@ -3595,12 +3595,6 @@ namespace Mono.Documentation
                     {
                         node.SetAttribute(Consts.Index, i.ToString());
                     }
-                    else
-                    {
-                        int thisIndex;
-                        if (Int32.TryParse(node.GetAttribute(Consts.Index), out thisIndex))
-                            i = thisIndex;
-                    }
                     i++;
                 }
             };
@@ -3646,7 +3640,10 @@ namespace Mono.Documentation
             for (int i=0; i < pdata.Length; i++) {
                 var p = pdata[i];
                 // check for name
-                var xitem = xdata.FirstOrDefault (x => x.Name == p.Name);
+                
+                var xitems = xdata.Where (x => x.Name == p.Name);
+                var xitem = xitems.SingleOrDefault(x => x.ActualIndex == i);
+
                 if (xitem != null)
                 {
                     var xelement = xitem.Element;
@@ -3668,6 +3665,7 @@ namespace Mono.Documentation
                     // if no check actualIndex and type
                     if (xdata.Any (x => x.ActualIndex == i && x.Type == p.Type))
                     {
+                        // TODO: this probably needs to be a bit smarter about "" params
                         addFXAttributes (xdata.Select (x => x.Element));
                         //-find type in previous frameworks
 
@@ -3695,17 +3693,6 @@ namespace Mono.Documentation
                         addParameter (p.Definition, lastElement, p.Type, i, false, typeEntry.Framework.Name, false);
                     }
                 }
-            }
-
-            // this section syncs up the indices
-            for (int i = 0; i < pdata.Length; i++)
-            {
-                var p = pdata[i];
-                var xitem = xdata.FirstOrDefault (x => x.Name == p.Name);
-                if (xitem != null && xitem.Element.HasAttribute (Consts.Index))
-                {
-                    xitem.Element.SetAttribute (Consts.Index, p.Index.ToString ());
-                } 
             }
 
             //-purge `typeEntry.Framework` from any<parameter> that 
