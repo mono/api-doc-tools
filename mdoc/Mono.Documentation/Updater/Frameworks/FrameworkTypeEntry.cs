@@ -57,6 +57,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		public FrameworkEntry Framework { get { return fx; } }
 
         public bool IsOnLastFramework { get { return this.Framework.IsLastFrameworkForType(this); } }
+        public bool IsOnFirstFramework { get { return this.Framework.IsFirstFrameworkForType(this); } }
 
 		public IEnumerable<string> Members {
 			get {
