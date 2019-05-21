@@ -9,6 +9,7 @@ namespace Mono.Documentation.Updater.Frameworks
 	public class FrameworkTypeEntry : IComparable<FrameworkTypeEntry>
 	{
         Dictionary<string, string> sigMap = new Dictionary<string, string> ();
+        Dictionary<string, bool> sigDocMap = new Dictionary<string, bool>();
 
 		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
         DocIdFormatter docidFormatter = new DocIdFormatter ();
@@ -59,11 +60,11 @@ namespace Mono.Documentation.Updater.Frameworks
         public bool IsOnLastFramework { get { return this.Framework.IsLastFrameworkForType(this); } }
         public bool IsOnFirstFramework { get { return this.Framework.IsFirstFrameworkForType(this); } }
         public bool IsMemberOnLastFramework (MemberReference memberSig)
-            => this.Framework.IsLastFrameworkForMember (this, formatter.GetDeclaration(memberSig));
+            => this.Framework.IsLastFrameworkForMember (this, formatter.GetDeclaration(memberSig), docidFormatter.GetDeclaration(memberSig));
         public bool IsMemberOnFirstFramework (MemberReference memberSig)
-            => this.Framework.IsFirstFrameworkForMember (this, formatter.GetDeclaration (memberSig));
+            => this.Framework.IsFirstFrameworkForMember (this, formatter.GetDeclaration (memberSig), docidFormatter.GetDeclaration(memberSig));
         public string AllFrameworkStringForMember (MemberReference memberSig)
-            => this.Framework.AllFrameworksWithMember (this, formatter.GetDeclaration (memberSig));
+            => this.Framework.AllFrameworksWithMember (this, formatter.GetDeclaration (memberSig), docidFormatter.GetDeclaration(memberSig));
 
         public IEnumerable<string> Members {
 			get {
@@ -94,18 +95,24 @@ namespace Mono.Documentation.Updater.Frameworks
 			if (resolvedMember != null) {
                 var docid = docidFormatter.GetDeclaration (member);
 				sigMap[key] = docid;
+                sigDocMap[docid] = true;
 			}
 			else 
 				sigMap[key] = member.FullName;
 
-		}
+        }
 
-		public bool ContainsCSharpSig (string sig)
-		{
-			return sigMap.ContainsKey (sig);
-		}
+        public bool ContainsCSharpSig(string sig)
+        {
+            return sigMap.ContainsKey(sig);
+        }
 
-		public override string ToString () => $"{this.Name} in {this.fx.Name}";
+        public bool ContainsDocId(string sig)
+        {
+            return sigDocMap.ContainsKey(sig);
+        }
+
+        public override string ToString () => $"{this.Name} in {this.fx.Name}";
 
 		public int CompareTo (FrameworkTypeEntry other)
 		{

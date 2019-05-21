@@ -79,7 +79,7 @@ namespace Mono.Documentation.Updater.Frameworks
             return lastListed.Name == this.Name;
         }
 
-        public bool IsLastFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig)
+        public bool IsLastFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig, string docidsig)
         {
             if (this == Empty) return true;
 
@@ -87,7 +87,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 var fxType = f.FindTypeEntry (typeEntry);
                 if (fxType == null) return false;
 
-                return fxType.ContainsCSharpSig (memberSig);
+                return fxType.ContainsCSharpSig (memberSig) || fxType.ContainsDocId(docidsig);
             }).ToArray ();
 
             if (!fxlist.Any ()) return false;
@@ -112,13 +112,13 @@ namespace Mono.Documentation.Updater.Frameworks
             return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
         }
 
-        public string AllFrameworksWithMember (FrameworkTypeEntry typeEntry, string memberSig)
+        public string AllFrameworksWithMember (FrameworkTypeEntry typeEntry, string memberSig, string memberDocId)
         {
             return AllFrameworksThatMatch ((fx) =>
              {
                  var fxtype = fx.FindTypeEntry (typeEntry);
                  if (fxtype == null) return false;
-                 return fxtype.ContainsCSharpSig (memberSig);
+                 return fxtype.ContainsCSharpSig (memberSig) || fxtype.ContainsDocId (memberDocId);
              });
         }
 
@@ -177,7 +177,7 @@ namespace Mono.Documentation.Updater.Frameworks
             return firstFx == null || firstFx.Name == this.Name;
         }
 
-        public bool IsFirstFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig)
+        public bool IsFirstFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig, string docidsig)
         {
             if (this == Empty) return true;
 
@@ -186,7 +186,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 var fxType = f.FindTypeEntry (typeEntry);
                 if (fxType == null) return false;
 
-                return fxType.ContainsCSharpSig (memberSig);
+                return fxType.ContainsCSharpSig (memberSig) || fxType.ContainsDocId (docidsig);
             });
 
             return firstFx == null || firstFx.Name == this.Name;
