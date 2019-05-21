@@ -2298,6 +2298,7 @@ namespace Mono.Documentation
             info.Node = WriteElement (me, "Docs");
             MakeDocNode (info, typeEntry.Framework.Importers, typeEntry);
 
+            
             foreach (MemberFormatter f in memberFormatters)
             {
                 UpdateSignature (f, mi, me, typeEntry);
@@ -2340,7 +2341,7 @@ namespace Mono.Documentation
             Func<IEnumerable<XmlElement>> elementsQuery = () => xmlElement.SelectNodes(elementXPath).SafeCast<XmlElement>();
 
             // pre: clear all the signatures
-            if (typeEntry.IsOnFirstFramework)
+            if (typeEntry.IsMemberOnFirstFramework(member))
             {
                 foreach (var element in elementsQuery())// xmlElement.SelectNodes(elementName).SafeCast<XmlElement>())
                 {
@@ -2391,7 +2392,7 @@ namespace Mono.Documentation
 
 
             // if last framework, check to see if fxa list is the entire, and remove
-            if (typeEntry.IsOnLastFramework)
+            if (typeEntry.IsMemberOnLastFramework(member))
             {
                 foreach(var element in elementsQuery())
                 {
@@ -2401,7 +2402,7 @@ namespace Mono.Documentation
                         element.ParentNode.RemoveChild(element);
                     }
 
-                    var allfx = typeEntry.Framework.AllFrameworksWithType(typeEntry);
+                    var allfx = typeEntry.AllFrameworkStringForMember (member);
                     if (allfx == fxa)
                     {
                         element.RemoveAttribute(Consts.FrameworkAlternate);

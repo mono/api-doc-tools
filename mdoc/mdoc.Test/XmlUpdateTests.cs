@@ -339,42 +339,6 @@ namespace mdoc.Test
         #endregion
 
         [Test ()]
-        public void MemberSignature_Updating_Existing_NoChange ()
-        {
-            var context = InitContext <MyClass>(SigmultiFrameworkXml, 2, forceAlignment: false);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
-
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigmultiFrameworkXml), Normalize (afterXML));
-
-        }
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_NameChanged_SingleFX()
-        {
-            // handles the case 
-            var context = InitContext<MyClass> (SigRegular, 2, forceAlignment: false);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First ();
-            context.fx.Frameworks.RemoveAt (2);
-            context.fx.Frameworks.RemoveAt (1);
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigRegularChanged), Normalize (afterXML));
-
-        }
-
-        [Test ()]
         public void DocMemberEnumerator()
         {
             var context = InitContext <MyClass>(string.Format (typeFrameXml, multiFrameworkXml), 1, forceAlignment: true);
