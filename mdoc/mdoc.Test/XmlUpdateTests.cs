@@ -339,40 +339,6 @@ namespace mdoc.Test
         #endregion
 
         [Test ()]
-        public void MemberSignature_Updating_Existing_Align ()
-        {
-            var context = InitContext <MyClass>(SigmultiFrameworkXml, 0, forceAlignment: true);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First ();
-
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered:false);
-
-            var afterXML = context.doc.OuterXml;
-            // first framework looks like it already looked, so no need to update
-            Assert.AreEqual (Normalize (SigmultiFrameworkXml), Normalize (afterXML));
-
-        }
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_Align2 ()
-        {
-            var context = InitContext <MyClass>(SigmultiFrameworkXml, 2, forceAlignment: true);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
-
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: false);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigmultiFrameworkAligned), Normalize (afterXML));
-
-        }
-
-        [Test ()]
         public void MemberSignature_Updating_Existing_NoChange ()
         {
             var context = InitContext <MyClass>(SigmultiFrameworkXml, 2, forceAlignment: false);
@@ -381,33 +347,13 @@ namespace mdoc.Test
 
 
             var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: false);
+            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry);
 
             var afterXML = context.doc.OuterXml;
 
             Assert.AreEqual (Normalize (SigmultiFrameworkXml), Normalize (afterXML));
 
         }
-
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_NoChange_regular ()
-        {
-            var context = InitContext<MyClass> (SigRegular, 1, forceAlignment: false);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[1].Types.First ();
-
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: false);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigRegular), Normalize (afterXML));
-
-        }
-
-
 
         [Test ()]
         public void MemberSignature_Updating_Existing_NameChanged_SingleFX()
@@ -420,30 +366,11 @@ namespace mdoc.Test
             context.fx.Frameworks.RemoveAt (1);
 
             var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: true);
+            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry);
 
             var afterXML = context.doc.OuterXml;
 
             Assert.AreEqual (Normalize (SigRegularChanged), Normalize (afterXML));
-
-        }
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_NameChanged_MultiFX ()
-        {
-            // handles the case 
-            var context = InitContext<MyClass> (SigRegular, 2, forceAlignment: false);
-
-            Func<int, FrameworkTypeEntry> typeEntry = i => context.fx.Frameworks[i].Types.First ();
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(0), fxAlternateTriggered: true);
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(1), fxAlternateTriggered: false);
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(2), fxAlternateTriggered: false);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigRegularAllAligned), Normalize (afterXML));
 
         }
 

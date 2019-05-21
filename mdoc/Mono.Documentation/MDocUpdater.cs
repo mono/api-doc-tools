@@ -2300,7 +2300,7 @@ namespace Mono.Documentation
 
             foreach (MemberFormatter f in memberFormatters)
             {
-                UpdateSignature (f, mi, me, typeEntry, fxAlternateTriggered);
+                UpdateSignature (f, mi, me, typeEntry);
             }
 
             OrderMemberNodes (me, me.ChildNodes);
@@ -2328,109 +2328,86 @@ namespace Mono.Documentation
                 type);
         }
 
-        public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry, bool fxAlternateTriggered)
+        public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry)
         {
             var valueToUse = formatter.GetDeclaration(member);
             var usageSample = formatter.UsageFormatter?.GetDeclaration(member);
             if (valueToUse == null && usageSample == null)
                 return;
 
-            string elementXPath = "MemberSignature[@Language='" + formatter.Language + "']";
-            GetUpdateXmlMethods(formatter, xmlElement, elementXPath, valueToUse, usageSample, 
-                out var valueMatches, 
-                out var setValue, 
-                out var makeNewNode);
+            string elementName = "MemberSignature";
+            string elementXPath = $"{elementName}[@Language='" + formatter.Language + "']";
+            Func<IEnumerable<XmlElement>> elementsQuery = () => xmlElement.SelectNodes(elementXPath).SafeCast<XmlElement>();
 
-            /*
-             * 1. 'normal'
-            */
-            /// Handle framework alternate scenarios
-            string currentFX = typeEntry.Framework.Name;
-            var existingNodes = xmlElement.SelectNodes (elementXPath).Cast<XmlElement> ().ToArray ();
-            if (existingNodes.Count () > 1) {
-                //  find the right one to update based on `currentFX`
+            // pre: clear all the signatures
+            if (typeEntry.IsOnFirstFramework)
+            {
+                foreach (var element in elementsQuery())// xmlElement.SelectNodes(elementName).SafeCast<XmlElement>())
+                {
+                    // remove element
+                    element.ParentNode.RemoveChild(element);
+                }
+            }
 
-                if (existingNodes.Any (e => e.HasAttribute (Consts.FrameworkAlternate))) {
-                    var nodesWithFX = existingNodes.Where (e => e.HasAttribute (Consts.FrameworkAlternate));
-                    if (nodesWithFX.Any ()) {
-                        // one exists, we can continue
-                        if (!fxAlternateTriggered)
-                        {
-                            var matchingSignature = nodesWithFX.FirstOrDefault (nfx => nfx.GetAttribute ("Value") == valueToUse && !nfx.GetAttribute (Consts.FrameworkAlternate).Contains (currentFX));
-                            if (matchingSignature!= null) {
-                                // The current implementation has changed
-                                matchingSignature.SetAttribute (Consts.FrameworkAlternate, FXUtils.AddFXToList (matchingSignature.GetAttribute (Consts.FrameworkAlternate), currentFX));
-                                foreach (var n in nodesWithFX.Where (nfx => nfx != matchingSignature))
-                                {
-                                    string nfx = n.GetAttribute (Consts.FrameworkAlternate);
-                                    string nfixed = FXUtils.RemoveFXFromList (nfx, currentFX);
-                                    if (string.IsNullOrEmpty (nfixed))
-                                    {
-                                        n.ParentNode.RemoveChild (n);
-                                        var nodesWithoutFX = existingNodes
-                                            .Where (e => e.HasAttribute (Consts.FrameworkAlternate) && !e.GetAttribute (Consts.FrameworkAlternate).Contains (currentFX))
-                                            .Select (e => new { Element = e, FX = e.GetAttribute (Consts.FrameworkAlternate) });
-                                        foreach (var nwofx in nodesWithoutFX)
-                                        {
-                                            nwofx.Element.SetAttribute (Consts.FrameworkAlternate, FXUtils.AddFXToList (nwofx.FX, currentFX));
-                                        }
-                                    }
-                                    else
-                                        n.SetAttribute (Consts.FrameworkAlternate, nfixed);
-                                }
-                            }
+            bool elementFound = false;
 
-                        }
-                        else
-                        {
-                            var newelement = makeNewNode(false);
-                            newelement.SetAttribute(Consts.FrameworkAlternate, currentFX);
-                        }
-                        return;
+            // if exists, add fxa to it
+            if (elementsQuery().Any())
+            {
+                //var matchingElement = elementsQuery.Where(e => e.GetAttribute("Value") == valueToUse);
+                foreach(var element in elementsQuery())
+                {
+                    var val = element.GetAttribute("Value");
+                    var usage = element.GetAttribute("Usage");
+                    if (val == (valueToUse??"") && usage == (usageSample??""))
+                    {
+                        // add FXA
+                        string newfxa = FXUtils.AddFXToList(element.GetAttribute(Consts.FrameworkAlternate), typeEntry.Framework.Name);
+                        element.SetAttribute(Consts.FrameworkAlternate, newfxa);
+                        elementFound = true;
                     }
-                    else {
-                        // none exist, we must add one with `currentFX`
-                        throw new Exception ("FX, this shouldn't happen");
+                    else
+                    {
+                        string newfxa = FXUtils.RemoveFXFromList(element.GetAttribute(Consts.FrameworkAlternate), typeEntry.Framework.Name);
+                        element.SetAttribute(Consts.FrameworkAlternate, newfxa);
                     }
                 }
-                else {
-                    // there are multiple, but none contain a `FrameworkAlternate`
-                    // this shouldn't happen
-                    throw new Exception ("FX, this shouldn't happen");
-                }
-            }
-            else if (fxAlternateTriggered && existingNodes.Count () == 1 && typeEntry.Framework.Frameworks.Count () > 1) {
-                // need to add alternate
-                string previousFX = FXUtils.PreviouslyProcessedFXString (typeEntry);
-                if (!string.IsNullOrWhiteSpace (previousFX))
-                {
-                    var node = existingNodes.First ();
-                    node.SetAttribute (Consts.FrameworkAlternate, previousFX);
-                }
-                else 
-                {
-                    // there was no previous FX, so remove the existing node
-                    var node = existingNodes.First ();
-                    node.ParentNode.RemoveChild (node);
-                }
-
-                var newelement = makeNewNode (true);
-                newelement.SetAttribute (Consts.FrameworkAlternate, currentFX);
-                return;
-            }
-            else if (!fxAlternateTriggered && existingNodes.Count () == 1 && typeEntry.Framework.Frameworks.Count () > 1 && existingNodes.First ().HasAttribute (Consts.FrameworkAlternate)) {
-                var node = existingNodes.First ();
-                string newfxvalue = FXUtils.AddFXToList (node.GetAttribute (Consts.FrameworkAlternate), typeEntry.Framework.Name);
-                node.SetAttribute (Consts.FrameworkAlternate, newfxvalue);
-                return;
             }
 
-            AddXmlNode(
-                existingNodes,
-                valueMatches,
-                setValue,
-                () => makeNewNode(true),
-                member);
+            if (!elementFound) //not exists, just add it with fxa
+            {
+                var newElement = xmlElement.OwnerDocument.CreateElement(elementName);
+                xmlElement.AppendChild(newElement);
+                newElement.SetAttribute("Language", formatter.Language);
+
+                if (!string.IsNullOrWhiteSpace(valueToUse))
+                    newElement.SetAttribute("Value", valueToUse);
+
+                if (!string.IsNullOrWhiteSpace(usageSample))
+                    newElement.SetAttribute("Usage", usageSample);
+
+                newElement.SetAttribute(Consts.FrameworkAlternate, typeEntry.Framework.Name);
+            }
+
+
+            // if last framework, check to see if fxa list is the entire, and remove
+            if (typeEntry.IsOnLastFramework)
+            {
+                foreach(var element in elementsQuery())
+                {
+                    var fxa = element.GetAttribute(Consts.FrameworkAlternate);
+                    if (string.IsNullOrWhiteSpace(fxa))
+                    {
+                        element.ParentNode.RemoveChild(element);
+                    }
+
+                    var allfx = typeEntry.Framework.AllFrameworksWithType(typeEntry);
+                    if (allfx == fxa)
+                    {
+                        element.RemoveAttribute(Consts.FrameworkAlternate);
+                    }
+                }
+            }
         }
 
         private static void GetUpdateXmlMethods(MemberFormatter formatter, XmlElement xmlElement, string elementXPath, string valueToUse,
