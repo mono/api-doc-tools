@@ -67,11 +67,28 @@ namespace Mono.Documentation.Updater.Frameworks
             return lastListed.Name == this.Name;
         }
 
-        public bool IsLastFrameworkForType(FrameworkTypeEntry typeEntry)
+        public bool IsLastFrameworkForType (FrameworkTypeEntry typeEntry)
         {
             if (this == Empty) return true;
 
-            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null).ToArray();
+            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null).ToArray ();
+
+            if (!fxlist.Any ()) return false;
+
+            var lastListed = fxlist.Last ();
+            return lastListed.Name == this.Name;
+        }
+
+        public bool IsLastFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig)
+        {
+            if (this == Empty) return true;
+
+            var fxlist = this.allcachedframeworks.Where (f => {
+                var fxType = f.FindTypeEntry (typeEntry);
+                if (fxType == null) return false;
+
+                return fxType.ContainsCSharpSig (memberSig);
+            }).ToArray ();
 
             if (!fxlist.Any ()) return false;
 
@@ -93,6 +110,16 @@ namespace Mono.Documentation.Updater.Frameworks
 
             var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null);
             return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
+        }
+
+        public string AllFrameworksWithMember (FrameworkTypeEntry typeEntry, string memberSig)
+        {
+            return AllFrameworksThatMatch ((fx) =>
+             {
+                 var fxtype = fx.FindTypeEntry (typeEntry);
+                 if (fxtype == null) return false;
+                 return fxtype.ContainsCSharpSig (memberSig);
+             });
         }
 
         public string AllFrameworksThatMatch(Func<FrameworkEntry, bool> clause)
@@ -138,14 +165,29 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		/// <summary>Gets a value indicating whether this <see cref="T:Mono.Documentation.Updater.Frameworks.FrameworkEntry"/> is first framework being processed.</summary>
 		public bool IsFirstFramework { 
-            get => this.Index == 0; 
+            get => this.Index == 0;
         }
 
-        public bool IsFirstFrameworkForType(FrameworkTypeEntry typeEntry)
+        public bool IsFirstFrameworkForType (FrameworkTypeEntry typeEntry)
         {
             if (this == Empty) return true;
 
-            var firstFx = this.allcachedframeworks.FirstOrDefault(f => f.FindTypeEntry(typeEntry) != null);
+            var firstFx = this.allcachedframeworks.FirstOrDefault (f => f.FindTypeEntry (typeEntry) != null);
+
+            return firstFx == null || firstFx.Name == this.Name;
+        }
+
+        public bool IsFirstFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig)
+        {
+            if (this == Empty) return true;
+
+            var firstFx = this.allcachedframeworks.FirstOrDefault (f =>
+            {
+                var fxType = f.FindTypeEntry (typeEntry);
+                if (fxType == null) return false;
+
+                return fxType.ContainsCSharpSig (memberSig);
+            });
 
             return firstFx == null || firstFx.Name == this.Name;
         }

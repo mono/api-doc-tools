@@ -58,8 +58,14 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public bool IsOnLastFramework { get { return this.Framework.IsLastFrameworkForType(this); } }
         public bool IsOnFirstFramework { get { return this.Framework.IsFirstFrameworkForType(this); } }
+        public bool IsMemberOnLastFramework (MemberReference memberSig)
+            => this.Framework.IsLastFrameworkForMember (this, formatter.GetDeclaration(memberSig));
+        public bool IsMemberOnFirstFramework (MemberReference memberSig)
+            => this.Framework.IsFirstFrameworkForMember (this, formatter.GetDeclaration (memberSig));
+        public string AllFrameworkStringForMember (MemberReference memberSig)
+            => this.Framework.AllFrameworksWithMember (this, formatter.GetDeclaration (memberSig));
 
-		public IEnumerable<string> Members {
+        public IEnumerable<string> Members {
 			get {
 				return this.sigMap.Values.OrderBy(v => v).Distinct();
 			}
