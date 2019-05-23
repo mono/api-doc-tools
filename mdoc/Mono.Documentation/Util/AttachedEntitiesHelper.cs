@@ -150,7 +150,7 @@ namespace Mono.Documentation.Util
                    // && IsAssignableTo(method.ReturnType, "");
 
                    // The Get method takes one argument of type DependencyObject(or something IsAssignableTo(DependencyObject), 
-                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml));
+                   ;//&& (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml));
         }
 
         private static bool IsAttachedPropertySetMethod(MethodDefinition method)
@@ -158,7 +158,7 @@ namespace Mono.Documentation.Util
             return method.Parameters.Count == 2// The Set method takes two arguments.
                    
                    // The first has type DependencyObject(or IsAssignableTo…), 
-                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml))
+                   //s&& (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml))
 
                    // the second has type dp.PropertyType (or IsAssignableTo…).
                    // && IsAssignableTo(method.Parameters[1].ParameterType, "")
