@@ -114,32 +114,60 @@ namespace Mono.Documentation.Util
                 if (IsAttachedProperty(field, methods))
                     yield return new AttachedPropertyReference(field);
             }
+            foreach (var prop in type.Properties)
+            {
+                if (IsAttachedProperty(prop, methods))
+                    yield return new AttachedPropertyReference(prop);
+            }
         }
 
         private static bool IsAttachedProperty(FieldDefinition field, Dictionary<string, IEnumerable<MethodDefinition>> methods)
         {
+            string fieldName = field.Name;
+            TypeReference fieldType = field.FieldType;
+            TypeDefinition declaringType = field?.DeclaringType;
+            bool isPublic = field.IsPublic;
+            bool isStatic = field.IsStatic;
+            bool isInitOnly = field.IsInitOnly;
+            return IsAttachedPropertyCore(methods, fieldName, fieldType, declaringType, isPublic, isStatic, isInitOnly);
+
+        }
+
+        private static bool IsAttachedProperty(PropertyDefinition prop, Dictionary<string, IEnumerable<MethodDefinition>> methods)
+        {
+            string fieldName = prop.Name;
+            TypeReference fieldType = prop.PropertyType;
+            TypeDefinition declaringType = prop?.DeclaringType;
+            bool isPublic = prop.GetMethod.IsPublic;
+            bool isStatic = prop.GetMethod.IsStatic;
+            bool isInitOnly = prop.SetMethod == null || !prop.SetMethod.IsPublic;
+            return IsAttachedPropertyCore(methods, fieldName, fieldType, declaringType, isPublic, isStatic, isInitOnly);
+
+        }
+
+        private static bool IsAttachedPropertyCore(Dictionary<string, IEnumerable<MethodDefinition>> methods, string fieldName, TypeReference fieldType, TypeDefinition declaringType, bool isPublic, bool isStatic, bool isInitOnly)
+        {
             // https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/attached-properties-overview
             // https://github.com/mono/api-doc-tools/issues/63#issuecomment-328995418
-            if (!field.Name.EndsWith(PropertyConst, StringComparison.Ordinal))
+            if (!fieldName.EndsWith(PropertyConst, StringComparison.Ordinal))
                 return false;
-            var propertyName = GetPropertyName(field.Name);
+            var propertyName = GetPropertyName(fieldName);
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
 
-            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal));
-            var hasExistingField = field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, System.StringComparison.Ordinal));
+            var hasExistingProperty = declaringType?.Properties.Any(p => p.Name.Equals(propertyName, System.StringComparison.Ordinal));
+            var hasExistingField = declaringType?.Fields.Any(f => f.Name.Equals(propertyName, System.StringComparison.Ordinal));
 
-            return !hasExistingProperty.IsTrue () && !hasExistingField.IsTrue () &&
+            return !hasExistingProperty.IsTrue() && !hasExistingField.IsTrue() &&
                 // Class X has a static field of type DependencyProperty [Name]Property
-                (field.FieldType.FullName == Consts.DependencyPropertyFullName || field.FieldType.FullName == Consts.DependencyPropertyFullNameXaml)
-                && field.IsPublic
-                && field.IsStatic
-                && field.IsInitOnly
+                (fieldType.FullName == Consts.DependencyPropertyFullName || fieldType.FullName == Consts.DependencyPropertyFullNameXaml)
+                && isPublic
+                && isStatic
+                && isInitOnly
 
                 // Class X also has static methods with the following names: Get[Name] and Set[Name]
                 && ((methods.ContainsKey(getMethodName) && methods[getMethodName].Any(IsAttachedPropertyGetMethod))
                     || (methods.ContainsKey(setMethodName) && methods[setMethodName].Any(IsAttachedPropertySetMethod)));
-
         }
 
         private static bool IsAttachedPropertyGetMethod(MethodDefinition method)
