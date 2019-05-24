@@ -120,6 +120,8 @@ namespace Mono.Documentation
             }
         }
 
+        bool writeIndex = true;
+
         /// <summary>Path which contains multiple folders with assemblies. Each folder contained will represent one framework.</summary>
         string FrameworksPath = string.Empty;
         FrameworkIndex frameworks;
@@ -257,6 +259,9 @@ namespace Mono.Documentation
             { "verbose",
                 "Adds extra output to the log",
                 v => verbose = true },
+            { "index=",
+                "Lets you choose to disable index.xml (true by default)",
+                v => bool.TryParse(v, out writeIndex) },
         };
             var assemblyPaths = Parse (p, args, "update",
                     "[OPTIONS]+ ASSEMBLIES",
@@ -1087,8 +1092,11 @@ namespace Mono.Documentation
             CleanupIndexTypes (index_types, goodfiles);
             CleanupExtensions (index_types);
 
-            WriteFile (indexfile, FileMode.Create,
-                    writer => WriteXml (index.DocumentElement, writer));
+            if (writeIndex)
+            {
+                WriteFile(indexfile, FileMode.Create,
+                        writer => WriteXml(index.DocumentElement, writer));
+            }
         }
 
         private static char[] InvalidFilenameChars = { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
