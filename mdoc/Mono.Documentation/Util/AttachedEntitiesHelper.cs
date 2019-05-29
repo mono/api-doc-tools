@@ -135,11 +135,13 @@ namespace Mono.Documentation.Util
 
         private static bool IsAttachedProperty(PropertyDefinition prop, Dictionary<string, IEnumerable<MethodDefinition>> methods)
         {
+            if (prop == null) return false;
+
             string fieldName = prop.Name;
             TypeReference fieldType = prop.PropertyType;
             TypeDefinition declaringType = prop?.DeclaringType;
-            bool isPublic = prop.GetMethod.IsPublic;
-            bool isStatic = prop.GetMethod.IsStatic;
+            bool isPublic = prop.GetMethod?.IsPublic ?? false;
+            bool isStatic = prop.GetMethod?.IsStatic ?? false;
             bool isInitOnly = prop.SetMethod == null || !prop.SetMethod.IsPublic;
             return IsAttachedPropertyCore(methods, fieldName, fieldType, declaringType, isPublic, isStatic, isInitOnly);
 
