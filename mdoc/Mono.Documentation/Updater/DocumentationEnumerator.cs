@@ -134,7 +134,22 @@ namespace Mono.Documentation.Updater
                 bool good = true;
                 for (int i = 0; i < pis.Count; i++)
                 {
-                    bool isRefType = pis[i].ParameterType is ByReferenceType;
+                    var mParamType = pis[i].ParameterType;
+
+                    bool isRefType = false;
+
+                    if (mParamType is ByReferenceType)
+                        isRefType = true;
+                    if (mParamType is OptionalModifierType)
+                    {
+                        var modopttype = mParamType as OptionalModifierType;
+                        isRefType = modopttype.ElementType.IsByReference;
+                    }
+                    if (mParamType is RequiredModifierType)
+                    {
+                        var modreqtype = mParamType as RequiredModifierType;
+                        isRefType = modreqtype.ElementType.IsByReference;
+                    }
 
                     string paramType = GetReplacedString (
                         MDocUpdater.GetDocParameterType (pis[i].ParameterType),
@@ -158,6 +173,7 @@ namespace Mono.Documentation.Updater
                     }
 
                     xmlMemberType = xmlIsRefType ? xmlMemberType.Substring (0, xmlMemberType.Length - 1) : xmlMemberType;
+                    paramType = isRefType ? paramType.Substring(0, paramType.Length - 1) : paramType;
 
                     if ((!paramType.Equals (xmlMemberType) && paramType.Equals (originalParamType)) ||
                         (MDocUpdater.SwitchingToMagicTypes && !originalParamType.Equals (xmlMemberType) && !paramType.Equals (xmlMemberType) && !paramType.Equals (originalParamType)))

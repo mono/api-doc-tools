@@ -3554,9 +3554,25 @@ namespace Mono.Documentation
                 else
                     e.InsertAfter (pe, nextTo);
 
+                if (paramType.EndsWith("&"))
+                    paramType = paramType.Substring(0, paramType.Length - 1);
+
                 pe.SetAttribute ("Name", param.Name);
                 pe.SetAttribute ("Type", paramType);
-                if (param.ParameterType is ByReferenceType)
+
+                var paramTypeToUse = param.ParameterType;
+                if (paramTypeToUse is OptionalModifierType)
+                {
+                    var optType = paramTypeToUse as OptionalModifierType;
+                    paramTypeToUse = optType.ElementType;
+                }
+                else if (paramTypeToUse is RequiredModifierType)
+                {
+                    var reqType = paramTypeToUse as RequiredModifierType;
+                    paramTypeToUse = reqType.ElementType;
+                }
+
+                if (paramTypeToUse is ByReferenceType)
                 {
                     if (param.IsOut)
                         pe.SetAttribute ("RefType", "out");
