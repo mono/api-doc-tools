@@ -1,6 +1,7 @@
-# `mdoc` and `monodoc`
+# `mdoc`
 
-This repository contains the source for Mono's [documentation toolchain](http://www.mono-project.com/docs/tools+libraries/tools/monodoc/generating-documentation/).
+This repository contains the source for the .NET API Reference toolchain ([used
+ by docs.microsoft.com](https://docs.microsoft.com/en-us/teamblog/announcing-unified-dotnet-experience-on-docs#built-with-open-source-in-mind)) 
 
 ## Contribution Guide
 
