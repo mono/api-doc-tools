@@ -22,7 +22,7 @@ This repository uses submodules, so firstly, you have several options:
 On windows, you can build and compile [`apidoctools.sln`](apidoctools.sln). And you can run unit tests if you have NUnit installed. If you use [Visual Studio for Mac](https://www.visualstudio.com/vs/visual-studio-mac/), you can use its built-in support for NUnit tests to also run tests.
 
 ### CLI
-If you've got `make` and `mono` installed, you can run `make prepare all check` in a _bash_ prompt to do a release build and run the full test suite (which for mdoc includes more than just the nunit tests). The available targets are:
+If you've got the following packages installed: `make`, `mono`, `nuget`, `fsharp`, and `mono-vbnc`; you can run `make prepare all check` in a _bash_ prompt to do a release build and run the full test suite (which for mdoc includes more than just the nunit tests). The available targets are:
 
 - `prepare`: initializes the submodules, and restores the nuget dependency of NUnit
 - `all`: compiles everything

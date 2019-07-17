@@ -46,8 +46,8 @@ EXTRA_DISTFILES = \
 MULTI-CLASSIC = Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll
 MULTI-UNIFIED = Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll
 
-DIFF = diff -rup
-DIFF_QUIET = diff --brief
+DIFF = diff -rup --strip-trailing-cr
+DIFF_QUIET = diff --brief --strip-trailing-cr
 ifeq ($(PLATFORM), win32)
 DIFF = diff -rupZ
 DIFF_QUIET = diff --brief -Z
