@@ -47,7 +47,7 @@
       <TypeParameters>
         <TypeParameter Name="S">
           <Attributes>
-            <Attribute FrameworkAlternate="one">
+            <Attribute>
               <AttributeName>Mono.DocTest.Doc("S")</AttributeName>
             </Attribute>
           </Attributes>

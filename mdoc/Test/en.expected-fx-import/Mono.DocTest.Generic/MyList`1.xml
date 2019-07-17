@@ -8,7 +8,7 @@
   <TypeParameters>
     <TypeParameter Name="T">
       <Attributes>
-        <Attribute FrameworkAlternate="one">
+        <Attribute>
           <AttributeName>Mono.DocTest.Doc("Type Parameter!")</AttributeName>
         </Attribute>
       </Attributes>
@@ -23,6 +23,9 @@
   <Interfaces>
     <Interface>
       <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Int32[]&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerable</InterfaceName>
     </Interface>
   </Interfaces>
   <Docs>

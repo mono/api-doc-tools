@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Framework Name="One">
+  <Assemblies>
+    <Assembly Name="DocTest-frameworkalternate-one" Version="0.0.0.0" />
+  </Assemblies>
   <Namespace Name="Monodoc.Test">
     <Type Name="Monodoc.Test.FirstAttribute" Id="T:Monodoc.Test.FirstAttribute">
       <Member Id="M:Monodoc.Test.FirstAttribute.#ctor" />

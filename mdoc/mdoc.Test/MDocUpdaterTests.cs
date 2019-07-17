@@ -44,7 +44,5 @@ namespace mdoc.Test
             var ns = DocUtils.GetNamespace(testType.GenericParameters.First());
             Assert.AreEqual("", ns);
         }
-
-
     }
 }

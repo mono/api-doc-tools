@@ -45,7 +45,7 @@ namespace AttachedEventsAndProperties
         
         #endregion
 
-        #region negative example (no get method)
+        #region example (no get method)
 
         public static readonly DependencyProperty IsBubbleSource2Property = DependencyProperty.RegisterAttached(
   "IsBubbleSource2",

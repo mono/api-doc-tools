@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props')" />
   <Import Project="..\..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\..\packages\NUnit.3.10.1\build\NUnit.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -21,12 +22,14 @@
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
@@ -73,6 +76,7 @@
     <Compile Include="BasicTests.cs" />
     <Compile Include="CppWinRtMembersTests.cs" />
     <Compile Include="CppWinRtFormatterTests.cs" />
+    <Compile Include="Enumeration\AttachedEntityTests.cs" />
     <Compile Include="FrameworkIndexHelperTests.cs" />
     <Compile Include="DocUtilsFSharpTests.cs" />
     <Compile Include="DocUtilsTests.cs" />
@@ -88,6 +92,7 @@
     <Compile Include="JsUsageFormatterTests.cs" />
     <Compile Include="MDocFileSourceTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
+    <Compile Include="SampleClasses\ReadonlyRefClass.cs" />
     <Compile Include="SampleClasses\ReadOnlySpan.cs" />
     <Compile Include="SampleClasses\SomeDelegate.cs" />
     <Compile Include="SampleClasses\SomeInterface.cs" />
@@ -104,6 +109,7 @@
     <Compile Include="SampleClasses\SomeStruct.cs" />
     <Compile Include="SampleClasses\WebHostHiddenAttribute.cs" />
     <Compile Include="StatisticsTests.cs" />
+    <Compile Include="UWPDocUtilsTests.cs" />
     <Compile Include="VBFormatterTests.cs" />
     <Compile Include="FrameworkAlternateTests.cs" />
     <Compile Include="XmlConsts.cs" />
@@ -112,6 +118,7 @@
     <Compile Include="Enumeration\EnumeratorTests.cs" />
     <Compile Include="Enumeration\ExceptionTests.cs" />
     <Compile Include="Enumeration\CecilBaseTest.cs" />
+    <Compile Include="Enumeration\InterfaceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -152,5 +159,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NUnit3TestAdapter.3.13.0\build\net35\NUnit3TestAdapter.props'))" />
   </Target>
 </Project>

@@ -3,9 +3,9 @@ using Mono.Cecil;
 
 namespace Mono.Documentation.Updater.Frameworks
 {
-    class MDocMetadataResolver : MetadataResolver
+    public class MDocMetadataResolver : MetadataResolver
     {
-        public MDocMetadataResolver (IAssemblyResolver r) : base (r) { }
+        public MDocMetadataResolver (CachedResolver r) : base (r) { }
 
         ReaderParameters parameters = new ReaderParameters ();
 

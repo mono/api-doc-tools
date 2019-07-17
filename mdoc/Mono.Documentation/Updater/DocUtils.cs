@@ -148,7 +148,7 @@ namespace Mono.Documentation.Updater
             int i = name.LastIndexOf('.');
             var memberName = i == -1 ? name : name.Substring(i + 1);
 
-            if (memberName.StartsWith("get_") || memberName.StartsWith("set_"))
+            if (memberName.StartsWith("get_") || memberName.StartsWith("set_") || memberName.StartsWith("put_"))
             {
                 var index = memberName.IndexOf("_", StringComparison.InvariantCulture);
                 if (index > 0)
@@ -287,6 +287,44 @@ namespace Mono.Documentation.Updater
                     : type.GenericParameters.Count;
         }
 
+        class TypeEquality : IEqualityComparer<TypeReference>
+        {
+            bool IEqualityComparer<TypeReference>.Equals (TypeReference x, TypeReference y)
+            {
+                if (x is null && y is null) return true;
+                if (x is null || y is null) return false;
+                return x.FullName == y.FullName;
+            }
+
+            int IEqualityComparer<TypeReference>.GetHashCode (TypeReference obj)
+            {
+                return obj.GetHashCode ();
+            }
+        }
+        static TypeEquality typeEqualityComparer = new TypeEquality ();
+
+        public static IEnumerable<TypeReference> GetAllPublicInterfaces (TypeDefinition type)
+        {
+            return GetAllInterfacesFromType (type)
+                .Where (i => IsPublic (i.Resolve ()))
+                .Distinct (typeEqualityComparer);
+        }
+
+        private static IEnumerable<TypeReference> GetAllInterfacesFromType(TypeDefinition type)
+        {
+            if (type is null)
+                yield break;
+
+            foreach(var i in type.Interfaces)
+            {
+                yield return i.InterfaceType;
+                foreach(var ii in GetAllInterfacesFromType(i.InterfaceType.Resolve()))
+                {
+                    yield return ii;
+                }
+            }
+        }
+
         public static IEnumerable<TypeReference> GetUserImplementedInterfaces (TypeDefinition type)
         {
             HashSet<string> inheritedInterfaces = GetInheritedInterfaces (type);
@@ -389,6 +427,7 @@ namespace Mono.Documentation.Updater
             {
                 if (mi.Name.StartsWith("get_", StringComparison.Ordinal)) return true;
                 if (mi.Name.StartsWith("set_", StringComparison.Ordinal)) return true;
+                if (mi.Name.StartsWith("put_", StringComparison.Ordinal)) return true;
                 if (mi.Name.StartsWith("add_", StringComparison.Ordinal)) return true;
                 if (mi.Name.StartsWith("remove_", StringComparison.Ordinal)) return true;
                 if (mi.Name.StartsWith("raise_", StringComparison.Ordinal)) return true;

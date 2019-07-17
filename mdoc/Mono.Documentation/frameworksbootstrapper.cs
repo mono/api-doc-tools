@@ -31,6 +31,7 @@ namespace Mono.Documentation
 									Name = Path.GetFileName(d)
 								})
                                 .Where (d => !d.Name.Equals ("dependencies", StringComparison.OrdinalIgnoreCase))
+                                .OrderBy(d => d.Name)
                                 .ToArray();
 
 			foreach (var d in data)

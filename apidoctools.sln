@@ -13,12 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpZipLib", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mdoc.Test", "mdoc\mdoc.Test\mdoc.Test.csproj", "{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "mdoc.Test.FSharp", "mdoc\mdoc.Test\mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj", "{979F9F80-12FE-4236-9E93-6D554AB13701}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "mdoc.Test.FSharp", "mdoc\mdoc.Test\mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj", "{979F9F80-12FE-4236-9E93-6D554AB13701}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM

@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Framework Name="one">
+  <Assemblies>
+    <Assembly Name="DocTest" Version="0.0.0.0" />
+  </Assemblies>
   <Namespace Name="Mono.DocTest">
     <Type Name="Mono.DocTest.Color" Id="T:Mono.DocTest.Color">
       <Member Id="F:Mono.DocTest.Color.AnotherGreen" />

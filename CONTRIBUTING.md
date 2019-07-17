@@ -59,6 +59,8 @@ _mdoc_ has integration tests implemented as [`make` targets](mdoc/Makefile). You
   - Usually, this setup involves deleting the `Test/en.actual` folder (which serves as the output)
   - the execution of an `mdoc` subcommand, using `$(MONO) $(PROGRAM) <the subcommand> <args>`.
   - The assertion, using `$(DIFF)`, against an existing expected form of the output (which is committed to git, such as `Test/en.expected-fx-import`).
+  
+ Depending on the change that you're making, it might cause the output to change (for example, if changing a formatter to reflect a new language feature); in those cases, when you make that change and run the integration tests, you will get a number of failures ... you will have to update the test xml files to reflect the new file changes.
 
 ### Pull Request
 

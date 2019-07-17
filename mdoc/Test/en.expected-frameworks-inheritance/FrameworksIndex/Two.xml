@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Framework Name="Two">
+  <Assemblies>
+    <Assembly Name="DocTest-framework-inheritance-two" Version="0.0.0.0" />
+  </Assemblies>
   <Namespace Name="MyNamespace">
     <Type Name="MyNamespace.MyBaseClassOne" Id="T:MyNamespace.MyBaseClassOne">
       <Member Id="M:MyNamespace.MyBaseClassOne.#ctor" />

@@ -10,6 +10,7 @@ namespace Mono.Documentation.Updater.Frameworks
     {
         SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
+        IList<FrameworkEntry> allcachedframeworks;
         IList<FrameworkEntry> allframeworks;
 		ISet<AssemblySet> allAssemblies = new SortedSet<AssemblySet> ();
 
@@ -19,15 +20,24 @@ namespace Mono.Documentation.Updater.Frameworks
             get => _fxCount < 1 ? allframeworks.Count : _fxCount;
         }
 
-        public FrameworkEntry (IList<FrameworkEntry> frameworks) : this(frameworks, -1) {}
+        public FrameworkEntry (IList<FrameworkEntry> frameworks, IList<FrameworkEntry> cachedfx) : this(frameworks, -1, cachedfx) {}
 
-        public FrameworkEntry (IList<FrameworkEntry> frameworks, int fxCount)
+        public FrameworkEntry (IList<FrameworkEntry> frameworks, int fxCount, IList<FrameworkEntry> cachedFx)
         {
             allframeworks = frameworks;
             if (allframeworks == null)
-                allframeworks = new List<FrameworkEntry> (0);
+            {
+                allframeworks = new List<FrameworkEntry> (1);
+                allframeworks.Add (this);
+                Index = 0;
+                allcachedframeworks = allframeworks;
+            }
+            else
+            {
+                Index = allframeworks.Count;
 
-            Index = allframeworks.Count;
+                allcachedframeworks = cachedFx;
+            }
             _fxCount = fxCount;
         }
 
@@ -40,11 +50,56 @@ namespace Mono.Documentation.Updater.Frameworks
             get => Index == FrameworksCount - 1;
         }
 
+        /// <param name="assemblyName">should be the assembly name (without version and file extension)</param>
+        public bool IsLastFrameworkForAssembly(string assemblyName)
+        {
+            if (this == Empty) return true;
+
+            var retval = this.allcachedframeworks
+                .Where(f => f.AllProcessedAssemblies
+                                .Any(ass => ass.Assemblies
+                                                .Any(a => a.Name.Name.Equals(assemblyName, StringComparison.OrdinalIgnoreCase))))
+                .ToArray();
+
+            if (!retval.Any ()) return false;
+
+            var lastListed = retval.Last ();
+            return lastListed.Name == this.Name;
+        }
+
+        public bool IsLastFrameworkForType(FrameworkTypeEntry typeEntry)
+        {
+            if (this == Empty) return true;
+
+            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null).ToArray();
+
+            if (!fxlist.Any ()) return false;
+
+            var lastListed = fxlist.Last ();
+            return lastListed.Name == this.Name;
+        }
+
+        public string AllFrameworksWithAssembly(string assemblyName)
+        {
+            if (this == Empty) return this.Name;
+
+            var fxlist = this.allcachedframeworks.Where (f => f.allAssemblies.Any (ass => ass.Assemblies.Any (a => a.Name.Name.Equals (assemblyName, StringComparison.OrdinalIgnoreCase))));
+            return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
+        }
+
+        public string AllFrameworksWithType(FrameworkTypeEntry typeEntry)
+        {
+            if (this == Empty) return this.Name;
+
+            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null);
+            return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
+        }
+
         string _allFxString = "";
         public string AllFrameworksString {
             get 
             {
-                Lazy<string> fxString = new Lazy<string>(() => string.Join (";", allframeworks.Select (f => f.Name).ToArray ()));
+                Lazy<string> fxString = new Lazy<string>(() => string.Join (";", allcachedframeworks.Select (f => f.Name).ToArray ()));
 
                 if (!this.IsLastFramework) return fxString.Value;
                 if (string.IsNullOrWhiteSpace(_allFxString)) 
@@ -54,6 +109,14 @@ namespace Mono.Documentation.Updater.Frameworks
                 return _allFxString;
             }
         }
+
+        public readonly List<Tuple<string,string>> AssemblyNames = new List<Tuple<string, string>> ();
+
+        public void AddProcessedAssembly (AssemblyDefinition assembly)
+        {
+            AssemblyNames.Add (new Tuple<string, string>(assembly.Name.Name, assembly.Name.Version.ToString()));
+        }
+
         public IEnumerable<FrameworkEntry> PreviousFrameworks {
             get => allframeworks.Where (f => f.Index < this.Index);
         }
@@ -68,6 +131,15 @@ namespace Mono.Documentation.Updater.Frameworks
 		/// <summary>Gets a value indicating whether this <see cref="T:Mono.Documentation.Updater.Frameworks.FrameworkEntry"/> is first framework being processed.</summary>
 		public bool IsFirstFramework { 
             get => this.Index == 0; 
+        }
+
+        public bool IsFirstFrameworkForType(FrameworkTypeEntry typeEntry)
+        {
+            if (this == Empty) return true;
+
+            var firstFx = this.allcachedframeworks.FirstOrDefault(f => f.FindTypeEntry(typeEntry) != null);
+
+            return firstFx == null || firstFx.Name == this.Name;
         }
 
         /// <summary>Only Use in Unit Tests</summary>
@@ -134,8 +206,10 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		class EmptyFrameworkEntry : FrameworkEntry
 		{
-			public EmptyFrameworkEntry () : base (null, 1) { }
+			public EmptyFrameworkEntry () : base (null, 1, null) { }
 			public override FrameworkTypeEntry ProcessType (TypeDefinition type) { return FrameworkTypeEntry.Empty; }
+
+
 		}
 	}
 }

@@ -44,6 +44,13 @@ namespace Mono.Documentation.Util
             return GetMembers (type, member).EnsureZeroOrOne ();
         }
 
+        public static MemberReference GetMember(this TypeDefinition type, string member, Func<MemberReference, bool> overloadMatchCriteria)
+        {
+            return GetMembers(type, member)
+                .Where(overloadMatchCriteria)
+                .FirstOrDefault();
+        }
+
         static T EnsureZeroOrOne<T> (this IEnumerable<T> source)
         {
             if (source.Count () > 1)
