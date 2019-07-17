@@ -2,7 +2,7 @@
   <TypeSignature Language="C#" Value="public interface CustomInterface" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract CustomInterface" />
   <TypeSignature Language="VB.NET" Value="Public Interface CustomInterface" />
-  <TypeSignature Language="F#" Value="type CustomInterface = interface" />
+  <TypeSignature Language="F#" Value="type CustomInterface =&#xA;    interface&#xA;        member this.Prop1 : int with get, set&#xA;        member this.Prop2 : obj&#xA;    end" />
   <TypeSignature Language="C++ CLI" Value="public interface class CustomInterface" />
   <TypeSignature Language="C++ CX" Value="public interface class CustomInterface" />
   <TypeSignature Language="C++ WINRT" Value="__interface CustomInterface" />

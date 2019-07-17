@@ -2,7 +2,7 @@
   <TypeSignature Language="C#" Value="public sealed class ClassEnumerator : CustomNamespace.CustomInterface" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed ClassEnumerator extends System.Object implements class CustomNamespace.CustomInterface" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ClassEnumerator&#xA;Implements CustomInterface" />
-  <TypeSignature Language="F#" Value="type ClassEnumerator = class&#xA;    interface CustomInterface" />
+  <TypeSignature Language="F#" Value="[&lt;Sealed&gt;]&#xA;type ClassEnumerator =&#xA;    interface CustomInterface&#xA;    new : unit -&gt; ClassEnumerator&#xA;    static member Main : cmdArgs:string[] -&gt; unit" />
   <TypeSignature Language="JavaScript" Value="function ClassEnumerator()" Usage="var classEnumerator = new ClassEnumerator();" />
   <TypeSignature Language="C++ CLI" Value="public ref class ClassEnumerator sealed : CustomNamespace::CustomInterface" />
   <TypeSignature Language="C++ CX" Value="public ref class ClassEnumerator sealed : CustomNamespace::CustomInterface" />
@@ -28,6 +28,7 @@
       <MemberSignature Language="C#" Value="public ClassEnumerator ();" />
       <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor() cil managed" />
       <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="F#" Value="new : unit -&gt; CustomNamespace.ClassEnumerator" />
       <MemberSignature Language="JavaScript" Value="function ClassEnumerator()" Usage="var classEnumerator = new ClassEnumerator();" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; ClassEnumerator();" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; ClassEnumerator();" />
@@ -90,7 +91,7 @@
       <MemberSignature Language="C#" Value="public static void Main (string[] cmdArgs);" />
       <MemberSignature Language="ILAsm" Value=".method public static void Main(string[] cmdArgs) cil managed" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub Main (cmdArgs As String())" />
-      <MemberSignature Language="F#" Value="static member Main : string[] -&gt; unit" Usage="CustomNamespace.ClassEnumerator.Main cmdArgs" />
+      <MemberSignature Language="F#" Value="static member Main : cmdArgs:string[] -&gt; unit" Usage="CustomNamespace.ClassEnumerator.Main cmdArgs" />
       <MemberSignature Language="JavaScript" Value="function main(cmdArgs)" Usage="CustomNamespace.ClassEnumerator.main(cmdArgs)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Main(cli::array &lt;System::String ^&gt; ^ cmdArgs);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; static void Main(Platform::Array &lt;Platform::String ^&gt; ^ cmdArgs);" />
