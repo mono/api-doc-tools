@@ -124,7 +124,7 @@ Test/DocTest.dll-v1:
 Test/DocTest.dll-v2: 
 	-rm -f Test/DocTest.cs
 	cp Test/DocTest-v1.cs Test/DocTest.cs
-	cd Test && patch -p0 < DocTest-v2.patch
+	cd Test && patch -p0 --ignore-whitespace --binary < DocTest-v2.patch
 	-rm -f Test/DocTest.dll
 	$(MAKE) Test/DocTest.dll
 
