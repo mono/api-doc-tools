@@ -2333,12 +2333,13 @@ namespace Mono.Documentation
         {
             var valueToUse = formatter.GetDeclaration(member);
             var usageSample = formatter.UsageFormatter?.GetDeclaration(member);
-            if (valueToUse == null && usageSample == null)
-                return;
 
             string elementName = "MemberSignature";
             string elementXPath = $"{elementName}[@Language='" + formatter.Language + "']";
             Func<IEnumerable<XmlElement>> elementsQuery = () => xmlElement.SelectNodes(elementXPath).SafeCast<XmlElement>();
+
+            if (typeEntry.TimesProcessed > 1)
+                return;
 
             // pre: clear all the signatures
             if (typeEntry.IsMemberOnFirstFramework(member))
@@ -2349,6 +2350,9 @@ namespace Mono.Documentation
                     element.ParentNode.RemoveChild(element);
                 }
             }
+
+            if (valueToUse == null && usageSample == null)
+                return;
 
             bool elementFound = false;
 
