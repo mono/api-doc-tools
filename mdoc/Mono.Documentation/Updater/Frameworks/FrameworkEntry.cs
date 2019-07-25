@@ -232,6 +232,8 @@ namespace Mono.Documentation.Updater.Frameworks
 
                 typeMap.Add (Str (entry.Name), entry);
             }
+
+            entry.TimesProcessed++;
             return entry;
         }
 

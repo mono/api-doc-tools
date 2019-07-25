@@ -18,6 +18,8 @@ namespace Mono.Documentation.Updater.Frameworks
 
         Lazy<FrameworkTypeEntry[]> previouslyProcessedFXTypes;
 
+        public int TimesProcessed { get; set; }
+
         /// <summary>
         /// Returns a list of all corresponding type entries,
         /// which have already been processed.
