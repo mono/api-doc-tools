@@ -20,6 +20,17 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public int TimesProcessed { get; set; }
 
+        public Dictionary<string, bool> AssembliesMemberOf = new Dictionary<string, bool>();
+
+        public void NoteAssembly(AssemblyDefinition noting, AssemblyDefinition source)
+        {
+            bool isForward = noting.Name.Name == source.Name.Name;
+            if (!AssembliesMemberOf.ContainsKey(noting.Name.Name))
+            {
+                AssembliesMemberOf.Add(noting.Name.Name, isForward);
+            }
+        }
+
         /// <summary>
         /// Returns a list of all corresponding type entries,
         /// which have already been processed.
