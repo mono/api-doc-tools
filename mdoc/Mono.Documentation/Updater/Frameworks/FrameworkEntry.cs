@@ -219,7 +219,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		public static readonly FrameworkEntry Empty = new EmptyFrameworkEntry () { Name = "Empty" };
 
-		public virtual FrameworkTypeEntry ProcessType (TypeDefinition type)
+		public virtual FrameworkTypeEntry ProcessType (TypeDefinition type, AssemblyDefinition source)
 		{
             FrameworkTypeEntry entry;
 
@@ -232,7 +232,8 @@ namespace Mono.Documentation.Updater.Frameworks
 
                 typeMap.Add (Str (entry.Name), entry);
             }
-
+            entry.NoteAssembly(type.Module.Assembly, source);
+            entry.NoteAssembly(source, source);
             entry.TimesProcessed++;
             return entry;
         }
@@ -259,7 +260,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		class EmptyFrameworkEntry : FrameworkEntry
 		{
 			public EmptyFrameworkEntry () : base (null, 1, null) { }
-			public override FrameworkTypeEntry ProcessType (TypeDefinition type) { return FrameworkTypeEntry.Empty; }
+			public override FrameworkTypeEntry ProcessType (TypeDefinition type, AssemblyDefinition source) { return FrameworkTypeEntry.Empty; }
 
 
 		}

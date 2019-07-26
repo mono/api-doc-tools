@@ -8,6 +8,7 @@ using Mono.Cecil;
 using System.Collections.Generic;
 using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Updater;
+using System.Runtime.InteropServices;
 
 namespace mdoc.Test
 {
@@ -184,7 +185,7 @@ namespace mdoc.Test
 
             foreach (var it in fx.Frameworks)
             {
-                var t = it.ProcessType(theType);
+                var t = it.ProcessType(theType, theType.Module.Assembly);
                 foreach(var m in theType.Methods)
                 {
                     t.ProcessMember(m);
@@ -832,7 +833,7 @@ namespace mdoc.Test
             {
                 if (indexCheck(i) || forceAlignment)
                 {
-                    var t = f.ProcessType (type);
+                    var t = f.ProcessType (type, type.Module.Assembly);
                     t.ProcessMember (method);
 
                     var aset = new AssemblySet (new[] { "one.dll" });
@@ -840,7 +841,7 @@ namespace mdoc.Test
 
                 }
                 else {
-                    var t = f.ProcessType (type2);
+                    var t = f.ProcessType (type2, type2.Module.Assembly);
                     t.ProcessMember (method2);
                 }
                 i++;

@@ -341,7 +341,7 @@ namespace Mono.Documentation
 
                                 foreach (var type in assembly.GetTypes())
                                 {
-                                    var t = a.ProcessType(type);
+                                    var t = a.ProcessType(type, assembly);
                                     foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i)))
                                         t.ProcessMember(member);
                                 }
@@ -702,7 +702,7 @@ namespace Mono.Documentation
 
                                 foreach (TypeDefinition type in docEnum.GetDocumentationTypes(assembly, typenames))
                                 {
-                                    var typeEntry = frameworkEntry.ProcessType(type);
+                                    var typeEntry = frameworkEntry.ProcessType(type, assembly);
 
                                     string relpath = DoUpdateType(assemblySet, assembly, type, typeEntry, basepath, dest);
                                     if (relpath == null)
@@ -905,7 +905,7 @@ namespace Mono.Documentation
             else
             {
                 // Stub
-                XmlElement td = StubType (set, assembly, type, output, typeEntry.Framework.Importers, typeEntry.Framework.Id, typeEntry.Framework.Version);
+                XmlElement td = StubType (set, assembly, type, typeEntry, output, typeEntry.Framework.Importers, typeEntry.Framework.Id, typeEntry.Framework.Version);
                 if (td == null)
                     return null;
             }
@@ -1108,7 +1108,7 @@ namespace Mono.Documentation
                 if (!DocUtils.IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
                     continue;
 
-                var typeEntry = frameworkEntry.ProcessType (type);
+                var typeEntry = frameworkEntry.ProcessType (type, assembly);
 
                 string reltypepath = DoUpdateType (assemblySet, assembly, type, typeEntry, source, dest);
                 if (reltypepath == null)
@@ -1984,7 +1984,7 @@ namespace Mono.Documentation
 
         // CREATE A STUB DOCUMENTATION FILE	
 
-        public XmlElement StubType (AssemblySet set, AssemblyDefinition assembly, TypeDefinition type, string output, IEnumerable<DocumentationImporter> importers, string Id, string Version)
+        public XmlElement StubType (AssemblySet set, AssemblyDefinition assembly, TypeDefinition type, FrameworkTypeEntry typeEntry, string output, IEnumerable<DocumentationImporter> importers, string Id, string Version)
         {
             string typesig = typeFormatters[0].GetDeclaration (type);
             if (typesig == null) return null; // not publicly visible
@@ -1993,8 +1993,6 @@ namespace Mono.Documentation
             XmlElement root = doc.CreateElement ("Type");
             doc.AppendChild (root);
 
-            var frameworkEntry = frameworks.StartProcessingAssembly (set, assembly, importers, Id, Version);
-            var typeEntry = frameworkEntry.ProcessType (type);
             DoUpdateType2 ("New Type", doc, type, typeEntry, output, true);
             statisticsCollector.AddMetric (typeEntry.Framework.Name, StatisticsItem.Types, StatisticsMetrics.Added);
 
