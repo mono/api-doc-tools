@@ -24,6 +24,9 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public void NoteAssembly(AssemblyDefinition noting, AssemblyDefinition source)
         {
+            if (noting == null || source == null)
+                return;
+
             bool isForward = noting.Name.Name == source.Name.Name;
             if (!AssembliesMemberOf.ContainsKey(noting.Name.Name))
             {
