@@ -22,6 +22,8 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
         protected override string NestedTypeSeparator => "::";
 
+        protected override bool ShouldStripModFromTypeName => false;
+
         protected virtual IEnumerable<string> NoHatTypes => new List<string>()
         {
             "System.Void",

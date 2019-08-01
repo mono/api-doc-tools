@@ -114,16 +114,21 @@ namespace Mono.Documentation.Updater
             return AppendArrayModifiers(buf, (ArrayType)type);
         }
 
+        protected virtual bool ShouldStripModFromTypeName
+        {
+            get => true;
+        }
+
         protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
             if (type == null)
                 return buf;
             
-            if (type is RequiredModifierType)
+            if (ShouldStripModFromTypeName && type is RequiredModifierType)
             {
                 return AppendRequiredModifierTypeName(buf, type as RequiredModifierType, context);
             }
-            if (type is OptionalModifierType)
+            if (ShouldStripModFromTypeName && type is OptionalModifierType)
             {
                 return AppendOptionalModifierTypeName(buf, type as OptionalModifierType, context);
             }
