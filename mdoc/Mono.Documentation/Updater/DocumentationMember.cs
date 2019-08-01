@@ -67,7 +67,9 @@ namespace Mono.Documentation.Updater
                         break;
                     case "ReturnType":
                         if (reader.Depth == depth + 2 && shouldUse)
-                            ReturnType = reader.ReadElementString ();
+                        {
+                            ReturnType = reader.ReadElementString();
+                        }
                         break;
                     case "Parameter":
                         if (reader.Depth == depth + 2 && shouldUse)
@@ -122,14 +124,17 @@ namespace Mono.Documentation.Updater
                     MemberSignatures[l.Value] = v.Value;
             }
             MemberType = node.SelectSingleNode ("MemberType").InnerText;
+
+            Func<string, string, string> processType = (reftype, typename) =>
+                !typename.EndsWith("&", StringComparison.Ordinal) && (reftype == "ref" || reftype == "out" || reftype == "Readonly") ? typename + '&' : typename;
             XmlNode rt = node.SelectSingleNode ("ReturnValue/ReturnType[not(@apistyle) or @apistyle='classic']");
+            XmlNode rtrt = node.SelectSingleNode("ReturnValue/@RefType");
             if (rt != null)
-                ReturnType = rt.InnerText;
+                ReturnType = processType(rtrt?.Value, rt.InnerText);
+
             var p = node.SelectNodes ("Parameters/Parameter[not(@apistyle) or @apistyle='classic']").Cast<XmlElement>().ToArray ();
             if (p.Length > 0)
             {
-                Func<string, string, string> processType = (reftype, typename) => 
-                    !typename.EndsWith("&", StringComparison.Ordinal) && (reftype == "ref" || reftype == "out") ? typename + '&' : typename;
                 if (p.Any (para => para.HasAttribute ("Index")))
                 {
                     var pgroup = p
