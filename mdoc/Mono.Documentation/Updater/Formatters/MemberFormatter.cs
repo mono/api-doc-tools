@@ -97,6 +97,16 @@ namespace Mono.Documentation.Updater
 
         protected virtual MemberFormatterState MemberFormatterState { get; set; }
 
+        protected virtual StringBuilder AppendRequiredModifierTypeName(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            return _AppendTypeName (buf, type.ElementType, context);
+        }
+
+        protected virtual StringBuilder AppendOptionalModifierTypeName(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
+        {
+            return _AppendTypeName(buf, type.ElementType, context);
+        }
+
         protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
         {
             TypeSpecification spec = type as TypeSpecification;
@@ -109,6 +119,14 @@ namespace Mono.Documentation.Updater
             if (type == null)
                 return buf;
             
+            if (type is RequiredModifierType)
+            {
+                return AppendRequiredModifierTypeName(buf, type as RequiredModifierType, context);
+            }
+            if (type is OptionalModifierType)
+            {
+                return AppendOptionalModifierTypeName(buf, type as OptionalModifierType, context);
+            }
             if (type is ArrayType)
             {
                 return AppendArrayTypeName(buf, type, context);

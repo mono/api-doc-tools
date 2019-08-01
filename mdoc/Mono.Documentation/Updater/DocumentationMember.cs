@@ -128,7 +128,7 @@ namespace Mono.Documentation.Updater
             Func<string, string, string> processType = (reftype, typename) =>
                 !typename.EndsWith("&", StringComparison.Ordinal) && (reftype == "ref" || reftype == "out" || reftype == "Readonly") ? typename + '&' : typename;
             XmlNode rt = node.SelectSingleNode ("ReturnValue/ReturnType[not(@apistyle) or @apistyle='classic']");
-            XmlNode rtrt = node.SelectSingleNode("ReturnValue/@RefType");
+            XmlNode rtrt = null;// node.SelectSingleNode("ReturnValue/@RefType");
             if (rt != null)
                 ReturnType = processType(rtrt?.Value, rt.InnerText);
 
