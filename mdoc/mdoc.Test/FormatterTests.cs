@@ -159,8 +159,8 @@ namespace mdoc.Test
             TestMod ("SomeFunc3", "public SomeClass** SomeFunc3 (int param);", returnType: "cppcli.SomeClass**");
 
         [Test]
-        public void CSharp_pointerref_modreqparam () =>
-            TestMod ("SomeFunc4", "public int SomeFunc4 (SomeClass** param, int param2);", returnType: "int");
+        public void CSharp_pointerref_modreqparam() =>
+            TestMod("SomeFunc4", "public int SomeFunc4 (SomeClass** param, int param2);", returnType: "int");
 
         [Test]
         public void DoubleMod ()
@@ -179,11 +179,19 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void DoubleMod_Pointer ()
+        public void DoubleMod_Pointer()
         {
             string doubledUp = "System.ValueType modreq(System.DateTime) modopt(System.Runtime.CompilerServices.IsBoxed)*";
-            string result = MemberFormatter.RemoveMod (doubledUp);
-            Assert.AreEqual ("System.ValueType*", result);
+            string result = MemberFormatter.RemoveMod(doubledUp);
+            Assert.AreEqual("System.ValueType*", result);
+        }
+
+        [Test]
+        public void Mod_Ref()
+        {
+            string doubledUp = "System.ValueType& modopt(System.Runtime.CompilerServices.IsBoxed)";
+            string result = MemberFormatter.RemoveMod(doubledUp);
+            Assert.AreEqual("System.ValueType&", result);
         }
 
         [Test]
