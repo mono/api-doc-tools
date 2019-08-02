@@ -47,6 +47,7 @@ namespace Mono.Documentation
 
         string since;
 
+        static readonly DocIdFormatter docIdFormatter = new DocIdFormatter();
         static readonly MemberFormatter docTypeFormatter = new DocTypeMemberFormatter ();
         static readonly MemberFormatter filenameFormatter = new FileNameMemberFormatter ();
 
@@ -1482,6 +1483,7 @@ namespace Mono.Documentation
         {
             Console.WriteLine (message + ": " + type.FullName);
             StringToXmlNodeMap seenmembers = new StringToXmlNodeMap ();
+            StringToXmlNodeMap seenmembersdocid = new StringToXmlNodeMap();
 
             // Update type metadata
             UpdateType (basefile.DocumentElement, type, typeEntry);
@@ -1614,17 +1616,21 @@ namespace Mono.Documentation
                 memberSet.Add (info.Member.FullName);
 
                 // get all apistyles of sig from info.Node
-                var styles = oldmember.GetElementsByTagName ("MemberSignature").Cast<XmlElement> ()
+                var sigs = oldmember.GetElementsByTagName("MemberSignature").Cast<XmlElement>().ToArray();
+                var styles = sigs
                     .Where (x => x.GetAttribute ("Language") == "ILAsm" && !seenmembers.ContainsKey (x.GetAttribute ("Value")))
                     .Select (x => x.GetAttribute ("Value"));
+                var docidstyles = sigs
+                    .Where(x => x.GetAttribute("Language") == "DocId" && !seenmembersdocid.ContainsKey(x.GetAttribute("Value")))
+                    .Select(x => x.GetAttribute("Value"));
 
 
                 typeEntry.ProcessMember (info.Member);
 
                 foreach (var stylesig in styles)
-                {
-                    seenmembers.Add (stylesig, oldmember);
-                }
+                    seenmembers.Add(stylesig, oldmember);
+                foreach (var stylesig in docidstyles)
+                    seenmembersdocid.Add(stylesig, oldmember);
 
                 if (oldmember.HasAttribute("ToDelete"))
                 {
@@ -1648,6 +1654,9 @@ namespace Mono.Documentation
                            
                             string sig = memberFormatters[1].GetDeclaration (m);
                             if (sig==null || seenmembers.ContainsKey (sig)) return false;
+
+                            var docidsig = docIdFormatter.GetDeclaration(m);
+                            if (seenmembersdocid.ContainsKey(docidsig ?? "")) return false;
 
                             // Verify that the member isn't an explicitly implemented 
                             // member of an internal interface, in which case we shouldn't return true.
@@ -1696,7 +1705,7 @@ namespace Mono.Documentation
                     memberSet.Add (m.FullName);
                     var node = mm.SelectSingleNode("MemberSignature/@Value") ??
                                mm.SelectSingleNode("MemberSignature/@Usage");
-                    Console.WriteLine ("Member Added: " + node.InnerText);
+                    Console.WriteLine ("Member Added: " + (node?.InnerText ?? m.FullName));
                     additions++;
                 }
             }
