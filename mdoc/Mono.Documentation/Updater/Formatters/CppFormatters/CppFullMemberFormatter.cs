@@ -359,7 +359,11 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             foreach (GenericParameter genArg in genArgs)
             {
                 GenericParameterAttributes attrs = genArg.Attributes;
+#if NEW_CECIL
+                Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
+#else
                 IList<TypeReference> constraints = genArg.Constraints;
+#endif
                 if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     continue;
 
@@ -385,9 +389,16 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 {
                     if (comma)
                         buf.Append(", ");
+
+#if NEW_CECIL
+                    buf.Append(GetTypeName (constraints[0].ConstraintType));
+                    for (int i = 1; i < constraints.Count; ++i)
+                        buf.Append(", ").Append(GetTypeName (constraints[i].ConstraintType));
+#else
                     buf.Append(GetTypeName (constraints[0]));
                     for (int i = 1; i < constraints.Count; ++i)
                         buf.Append(", ").Append(GetTypeName (constraints[i]));
+#endif
                 }
                 if (isnew && !isvt)
                 {

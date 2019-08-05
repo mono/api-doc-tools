@@ -409,7 +409,12 @@ namespace Mono.Documentation.Updater
             foreach (GenericParameter genArg in genArgs.Where(i => !IsFlexibleType(i)))
             {
                 GenericParameterAttributes attrs = genArg.Attributes;
+
+#if NEW_CECIL
+                Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
+#else
                 IList<TypeReference> constraints = genArg.Constraints;
+#endif
                 if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     continue;
                 
@@ -434,7 +439,11 @@ namespace Mono.Documentation.Updater
                 {
                     foreach (var typeReference in constraints)
                     {
+#if NEW_CECIL
+                        constraintStrings.Add($"{genericName} :> {GetTypeName(typeReference.ConstraintType)}");
+#else
                         constraintStrings.Add($"{genericName} :> {GetTypeName(typeReference)}");
+#endif
                     }
                 }
                 if (isnew && !isvt)
