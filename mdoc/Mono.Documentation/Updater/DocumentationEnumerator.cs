@@ -131,10 +131,14 @@ namespace Mono.Documentation.Updater
 
                 if (pcount == 0)
                     return mi;
+                bool isExtensionMethod = DocUtils.IsExtensionMethod(mDef);
                 bool good = true;
                 for (int i = 0; i < pis.Count; i++)
                 {
                     bool isRefType = pis[i].ParameterType is ByReferenceType;
+
+                    if (i == 0 && !isRefType && isExtensionMethod)
+                        isRefType = true; // this will be the case for generic parameter types
 
                     string paramType = GetReplacedString (
                         MDocUpdater.GetDocParameterType (pis[i].ParameterType),
@@ -149,6 +153,7 @@ namespace Mono.Documentation.Updater
 
                     string xmlMemberType = member.Parameters[i];
 
+                    // TODO: take into account extension method reftype
                     bool xmlIsRefType = xmlMemberType.Contains ('&');
                     bool refTypesMatch = isRefType == xmlIsRefType;
 
