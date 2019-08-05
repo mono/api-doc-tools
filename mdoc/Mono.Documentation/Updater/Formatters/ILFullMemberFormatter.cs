@@ -103,8 +103,22 @@ namespace Mono.Documentation.Updater
                 buf.Append ("struct ");
             if ((attrs & GenericParameterAttributes.DefaultConstructorConstraint) != 0)
                 buf.Append (".ctor ");
-            IList<TypeReference> constraints = type.Constraints;
             MemberFormatterState = 0;
+
+#if NEW_CECIL
+            Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = type.Constraints;
+            if (constraints.Count > 0)
+            {
+                var full = new ILFullMemberFormatter ();
+                buf.Append ("(").Append (full.GetName (constraints[0].ConstraintType));
+                for (int i = 1; i < constraints.Count; ++i)
+                {
+                    buf.Append (", ").Append (full.GetName (constraints[i].ConstraintType));
+                }
+                buf.Append (") ");
+            }
+#else
+            IList<TypeReference> constraints = type.Constraints;
             if (constraints.Count > 0)
             {
                 var full = new ILFullMemberFormatter ();
@@ -115,6 +129,7 @@ namespace Mono.Documentation.Updater
                 }
                 buf.Append (") ");
             }
+#endif
             MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
 
             if ((attrs & GenericParameterAttributes.Covariant) != 0)

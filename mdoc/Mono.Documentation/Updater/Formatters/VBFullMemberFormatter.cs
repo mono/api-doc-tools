@@ -263,7 +263,11 @@ namespace Mono.Documentation.Updater
             }
 
             GenericParameterAttributes attrs = genArg.Attributes;
+#if NEW_CECIL
+            Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
+#else
             IList<TypeReference> constraints = genArg.Constraints;
+#endif
             if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                 return;
 
@@ -293,9 +297,16 @@ namespace Mono.Documentation.Updater
             {
                 if (comma)
                     buf.Append(", ");
+
+#if NEW_CECIL
+                buf.Append(GetTypeName(constraints[0].ConstraintType));
+                for (int i = 1; i < constraints.Count; ++i)
+                    buf.Append(", ").Append(GetTypeName(constraints[i].ConstraintType));
+#else
                 buf.Append(GetTypeName(constraints[0]));
                 for (int i = 1; i < constraints.Count; ++i)
                     buf.Append(", ").Append(GetTypeName(constraints[i]));
+#endif
             }
             if (isnew && !isvt)
             {

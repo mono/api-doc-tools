@@ -2860,13 +2860,25 @@ namespace Mono.Documentation
             else
             {
                 GenericParameter gp = (GenericParameter)info.Parameters[0].ParameterType;
+
+
+#if NEW_CECIL
+                Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = gp.Constraints;
+#else
                 IList<TypeReference> constraints = gp.Constraints;
+#endif
                 if (constraints.Count == 0)
                     AppendElementAttributeText (targets, "Target", "Type", "System.Object");
                 else
+#if NEW_CECIL
+               foreach (GenericParameterConstraint c in constraints)
+                   AppendElementAttributeText(targets, "Target", "Type",
+                       slashdocFormatter.GetDeclaration (c.ConstraintType));
+#else
                     foreach (TypeReference c in constraints)
                         AppendElementAttributeText (targets, "Target", "Type",
                             slashdocFormatter.GetDeclaration (c));
+#endif
             }
         }
 
@@ -3850,7 +3862,11 @@ namespace Mono.Documentation
             foreach (GenericParameter t in typeParams)
             {
 
+#if NEW_CECIL
+                Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = t.Constraints;
+#else
                 IList<TypeReference> constraints = t.Constraints;
+#endif
                 GenericParameterAttributes attrs = t.Attributes;
 
 
@@ -3894,6 +3910,16 @@ namespace Mono.Documentation
                             AppendElementText (ce, "ParameterAttribute", "NotNullableValueTypeConstraint");
                         if ((attrs & GenericParameterAttributes.ReferenceTypeConstraint) != 0)
                             AppendElementText (ce, "ParameterAttribute", "ReferenceTypeConstraint");
+
+#if NEW_CECIL
+                       foreach (GenericParameterConstraint c in constraints)
+                       {
+                           TypeDefinition cd = c.ConstraintType.Resolve ();
+                            AppendElementText (ce,
+                                    (cd != null && cd.IsInterface) ? "InterfaceName" : "BaseTypeName",
+                                    GetDocTypeFullName (c.ConstraintType));
+                        }
+#else
                         foreach (TypeReference c in constraints)
                         {
                             TypeDefinition cd = c.Resolve ();
@@ -3901,6 +3927,7 @@ namespace Mono.Documentation
                                     (cd != null && cd.IsInterface) ? "InterfaceName" : "BaseTypeName",
                                     GetDocTypeFullName (c));
                         }
+#endif
 
                         return pe;
                     },
