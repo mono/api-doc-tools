@@ -71,7 +71,7 @@ namespace Mono.Documentation.Updater
             // expressed in C#. If finer control is needed in the future, you can
             // use IModifierType, PointerType, ByReferenceType, etc.
 
-            int modIndex = Math.Max (typeName.LastIndexOf ("modopt(", StringComparison.Ordinal), typeName.LastIndexOf ("modreq(", StringComparison.Ordinal));
+            int modIndex = System.Math.Max (typeName.LastIndexOf ("modopt(", StringComparison.Ordinal), typeName.LastIndexOf ("modreq(", StringComparison.Ordinal));
             if (modIndex > 0)
             {
                 var tname = typeName.Substring (0, modIndex - 1);
@@ -83,7 +83,7 @@ namespace Mono.Documentation.Updater
                 typeName = tname;
             }
 
-            modIndex = Math.Max (typeName.LastIndexOf ("modopt(", StringComparison.Ordinal), typeName.LastIndexOf ("modreq(", StringComparison.Ordinal));
+            modIndex = System.Math.Max (typeName.LastIndexOf ("modopt(", StringComparison.Ordinal), typeName.LastIndexOf ("modreq(", StringComparison.Ordinal));
             if (modIndex >= 0)
                 return RemoveMod (typeName);
             else
