@@ -243,6 +243,8 @@ namespace Mono.Documentation.Updater
 
         public static bool IsExtensionMethod (MethodDefinition method)
         {
+            if (method == null) return false;
+
             return
                 method.CustomAttributes
                         .Any (m => m.AttributeType.FullName == "System.Runtime.CompilerServices.ExtensionAttribute")

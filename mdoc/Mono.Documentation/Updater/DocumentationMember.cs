@@ -77,7 +77,7 @@ namespace Mono.Documentation.Updater
                             var ptype = reader.GetAttribute ("Type");
                             var reftypeAttribute = reader.GetAttribute ("RefType");
                             if (!ptype.EndsWith("&", StringComparison.Ordinal) && 
-                                (reftypeAttribute == "out" || reftypeAttribute == "ref"))
+                                (reftypeAttribute == "out" || reftypeAttribute == "ref" || reftypeAttribute == "Readonly" || reftypeAttribute == "this"))
                             {
                                 // let's add the `&` back, for comparisons
                                 ptype += '&';
@@ -126,7 +126,7 @@ namespace Mono.Documentation.Updater
             MemberType = node.SelectSingleNode ("MemberType").InnerText;
 
             Func<string, string, string> processType = (reftype, typename) =>
-                !typename.EndsWith("&", StringComparison.Ordinal) && (reftype == "ref" || reftype == "out" || reftype == "Readonly") ? typename + '&' : typename;
+                !typename.EndsWith("&", StringComparison.Ordinal) && (reftype == "ref" || reftype == "out" || reftype == "Readonly" || reftype == "this") ? typename + '&' : typename;
             XmlNode rt = node.SelectSingleNode ("ReturnValue/ReturnType[not(@apistyle) or @apistyle='classic']");
             XmlNode rtrt = null;// node.SelectSingleNode("ReturnValue/@RefType");
             if (rt != null)

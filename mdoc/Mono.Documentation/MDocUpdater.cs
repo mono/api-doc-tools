@@ -1821,7 +1821,10 @@ namespace Mono.Documentation
             string format = output != null
                 ? "{0}: File='{1}'; Signature='{4}'"
                 : "{0}: XPath='/Type[@FullName=\"{2}\"]/Members/Member[@MemberName=\"{3}\"]'; Signature='{4}'";
-            string signature = member.SelectSingleNode ("MemberSignature[@Language='C#']/@Value").Value;
+            string signature = member.SelectSingleNode ("MemberSignature[@Language='C#']/@Value")?.Value 
+                ?? member.Attributes["MemberName"]?.Value
+                ?? member.OuterXml;
+
             Warning (format,
                     reason,
                     output,
