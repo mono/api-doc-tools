@@ -162,6 +162,8 @@ namespace Mono.Documentation.Updater
 
         protected override StringBuilder AppendTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
         {
+            if (type == null) return buf;
+
             string fSharpType = GetFSharpType(type);
             if (fSharpType != null)
             {
@@ -611,7 +613,8 @@ namespace Mono.Documentation.Updater
 
         protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
         {
-            return buf;
+            ByReferenceType reftype = type as ByReferenceType;
+            return AppendTypeName(buf, reftype?.ElementType, context);
         }
 
         protected override StringBuilder AppendModifiers(StringBuilder buf, MethodDefinition method)
