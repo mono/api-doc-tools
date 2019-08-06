@@ -352,7 +352,11 @@ namespace Mono.Documentation.Updater
                         if (genericParameter != null && IsFlexibleType(genericParameter))
                         {
                             buf.Append("#");// replace genericParameter which is a flexible type with its constraint type
+#if NEW_CECIL
+                            _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context);
+#else
                             _AppendTypeName(buf, genericParameter.Constraints[0], context);
+#endif
                         }
                         else
                         {
@@ -924,7 +928,11 @@ namespace Mono.Documentation.Updater
 
         private bool IsFlexibleType(GenericParameter genericParameter)
         {
+#if NEW_CECIL
+            return genericParameter.Constraints.Count == 1 && GetFSharpType(genericParameter.Constraints[0].ConstraintType.GetElementType()) != null;
+#else
             return genericParameter.Constraints.Count == 1 && GetFSharpType(genericParameter.Constraints[0].GetElementType()) != null;
+#endif
         }
 
         private static bool IsModule(TypeDefinition type)
