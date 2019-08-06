@@ -22,6 +22,7 @@ using Mono.Options;
 using MyXmlNodeList = System.Collections.Generic.List<System.Xml.XmlNode>;
 using StringList = System.Collections.Generic.List<string>;
 using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.Xml.XmlNode>;
+using System.Web.UI.WebControls;
 
 namespace Mono.Documentation
 {
@@ -1532,7 +1533,7 @@ namespace Mono.Documentation
                         var sigFromXml = oldmember
                             .GetElementsByTagName ("MemberSignature")
                             .Cast<XmlElement> ()
-                            .FirstOrDefault (x => x.GetAttribute ("Language").Equals ("ILAsm"));
+                            .FirstOrDefault (x => x.GetAttribute ("Language").Equals ("DocId"));
 
                         if (sigFromXml != null)
                         {
@@ -1542,7 +1543,8 @@ namespace Mono.Documentation
                                 var tInstance = fx.FindTypeEntry (typeEntry.Name);
                                 if (tInstance != null)
                                 {
-                                    return tInstance.ContainsCSharpSig (sigvalue);
+                                    bool hassig = tInstance.ContainsDocId (sigvalue);
+                                    return hassig;
                                 }
                                 return false;
                             };
