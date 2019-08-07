@@ -12,6 +12,7 @@ TestResult.xml
 bin
 obj
 .vs
+.ionide
 *.metagen
 *.pdb
 *.psess

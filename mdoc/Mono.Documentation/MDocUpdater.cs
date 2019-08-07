@@ -1535,6 +1535,17 @@ namespace Mono.Documentation
                             .Cast<XmlElement> ()
                             .FirstOrDefault (x => x.GetAttribute ("Language").Equals ("DocId"));
 
+                        Func<FrameworkTypeEntry, string, bool> checksig = (t, s) => t.ContainsDocId (s);
+
+                        if (sigFromXml == null)
+                        {
+                            sigFromXml = oldmember
+                                .GetElementsByTagName ("MemberSignature")
+                                .Cast<XmlElement> ()
+                                .FirstOrDefault (x => x.GetAttribute ("Language").Equals ("ILAsm"));
+                            checksig = (t, s) => t.ContainsCSharpSig (s);
+                        }
+
                         if (sigFromXml != null)
                         {
                             var sigvalue = sigFromXml.GetAttribute ("Value");
@@ -1543,7 +1554,7 @@ namespace Mono.Documentation
                                 var tInstance = fx.FindTypeEntry (typeEntry.Name);
                                 if (tInstance != null)
                                 {
-                                    bool hassig = tInstance.ContainsDocId (sigvalue);
+                                    bool hassig = checksig (tInstance, sigvalue);
                                     return hassig;
                                 }
                                 return false;

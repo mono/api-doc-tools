@@ -142,7 +142,7 @@
       <MemberSignature Language="C#" Value="public void RefMethod&lt;U&gt; (ref T t, ref U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RefMethod&lt;U&gt;(!T&amp; t, !!U&amp; u) cil managed" />
       <MemberSignature Language="DocId" Value="M:Mono.DocTest.Generic.MyList`1.RefMethod``1(`0@,``0@)" />
-      <MemberSignature Language="F#" Value="member this.RefMethod :  *  -&gt; unit" Usage="myList.RefMethod (t, u)" />
+      <MemberSignature Language="F#" Value="member this.RefMethod : 'T * 'U -&gt; unit" Usage="myList.RefMethod (t, u)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T % t, U % u);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T &amp;  t, U &amp;  u);" />
       <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; void RefMethod(T &amp; t, U &amp; u);" />
