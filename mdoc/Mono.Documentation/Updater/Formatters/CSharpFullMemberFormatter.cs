@@ -386,6 +386,26 @@ namespace Mono.Documentation.Updater
             get { return ""; }
         }
 
+        protected override StringBuilder AppendRefTypeName(
+            StringBuilder buf, ByReferenceType type, DynamicParserContext context)
+        {
+            buf.Append("ref ");
+            return base.AppendRefTypeName(buf, type, context);
+        }
+
+        protected override StringBuilder AppendRequiredModifierType(
+            StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            if (type.ModifierType.FullName == "System.Runtime.InteropServices.InAttribute" &&
+                type.ElementType is ByReferenceType refType)
+            {
+                buf.Append("ref readonly ");
+                return _AppendTypeName(buf, refType.ElementType, context);
+            }
+
+            return base.AppendRequiredModifierType(buf, type, context);
+        }
+
         protected override string GetFinalizerName (MethodDefinition method)
         {
             StringBuilder buf = new StringBuilder();
@@ -420,19 +440,6 @@ namespace Mono.Documentation.Updater
             if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
-
-            if ((method.ReturnType.IsRequiredModifier
-                  && ((RequiredModifierType)method.ReturnType).ElementType.IsByReference)
-                || method.ReturnType.IsByReference)
-            {
-                modifiers += " ref";
-            }
-
-            if (method.ReturnType.IsRequiredModifier
-                && method.MethodReturnType.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute"))
-            {
-                modifiers += " readonly";
-            }
 
             switch (method.Name)
             {
