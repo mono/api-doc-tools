@@ -1,7 +1,8 @@
-﻿using NUnit.Framework;
+﻿using System;
 using System.Linq;
 using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater;
+using NUnit.Framework;
 
 namespace mdoc.Test
 {
@@ -223,6 +224,18 @@ namespace mdoc.Test
             var formatter = new CSharpFullMemberFormatter();
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual("public ref int Ref ();", sig);
+        }
+
+        [TestCase(typeof(RefIndexer), "public ref int this[int i] { get; }")]
+        [TestCase(typeof(RefReadonlyIndexer), "public ref readonly int this[int i] { get; }")]
+        [TestCase(typeof(GenericRefIndexer<>), "public ref T this[int i] { get; }")]
+        [TestCase(typeof(GenericRefReadonlyIndexer<>), "public ref readonly T this[int i] { get; }")]
+        public void CSharpIndexer(Type type, string expectedSignature)
+        {
+            var member = GetIndexer(type);
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSignature, sig);
         }
 
         #region Helper Methods
