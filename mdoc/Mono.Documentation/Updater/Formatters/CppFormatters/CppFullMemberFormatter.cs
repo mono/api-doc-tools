@@ -747,42 +747,37 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return buf;
         }
 
-        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, ArrayType type, DynamicParserContext context)
         {
             buf.Append("cli::array <");
 
-            var item = type is TypeSpecification spec ? spec.ElementType : type.GetElementType();
+            var item = type.ElementType;
             _AppendTypeName(buf, item, context);
             AppendHat(buf, item);
 
-            if (type is ArrayType arrayType)
+            int rank = type.Rank;
+            if (rank > 1)
             {
-                int rank = arrayType.Rank;
-                if (rank > 1)
-                {
-                    buf.AppendFormat(", {0}", rank);
-                }
+                buf.AppendFormat(", {0}", rank);
             }
-            
+
             buf.Append(">");
 
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+            _AppendTypeName(buf, type.ElementType, context);
             AppendHat(buf, type);
             buf.Append(RefTypeModifier);
 
             return buf;
         }
 
-        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, PointerType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-             _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+             _AppendTypeName(buf, type.ElementType, context);
             AppendHat(buf, type);
             buf.Append(PointerModifier);
             return buf;

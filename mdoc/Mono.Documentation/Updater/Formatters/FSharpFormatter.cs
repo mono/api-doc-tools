@@ -609,7 +609,7 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, DynamicParserContext context)
         {
             return buf;
         }
@@ -901,11 +901,10 @@ namespace Mono.Documentation.Updater
             return false;
         }
         
-        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, PointerType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
             buf.Append("nativeptr<");
-            _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+            _AppendTypeName(buf, type.ElementType, context);
             buf.Append(">");
             return buf;
         }

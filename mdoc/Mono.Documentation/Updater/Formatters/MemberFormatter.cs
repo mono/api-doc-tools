@@ -97,11 +97,10 @@ namespace Mono.Documentation.Updater
 
         protected virtual MemberFormatterState MemberFormatterState { get; set; }
 
-        protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, ArrayType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
-            return AppendArrayModifiers(buf, (ArrayType)type);
+            _AppendTypeName(buf, type.ElementType, context);
+            return AppendArrayModifiers(buf, type);
         }
 
         protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
@@ -109,21 +108,21 @@ namespace Mono.Documentation.Updater
             if (type == null)
                 return buf;
             
-            if (type is ArrayType)
+            if (type is ArrayType arrayType)
             {
-                return AppendArrayTypeName(buf, type, context);
+                return AppendArrayTypeName(buf, arrayType, context);
             }
-            if (type is ByReferenceType)
+            if (type is ByReferenceType refType)
             {
-                return AppendRefTypeName (buf, type, context);
+                return AppendRefTypeName(buf, refType, context);
             }
-            if (type is PointerType)
+            if (type is PointerType pointerType)
             {
-                return AppendPointerTypeName (buf, type, context);
+                return AppendPointerTypeName(buf, pointerType, context);
             }
             if (type is GenericParameter)
             {
-                return AppendTypeName (buf, type, context);
+                return AppendTypeName(buf, type, context);
             }
             AppendNamespace (buf, type);
             GenericInstanceType genInst = type as GenericInstanceType;
@@ -196,10 +195,9 @@ namespace Mono.Documentation.Updater
             get { return "@"; }
         }
 
-        protected virtual StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            return _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+            return _AppendTypeName(buf, type.ElementType, context);
         }
 
         protected virtual string PointerModifier
@@ -207,10 +205,9 @@ namespace Mono.Documentation.Updater
             get { return "*"; }
         }
 
-        protected virtual StringBuilder AppendPointerTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendPointerTypeName(StringBuilder buf, PointerType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            return _AppendTypeName (buf, spec != null ? spec.ElementType : type.GetElementType (), context)
+            return _AppendTypeName (buf, type.ElementType, context)
                     .Append (PointerModifier);
         }
 
