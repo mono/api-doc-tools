@@ -57,8 +57,6 @@ namespace Mono.Documentation.Updater
 
             var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context, appendGeneric).ToString ();
 
-            typeName = RemoveMod (typeName);
-
             return typeName;
         }
 
@@ -120,28 +118,20 @@ namespace Mono.Documentation.Updater
             {
                 return AppendPointerTypeName(buf, pointerType, context);
             }
+            if (type is RequiredModifierType requiredModifierType)
+            {
+                return AppendRequiredModifierType(buf, requiredModifierType, context);
+            }
+            if (type is OptionalModifierType optionalModifierType)
+            {
+                return AppendOptionalModifierType(buf, optionalModifierType, context);
+            }
             if (type is GenericParameter)
             {
                 return AppendTypeName(buf, type, context);
             }
-            AppendNamespace (buf, type);
+            AppendNamespace(buf, type);
             GenericInstanceType genInst = type as GenericInstanceType;
-
-            if (type.IsRequiredModifier)
-            {
-                try
-                {
-                    var rtype = type.Resolve ();
-                    if (rtype != null)
-                        type = rtype;
-                }
-                catch (Exception)
-                {
-                    // Suppress resolving error for UWP libraries.
-                    // It seems, they never have `type.IsRequiredModifier == true`, but just in case.
-                }
-            }
-
 
             if (type.GenericParameters.Count == 0 &&
                     (genInst == null ? true : genInst.GenericArguments.Count == 0))
@@ -209,6 +199,16 @@ namespace Mono.Documentation.Updater
         {
             return _AppendTypeName (buf, type.ElementType, context)
                     .Append (PointerModifier);
+        }
+
+        protected virtual StringBuilder AppendRequiredModifierType(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            return _AppendTypeName(buf, type.ElementType, context);
+        }
+
+        protected virtual StringBuilder AppendOptionalModifierType(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
+        {
+            return _AppendTypeName(buf, type.ElementType, context);
         }
 
         protected virtual string[] GenericTypeContainer

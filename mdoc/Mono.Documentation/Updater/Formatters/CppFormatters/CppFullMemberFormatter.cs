@@ -38,39 +38,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         
         protected virtual string GetCppType (string t)
         {
-            // make sure there are no modifiers in the type string (add them back before returning)
             string typeToCompare = t;
-            string[] splitType = null;
-            if (t.Contains (' '))
-            {
-                splitType = t.Split (' ');
-                typeToCompare = splitType[0];
-                //for (int i = 1; i < splitType.Length; i++)
-                //{
-                //    var str = splitType[i];
-                //    if (str == "modopt(System.Runtime.CompilerServices.IsLong)" && typeToCompare == "System.Int32")
-                //        return "long";
-                //    if (str == "modopt(System.Runtime.CompilerServices.IsSignUnspecifiedByte)" && typeToCompare == "System.SByte")
-                //        return "char";
-                //    //if (typeToCompare == "System.Byte")
-                //    //    return "unsigned char";
-                //    //if (typeToCompare == "System.SByte")
-                //    //    return "signed char";
-                //}
-
-                foreach (var str in splitType)
-                {
-                    if (str == "modopt(System.Runtime.CompilerServices.IsLong)" && typeToCompare == "System.Int32")
-                        return "long";
-                    if (str == "modopt(System.Runtime.CompilerServices.IsSignUnspecifiedByte)" && typeToCompare == "System.SByte")
-                        return "char";
-                    //if (typeToCompare == "System.Byte")
-                    //    return "unsigned char";
-                    //if (typeToCompare == "System.SByte")
-                    //    return "signed char";
-                }
-
-            }
             
             switch (typeToCompare)
             {
@@ -94,13 +62,19 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Object": typeToCompare = "System::Object"; break;
             }
 
-            if (splitType != null)
-            {
-                // re-add modreq/modopt if it was there
-                splitType[0] = typeToCompare;
-                typeToCompare = string.Join (" ", splitType);
-            }
             return typeToCompare == t ? null : typeToCompare;
+        }
+
+        protected override StringBuilder AppendOptionalModifierType(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
+        {
+            if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsLong" &&
+                type.ElementType.FullName == "System.Int32")
+                return buf.Append("long");
+            if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsSignUnspecifiedByte" &&
+                type.ElementType.FullName == "System.SByte")
+                return buf.Append("char");
+
+            return base.AppendOptionalModifierType(buf, type, context);
         }
 
         protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)

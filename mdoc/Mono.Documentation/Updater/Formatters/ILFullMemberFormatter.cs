@@ -200,6 +200,26 @@ namespace Mono.Documentation.Updater
             return buf.ToString ();
         }
 
+        protected override StringBuilder AppendRequiredModifierType(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            _AppendTypeName(buf, type.ElementType, context);
+            buf.Append(" modreq(");
+            _AppendTypeName(buf, type.ModifierType, context);
+            buf.Append(')');
+
+            return buf;
+        }
+
+        protected override StringBuilder AppendOptionalModifierType(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
+        {
+            _AppendTypeName(buf, type.ElementType, context);
+            buf.Append(" modopt(");
+            _AppendTypeName(buf, type.ModifierType, context);
+            buf.Append(')');
+
+            return buf;
+        }
+
         protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (
