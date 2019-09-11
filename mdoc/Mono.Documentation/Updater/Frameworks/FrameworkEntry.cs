@@ -10,7 +10,7 @@ namespace Mono.Documentation.Updater.Frameworks
     {
         SortedSet<FrameworkTypeEntry> types = new SortedSet<FrameworkTypeEntry> ();
 
-        IList<FrameworkEntry> allcachedframeworks;
+        internal IList<FrameworkEntry> allcachedframeworks;
         IList<FrameworkEntry> allframeworks;
 		ISet<AssemblySet> allAssemblies = new SortedSet<AssemblySet> ();
 
@@ -67,28 +67,37 @@ namespace Mono.Documentation.Updater.Frameworks
             return lastListed.Name == this.Name;
         }
 
+        static Dictionary<FrameworkTypeEntry, FrameworkEntry[]> typeFxList = new Dictionary<FrameworkTypeEntry, FrameworkEntry[]>();
+
+        private FrameworkEntry[] FindFrameworksForType(FrameworkTypeEntry typeEntry)
+        {
+            FrameworkEntry[] fxlist;
+            if (!typeFxList.TryGetValue(typeEntry, out fxlist))
+            {
+                fxlist = this.allcachedframeworks.Where(f => f.FindTypeEntry(typeEntry) != null).ToArray();
+                typeFxList.Add(typeEntry, fxlist);
+            }
+
+            return fxlist;
+        }
+
         public bool IsLastFrameworkForType (FrameworkTypeEntry typeEntry)
         {
             if (this == Empty) return true;
+            FrameworkEntry[] fxlist = FindFrameworksForType(typeEntry);
+            if (!fxlist.Any()) return false;
 
-            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null).ToArray ();
-
-            if (!fxlist.Any ()) return false;
-
-            var lastListed = fxlist.Last ();
+            var lastListed = fxlist.Last();
             return lastListed.Name == this.Name;
         }
+
 
         public bool IsLastFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig, string docidsig)
         {
             if (this == Empty) return true;
 
-            var fxlist = this.allcachedframeworks.Where (f => {
-                var fxType = f.FindTypeEntry (typeEntry);
-                if (fxType == null) return false;
-
-                return fxType.ContainsCSharpSig (memberSig) || fxType.ContainsDocId(docidsig);
-            }).ToArray ();
+            var allTypes = typeEntry.AllTypesAcrossFrameworks;
+            var fxlist = allTypes.Where(t => t.ContainsCSharpSig(memberSig) || t.ContainsDocId(docidsig));
 
             if (!fxlist.Any ()) return false;
 
@@ -172,8 +181,7 @@ namespace Mono.Documentation.Updater.Frameworks
         {
             if (this == Empty) return true;
 
-            var firstFx = this.allcachedframeworks.FirstOrDefault (f => f.FindTypeEntry (typeEntry) != null);
-
+            var firstFx = typeEntry.AllTypesAcrossFrameworks.FirstOrDefault()?.Framework;
             return firstFx == null || firstFx.Name == this.Name;
         }
 
@@ -181,15 +189,10 @@ namespace Mono.Documentation.Updater.Frameworks
         {
             if (this == Empty) return true;
 
-            var firstFx = this.allcachedframeworks.FirstOrDefault (f =>
-            {
-                var fxType = f.FindTypeEntry (typeEntry);
-                if (fxType == null) return false;
-
-                return fxType.ContainsCSharpSig (memberSig) || fxType.ContainsDocId (docidsig);
-            });
-
-            return firstFx == null || firstFx.Name == this.Name;
+            FrameworkTypeEntry[] allTypesAcrossFx = typeEntry.AllTypesAcrossFrameworks;
+            var firstTypeWithMember = allTypesAcrossFx.FirstOrDefault(t => t.ContainsCSharpSig(memberSig) || t.ContainsDocId(docidsig));
+            
+            return firstTypeWithMember == null || firstTypeWithMember.Framework.Name == this.Name;
         }
 
         /// <summary>Only Use in Unit Tests</summary>

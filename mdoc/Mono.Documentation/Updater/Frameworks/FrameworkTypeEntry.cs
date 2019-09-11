@@ -88,7 +88,24 @@ namespace Mono.Documentation.Updater.Frameworks
 			}
 		}
 
-		public virtual void ProcessMember (MemberReference member)
+        static Dictionary<string, FrameworkTypeEntry[]> allTypesAcrossFrameworks = new Dictionary<string, FrameworkTypeEntry[]>();
+
+        public FrameworkTypeEntry[] AllTypesAcrossFrameworks {
+            get
+            {
+                FrameworkTypeEntry[] fxlist;
+
+                if (!allTypesAcrossFrameworks.TryGetValue(this.Name, out fxlist))
+                {
+                    fxlist = this.Framework.allcachedframeworks.Select(f => f.FindTypeEntry(this)).Where(t => t != null).ToArray();
+                    allTypesAcrossFrameworks.Add(this.Name, fxlist);
+                }
+
+                return fxlist ?? new FrameworkTypeEntry[0];
+            }
+        }
+
+        public virtual void ProcessMember (MemberReference member)
         {
             string key = null;
 
