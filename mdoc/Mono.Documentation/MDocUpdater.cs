@@ -2790,6 +2790,9 @@ namespace Mono.Documentation
 
         private void UpdateExtensionMethods (XmlElement e, DocsNodeInfo info)
         {
+            if (!writeIndex)
+                return;
+
             MethodDefinition me = info.Member as MethodDefinition;
             if (me == null)
                 return;
