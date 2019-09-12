@@ -1,6 +1,6 @@
 <Type Name="Collections+MDocInterface&lt;key&gt;" FullName="Collections+MDocInterface&lt;key&gt;">
   <TypeSignature Language="C#" Value="public interface Collections.MDocInterface&lt;key&gt;" />
-  <TypeSignature Language="ILAsm" Value=".class nested public interface auto ansi abstract serializable Collections/MDocInterface`1&lt;key&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class nested public interface auto ansi abstract serializable beforefieldinit Collections/MDocInterface`1&lt;key&gt;" />
   <TypeSignature Language="F#" Value="type Collections.MDocInterface&lt;'key&gt; = interface" />
   <AssemblyInfo>
     <AssemblyName>mdoc.Test.FSharp</AssemblyName>
