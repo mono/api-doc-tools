@@ -63,7 +63,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		public static FrameworkTypeEntry Empty = new EmptyTypeEntry (FrameworkEntry.Empty) { Name = "Empty" };
 
-		public FrameworkTypeEntry (FrameworkEntry fx)
+        public FrameworkTypeEntry (FrameworkEntry fx)
 		{
 			this.fx = fx;
 		}
@@ -88,17 +88,16 @@ namespace Mono.Documentation.Updater.Frameworks
 			}
 		}
 
-        static Dictionary<string, FrameworkTypeEntry[]> allTypesAcrossFrameworks = new Dictionary<string, FrameworkTypeEntry[]>();
 
         public FrameworkTypeEntry[] AllTypesAcrossFrameworks {
             get
             {
                 FrameworkTypeEntry[] fxlist;
 
-                if (!allTypesAcrossFrameworks.TryGetValue(this.Name, out fxlist))
+                if (!this.Framework.FrameworkIndex.allTypesAcrossFrameworks.TryGetValue(this.Name, out fxlist))
                 {
                     fxlist = this.Framework.allcachedframeworks.Select(f => f.FindTypeEntry(this)).Where(t => t != null).ToArray();
-                    allTypesAcrossFrameworks.Add(this.Name, fxlist);
+                    this.Framework.FrameworkIndex.allTypesAcrossFrameworks.Add(this.Name, fxlist);
                 }
 
                 return fxlist ?? new FrameworkTypeEntry[0];

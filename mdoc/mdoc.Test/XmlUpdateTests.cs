@@ -92,6 +92,8 @@ namespace mdoc.Test
             FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First ();
             context.fx.Frameworks.RemoveAt(2);
             context.fx.Frameworks.RemoveAt(1);
+            context.fx.ResetTypeCache();
+
             bool fxAlternateTriggered = false;
 
             context.updater.MakeParameters (context.doc.FirstChild as XmlElement, context.method, context.parameters, typeEntry, ref fxAlternateTriggered);
@@ -176,9 +178,9 @@ namespace mdoc.Test
         {
             FrameworkIndex fx = new FrameworkIndex("", 3, null);
 
-            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks, fx.Frameworks) { Id = "One", Name = "One", Replace = "mdoc.Test2", With = "mdoc.Test" });
-            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks, fx.Frameworks) { Id = "Two", Name = "Two", Replace = "mdoc.Test2", With = "mdoc.Test" });
-            fx.Frameworks.Add(new FrameworkEntry(fx.Frameworks, fx.Frameworks) { Id = "Three", Name = "Three", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            fx.Frameworks.Add(new FrameworkEntry(fx, fx.Frameworks, fx.Frameworks) { Id = "One", Name = "One", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            fx.Frameworks.Add(new FrameworkEntry(fx, fx.Frameworks, fx.Frameworks) { Id = "Two", Name = "Two", Replace = "mdoc.Test2", With = "mdoc.Test" });
+            fx.Frameworks.Add(new FrameworkEntry(fx, fx.Frameworks, fx.Frameworks) { Id = "Three", Name = "Three", Replace = "mdoc.Test2", With = "mdoc.Test" });
             
             var context = InitComplexContext<MyComplicatedClass>(XmlConsts.XML_METHOD_TESTMETHOD_BEFORE, "mdoc.Test", "BeginRead", fx);
             var theType = context.method.DeclaringType.Resolve();
@@ -824,9 +826,9 @@ namespace mdoc.Test
             // updater
             var updater = new MDocUpdater ();
             var fx = new FrameworkIndex ("", 3, null);
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "One", Name = "One", Replace=ns2, With=ns1 });
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "Three", Name = "Three", Replace = ns2, With = ns1  });
-            fx.Frameworks.Add (new FrameworkEntry (fx.Frameworks, fx.Frameworks) { Id = "Two", Name = "Two", Replace = ns2, With = ns1  });
+            fx.Frameworks.Add (new FrameworkEntry (fx, fx.Frameworks, fx.Frameworks) { Id = "One", Name = "One", Replace=ns2, With=ns1 });
+            fx.Frameworks.Add (new FrameworkEntry (fx, fx.Frameworks, fx.Frameworks) { Id = "Three", Name = "Three", Replace = ns2, With = ns1  });
+            fx.Frameworks.Add (new FrameworkEntry (fx, fx.Frameworks, fx.Frameworks) { Id = "Two", Name = "Two", Replace = ns2, With = ns1  });
 
             var i = 0;
             foreach (var f in fx.Frameworks)

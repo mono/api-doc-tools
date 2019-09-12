@@ -20,10 +20,14 @@ namespace Mono.Documentation.Updater.Frameworks
             get => _fxCount < 1 ? allframeworks.Count : _fxCount;
         }
 
-        public FrameworkEntry (IList<FrameworkEntry> frameworks, IList<FrameworkEntry> cachedfx) : this(frameworks, -1, cachedfx) {}
+        public FrameworkIndex FrameworkIndex { get; private set; }
 
-        public FrameworkEntry (IList<FrameworkEntry> frameworks, int fxCount, IList<FrameworkEntry> cachedFx)
+        public FrameworkEntry (FrameworkIndex idx, IList<FrameworkEntry> frameworks, IList<FrameworkEntry> cachedfx) : this(idx, frameworks, -1, cachedfx) {}
+
+        public FrameworkEntry (FrameworkIndex idx, IList<FrameworkEntry> frameworks, int fxCount, IList<FrameworkEntry> cachedFx)
         {
+            this.FrameworkIndex = idx;
+
             allframeworks = frameworks;
             if (allframeworks == null)
             {
@@ -67,15 +71,14 @@ namespace Mono.Documentation.Updater.Frameworks
             return lastListed.Name == this.Name;
         }
 
-        static Dictionary<FrameworkTypeEntry, FrameworkEntry[]> typeFxList = new Dictionary<FrameworkTypeEntry, FrameworkEntry[]>();
 
         private FrameworkEntry[] FindFrameworksForType(FrameworkTypeEntry typeEntry)
         {
             FrameworkEntry[] fxlist;
-            if (!typeFxList.TryGetValue(typeEntry, out fxlist))
+            if (!FrameworkIndex.typeFxList.TryGetValue(typeEntry, out fxlist))
             {
                 fxlist = this.allcachedframeworks.Where(f => f.FindTypeEntry(typeEntry) != null).ToArray();
-                typeFxList.Add(typeEntry, fxlist);
+                FrameworkIndex.typeFxList.Add(typeEntry, fxlist);
             }
 
             return fxlist;
@@ -262,7 +265,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		class EmptyFrameworkEntry : FrameworkEntry
 		{
-			public EmptyFrameworkEntry () : base (null, 1, null) { }
+			public EmptyFrameworkEntry () : base (new FrameworkIndex("", 1, null), null, 1, null) { }
 			public override FrameworkTypeEntry ProcessType (TypeDefinition type, AssemblyDefinition source) { return FrameworkTypeEntry.Empty; }
 
 

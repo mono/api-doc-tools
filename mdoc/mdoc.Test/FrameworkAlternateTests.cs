@@ -75,11 +75,12 @@ namespace mdoc.Test
         [Test]
         public void LastFramework()
         {
+            FrameworkIndex idx = new FrameworkIndex("", 4, null);
             List<FrameworkEntry> entries = new List<FrameworkEntry>();
-            entries.Add (new FrameworkEntry (entries, entries));
-            entries.Add (new FrameworkEntry (entries, entries));
-            entries.Add (new FrameworkEntry (entries, entries));
-            entries.Add (new FrameworkEntry (entries, entries));
+            entries.Add (new FrameworkEntry (idx, entries, entries));
+            entries.Add (new FrameworkEntry (idx, entries, entries));
+            entries.Add (new FrameworkEntry (idx, entries, entries));
+            entries.Add (new FrameworkEntry (idx, entries, entries));
 
             Assert.IsFalse (entries[0].IsLastFramework);
             Assert.IsFalse (entries[1].IsLastFramework);
@@ -90,11 +91,12 @@ namespace mdoc.Test
         [Test]
         public void FirstFramework ()
         {
+            FrameworkIndex idx = new FrameworkIndex("", 4, null);
             List<FrameworkEntry> entries = new List<FrameworkEntry> ();
-            entries.Add (new FrameworkEntry (entries, entries));
-            entries.Add (new FrameworkEntry (entries, entries));
-            entries.Add (new FrameworkEntry (entries, entries));
-            entries.Add (new FrameworkEntry (entries, entries));
+            entries.Add (new FrameworkEntry (idx, entries, entries));
+            entries.Add (new FrameworkEntry (idx, entries, entries));
+            entries.Add (new FrameworkEntry (idx, entries, entries));
+            entries.Add (new FrameworkEntry (idx, entries, entries));
 
             Assert.IsTrue (entries[0].IsFirstFramework);
             Assert.IsFalse (entries[1].IsFirstFramework);

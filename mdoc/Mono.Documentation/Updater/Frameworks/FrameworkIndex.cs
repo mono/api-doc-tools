@@ -17,12 +17,24 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		string path;
 
-		public FrameworkIndex (string pathToFrameworks, int fxCount, IList<FrameworkEntry> cachedfx) 
+        internal Dictionary<string, FrameworkTypeEntry[]> allTypesAcrossFrameworks = new Dictionary<string, FrameworkTypeEntry[]>();
+
+        internal Dictionary<FrameworkTypeEntry, FrameworkEntry[]> typeFxList = new Dictionary<FrameworkTypeEntry, FrameworkEntry[]>();
+
+        public void ResetTypeCache()
+        {
+            allTypesAcrossFrameworks.Clear();
+            typeFxList.Clear();
+        }
+
+        public FrameworkIndex (string pathToFrameworks, int fxCount, IList<FrameworkEntry> cachedfx) 
 		{
 			path = pathToFrameworks;
             FrameworksCount = fxCount;
             cachedFrameworks = cachedfx ?? frameworks;
-		}
+
+            this.ResetTypeCache();
+        }
 
         public int FrameworksCount {
             get; private set;
@@ -48,7 +60,7 @@ namespace Mono.Documentation.Updater.Frameworks
             var entry = frameworks.FirstOrDefault (f => f.Name.Equals (shortPath));
             if (entry == null)
             {
-                entry = new FrameworkEntry (frameworks, FrameworksCount, cachedFrameworks) { Name = shortPath, Importers = importers, Id = Id, Version = Version };
+                entry = new FrameworkEntry (this, frameworks, FrameworksCount, cachedFrameworks) { Name = shortPath, Importers = importers, Id = Id, Version = Version };
                 frameworks.Add (entry);
             }
 
