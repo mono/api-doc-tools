@@ -105,7 +105,7 @@ namespace Mono.Documentation.Updater.Frameworks
             if (!fxlist.Any ()) return false;
 
             var lastListed = fxlist.Last ();
-            return lastListed.Name == this.Name;
+            return lastListed.Framework.Name == this.Name;
         }
 
         public string AllFrameworksWithAssembly(string assemblyName)
