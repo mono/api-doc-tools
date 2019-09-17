@@ -159,7 +159,7 @@ namespace Mono.Documentation.Updater
         private XmlNode GetDocs (MemberReference member, MemberFormatter formatter)
         {
             string slashdocsig = formatter?.GetDeclaration (member);
-            string mappedValue;
+            XmlNode mappedValue;
             if (slashdocsig != null && slashdocs != null && slashdocsMapping.TryGetValue(slashdocsig, out mappedValue))
                 return mappedValue;
             return null;
