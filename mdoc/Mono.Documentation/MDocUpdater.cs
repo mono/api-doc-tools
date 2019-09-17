@@ -64,6 +64,11 @@ namespace Mono.Documentation
 
     };
 
+        public static int MemberFormatterCount
+        {
+            get => memberFormatters.Length;
+        }
+
         private readonly List<string> CustomAttributeNamesToSkip = new List<string>()
         {
             Consts.CompilerGeneratedAttribute,
@@ -1490,6 +1495,9 @@ namespace Mono.Documentation
         
         public void DoUpdateType2 (string message, XmlDocument basefile, TypeDefinition type, FrameworkTypeEntry typeEntry, string output, bool insertSince)
         {
+            int membersAdded = 0;
+            int membersDeleted = 0;
+
             Console.WriteLine (message + ": " + type.FullName);
             StringToXmlNodeMap seenmembers = new StringToXmlNodeMap ();
             StringToXmlNodeMap seenmembersdocid = new StringToXmlNodeMap();
@@ -2281,8 +2289,11 @@ namespace Mono.Documentation
             return l;
         }
 
-        private void UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers)
+        private bool UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers)
         {
+            bool changed = false;
+            Action markChange = () => changed = true;
+
             XmlElement me = (XmlElement)info.Node;
             MemberReference mi = info.Member;
             typeEntry.ProcessMember (mi);
@@ -2332,11 +2343,13 @@ namespace Mono.Documentation
             
             foreach (MemberFormatter f in memberFormatters)
             {
-                UpdateSignature (f, mi, me, typeEntry);
+                UpdateSignature (markChange, f, mi, me, typeEntry);
             }
 
             OrderMemberNodes (me, me.ChildNodes);
             UpdateExtensionMethods (me, info);
+
+            return changed;
         }
 
         private static void UpdateSignature(MemberFormatter formatter, TypeDefinition type, XmlElement xmlElement)
@@ -2360,7 +2373,7 @@ namespace Mono.Documentation
                 type);
         }
 
-        public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry)
+        public static void UpdateSignature(Action markChange, MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry)
         {
             var valueToUse = formatter.GetDeclaration(member);
             var usageSample = formatter.UsageFormatter?.GetDeclaration(member);
@@ -2373,14 +2386,14 @@ namespace Mono.Documentation
                 return;
 
             // pre: clear all the signatures
-            if (typeEntry.IsMemberOnFirstFramework(member))
+            /*if (typeEntry.IsMemberOnFirstFramework(member))
             {
                 foreach (var element in elementsQuery())// xmlElement.SelectNodes(elementName).SafeCast<XmlElement>())
                 {
                     // remove element
                     element.ParentNode.RemoveChild(element);
                 }
-            }
+            }*/
 
             if (valueToUse == null && usageSample == null)
                 return;
@@ -2395,17 +2408,27 @@ namespace Mono.Documentation
                 {
                     var val = element.GetAttribute("Value");
                     var usage = element.GetAttribute("Usage");
+                    var existingfxa = element.GetAttribute(Consts.FrameworkAlternate);
                     if (val == (valueToUse??"") && usage == (usageSample??""))
                     {
                         // add FXA
-                        string newfxa = FXUtils.AddFXToList(element.GetAttribute(Consts.FrameworkAlternate), typeEntry.Framework.Name);
-                        element.SetAttribute(Consts.FrameworkAlternate, newfxa);
+                        string newfxa = FXUtils.AddFXToList(existingfxa, typeEntry.Framework.Name);
+                        if (existingfxa?.Length != newfxa?.Length)
+                        {
+                            element.SetAttribute(Consts.FrameworkAlternate, newfxa);
+                            markChange();
+                        }
+
                         elementFound = true;
                     }
                     else
                     {
                         string newfxa = FXUtils.RemoveFXFromList(element.GetAttribute(Consts.FrameworkAlternate), typeEntry.Framework.Name);
-                        element.SetAttribute(Consts.FrameworkAlternate, newfxa);
+                        if (existingfxa?.Length != newfxa?.Length)
+                        {
+                            element.SetAttribute(Consts.FrameworkAlternate, newfxa);
+                            markChange();
+                        }
                     }
                 }
             }
@@ -2423,9 +2446,10 @@ namespace Mono.Documentation
                     newElement.SetAttribute("Usage", usageSample);
 
                 newElement.SetAttribute(Consts.FrameworkAlternate, typeEntry.Framework.Name);
+                markChange();
             }
 
-
+            Console.WriteLine($"updating {formatter.Language} sig for {member.FullName}. IsLast? {typeEntry.IsMemberOnLastFramework(member)}");
             // if last framework, check to see if fxa list is the entire, and remove
             if (typeEntry.IsMemberOnLastFramework(member))
             {
@@ -2435,6 +2459,7 @@ namespace Mono.Documentation
                     if (string.IsNullOrWhiteSpace(fxa))
                     {
                         element.ParentNode.RemoveChild(element);
+                        markChange();
                     }
 
                     var allfx = typeEntry.AllFrameworkStringForMember (member);

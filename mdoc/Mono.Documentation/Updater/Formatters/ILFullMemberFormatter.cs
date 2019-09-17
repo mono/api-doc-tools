@@ -153,7 +153,7 @@ namespace Mono.Documentation.Updater
             buf.Append (visibility).Append (" ");
             if (type.IsInterface)
                 buf.Append ("interface ");
-            if (type.IsSequentialLayout)
+            if (type.IsSequentialLayout) 
                 buf.Append ("sequential ");
             if (type.IsAutoLayout)
                 buf.Append ("auto ");

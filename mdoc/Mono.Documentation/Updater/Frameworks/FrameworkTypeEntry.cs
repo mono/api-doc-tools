@@ -6,10 +6,40 @@ using Mono.Cecil.Rocks;
 
 namespace Mono.Documentation.Updater.Frameworks
 {
+    public class FrameworkTypeMember
+    {
+        private Dictionary<string, List<string>> Signatures = new Dictionary<string, List<string>>();
+
+        public bool HasSignature(string language, string sig)
+        {
+            List<string> list;
+            if (Signatures.TryGetValue(language, out list))
+                return list.Any(l => l == sig);
+
+            return false;
+        }
+
+        public void AddSignature(string language, string sig)
+        {
+            List<string> list;
+            if (!Signatures.TryGetValue(language, out list))
+            {
+                list = new List<string>(MDocUpdater.MemberFormatterCount);
+                Signatures.Add(language, list);
+            }
+            else
+            {
+                if (!list.Any(l => l == sig))
+                    list.Add(sig);
+            }
+        }
+    }
+
 	public class FrameworkTypeEntry : IComparable<FrameworkTypeEntry>
 	{
         Dictionary<string, string> sigMap = new Dictionary<string, string> ();
         Dictionary<string, bool> sigDocMap = new Dictionary<string, bool>();
+
 
 		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
         DocIdFormatter docidFormatter = new DocIdFormatter ();
