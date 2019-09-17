@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -10,6 +11,7 @@ namespace Mono.Documentation.Updater
     class MsxdocDocumentationImporter : DocumentationImporter
     {
         XmlDocument slashdocs;
+        Dictionary<string, XmlNode> slashdocsMapping = new Dictionary<string, XmlNode>();
 
         public MsxdocDocumentationImporter (string file)
         {
@@ -27,6 +29,15 @@ namespace Mono.Documentation.Updater
                 slashdocs = new XmlDocument ();
 
                 slashdocs.LoadXml (xml);
+
+                foreach(XmlNode node in slashdocs.SelectNodes("doc/members/member"))
+                {
+                    var sig = node.Attributes["name"]?.Value;
+                    if(!string.IsNullOrEmpty(sig))
+                    {
+                        slashdocsMapping[sig] = node;
+                    }
+                }
             }
             catch (IOException ex)
             {
@@ -148,8 +159,8 @@ namespace Mono.Documentation.Updater
         private XmlNode GetDocs (MemberReference member, MemberFormatter formatter)
         {
             string slashdocsig = formatter?.GetDeclaration (member);
-            if (slashdocsig != null && slashdocs != null)
-                return slashdocs.SelectSingleNode ("doc/members/member[@name='" + slashdocsig + "']");
+            if (slashdocsig != null && slashdocs != null && slashdocsMapping.ContainsKey(slashdocsig))
+                return slashdocsMapping[slashdocsig];
             return null;
         }
     }
