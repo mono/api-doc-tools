@@ -2367,19 +2367,23 @@ namespace Mono.Documentation
 
             string elementName = "MemberSignature";
             string elementXPath = $"{elementName}[@Language='" + formatter.Language + "']";
-            Func<IEnumerable<XmlElement>> elementsQuery = () => xmlElement.SelectNodes(elementXPath).SafeCast<XmlElement>();
+            Func<IEnumerable<XmlElement>> elementsQuery = () => xmlElement.SelectNodes(elementXPath).SafeCast<XmlElement>().ToArray();
 
-            if (typeEntry.TimesProcessed > 1)
+            var existingElements = elementsQuery();
+
+            if (typeEntry.TimesProcessed > 1 && existingElements.Any())
                 return;
 
             // pre: clear all the signatures
             if (typeEntry.IsMemberOnFirstFramework(member))
             {
-                foreach (var element in elementsQuery())// xmlElement.SelectNodes(elementName).SafeCast<XmlElement>())
+                foreach (var element in existingElements)// xmlElement.SelectNodes(elementName).SafeCast<XmlElement>())
                 {
                     // remove element
                     element.ParentNode.RemoveChild(element);
                 }
+
+                existingElements = elementsQuery();
             }
 
             if (valueToUse == null && usageSample == null)
@@ -2388,10 +2392,10 @@ namespace Mono.Documentation
             bool elementFound = false;
 
             // if exists, add fxa to it
-            if (elementsQuery().Any())
+            if (existingElements.Any())
             {
                 //var matchingElement = elementsQuery.Where(e => e.GetAttribute("Value") == valueToUse);
-                foreach(var element in elementsQuery())
+                foreach(var element in existingElements)
                 {
                     var val = element.GetAttribute("Value");
                     var usage = element.GetAttribute("Usage");
