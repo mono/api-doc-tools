@@ -2253,7 +2253,7 @@ namespace Mono.Documentation
         }
 
         static readonly string[] TypeNodeOrder = {
-        "Meta",
+        "Metadata",
         "TypeSignature",
         "MemberOfLibrary",
         "AssemblyInfo",
@@ -2647,7 +2647,7 @@ namespace Mono.Documentation
         }
 
         static readonly string[] MemberNodeOrder = {
-        "Meta",
+        "Metadata",
         "MemberSignature",
         "MemberType",
         "Implements",
