@@ -1,0 +1,52 @@
+<Type Name="Interfaces+Interface3" FullName="Interfaces+Interface3">
+  <TypeSignature Language="C#" Value="public interface Interfaces.Interface3 : Interfaces.Interface1, Interfaces.Interface2" />
+  <TypeSignature Language="ILAsm" Value=".class nested public interface auto ansi abstract serializable Interfaces/Interface3 implements Interfaces/Interface1, Interfaces/Interface2" />
+  <TypeSignature Language="F#" Value="type Interfaces.Interface3 = interface&#xA;    interface Interfaces.Interface2&#xA;    interface Interfaces.Interface1" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>Interfaces+Interface1</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>Interfaces+Interface2</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Method3">
+      <MemberSignature Language="C#" Value="public int Method3 (int );" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 Method3(int32 ) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Method3 : int -&gt; int" Usage="interface3.Method3 " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,90 @@
+<Type Name="Constructors+MyClass3" FullName="Constructors+MyClass3">
+  <TypeSignature Language="C#" Value="public class Constructors.MyClass3" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Constructors/MyClass3 extends System.Object" />
+  <TypeSignature Language="F#" Value="type Constructors.MyClass3 = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MyClass3 (int a0, int b0);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(int32 a0, int32 b0) cil managed" />
+      <MemberSignature Language="F#" Value="new Constructors.MyClass3 : int * int -&gt; Constructors.MyClass3" Usage="new Constructors.MyClass3 (a0, b0)" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="a0" Type="System.Int32" />
+        <Parameter Name="b0" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="a0">To be added.</param>
+        <param name="b0">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="a">
+      <MemberSignature Language="C#" Value="public int a { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 a" />
+      <MemberSignature Language="F#" Value="val a : int" Usage="Constructors.MyClass3.a" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="b">
+      <MemberSignature Language="C#" Value="public int b { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 b" />
+      <MemberSignature Language="F#" Value="val b : int" Usage="Constructors.MyClass3.b" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 1)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

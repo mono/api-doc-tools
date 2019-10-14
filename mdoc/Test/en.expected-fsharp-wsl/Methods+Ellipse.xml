@@ -1,0 +1,68 @@
+<Type Name="Methods+Ellipse" FullName="Methods+Ellipse">
+  <TypeSignature Language="C#" Value="public class Methods.Ellipse" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Methods/Ellipse extends System.Object" />
+  <TypeSignature Language="F#" Value="type Methods.Ellipse = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Ellipse (double a0, double b0, double theta0);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(float64 a0, float64 b0, float64 theta0) cil managed" />
+      <MemberSignature Language="F#" Value="new Methods.Ellipse : double * double * double -&gt; Methods.Ellipse" Usage="new Methods.Ellipse (a0, b0, theta0)" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="a0" Type="System.Double" />
+        <Parameter Name="b0" Type="System.Double" />
+        <Parameter Name="theta0" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="a0">To be added.</param>
+        <param name="b0">To be added.</param>
+        <param name="theta0">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rotate">
+      <MemberSignature Language="C#" Value="public override void Rotate (double delta);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rotate(float64 delta) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Rotate : double -&gt; unit&#xA;override this.Rotate : double -&gt; unit" Usage="ellipse.Rotate delta" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="delta" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="delta">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

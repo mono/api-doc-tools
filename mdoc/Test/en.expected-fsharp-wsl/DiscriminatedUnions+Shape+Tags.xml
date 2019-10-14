@@ -1,0 +1,69 @@
+<Type Name="DiscriminatedUnions+Shape+Tags" FullName="DiscriminatedUnions+Shape+Tags">
+  <TypeSignature Language="C#" Value="public static class DiscriminatedUnions.Shape.Tags" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi abstract sealed DiscriminatedUnions/Shape/Tags extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Circle">
+      <MemberSignature Language="C#" Value="public const int Circle = 1;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 Circle = (1)" />
+      <MemberSignature Language="F#" Value="val mutable Circle : int" Usage="DiscriminatedUnions.Shape.Tags.Circle" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>1</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Prism">
+      <MemberSignature Language="C#" Value="public const int Prism = 2;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 Prism = (2)" />
+      <MemberSignature Language="F#" Value="val mutable Prism : int" Usage="DiscriminatedUnions.Shape.Tags.Prism" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>2</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rectangle">
+      <MemberSignature Language="C#" Value="public const int Rectangle = 0;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 Rectangle = (0)" />
+      <MemberSignature Language="F#" Value="val mutable Rectangle : int" Usage="DiscriminatedUnions.Shape.Tags.Rectangle" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>0</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,545 @@
+<Type Name="Functions" FullName="Functions">
+  <TypeSignature Language="C#" Value="public static class Functions" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed Functions extends System.Object" />
+  <TypeSignature Language="F#" Value="module Functions" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="fib">
+      <MemberSignature Language="C#" Value="public static int fib (int n);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 fib(int32 n) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.fib : int -&gt; int" Usage="Functions.fib n" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="n" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="n">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function1">
+      <MemberSignature Language="C#" Value="public static int function1 (int x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 function1(int32 x) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function1 : int -&gt; int" Usage="Functions.function1 x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function10&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static void function10&lt;a&gt; (object x, object y, object z, object a);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function10&lt;a&gt;(object x, object y, object z, object a) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function10 : obj * obj -&gt; obj * obj -&gt; unit" Usage="Functions.function10 (x, y) (z, a)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 2, 2 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x" Type="System.Object" />
+        <Parameter Name="y" Type="System.Object" />
+        <Parameter Name="z" Type="System.Object" />
+        <Parameter Name="a" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <param name="z">To be added.</param>
+        <param name="a">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function11&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static void function11&lt;a&gt; (object x, object y, object z, object a, object b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function11&lt;a&gt;(object x, object y, object z, object a, object b) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function11 : obj * obj * obj -&gt; obj * obj -&gt; unit" Usage="Functions.function11 (x, y, z) (a, b)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 3, 2 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x" Type="System.Object" />
+        <Parameter Name="y" Type="System.Object" />
+        <Parameter Name="z" Type="System.Object" />
+        <Parameter Name="a" Type="System.Object" />
+        <Parameter Name="b" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <param name="z">To be added.</param>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function12&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static void function12&lt;a&gt; (object x, object a, object b, object c, object d, object e);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function12&lt;a&gt;(object x, object a, object b, object c, object d, object e) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function12 : obj -&gt; obj * obj * obj * obj * obj -&gt; unit" Usage="Functions.function12 x (a, b, c, d, e)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 5 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x" Type="System.Object" />
+        <Parameter Name="a" Type="System.Object" />
+        <Parameter Name="b" Type="System.Object" />
+        <Parameter Name="c" Type="System.Object" />
+        <Parameter Name="d" Type="System.Object" />
+        <Parameter Name="e" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="x">To be added.</param>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <param name="c">To be added.</param>
+        <param name="d">To be added.</param>
+        <param name="e">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function13&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static void function13&lt;a&gt; (a a);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function13&lt;a&gt;(!!a a) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function13 : 'a -&gt; unit" Usage="Functions.function13 a" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="a" Type="a" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="a">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function2">
+      <MemberSignature Language="C#" Value="public static int function2 (int x2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 function2(int32 x2) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function2 : int -&gt; int" Usage="Functions.function2 x2" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x2" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function3">
+      <MemberSignature Language="C#" Value="public static int function3 (int x3);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 function3(int32 x3) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function3 : int -&gt; int" Usage="Functions.function3 x3" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x3" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x3">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function4">
+      <MemberSignature Language="C#" Value="public static int function4 (int x4, int y4);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 function4(int32 x4, int32 y4) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function4 : int -&gt; int -&gt; int" Usage="Functions.function4 x4 y4" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x4" Type="System.Int32" />
+        <Parameter Name="y4" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x4">To be added.</param>
+        <param name="y4">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function5">
+      <MemberSignature Language="C#" Value="public static int function5 (int x5, int y5);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 function5(int32 x5, int32 y5) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function5 : int * int -&gt; int" Usage="Functions.function5 (x5, y5)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x5" Type="System.Int32" />
+        <Parameter Name="y5" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x5">To be added.</param>
+        <param name="y5">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function6&lt;a,b&gt;">
+      <MemberSignature Language="C#" Value="public static void function6&lt;a,b&gt; (a x6, b y6);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function6&lt;a, b&gt;(!!a x6, !!b y6) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function6 : 'a * 'b -&gt; unit" Usage="Functions.function6 (x6, y6)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+        <TypeParameter Name="b" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x6" Type="a" />
+        <Parameter Name="y6" Type="b" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <typeparam name="b">To be added.</typeparam>
+        <param name="x6">To be added.</param>
+        <param name="y6">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function7&lt;a,b,c&gt;">
+      <MemberSignature Language="C#" Value="public static void function7&lt;a,b,c&gt; (a x7, b y7, c z7);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function7&lt;a, b, c&gt;(!!a x7, !!b y7, !!c z7) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function7 : 'a -&gt; 'b * 'c -&gt; unit" Usage="Functions.function7 x7 (y7, z7)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 2 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+        <TypeParameter Name="b" />
+        <TypeParameter Name="c" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x7" Type="a" />
+        <Parameter Name="y7" Type="b" />
+        <Parameter Name="z7" Type="c" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <typeparam name="b">To be added.</typeparam>
+        <typeparam name="c">To be added.</typeparam>
+        <param name="x7">To be added.</param>
+        <param name="y7">To be added.</param>
+        <param name="z7">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function8&lt;a,b,c&gt;">
+      <MemberSignature Language="C#" Value="public static void function8&lt;a,b,c&gt; (a x8, b y8, c z8);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function8&lt;a, b, c&gt;(!!a x8, !!b y8, !!c z8) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function8 : 'a -&gt; 'b -&gt; 'c -&gt; unit" Usage="Functions.function8 x8 y8 z8" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+        <TypeParameter Name="b" />
+        <TypeParameter Name="c" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x8" Type="a" />
+        <Parameter Name="y8" Type="b" />
+        <Parameter Name="z8" Type="c" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <typeparam name="b">To be added.</typeparam>
+        <typeparam name="c">To be added.</typeparam>
+        <param name="x8">To be added.</param>
+        <param name="y8">To be added.</param>
+        <param name="z8">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function9&lt;a,b,c,d&gt;">
+      <MemberSignature Language="C#" Value="public static void function9&lt;a,b,c,d&gt; (a x9, b y9, c z9, d a9);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function9&lt;a, b, c, d&gt;(!!a x9, !!b y9, !!c z9, !!d a9) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.function9 : 'a * 'b -&gt; 'c * 'd -&gt; unit" Usage="Functions.function9 (x9, y9) (z9, a9)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 2, 2 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+        <TypeParameter Name="b" />
+        <TypeParameter Name="c" />
+        <TypeParameter Name="d" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x9" Type="a" />
+        <Parameter Name="y9" Type="b" />
+        <Parameter Name="z9" Type="c" />
+        <Parameter Name="a9" Type="d" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <typeparam name="b">To be added.</typeparam>
+        <typeparam name="c">To be added.</typeparam>
+        <typeparam name="d">To be added.</typeparam>
+        <param name="x9">To be added.</param>
+        <param name="y9">To be added.</param>
+        <param name="z9">To be added.</param>
+        <param name="a9">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="get_function">
+      <MemberSignature Language="C#" Value="public static int get_function (int x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 get_function(int32 x) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.get_function : int -&gt; int" Usage="Functions.get_function x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="h">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Core.FSharpFunc&lt;int,int&gt; h { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, int32&gt; h" />
+      <MemberSignature Language="F#" Value="Functions.h : int -&gt; int" Usage="Functions.h" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="publicLet">
+      <MemberSignature Language="C#" Value="public static int publicLet (int n);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 publicLet(int32 n) cil managed" />
+      <MemberSignature Language="F#" Value="Functions.publicLet : int -&gt; int" Usage="Functions.publicLet n" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="n" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="n">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="result">
+      <MemberSignature Language="C#" Value="public static int result { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 result" />
+      <MemberSignature Language="F#" Value="Functions.result : int" Usage="Functions.result" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="result5">
+      <MemberSignature Language="C#" Value="public static int result5 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 result5" />
+      <MemberSignature Language="F#" Value="Functions.result5 : int" Usage="Functions.result5" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

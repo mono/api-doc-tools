@@ -1,0 +1,86 @@
+<Type Name="DiscriminatedUnions+Shape+Rectangle" FullName="DiscriminatedUnions+Shape+Rectangle">
+  <TypeSignature Language="C#" Value="public class DiscriminatedUnions.Shape.Rectangle : DiscriminatedUnions.Shape" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable beforefieldinit DiscriminatedUnions/Shape/Rectangle extends minatedUnions/Shape" />
+  <TypeSignature Language="F#" Value="DiscriminatedUnions.Shape.Rectangle : double * double -&gt; DiscriminatedUnions.Shape" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>DiscriminatedUnions+Shape</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerDisplay("{__DebugDisplay(),nq}")</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(DiscriminatedUnions/Shape/Rectangle@DebugTypeProxy))</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="length">
+      <MemberSignature Language="C#" Value="public double length { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 length" />
+      <MemberSignature Language="F#" Value="val length : double" Usage="DiscriminatedUnions.Shape.Rectangle.length" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0, 1)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="width">
+      <MemberSignature Language="C#" Value="public double width { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 width" />
+      <MemberSignature Language="F#" Value="val width : double" Usage="DiscriminatedUnions.Shape.Rectangle.width" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0, 0)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

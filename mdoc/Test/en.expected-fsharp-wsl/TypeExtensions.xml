@@ -1,0 +1,192 @@
+<Type Name="TypeExtensions" FullName="TypeExtensions">
+  <TypeSignature Language="C#" Value="public static class TypeExtensions" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed TypeExtensions extends System.Object" />
+  <TypeSignature Language="F#" Value="module TypeExtensions" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="IEnumerable`1.RepeatElements&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public static System.Collections.Generic.IEnumerable&lt;T&gt; IEnumerable`1.RepeatElements&lt;T&gt; (System.Collections.Generic.IEnumerable&lt;T&gt; xs, int n);" />
+      <MemberSignature Language="ILAsm" Value=".method public static class System.Collections.Generic.IEnumerable`1&lt;!!T&gt; IEnumerable`1.RepeatElements&lt;T&gt;(class System.Collections.Generic.IEnumerable`1&lt;!!T&gt; xs, int32 n) cil managed" />
+      <MemberSignature Language="F#" Value="TypeExtensions.IEnumerable`1.RepeatElements : seq&lt;'T&gt; -&gt; int -&gt; seq&lt;'T&gt;" Usage="TypeExtensions.IEnumerable`1.RepeatElements xs n" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="xs" Type="System.Collections.Generic.IEnumerable&lt;T&gt;" />
+        <Parameter Name="n" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">To be added.</typeparam>
+        <param name="xs">To be added.</param>
+        <param name="n">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Int32.FromString">
+      <MemberSignature Language="C#" Value="public static int Int32.FromString (int this, string s);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 Int32.FromString(int32 this, string s) cil managed" />
+      <MemberSignature Language="F#" Value="TypeExtensions.Int32.FromString : string -&gt; int" Usage="TypeExtensions.Int32.FromString s" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="this" Type="System.Int32" />
+        <Parameter Name="s" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="this">To be added.</param>
+        <param name="s">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="listOfBigIntegers">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Collections.FSharpList&lt;System.Numerics.BigInteger&gt; listOfBigIntegers { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Collections.FSharpList`1&lt;valuetype System.Numerics.BigInteger&gt; listOfBigIntegers" />
+      <MemberSignature Language="F#" Value="TypeExtensions.listOfBigIntegers : List&lt;System.Numerics.BigInteger&gt;" Usage="TypeExtensions.listOfBigIntegers" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Collections.FSharpList&lt;System.Numerics.BigInteger&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="listOfIntegers">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Collections.FSharpList&lt;int&gt; listOfIntegers { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Collections.FSharpList`1&lt;int32&gt; listOfIntegers" />
+      <MemberSignature Language="F#" Value="TypeExtensions.listOfIntegers : List&lt;int&gt;" Usage="TypeExtensions.listOfIntegers" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Collections.FSharpList&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="sum1">
+      <MemberSignature Language="C#" Value="public static int sum1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 sum1" />
+      <MemberSignature Language="F#" Value="TypeExtensions.sum1 : int" Usage="TypeExtensions.sum1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="sum2">
+      <MemberSignature Language="C#" Value="public static System.Numerics.BigInteger sum2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property valuetype System.Numerics.BigInteger sum2" />
+      <MemberSignature Language="F#" Value="TypeExtensions.sum2 : System.Numerics.BigInteger" Usage="TypeExtensions.sum2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Numerics.BigInteger</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="testFromString">
+      <MemberSignature Language="C#" Value="public static void testFromString (string str);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void testFromString(string str) cil managed" />
+      <MemberSignature Language="F#" Value="TypeExtensions.testFromString : string -&gt; unit" Usage="TypeExtensions.testFromString str" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="str" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="str">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

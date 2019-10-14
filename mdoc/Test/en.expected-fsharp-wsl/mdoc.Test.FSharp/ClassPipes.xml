@@ -1,0 +1,142 @@
+<Type Name="ClassPipes" FullName="mdoc.Test.FSharp.ClassPipes">
+  <TypeSignature Language="C#" Value="public class ClassPipes" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable ClassPipes extends System.Object" />
+  <TypeSignature Language="F#" Value="type ClassPipes = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ClassPipes ();" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="bigPipeVol1">
+      <MemberSignature Language="C#" Value="public double bigPipeVol1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 bigPipeVol1" />
+      <MemberSignature Language="F#" Value="member this.bigPipeVol1 : double" Usage="mdoc.Test.FSharp.ClassPipes.bigPipeVol1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="bigPipeVol2">
+      <MemberSignature Language="C#" Value="public double bigPipeVol2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 bigPipeVol2" />
+      <MemberSignature Language="F#" Value="member this.bigPipeVol2 : double" Usage="mdoc.Test.FSharp.ClassPipes.bigPipeVol2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ff">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Quotations.FSharpVar ff { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Quotations.FSharpVar ff" />
+      <MemberSignature Language="F#" Value="member this.ff : Var" Usage="mdoc.Test.FSharp.ClassPipes.ff" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Quotations.FSharpVar</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ff3">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpFunc&lt;object[],Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.FSharpFunc&lt;object[],Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.Unit&gt;&gt;&gt;&gt;&gt; ff3 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Core.FSharpFunc`2&lt;object[], class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, class Microsoft.FSharp.Core.FSharpFunc`2&lt;object[], class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, class Microsoft.FSharp.Core.Unit&gt;&gt;&gt;&gt;&gt; ff3" />
+      <MemberSignature Language="F#" Value="member this.ff3 : obj[] -&gt; int -&gt; obj[] -&gt; int -&gt; int -&gt; unit" Usage="mdoc.Test.FSharp.ClassPipes.ff3" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Object[],Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.FSharpFunc&lt;System.Object[],Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.Unit&gt;&gt;&gt;&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="smallPipeVol1">
+      <MemberSignature Language="C#" Value="public double smallPipeVol1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 smallPipeVol1" />
+      <MemberSignature Language="F#" Value="member this.smallPipeVol1 : double" Usage="mdoc.Test.FSharp.ClassPipes.smallPipeVol1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="smallPipeVol2">
+      <MemberSignature Language="C#" Value="public double smallPipeVol2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 smallPipeVol2" />
+      <MemberSignature Language="F#" Value="member this.smallPipeVol2 : double" Usage="mdoc.Test.FSharp.ClassPipes.smallPipeVol2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

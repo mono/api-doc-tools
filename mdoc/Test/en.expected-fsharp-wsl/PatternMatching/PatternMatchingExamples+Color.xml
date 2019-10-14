@@ -1,0 +1,74 @@
+<Type Name="PatternMatchingExamples+Color" FullName="PatternMatching.PatternMatchingExamples+Color">
+  <TypeSignature Language="C#" Value="public enum PatternMatchingExamples.Color" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable sealed PatternMatchingExamples/Color extends System.Enum" />
+  <TypeSignature Language="F#" Value="type PatternMatchingExamples.Color = " />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Blue">
+      <MemberSignature Language="C#" Value="Blue" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype PatternMatching.PatternMatchingExamples/Color Blue = int32(2)" />
+      <MemberSignature Language="F#" Value="Blue = 2" Usage="PatternMatching.PatternMatchingExamples.Color.Blue" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>PatternMatching.PatternMatchingExamples+Color</ReturnType>
+      </ReturnValue>
+      <MemberValue>2</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Green">
+      <MemberSignature Language="C#" Value="Green" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype PatternMatching.PatternMatchingExamples/Color Green = int32(1)" />
+      <MemberSignature Language="F#" Value="Green = 1" Usage="PatternMatching.PatternMatchingExamples.Color.Green" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>PatternMatching.PatternMatchingExamples+Color</ReturnType>
+      </ReturnValue>
+      <MemberValue>1</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Red">
+      <MemberSignature Language="C#" Value="Red" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal valuetype PatternMatching.PatternMatchingExamples/Color Red = int32(0)" />
+      <MemberSignature Language="F#" Value="Red = 0" Usage="PatternMatching.PatternMatchingExamples.Color.Red" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>PatternMatching.PatternMatchingExamples+Color</ReturnType>
+      </ReturnValue>
+      <MemberValue>0</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,31 @@
+<Type Name="Delegates+Delegate11" FullName="Delegates+Delegate11">
+  <TypeSignature Language="C#" Value="public delegate void Delegates.Delegate11(char );" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable sealed Delegates/Delegate11 extends System.MulticastDelegate" />
+  <TypeSignature Language="F#" Value="type Delegates.Delegate11 = delegate of char -&gt; unit" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Parameters>
+    <Parameter Name="" Type="System.Char" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="">To be added.</param>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

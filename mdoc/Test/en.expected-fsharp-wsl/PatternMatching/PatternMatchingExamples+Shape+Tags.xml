@@ -1,0 +1,52 @@
+<Type Name="PatternMatchingExamples+Shape+Tags" FullName="PatternMatching.PatternMatchingExamples+Shape+Tags">
+  <TypeSignature Language="C#" Value="public static class PatternMatchingExamples.Shape.Tags" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi abstract sealed PatternMatchingExamples/Shape/Tags extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Circle">
+      <MemberSignature Language="C#" Value="public const int Circle = 1;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 Circle = (1)" />
+      <MemberSignature Language="F#" Value="val mutable Circle : int" Usage="PatternMatching.PatternMatchingExamples.Shape.Tags.Circle" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>1</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rectangle">
+      <MemberSignature Language="C#" Value="public const int Rectangle = 0;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 Rectangle = (0)" />
+      <MemberSignature Language="F#" Value="val mutable Rectangle : int" Usage="PatternMatching.PatternMatchingExamples.Shape.Tags.Rectangle" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>0</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

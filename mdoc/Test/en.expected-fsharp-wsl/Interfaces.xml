@@ -1,0 +1,68 @@
+<Type Name="Interfaces" FullName="Interfaces">
+  <TypeSignature Language="C#" Value="public static class Interfaces" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed Interfaces extends System.Object" />
+  <TypeSignature Language="F#" Value="module Interfaces" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="x1">
+      <MemberSignature Language="C#" Value="public static Interfaces.SomeClass1 x1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Interfaces/SomeClass1 x1" />
+      <MemberSignature Language="F#" Value="Interfaces.x1 : Interfaces.SomeClass1" Usage="Interfaces.x1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Interfaces+SomeClass1</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="x2">
+      <MemberSignature Language="C#" Value="public static Interfaces.SomeClass2 x2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Interfaces/SomeClass2 x2" />
+      <MemberSignature Language="F#" Value="Interfaces.x2 : Interfaces.SomeClass2" Usage="Interfaces.x2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Interfaces+SomeClass2</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

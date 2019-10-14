@@ -1,0 +1,74 @@
+<Type Name="Properties+MyAutoPropertyClass" FullName="Properties+MyAutoPropertyClass">
+  <TypeSignature Language="C#" Value="public class Properties.MyAutoPropertyClass" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Properties/MyAutoPropertyClass extends System.Object" />
+  <TypeSignature Language="F#" Value="type Properties.MyAutoPropertyClass = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MyAutoPropertyClass ();" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AutoProperty">
+      <MemberSignature Language="C#" Value="public int AutoProperty { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 AutoProperty" />
+      <MemberSignature Language="F#" Value="member this.AutoProperty : int with get, set" Usage="Properties.MyAutoPropertyClass.AutoProperty" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExplicitProperty">
+      <MemberSignature Language="C#" Value="public int ExplicitProperty { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 ExplicitProperty" />
+      <MemberSignature Language="F#" Value="member this.ExplicitProperty : int" Usage="Properties.MyAutoPropertyClass.ExplicitProperty" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

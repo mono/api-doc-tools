@@ -1,0 +1,29 @@
+<Type Name="UnitsOfMeasure+inch" FullName="UnitsOfMeasure+inch">
+  <TypeSignature Language="C#" Value="public class UnitsOfMeasure.inch" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable UnitsOfMeasure/inch extends System.Object" />
+  <TypeSignature Language="F#" Value="type UnitsOfMeasure.inch = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.Measure</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members />
+</Type>

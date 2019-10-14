@@ -1,0 +1,65 @@
+<Type Name="TypeExtensions+ExtraCSharpStyleExtensionMethodsInFSharp" FullName="TypeExtensions+ExtraCSharpStyleExtensionMethodsInFSharp">
+  <TypeSignature Language="C#" Value="public class TypeExtensions.ExtraCSharpStyleExtensionMethodsInFSharp" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable TypeExtensions/ExtraCSharpStyleExtensionMethodsInFSharp extends System.Object" />
+  <TypeSignature Language="F#" Value="type TypeExtensions.ExtraCSharpStyleExtensionMethodsInFSharp = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ExtraCSharpStyleExtensionMethodsInFSharp ();" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Sum&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public static T Sum&lt;T&gt; (this System.Collections.Generic.IEnumerable&lt;T&gt; xs);" />
+      <MemberSignature Language="ILAsm" Value=".method public static !!T Sum&lt;T&gt;(class System.Collections.Generic.IEnumerable`1&lt;!!T&gt; xs) cil managed" />
+      <MemberSignature Language="F#" Value="static member Sum : seq&lt;'T&gt; -&gt; 'T" Usage="TypeExtensions.ExtraCSharpStyleExtensionMethodsInFSharp.Sum xs" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="xs" Type="System.Collections.Generic.IEnumerable&lt;T&gt;" RefType="this" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">To be added.</typeparam>
+        <param name="xs">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,150 @@
+<Type Name="Generics+Map2&lt;Key,Value&gt;" FullName="Generics+Map2&lt;Key,Value&gt;">
+  <TypeSignature Language="C#" Value="public class Generics.Map2&lt;Key,Value&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable beforefieldinit Generics/Map2`2&lt;Key, Value&gt; extends System.Object" />
+  <TypeSignature Language="F#" Value="type Generics.Map2&lt;'Key, 'Value&gt; = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="Key">
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.EqualityConditionalOn</AttributeName>
+        </Attribute>
+      </Attributes>
+    </TypeParameter>
+    <TypeParameter Name="Value">
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.ComparisonConditionalOn</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.EqualityConditionalOn</AttributeName>
+        </Attribute>
+      </Attributes>
+    </TypeParameter>
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <typeparam name="Key">To be added.</typeparam>
+    <typeparam name="Value">To be added.</typeparam>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="c">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpChoice&lt;int,double&gt; c { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Core.FSharpChoice`2&lt;int32, float64&gt; c" />
+      <MemberSignature Language="F#" Value="member this.c : Choice&lt;int, double&gt;" Usage="Generics.Map2&lt;'Key, 'Value&gt;.c" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpChoice&lt;System.Int32,System.Double&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="c2">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpChoice&lt;int,double&gt; c2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Core.FSharpChoice`2&lt;int32, float64&gt; c2" />
+      <MemberSignature Language="F#" Value="member this.c2 : Choice&lt;int, double&gt;" Usage="Generics.Map2&lt;'Key, 'Value&gt;.c2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpChoice&lt;System.Int32,System.Double&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="fffff">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpOption&lt;int&gt; fffff { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Core.FSharpOption`1&lt;int32&gt; fffff" />
+      <MemberSignature Language="F#" Value="member this.fffff : option&lt;int&gt;" Usage="Generics.Map2&lt;'Key, 'Value&gt;.fffff" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpOption&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="l">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Collections.FSharpList&lt;int&gt; l { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Collections.FSharpList`1&lt;int32&gt; l" />
+      <MemberSignature Language="F#" Value="member this.l : List&lt;int&gt;" Usage="Generics.Map2&lt;'Key, 'Value&gt;.l" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Collections.FSharpList&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="r">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpRef&lt;int&gt; r { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Core.FSharpRef`1&lt;int32&gt; r" />
+      <MemberSignature Language="F#" Value="member this.r : ref&lt;int&gt;" Usage="Generics.Map2&lt;'Key, 'Value&gt;.r" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpRef&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="s">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IEnumerable&lt;int&gt; s { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Collections.Generic.IEnumerable`1&lt;int32&gt; s" />
+      <MemberSignature Language="F#" Value="member this.s : seq&lt;int&gt;" Usage="Generics.Map2&lt;'Key, 'Value&gt;.s" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

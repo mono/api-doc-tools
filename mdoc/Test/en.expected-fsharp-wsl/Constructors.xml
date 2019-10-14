@@ -1,0 +1,288 @@
+<Type Name="Constructors" FullName="Constructors">
+  <TypeSignature Language="C#" Value="public static class Constructors" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed Constructors extends System.Object" />
+  <TypeSignature Language="F#" Value="module Constructors" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="account1">
+      <MemberSignature Language="C#" Value="public static Constructors.Account account1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/Account account1" />
+      <MemberSignature Language="F#" Value="Constructors.account1 : Constructors.Account" Usage="Constructors.account1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+Account</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="account2">
+      <MemberSignature Language="C#" Value="public static Constructors.Account2 account2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/Account2 account2" />
+      <MemberSignature Language="F#" Value="Constructors.account2 : Constructors.Account2" Usage="Constructors.account2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+Account2</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="myClassObj">
+      <MemberSignature Language="C#" Value="public static Constructors.MyClass3 myClassObj { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/MyClass3 myClassObj" />
+      <MemberSignature Language="F#" Value="Constructors.myClassObj : Constructors.MyClass3" Usage="Constructors.myClassObj" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+MyClass3</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="myStruct">
+      <MemberSignature Language="C#" Value="public static Constructors.MyStruct33 myStruct { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/MyStruct33 myStruct" />
+      <MemberSignature Language="F#" Value="Constructors.myStruct : Constructors.MyStruct33" Usage="Constructors.myStruct" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+MyStruct33</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="myStruct2">
+      <MemberSignature Language="C#" Value="public static Constructors.MyStruct33 myStruct2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/MyStruct33 myStruct2" />
+      <MemberSignature Language="F#" Value="Constructors.myStruct2 : Constructors.MyStruct33" Usage="Constructors.myStruct2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+MyStruct33</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="myStructure1">
+      <MemberSignature Language="C#" Value="public static Constructors.MyStruct myStructure1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/MyStruct myStructure1" />
+      <MemberSignature Language="F#" Value="Constructors.myStructure1 : Constructors.MyStruct" Usage="Constructors.myStructure1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+MyStruct</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="myStructure2">
+      <MemberSignature Language="C#" Value="public static Constructors.MyStruct2 myStructure2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/MyStruct2 myStructure2" />
+      <MemberSignature Language="F#" Value="Constructors.myStructure2 : Constructors.MyStruct2" Usage="Constructors.myStructure2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+MyStruct2</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="obj1">
+      <MemberSignature Language="C#" Value="public static Constructors.DerivedClass obj1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/DerivedClass obj1" />
+      <MemberSignature Language="F#" Value="Constructors.obj1 : Constructors.DerivedClass" Usage="Constructors.obj1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+DerivedClass</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="obj2">
+      <MemberSignature Language="C#" Value="public static Constructors.DerivedClass obj2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/DerivedClass obj2" />
+      <MemberSignature Language="F#" Value="Constructors.obj2 : Constructors.DerivedClass" Usage="Constructors.obj2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+DerivedClass</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="person1">
+      <MemberSignature Language="C#" Value="public static Constructors.Person person1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/Person person1" />
+      <MemberSignature Language="F#" Value="Constructors.person1 : Constructors.Person" Usage="Constructors.person1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+Person</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="person2">
+      <MemberSignature Language="C#" Value="public static Constructors.Person person2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/Person person2" />
+      <MemberSignature Language="F#" Value="Constructors.person2 : Constructors.Person" Usage="Constructors.person2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+Person</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="person3">
+      <MemberSignature Language="C#" Value="public static Constructors.Person person3 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Constructors/Person person3" />
+      <MemberSignature Language="F#" Value="Constructors.person3 : Constructors.Person" Usage="Constructors.person3" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Constructors+Person</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

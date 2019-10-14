@@ -1,0 +1,23 @@
+<Type Name="TypeExtensions+TypeExtensions1" FullName="TypeExtensions+TypeExtensions1">
+  <TypeSignature Language="C#" Value="public static class TypeExtensions.TypeExtensions1" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi abstract sealed TypeExtensions/TypeExtensions1 extends System.Object" />
+  <TypeSignature Language="F#" Value="module TypeExtensions.TypeExtensions1" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members />
+</Type>

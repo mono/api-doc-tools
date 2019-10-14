@@ -1,0 +1,289 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="mdoc.Test.FSharp" Version="1.0.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.FSharpInterfaceDataVersion(2, 0, 0)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.None)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCompany("EPAM Systems")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyConfiguration("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCopyright("Copyright © EPAM Systems 2017")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCulture("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyDescription("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyFileVersion("1.0.0.0")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyProduct("mdoc.Test.FSharp")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTitle("mdoc.Test.FSharp")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTrademark("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyVersion("1.0.0.0")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.Guid("979f9f80-12fe-4236-9e93-6d554ab13701")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.6.1", FrameworkDisplayName=".NET Framework 4.6.1")</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="">
+      <Type Name="AbstractClasses" Kind="Class" />
+      <Type Name="AbstractClasses+Circle" Kind="Class" />
+      <Type Name="AbstractClasses+Shape2D" Kind="Class" />
+      <Type Name="AbstractClasses+Square" Kind="Class" />
+      <Type Name="Accessibility" Kind="Class" />
+      <Type Name="AccessibilityTest" Kind="Class" />
+      <Type Name="AlternativesToInheritance" Kind="Class" />
+      <Type Name="Animals" Kind="Class" />
+      <Type Name="Animals+Animal" Kind="Class" />
+      <Type Name="Animals+Dog" Kind="Class" />
+      <Type Name="Attributes" Kind="Class" />
+      <Type Name="Attributes+CompanyAttribute" Kind="Class" />
+      <Type Name="Attributes+OwnerAttribute" Kind="Class" />
+      <Type Name="Attributes+SomeType1" Kind="Class" />
+      <Type Name="Attributes+TypeWithFlagAttribute" Kind="Class" />
+      <Type Name="ClassMembers" Kind="Class" />
+      <Type Name="ClassMembers+PointWithCounter" Kind="Class" />
+      <Type Name="Collections" Kind="Class" />
+      <Type Name="Collections+MDocInterface`1" DisplayName="Collections+MDocInterface&lt;key&gt;" Kind="Interface" />
+      <Type Name="Collections+MDocTestMap`2" DisplayName="Collections+MDocTestMap&lt;Key,Value&gt;" Kind="Class" />
+      <Type Name="Constraints" Kind="Class" />
+      <Type Name="Constraints+Class1`1" DisplayName="Constraints+Class1&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class10`1" DisplayName="Constraints+Class10&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class11`1" DisplayName="Constraints+Class11&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class12`1" DisplayName="Constraints+Class12&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class13`1" DisplayName="Constraints+Class13&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class14`2" DisplayName="Constraints+Class14&lt;T,U&gt;" Kind="Class" />
+      <Type Name="Constraints+Class15" Kind="Class" />
+      <Type Name="Constraints+Class16" Kind="Class" />
+      <Type Name="Constraints+Class17" Kind="Class" />
+      <Type Name="Constraints+Class18" Kind="Class" />
+      <Type Name="Constraints+Class2_1`1" DisplayName="Constraints+Class2_1&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class2_2`1" DisplayName="Constraints+Class2_2&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class2`1" DisplayName="Constraints+Class2&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class3`1" DisplayName="Constraints+Class3&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class4`1" DisplayName="Constraints+Class4&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class5`1" DisplayName="Constraints+Class5&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class6`1" DisplayName="Constraints+Class6&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class7`1" DisplayName="Constraints+Class7&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class8`1" DisplayName="Constraints+Class8&lt;T&gt;" Kind="Class" />
+      <Type Name="Constraints+Class9`1" DisplayName="Constraints+Class9&lt;T&gt;" Kind="Class" />
+      <Type Name="Constructors" Kind="Class" />
+      <Type Name="Constructors+Account" Kind="Class" />
+      <Type Name="Constructors+Account2" Kind="Class" />
+      <Type Name="Constructors+BaseClass" Kind="Class" />
+      <Type Name="Constructors+DerivedClass" Kind="Class" />
+      <Type Name="Constructors+MyClass" Kind="Class" />
+      <Type Name="Constructors+MyClass1" Kind="Class" />
+      <Type Name="Constructors+MyClass2" Kind="Class" />
+      <Type Name="Constructors+MyClass3" Kind="Class" />
+      <Type Name="Constructors+MyClass3_1" Kind="Class" />
+      <Type Name="Constructors+MyClass3_2" Kind="Class" />
+      <Type Name="Constructors+MyClass3_3" Kind="Class" />
+      <Type Name="Constructors+MyClass3_4" Kind="Class" />
+      <Type Name="Constructors+MyClassBase2" Kind="Class" />
+      <Type Name="Constructors+MyClassDerived2" Kind="Class" />
+      <Type Name="Constructors+MyClassObjectParameters" Kind="Class" />
+      <Type Name="Constructors+MyStruct" Kind="Structure" />
+      <Type Name="Constructors+MyStruct2" Kind="Structure" />
+      <Type Name="Constructors+MyStruct33" Kind="Structure" />
+      <Type Name="Constructors+MyStruct44" Kind="Structure" />
+      <Type Name="Constructors+MyStruct55" Kind="Structure" />
+      <Type Name="Constructors+MyStruct66" Kind="Structure" />
+      <Type Name="Constructors+MyStruct77" Kind="Structure" />
+      <Type Name="Constructors+MyStruct88" Kind="Structure" />
+      <Type Name="Constructors+MyType" Kind="Class" />
+      <Type Name="Constructors+Person" Kind="Class" />
+      <Type Name="Constructors+Pet" Kind="Class" />
+      <Type Name="Constructors+PetData" Kind="Class" />
+      <Type Name="Customers" Kind="Class" />
+      <Type Name="Customers+ICustomer" Kind="Interface" />
+      <Type Name="Delegates" Kind="Class" />
+      <Type Name="Delegates+Delegate1" Kind="Delegate" />
+      <Type Name="Delegates+Delegate10" Kind="Delegate" />
+      <Type Name="Delegates+Delegate11" Kind="Delegate" />
+      <Type Name="Delegates+Delegate12" Kind="Delegate" />
+      <Type Name="Delegates+Delegate13" Kind="Delegate" />
+      <Type Name="Delegates+Delegate2" Kind="Delegate" />
+      <Type Name="Delegates+Delegate3" Kind="Delegate" />
+      <Type Name="Delegates+Delegate4" Kind="Delegate" />
+      <Type Name="Delegates+Delegate5" Kind="Delegate" />
+      <Type Name="Delegates+Delegate6" Kind="Delegate" />
+      <Type Name="Delegates+Delegate7" Kind="Delegate" />
+      <Type Name="Delegates+Delegate8" Kind="Delegate" />
+      <Type Name="Delegates+Delegate9" Kind="Delegate" />
+      <Type Name="Delegates+Test1" Kind="Class" />
+      <Type Name="DiscriminatedUnions" Kind="Class" />
+      <Type Name="DiscriminatedUnions+ColorEnum" Kind="Enumeration" />
+      <Type Name="DiscriminatedUnions+Shape" Kind="Class" />
+      <Type Name="DiscriminatedUnions+Shape+Circle" Kind="Class" />
+      <Type Name="DiscriminatedUnions+Shape+Prism" Kind="Class" />
+      <Type Name="DiscriminatedUnions+Shape+Rectangle" Kind="Class" />
+      <Type Name="DiscriminatedUnions+Shape+Tags" Kind="Class" />
+      <Type Name="DiscriminatedUnions+SizeUnion" Kind="Class" />
+      <Type Name="DiscriminatedUnions+SizeUnion+Tags" Kind="Class" />
+      <Type Name="DoBindings" Kind="Class" />
+      <Type Name="DoBindings+MyBindingType" Kind="Class" />
+      <Type Name="Enumerations" Kind="Class" />
+      <Type Name="Enumerations+Color" Kind="Enumeration" />
+      <Type Name="Extensions" Kind="Class" />
+      <Type Name="Extensions+MyModule1" Kind="Class" />
+      <Type Name="Extensions+MyModule1+MyClass" Kind="Class" />
+      <Type Name="Extensions+MyModule2" Kind="Class" />
+      <Type Name="FlexibleTypes" Kind="Class" />
+      <Type Name="Functions" Kind="Class" />
+      <Type Name="Functions+TestFunction" Kind="Class" />
+      <Type Name="Generics" Kind="Class" />
+      <Type Name="Generics+Map2`2" DisplayName="Generics+Map2&lt;Key,Value&gt;" Kind="Class" />
+      <Type Name="IndexedProperties" Kind="Class" />
+      <Type Name="IndexedProperties+NumberStrings" Kind="Class" />
+      <Type Name="Inheritance" Kind="Class" />
+      <Type Name="Inheritance+BaseClass" Kind="Class" />
+      <Type Name="Inheritance+DerivedClass" Kind="Class" />
+      <Type Name="Inheritance+MyClassBase1" Kind="Class" />
+      <Type Name="Inheritance+MyClassBase2" Kind="Class" />
+      <Type Name="Inheritance+MyClassDerived1" Kind="Class" />
+      <Type Name="Inheritance+MyClassDerived2" Kind="Class" />
+      <Type Name="InlineFunctions" Kind="Class" />
+      <Type Name="InlineFunctions+WrapInt32" Kind="Class" />
+      <Type Name="Interfaces" Kind="Class" />
+      <Type Name="Interfaces+Interface0" Kind="Interface" />
+      <Type Name="Interfaces+Interface1" Kind="Interface" />
+      <Type Name="Interfaces+Interface2" Kind="Interface" />
+      <Type Name="Interfaces+Interface3" Kind="Interface" />
+      <Type Name="Interfaces+IPrintable" Kind="Interface" />
+      <Type Name="Interfaces+MyClass" Kind="Class" />
+      <Type Name="Interfaces+SomeClass1" Kind="Class" />
+      <Type Name="Interfaces+SomeClass2" Kind="Class" />
+      <Type Name="Literals" Kind="Class" />
+      <Type Name="Methods" Kind="Class" />
+      <Type Name="Methods+Circle" Kind="Class" />
+      <Type Name="Methods+Ellipse" Kind="Class" />
+      <Type Name="Methods+RectangleXY" Kind="Class" />
+      <Type Name="Methods+SomeType" Kind="Class" />
+      <Type Name="NestedModules" Kind="Class" />
+      <Type Name="NestedModules+X" Kind="Class" />
+      <Type Name="NestedModules+Y" Kind="Class" />
+      <Type Name="NestedModules+Y+Z" Kind="Class" />
+      <Type Name="NestedTypes" Kind="Class" />
+      <Type Name="OperatorGlobalLevel" Kind="Class" />
+      <Type Name="OperatorsOverloading" Kind="Class" />
+      <Type Name="OperatorsOverloading+Vector" Kind="Class" />
+      <Type Name="Properties" Kind="Class" />
+      <Type Name="Properties+MyAutoPropertyClass" Kind="Class" />
+      <Type Name="Properties+MyPropertiesType" Kind="Class" />
+      <Type Name="Properties+MyPropertyClass2" Kind="Class" />
+      <Type Name="Records" Kind="Class" />
+      <Type Name="Records+Car" Kind="Class" />
+      <Type Name="Records+MyRecord" Kind="Class" />
+      <Type Name="ReferenceCells" Kind="Class" />
+      <Type Name="Structures" Kind="Class" />
+      <Type Name="Structures+Point2D" Kind="Structure" />
+      <Type Name="Structures+Point3D" Kind="Structure" />
+      <Type Name="Structures+StructureType" Kind="Structure" />
+      <Type Name="Structures+StructureType2" Kind="Structure" />
+      <Type Name="TypeExtensions" Kind="Class" />
+      <Type Name="TypeExtensions+ExtraCSharpStyleExtensionMethodsInFSharp" Kind="Class" />
+      <Type Name="TypeExtensions+TypeExtensions1" Kind="Class" />
+      <Type Name="TypeExtensions+TypeExtensions1+MyClass" Kind="Class" />
+      <Type Name="TypeExtensions+TypeExtensions2" Kind="Class" />
+      <Type Name="UnitsOfMeasure" Kind="Class" />
+      <Type Name="UnitsOfMeasure+bar" Kind="Class" />
+      <Type Name="UnitsOfMeasure+cm" Kind="Class" />
+      <Type Name="UnitsOfMeasure+ft" Kind="Class" />
+      <Type Name="UnitsOfMeasure+g" Kind="Class" />
+      <Type Name="UnitsOfMeasure+inch" Kind="Class" />
+      <Type Name="UnitsOfMeasure+kg" Kind="Class" />
+      <Type Name="UnitsOfMeasure+L" Kind="Class" />
+      <Type Name="UnitsOfMeasure+lb" Kind="Class" />
+      <Type Name="UnitsOfMeasure+m" Kind="Class" />
+      <Type Name="UnitsOfMeasure+s" Kind="Class" />
+      <Type Name="UnitsOfMeasure+vector3D" Kind="Class" />
+    </Namespace>
+    <Namespace Name="mdoc.Test.FSharp">
+      <Type Name="Class1" Kind="Class" />
+      <Type Name="ClassPipes" Kind="Class" />
+    </Namespace>
+    <Namespace Name="PatternMatching">
+      <Type Name="PatternMatchingExamples" Kind="Class" />
+      <Type Name="PatternMatchingExamples+Color" Kind="Enumeration" />
+      <Type Name="PatternMatchingExamples+MyRecord" Kind="Class" />
+      <Type Name="PatternMatchingExamples+PersonName" Kind="Class" />
+      <Type Name="PatternMatchingExamples+PersonName+FirstLast" Kind="Class" />
+      <Type Name="PatternMatchingExamples+PersonName+FirstOnly" Kind="Class" />
+      <Type Name="PatternMatchingExamples+PersonName+LastOnly" Kind="Class" />
+      <Type Name="PatternMatchingExamples+PersonName+Tags" Kind="Class" />
+      <Type Name="PatternMatchingExamples+Shape" Kind="Class" />
+      <Type Name="PatternMatchingExamples+Shape+Circle" Kind="Class" />
+      <Type Name="PatternMatchingExamples+Shape+Rectangle" Kind="Class" />
+      <Type Name="PatternMatchingExamples+Shape+Tags" Kind="Class" />
+    </Namespace>
+    <Namespace Name="SomeNamespace">
+      <Type Name="SomeModule" Kind="Class" />
+      <Type Name="SomeModule+IVector" Kind="Interface" />
+      <Type Name="SomeModule+Vector" Kind="Class" />
+      <Type Name="SomeModule+Vector'''" Kind="Class" />
+      <Type Name="SomeModule+Vector2" Kind="Class" />
+    </Namespace>
+    <Namespace Name="Widgets">
+      <Type Name="MyWidget1" Kind="Class" />
+      <Type Name="WidgetsModule" Kind="Class" />
+    </Namespace>
+  </Types>
+  <Title>mdoc.Test.FSharp</Title>
+  <ExtensionMethods>
+    <ExtensionMethod>
+      <Targets>
+        <Target Type="T:System.Collections.Generic.IEnumerable`1" />
+      </Targets>
+      <Member MemberName="Sum&lt;T&gt;">
+        <MemberSignature Language="C#" Value="public static T Sum&lt;T&gt; (this System.Collections.Generic.IEnumerable&lt;T&gt; xs);" />
+        <MemberSignature Language="ILAsm" Value=".method public static !!T Sum&lt;T&gt;(class System.Collections.Generic.IEnumerable`1&lt;!!T&gt; xs) cil managed" />
+        <MemberSignature Language="F#" Value="static member Sum : seq&lt;'T&gt; -&gt; 'T" Usage="TypeExtensions.ExtraCSharpStyleExtensionMethodsInFSharp.Sum xs" />
+        <MemberType>ExtensionMethod</MemberType>
+        <ReturnValue>
+          <ReturnType>T</ReturnType>
+        </ReturnValue>
+        <TypeParameters>
+          <TypeParameter Name="T" />
+        </TypeParameters>
+        <Parameters>
+          <Parameter Name="xs" Type="System.Collections.Generic.IEnumerable&lt;T&gt;" RefType="this" />
+        </Parameters>
+        <Docs>
+          <typeparam name="T">To be added.</typeparam>
+          <param name="xs">To be added.</param>
+          <summary>To be added.</summary>
+        </Docs>
+        <Link Type="TypeExtensions.ExtraCSharpStyleExtensionMethodsInFSharp" Member="M:TypeExtensions.ExtraCSharpStyleExtensionMethodsInFSharp.Sum``1(System.Collections.Generic.IEnumerable{``0})" />
+      </Member>
+    </ExtensionMethod>
+  </ExtensionMethods>
+</Overview>

@@ -1,0 +1,358 @@
+<Type Name="UnitsOfMeasure" FullName="UnitsOfMeasure">
+  <TypeSignature Language="C#" Value="public static class UnitsOfMeasure" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed UnitsOfMeasure extends System.Object" />
+  <TypeSignature Language="F#" Value="module UnitsOfMeasure" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="cmPerInch">
+      <MemberSignature Language="C#" Value="public static double cmPerInch { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 cmPerInch" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.cmPerInch : double" Usage="UnitsOfMeasure.cmPerInch" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="cmPerMeter">
+      <MemberSignature Language="C#" Value="public static double cmPerMeter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 cmPerMeter" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.cmPerMeter : double" Usage="UnitsOfMeasure.cmPerMeter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="convertCentimetersToInches">
+      <MemberSignature Language="C#" Value="public static double convertCentimetersToInches (double x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static float64 convertCentimetersToInches(float64 x) cil managed" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.convertCentimetersToInches : double -&gt; double" Usage="UnitsOfMeasure.convertCentimetersToInches x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="convertGramsToKilograms">
+      <MemberSignature Language="C#" Value="public static double convertGramsToKilograms (double x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static float64 convertGramsToKilograms(float64 x) cil managed" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.convertGramsToKilograms : double -&gt; double" Usage="UnitsOfMeasure.convertGramsToKilograms x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="genericSumUnits">
+      <MemberSignature Language="C#" Value="public static double genericSumUnits (double x, double y);" />
+      <MemberSignature Language="ILAsm" Value=".method public static float64 genericSumUnits(float64 x, float64 y) cil managed" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.genericSumUnits : double -&gt; double -&gt; double" Usage="UnitsOfMeasure.genericSumUnits x y" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Double" />
+        <Parameter Name="y" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="gramsPerKilogram">
+      <MemberSignature Language="C#" Value="public static double gramsPerKilogram { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 gramsPerKilogram" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.gramsPerKilogram : double" Usage="UnitsOfMeasure.gramsPerKilogram" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="mlPerCubicCentimeter">
+      <MemberSignature Language="C#" Value="public static double mlPerCubicCentimeter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 mlPerCubicCentimeter" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.mlPerCubicCentimeter : double" Usage="UnitsOfMeasure.mlPerCubicCentimeter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="mlPerLiter">
+      <MemberSignature Language="C#" Value="public static double mlPerLiter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 mlPerLiter" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.mlPerLiter : double" Usage="UnitsOfMeasure.mlPerLiter" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="result1">
+      <MemberSignature Language="C#" Value="public static double result1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 result1" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.result1 : double" Usage="UnitsOfMeasure.result1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="t1">
+      <MemberSignature Language="C#" Value="public static double t1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 t1" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.t1 : double" Usage="UnitsOfMeasure.t1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v1">
+      <MemberSignature Language="C#" Value="public static double v1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 v1" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.v1 : double" Usage="UnitsOfMeasure.v1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v1vec">
+      <MemberSignature Language="C#" Value="public static UnitsOfMeasure.vector3D v1vec { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property UnitsOfMeasure/vector3D v1vec" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.v1vec : UnitsOfMeasure.vector3D" Usage="UnitsOfMeasure.v1vec" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>UnitsOfMeasure+vector3D</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v2">
+      <MemberSignature Language="C#" Value="public static double v2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 v2" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.v2 : double" Usage="UnitsOfMeasure.v2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="x1">
+      <MemberSignature Language="C#" Value="public static double x1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property float64 x1" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.x1 : double" Usage="UnitsOfMeasure.x1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="xvec">
+      <MemberSignature Language="C#" Value="public static UnitsOfMeasure.vector3D xvec { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property UnitsOfMeasure/vector3D xvec" />
+      <MemberSignature Language="F#" Value="UnitsOfMeasure.xvec : UnitsOfMeasure.vector3D" Usage="UnitsOfMeasure.xvec" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>UnitsOfMeasure+vector3D</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
