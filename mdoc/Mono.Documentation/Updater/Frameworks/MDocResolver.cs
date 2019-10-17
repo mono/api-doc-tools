@@ -88,7 +88,12 @@ namespace Mono.Documentation.Updater.Frameworks
         AssemblyDefinition ResolveCore(AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> assembliesToIgnore)
         {
             var ver = name.Version;
-            if (ver.Major == 255 && ver.Minor == 255 && ver.Revision == 255 && name.Name == "mscorlib")
+            if (ver.Major == 255 && ver.Minor == 255 && name.Name.Equals("Windows.Foundation", StringComparison.OrdinalIgnoreCase))
+            {
+                var anr = new AssemblyNameReference("Windows.Foundation.FoundationContract", ver);
+                return base.Resolve(anr, parameters, assembliesToIgnore);
+            }
+            else if (ver.Major == 255 && ver.Minor == 255 && ver.Revision == 255 && name.Name == "mscorlib")
             {
                 var v = new Version(4, 5, 0);
                 var anr = new AssemblyNameReference(name.Name, v);
