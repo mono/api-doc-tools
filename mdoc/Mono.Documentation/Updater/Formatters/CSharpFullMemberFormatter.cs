@@ -12,6 +12,8 @@ namespace Mono.Documentation.Updater
 {
     public class CSharpFullMemberFormatter : MemberFormatter
     {
+        public CSharpFullMemberFormatter() : this(null) {}
+        public CSharpFullMemberFormatter(TypeMap map) : base(map) { }
 
         public override string Language
         {
@@ -122,7 +124,7 @@ namespace Mono.Documentation.Updater
             buf.Append (visibility);
             buf.Append (" ");
 
-            MemberFormatter full = new CSharpFullMemberFormatter ();
+            MemberFormatter full = new CSharpFullMemberFormatter (this.TypeMap);
 
             if (DocUtils.IsDelegate (type))
             {
@@ -306,7 +308,7 @@ namespace Mono.Documentation.Updater
                 TypeReference iface;
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod (method, out iface, out ifaceMethod);
-                return buf.Append (new CSharpMemberFormatter ().GetName (iface))
+                return buf.Append (new CSharpMemberFormatter (this.TypeMap).GetName (iface))
                     .Append ('.')
                     .Append (ifaceMethod.Name);
             }

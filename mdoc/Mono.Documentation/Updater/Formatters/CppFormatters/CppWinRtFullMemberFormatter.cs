@@ -13,7 +13,10 @@ namespace Mono.Documentation.Updater.CppFormatters
         protected override string HatModifier => $" const{RefTypeModifier}";
         public override string Language => Consts.CppWinRt;
         protected override string RefTypeModifier => " &";
-        
+
+        public CppWinRtFullMemberFormatter() : this(null) {}
+        public CppWinRtFullMemberFormatter(TypeMap map) : base(map) { }
+
         protected override IList<string> GetAllowedTypes()
         {
             return new List<string>(AllowedFundamentalTypes);
@@ -169,7 +172,7 @@ namespace Mono.Documentation.Updater.CppFormatters
             if (type.IsSealed && !DocUtils.IsDelegate(type) && !type.IsValueType)
                 buf.Append(" sealed");
 
-            CppWinRtFullMemberFormatter full = new CppWinRtFullMemberFormatter();
+            CppWinRtFullMemberFormatter full = new CppWinRtFullMemberFormatter(this.TypeMap);
 
             if (!type.IsEnum)
             {

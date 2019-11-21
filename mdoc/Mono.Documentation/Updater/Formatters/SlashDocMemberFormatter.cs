@@ -21,6 +21,8 @@ namespace Mono.Documentation.Updater
         protected TypeReference genDeclType;
         protected MethodReference genDeclMethod;
 
+        public SlashDocMemberFormatter(TypeMap map) : base(map) { }
+
         protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
         {
             if (type is GenericParameter)

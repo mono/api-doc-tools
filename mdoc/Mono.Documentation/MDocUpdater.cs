@@ -23,6 +23,8 @@ using MyXmlNodeList = System.Collections.Generic.List<System.Xml.XmlNode>;
 using StringList = System.Collections.Generic.List<string>;
 using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.Xml.XmlNode>;
 using System.Web.UI.WebControls;
+using mdoc.Mono.Documentation.Updater;
+using Lucene.Net.Documents;
 
 namespace Mono.Documentation
 {
@@ -48,21 +50,68 @@ namespace Mono.Documentation
 
         string since;
 
-        static readonly DocIdFormatter docIdFormatter = new DocIdFormatter();
-        static readonly MemberFormatter docTypeFormatter = new DocTypeMemberFormatter ();
-        static readonly MemberFormatter filenameFormatter = new FileNameMemberFormatter ();
+        static DocIdFormatter docIdFormatterField;
+        static MemberFormatter docTypeFormatterField;
+        static MemberFormatter filenameFormatterField;
 
-        static MemberFormatter[] typeFormatters = new MemberFormatter[]{
-        new CSharpMemberFormatter (),
-        new ILMemberFormatter (),
+        static DocIdFormatter docIdFormatter
+        {
+            get
+            {
+                if (docIdFormatterField == null)
+                    docIdFormatterField = new DocIdFormatter(MDocUpdater.Instance.TypeMap);
+                return docIdFormatterField;
+            }
+        }
+        static MemberFormatter docTypeFormatter
+        {
+            get
+            {
+                if (docTypeFormatterField == null)
+                    docTypeFormatterField = new DocTypeMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return docTypeFormatterField;
+            }
+        }
+        static MemberFormatter filenameFormatter
+        {
+            get
+            {
+                if (filenameFormatterField == null)
+                    filenameFormatterField = new FileNameMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return filenameFormatterField;
+            }
+        }
 
-    };
+        static MemberFormatter[] typeFormattersField;
+        static MemberFormatter[] typeFormatters
+        {
+            get
+            {
+                if (typeFormattersField == null)
+                    typeFormattersField = new MemberFormatter[]{
+                        new CSharpMemberFormatter (MDocUpdater.Instance.TypeMap),
+                        new ILMemberFormatter (MDocUpdater.Instance.TypeMap),
 
-        static MemberFormatter[] memberFormatters = new MemberFormatter[]{
-        new CSharpFullMemberFormatter (),
-        new ILFullMemberFormatter (),
+                    };
 
-    };
+                return typeFormattersField;
+            }
+        }
+
+        static MemberFormatter[] memberFormattersField;
+        static MemberFormatter[] memberFormatters
+        {
+            get
+            {
+                if (memberFormattersField == null)
+                    memberFormattersField = new MemberFormatter[]{
+                        new CSharpFullMemberFormatter (MDocUpdater.Instance.TypeMap),
+                        new ILFullMemberFormatter (MDocUpdater.Instance.TypeMap),
+
+                    };
+                return memberFormattersField;
+            }
+        }
 
         private readonly List<string> CustomAttributeNamesToSkip = new List<string>()
         {
@@ -70,11 +119,39 @@ namespace Mono.Documentation
             "System.Runtime.InteropServices.TypeIdentifierAttribute"
         };
 
-        internal static readonly MemberFormatter slashdocFormatter = new SlashDocMemberFormatter ();
+        internal static MemberFormatter slashdocFormatterField;
+        internal static MemberFormatter slashdocFormatter
+        {
+            get
+            {
+                if (slashdocFormatterField == null)
+                    slashdocFormatterField = new SlashDocMemberFormatter(MDocUpdater.Instance.TypeMap);
 
-        internal static readonly MemberFormatter csharpSlashdocFormatter = new SlashDocCSharpMemberFormatter();
+                return slashdocFormatterField;
+            }
+        }
 
-        internal static readonly MemberFormatter msxdocxSlashdocFormatter = new MsxdocSlashDocMemberFormatter();
+        internal static MemberFormatter csharpSlashdocFormatterField;
+        internal static MemberFormatter csharpSlashdocFormatter
+        {
+            get
+            {
+                if (csharpSlashdocFormatterField == null)
+                    csharpSlashdocFormatterField = new SlashDocCSharpMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return csharpSlashdocFormatterField;
+            }
+        }
+
+        internal static MemberFormatter msxdocxSlashdocFormatterField;
+        internal static MemberFormatter msxdocxSlashdocFormatter
+        {
+            get
+            {
+                if (msxdocxSlashdocFormatterField == null)
+                    msxdocxSlashdocFormatterField = new MsxdocSlashDocMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return msxdocxSlashdocFormatterField;
+            }
+        }
 
         MyXmlNodeList extensionMethods = new MyXmlNodeList ();
 
@@ -141,8 +218,21 @@ namespace Mono.Documentation
         public bool DisableSearchDirectoryRecurse = false;
         private bool statisticsEnabled = false;
         private string statisticsFilePath;
-        public static MDocUpdater Instance { get; private set; }
+
+        private static MDocUpdater instanceField;
+        public static MDocUpdater Instance
+        {
+            get
+            {
+                if (instanceField == null)
+                    instanceField = new MDocUpdater();
+
+                return instanceField;
+            }
+            private set => instanceField = value;
+        }
         public static bool SwitchingToMagicTypes { get; private set; }
+        public TypeMap TypeMap { get; private set; }
 
         public override void Run (IEnumerable<string> args)
         {
@@ -279,6 +369,16 @@ namespace Mono.Documentation
                     configPath = Path.Combine (configPath, "frameworks.xml");
                 else
                     frameworksDir = Path.GetDirectoryName (configPath);
+
+                // check for typemap file
+                string typeMapPath = Path.Combine(frameworksDir, "TypeMap.xml");
+                if (File.Exists(typeMapPath))
+                {
+                    Console.WriteLine($"Loading typemap file at {typeMapPath}");
+                    TypeMap map = TypeMap.FromXml(typeMapPath);
+                    this.TypeMap = map;
+                }
+
                 Console.WriteLine($"Opening frameworks file '{configPath}'");
                 var fxconfig = XDocument.Load (configPath);
                 var fxd = fxconfig.Root
@@ -434,42 +534,43 @@ namespace Mono.Documentation
             MemberFormatter memberFormatter;
             MemberFormatter typeFormatter;
             langId = langId.ToLower();
+            var map = MDocUpdater.Instance.TypeMap;
             switch (langId)
             {
                 case Consts.DocIdLowCase:
-                    typeFormatter = new DocIdFormatter();
-                    memberFormatter = new DocIdFormatter();
+                    typeFormatter = new DocIdFormatter(map);
+                    memberFormatter = new DocIdFormatter(map);
                     break;
                 case Consts.VbNetLowCase:
-                    typeFormatter = new VBMemberFormatter();
-                    memberFormatter = new VBMemberFormatter();
+                    typeFormatter = new VBMemberFormatter(map);
+                    memberFormatter = new VBMemberFormatter(map);
                     break;
                 case Consts.CppCliLowCase:
-                    typeFormatter = new CppMemberFormatter();
-                    memberFormatter = new CppFullMemberFormatter();
+                    typeFormatter = new CppMemberFormatter(map);
+                    memberFormatter = new CppFullMemberFormatter(map);
                     break;
                 case Consts.CppCxLowCase:
-                    typeFormatter = new CppCxMemberFormatter();
-                    memberFormatter = new CppCxFullMemberFormatter();
+                    typeFormatter = new CppCxMemberFormatter(map);
+                    memberFormatter = new CppCxFullMemberFormatter(map);
                     break;
                 case Consts.CppWinRtLowCase:
-                    typeFormatter = new CppWinRtMemberFormatter();
-                    memberFormatter = new CppWinRtFullMemberFormatter();
+                    typeFormatter = new CppWinRtMemberFormatter(map);
+                    memberFormatter = new CppWinRtFullMemberFormatter(map);
                     break;
                 case Consts.FSharpLowCase:
                 case "fsharp":
-                    typeFormatter = new FSharpMemberFormatter();
-                    memberFormatter = new FSharpFullMemberFormatter();
+                    typeFormatter = new FSharpMemberFormatter(map);
+                    memberFormatter = new FSharpFullMemberFormatter(map);
                     break;
                 case Consts.JavascriptLowCase:
-                    typeFormatter = new JsMemberFormatter();
-                    memberFormatter = new JsMemberFormatter();
+                    typeFormatter = new JsMemberFormatter(map);
+                    memberFormatter = new JsMemberFormatter(map);
                     break;
                 default:
                     throw new ArgumentException("Unsupported formatter id '" + langId + "'.");
             }
-            typeFormatters = typeFormatters.Union(new[] { typeFormatter }).ToArray();
-            memberFormatters = memberFormatters.Union(new[] { memberFormatter }).ToArray();
+            typeFormattersField = typeFormatters.Union(new[] { typeFormatter }).ToArray();
+            memberFormattersField = memberFormatters.Union(new[] { memberFormatter }).ToArray();
         }
 
         public static bool IsInAssemblies (string name)
@@ -3910,7 +4011,11 @@ namespace Mono.Documentation
 
         public static string GetDocParameterType (TypeReference type)
         {
-            return GetDocTypeFullName (type).Replace ("@", "&");
+            var typename = GetDocTypeFullName (type).Replace ("@", "&");
+
+            typename = MDocUpdater.Instance.TypeMap?.GetTypeName("C#", typename) ?? typename;
+
+            return typename;
         }
 
         private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, TypeReference type, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)

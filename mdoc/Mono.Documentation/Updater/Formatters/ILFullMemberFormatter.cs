@@ -26,6 +26,9 @@ namespace Mono.Documentation.Updater
             }
         }
 
+        public ILFullMemberFormatter() : this(null) {}
+        public ILFullMemberFormatter(TypeMap map) : base(map) { }
+
         protected override StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
         {
             if (GetBuiltinType (type.FullName) != null)
@@ -121,7 +124,7 @@ namespace Mono.Documentation.Updater
             IList<TypeReference> constraints = type.Constraints;
             if (constraints.Count > 0)
             {
-                var full = new ILFullMemberFormatter ();
+                var full = new ILFullMemberFormatter (this.TypeMap);
                 buf.Append ("(").Append (full.GetName (constraints[0]));
                 for (int i = 1; i < constraints.Count; ++i)
                 {
@@ -171,7 +174,7 @@ namespace Mono.Documentation.Updater
             MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
             buf.Append (GetName (type));
             MemberFormatterState = state;
-            var full = new ILFullMemberFormatter ();
+            var full = new ILFullMemberFormatter (this.TypeMap);
             if (type.BaseType != null)
             {
                 buf.Append (" extends ");
@@ -354,7 +357,7 @@ namespace Mono.Documentation.Updater
                 TypeReference iface;
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod (method, out iface, out ifaceMethod);
-                return buf.Append (new CSharpMemberFormatter ().GetName (iface))
+                return buf.Append (new CSharpMemberFormatter (this.TypeMap).GetName (iface))
                     .Append ('.')
                     .Append (ifaceMethod.Name);
             }

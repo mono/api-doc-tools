@@ -135,6 +135,8 @@ namespace Mono.Documentation.Updater
 
         private GenericParameterState genericParameterState = GenericParameterState.None;
 
+        public FSharpFormatter(TypeMap map) : base(map) { }
+
         protected string GetFSharpType(TypeReference type)
         {
             string typeToCompare = type.FullName;

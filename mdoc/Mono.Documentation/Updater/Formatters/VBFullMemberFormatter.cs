@@ -12,6 +12,9 @@ namespace Mono.Documentation.Updater
     {
         public override string Language => Consts.VbNet;
 
+        public VBFullMemberFormatter() : this(null) {}
+        public VBFullMemberFormatter(TypeMap map) : base(map) { }
+
         protected override StringBuilder AppendNamespace(StringBuilder buf, TypeReference type)
         {
             string ns = DocUtils.GetNamespace(type);
@@ -107,7 +110,7 @@ namespace Mono.Documentation.Updater
             buf.Append(visibility);
             buf.Append(" ");
 
-            MemberFormatter full = new VBMemberFormatter();
+            MemberFormatter full = new VBMemberFormatter(this.TypeMap);
             if (DocUtils.IsDelegate(type))
             {
                 buf.Append("Delegate ");
@@ -376,7 +379,7 @@ namespace Mono.Documentation.Updater
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod(method, out iface, out ifaceMethod);
                 buf.Append(" Implements ")
-                    .Append(new VBMemberFormatter().GetName(iface))
+                    .Append(new VBMemberFormatter(this.TypeMap).GetName(iface))
                     .Append('.')
                     .Append(ifaceMethod.Name);
             }
@@ -655,7 +658,7 @@ namespace Mono.Documentation.Updater
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod(method, out iface, out ifaceMethod);
                 buf.Append(" Implements ")
-                    .Append(new VBMemberFormatter().GetName(iface))
+                    .Append(new VBMemberFormatter(this.TypeMap).GetName(iface))
                     .Append('.')
                     .Append(DocUtils.GetPropertyName(property, NestedTypeSeparator).Split('.').Last());
             }

@@ -11,6 +11,9 @@ namespace mdoc.Mono.Documentation.Updater.Formatters
 {
     public class JsFormatter : MemberFormatter
     {
+
+        public JsFormatter(TypeMap map) : base(map) { }
+
         // For the V1 Pri1 implementation, we will not implement custom “retrievers”. 
         // If a non-static class doesn’t have a public constructor 
         // (in other words, it is not possible to automatically determine the call to instantiate an instance of the class), 

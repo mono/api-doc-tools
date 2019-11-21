@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.UI.HtmlControls;
+using mdoc.Mono.Documentation.Updater;
 using Mono.Cecil;
 using Mono.Collections.Generic;
 using Mono.Documentation.Util;
@@ -23,6 +25,9 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override string NestedTypeSeparator => "::";
 
         protected override bool ShouldStripModFromTypeName => false;
+
+        public CppFullMemberFormatter() : this(null) {}
+        public CppFullMemberFormatter(TypeMap map) : base(map) { }
 
         protected virtual IEnumerable<string> NoHatTypes => new List<string>()
         {
@@ -162,7 +167,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 AppendGenericTypeConstraints(buf, type);
             }
 
-            CppFullMemberFormatter full = new CppFullMemberFormatter ();
+            CppFullMemberFormatter full = new CppFullMemberFormatter (this.TypeMap);
 
             if (DocUtils.IsDelegate (type))
             {

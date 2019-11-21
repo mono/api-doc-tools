@@ -58,7 +58,7 @@ namespace Mono.Documentation {
 
 	public class ExceptionLookup {
 
-		SlashDocMemberFormatter xdoc = new SlashDocMemberFormatter ();
+		SlashDocMemberFormatter xdoc = new SlashDocMemberFormatter (MDocUpdater.Instance.TypeMap);
 
 		// xdoc(MemberRef) -> xdoc(TypeRef) -> ExceptionSource
 		//   where ExceptionSource.Exception == xdoc(TypeRef)

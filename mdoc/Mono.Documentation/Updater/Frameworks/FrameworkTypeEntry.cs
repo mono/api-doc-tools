@@ -11,8 +11,18 @@ namespace Mono.Documentation.Updater.Frameworks
         Dictionary<string, string> sigMap = new Dictionary<string, string> ();
         Dictionary<string, bool> sigDocMap = new Dictionary<string, bool>();
 
-		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
-        DocIdFormatter docidFormatter = new DocIdFormatter ();
+        ILFullMemberFormatter formatterField;
+        DocIdFormatter docidFormatterField;
+        ILFullMemberFormatter formatter
+        {
+            get
+            {
+                if (formatterField == null)
+                    formatterField = new ILFullMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return formatterField;
+            }
+        }
+        DocIdFormatter docidFormatter = new DocIdFormatter (MDocUpdater.Instance.TypeMap);
 
 		FrameworkEntry fx;
 

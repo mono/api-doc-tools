@@ -2,6 +2,8 @@
 {
     class CSharpNativeTypeMemberFormatter : CSharpFullMemberFormatter
     {
+        public CSharpNativeTypeMemberFormatter(TypeMap map) : base(map) { }
+
         protected override string GetCSharpType (string t)
         {
             string moddedType = base.GetCSharpType (t);

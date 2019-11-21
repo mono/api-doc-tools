@@ -11,6 +11,9 @@ namespace mdoc.Mono.Documentation.Updater.Formatters
     {
         public override string Language => "JavaScript (usage)";
 
+        public JsUsageFormatter() : this(null) {}
+        public JsUsageFormatter(TypeMap map) : base(map) { }
+
         protected override string GetPropertyDeclaration(PropertyDefinition property)
         {
             bool getVisible = property.GetMethod != null && property.GetMethod.IsPublic;

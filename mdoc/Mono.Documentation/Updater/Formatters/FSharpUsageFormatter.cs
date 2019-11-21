@@ -14,6 +14,9 @@ namespace Mono.Documentation.Updater
             {"~+", "+"},
         };
 
+        public FSharpUsageFormatter() : this(null) {}
+        public FSharpUsageFormatter(TypeMap map) : base(map) { }
+
         protected override string GetMethodDeclaration(MethodDefinition method)
         {
             var buf = new StringBuilder();

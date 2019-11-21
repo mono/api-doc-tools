@@ -6,11 +6,15 @@ using System.Text;
 
 using Mono.Documentation.Util;
 using Mono.Cecil;
+using mdoc.Mono.Documentation.Updater;
 
 namespace Mono.Documentation.Updater
 {
     public abstract class MemberFormatter
     {
+        protected TypeMap TypeMap { get; set; }
+
+        public MemberFormatter(TypeMap typemap) => TypeMap = typemap;
 
         public virtual string Language
         {
@@ -19,7 +23,11 @@ namespace Mono.Documentation.Updater
 
         public string GetName (MemberReference member, bool appendGeneric = true)
         {
-            return GetName (member, null, appendGeneric);
+            var thename = GetName (member, null, appendGeneric);
+            
+            var projectedname = TypeMap?.GetTypeName(this.Language, thename) ?? thename;
+
+            return projectedname;
         }
 
         public virtual string GetName (MemberReference member, DynamicParserContext context, bool appendGeneric = true)
