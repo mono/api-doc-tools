@@ -24,8 +24,9 @@ namespace Mono.Documentation.Updater
         public string GetName (MemberReference member, bool appendGeneric = true)
         {
             var thename = GetName (member, null, appendGeneric);
-            
-            var projectedname = TypeMap?.GetTypeName(this.Language, thename) ?? thename;
+
+            var mapLang = string.IsNullOrWhiteSpace(this.Language) ? "C#" : this.Language;
+            var projectedname = TypeMap?.GetTypeName(mapLang, thename) ?? thename;
 
             return projectedname;
         }

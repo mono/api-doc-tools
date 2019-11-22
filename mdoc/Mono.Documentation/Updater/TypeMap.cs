@@ -101,11 +101,21 @@ namespace Mono.Documentation.Updater
             };
         }
 
-        private static XmlElement ToXmlElement( XElement el)
+        public TypeMapInterfaceItem HasInterfaceReplace(string lang, string facename)
         {
-            var doc = new XmlDocument();
-            doc.Load(el.CreateReader());
-            return doc.DocumentElement;
+            Dictionary<string, TypeMapItem> typemap;
+            if (map.TryGetValue(lang, out typemap))
+            {
+                TypeMapItem item;
+                if (typemap.TryGetValue(facename, out item))
+                {
+                    var ifaceItem = item as TypeMapInterfaceItem;
+                    if (ifaceItem != null)
+                        return ifaceItem;
+                }
+            }
+
+            return null;
         }
     }
 
@@ -126,5 +136,14 @@ namespace Mono.Documentation.Updater
     public class TypeMapInterfaceItem : TypeMapItem
     {
         public XElement Members { get; set; }
+
+        public XmlElement ToXmlElement(XElement el)
+        {
+            var doc = new XmlDocument();
+            doc.Load(el.CreateReader());
+            var xel = doc.DocumentElement;
+            xel.ParentNode.RemoveChild(xel);
+            return xel;
+        }
     }
 }

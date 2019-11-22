@@ -1830,6 +1830,39 @@ namespace Mono.Documentation
                     Console.WriteLine ("Member Added: " + (node?.InnerText ?? m.FullName));
                     additions++;
                 }
+
+                if (this.TypeMap != null)
+                {
+                    foreach (var iface in type.Interfaces)
+                    {
+                        // check typemap to see if there's an ifacereplace for this
+                        var facename = iface.InterfaceType.FullName;
+                        TypeMapInterfaceItem ifaceItem = this.TypeMap.HasInterfaceReplace("C#", facename);
+
+                        if (ifaceItem == null)
+                            continue;
+
+                        // if so, foreach Member in ifacereplace
+                        foreach (var ifaceMember in ifaceItem.Members.Elements())
+                        {
+                            // check member/seenmember
+                            var sigs = ifaceMember.Elements("MemberSignature").Where(s => s.Attribute("Language")?.Value == "ILAsm" && !seenmembers.ContainsKey(s.Attribute("Language")?.Value));
+
+                            if (sigs.Any())
+                            {
+                                // insert entry into `members`
+                                var xElement = ifaceItem.ToXmlElement(ifaceMember);
+                                var imported = members.OwnerDocument.ImportNode(xElement, true);
+
+                                members.AppendChild(imported);
+
+                                // add to statisticscollector
+                                statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Added);
+                                additions++;
+                            }
+                        }
+                    }
+                }
             }
 
             // Import code snippets from files
@@ -2259,7 +2292,8 @@ namespace Mono.Documentation
             {
                 IEnumerable<TypeReference> userInterfaces = DocUtils.GetAllPublicInterfaces (type);
                 List<string> interface_names = userInterfaces
-                        .Select (iface => GetDocTypeFullName (iface))
+                        .Select (iface => 
+                            GetDocTypeFullName (iface))
                         .OrderBy (s => s)
                         .Distinct()
                         .ToList ();
