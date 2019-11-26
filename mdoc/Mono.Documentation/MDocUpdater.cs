@@ -1839,7 +1839,7 @@ namespace Mono.Documentation
                         var facename = iface.InterfaceType.FullName;
                         TypeMapInterfaceItem ifaceItem = this.TypeMap.HasInterfaceReplace("C#", facename);
 
-                        if (ifaceItem == null)
+                        if (ifaceItem == null || ifaceItem?.Members == null)
                             continue;
 
                         // if so, foreach Member in ifacereplace
@@ -1853,6 +1853,17 @@ namespace Mono.Documentation
                                 // insert entry into `members`
                                 var xElement = ifaceItem.ToXmlElement(ifaceMember);
                                 var imported = members.OwnerDocument.ImportNode(xElement, true);
+
+                                // replace the docid type
+                                var docIdelement = imported.SelectSingleNode("MemberSignature[@Language='DocId']");
+                                if (docIdelement != null)
+                                {
+                                    var valueAttribute = docIdelement.Attributes["Value"];
+                                    var docidvalue = valueAttribute?.Value;
+                                    if (valueAttribute != null && docidvalue != null)
+                                        valueAttribute.Value = docidvalue.Replace(ifaceItem.To, type.FullName);
+                                }
+
 
                                 members.AppendChild(imported);
 
