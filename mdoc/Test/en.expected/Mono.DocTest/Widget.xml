@@ -72,7 +72,7 @@
       <MemberSignature Language="JavaScript" Value="function Widget(s)" Usage="var widget = new Widget(s);" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; Widget(System::String ^ s);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; Widget(Platform::String ^ s);" />
-      <MemberSignature Language="C++ WINRT" Value=" Widget(std::wstring const &amp; s);" />
+      <MemberSignature Language="C++ WINRT" Value=" Widget(winrt::hstring const &amp; s);" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -185,7 +185,7 @@
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly classCtorError As String() " />
       <MemberSignature Language="F#" Value=" staticval mutable classCtorError : string[]" Usage="Mono.DocTest.Widget.classCtorError" />
       <MemberSignature Language="C++ CLI" Value="public: static initonly cli::array &lt;System::String ^&gt; ^ classCtorError;" />
-      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;std::wstring const &amp;&gt; classCtorError;" />
+      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const &amp;&gt; classCtorError;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -231,7 +231,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub Default (Optional a As String = &quot;a&quot;, Optional b As Char = '\0')" />
       <MemberSignature Language="F#" Value="member this.Default : string * char -&gt; unit" Usage="widget.Default (a, b)" />
       <MemberSignature Language="JavaScript" Value="function default(a, b)" Usage="widget.default(a, b)" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(std::wstring const &amp; a = &quot;a&quot;, char b = '\0');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const &amp; a = &quot;a&quot;, char b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -795,7 +795,7 @@
       <MemberSignature Language="VB.NET" Value="Public message As String " />
       <MemberSignature Language="F#" Value="val mutable message : string" Usage="Mono.DocTest.Widget.message" />
       <MemberSignature Language="C++ CLI" Value="public: System::String ^ message;" />
-      <MemberSignature Language="C++ WINRT" Value="std::wstring message;" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::hstring message;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

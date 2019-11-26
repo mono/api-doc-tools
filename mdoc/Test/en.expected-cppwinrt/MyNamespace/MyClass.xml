@@ -33,7 +33,7 @@
     <Member MemberName="SomeMethod&lt;T&gt;">
       <MemberSignature Language="C#" Value="public string SomeMethod&lt;T&gt; ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance string SomeMethod&lt;T&gt;() cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename T&gt;&#xA; std::wstring SomeMethod();" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename T&gt;&#xA; winrt::hstring SomeMethod();" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest-addNonGeneric</AssemblyName>

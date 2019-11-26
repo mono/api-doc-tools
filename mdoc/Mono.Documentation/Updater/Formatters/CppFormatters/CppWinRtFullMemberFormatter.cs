@@ -70,7 +70,7 @@ namespace Mono.Documentation.Updater.CppFormatters
                 case "System.Char": typeToCompare = "char"; break;
                 case "System.Void": typeToCompare = "void"; break;
                 //API specific type is "winrt::hstring"; but c++ in built type is better variant
-                case "System.String": typeToCompare = "std::wstring"; break;
+                case "System.String": typeToCompare = "winrt::hstring"; break;
                 case "System.Object": typeToCompare = "winrt::Windows::Foundation::IInspectable"; break;
             }
 

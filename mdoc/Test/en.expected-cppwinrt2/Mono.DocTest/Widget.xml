@@ -52,7 +52,7 @@
     <Member MemberName=".ctor">
       <MemberSignature Language="C#" Value="public Widget (string s);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string s) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value=" Widget(std::wstring const &amp; s);" />
+      <MemberSignature Language="C++ WINRT" Value=" Widget(winrt::hstring const &amp; s);" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -142,7 +142,7 @@
     <Member MemberName="classCtorError">
       <MemberSignature Language="C#" Value="public static readonly string[] classCtorError;" />
       <MemberSignature Language="ILAsm" Value=".field public static initonly string[] classCtorError" />
-      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;std::wstring const &amp;&gt; classCtorError;" />
+      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const &amp;&gt; classCtorError;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -180,7 +180,7 @@
     <Member MemberName="Default">
       <MemberSignature Language="C#" Value="public void Default (string a = &quot;a&quot;, char b = '\0');" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Default(string a, char b) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(std::wstring const &amp; a = &quot;a&quot;, char b = '\0');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const &amp; a = &quot;a&quot;, char b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -644,7 +644,7 @@
     <Member MemberName="message">
       <MemberSignature Language="C#" Value="public string message;" />
       <MemberSignature Language="ILAsm" Value=".field public string message" />
-      <MemberSignature Language="C++ WINRT" Value="std::wstring message;" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::hstring message;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
