@@ -1801,7 +1801,8 @@ namespace Mono.Documentation
                                 TypeReference iface;
                                 MethodReference imethod;
 
-                                if (methdef.Overrides.Count == 1 && !methdef.IsPublic)
+                                // private interface check only if the method isn't public and isn't protected virtual in a non-sealed class (because both are accessible to client code)
+                                if (methdef.Overrides.Count == 1 && !methdef.IsPublic && !(methdef.IsFamily && methdef.IsVirtual && !methdef.DeclaringType.IsSealed))
                                 {
                                     DocUtils.GetInfoForExplicitlyImplementedMethod (methdef, out iface, out imethod);
                                     if (!DocUtils.IsPublic (iface.Resolve ())) return false;
