@@ -1846,10 +1846,14 @@ namespace Mono.Documentation
                         foreach (var ifaceMember in ifaceItem.Members.Elements())
                         {
                             // check member/seenmember
+
+                            string ifacedocid = null;
+
                             var sigs = ifaceMember.Elements("MemberSignature").Where(s => s.Attribute("Language")?.Value == "ILAsm" && !seenmembers.ContainsKey(s.Attribute("Language")?.Value));
 
                             if (sigs.Any())
                             {
+
                                 // insert entry into `members`
                                 var xElement = ifaceItem.ToXmlElement(ifaceMember);
                                 var imported = members.OwnerDocument.ImportNode(xElement, true);
@@ -1861,13 +1865,17 @@ namespace Mono.Documentation
                                     var valueAttribute = docIdelement.Attributes["Value"];
                                     var docidvalue = valueAttribute?.Value;
                                     if (valueAttribute != null && docidvalue != null)
-                                        valueAttribute.Value = docidvalue.Replace(ifaceItem.To, type.FullName);
+                                    {
+                                        ifacedocid = docidvalue.Replace(ifaceItem.To, type.FullName);
+                                        valueAttribute.Value = ifacedocid;
+                                    }
                                 }
 
 
                                 members.AppendChild(imported);
 
                                 // add to statisticscollector
+                                typeEntry.ProcessMember(ifacedocid);
                                 statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Added);
                                 additions++;
                             }

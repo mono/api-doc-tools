@@ -128,6 +128,15 @@ namespace Mono.Documentation.Updater.Frameworks
 
         }
 
+        public virtual void ProcessMember(string ifacedocid)
+        {
+            if (string.IsNullOrWhiteSpace(ifacedocid))
+                return;
+
+            sigMap[ifacedocid] = ifacedocid;
+            sigDocMap[ifacedocid] = true;
+        }
+
         public bool ContainsCSharpSig(string sig)
         {
             return sigMap.ContainsKey(sig);
@@ -164,6 +173,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		{
 			public EmptyTypeEntry (FrameworkEntry fx) : base (fx) { }
 			public override void ProcessMember (MemberReference member) { }
-		}
-	}
+            public override void ProcessMember(string ifacedocid) { }
+        }
+    }
 }
