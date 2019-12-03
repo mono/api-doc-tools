@@ -79,19 +79,27 @@ namespace mdoc.Test
 
 
 
+        [Test]
+        [Category("Event")]
+        public void Event_Class1_primeFoundEvent()
+        {
+            var expectedSig = @"// Register
+event_token primeFoundEvent(UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;
+
+// Revoke with event_token
+void primeFoundEvent(event_token const* cookie) const;
+
+// Revoke with event_revoker
+primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;";
+            TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", expectedSig);
+        }
+
         #region NoSupport
         [Test]
         [Category("NoSupport")]
         public void NoSupport_Property()
         {
             TestPropertySignature(CppCxTestLibName, "Namespace2.Class3", "LongProperty", null);
-        }
-
-        [Test]
-        [Category("NoSupport")]
-        public void NoSupport_Event()
-        {
-            TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", null);
         }
 
         [Test]

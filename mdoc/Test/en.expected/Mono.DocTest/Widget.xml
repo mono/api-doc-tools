@@ -95,6 +95,7 @@
       <MemberSignature Language="JavaScript" Usage="function onAnEvent(eventArgs) { /* Your code */ }&#xA;widget.addEventListener(&quot;anevent&quot;, onAnEvent);&#xA;widget.removeEventListener(&quot;anevent&quot;, onAnEvent);&#xA;- or -&#xA;widget.onanevent = onAnEvent;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; event Mono::DocTest::Widget::Del ^ AnEvent;" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; event Mono::DocTest::Widget::Del ^ AnEvent;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnEvent_revoker AnEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -126,6 +127,7 @@
       <MemberSignature Language="F#" Value="member this.AnotherEvent : Mono.DocTest.Widget.Del " Usage="member this.AnotherEvent : Mono.DocTest.Widget.Del " />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; event Mono::DocTest::Widget::Del ^ AnotherEvent;" />
       <MemberSignature Language="C++ CX" Value="protected:&#xA; event Mono::DocTest::Widget::Del ^ AnotherEvent;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnotherEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnotherEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnotherEvent_revoker AnotherEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -383,6 +385,7 @@
       <MemberSignature Language="F#" Value="member this.DynamicE1 : Func&lt;obj&gt; " Usage="member this.DynamicE1 : System.Func&lt;System.obj&gt; " />
       <MemberSignature Language="JavaScript" Usage="function onDynamicE1(eventArgs) { /* Your code */ }&#xA;widget.addEventListener(&quot;dynamice1&quot;, onDynamicE1);&#xA;widget.removeEventListener(&quot;dynamice1&quot;, onDynamicE1);&#xA;- or -&#xA;widget.ondynamice1 = onDynamicE1;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; event Func&lt;System::Object ^&gt; ^ DynamicE1;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE1(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE1(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE1_revoker DynamicE1(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -408,6 +411,7 @@
       <MemberSignature Language="F#" Value="member this.DynamicE2 : Func&lt;obj&gt; " Usage="member this.DynamicE2 : System.Func&lt;System.obj&gt; " />
       <MemberSignature Language="JavaScript" Usage="function onDynamicE2(eventArgs) { /* Your code */ }&#xA;widget.addEventListener(&quot;dynamice2&quot;, onDynamicE2);&#xA;widget.removeEventListener(&quot;dynamice2&quot;, onDynamicE2);&#xA;- or -&#xA;widget.ondynamice2 = onDynamicE2;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; event Func&lt;System::Object ^&gt; ^ DynamicE2;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE2(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE2(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE2_revoker DynamicE2(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

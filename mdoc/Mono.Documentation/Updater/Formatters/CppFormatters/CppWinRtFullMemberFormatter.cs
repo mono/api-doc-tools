@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using Mono.Cecil;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
@@ -149,6 +150,22 @@ namespace Mono.Documentation.Updater.CppFormatters
         {
             //no need to add additional syntax
             return buf;
+        }
+
+        protected override string GetEventDeclaration(EventDefinition e)
+        {
+            string apiName = e.Name, typeName = GetTypeNameWithOptions(e.EventType, AppendHatOnReturn);
+
+            StringBuilder buf = new StringBuilder();
+            //if (AppendVisibility(buf, e.AddMethod).Length == 0)
+            buf.AppendLine("// Register");
+            buf.AppendLine($"event_token {apiName}({typeName} const& handler) const;");
+            buf.AppendLine().AppendLine("// Revoke with event_token");
+            buf.AppendLine($"void {apiName}(event_token const* cookie) const;");
+            buf.AppendLine().AppendLine("// Revoke with event_revoker");
+            buf.Append($"{apiName}_revoker {apiName}(auto_revoke_t, {typeName} const& handler) const;");
+
+            return buf.ToString().Replace("\r\n", "\n");
         }
 
         protected override string GetTypeDeclaration(TypeDefinition type)
@@ -324,7 +341,7 @@ namespace Mono.Documentation.Updater.CppFormatters
         public override bool IsSupportedEvent(EventDefinition edef)
         {
             //events can be used only in managed context
-            return false;
+            return true;
         }
 
         public override bool IsSupportedField(FieldDefinition fdef)
