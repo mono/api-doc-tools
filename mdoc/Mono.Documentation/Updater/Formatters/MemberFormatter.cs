@@ -21,12 +21,16 @@ namespace Mono.Documentation.Updater
             get { return ""; }
         }
 
-        public string GetName (MemberReference member, bool appendGeneric = true)
+        public string GetName (MemberReference member, bool appendGeneric = true, bool useTypeProjection = true)
         {
             var thename = GetName (member, null, appendGeneric);
+            var projectedname = thename;
 
-            var mapLang = string.IsNullOrWhiteSpace(this.Language) ? "C#" : this.Language;
-            var projectedname = TypeMap?.GetTypeName(mapLang, thename) ?? thename;
+            if (useTypeProjection)
+            {
+                var mapLang = string.IsNullOrWhiteSpace(this.Language) ? "C#" : this.Language;
+                projectedname = TypeMap?.GetTypeName(mapLang, thename) ?? thename;
+            }
 
             return projectedname;
         }

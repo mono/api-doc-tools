@@ -2200,8 +2200,8 @@ namespace Mono.Documentation
 
         public void UpdateType (XmlElement root, TypeDefinition type, FrameworkTypeEntry typeEntry)
         {
-            root.SetAttribute ("Name", GetDocTypeName (type));
-            root.SetAttribute ("FullName", GetDocTypeFullName (type));
+            root.SetAttribute ("Name", GetDocTypeName (type, useTypeProjection: false));
+            root.SetAttribute ("FullName", GetDocTypeFullName (type, useTypeProjection: false));
 
             foreach (MemberFormatter f in typeFormatters)
             {
@@ -4264,14 +4264,14 @@ namespace Mono.Documentation
             throw new ArgumentException ();
         }
 
-        private static string GetDocTypeName (TypeReference type)
+        private static string GetDocTypeName (TypeReference type, bool useTypeProjection = true)
         {
-            return docTypeFormatter.GetName (type);
+            return docTypeFormatter.GetName (type, useTypeProjection: useTypeProjection);
         }
 
-        internal static string GetDocTypeFullName (TypeReference type)
+        internal static string GetDocTypeFullName (TypeReference type, bool useTypeProjection = true)
         {
-            return DocTypeFullMemberFormatter.Default.GetName (type);
+            return DocTypeFullMemberFormatter.Default.GetName (type, useTypeProjection: useTypeProjection);
         }
 
         internal static string GetXPathForMember (DocumentationMember member)

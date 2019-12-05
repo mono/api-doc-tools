@@ -61,6 +61,19 @@ namespace mdoc.Test
         }
 
         [Test]
+        public void ReplaceInFormatter_ButDont()
+        {
+            var typedef = GetTypeDef<UWPProjection>();
+
+            var map = TypeMap.FromXDocument(XDocument.Parse(simplerSourceFile));
+            CSharpFullMemberFormatter formatter = new CSharpFullMemberFormatter(map);
+
+            string actualName = formatter.GetName(typedef, useTypeProjection:false);
+
+            Assert.AreEqual("mdoc.Test.TypeMapTests.UWPProjection", actualName);
+        }
+
+        [Test]
         public void ReplaceInFormatter_WrongLanguage()
         {
             var typedef = GetTypeDef<UWPProjection>();
