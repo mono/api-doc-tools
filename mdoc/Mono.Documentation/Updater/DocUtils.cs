@@ -329,13 +329,23 @@ namespace Mono.Documentation.Updater
 
         public static IEnumerable<TypeReference> GetUserImplementedInterfaces (TypeDefinition type)
         {
+            if (!type.HasInterfaces)
+                return new TypeReference[0];
+
+            if (!Consts.CollapseInheritedInterfaces)
+                return type.Interfaces.Select(i=> i.InterfaceType.Resolve()).Where(i => IsPublic (i));
+
             HashSet<string> inheritedInterfaces = GetInheritedInterfaces (type);
+
             List<TypeReference> userInterfaces = new List<TypeReference> ();
             foreach (var ii in type.Interfaces)
             {
                 var iface = ii.InterfaceType;
                 TypeReference lookup = iface.Resolve () ?? iface;
-                if (!inheritedInterfaces.Contains (GetQualifiedTypeName (lookup)))
+
+                var iname = GetQualifiedTypeName(lookup);
+
+                if (!inheritedInterfaces.Contains (iname))
                     userInterfaces.Add (iface);
             }
             return userInterfaces.Where (i => IsPublic (i.Resolve ()));
@@ -348,14 +358,17 @@ namespace Mono.Documentation.Updater
 
         private static HashSet<string> GetInheritedInterfaces (TypeDefinition type)
         {
+
             HashSet<string> inheritedInterfaces = new HashSet<string> ();
+
             Action<TypeDefinition> a = null;
             a = t =>
             {
                 if (t == null) return;
                 foreach (var r in t.Interfaces)
                 {
-                    inheritedInterfaces.Add (GetQualifiedTypeName (r.InterfaceType));
+                    var iname = GetQualifiedTypeName(r.InterfaceType);
+                    inheritedInterfaces.Add (iname);
                     a (r.InterfaceType.Resolve ());
                 }
             };

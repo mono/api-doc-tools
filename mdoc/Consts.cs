@@ -33,5 +33,7 @@ namespace Mono.Documentation
         public const string FrameworksIndex = "FrameworksIndex";
 		public const string FrameworkAlternate = "FrameworkAlternate";
         public const string Index = "Index";
+
+        public static bool CollapseInheritedInterfaces = true;
     }
 }

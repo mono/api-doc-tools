@@ -354,6 +354,9 @@ namespace Mono.Documentation
             { "index=",
                 "Lets you choose to disable index.xml (true by default)",
                 v => bool.TryParse(v, out writeIndex) },
+            { "nocollapseinterfaces",
+                "All interfaces listed in type signatures",
+                v => Consts.CollapseInheritedInterfaces = false },
         };
             var assemblyPaths = Parse (p, args, "update",
                     "[OPTIONS]+ ASSEMBLIES",
