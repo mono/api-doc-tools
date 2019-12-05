@@ -25,6 +25,7 @@ using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.
 using System.Web.UI.WebControls;
 using mdoc.Mono.Documentation.Updater;
 using Lucene.Net.Documents;
+using System.Runtime.Serialization;
 
 namespace Mono.Documentation
 {
@@ -380,6 +381,10 @@ namespace Mono.Documentation
                     Console.WriteLine($"Loading typemap file at {typeMapPath}");
                     TypeMap map = TypeMap.FromXml(typeMapPath);
                     this.TypeMap = map;
+
+                    foreach (var f in typeFormatters.Union(memberFormatters))
+                        f.TypeMap = map;
+
                 }
 
                 Console.WriteLine($"Opening frameworks file '{configPath}'");
@@ -2491,7 +2496,7 @@ namespace Mono.Documentation
             
             foreach (MemberFormatter f in memberFormatters)
             {
-                UpdateSignature (f, mi, me, typeEntry);
+                UpdateSignature (f, mi, me, typeEntry, implementedMembers);
             }
 
             OrderMemberNodes (me, me.ChildNodes);
@@ -2519,10 +2524,31 @@ namespace Mono.Documentation
                 type);
         }
 
-        public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry)
+        public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers)
         {
             var valueToUse = formatter.GetDeclaration(member);
             var usageSample = formatter.UsageFormatter?.GetDeclaration(member);
+
+            List<MemberReference> implementedRefs;
+            if (formatter.TypeMap != null && valueToUse != null && implementedMembers.TryGetValue(DocUtils.GetFingerprint(member), out implementedRefs))
+            {
+                foreach(var iref in implementedRefs)
+                {
+                    var nsformatter = formatter as IFormatterNamespaceControl;
+                    if (nsformatter != null) nsformatter.ShouldAppendNamespace = true;
+
+                    var irefsig = formatter.GetName(iref.DeclaringType, useTypeProjection: false);
+
+                    if (nsformatter != null) nsformatter.ShouldAppendNamespace = false;
+
+                    var typeReplaceItem = formatter?.TypeMap?.HasInterfaceReplace(formatter.Language, irefsig);
+                    if (typeReplaceItem != null)
+                    {
+                        valueToUse = $"{formatter.SingleLineComment} This member is not implemented in {formatter.Language}";
+                        usageSample = null;
+                    }
+                }
+            }
 
             string elementName = "MemberSignature";
             string elementXPath = $"{elementName}[@Language='" + formatter.Language + "']";

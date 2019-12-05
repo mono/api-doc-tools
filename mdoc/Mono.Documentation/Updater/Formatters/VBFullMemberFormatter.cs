@@ -12,6 +12,8 @@ namespace Mono.Documentation.Updater
     {
         public override string Language => Consts.VbNet;
 
+        public override string SingleLineComment => "'";
+
         public VBFullMemberFormatter() : this(null) {}
         public VBFullMemberFormatter(TypeMap map) : base(map) { }
 

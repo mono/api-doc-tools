@@ -12,13 +12,18 @@ namespace Mono.Documentation.Updater
 {
     public abstract class MemberFormatter
     {
-        protected TypeMap TypeMap { get; set; }
+        public TypeMap TypeMap { get; set; }
 
         public MemberFormatter(TypeMap typemap) => TypeMap = typemap;
 
         public virtual string Language
         {
             get { return ""; }
+        }
+
+        public virtual string SingleLineComment
+        {
+            get { return "//"; }
         }
 
         public string GetName (MemberReference member, bool appendGeneric = true, bool useTypeProjection = true)
