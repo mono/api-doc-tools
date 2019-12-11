@@ -28,23 +28,14 @@ namespace Mono.Documentation.Updater
 
         public string GetName (MemberReference member, bool appendGeneric = true, bool useTypeProjection = true)
         {
-            var thename = GetName (member, null, appendGeneric);
-            var projectedname = thename;
-
-            if (useTypeProjection)
-            {
-                var mapLang = string.IsNullOrWhiteSpace(this.Language) ? "C#" : this.Language;
-                projectedname = TypeMap?.GetTypeName(mapLang, thename) ?? thename;
-            }
-
-            return projectedname;
+            return GetName (member, null, appendGeneric, useTypeProjection: useTypeProjection);
         }
 
-        public virtual string GetName (MemberReference member, DynamicParserContext context, bool appendGeneric = true)
+        public virtual string GetName (MemberReference member, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
             TypeReference type = member as TypeReference;
             if (type != null)
-                return GetTypeName (type, context, appendGeneric);
+                return GetTypeName (type, context, appendGeneric, useTypeProjection: useTypeProjection);
             MethodReference method = member as MethodReference;
             if (method != null && method.Name == ".ctor") // method.IsConstructor
                 return GetConstructorName (method);
@@ -63,19 +54,21 @@ namespace Mono.Documentation.Updater
                         (member == null ? "null" : member.GetType ().ToString ()));
         }
 
-        protected virtual string GetTypeName (TypeReference type, bool appendGeneric = true)
+        protected virtual string GetTypeName (TypeReference type, bool appendGeneric = true, bool useTypeProjection = true)
         {
-            return GetTypeName (type, null, appendGeneric);
+            return GetTypeName (type, null, appendGeneric, useTypeProjection: useTypeProjection);
         }
 
-        protected virtual string GetTypeName (TypeReference type, DynamicParserContext context, bool appendGeneric=true)
+        protected virtual string GetTypeName (TypeReference type, DynamicParserContext context, bool appendGeneric=true, bool useTypeProjection = true)
         {
             if (type == null)
                 throw new ArgumentNullException (nameof (type));
 
-            var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context, appendGeneric).ToString ();
+            var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context, appendGeneric, useTypeProjection: useTypeProjection).ToString ();
 
             typeName = RemoveMod (typeName);
+
+
 
             return typeName;
         }
@@ -137,36 +130,46 @@ namespace Mono.Documentation.Updater
             get => true;
         }
 
-        protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection =false)
         {
             if (type == null)
                 return buf;
-            
+
+            StringBuilder interimBuilder = new StringBuilder();
+
             if (ShouldStripModFromTypeName && type is RequiredModifierType)
             {
-                return AppendRequiredModifierTypeName(buf, type as RequiredModifierType, context);
+                AppendRequiredModifierTypeName(interimBuilder, type as RequiredModifierType, context);
+                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (ShouldStripModFromTypeName && type is OptionalModifierType)
             {
-                return AppendOptionalModifierTypeName(buf, type as OptionalModifierType, context);
+                AppendOptionalModifierTypeName(interimBuilder, type as OptionalModifierType, context);
+                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (type is ArrayType)
             {
-                return AppendArrayTypeName(buf, type, context);
+                AppendArrayTypeName(interimBuilder, type, context);
+                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (type is ByReferenceType)
             {
-                return AppendRefTypeName (buf, type, context);
+                AppendRefTypeName (interimBuilder, type, context);
+                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (type is PointerType)
             {
-                return AppendPointerTypeName (buf, type, context);
+                AppendPointerTypeName (interimBuilder, type, context);
+                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (type is GenericParameter)
             {
-                return AppendTypeName (buf, type, context);
+                AppendTypeName (interimBuilder, type, context);
+                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            AppendNamespace (buf, type);
+
+
+            AppendNamespace (interimBuilder, type);
             GenericInstanceType genInst = type as GenericInstanceType;
 
             if (type.IsRequiredModifier)
@@ -188,9 +191,41 @@ namespace Mono.Documentation.Updater
             if (type.GenericParameters.Count == 0 &&
                     (genInst == null ? true : genInst.GenericArguments.Count == 0))
             {
-                return AppendFullTypeName (buf, type, context);
+                AppendFullTypeName (interimBuilder, type, context);
+                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            return AppendGenericType (buf, type, context, appendGeneric);
+            AppendGenericType (interimBuilder, type, context, appendGeneric, useTypeProjection: useTypeProjection);
+            return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
+        }
+
+        private StringBuilder SetBuffer(StringBuilder buf, StringBuilder interimBuilder, bool useTypeProjection)
+        {
+            var interimResult = interimBuilder.ToString();
+
+            var projectedname = interimResult;
+
+            if (useTypeProjection)
+            {
+                var leftGenContainer = this.GenericTypeContainer.FirstOrDefault();
+                var leftGenIndex = interimResult.IndexOf(leftGenContainer);
+                string genericPiece = "";
+                if (leftGenIndex > 0)
+                {
+                    // chop off the generic portion for comparison purposes
+                    genericPiece = interimResult.Substring(leftGenIndex, interimResult.Length - leftGenIndex);
+                    interimResult = interimResult.Substring(0, leftGenIndex);
+                }
+
+
+                var mapLang = string.IsNullOrWhiteSpace(this.Language) ? "C#" : this.Language;
+                projectedname = TypeMap?.GetTypeName(mapLang, interimResult) + genericPiece ?? projectedname;
+
+
+            }
+
+            buf.Append(projectedname);
+
+            return buf;
         }
 
         protected virtual StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
@@ -265,7 +300,7 @@ namespace Mono.Documentation.Updater
             get { return "."; }
         }
 
-        protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (
                     type is GenericInstanceType ? type.GetElementType () : type);
@@ -290,10 +325,10 @@ namespace Mono.Documentation.Updater
                     buf.Append (GenericTypeContainer[0]);
                     var origState = MemberFormatterState;
                     MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
-                    _AppendTypeName (buf, genArgs[argIdx++], context);
+                    _AppendTypeName (buf, genArgs[argIdx++], context, useTypeProjection: useTypeProjection);
                     for (int i = 1; i < c; ++i)
                     {
-                        _AppendTypeName (buf.Append (","), genArgs[argIdx++], context);
+                        _AppendTypeName (buf.Append (","), genArgs[argIdx++], context, useTypeProjection: useTypeProjection);
                     }
                     MemberFormatterState = origState;
                     buf.Append (GenericTypeContainer[1]);

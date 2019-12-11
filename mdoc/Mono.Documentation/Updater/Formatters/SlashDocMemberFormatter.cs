@@ -102,7 +102,7 @@ namespace Mono.Documentation.Updater
             return buf.Append (ArrayDelimeters[1]);
         }
 
-        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             if (!AddTypeCount)
                 base.AppendGenericType (buf, type, context);

@@ -56,7 +56,7 @@ namespace mdoc.Test
             string actual = formatter.GetDeclaration(typedef);
             string actualName = formatter.GetName(typedef);
 
-            Assert.AreEqual("public class System.String", actual);
+            Assert.AreEqual("public class System.String : mdoc.Test.IInt<int>", actual);
             Assert.AreEqual("System.String", actualName);
         }
 
@@ -87,6 +87,45 @@ namespace mdoc.Test
             Assert.AreEqual("mdoc::Test::TypeMapTests::UWPProjection", actualName);
         }
 
+        [Test]
+        public void ReplaceInFormatter_Generic_Property()
+        {
+            var typedef = GetTypeDef<UWPProjection>();
+
+            var map = TypeMap.FromXDocument(XDocument.Parse(genericInterfaceSourceFile));
+            CSharpFullMemberFormatter formatter = new CSharpFullMemberFormatter(map);
+
+            string actual = formatter.GetDeclaration(typedef.Resolve().Properties.Single(t => t.Name == "Thing"));
+
+            Assert.AreEqual("public System.Collections.Generic.IList<int> Thing { get; }", actual);
+        }
+
+        [Test]
+        public void ReplaceInFormatter_Generic_Method()
+        {
+            var typedef = GetTypeDef<UWPProjection>();
+
+            var map = TypeMap.FromXDocument(XDocument.Parse(genericInterfaceSourceFile));
+            CSharpFullMemberFormatter formatter = new CSharpFullMemberFormatter(map);
+
+            string actual = formatter.GetDeclaration(typedef.Resolve().Methods.Single(t => t.Name == "Ok"));
+
+            Assert.AreEqual("public System.Collections.Generic.IList<System.Collections.Generic.IList<int>> Ok (System.Collections.Generic.IList<System.Collections.Generic.IList<System.Collections.Generic.IList<int>>> p);", actual);
+        }
+
+        [Test]
+        public void ReplaceInFormatter_Generic_Method_VB()
+        {
+            var typedef = GetTypeDef<UWPProjection>();
+
+            var map = TypeMap.FromXDocument(XDocument.Parse(genericInterfaceSourceFile));
+            VBMemberFormatter formatter = new VBMemberFormatter(map);
+
+            string actual = formatter.GetDeclaration(typedef.Resolve().Methods.Single(t => t.Name == "Ok"));
+
+            Assert.AreEqual("Public Function Ok (p As IList(Of IList(Of IList(Of Integer)))) As IList(Of IList(Of Integer))", actual);
+        }
+
 
         string simpleSourceFile = @"<TypeMap>
     <InterfaceReplace
@@ -112,9 +151,25 @@ namespace mdoc.Test
         Langs= ""C#;F#"" />
 </TypeMap> ";
 
-        public class UWPProjection
+        string genericInterfaceSourceFile = @"<TypeMap>
+<InterfaceReplace From=""mdoc.Test.IInt`1"" To=""System.Collections.Generic.IList`1"" Langs=""C#;VB.NET;F#"">
+        <Members>
+        </Members>
+    </InterfaceReplace>
+</TypeMap>";
+
+        public class UWPProjection : IInt<int>
         {
             public void Dispose(){}
+
+            public IInt<int> Thing { get; }
+
+            public IInt<IInt<int>> Ok (IInt<IInt<IInt<int>>> p) { return null; }
         }
+    }
+
+    public interface IInt<T>
+    {
+        IInt<T> Thing { get; }
     }
 }

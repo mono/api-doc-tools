@@ -308,7 +308,7 @@ namespace Mono.Documentation.Updater
             return "class";
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                    type is GenericInstanceType ? type.GetElementType() : type);
@@ -357,9 +357,9 @@ namespace Mono.Documentation.Updater
                         {
                             buf.Append("#");// replace genericParameter which is a flexible type with its constraint type
 #if NEW_CECIL
-                            _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context);
+                            _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context, useTypeProjection:useTypeProjection);
 #else
-                            _AppendTypeName(buf, genericParameter.Constraints[0], context);
+                            _AppendTypeName(buf, genericParameter.Constraints[0], context, useTypeProjection: useTypeProjection);
 #endif
                         }
                         else
