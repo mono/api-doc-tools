@@ -62,7 +62,7 @@ namespace Mono.Documentation.Updater.CppFormatters
                 case "System.Int64": typeToCompare = "long"; break;
                 case "System.UInt16": typeToCompare = "unsigned short"; break;
                 case "System.UInt32": typeToCompare = "unsigned int"; break;
-                case "System.UInt64": typeToCompare = "unsigned long";break;
+                case "System.UInt64": typeToCompare = "uint64_t"; break;
                     
                 case "System.Single": typeToCompare = "float"; break;
                 case "System.Double": typeToCompare = "double"; break;
