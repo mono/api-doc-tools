@@ -242,6 +242,14 @@ namespace mdoc.Test
             }
         }
 
+        [Test]
+        public void FuncParams()
+        {
+            var member = GetMethod(typeof(TestClass), m => m.Name == "DoWithNullParams");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public string DoWithNullParams (out string a, object b = default, TestClass c = default);", sig);
+        }
+
         void TestConversionOp (string name, string type, string leftType, string rightType) {
             TestOp (name, $"public static {type} operator {leftType} ({rightType} c1);", argCount: 1, returnType: leftType);
         }

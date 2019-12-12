@@ -45,5 +45,15 @@ namespace mdoc.Test.SampleClasses
 
         public void DoSomethingWithParams (params int[] values) { }
         public void RefAndOut (ref int a, out int b) { b = 1; }
-	}
+        public string DoWithNullParams(out string a, object b = null, TestClass c = null)
+        {
+            if (b == null)
+                a = "default";
+            else
+            {
+                a = b.GetType().Name;
+            }
+            return a;
+        }
+    }
 }
