@@ -27,7 +27,7 @@ namespace mdoc.Test
         public void Method_GetPrimesOrdered()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "GetPrimesOrdered",
-                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int first, int last);");
+                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<winrt::Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int first, int last);");
 
         }
 

@@ -204,7 +204,7 @@ namespace Mono.Documentation.Updater
 
             var projectedname = interimResult;
 
-            if (useTypeProjection)
+            if (useTypeProjection && TypeMap != null)
             {
                 var leftGenContainer = this.GenericTypeContainer.FirstOrDefault();
                 var leftGenIndex = interimResult.IndexOf(leftGenContainer);
@@ -216,11 +216,8 @@ namespace Mono.Documentation.Updater
                     interimResult = interimResult.Substring(0, leftGenIndex);
                 }
 
-
                 var mapLang = string.IsNullOrWhiteSpace(this.Language) ? "C#" : this.Language;
                 projectedname = TypeMap?.GetTypeName(mapLang, interimResult) + genericPiece ?? projectedname;
-
-
             }
 
             buf.Append(projectedname);
