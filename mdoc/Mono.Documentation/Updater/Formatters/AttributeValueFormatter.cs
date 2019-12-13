@@ -14,7 +14,7 @@ namespace Mono.Documentation.Updater
             TypeReference valueType = type.Reference;
             if (v == null)
             {
-                returnvalue = "default";
+                returnvalue = "null";
                 return true;
             }
             if (valueType.FullName == "System.Type")
