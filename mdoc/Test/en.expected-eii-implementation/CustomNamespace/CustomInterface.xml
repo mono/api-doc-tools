@@ -24,6 +24,7 @@
       <MemberSignature Language="JavaScript" Usage="var int32 = customInterface.prop1;&#xA;customInterface.prop1 = int32;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Prop1 { int get(); void set(int value); };" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; property int Prop1 { int get(); void set(int value); };" />
+      <MemberSignature Language="C++ WINRT" Value="int Prop1();&#xA;&#xA;void Prop1(int Value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
@@ -45,6 +46,7 @@
       <MemberSignature Language="JavaScript" Usage="var object = customInterface.prop2;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Object ^ Prop2 { System::Object ^ get(); };" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; property Platform::Object ^ Prop2 { Platform::Object ^ get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IInspectable Prop2();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.65535.65535</AssemblyVersion>

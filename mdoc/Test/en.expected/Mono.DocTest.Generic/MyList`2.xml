@@ -116,6 +116,7 @@
       <MemberSignature Language="F#" Value="member this.Count : int" Usage="Mono.DocTest.Generic.MyList&lt;'A, #'A (requires 'A : null and 'A :&gt; System.Collections.Generic.IList&lt;#'A&gt; and 'A : (new : unit -&gt; 'A))&gt;.Count" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Count { int get(); };" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; property int Count { int get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="int Count();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.ICollection`1.Count</InterfaceMember>
@@ -140,6 +141,7 @@
       <MemberSignature Language="F#" Value="member this.Current : 'A" Usage="Mono.DocTest.Generic.MyList&lt;'A, #'A (requires 'A : null and 'A :&gt; System.Collections.Generic.IList&lt;#'A&gt; and 'A : (new : unit -&gt; 'A))&gt;.Current" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property A Current { A get(); };" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; property A Current { A get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="A Current();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.IEnumerator`1.Current</InterfaceMember>
@@ -394,6 +396,7 @@
       <MemberSignature Language="F#" Usage="System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly" />
       <MemberSignature Language="C++ CLI" Value="property bool System::Collections::Generic::ICollection&lt;A&gt;::IsReadOnly { bool get(); };" />
       <MemberSignature Language="C++ CX" Value="property bool System::Collections::Generic::ICollection&lt;A&gt;::IsReadOnly { bool get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.ICollection`1.IsReadOnly</InterfaceMember>
@@ -469,6 +472,7 @@
       <MemberSignature Language="F#" Usage="System.Collections.Generic.IEnumerator&lt;A&gt;.Current" />
       <MemberSignature Language="C++ CLI" Value="property A System::Collections::Generic::IEnumerator&lt;A&gt;::Current { A get(); };" />
       <MemberSignature Language="C++ CX" Value="property A System::Collections::Generic::IEnumerator&lt;A&gt;::Current { A get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="A System.Collections.Generic.IEnumerator&lt;A&gt;.Current();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.IEnumerator`1.Current</InterfaceMember>
@@ -516,6 +520,7 @@
       <MemberSignature Language="F#" Usage="System.Collections.IEnumerator.Current" />
       <MemberSignature Language="C++ CLI" Value="property System::Object ^ System::Collections::IEnumerator::Current { System::Object ^ get(); };" />
       <MemberSignature Language="C++ CX" Value="property Platform::Object ^ System::Collections::IEnumerator::Current { Platform::Object ^ get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IInspectable System.Collections.IEnumerator.Current();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.IEnumerator.Current</InterfaceMember>

@@ -451,6 +451,7 @@
       <MemberSignature Language="F#" Value="member this.DynamicP : Func&lt;Func&lt;string, obj, string&gt;, Func&lt;obj, Func&lt;obj&gt;, string&gt;&gt;" Usage="Mono.DocTest.Widget.DynamicP" />
       <MemberSignature Language="JavaScript" Usage="var func = widget.dynamicP;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property Func&lt;Func&lt;System::String ^, System::Object ^, System::String ^&gt; ^, Func&lt;System::Object ^, Func&lt;System::Object ^&gt; ^, System::String ^&gt; ^&gt; ^ DynamicP { Func&lt;Func&lt;System::String ^, System::Object ^, System::String ^&gt; ^, Func&lt;System::Object ^, Func&lt;System::Object ^&gt; ^, System::String ^&gt; ^&gt; ^ get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="Func&lt;Func&lt;winrt::hstring, winrt::Windows::Foundation::IInspectable const &amp;, winrt::hstring const &amp;&gt;, Func&lt;winrt::Windows::Foundation::IInspectable, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const &amp;, winrt::hstring const &amp;&gt; const &amp;&gt; DynamicP();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -472,6 +473,7 @@
       <MemberSignature Language="F#" Value="member this.Height : int64" Usage="Mono.DocTest.Widget.Height" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; property long Height { long get(); };" />
       <MemberSignature Language="C++ CX" Value="protected:&#xA; property long long Height { long long get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="long Height();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -497,6 +499,7 @@
       <MemberSignature Language="VB.NET" Value="Default Public Property Item(i As Integer) As Integer" />
       <MemberSignature Language="F#" Value="member this.Item(int) : int with get, set" Usage="Mono.DocTest.Widget.Item" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int default[int] { int get(int i); void set(int i, int value); };" />
+      <MemberSignature Language="C++ WINRT" Value="int Item();&#xA;&#xA;void Item(int i);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -529,6 +532,7 @@
       <MemberSignature Language="VB.NET" Value="Default Public Property Item(s As String, i As Integer) As Integer" />
       <MemberSignature Language="F#" Value="member this.Item(string * int) : int with get, set" Usage="Mono.DocTest.Widget.Item" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int default[System::String ^, int] { int get(System::String ^ s, int i); void set(System::String ^ s, int i, int value); };" />
+      <MemberSignature Language="C++ WINRT" Value="int Item();&#xA;&#xA;void Item(int s);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -1024,6 +1028,7 @@
       <MemberSignature Language="JavaScript" Usage="var int32 = widget.width;" />
       <MemberSignature Language="C++ CLI" Value="public:  property int Width {  public:&#xA;int get(); protected:&#xA; void set(int value); };" />
       <MemberSignature Language="C++ CX" Value="public:  property int Width {  public:&#xA;int get(); protected:&#xA; void set(int value); };" />
+      <MemberSignature Language="C++ WINRT" Value="int Width();&#xA;&#xA;void Width(int value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -1056,6 +1061,7 @@
       <MemberSignature Language="F#" Value="member this.X : int16" Usage="Mono.DocTest.Widget.X" />
       <MemberSignature Language="C++ CLI" Value="protected public:&#xA; property short X {  void set(short value); };" />
       <MemberSignature Language="C++ CX" Value="protected public:&#xA; property short X {  void set(short value); };" />
+      <MemberSignature Language="C++ WINRT" Value="void X(short value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -1077,6 +1083,7 @@
       <MemberSignature Language="F#" Value="member this.Y : double with get, set" Usage="Mono.DocTest.Widget.Y" />
       <MemberSignature Language="C++ CLI" Value="protected public:&#xA; property double Y { double get(); void set(double value); };" />
       <MemberSignature Language="C++ CX" Value="protected public:&#xA; property double Y { double get(); void set(double value); };" />
+      <MemberSignature Language="C++ WINRT" Value="double Y();&#xA;&#xA;void Y(double value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

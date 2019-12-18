@@ -118,6 +118,7 @@
       <MemberSignature Language="JavaScript" Usage="var type = docAttribute.property;&#xA;docAttribute.property = type;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property Type ^ Property { Type ^ get(); void set(Type ^ value); };" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; property Platform::Type ^ Property { Platform::Type ^ get(); void set(Platform::Type ^ value); };" />
+      <MemberSignature Language="C++ WINRT" Value="Type Property();&#xA;&#xA;void Property(Type value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

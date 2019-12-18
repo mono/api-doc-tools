@@ -101,6 +101,7 @@
     <Member MemberName="m_activated">
       <MemberSignature Language="C#" Value="public Windows.UI.Core.CoreWindow m_activated { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance class Windows.UI.Core.CoreWindow m_activated" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::UI::Core::CoreWindow m_activated();&#xA;&#xA;void m_activated(winrt::Windows::UI::Core::CoreWindow __set_formal);" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:Namespace222.__IAppPublicNonVirtuals.m_activated</InterfaceMember>
@@ -120,6 +121,7 @@
     <Member MemberName="m_target">
       <MemberSignature Language="C#" Value="public Windows.UI.Composition.CompositionTarget m_target { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance class Windows.UI.Composition.CompositionTarget m_target" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::UI::Composition::CompositionTarget m_target();&#xA;&#xA;void m_target(winrt::Windows::UI::Composition::CompositionTarget __set_formal);" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:Namespace222.__IAppPublicNonVirtuals.m_target</InterfaceMember>

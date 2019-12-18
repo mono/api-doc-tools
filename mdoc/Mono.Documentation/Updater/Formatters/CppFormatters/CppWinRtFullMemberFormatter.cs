@@ -152,6 +152,26 @@ namespace Mono.Documentation.Updater.CppFormatters
             return buf;
         }
 
+        protected override string GetPropertyDeclaration(PropertyDefinition property)
+        {
+            var returnType = GetTypeNameWithOptions(property.PropertyType, AppendHatOnReturn);
+            var apiName = property.Name;
+
+            StringBuilder buf = new StringBuilder();
+
+            if (property.GetMethod != null)
+                buf.AppendLine($"{returnType} {apiName}();").AppendLine();
+
+            if (property.SetMethod != null) {
+                string paramName = property.SetMethod.Parameters.First().Name;
+                if (string.IsNullOrWhiteSpace(paramName))
+                    buf.AppendLine($"void {apiName}({returnType});");
+                else
+                    buf.AppendLine($"void {apiName}({returnType} {paramName});");
+             }
+            return buf.ToString().Replace("\r\n", "\n").Trim();
+        }
+
         protected override string GetEventDeclaration(EventDefinition e)
         {
             string apiName = e.Name, typeName = GetTypeNameWithOptions(e.EventType, AppendHatOnReturn);
@@ -334,13 +354,11 @@ namespace Mono.Documentation.Updater.CppFormatters
 
         public override bool IsSupportedProperty(PropertyDefinition pdef)
         {
-            //properties can be used only in managed context
-            return false;
+            return true;
         }
 
         public override bool IsSupportedEvent(EventDefinition edef)
         {
-            //events can be used only in managed context
             return true;
         }
 
