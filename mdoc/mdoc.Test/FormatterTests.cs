@@ -212,7 +212,7 @@ namespace mdoc.Test
         [Test]
         public void FuncParams()
         {
-            var member = GetMethod(typeof(CsharpTestClass), m => m.Name == "DoWithNullParams");
+            var member = GetMethod(typeof(TestClass), m => m.Name == "ZdoWithNullParams");
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual("public string DoWithNullParams (out string a, object b = default, TestClass c = default);", sig);
         }
