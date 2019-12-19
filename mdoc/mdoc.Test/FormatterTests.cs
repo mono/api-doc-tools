@@ -214,7 +214,7 @@ namespace mdoc.Test
         {
             var member = GetMethod(typeof(TestClass), m => m.Name == "ZdoWithNullParams");
             var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public string DoWithNullParams (out string a, object b = default, TestClass c = default);", sig);
+            Assert.AreEqual("public void ZdoWithNullParams (out string a, object b = default, TestClass c = default);", sig);
         }
         [Test]
         public void MethodSignature_Finalize() =>
