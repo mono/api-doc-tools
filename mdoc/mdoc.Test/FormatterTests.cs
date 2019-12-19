@@ -210,6 +210,13 @@ namespace mdoc.Test
             Assert.AreEqual (".method public hidebysig instance void RefAndOut(int32& a, [out] int32& b) cil managed", sig);
         }
         [Test]
+        public void FuncParams()
+        {
+            var member = GetMethod(typeof(CsharpTestClass), m => m.Name == "DoWithNullParams");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public string DoWithNullParams (out string a, object b = default, TestClass c = default);", sig);
+        }
+        [Test]
         public void MethodSignature_Finalize() =>
             TestMethodSignature(typeof(SomeGenericClass<>),
                 "~SomeGenericClass ();",
