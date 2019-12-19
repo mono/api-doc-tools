@@ -18,5 +18,6 @@
         {
 
         }
+        public void ZdoWithNullParams(out string a, object b = null, TestClass c = null) { a = "default"; }
     }
 }
