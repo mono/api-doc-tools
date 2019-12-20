@@ -3074,7 +3074,6 @@ namespace Mono.Documentation
             value = null;
             TypeDefinition type = field.DeclaringType.Resolve ();
 
-            if (type != null && type.IsGenericType ()) return false;
             if (!field.HasConstant)
                 return false;
             if (field.IsLiteral)
