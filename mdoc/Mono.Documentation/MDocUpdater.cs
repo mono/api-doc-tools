@@ -3084,7 +3084,10 @@ namespace Mono.Documentation
                 else if (val is Enum) value = val.ToString ();
                 else if (val is IFormattable)
                 {
-                    value = ((IFormattable)val).ToString (null, CultureInfo.InvariantCulture);
+                    if (field.FieldType.FullName == "System.Double")
+                    { value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture); }
+                    else
+                    { value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture); };
                     if (val is string)
                         value = "\"" + value + "\"";
                 }

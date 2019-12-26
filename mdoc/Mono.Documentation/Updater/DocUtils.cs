@@ -412,7 +412,11 @@ namespace Mono.Documentation.Updater
                     buf.Append(" = ").Append(val.ToString());
                 else if (val is IFormattable)
                 {
-                    string value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                    string value = "";
+                    if (field.FieldType.FullName == "System.Double")
+                    { value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture); }
+                    else
+                    { value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture); }
                     if (val is string)
                         value = "\"" + value + "\"";
                     buf.Append(" = ").Append(value);

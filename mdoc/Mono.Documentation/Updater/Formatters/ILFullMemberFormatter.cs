@@ -559,7 +559,11 @@ namespace Mono.Documentation.Updater
                         .Append (')');
                 else if (val is IFormattable)
                 {
-                    string value = ((IFormattable)val).ToString (null, CultureInfo.InvariantCulture);
+                    string value = "";
+                    if (field.FieldType.FullName == "System.Double")
+                    { value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture); }
+                    else
+                    { value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture); }
                     buf.Append (" = ");
                     if (val is string)
                         buf.Append ("\"" + value + "\"");
