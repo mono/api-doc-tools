@@ -285,6 +285,9 @@ namespace Mono.Documentation.Updater
             if (buf.Length == 0)
                 return null;
 
+            if (constructor.IsStatic)
+                buf.Append(" static");
+
             buf.Append (' ');
             base.AppendTypeName (buf, constructor.DeclaringType.Name).Append (' ');
             AppendParameters (buf, constructor, constructor.Parameters);
