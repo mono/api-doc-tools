@@ -233,6 +233,19 @@ namespace mdoc.Test
             Assert.AreEqual("public ref int Ref ();", sig);
         }
 
+        [Test]
+        public void CSharpStaticConstructor()
+        {
+            var member = GetMethod(
+                  GetType("SampleClasses/custommarshalers.dll", "System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler"),
+                  m => m.Name == ".cctor"
+             );
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public static ExpandoToDispatchExMarshaler ();", sig);
+        }
+
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
