@@ -1,7 +1,13 @@
 ﻿using NUnit.Framework;
+using System;
+using System.Reflection;
 using System.Linq;
+using System.Text;
 using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater;
+using Mono.Documentation;
+
+
 
 namespace mdoc.Test
 {
@@ -231,6 +237,37 @@ namespace mdoc.Test
             var formatter = new CSharpFullMemberFormatter();
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual("public ref int Ref ();", sig);
+        }
+
+        [Test]
+        public void PItest()
+        {
+            string sig="";
+            var member = GetType(typeof(System.Math)).Fields.FirstOrDefault(t=>t.Name=="PI");          
+            BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Static;
+
+            Type type1 = typeof(MDocUpdater);
+            MethodInfo mInfo1 = type1.GetMethod("GetFieldConstValue", flags);
+            Object[] parametors1 = new Object[] { member, sig };
+            mInfo1.Invoke(null, parametors1);
+            sig = (string)parametors1[1];
+            Assert.AreEqual("3.1415926535897931", sig);
+
+            sig = "";
+            Type type2 = typeof(ILFullMemberFormatter);
+            MethodInfo mInfo2 = type2.GetMethod("AppendFieldValue", flags);
+            Object[] parametors2 = new Object[] { new StringBuilder(), member};
+            sig = mInfo2.Invoke(null, parametors2).ToString();
+            Assert.AreEqual(" = (3.1415926535897931)", sig);
+
+            sig = "";
+            BindingFlags flagsPub = BindingFlags.Public | BindingFlags.Static;
+            Type type3 = typeof(DocUtils);
+            MethodInfo mInfo3 = type3.GetMethod("AppendFieldValue", flagsPub);
+            Object[] parametors3 = new Object[] { new StringBuilder(), member };
+            mInfo3.Invoke(null, parametors3);
+            sig = parametors3[0].ToString();
+            Assert.AreEqual(" = 3.1415926535897931", sig);
         }
 
         #region Helper Methods
