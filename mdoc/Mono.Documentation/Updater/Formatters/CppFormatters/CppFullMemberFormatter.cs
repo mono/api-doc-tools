@@ -978,7 +978,19 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     buf.Append(" = ").Append(val);
                 else if (val is IFormattable)
                 {
-                    string value = ((IFormattable)val).ToString (null, CultureInfo.InvariantCulture);
+                    string value = null;
+                    switch (field.FieldType.FullName)
+                    {
+                        case "System.Double":
+                            value = ((IFormattable)val).ToString("G17", CultureInfo.InvariantCulture);
+                            break;
+                        case "System.Single":
+                            value = ((IFormattable)val).ToString("G9", CultureInfo.InvariantCulture);
+                            break;
+                        default:
+                            value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                            break;
+                    }
                     buf.Append(" = ").Append(value);
                 }
             }
