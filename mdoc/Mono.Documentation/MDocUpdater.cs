@@ -2284,6 +2284,12 @@ namespace Mono.Documentation
                                 var newNode = WriteElementText (basenode, "BaseTypeName", basetypename, forceNewElement: true);
                                 WriteElementAttribute (basenode, newNode, Consts.FrameworkAlternate, typeEntry.Framework.Name);
                             }
+                            else
+                            {
+                                // Append framework alternate if one already exist
+                                var existingNode = existing.Cast<XmlElement>().FirstOrDefault();
+                                WriteElementAttribute (basenode, existingNode, Consts.FrameworkAlternate, FXUtils.AddFXToList(existingNode.GetAttribute(Consts.FrameworkAlternate), typeEntry.Framework.Name));
+                            }
                         }
                     }
                 }
