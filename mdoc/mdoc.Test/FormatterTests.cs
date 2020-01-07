@@ -245,8 +245,7 @@ namespace mdoc.Test
         {
             string sig = "";
             var member  = GetType(typeof(System.Math)).Fields.FirstOrDefault(t=>t.Name=="PI");
-            //var memberf = GetType(typeof(ReadonlyRefClass)).Fields.FirstOrDefault(t => t.Name == "Fvalue");
-            BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Static;
+            BindingFlags flags    = BindingFlags.NonPublic | BindingFlags.Static;
             BindingFlags flagsPub = BindingFlags.Public | BindingFlags.Static;
 
             Type type1 = typeof(MDocUpdater);
@@ -255,25 +254,14 @@ namespace mdoc.Test
             mInfo1.Invoke(null, parametors1);
             sig = (string)parametors1[1];
             Assert.AreEqual("3.1415926535897931", sig);
-            //sig = "";
-            //object[] fparametors1 = new Object[] { memberf, sig };
-            //mInfo1.Invoke(null, fparametors1);
-            //sig = (string)fparametors1[1];
-            //Assert.AreEqual("3.123456", sig);
-
-
+          
             Type type2 = typeof(ILFullMemberFormatter);
             sig = "";
             MethodInfo mInfo2 = type2.GetMethod("AppendFieldValue", flags);
             Object[] parametors2 = new Object[] { new StringBuilder(), member};
             sig = mInfo2.Invoke(null, parametors2).ToString();
             Assert.AreEqual(" = (3.1415926535897931)", sig);
-            //sig = "";
-            //object[] fparametors2 = new Object[] { new StringBuilder(),memberf};
-            //sig=mInfo2.Invoke(null, fparametors2).ToString();
-            //Assert.AreEqual(" = (3.123456)", sig);
-
-
+ 
             Type type3 = typeof(DocUtils);
             sig = "";                      
             MethodInfo mInfo3 = type3.GetMethod("AppendFieldValue", flagsPub);
@@ -281,22 +269,13 @@ namespace mdoc.Test
             mInfo3.Invoke(null, parametors3);
             sig = parametors3[0].ToString();
             Assert.AreEqual(" = 3.1415926535897931", sig);
-            //sig = "";
-            //Object[] fparametors3 = new Object[] { new StringBuilder(), memberf };
-            //mInfo3.Invoke(null, fparametors3);
-            //sig = fparametors3[0].ToString();
-            //Assert.AreEqual(" = 3.123456", sig);
-
+ 
             Type type4 = typeof(CppFullMemberFormatter);
             sig = "";
             MethodInfo mInfo4 = type4.GetMethod("AppendFieldValue", flags);
             Object[] parametors4 = new Object[] { new StringBuilder(), member };
             sig = mInfo4.Invoke(null, parametors4).ToString();
             Assert.AreEqual(" = 3.1415926535897931", sig);
-            //sig = "";
-            //Object[] fparametors4 = new Object[] { new StringBuilder(), memberf };
-            //sig = mInfo4.Invoke(null, fparametors4).ToString();
-            //Assert.AreEqual(" = 3.123456", sig);
         }
 
         #region Helper Methods

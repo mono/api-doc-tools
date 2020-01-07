@@ -982,10 +982,8 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     switch (field.FieldType.FullName)
                     {
                         case "System.Double":
-                            value = ((IFormattable)val).ToString("G17", CultureInfo.InvariantCulture);
-                            break;
                         case "System.Single":
-                            value = ((IFormattable)val).ToString("G9", CultureInfo.InvariantCulture);
+                            value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture);
                             break;
                         default:
                             value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
