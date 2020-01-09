@@ -18,6 +18,9 @@ namespace MyNamespace {
     #if FXTWO
         : MyBaseClassTwo
     #endif
+    #if FXTHREE
+        : MyBaseClassTwo
+    #endif
     {
         public override void AllAbstract() {}
 

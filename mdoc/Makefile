@@ -117,6 +117,9 @@ Test/DocTest-framework-inheritance-one.dll:
 Test/DocTest-framework-inheritance-two.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-framework-inheritance.cs /define:FXTWO
 
+Test/DocTest-framework-inheritance-three.dll:
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-framework-inheritance.cs /define:FXTHREE
+
 Test/DocTest.dll-v1: 
 	-rm -f Test/DocTest.cs
 	cp Test/DocTest-v1.cs Test/DocTest.cs
@@ -159,13 +162,15 @@ Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-class
 	cp Test/DocTest-DropNS-classic-secondary.dll Test/FrameworkTestData/Two/
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData
 
-Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dll Test/DocTest-framework-inheritance-two.dll
+Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dll Test/DocTest-framework-inheritance-two.dll Test/DocTest-framework-inheritance-three.dll
 	rm -rf Test/FrameworkTestData-fx-inheritance
 	mkdir Test/FrameworkTestData-fx-inheritance
 	mkdir Test/FrameworkTestData-fx-inheritance/One
 	mkdir Test/FrameworkTestData-fx-inheritance/Two
+	mkdir Test/FrameworkTestData-fx-inheritance/Three
 	cp Test/DocTest-framework-inheritance-one.dll Test/FrameworkTestData-fx-inheritance/One/
 	cp Test/DocTest-framework-inheritance-two.dll Test/FrameworkTestData-fx-inheritance/Two/
+	cp Test/DocTest-framework-inheritance-three.dll Test/FrameworkTestData-fx-inheritance/Three/
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-inheritance
 
 .PHONY: check-monodocer-typeForwards

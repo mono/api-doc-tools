@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="Three">
+  <Assemblies>
+    <Assembly Name="DocTest-framework-inheritance-three" Version="0.0.0.0" />
+  </Assemblies>
+  <Namespace Name="MyNamespace">
+    <Type Name="MyNamespace.MyBaseClassOne" Id="T:MyNamespace.MyBaseClassOne">
+      <Member Id="M:MyNamespace.MyBaseClassOne.#ctor" />
+      <Member Id="M:MyNamespace.MyBaseClassOne.AllAbstract" />
+      <Member Id="P:MyNamespace.MyBaseClassOne.AllVirtual" />
+    </Type>
+    <Type Name="MyNamespace.MyBaseClassTwo" Id="T:MyNamespace.MyBaseClassTwo">
+      <Member Id="M:MyNamespace.MyBaseClassTwo.#ctor" />
+      <Member Id="M:MyNamespace.MyBaseClassTwo.AllAbstract" />
+      <Member Id="P:MyNamespace.MyBaseClassTwo.AllVirtual" />
+      <Member Id="P:MyNamespace.MyBaseClassTwo.TwoMember" />
+    </Type>
+    <Type Name="MyNamespace.MyClass" Id="T:MyNamespace.MyClass">
+      <Member Id="M:MyNamespace.MyClass.#ctor" />
+      <Member Id="M:MyNamespace.MyClass.AllAbstract" />
+    </Type>
+  </Namespace>
+</Framework>
