@@ -32,6 +32,7 @@
     <Member MemberName="B">
       <MemberSignature Language="C#" Value="public int B { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 B" />
+      <MemberSignature Language="C++ WINRT" Value="int B();&#xA;&#xA;void B(int value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

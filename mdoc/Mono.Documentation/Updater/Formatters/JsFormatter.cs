@@ -153,7 +153,7 @@ namespace mdoc.Mono.Documentation.Updater.Formatters
             return CamelCase(method.Name);
         }
 
-        protected override string GetTypeName(TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override string GetTypeName(TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             int n = type.Name.IndexOf("`");
             if (n >= 0)

@@ -55,6 +55,7 @@
     <Member MemberName="MyProperty">
       <MemberSignature Language="C#" Value="public string MyProperty { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance string MyProperty" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::hstring MyProperty();&#xA;&#xA;void MyProperty(winrt::hstring value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest-DropNS-classic</AssemblyName>
@@ -72,6 +73,7 @@
     <Member MemberName="OnlyInClassic">
       <MemberSignature Language="C#" Value="public double OnlyInClassic { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance float64 OnlyInClassic" />
+      <MemberSignature Language="C++ WINRT" Value="double OnlyInClassic();&#xA;&#xA;void OnlyInClassic(double value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest-DropNS-classic</AssemblyName>

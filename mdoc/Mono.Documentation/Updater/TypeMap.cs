@@ -11,7 +11,7 @@ namespace Mono.Documentation.Updater
 {
     public class TypeMap
     {
-        /// <summary>This is the core lookup data structure</summary>
+        /// <summary>This is the core lookup data structure ... main key is language, secondary key is typename "from"</summary>
         Dictionary<string, Dictionary<string,TypeMapItem>> map;
 
         public List<TypeMapItem> Items { get; private set; }
@@ -19,6 +19,8 @@ namespace Mono.Documentation.Updater
         public string GetTypeName(string lang, string typename)
         {
             if (map == null) InitializeMap();
+            if (!nonsinitialized && typename.IndexOf(".") == -1)
+                InitializeNoNamespace();
 
             Dictionary<string, TypeMapItem> val;
             if (map.TryGetValue(lang, out val))
@@ -31,6 +33,41 @@ namespace Mono.Documentation.Updater
             }
 
             return typename;
+        }
+
+        bool nonsinitialized = false;
+        private void InitializeNoNamespace()
+        {
+            if (nonsinitialized) return;
+
+            Func<string, string> chopType = (orig) =>
+            {
+                if (orig.Contains("."))
+                {
+                    var lastDot = orig.LastIndexOf(".");
+                    var choppedKey = orig.Substring(lastDot+1, orig.Length - lastDot -1);
+
+                    return choppedKey;
+                }
+                return orig;
+            };
+
+            foreach (var langitem in map.Values)
+            {
+                var iitem = langitem.ToArray();
+                foreach (var item in iitem)
+                {
+                    string choppedKey = chopType(item.Key);
+                    TypeMapItem choppedItem = new TypeMapItem
+                    {
+                        From = choppedKey,
+                        To = chopType(item.Value.To),
+                        Langs = item.Value.Langs
+                    };
+
+                    langitem[choppedKey] = choppedItem;
+                }
+            }
         }
 
         private void InitializeMap()
@@ -51,6 +88,16 @@ namespace Mono.Documentation.Updater
                         map.Add(itemLang, langList);
                     }
 
+                    // sanitize the inputs
+                    int genIndex = item.From.IndexOf("`");
+                    if (genIndex > 0)
+                        item.From = item.From.Substring(0, genIndex);
+
+                    genIndex = item.To.IndexOf("`");
+                    if (genIndex > 0)
+                        item.To = item.To.Substring(0, genIndex);
+
+                    // add to the list if it's not already there
                     if (!langList.ContainsKey(item.From))
                         langList.Add(item.From, item);
                 }

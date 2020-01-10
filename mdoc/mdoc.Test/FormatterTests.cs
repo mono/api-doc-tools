@@ -221,6 +221,13 @@ namespace mdoc.Test
             TestMethodSignature(typeof(SomeGenericClass<>),
                 "~SomeGenericClass ();",
                 "Finalize");
+        [Test]
+        public void FuncParams()
+        {
+            var member = GetMethod(typeof(SomeGenericClass<>), m => m.Name == "SomeMethod4");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public void SomeMethod4 (out string a, T t, object b = default);", sig);
+        }
 
         [Test]
         public void CSharpReadonlyRefReturn()
@@ -276,6 +283,18 @@ namespace mdoc.Test
             Object[] parametors4 = new Object[] { new StringBuilder(), member };
             sig = mInfo4.Invoke(null, parametors4).ToString();
             Assert.AreEqual(" = 3.1415926535897931", sig);
+        }
+
+        [Test]
+        public void CSharpStaticConstructor()
+        {
+            var member = GetMethod(
+                  GetType("SampleClasses/custommarshalers.dll", "System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler"),
+                  m => m.Name == ".cctor"
+             );
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public static ExpandoToDispatchExMarshaler ();", sig);
         }
 
         #region Helper Methods

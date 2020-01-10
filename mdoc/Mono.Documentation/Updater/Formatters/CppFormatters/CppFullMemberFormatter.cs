@@ -552,7 +552,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return AppendConstraints (buf, method.GenericParameters);
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                 type is GenericInstanceType ? type.GetElementType() : type);
@@ -596,7 +596,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
 
                     var item = genArgs[argIndex++];
-                    _AppendTypeName(buf, item, context);
+                    _AppendTypeName(buf, item, context, useTypeProjection: useTypeProjection);
                     if (declDef.GenericParameters.All(x => x.FullName != item.FullName))
                     {
                         AppendHat(buf, item, AppendHatOnReturn);

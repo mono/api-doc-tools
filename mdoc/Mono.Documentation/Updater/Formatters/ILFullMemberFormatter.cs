@@ -203,7 +203,7 @@ namespace Mono.Documentation.Updater
             return buf.ToString ();
         }
 
-        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (
                     type is GenericInstanceType ? type.GetElementType () : type);

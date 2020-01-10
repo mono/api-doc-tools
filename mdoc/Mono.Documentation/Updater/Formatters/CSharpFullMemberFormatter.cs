@@ -512,7 +512,8 @@ namespace Mono.Documentation.Updater
             buf.Append (parameter.Name);
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
-                buf.AppendFormat (" = {0}", MDocUpdater.MakeAttributesValueString (parameter.Constant, parameter.ParameterType));
+                var ReturnVal = MDocUpdater.MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
+                buf.AppendFormat (" = {0}", ReturnVal == "null" ? "default" : ReturnVal);
             }
             return buf;
         }

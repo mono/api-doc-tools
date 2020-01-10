@@ -355,6 +355,7 @@
     <Member MemberName="DynamicP">
       <MemberSignature Language="C#" Value="public Func&lt;Func&lt;string,dynamic,string&gt;,Func&lt;dynamic,Func&lt;dynamic&gt;,string&gt;&gt; DynamicP { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance class System.Func`2&lt;class System.Func`3&lt;string, object, string&gt;, class System.Func`3&lt;object, class System.Func`1&lt;object&gt;, string&gt;&gt; DynamicP" />
+      <MemberSignature Language="C++ WINRT" Value="Func&lt;Func&lt;winrt::hstring, winrt::Windows::Foundation::IInspectable const &amp;, winrt::hstring const &amp;&gt;, Func&lt;winrt::Windows::Foundation::IInspectable, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const &amp;, winrt::hstring const &amp;&gt; const &amp;&gt; DynamicP();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -371,6 +372,7 @@
     <Member MemberName="Height">
       <MemberSignature Language="C#" Value="protected long Height { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int64 Height" />
+      <MemberSignature Language="C++ WINRT" Value="long Height();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -392,6 +394,7 @@
     <Member MemberName="Item">
       <MemberSignature Language="C#" Value="public int this[int i] { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 Item(int32)" />
+      <MemberSignature Language="C++ WINRT" Value="int Item();&#xA;&#xA;void Item(int i);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -420,6 +423,7 @@
     <Member MemberName="Item">
       <MemberSignature Language="C#" Value="public int this[string s, int i] { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 Item(string, int32)" />
+      <MemberSignature Language="C++ WINRT" Value="int Item();&#xA;&#xA;void Item(int s);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -831,6 +835,7 @@
     <Member MemberName="Width">
       <MemberSignature Language="C#" Value="public int Width { get; protected set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 Width" />
+      <MemberSignature Language="C++ WINRT" Value="int Width();&#xA;&#xA;void Width(int value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -858,6 +863,7 @@
     <Member MemberName="X">
       <MemberSignature Language="C#" Value="protected internal short X { set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int16 X" />
+      <MemberSignature Language="C++ WINRT" Value="void X(short value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -874,6 +880,7 @@
     <Member MemberName="Y">
       <MemberSignature Language="C#" Value="protected internal double Y { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance float64 Y" />
+      <MemberSignature Language="C++ WINRT" Value="double Y();&#xA;&#xA;void Y(double value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

@@ -27,7 +27,7 @@ namespace mdoc.Test
         public void Method_GetPrimesOrdered()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "GetPrimesOrdered",
-                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int first, int last);");
+                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<winrt::Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int first, int last);");
 
         }
 
@@ -96,10 +96,12 @@ primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp:
 
         #region NoSupport
         [Test]
-        [Category("NoSupport")]
-        public void NoSupport_Property()
+        [Category("Properties")]
+        public void Property_Class3_LongProperty()
         {
-            TestPropertySignature(CppCxTestLibName, "Namespace2.Class3", "LongProperty", null);
+            TestPropertySignature(CppCxTestLibName, "Namespace2.Class3", "LongProperty", @"long LongProperty();
+
+void LongProperty(long __set_formal);");
         }
 
         [Test]

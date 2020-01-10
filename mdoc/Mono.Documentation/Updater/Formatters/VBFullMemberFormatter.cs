@@ -209,7 +209,7 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                     type is GenericInstanceType ? type.GetElementType() : type);
@@ -241,7 +241,7 @@ namespace Mono.Documentation.Updater
                         if (i > 0)
                             buf.Append(", ");
                         var genArg = genArgs[argIdx++];
-                        _AppendTypeName(buf, genArg, context);
+                        _AppendTypeName(buf, genArg, context, useTypeProjection: useTypeProjection);
                         var genericParameter = genArg as GenericParameter;
                         if (genericParameter != null)
                             AppendConstraints(buf, genericParameter);
