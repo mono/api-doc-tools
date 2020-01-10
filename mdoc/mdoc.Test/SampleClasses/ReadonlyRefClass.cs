@@ -5,6 +5,6 @@
         int i;
 
         public ref int Ref() => ref i;
-        public ref readonly int ReadonlyRef() => ref i;
+        public ref readonly int ReadonlyRef() => ref i;       
     }
 }

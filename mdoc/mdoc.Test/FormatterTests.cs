@@ -1,7 +1,14 @@
 ﻿using NUnit.Framework;
+using System;
+using System.Reflection;
 using System.Linq;
+using System.Text;
 using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater;
+using Mono.Documentation;
+using Mono.Documentation.Updater.Formatters.CppFormatters;
+
+
 
 namespace mdoc.Test
 {
@@ -241,6 +248,44 @@ namespace mdoc.Test
         }
 
         [Test]
+        public void PItest()
+        {
+            string sig = "";
+            var member  = GetType(typeof(System.Math)).Fields.FirstOrDefault(t=>t.Name=="PI");
+            BindingFlags flags    = BindingFlags.NonPublic | BindingFlags.Static;
+            BindingFlags flagsPub = BindingFlags.Public | BindingFlags.Static;
+
+            Type type1 = typeof(MDocUpdater);
+            MethodInfo mInfo1 = type1.GetMethod("GetFieldConstValue", flags);
+            Object[] parametors1 = new Object[] { member, sig };
+            mInfo1.Invoke(null, parametors1);
+            sig = (string)parametors1[1];
+            Assert.AreEqual("3.1415926535897931", sig);
+          
+            Type type2 = typeof(ILFullMemberFormatter);
+            sig = "";
+            MethodInfo mInfo2 = type2.GetMethod("AppendFieldValue", flags);
+            Object[] parametors2 = new Object[] { new StringBuilder(), member};
+            sig = mInfo2.Invoke(null, parametors2).ToString();
+            Assert.AreEqual(" = (3.1415926535897931)", sig);
+ 
+            Type type3 = typeof(DocUtils);
+            sig = "";                      
+            MethodInfo mInfo3 = type3.GetMethod("AppendFieldValue", flagsPub);
+            Object[] parametors3 = new Object[] { new StringBuilder(), member };
+            mInfo3.Invoke(null, parametors3);
+            sig = parametors3[0].ToString();
+            Assert.AreEqual(" = 3.1415926535897931", sig);
+ 
+            Type type4 = typeof(CppFullMemberFormatter);
+            sig = "";
+            MethodInfo mInfo4 = type4.GetMethod("AppendFieldValue", flags);
+            Object[] parametors4 = new Object[] { new StringBuilder(), member };
+            sig = mInfo4.Invoke(null, parametors4).ToString();
+            Assert.AreEqual(" = 3.1415926535897931", sig);
+        }
+
+        [Test]
         public void CSharpStaticConstructor()
         {
             var member = GetMethod(
@@ -252,7 +297,6 @@ namespace mdoc.Test
             Assert.AreEqual("public static ExpandoToDispatchExMarshaler ();", sig);
         }
 
-
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
@@ -261,6 +305,7 @@ namespace mdoc.Test
                 default: return name;
             }
         }
+
 
         void TestConversionOp (string name, string type, string leftType, string rightType) {
             TestOp (name, $"public static {type} operator {leftType} ({rightType} c1);", argCount: 1, returnType: leftType);

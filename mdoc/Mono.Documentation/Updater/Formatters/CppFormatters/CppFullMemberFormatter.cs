@@ -978,7 +978,17 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     buf.Append(" = ").Append(val);
                 else if (val is IFormattable)
                 {
-                    string value = ((IFormattable)val).ToString (null, CultureInfo.InvariantCulture);
+                    string value = null;
+                    switch (field.FieldType.FullName)
+                    {
+                        case "System.Double":
+                        case "System.Single":
+                            value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture);
+                            break;
+                        default:
+                            value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                            break;
+                    }
                     buf.Append(" = ").Append(value);
                 }
             }
