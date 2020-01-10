@@ -3767,6 +3767,9 @@ namespace Mono.Documentation
 
         public void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
         {
+            if (typeEntry.TimesProcessed > 1)
+                return;
+
             XmlElement e = WriteElement (root, "Parameters");
 
             if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
