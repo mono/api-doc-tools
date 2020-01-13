@@ -12,6 +12,17 @@
   <AssemblyInfo>
     <AssemblyName>DocTest-typeForwards-Second-First</AssemblyName>
   </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>DocTest-typeForwards-Third</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>DocTest-typeForwards-Third-First</AssemblyName>
+  </AssemblyInfo>
+  <TypeForwardingChain>
+    <TypeForwarding From="DocTest-typeForwards-Second-First" FromVersion="0.0.0.0" To="DocTest-typeForwards-Second" ToVersion="0.0.0.0" />
+    <TypeForwarding From="DocTest-typeForwards-Third-First" FromVersion="0.0.0.0" To="DocTest-typeForwards-Third" ToVersion="0.0.0.0" FrameworkAlternate="Three;Two" />
+  </TypeForwardingChain>
   <Base>
     <BaseTypeName>System.Object</BaseTypeName>
   </Base>
@@ -35,6 +46,13 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>DocTest-typeForwards-Second-First</AssemblyName>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-typeForwards-Third</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-typeForwards-Third-First</AssemblyName>
       </AssemblyInfo>
       <Parameters />
       <Docs>
