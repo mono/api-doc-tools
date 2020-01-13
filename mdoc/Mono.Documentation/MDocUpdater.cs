@@ -2214,6 +2214,7 @@ namespace Mono.Documentation
             }
 
             AddAssemblyNameToNode (root, type);
+            UpdateTypeForwardingChain(root, typeEntry, type);
 
             string assemblyInfoNodeFilter = MDocUpdater.HasDroppedNamespace (type) ? "[@apistyle='unified']" : "[not(@apistyle) or @apistyle='classic']";
             Func<XmlElement, bool> assemblyFilter = x => x.SelectSingleNode ("AssemblyName").InnerText == type.Module.Assembly.Name.Name;
@@ -2433,6 +2434,7 @@ namespace Mono.Documentation
         "TypeSignature",
         "MemberOfLibrary",
         "AssemblyInfo",
+        "TypeForwardingChain",
         "ThreadingSafetyStatement",
         "ThreadSafetyStatement",
         "TypeParameters",
@@ -3115,9 +3117,107 @@ namespace Mono.Documentation
             return false;
         }
 
-        // XML HELPER FUNCTIONS
+        /// <summary>
+        /// Update forwarding inforamtion of a given type under specified Framework to XmlElement
+        /// </summary>
+        private void UpdateTypeForwardingChain(XmlElement root, FrameworkTypeEntry typeEntry, TypeDefinition type)
+        {
+            if (typeEntry.TimesProcessed > 1)
+                return;
 
-        internal static XmlElement WriteElement (XmlNode parent, string element, bool forceNewElement = false)
+            string elementName = "TypeForwardingChain";
+
+            // Get type forwardings of current type and framkework 
+            var forwardings = this.assemblies
+                .Where(a => a.Name == typeEntry.Framework.Name)
+                .SelectMany(a => a.ForwardingChains(type))
+                .ToList();
+
+            XmlElement exsitingChain = (XmlElement)root.SelectSingleNode(elementName);
+
+            //  Clean up and gernate from scratch
+            if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
+            {
+                ClearElement(root, elementName);
+                exsitingChain = null;
+            }
+
+            // Update
+            if (forwardings.Any())
+            {
+                exsitingChain = exsitingChain ?? root.OwnerDocument.CreateElement(elementName);
+                root.AppendChild(UpdateTypeForwarding(forwardings, typeEntry.Framework.Name, exsitingChain));
+            }
+
+            // Purge attribute if needed
+            if (typeEntry.Framework.IsLastFrameworkForType(typeEntry) && exsitingChain != null)
+                PurgeFrameworkAlternateAttribute(typeEntry, exsitingChain.SelectNodes("TypeForwarding").SafeCast<XmlElement>().ToList());
+        }
+
+        private XmlElement UpdateTypeForwarding(IEnumerable<MDocResolver.TypeForwardEventArgs> forwardings, string framework, XmlElement exsitingChain)
+        {
+            Func<IEnumerable<XmlElement>> elementsQuery = () => exsitingChain.SelectNodes("TypeForwarding").SafeCast<XmlElement>();
+
+            foreach (var forwarding in forwardings)
+            {
+                var existingElements = elementsQuery()
+                    .Where(e => IsTypeForwardingFound(e, forwarding))
+                    .FirstOrDefault();
+
+                // Add type forwarding with fxa
+                if (existingElements == null)
+                {
+                    var newElement = exsitingChain.OwnerDocument.CreateElement("TypeForwarding");
+                    exsitingChain.AppendChild(newElement);
+                    newElement.SetAttribute("From", forwarding.From.Name);
+                    newElement.SetAttribute("FromVersion", forwarding.From.Version.ToString());
+                    newElement.SetAttribute("To", forwarding.To.Name);
+                    newElement.SetAttribute("ToVersion", forwarding.To.Version.ToString());
+                    newElement.SetAttribute(Consts.FrameworkAlternate, framework);
+                }
+
+                // Update and append fxa
+                else
+                {
+                    string newfxa = FXUtils.AddFXToList(existingElements.GetAttribute(Consts.FrameworkAlternate), framework);
+                    existingElements.SetAttribute(Consts.FrameworkAlternate, newfxa);
+                }
+            }
+
+            return exsitingChain;
+        }
+
+        /// <summary>
+        /// Purge FrameworkAlternate attribute if it includes all frameworks 
+        /// </summary>
+        private void PurgeFrameworkAlternateAttribute(FrameworkTypeEntry typeEntry, IEnumerable<XmlElement> nodes)
+        {
+            var allFrameworks = typeEntry.Framework.AllFrameworksWithType(typeEntry);
+
+            foreach (var node in nodes)
+            {
+                // if FXAlternate is entire list, just remove it
+                if (node.HasAttribute(Consts.FrameworkAlternate) && node.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
+                {
+                    node.RemoveAttribute(Consts.FrameworkAlternate);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Return true if same type forward found in Xml
+        /// </summary>
+        private static bool IsTypeForwardingFound(XmlElement element, MDocResolver.TypeForwardEventArgs typeForward)
+        {
+            return (element.GetAttribute("From") == typeForward.From.Name)
+                 && (element.GetAttribute("FromVersion") == typeForward.From.Version.ToString())
+                 && (element.GetAttribute("To") == typeForward.To.Name)
+                 && (element.GetAttribute("ToVersion") == typeForward.To.Version.ToString());
+        }
+
+    // XML HELPER FUNCTIONS
+
+    internal static XmlElement WriteElement (XmlNode parent, string element, bool forceNewElement = false)
         {
             XmlElement ret = parent.ChildNodes.SafeCast<XmlElement>().FirstOrDefault(e => e.LocalName == element);
             if (ret == null || forceNewElement)

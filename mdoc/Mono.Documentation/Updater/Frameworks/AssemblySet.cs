@@ -213,5 +213,20 @@ namespace Mono.Documentation.Updater.Frameworks
 				yield return assembly;
 			}
 		}
-	}
+
+        /// <summary>
+        /// Return the type forwardings of given type.
+        /// </summary>
+        /// <param name="type">Type.</param>
+        /// <returns>Type forwardings.</returns>
+        public HashSet<MDocResolver.TypeForwardEventArgs> ForwardingChains(TypeDefinition type)
+        {
+            if (forwardedTypesTo.ContainsKey(type.FullName))
+            {
+                return forwardedTypesTo[type.FullName];
+            }
+            else
+                return new HashSet<MDocResolver.TypeForwardEventArgs>();
+        }
+    }
 }

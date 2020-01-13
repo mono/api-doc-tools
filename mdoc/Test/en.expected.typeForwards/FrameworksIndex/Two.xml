@@ -2,6 +2,7 @@
 <Framework Name="Two">
   <Assemblies>
     <Assembly Name="DocTest-typeForwards-Second-First" Version="0.0.0.0" />
+    <Assembly Name="DocTest-typeForwards-Third-First" Version="0.0.0.0" />
   </Assemblies>
   <Namespace Name="TheNamespace">
     <Type Name="TheNamespace.TheClass" Id="T:TheNamespace.TheClass">

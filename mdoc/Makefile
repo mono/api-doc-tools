@@ -150,6 +150,13 @@ Test/DocTest-typeForwards-Second.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Second-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:SECOND
 
+.PHONY: Test/DocTest-typeForwards-Third.dll
+Test/DocTest-typeForwards-Third.dll:
+	rm -f $@
+	rm -f Test/DocTest-typeForwards-Third-First.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Third-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:THIRD
+
 .PHONY: Test/FrameworkTestData
 Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll
 	rm -rf Test/FrameworkTestData
@@ -174,19 +181,34 @@ Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dl
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-inheritance
 
 .PHONY: check-monodocer-typeForwards
-check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll
+check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll Test/DocTest-typeForwards-Third.dll
 	-rm -Rf Test/en.actual
 
 	# set up the fx test data
+	# all frameworks One, Two, Three should have the type forwarding from DocTest-typeForwards-Second-First to DocTest-typeForwards-Second \
+	# so in xml should find no "FrameworkAlternate" attribute  for this forwarding, the attribute  is removed as expected since it is full frameworks list
+	# frameworks Two and Three should have the type forwarding from DocTest-typeForwards-Third-First to DocTest-typeForwards-third \
+	# in xml we should see FrameworkAlternate="Three;Two"
 	-rm -Rf Test/FrameworkTestData-fx-typeForwards
 	mkdir Test/FrameworkTestData-fx-typeForwards
 	mkdir Test/FrameworkTestData-fx-typeForwards/One
 	mkdir Test/FrameworkTestData-fx-typeForwards/Two
+	mkdir Test/FrameworkTestData-fx-typeForwards/Three
 	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies
+	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/One
 	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/Two
+	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/Three
 	cp Test/DocTest-typeForwards-First.dll Test/FrameworkTestData-fx-typeForwards/One
+	cp Test/DocTest-typeForwards-Second-First.dll Test/FrameworkTestData-fx-typeForwards/One
+	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/One
 	cp Test/DocTest-typeForwards-Second-First.dll Test/FrameworkTestData-fx-typeForwards/Two
+	cp Test/DocTest-typeForwards-Third-First.dll Test/FrameworkTestData-fx-typeForwards/Two
 	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Two
+	cp Test/DocTest-typeForwards-Third.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Two
+	cp Test/DocTest-typeForwards-Second-First.dll Test/FrameworkTestData-fx-typeForwards/Three
+	cp Test/DocTest-typeForwards-Third-First.dll Test/FrameworkTestData-fx-typeForwards/Three
+	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
+	cp Test/DocTest-typeForwards-Third.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-typeForwards
 
 	# now run mdoc update

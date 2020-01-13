@@ -1,4 +1,4 @@
-#if SECOND
+#if SECOND || THIRD
 using System.Runtime.CompilerServices;
 [assembly:TypeForwardedToAttribute(typeof(TheNamespace.TheClass))] 
 #endif
