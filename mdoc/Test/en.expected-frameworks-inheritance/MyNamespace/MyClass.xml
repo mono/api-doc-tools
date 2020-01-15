@@ -6,12 +6,16 @@
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
+    <AssemblyName>DocTest-framework-inheritance-three</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
     <AssemblyName>DocTest-framework-inheritance-two</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
     <BaseTypeName>MyNamespace.MyBaseClassOne</BaseTypeName>
-    <BaseTypeName FrameworkAlternate="Two">MyNamespace.MyBaseClassTwo</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="Three;Two">MyNamespace.MyBaseClassTwo</BaseTypeName>
   </Base>
   <Interfaces />
   <Docs>
@@ -25,6 +29,10 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest-framework-inheritance-one</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-framework-inheritance-three</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -43,6 +51,10 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest-framework-inheritance-one</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-framework-inheritance-three</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>

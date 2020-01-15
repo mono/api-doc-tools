@@ -2256,66 +2256,8 @@ namespace Mono.Documentation
                 ClearElement (root, "TypeParameters");
             }
 
-            if (type.BaseType != null)
-            {
-                XmlElement basenode = WriteElement (root, "Base");
-
-                string basetypename = GetDocTypeFullName (type.BaseType);
-                if (basetypename == "System.MulticastDelegate") basetypename = "System.Delegate";
-
-                if (string.IsNullOrWhiteSpace (FrameworksPath))
-                    WriteElementText (root, "Base/BaseTypeName", basetypename);
-                else
-                {
-                    // Check for the possibility of an alternate inheritance chain in different frameworks
-                    var typeElements = basenode.GetElementsByTagName ("BaseTypeName");
-
-                    if (typeElements.Count == 0) // no existing elements, just add
-                        WriteElementText (root, "Base/BaseTypeName", basetypename);
-                    else
-                    {
-                        // There's already a BaseTypeName, see if it matches
-                        if (typeElements[0].InnerText != basetypename)
-                        {
-                            // Add a framework alternate if one doesn't already exist
-                            var existing = typeElements.Cast<XmlNode> ().Where (n => n.InnerText == basetypename);
-                            if (!existing.Any ())
-                            {
-                                var newNode = WriteElementText (basenode, "BaseTypeName", basetypename, forceNewElement: true);
-                                WriteElementAttribute (basenode, newNode, Consts.FrameworkAlternate, typeEntry.Framework.Name);
-                            }
-                        }
-                    }
-                }
-
-                // Document how this type instantiates the generic parameters of its base type
-                TypeReference origBase = type.BaseType.GetElementType ();
-                if (origBase.IsGenericType ())
-                {
-                    ClearElement (basenode, "BaseTypeArguments");
-                    GenericInstanceType baseInst = type.BaseType as GenericInstanceType;
-                    IList<TypeReference> baseGenArgs = baseInst == null ? null : baseInst.GenericArguments;
-                    IList<GenericParameter> baseGenParams = origBase.GenericParameters;
-                    if (baseGenArgs.Count != baseGenParams.Count)
-                        throw new InvalidOperationException ("internal error: number of generic arguments doesn't match number of generic parameters.");
-                    for (int i = 0; baseGenArgs != null && i < baseGenArgs.Count; i++)
-                    {
-                        GenericParameter param = baseGenParams[i];
-                        TypeReference value = baseGenArgs[i];
-
-                        XmlElement bta = WriteElement (basenode, "BaseTypeArguments");
-                        XmlElement arg = bta.OwnerDocument.CreateElement ("BaseTypeArgument");
-                        bta.AppendChild (arg);
-                        arg.SetAttribute ("TypeParamName", param.Name);
-                        arg.InnerText = GetDocTypeFullName (value);
-                    }
-                }
-            }
-            else
-            {
-                ClearElement (root, "Base");
-            }
-
+            UpdateBaseType(root, type, typeEntry);
+            
             if (!DocUtils.IsDelegate (type) && !type.IsEnum)
             {
                 IEnumerable<TypeReference> userInterfaces = DocUtils.GetAllPublicInterfaces (type);
@@ -2360,6 +2302,77 @@ namespace Mono.Documentation
 
             OrderTypeNodes (root, root.ChildNodes);
             NormalizeWhitespace (root);
+        }
+
+        private void UpdateBaseType(XmlElement root, TypeDefinition type, FrameworkTypeEntry typeEntry)
+        {
+            if (typeEntry.TimesProcessed > 1)
+                return;
+
+            if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
+                ClearElement(root, "Base");
+
+            if (type.BaseType != null)
+            {
+                XmlElement basenode = WriteElement(root, "Base");
+
+                string basetypename = GetDocTypeFullName(type.BaseType);
+                if (basetypename == "System.MulticastDelegate") basetypename = "System.Delegate";
+
+                if (string.IsNullOrWhiteSpace(FrameworksPath))
+                    WriteElementText(root, "Base/BaseTypeName", basetypename);
+                else
+                {
+                    // Check for the possibility of an alternate inheritance chain in different frameworks
+                    var typeElements = basenode.GetElementsByTagName("BaseTypeName");
+
+                    if (typeElements.Count == 0) // no existing elements, just add
+                        WriteElementText(root, "Base/BaseTypeName", basetypename);
+                    else
+                    {
+                        // There's already a BaseTypeName, see if it matches
+                        if (typeElements[0].InnerText != basetypename)
+                        {
+                            // Add a framework alternate if one doesn't already exist
+                            var existing = typeElements.Cast<XmlNode>().Where(n => n.InnerText == basetypename);
+                            if (!existing.Any())
+                            {
+                                var newNode = WriteElementText(basenode, "BaseTypeName", basetypename, forceNewElement: true);
+                                WriteElementAttribute(basenode, newNode, Consts.FrameworkAlternate, typeEntry.Framework.Name);
+                            }
+                            else
+                            {
+                                // Append framework alternate if one already exist
+                                var existingNode = existing.Cast<XmlElement>().FirstOrDefault();
+                                WriteElementAttribute(basenode, existingNode, Consts.FrameworkAlternate, FXUtils.AddFXToList(existingNode.GetAttribute(Consts.FrameworkAlternate), typeEntry.Framework.Name));
+                            }
+                        }
+                    }
+                }
+
+                // Document how this type instantiates the generic parameters of its base type
+                TypeReference origBase = type.BaseType.GetElementType();
+                if (origBase.IsGenericType())
+                {
+                    ClearElement(basenode, "BaseTypeArguments");
+                    GenericInstanceType baseInst = type.BaseType as GenericInstanceType;
+                    IList<TypeReference> baseGenArgs = baseInst == null ? null : baseInst.GenericArguments;
+                    IList<GenericParameter> baseGenParams = origBase.GenericParameters;
+                    if (baseGenArgs.Count != baseGenParams.Count)
+                        throw new InvalidOperationException("internal error: number of generic arguments doesn't match number of generic parameters.");
+                    for (int i = 0; baseGenArgs != null && i < baseGenArgs.Count; i++)
+                    {
+                        GenericParameter param = baseGenParams[i];
+                        TypeReference value = baseGenArgs[i];
+
+                        XmlElement bta = WriteElement(basenode, "BaseTypeArguments");
+                        XmlElement arg = bta.OwnerDocument.CreateElement("BaseTypeArgument");
+                        bta.AppendChild(arg);
+                        arg.SetAttribute("TypeParamName", param.Name);
+                        arg.InnerText = GetDocTypeFullName(value);
+                    }
+                }
+            }
         }
 
         /// <summary>Adds an AssemblyInfo with AssemblyName node to an XmlElement.</summary>

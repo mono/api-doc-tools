@@ -6,6 +6,10 @@
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
+    <AssemblyName>DocTest-framework-inheritance-three</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
     <AssemblyName>DocTest-framework-inheritance-two</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -27,6 +31,10 @@
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
+        <AssemblyName>DocTest-framework-inheritance-three</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
         <AssemblyName>DocTest-framework-inheritance-two</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -42,6 +50,10 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest-framework-inheritance-one</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-framework-inheritance-three</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -63,6 +75,10 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest-framework-inheritance-one</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-framework-inheritance-three</AssemblyName>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
