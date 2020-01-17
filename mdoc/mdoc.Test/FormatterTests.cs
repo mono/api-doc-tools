@@ -248,6 +248,24 @@ namespace mdoc.Test
         }
 
         [Test]
+        public void CSharpTuple()
+        {
+            var member = GetMethod(typeof(NullablesAndTuples), m => m.Name == "TupleReturn");
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public (int,string) TupleReturn ();", sig);
+        }
+
+        [Test]
+        public void CSharpNullable()
+        {
+            var member = GetMethod(typeof(NullablesAndTuples), m => m.Name == "NullableInt");
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public int? NullableInt ();", sig);
+        }
+
+        [Test]
         public void PItest()
         {
             string sig = "";
