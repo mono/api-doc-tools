@@ -113,6 +113,36 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
+        protected override string GetTypeName(TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        {
+            GenericInstanceType genType = type as GenericInstanceType;
+            if (genType != null)
+            {
+                if (genType.Name.StartsWith("Nullable`") && genType.HasGenericArguments)
+                {
+
+                    var underlyingTypeName = base.GetTypeName(genType.GenericArguments.First(), context, appendGeneric, useTypeProjection);
+                    return underlyingTypeName + "?";
+                }
+
+                if (genType.Name.StartsWith("Tuple`") || genType.Name.StartsWith("ValueTuple`"))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("(");
+
+                    var genArgList = genType.GenericArguments.Select(genArg => base.GetTypeName(genArg, context, appendGeneric, useTypeProjection)).ToArray();
+
+                    sb.Append(string.Join(",", genArgList));
+
+                    sb.Append(")");
+
+                    return sb.ToString();
+                }
+            }
+
+            return base.GetTypeName(type, context, appendGeneric, useTypeProjection);
+        }
+
         protected override string GetTypeDeclaration (TypeDefinition type)
         {
             string visibility = GetTypeVisibility (type.Attributes);
