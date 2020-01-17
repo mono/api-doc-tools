@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Mono.Cecil;
 using Mono.Documentation.Framework;
+using Mono.Documentation.Updater;
 
 namespace mdoc.Test
 {
@@ -86,6 +87,11 @@ namespace mdoc.Test
         protected MethodDefinition GetMethod(Type type, string name)
         {
             return GetMethod(GetType(type), i => i.Name == name);
+        }
+
+        protected Dictionary<string, List<MemberReference>> GetClassInterface(TypeDefinition type)
+        {
+            return DocUtils.GetImplementedMembersFingerprintLookup(type);
         }
     }
 }
