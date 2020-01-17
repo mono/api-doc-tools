@@ -2210,7 +2210,7 @@ namespace Mono.Documentation
 
             foreach (MemberFormatter f in typeFormatters)
             {
-                UpdateSignature(f, type, root);
+                UpdateSignature(f, type, root, typeEntry);
             }
 
             AddAssemblyNameToNode (root, type);
@@ -2518,25 +2518,80 @@ namespace Mono.Documentation
             UpdateExtensionMethods (me, info);
         }
 
-        private static void UpdateSignature(MemberFormatter formatter, TypeDefinition type, XmlElement xmlElement)
+        private static void UpdateSignature(MemberFormatter formatter, TypeDefinition type, XmlElement xmlElement, FrameworkTypeEntry typeEntry)
         {
+            string elementName = "TypeSignature";
+            string elementXPath = $"{elementName}[@Language='" + formatter.Language + "']";
+            var existingElements = QueryXmlElementsByXpath(xmlElement, elementXPath).ToList();
+
+            if (typeEntry.TimesProcessed > 1 && existingElements.Any())
+                return;
+
+            // if first framework of type, clear signatures and generate from scratch
+            if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
+            {
+                existingElements.ForEach(e => e.ParentNode.RemoveChild(e));
+                existingElements = QueryXmlElementsByXpath(xmlElement, elementXPath).ToList();
+            }
+
+            // start to process 
             var usageSample = formatter.UsageFormatter?.GetDeclaration(type);
-            var valueToUse = formatter.GetDeclaration (type);
+            var valueToUse = formatter.GetDeclaration(type);
             if (valueToUse == null && usageSample == null)
                 return;
 
-            string elementXPath = "TypeSignature[@Language='" + formatter.Language + "']";
-            GetUpdateXmlMethods(formatter, xmlElement, elementXPath, valueToUse, usageSample,
-                out var valueMatches,
-                out var setValue,
-                out var makeNewNode);
+            bool elementFound = false;
 
-            AddXmlNode(
-                xmlElement.SelectNodes (elementXPath).Cast<XmlElement> ().ToArray (),
-                valueMatches,
-                setValue,
-                () => makeNewNode(true),
-                type);
+            // if there is already signature found under same formatter, update fxa
+            if (existingElements.Any())
+            {
+                foreach (var element in existingElements)
+                {
+                    var val = element.GetAttribute("Value");
+                    var usage = element.GetAttribute("Usage");
+                    if (val == (valueToUse ?? "") && usage == (usageSample ?? ""))
+                    {
+                        // add fxa
+                        string newfxa = FXUtils.AddFXToList(element.GetAttribute(Consts.FrameworkAlternate), typeEntry.Framework.Name);
+                        element.SetAttribute(Consts.FrameworkAlternate, newfxa);
+                        elementFound = true;
+                    }
+                }
+            }
+
+            if (!elementFound) //not exists, add signature with fxa
+            {
+                var newElement = xmlElement.OwnerDocument.CreateElement(elementName);
+                xmlElement.AppendChild(newElement);
+                newElement.SetAttribute("Language", formatter.Language);
+
+                if (!string.IsNullOrWhiteSpace(valueToUse))
+                    newElement.SetAttribute("Value", valueToUse);
+
+                if (!string.IsNullOrWhiteSpace(usageSample))
+                    newElement.SetAttribute("Usage", usageSample);
+
+                newElement.SetAttribute(Consts.FrameworkAlternate, typeEntry.Framework.Name);
+            }
+
+            // if last framework for type, check if need to purge FrameworkAlternate attribute
+            if (typeEntry.Framework.IsLastFrameworkForType(typeEntry))
+            {
+                foreach (var element in QueryXmlElementsByXpath(xmlElement, elementXPath))
+                {
+                    var fxa = element.GetAttribute(Consts.FrameworkAlternate);
+                    if (string.IsNullOrWhiteSpace(fxa))
+                    {
+                        element.ParentNode.RemoveChild(element);
+                    }
+
+                    var allFrameworks = typeEntry.Framework.AllFrameworksWithType(typeEntry);
+                    if (element.HasAttribute(Consts.FrameworkAlternate) && element.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
+                    {
+                        element.RemoveAttribute(Consts.FrameworkAlternate);
+                    }
+                }
+            }
         }
 
         public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers)
@@ -4499,6 +4554,11 @@ namespace Mono.Documentation
                 xpath.Append ("]/..");
             }
             return xpath.ToString ();
+        }
+
+        private static IEnumerable<XmlElement> QueryXmlElementsByXpath(XmlElement parentNode, string xPath)
+        {
+            return parentNode.SelectNodes(xPath).SafeCast<XmlElement>().ToArray();
         }
     }
 }
