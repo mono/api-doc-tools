@@ -2456,7 +2456,7 @@ namespace Mono.Documentation
             me.SetAttribute ("MemberName", memberName);
 
             WriteElementText (me, "MemberType", GetMemberType (mi));
-            AddImplementedMembers(mi, implementedMembers, me);
+            AddImplementedMembers(typeEntry, mi, implementedMembers, me);
 
             if (!no_assembly_versions)
             {
@@ -2693,16 +2693,18 @@ namespace Mono.Documentation
         }
 
 
-        private static void AddImplementedMembers(MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
+        private static void AddImplementedMembers(FrameworkTypeEntry typeEntry, MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
         {
             bool isExplicitlyImplemented = DocUtils.IsExplicitlyImplemented(mi);
 
             var fingerprint = DocUtils.GetFingerprint(mi);
-            if (!allImplementedMembers.ContainsKey(fingerprint))
+            if (typeEntry.IsMemberOnFirstFramework(mi))
             {
                 ClearElement(root, "Implements");
-                return;
             }
+
+            if (!allImplementedMembers.ContainsKey(fingerprint))
+                return;
 
             List<MemberReference> implementedMembers = allImplementedMembers[fingerprint];
             if (isExplicitlyImplemented)
@@ -2728,8 +2730,6 @@ namespace Mono.Documentation
             XmlElement e = (XmlElement)root.SelectSingleNode("Implements");
             if (e == null)
                 e = root.OwnerDocument.CreateElement("Implements");
-            else
-                e.RemoveAll();
 
             foreach (var implementedMember in implementedMembers)
             {
