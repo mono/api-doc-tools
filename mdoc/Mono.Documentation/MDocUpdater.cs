@@ -2734,7 +2734,7 @@ namespace Mono.Documentation
             foreach (var implementedMember in implementedMembers)
             {
                 var value = msxdocxSlashdocFormatter.GetDeclaration(implementedMember);
-                WriteElementText(e, "InterfaceMember", value, true);
+                WriteElementWithText(e, "InterfaceMember", value);
             }
 
             if (e.ParentNode == null)
@@ -3126,6 +3126,20 @@ namespace Mono.Documentation
             XmlElement node = WriteElement (parent, element, forceNewElement: forceNewElement);
             node.InnerText = value;
             return node;
+        }
+
+        internal static XmlElement WriteElementWithText(XmlNode parent, string elementName, string value)
+        {
+            XmlElement element = parent.ChildNodes.SafeCast<XmlElement>().FirstOrDefault(e => e.Name == elementName && e.InnerText == value);
+
+            // Create element if not exsits
+            if (element == null)
+            {
+                element = parent.OwnerDocument.CreateElement(elementName);
+                element.InnerText = value;
+                parent.AppendChild(element);
+            }
+            return element;
         }
 
         static XmlElement AppendElementText (XmlNode parent, string element, string value)
