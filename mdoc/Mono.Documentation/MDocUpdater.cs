@@ -1776,50 +1776,28 @@ namespace Mono.Documentation
             {
                 XmlNode members = WriteElement (basefile.DocumentElement, "Members");
                 var typemembers = type.GetMembers ()
-                        .Where (m =>
+                        .Where(m =>
                         {
                             if (m is TypeDefinition) return false;
-                            string cssig = memberFormatters[0].GetDeclaration (m);
+                            string cssig = memberFormatters[0].GetDeclaration(m);
                             if (cssig == null) return false;
-                           
-                            string sig = memberFormatters[1].GetDeclaration (m);
-                            if (sig==null || seenmembers.ContainsKey (sig)) return false;
+
+                            string sig = memberFormatters[1].GetDeclaration(m);
+                            if (sig == null || seenmembers.ContainsKey(sig)) return false;
 
                             var docidsig = docIdFormatter.GetDeclaration(m);
                             if (seenmembersdocid.ContainsKey(docidsig ?? "")) return false;
 
                             // Verify that the member isn't an explicitly implemented 
                             // member of an internal interface, in which case we shouldn't return true.
-                            MethodDefinition methdef = null;
-                            if (m is MethodDefinition)
-                                methdef = m as MethodDefinition;
-                            else if (m is PropertyDefinition)
-                            {
-                                var prop = m as PropertyDefinition;
-                                methdef = prop.GetMethod ?? prop.SetMethod;
-                            }
-                            else if (m is EventDefinition)
-                            {
-                                var ev = m as EventDefinition;
-                                methdef = ev.AddMethod ?? ev.RemoveMethod;
-                            }
+                            
 
-                            if (methdef != null)
-                            {
-                                TypeReference iface;
-                                MethodReference imethod;
-
-                                // private interface check only if the method isn't public and isn't protected virtual in a non-sealed class (because both are accessible to client code)
-                                if (methdef.Overrides.Count == 1 && !methdef.IsPublic && !(methdef.IsFamily && methdef.IsVirtual && !methdef.DeclaringType.IsSealed))
-                                {
-                                    DocUtils.GetInfoForExplicitlyImplementedMethod (methdef, out iface, out imethod);
-                                    if (!DocUtils.IsPublic (iface.Resolve ())) return false;
-                                }
-                            }
+                            if (!IsMemberPublicEII(m))
+                                return false;
 
                             return true;
                         })
-                        .ToArray ();
+                        .ToArray();
                 foreach (MemberReference m in typemembers)
                 {
                     XmlElement mm = MakeMember (basefile, new DocsNodeInfo (null, m), members, typeEntry, implementedMembers);
@@ -1936,6 +1914,37 @@ namespace Mono.Documentation
                 WriteFile (output, FileMode.Create,
                         writer => WriteXml (basefile.DocumentElement, writer));
             }
+        }
+
+        private static bool IsMemberPublicEII(MemberReference m)
+        {
+            MethodDefinition methdef = null;
+            if (m is MethodDefinition)
+                methdef = m as MethodDefinition;
+            else if (m is PropertyDefinition)
+            {
+                var prop = m as PropertyDefinition;
+                methdef = prop.GetMethod ?? prop.SetMethod;
+            }
+            else if (m is EventDefinition)
+            {
+                var ev = m as EventDefinition;
+                methdef = ev.AddMethod ?? ev.RemoveMethod;
+            }
+            if (methdef != null)
+            {
+                TypeReference iface;
+                MethodReference imethod;
+
+                // private interface check only if the method isn't public and isn't protected virtual in a non-sealed class (because both are accessible to client code)
+                if (methdef.Overrides.Count == 1 && !methdef.IsPublic && !(methdef.IsFamily && methdef.IsVirtual && !methdef.DeclaringType.IsSealed))
+                {
+                    DocUtils.GetInfoForExplicitlyImplementedMethod(methdef, out iface, out imethod);
+                    if (!DocUtils.IsPublic(iface.Resolve())) return false;
+                }
+            }
+
+            return true;
         }
 
         private bool NeedToSetMemberName(XmlAttribute memberAttribute, string memberName, DocsNodeInfo info)
@@ -2706,7 +2715,12 @@ namespace Mono.Documentation
             if (!allImplementedMembers.ContainsKey(fingerprint))
                 return;
 
-            List<MemberReference> implementedMembers = allImplementedMembers[fingerprint];
+            List<MemberReference> implementedMembers = allImplementedMembers[fingerprint]
+                 .Select(x => new { Ref=x, Resolved=x.Resolve(), DeclaringType=x.DeclaringType.Resolve() })
+                 .Where(x => x.DeclaringType.IsInterface && DocUtils.IsPublic(x.DeclaringType)  ) // Display only public interface members
+                 .Select(x => x.Ref)
+                 .ToList();
+
             if (isExplicitlyImplemented)
             {
                 // leave only one explicitly implemented member
