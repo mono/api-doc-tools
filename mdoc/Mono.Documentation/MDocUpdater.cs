@@ -2704,6 +2704,9 @@ namespace Mono.Documentation
 
         private static void AddImplementedMembers(FrameworkTypeEntry typeEntry, MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
         {
+            if (typeEntry.TimesProcessed > 1)
+                return;
+
             bool isExplicitlyImplemented = DocUtils.IsExplicitlyImplemented(mi);
 
             var fingerprint = DocUtils.GetFingerprint(mi);
