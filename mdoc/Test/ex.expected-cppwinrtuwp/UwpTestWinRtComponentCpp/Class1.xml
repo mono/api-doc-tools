@@ -53,9 +53,6 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class Windows.Foundation.Collections.IVector`1&lt;float64&gt; ComputeResult([in]float64 input) runtime managed" />
       <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::Collections::IVector&lt;double&gt; ComputeResult(double input);" />
       <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:UwpTestWinRtComponentCpp.__IClass1PublicNonVirtuals.ComputeResult(System.Double)</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>
@@ -77,9 +74,6 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class Windows.Foundation.IAsyncOperationWithProgress`2&lt;class Windows.Foundation.Collections.IVector`1&lt;int32&gt;, float64&gt; GetPrimesOrdered([in]int32 first, [in]int32 last) runtime managed" />
       <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IAsyncOperationWithProgress&lt;winrt::Windows::Foundation::Collections::IVector&lt;int&gt;, double&gt; GetPrimesOrdered(int first, int last);" />
       <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:UwpTestWinRtComponentCpp.__IClass1PublicNonVirtuals.GetPrimesOrdered(System.Int32,System.Int32)</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>
@@ -103,9 +97,6 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class Windows.Foundation.IAsyncActionWithProgress`1&lt;float64&gt; GetPrimesUnordered([in]int32 first, [in]int32 last) runtime managed" />
       <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IAsyncActionWithProgress&lt;double&gt; GetPrimesUnordered(int first, int last);" />
       <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:UwpTestWinRtComponentCpp.__IClass1PublicNonVirtuals.GetPrimesUnordered(System.Int32,System.Int32)</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>
@@ -129,9 +120,6 @@
       <MemberSignature Language="ILAsm" Value=".event class UwpTestWinRtComponentCpp.PrimeFoundHandler primeFoundEvent" />
       <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token primeFoundEvent(UwpTestWinRtComponentCpp::PrimeFoundHandler const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void primeFoundEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const&amp; handler) const;" />
       <MemberType>Event</MemberType>
-      <Implements>
-        <InterfaceMember>E:UwpTestWinRtComponentCpp.__IClass1PublicNonVirtuals.primeFoundEvent</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>
