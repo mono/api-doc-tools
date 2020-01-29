@@ -34,9 +34,6 @@
       <MemberSignature Language="ILAsm" Value=".property instance class System.Type[] ArrayOfTypeProperty" />
       <MemberSignature Language="C++ WINRT" Value="std::Array &lt;Type const &amp;&gt; ArrayOfTypeProperty();&#xA;&#xA;void ArrayOfTypeProperty(std::Array &lt;Type const &amp;&gt; __set_formal);" />
       <MemberType>Property</MemberType>
-      <Implements>
-        <InterfaceMember>P:Namespace2.__IClass3PublicNonVirtuals.ArrayOfTypeProperty</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>
@@ -54,9 +51,6 @@
       <MemberSignature Language="ILAsm" Value=".property instance int64 LongProperty" />
       <MemberSignature Language="C++ WINRT" Value="long LongProperty();&#xA;&#xA;void LongProperty(long __set_formal);" />
       <MemberType>Property</MemberType>
-      <Implements>
-        <InterfaceMember>P:Namespace2.__IClass3PublicNonVirtuals.LongProperty</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>
