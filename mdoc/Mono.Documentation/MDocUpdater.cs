@@ -4107,7 +4107,7 @@ namespace Mono.Documentation
                 if (parameters.Count > 0 && DocUtils.IsExtensionMethod (mb))
                 {
                     XmlElement p = (XmlElement)root.SelectSingleNode ("Parameters/Parameter[position()=1]");
-                    p.SetAttribute ("RefType", "this");
+                    p?.SetAttribute ("RefType", "this");
                 }
             }
             else if (mi is PropertyDefinition)
