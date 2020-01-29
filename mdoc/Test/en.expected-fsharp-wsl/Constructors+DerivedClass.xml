@@ -1,0 +1,85 @@
+<Type Name="Constructors+DerivedClass" FullName="Constructors+DerivedClass">
+  <TypeSignature Language="C#" Value="public class Constructors.DerivedClass : Constructors.BaseClass" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Constructors/DerivedClass extends uctors/BaseClass" />
+  <TypeSignature Language="F#" Value="type Constructors.DerivedClass = class&#xA;    inherit Constructors.BaseClass" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>Constructors+BaseClass</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public DerivedClass (string str2);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(string str2) cil managed" />
+      <MemberSignature Language="F#" Value="new Constructors.DerivedClass : string -&gt; Constructors.DerivedClass" Usage="new Constructors.DerivedClass str2" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="str2" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="str2">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public DerivedClass (string str1, string str2);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(string str1, string str2) cil managed" />
+      <MemberSignature Language="F#" Value="new Constructors.DerivedClass : string * string -&gt; Constructors.DerivedClass" Usage="new Constructors.DerivedClass (str1, str2)" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="str1" Type="System.String" />
+        <Parameter Name="str2" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="str1">To be added.</param>
+        <param name="str2">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="string2">
+      <MemberSignature Language="C#" Value="public string string2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string string2" />
+      <MemberSignature Language="F#" Value="val string2 : string" Usage="Constructors.DerivedClass.string2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

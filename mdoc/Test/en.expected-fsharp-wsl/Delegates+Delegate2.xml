@@ -1,0 +1,34 @@
+<Type Name="Delegates+Delegate2" FullName="Delegates+Delegate2">
+  <TypeSignature Language="C#" Value="public delegate int Delegates.Delegate2(int , int );" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable sealed Delegates/Delegate2 extends System.MulticastDelegate" />
+  <TypeSignature Language="F#" Value="type Delegates.Delegate2 = delegate of int * int -&gt; int" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Parameters>
+    <Parameter Name="" Type="System.Int32" />
+    <Parameter Name="" Type="System.Int32" />
+  </Parameters>
+  <ReturnValue>
+    <ReturnType>System.Int32</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <param name="">To be added.</param>
+    <param name="">To be added.</param>
+    <summary>To be added.</summary>
+    <returns>To be added.</returns>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

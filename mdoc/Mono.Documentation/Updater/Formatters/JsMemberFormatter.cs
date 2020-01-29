@@ -9,8 +9,13 @@ namespace mdoc.Mono.Documentation.Updater.Formatters
     {
         public override string Language => Consts.Javascript;
 
-        private readonly MemberFormatter usageFormatter = new JsUsageFormatter();
+        private readonly MemberFormatter usageFormatter;
         public override MemberFormatter UsageFormatter => usageFormatter;
+
+        public JsMemberFormatter() : this(null) {}
+        public JsMemberFormatter(TypeMap map) : base(map) {
+            usageFormatter = new JsUsageFormatter(map);
+        }
 
         protected override string GetMethodDeclaration(MethodDefinition method)
         {

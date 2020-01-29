@@ -1,0 +1,45 @@
+<Type Name="SomeModule+IVector" FullName="SomeNamespace.SomeModule+IVector">
+  <TypeSignature Language="C#" Value="public interface SomeModule.IVector" />
+  <TypeSignature Language="ILAsm" Value=".class nested public interface auto ansi abstract serializable SomeModule/IVector" />
+  <TypeSignature Language="F#" Value="type SomeModule.IVector = interface" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Scale">
+      <MemberSignature Language="C#" Value="public SomeNamespace.SomeModule.IVector Scale (double );" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class SomeNamespace.SomeModule/IVector Scale(float64 ) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Scale : double -&gt; SomeNamespace.SomeModule.IVector" Usage="iVector.Scale " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>SomeNamespace.SomeModule+IVector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,74 @@
+<Type Name="DiscriminatedUnions+ColorEnum" FullName="DiscriminatedUnions+ColorEnum">
+  <TypeSignature Language="C#" Value="public enum DiscriminatedUnions.ColorEnum" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable sealed DiscriminatedUnions/ColorEnum extends System.Enum" />
+  <TypeSignature Language="F#" Value="type DiscriminatedUnions.ColorEnum = " />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Enum</BaseTypeName>
+  </Base>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Blue">
+      <MemberSignature Language="C#" Value="Blue" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal DiscriminatedUnions/ColorEnum Blue = int32(9)" />
+      <MemberSignature Language="F#" Value="Blue = 9" Usage="DiscriminatedUnions.ColorEnum.Blue" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>DiscriminatedUnions+ColorEnum</ReturnType>
+      </ReturnValue>
+      <MemberValue>9</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Red">
+      <MemberSignature Language="C#" Value="Red" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal DiscriminatedUnions/ColorEnum Red = int32(5)" />
+      <MemberSignature Language="F#" Value="Red = 5" Usage="DiscriminatedUnions.ColorEnum.Red" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>DiscriminatedUnions+ColorEnum</ReturnType>
+      </ReturnValue>
+      <MemberValue>5</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+    <Member MemberName="Yellow">
+      <MemberSignature Language="C#" Value="Yellow" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal DiscriminatedUnions/ColorEnum Yellow = int32(7)" />
+      <MemberSignature Language="F#" Value="Yellow = 7" Usage="DiscriminatedUnions.ColorEnum.Yellow" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>DiscriminatedUnions+ColorEnum</ReturnType>
+      </ReturnValue>
+      <MemberValue>7</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

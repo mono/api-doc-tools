@@ -87,6 +87,9 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             "Windows.Foundation.Collections"
         };
 
+        public CppCxFullMemberFormatter() : this(null) {}
+        public CppCxFullMemberFormatter(TypeMap map) : base(map) { }
+
         protected override StringBuilder AppendNamespace(StringBuilder buf, TypeReference type)
         {
             string ns = DocUtils.GetNamespace(type, NestedTypeSeparator);
@@ -181,7 +184,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 AppendWebHostHiddenAttribute(buf, type);
             }
 
-            CppFullMemberFormatter full = new CppCxFullMemberFormatter();
+            CppFullMemberFormatter full = new CppCxFullMemberFormatter(this.TypeMap);
 
             if (DocUtils.IsDelegate(type))
             {

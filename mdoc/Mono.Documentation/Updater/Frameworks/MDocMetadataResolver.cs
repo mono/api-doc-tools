@@ -60,6 +60,7 @@ namespace Mono.Documentation.Updater.Frameworks
         static TypeDefinition GetType (ModuleDefinition module, TypeReference reference)
         {
             var type = GetTypeDefinition (module, reference);
+
             if (type != null)
                 return type;
 

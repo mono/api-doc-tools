@@ -72,7 +72,7 @@
       <MemberSignature Language="JavaScript" Value="function Widget(s)" Usage="var widget = new Widget(s);" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; Widget(System::String ^ s);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; Widget(Platform::String ^ s);" />
-      <MemberSignature Language="C++ WINRT" Value=" Widget(std::wstring const &amp; s);" />
+      <MemberSignature Language="C++ WINRT" Value=" Widget(winrt::hstring const &amp; s);" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -95,6 +95,7 @@
       <MemberSignature Language="JavaScript" Usage="function onAnEvent(eventArgs) { /* Your code */ }&#xA;widget.addEventListener(&quot;anevent&quot;, onAnEvent);&#xA;widget.removeEventListener(&quot;anevent&quot;, onAnEvent);&#xA;- or -&#xA;widget.onanevent = onAnEvent;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; event Mono::DocTest::Widget::Del ^ AnEvent;" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; event Mono::DocTest::Widget::Del ^ AnEvent;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnEvent_revoker AnEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -126,6 +127,7 @@
       <MemberSignature Language="F#" Value="member this.AnotherEvent : Mono.DocTest.Widget.Del " Usage="member this.AnotherEvent : Mono.DocTest.Widget.Del " />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; event Mono::DocTest::Widget::Del ^ AnotherEvent;" />
       <MemberSignature Language="C++ CX" Value="protected:&#xA; event Mono::DocTest::Widget::Del ^ AnotherEvent;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnotherEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnotherEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnotherEvent_revoker AnotherEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -185,7 +187,7 @@
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly classCtorError As String() " />
       <MemberSignature Language="F#" Value=" staticval mutable classCtorError : string[]" Usage="Mono.DocTest.Widget.classCtorError" />
       <MemberSignature Language="C++ CLI" Value="public: static initonly cli::array &lt;System::String ^&gt; ^ classCtorError;" />
-      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;std::wstring const &amp;&gt; classCtorError;" />
+      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const &amp;&gt; classCtorError;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -231,7 +233,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub Default (Optional a As String = &quot;a&quot;, Optional b As Char = '\0')" />
       <MemberSignature Language="F#" Value="member this.Default : string * char -&gt; unit" Usage="widget.Default (a, b)" />
       <MemberSignature Language="JavaScript" Value="function default(a, b)" Usage="widget.default(a, b)" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(std::wstring const &amp; a = &quot;a&quot;, char b = '\0');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const &amp; a = &quot;a&quot;, char b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -383,6 +385,7 @@
       <MemberSignature Language="F#" Value="member this.DynamicE1 : Func&lt;obj&gt; " Usage="member this.DynamicE1 : System.Func&lt;System.obj&gt; " />
       <MemberSignature Language="JavaScript" Usage="function onDynamicE1(eventArgs) { /* Your code */ }&#xA;widget.addEventListener(&quot;dynamice1&quot;, onDynamicE1);&#xA;widget.removeEventListener(&quot;dynamice1&quot;, onDynamicE1);&#xA;- or -&#xA;widget.ondynamice1 = onDynamicE1;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; event Func&lt;System::Object ^&gt; ^ DynamicE1;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE1(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE1(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE1_revoker DynamicE1(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -408,6 +411,7 @@
       <MemberSignature Language="F#" Value="member this.DynamicE2 : Func&lt;obj&gt; " Usage="member this.DynamicE2 : System.Func&lt;System.obj&gt; " />
       <MemberSignature Language="JavaScript" Usage="function onDynamicE2(eventArgs) { /* Your code */ }&#xA;widget.addEventListener(&quot;dynamice2&quot;, onDynamicE2);&#xA;widget.removeEventListener(&quot;dynamice2&quot;, onDynamicE2);&#xA;- or -&#xA;widget.ondynamice2 = onDynamicE2;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; event Func&lt;System::Object ^&gt; ^ DynamicE2;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE2(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE2(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE2_revoker DynamicE2(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -447,6 +451,7 @@
       <MemberSignature Language="F#" Value="member this.DynamicP : Func&lt;Func&lt;string, obj, string&gt;, Func&lt;obj, Func&lt;obj&gt;, string&gt;&gt;" Usage="Mono.DocTest.Widget.DynamicP" />
       <MemberSignature Language="JavaScript" Usage="var func = widget.dynamicP;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property Func&lt;Func&lt;System::String ^, System::Object ^, System::String ^&gt; ^, Func&lt;System::Object ^, Func&lt;System::Object ^&gt; ^, System::String ^&gt; ^&gt; ^ DynamicP { Func&lt;Func&lt;System::String ^, System::Object ^, System::String ^&gt; ^, Func&lt;System::Object ^, Func&lt;System::Object ^&gt; ^, System::String ^&gt; ^&gt; ^ get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="Func&lt;Func&lt;winrt::hstring, winrt::Windows::Foundation::IInspectable const &amp;, winrt::hstring const &amp;&gt;, Func&lt;winrt::Windows::Foundation::IInspectable, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const &amp;, winrt::hstring const &amp;&gt; const &amp;&gt; DynamicP();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -468,6 +473,7 @@
       <MemberSignature Language="F#" Value="member this.Height : int64" Usage="Mono.DocTest.Widget.Height" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; property long Height { long get(); };" />
       <MemberSignature Language="C++ CX" Value="protected:&#xA; property long long Height { long long get(); };" />
+      <MemberSignature Language="C++ WINRT" Value="long Height();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -493,6 +499,7 @@
       <MemberSignature Language="VB.NET" Value="Default Public Property Item(i As Integer) As Integer" />
       <MemberSignature Language="F#" Value="member this.Item(int) : int with get, set" Usage="Mono.DocTest.Widget.Item" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int default[int] { int get(int i); void set(int i, int value); };" />
+      <MemberSignature Language="C++ WINRT" Value="int Item();&#xA;&#xA;void Item(int i);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -525,6 +532,7 @@
       <MemberSignature Language="VB.NET" Value="Default Public Property Item(s As String, i As Integer) As Integer" />
       <MemberSignature Language="F#" Value="member this.Item(string * int) : int with get, set" Usage="Mono.DocTest.Widget.Item" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int default[System::String ^, int] { int get(System::String ^ s, int i); void set(System::String ^ s, int i, int value); };" />
+      <MemberSignature Language="C++ WINRT" Value="int Item();&#xA;&#xA;void Item(int s);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -795,7 +803,7 @@
       <MemberSignature Language="VB.NET" Value="Public message As String " />
       <MemberSignature Language="F#" Value="val mutable message : string" Usage="Mono.DocTest.Widget.message" />
       <MemberSignature Language="C++ CLI" Value="public: System::String ^ message;" />
-      <MemberSignature Language="C++ WINRT" Value="std::wstring message;" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::hstring message;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -1020,6 +1028,7 @@
       <MemberSignature Language="JavaScript" Usage="var int32 = widget.width;" />
       <MemberSignature Language="C++ CLI" Value="public:  property int Width {  public:&#xA;int get(); protected:&#xA; void set(int value); };" />
       <MemberSignature Language="C++ CX" Value="public:  property int Width {  public:&#xA;int get(); protected:&#xA; void set(int value); };" />
+      <MemberSignature Language="C++ WINRT" Value="int Width();&#xA;&#xA;void Width(int value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -1052,6 +1061,7 @@
       <MemberSignature Language="F#" Value="member this.X : int16" Usage="Mono.DocTest.Widget.X" />
       <MemberSignature Language="C++ CLI" Value="protected public:&#xA; property short X {  void set(short value); };" />
       <MemberSignature Language="C++ CX" Value="protected public:&#xA; property short X {  void set(short value); };" />
+      <MemberSignature Language="C++ WINRT" Value="void X(short value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -1073,6 +1083,7 @@
       <MemberSignature Language="F#" Value="member this.Y : double with get, set" Usage="Mono.DocTest.Widget.Y" />
       <MemberSignature Language="C++ CLI" Value="protected public:&#xA; property double Y { double get(); void set(double value); };" />
       <MemberSignature Language="C++ CX" Value="protected public:&#xA; property double Y { double get(); void set(double value); };" />
+      <MemberSignature Language="C++ WINRT" Value="double Y();&#xA;&#xA;void Y(double value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

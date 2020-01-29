@@ -1,0 +1,118 @@
+<Type Name="Generics" FullName="Generics">
+  <TypeSignature Language="C#" Value="public static class Generics" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed Generics extends System.Object" />
+  <TypeSignature Language="F#" Value="module Generics" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="function1&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static void function1&lt;a&gt; (a x, a y);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function1&lt;a&gt;(!!a x, !!a y) cil managed" />
+      <MemberSignature Language="F#" Value="Generics.function1 : 'a -&gt; 'a -&gt; unit" Usage="Generics.function1 x y" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x" Type="a" />
+        <Parameter Name="y" Type="a" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function2&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public static void function2&lt;T&gt; (object x, object y);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function2&lt;T&gt;(object x, object y) cil managed" />
+      <MemberSignature Language="F#" Value="Generics.function2 : obj -&gt; obj -&gt; unit" Usage="Generics.function2 x y" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="x" Type="System.Object" />
+        <Parameter Name="y" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">To be added.</typeparam>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="makeList&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Collections.FSharpList&lt;a&gt; makeList&lt;a&gt; (a a, a b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static class Microsoft.FSharp.Collections.FSharpList`1&lt;!!a&gt; makeList&lt;a&gt;(!!a a, !!a b) cil managed" />
+      <MemberSignature Language="F#" Value="Generics.makeList : 'a -&gt; 'a -&gt; List&lt;'a&gt;" Usage="Generics.makeList a b" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Collections.FSharpList&lt;a&gt;</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="a" Type="a" />
+        <Parameter Name="b" Type="a" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

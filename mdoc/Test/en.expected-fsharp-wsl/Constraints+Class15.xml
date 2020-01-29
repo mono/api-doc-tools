@@ -1,0 +1,96 @@
+<Type Name="Constraints+Class15" FullName="Constraints+Class15">
+  <TypeSignature Language="C#" Value="public class Constraints.Class15" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Constraints/Class15 extends System.Object" />
+  <TypeSignature Language="F#" Value="type Constraints.Class15 = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Class15 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="add&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public static T add&lt;T&gt; (T value1, T value2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static !!T add&lt;T&gt;(!!T value1, !!T value2) cil managed" />
+      <MemberSignature Language="F#" Value="static member add : 'T * 'T -&gt; 'T" Usage="Constraints.Class15.add (value1, value2)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="value1" Type="T" />
+        <Parameter Name="value2" Type="T" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">To be added.</typeparam>
+        <param name="value1">To be added.</param>
+        <param name="value2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="heterogenousAdd&lt;T,U&gt;">
+      <MemberSignature Language="C#" Value="public static T heterogenousAdd&lt;T,U&gt; (T value1, U value2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static !!T heterogenousAdd&lt;T, U&gt;(!!T value1, !!U value2) cil managed" />
+      <MemberSignature Language="F#" Value="static member heterogenousAdd : 'T * 'U -&gt; 'T" Usage="Constraints.Class15.heterogenousAdd (value1, value2)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T" />
+        <TypeParameter Name="U" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="value1" Type="T" />
+        <Parameter Name="value2" Type="U" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">To be added.</typeparam>
+        <typeparam name="U">To be added.</typeparam>
+        <param name="value1">To be added.</param>
+        <param name="value2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

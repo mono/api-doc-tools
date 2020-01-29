@@ -98,6 +98,7 @@
     <Member MemberName="Count">
       <MemberSignature Language="C#" Value="public int Count { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
+      <MemberSignature Language="C++ WINRT" Value="int Count();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.ICollection`1.Count</InterfaceMember>
@@ -117,6 +118,7 @@
     <Member MemberName="Current">
       <MemberSignature Language="C#" Value="public A Current { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance !A Current" />
+      <MemberSignature Language="C++ WINRT" Value="A Current();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.IEnumerator`1.Current</InterfaceMember>
@@ -328,6 +330,7 @@
     <Member MemberName="System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly">
       <MemberSignature Language="C#" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly" />
+      <MemberSignature Language="C++ WINRT" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.IsReadOnly();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.ICollection`1.IsReadOnly</InterfaceMember>
@@ -391,6 +394,7 @@
     <Member MemberName="System.Collections.Generic.IEnumerator&lt;A&gt;.Current">
       <MemberSignature Language="C#" Value="A System.Collections.Generic.IEnumerator&lt;A&gt;.Current { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance !A System.Collections.Generic.IEnumerator&lt;A&gt;.Current" />
+      <MemberSignature Language="C++ WINRT" Value="A System.Collections.Generic.IEnumerator&lt;A&gt;.Current();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.Generic.IEnumerator`1.Current</InterfaceMember>
@@ -430,6 +434,7 @@
     <Member MemberName="System.Collections.IEnumerator.Current">
       <MemberSignature Language="C#" Value="object System.Collections.IEnumerator.Current { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance object System.Collections.IEnumerator.Current" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IInspectable System.Collections.IEnumerator.Current();" />
       <MemberType>Property</MemberType>
       <Implements>
         <InterfaceMember>P:System.Collections.IEnumerator.Current</InterfaceMember>

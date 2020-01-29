@@ -52,7 +52,7 @@
     <Member MemberName=".ctor">
       <MemberSignature Language="C#" Value="public Widget (string s);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string s) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value=" Widget(std::wstring const &amp; s);" />
+      <MemberSignature Language="C++ WINRT" Value=" Widget(winrt::hstring const &amp; s);" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -69,6 +69,7 @@
     <Member MemberName="AnEvent">
       <MemberSignature Language="C#" Value="public event Mono.DocTest.Widget.Del AnEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class Mono.DocTest.Widget/Del AnEvent" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnEvent_revoker AnEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -95,6 +96,7 @@
     <Member MemberName="AnotherEvent">
       <MemberSignature Language="C#" Value="protected event Mono.DocTest.Widget.Del AnotherEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class Mono.DocTest.Widget/Del AnotherEvent" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnotherEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnotherEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnotherEvent_revoker AnotherEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -142,7 +144,7 @@
     <Member MemberName="classCtorError">
       <MemberSignature Language="C#" Value="public static readonly string[] classCtorError;" />
       <MemberSignature Language="ILAsm" Value=".field public static initonly string[] classCtorError" />
-      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;std::wstring const &amp;&gt; classCtorError;" />
+      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const &amp;&gt; classCtorError;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -180,7 +182,7 @@
     <Member MemberName="Default">
       <MemberSignature Language="C#" Value="public void Default (string a = &quot;a&quot;, char b = '\0');" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Default(string a, char b) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(std::wstring const &amp; a = &quot;a&quot;, char b = '\0');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const &amp; a = &quot;a&quot;, char b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -301,6 +303,7 @@
     <Member MemberName="DynamicE1">
       <MemberSignature Language="C#" Value="public event Func&lt;dynamic&gt; DynamicE1;" />
       <MemberSignature Language="ILAsm" Value=".event class System.Func`1&lt;object&gt; DynamicE1" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE1(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE1(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE1_revoker DynamicE1(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -321,6 +324,7 @@
     <Member MemberName="DynamicE2">
       <MemberSignature Language="C#" Value="public event Func&lt;dynamic&gt; DynamicE2;" />
       <MemberSignature Language="ILAsm" Value=".event class System.Func`1&lt;object&gt; DynamicE2" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE2(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE2(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE2_revoker DynamicE2(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -351,6 +355,7 @@
     <Member MemberName="DynamicP">
       <MemberSignature Language="C#" Value="public Func&lt;Func&lt;string,dynamic,string&gt;,Func&lt;dynamic,Func&lt;dynamic&gt;,string&gt;&gt; DynamicP { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance class System.Func`2&lt;class System.Func`3&lt;string, object, string&gt;, class System.Func`3&lt;object, class System.Func`1&lt;object&gt;, string&gt;&gt; DynamicP" />
+      <MemberSignature Language="C++ WINRT" Value="Func&lt;Func&lt;winrt::hstring, winrt::Windows::Foundation::IInspectable const &amp;, winrt::hstring const &amp;&gt;, Func&lt;winrt::Windows::Foundation::IInspectable, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const &amp;, winrt::hstring const &amp;&gt; const &amp;&gt; DynamicP();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -367,6 +372,7 @@
     <Member MemberName="Height">
       <MemberSignature Language="C#" Value="protected long Height { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int64 Height" />
+      <MemberSignature Language="C++ WINRT" Value="long Height();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -388,6 +394,7 @@
     <Member MemberName="Item">
       <MemberSignature Language="C#" Value="public int this[int i] { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 Item(int32)" />
+      <MemberSignature Language="C++ WINRT" Value="int Item();&#xA;&#xA;void Item(int i);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -416,6 +423,7 @@
     <Member MemberName="Item">
       <MemberSignature Language="C#" Value="public int this[string s, int i] { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 Item(string, int32)" />
+      <MemberSignature Language="C++ WINRT" Value="int Item();&#xA;&#xA;void Item(int s);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -644,7 +652,7 @@
     <Member MemberName="message">
       <MemberSignature Language="C#" Value="public string message;" />
       <MemberSignature Language="ILAsm" Value=".field public string message" />
-      <MemberSignature Language="C++ WINRT" Value="std::wstring message;" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::hstring message;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -827,6 +835,7 @@
     <Member MemberName="Width">
       <MemberSignature Language="C#" Value="public int Width { get; protected set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int32 Width" />
+      <MemberSignature Language="C++ WINRT" Value="int Width();&#xA;&#xA;void Width(int value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -854,6 +863,7 @@
     <Member MemberName="X">
       <MemberSignature Language="C#" Value="protected internal short X { set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance int16 X" />
+      <MemberSignature Language="C++ WINRT" Value="void X(short value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -870,6 +880,7 @@
     <Member MemberName="Y">
       <MemberSignature Language="C#" Value="protected internal double Y { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance float64 Y" />
+      <MemberSignature Language="C++ WINRT" Value="double Y();&#xA;&#xA;void Y(double value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

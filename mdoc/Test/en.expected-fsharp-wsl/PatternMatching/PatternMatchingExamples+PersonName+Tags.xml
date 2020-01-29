@@ -1,0 +1,69 @@
+<Type Name="PatternMatchingExamples+PersonName+Tags" FullName="PatternMatching.PatternMatchingExamples+PersonName+Tags">
+  <TypeSignature Language="C#" Value="public static class PatternMatchingExamples.PersonName.Tags" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi abstract sealed PatternMatchingExamples/PersonName/Tags extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="FirstLast">
+      <MemberSignature Language="C#" Value="public const int FirstLast = 2;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 FirstLast = (2)" />
+      <MemberSignature Language="F#" Value="val mutable FirstLast : int" Usage="PatternMatching.PatternMatchingExamples.PersonName.Tags.FirstLast" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>2</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FirstOnly">
+      <MemberSignature Language="C#" Value="public const int FirstOnly = 0;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 FirstOnly = (0)" />
+      <MemberSignature Language="F#" Value="val mutable FirstOnly : int" Usage="PatternMatching.PatternMatchingExamples.PersonName.Tags.FirstOnly" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>0</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LastOnly">
+      <MemberSignature Language="C#" Value="public const int LastOnly = 1;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 LastOnly = (1)" />
+      <MemberSignature Language="F#" Value="val mutable LastOnly : int" Usage="PatternMatching.PatternMatchingExamples.PersonName.Tags.LastOnly" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>1</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -11,8 +11,18 @@ namespace Mono.Documentation.Updater.Frameworks
         Dictionary<string, string> sigMap = new Dictionary<string, string> ();
         Dictionary<string, bool> sigDocMap = new Dictionary<string, bool>();
 
-		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
-        DocIdFormatter docidFormatter = new DocIdFormatter ();
+        ILFullMemberFormatter formatterField;
+        DocIdFormatter docidFormatterField;
+        ILFullMemberFormatter formatter
+        {
+            get
+            {
+                if (formatterField == null)
+                    formatterField = new ILFullMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return formatterField;
+            }
+        }
+        DocIdFormatter docidFormatter = new DocIdFormatter (MDocUpdater.Instance.TypeMap);
 
 		FrameworkEntry fx;
 
@@ -118,6 +128,15 @@ namespace Mono.Documentation.Updater.Frameworks
 
         }
 
+        public virtual void ProcessMember(string ifacedocid)
+        {
+            if (string.IsNullOrWhiteSpace(ifacedocid))
+                return;
+
+            sigMap[ifacedocid] = ifacedocid;
+            sigDocMap[ifacedocid] = true;
+        }
+
         public bool ContainsCSharpSig(string sig)
         {
             return sigMap.ContainsKey(sig);
@@ -154,6 +173,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		{
 			public EmptyTypeEntry (FrameworkEntry fx) : base (fx) { }
 			public override void ProcessMember (MemberReference member) { }
-		}
-	}
+            public override void ProcessMember(string ifacedocid) { }
+        }
+    }
 }

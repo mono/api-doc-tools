@@ -1,0 +1,47 @@
+<Type Name="Attributes+TypeWithFlagAttribute" FullName="Attributes+TypeWithFlagAttribute">
+  <TypeSignature Language="C#" Value="public class Attributes.TypeWithFlagAttribute" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Attributes/TypeWithFlagAttribute extends System.Object" />
+  <TypeSignature Language="F#" Value="type Attributes.TypeWithFlagAttribute = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.AttributeUsage(System.AttributeTargets.Delegate | System.AttributeTargets.Event | System.AttributeTargets.Module, AllowMultiple=false)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="X">
+      <MemberSignature Language="C#" Value="public string X { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string X" />
+      <MemberSignature Language="F#" Value="member this.X : string" Usage="Attributes.TypeWithFlagAttribute.X" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

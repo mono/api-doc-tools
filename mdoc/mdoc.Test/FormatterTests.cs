@@ -214,6 +214,13 @@ namespace mdoc.Test
             TestMethodSignature(typeof(SomeGenericClass<>),
                 "~SomeGenericClass ();",
                 "Finalize");
+        [Test]
+        public void FuncParams()
+        {
+            var member = GetMethod(typeof(SomeGenericClass<>), m => m.Name == "SomeMethod4");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public void SomeMethod4 (out string a, T t, object b = default);", sig);
+        }
 
         [Test]
         public void CSharpReadonlyRefReturn()

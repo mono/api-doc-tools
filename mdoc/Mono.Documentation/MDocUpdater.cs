@@ -23,6 +23,9 @@ using MyXmlNodeList = System.Collections.Generic.List<System.Xml.XmlNode>;
 using StringList = System.Collections.Generic.List<string>;
 using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.Xml.XmlNode>;
 using System.Web.UI.WebControls;
+using mdoc.Mono.Documentation.Updater;
+using Lucene.Net.Documents;
+using System.Runtime.Serialization;
 
 namespace Mono.Documentation
 {
@@ -48,21 +51,68 @@ namespace Mono.Documentation
 
         string since;
 
-        static readonly DocIdFormatter docIdFormatter = new DocIdFormatter();
-        static readonly MemberFormatter docTypeFormatter = new DocTypeMemberFormatter ();
-        static readonly MemberFormatter filenameFormatter = new FileNameMemberFormatter ();
+        static DocIdFormatter docIdFormatterField;
+        static MemberFormatter docTypeFormatterField;
+        static MemberFormatter filenameFormatterField;
 
-        static MemberFormatter[] typeFormatters = new MemberFormatter[]{
-        new CSharpMemberFormatter (),
-        new ILMemberFormatter (),
+        static DocIdFormatter docIdFormatter
+        {
+            get
+            {
+                if (docIdFormatterField == null)
+                    docIdFormatterField = new DocIdFormatter(MDocUpdater.Instance.TypeMap);
+                return docIdFormatterField;
+            }
+        }
+        static MemberFormatter docTypeFormatter
+        {
+            get
+            {
+                if (docTypeFormatterField == null)
+                    docTypeFormatterField = new DocTypeMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return docTypeFormatterField;
+            }
+        }
+        static MemberFormatter filenameFormatter
+        {
+            get
+            {
+                if (filenameFormatterField == null)
+                    filenameFormatterField = new FileNameMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return filenameFormatterField;
+            }
+        }
 
-    };
+        static MemberFormatter[] typeFormattersField;
+        static MemberFormatter[] typeFormatters
+        {
+            get
+            {
+                if (typeFormattersField == null)
+                    typeFormattersField = new MemberFormatter[]{
+                        new CSharpMemberFormatter (MDocUpdater.Instance.TypeMap),
+                        new ILMemberFormatter (MDocUpdater.Instance.TypeMap),
 
-        static MemberFormatter[] memberFormatters = new MemberFormatter[]{
-        new CSharpFullMemberFormatter (),
-        new ILFullMemberFormatter (),
+                    };
 
-    };
+                return typeFormattersField;
+            }
+        }
+
+        static MemberFormatter[] memberFormattersField;
+        static MemberFormatter[] memberFormatters
+        {
+            get
+            {
+                if (memberFormattersField == null)
+                    memberFormattersField = new MemberFormatter[]{
+                        new CSharpFullMemberFormatter (MDocUpdater.Instance.TypeMap),
+                        new ILFullMemberFormatter (MDocUpdater.Instance.TypeMap),
+
+                    };
+                return memberFormattersField;
+            }
+        }
 
         private readonly List<string> CustomAttributeNamesToSkip = new List<string>()
         {
@@ -70,11 +120,39 @@ namespace Mono.Documentation
             "System.Runtime.InteropServices.TypeIdentifierAttribute"
         };
 
-        internal static readonly MemberFormatter slashdocFormatter = new SlashDocMemberFormatter ();
+        internal static MemberFormatter slashdocFormatterField;
+        internal static MemberFormatter slashdocFormatter
+        {
+            get
+            {
+                if (slashdocFormatterField == null)
+                    slashdocFormatterField = new SlashDocMemberFormatter(MDocUpdater.Instance.TypeMap);
 
-        internal static readonly MemberFormatter csharpSlashdocFormatter = new SlashDocCSharpMemberFormatter();
+                return slashdocFormatterField;
+            }
+        }
 
-        internal static readonly MemberFormatter msxdocxSlashdocFormatter = new MsxdocSlashDocMemberFormatter();
+        internal static MemberFormatter csharpSlashdocFormatterField;
+        internal static MemberFormatter csharpSlashdocFormatter
+        {
+            get
+            {
+                if (csharpSlashdocFormatterField == null)
+                    csharpSlashdocFormatterField = new SlashDocCSharpMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return csharpSlashdocFormatterField;
+            }
+        }
+
+        internal static MemberFormatter msxdocxSlashdocFormatterField;
+        internal static MemberFormatter msxdocxSlashdocFormatter
+        {
+            get
+            {
+                if (msxdocxSlashdocFormatterField == null)
+                    msxdocxSlashdocFormatterField = new MsxdocSlashDocMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return msxdocxSlashdocFormatterField;
+            }
+        }
 
         MyXmlNodeList extensionMethods = new MyXmlNodeList ();
 
@@ -141,8 +219,21 @@ namespace Mono.Documentation
         public bool DisableSearchDirectoryRecurse = false;
         private bool statisticsEnabled = false;
         private string statisticsFilePath;
-        public static MDocUpdater Instance { get; private set; }
+
+        private static MDocUpdater instanceField;
+        public static MDocUpdater Instance
+        {
+            get
+            {
+                if (instanceField == null)
+                    instanceField = new MDocUpdater();
+
+                return instanceField;
+            }
+            private set => instanceField = value;
+        }
         public static bool SwitchingToMagicTypes { get; private set; }
+        public TypeMap TypeMap { get; private set; }
 
         public override void Run (IEnumerable<string> args)
         {
@@ -264,6 +355,9 @@ namespace Mono.Documentation
             { "index=",
                 "Lets you choose to disable index.xml (true by default)",
                 v => bool.TryParse(v, out writeIndex) },
+            { "nocollapseinterfaces",
+                "All interfaces listed in type signatures",
+                v => Consts.CollapseInheritedInterfaces = false },
         };
             var assemblyPaths = Parse (p, args, "update",
                     "[OPTIONS]+ ASSEMBLIES",
@@ -279,6 +373,20 @@ namespace Mono.Documentation
                     configPath = Path.Combine (configPath, "frameworks.xml");
                 else
                     frameworksDir = Path.GetDirectoryName (configPath);
+
+                // check for typemap file
+                string typeMapPath = Path.Combine(frameworksDir, "TypeMap.xml");
+                if (File.Exists(typeMapPath))
+                {
+                    Console.WriteLine($"Loading typemap file at {typeMapPath}");
+                    TypeMap map = TypeMap.FromXml(typeMapPath);
+                    this.TypeMap = map;
+
+                    foreach (var f in typeFormatters.Union(memberFormatters))
+                        f.TypeMap = map;
+
+                }
+
                 Console.WriteLine($"Opening frameworks file '{configPath}'");
                 var fxconfig = XDocument.Load (configPath);
                 var fxd = fxconfig.Root
@@ -434,42 +542,43 @@ namespace Mono.Documentation
             MemberFormatter memberFormatter;
             MemberFormatter typeFormatter;
             langId = langId.ToLower();
+            var map = MDocUpdater.Instance.TypeMap;
             switch (langId)
             {
                 case Consts.DocIdLowCase:
-                    typeFormatter = new DocIdFormatter();
-                    memberFormatter = new DocIdFormatter();
+                    typeFormatter = new DocIdFormatter(map);
+                    memberFormatter = new DocIdFormatter(map);
                     break;
                 case Consts.VbNetLowCase:
-                    typeFormatter = new VBMemberFormatter();
-                    memberFormatter = new VBMemberFormatter();
+                    typeFormatter = new VBMemberFormatter(map);
+                    memberFormatter = new VBMemberFormatter(map);
                     break;
                 case Consts.CppCliLowCase:
-                    typeFormatter = new CppMemberFormatter();
-                    memberFormatter = new CppFullMemberFormatter();
+                    typeFormatter = new CppMemberFormatter(map);
+                    memberFormatter = new CppFullMemberFormatter(map);
                     break;
                 case Consts.CppCxLowCase:
-                    typeFormatter = new CppCxMemberFormatter();
-                    memberFormatter = new CppCxFullMemberFormatter();
+                    typeFormatter = new CppCxMemberFormatter(map);
+                    memberFormatter = new CppCxFullMemberFormatter(map);
                     break;
                 case Consts.CppWinRtLowCase:
-                    typeFormatter = new CppWinRtMemberFormatter();
-                    memberFormatter = new CppWinRtFullMemberFormatter();
+                    typeFormatter = new CppWinRtMemberFormatter(map);
+                    memberFormatter = new CppWinRtFullMemberFormatter(map);
                     break;
                 case Consts.FSharpLowCase:
                 case "fsharp":
-                    typeFormatter = new FSharpMemberFormatter();
-                    memberFormatter = new FSharpFullMemberFormatter();
+                    typeFormatter = new FSharpMemberFormatter(map);
+                    memberFormatter = new FSharpFullMemberFormatter(map);
                     break;
                 case Consts.JavascriptLowCase:
-                    typeFormatter = new JsMemberFormatter();
-                    memberFormatter = new JsMemberFormatter();
+                    typeFormatter = new JsMemberFormatter(map);
+                    memberFormatter = new JsMemberFormatter(map);
                     break;
                 default:
                     throw new ArgumentException("Unsupported formatter id '" + langId + "'.");
             }
-            typeFormatters = typeFormatters.Union(new[] { typeFormatter }).ToArray();
-            memberFormatters = memberFormatters.Union(new[] { memberFormatter }).ToArray();
+            typeFormattersField = typeFormatters.Union(new[] { typeFormatter }).ToArray();
+            memberFormattersField = memberFormatters.Union(new[] { memberFormatter }).ToArray();
         }
 
         public static bool IsInAssemblies (string name)
@@ -1667,49 +1776,28 @@ namespace Mono.Documentation
             {
                 XmlNode members = WriteElement (basefile.DocumentElement, "Members");
                 var typemembers = type.GetMembers ()
-                        .Where (m =>
+                        .Where(m =>
                         {
                             if (m is TypeDefinition) return false;
-                            string cssig = memberFormatters[0].GetDeclaration (m);
+                            string cssig = memberFormatters[0].GetDeclaration(m);
                             if (cssig == null) return false;
-                           
-                            string sig = memberFormatters[1].GetDeclaration (m);
-                            if (sig==null || seenmembers.ContainsKey (sig)) return false;
+
+                            string sig = memberFormatters[1].GetDeclaration(m);
+                            if (sig == null || seenmembers.ContainsKey(sig)) return false;
 
                             var docidsig = docIdFormatter.GetDeclaration(m);
                             if (seenmembersdocid.ContainsKey(docidsig ?? "")) return false;
 
                             // Verify that the member isn't an explicitly implemented 
                             // member of an internal interface, in which case we shouldn't return true.
-                            MethodDefinition methdef = null;
-                            if (m is MethodDefinition)
-                                methdef = m as MethodDefinition;
-                            else if (m is PropertyDefinition)
-                            {
-                                var prop = m as PropertyDefinition;
-                                methdef = prop.GetMethod ?? prop.SetMethod;
-                            }
-                            else if (m is EventDefinition)
-                            {
-                                var ev = m as EventDefinition;
-                                methdef = ev.AddMethod ?? ev.RemoveMethod;
-                            }
+                            
 
-                            if (methdef != null)
-                            {
-                                TypeReference iface;
-                                MethodReference imethod;
-
-                                if (methdef.Overrides.Count == 1 && !methdef.IsPublic)
-                                {
-                                    DocUtils.GetInfoForExplicitlyImplementedMethod (methdef, out iface, out imethod);
-                                    if (!DocUtils.IsPublic (iface.Resolve ())) return false;
-                                }
-                            }
+                            if (!IsMemberPublicEII(m))
+                                return false;
 
                             return true;
                         })
-                        .ToArray ();
+                        .ToArray();
                 foreach (MemberReference m in typemembers)
                 {
                     XmlElement mm = MakeMember (basefile, new DocsNodeInfo (null, m), members, typeEntry, implementedMembers);
@@ -1728,6 +1816,58 @@ namespace Mono.Documentation
                                mm.SelectSingleNode("MemberSignature/@Usage");
                     Console.WriteLine ("Member Added: " + (node?.InnerText ?? m.FullName));
                     additions++;
+                }
+
+                if (this.TypeMap != null)
+                {
+                    foreach (var iface in type.Interfaces)
+                    {
+                        // check typemap to see if there's an ifacereplace for this
+                        var facename = iface.InterfaceType.FullName;
+                        TypeMapInterfaceItem ifaceItem = this.TypeMap.HasInterfaceReplace("C#", facename);
+
+                        if (ifaceItem == null || ifaceItem?.Members == null)
+                            continue;
+
+                        // if so, foreach Member in ifacereplace
+                        foreach (var ifaceMember in ifaceItem.Members.Elements())
+                        {
+                            // check member/seenmember
+
+                            string ifacedocid = null;
+
+                            var sigs = ifaceMember.Elements("MemberSignature").Where(s => s.Attribute("Language")?.Value == "ILAsm" && !seenmembers.ContainsKey(s.Attribute("Language")?.Value));
+
+                            if (sigs.Any())
+                            {
+
+                                // insert entry into `members`
+                                var xElement = ifaceItem.ToXmlElement(ifaceMember);
+                                var imported = members.OwnerDocument.ImportNode(xElement, true);
+
+                                // replace the docid type
+                                var docIdelement = imported.SelectSingleNode("MemberSignature[@Language='DocId']");
+                                if (docIdelement != null)
+                                {
+                                    var valueAttribute = docIdelement.Attributes["Value"];
+                                    var docidvalue = valueAttribute?.Value;
+                                    if (valueAttribute != null && docidvalue != null)
+                                    {
+                                        ifacedocid = docidvalue.Replace(ifaceItem.To, type.FullName);
+                                        valueAttribute.Value = ifacedocid;
+                                    }
+                                }
+
+
+                                members.AppendChild(imported);
+
+                                // add to statisticscollector
+                                typeEntry.ProcessMember(ifacedocid);
+                                statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Added);
+                                additions++;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -1774,6 +1914,37 @@ namespace Mono.Documentation
                 WriteFile (output, FileMode.Create,
                         writer => WriteXml (basefile.DocumentElement, writer));
             }
+        }
+
+        private static bool IsMemberPublicEII(MemberReference m)
+        {
+            MethodDefinition methdef = null;
+            if (m is MethodDefinition)
+                methdef = m as MethodDefinition;
+            else if (m is PropertyDefinition)
+            {
+                var prop = m as PropertyDefinition;
+                methdef = prop.GetMethod ?? prop.SetMethod;
+            }
+            else if (m is EventDefinition)
+            {
+                var ev = m as EventDefinition;
+                methdef = ev.AddMethod ?? ev.RemoveMethod;
+            }
+            if (methdef != null)
+            {
+                TypeReference iface;
+                MethodReference imethod;
+
+                // private interface check only if the method isn't public and isn't protected virtual in a non-sealed class (because both are accessible to client code)
+                if (methdef.Overrides.Count == 1 && !methdef.IsPublic && !(methdef.IsFamily && methdef.IsVirtual && !methdef.DeclaringType.IsSealed))
+                {
+                    DocUtils.GetInfoForExplicitlyImplementedMethod(methdef, out iface, out imethod);
+                    if (!DocUtils.IsPublic(iface.Resolve())) return false;
+                }
+            }
+
+            return true;
         }
 
         private bool NeedToSetMemberName(XmlAttribute memberAttribute, string memberName, DocsNodeInfo info)
@@ -2043,8 +2214,8 @@ namespace Mono.Documentation
 
         public void UpdateType (XmlElement root, TypeDefinition type, FrameworkTypeEntry typeEntry)
         {
-            root.SetAttribute ("Name", GetDocTypeName (type));
-            root.SetAttribute ("FullName", GetDocTypeFullName (type));
+            root.SetAttribute ("Name", GetDocTypeName (type, useTypeProjection: false));
+            root.SetAttribute ("FullName", GetDocTypeFullName (type, useTypeProjection: false));
 
             foreach (MemberFormatter f in typeFormatters)
             {
@@ -2158,7 +2329,8 @@ namespace Mono.Documentation
             {
                 IEnumerable<TypeReference> userInterfaces = DocUtils.GetAllPublicInterfaces (type);
                 List<string> interface_names = userInterfaces
-                        .Select (iface => GetDocTypeFullName (iface))
+                        .Select (iface => 
+                            GetDocTypeFullName (iface))
                         .OrderBy (s => s)
                         .Distinct()
                         .ToList ();
@@ -2253,6 +2425,7 @@ namespace Mono.Documentation
         }
 
         static readonly string[] TypeNodeOrder = {
+        "Metadata",
         "TypeSignature",
         "MemberOfLibrary",
         "AssemblyInfo",
@@ -2292,7 +2465,7 @@ namespace Mono.Documentation
             me.SetAttribute ("MemberName", memberName);
 
             WriteElementText (me, "MemberType", GetMemberType (mi));
-            AddImplementedMembers(mi, implementedMembers, me);
+            AddImplementedMembers(typeEntry, mi, implementedMembers, me);
 
             if (!no_assembly_versions)
             {
@@ -2332,7 +2505,7 @@ namespace Mono.Documentation
             
             foreach (MemberFormatter f in memberFormatters)
             {
-                UpdateSignature (f, mi, me, typeEntry);
+                UpdateSignature (f, mi, me, typeEntry, implementedMembers);
             }
 
             OrderMemberNodes (me, me.ChildNodes);
@@ -2360,10 +2533,31 @@ namespace Mono.Documentation
                 type);
         }
 
-        public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry)
+        public static void UpdateSignature(MemberFormatter formatter, MemberReference member, XmlElement xmlElement, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers)
         {
             var valueToUse = formatter.GetDeclaration(member);
             var usageSample = formatter.UsageFormatter?.GetDeclaration(member);
+
+            List<MemberReference> implementedRefs;
+            if (formatter.TypeMap != null && valueToUse != null && implementedMembers.TryGetValue(DocUtils.GetFingerprint(member), out implementedRefs))
+            {
+                foreach(var iref in implementedRefs)
+                {
+                    var nsformatter = formatter as IFormatterNamespaceControl;
+                    if (nsformatter != null) nsformatter.ShouldAppendNamespace = true;
+
+                    var irefsig = formatter.GetName(iref.DeclaringType, useTypeProjection: false);
+
+                    if (nsformatter != null) nsformatter.ShouldAppendNamespace = false;
+
+                    var typeReplaceItem = formatter?.TypeMap?.HasInterfaceReplace(formatter.Language, irefsig);
+                    if (typeReplaceItem != null)
+                    {
+                        valueToUse = $"{formatter.SingleLineComment} This member is not implemented in {formatter.Language}";
+                        usageSample = null;
+                    }
+                }
+            }
 
             string elementName = "MemberSignature";
             string elementXPath = $"{elementName}[@Language='" + formatter.Language + "']";
@@ -2508,18 +2702,28 @@ namespace Mono.Documentation
         }
 
 
-        private static void AddImplementedMembers(MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
+        private static void AddImplementedMembers(FrameworkTypeEntry typeEntry, MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
         {
+            if (typeEntry.TimesProcessed > 1)
+                return;
+
             bool isExplicitlyImplemented = DocUtils.IsExplicitlyImplemented(mi);
 
             var fingerprint = DocUtils.GetFingerprint(mi);
-            if (!allImplementedMembers.ContainsKey(fingerprint))
+            if (typeEntry.IsMemberOnFirstFramework(mi))
             {
                 ClearElement(root, "Implements");
-                return;
             }
 
-            List<MemberReference> implementedMembers = allImplementedMembers[fingerprint];
+            if (!allImplementedMembers.ContainsKey(fingerprint))
+                return;
+
+            List<MemberReference> implementedMembers = allImplementedMembers[fingerprint]
+                 .Select(x => new { Ref=x, Resolved=x.Resolve(), DeclaringType=x.DeclaringType.Resolve() })
+                 .Where(x => x.DeclaringType.IsInterface && DocUtils.IsPublic(x.DeclaringType)  ) // Display only public interface members
+                 .Select(x => x.Ref)
+                 .ToList();
+
             if (isExplicitlyImplemented)
             {
                 // leave only one explicitly implemented member
@@ -2543,13 +2747,11 @@ namespace Mono.Documentation
             XmlElement e = (XmlElement)root.SelectSingleNode("Implements");
             if (e == null)
                 e = root.OwnerDocument.CreateElement("Implements");
-            else
-                e.RemoveAll();
 
             foreach (var implementedMember in implementedMembers)
             {
                 var value = msxdocxSlashdocFormatter.GetDeclaration(implementedMember);
-                WriteElementText(e, "InterfaceMember", value, true);
+                WriteElementWithText(e, "InterfaceMember", value);
             }
 
             if (e.ParentNode == null)
@@ -2646,6 +2848,7 @@ namespace Mono.Documentation
         }
 
         static readonly string[] MemberNodeOrder = {
+        "Metadata",
         "MemberSignature",
         "MemberType",
         "Implements",
@@ -2888,7 +3091,6 @@ namespace Mono.Documentation
             value = null;
             TypeDefinition type = field.DeclaringType.Resolve ();
 
-            if (type != null && type.IsGenericType ()) return false;
             if (!field.HasConstant)
                 return false;
             if (field.IsLiteral)
@@ -2941,6 +3143,20 @@ namespace Mono.Documentation
             XmlElement node = WriteElement (parent, element, forceNewElement: forceNewElement);
             node.InnerText = value;
             return node;
+        }
+
+        internal static XmlElement WriteElementWithText(XmlNode parent, string elementName, string value)
+        {
+            XmlElement element = parent.ChildNodes.SafeCast<XmlElement>().FirstOrDefault(e => e.Name == elementName && e.InnerText == value);
+
+            // Create element if not exsits
+            if (element == null)
+            {
+                element = parent.OwnerDocument.CreateElement(elementName);
+                element.InnerText = value;
+                parent.AppendChild(element);
+            }
+            return element;
         }
 
         static XmlElement AppendElementText (XmlNode parent, string element, string value)
@@ -3582,6 +3798,9 @@ namespace Mono.Documentation
 
         public void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
         {
+            if (typeEntry.TimesProcessed > 1)
+                return;
+
             XmlElement e = WriteElement (root, "Parameters");
 
             if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
@@ -3888,7 +4107,7 @@ namespace Mono.Documentation
                 if (parameters.Count > 0 && DocUtils.IsExtensionMethod (mb))
                 {
                     XmlElement p = (XmlElement)root.SelectSingleNode ("Parameters/Parameter[position()=1]");
-                    p.SetAttribute ("RefType", "this");
+                    p?.SetAttribute ("RefType", "this");
                 }
             }
             else if (mi is PropertyDefinition)
@@ -3908,7 +4127,11 @@ namespace Mono.Documentation
 
         public static string GetDocParameterType (TypeReference type)
         {
-            return GetDocTypeFullName (type).Replace ("@", "&");
+            var typename = GetDocTypeFullName (type).Replace ("@", "&");
+
+            typename = MDocUpdater.Instance.TypeMap?.GetTypeName("C#", typename) ?? typename;
+
+            return typename;
         }
 
         private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, TypeReference type, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)
@@ -4100,14 +4323,14 @@ namespace Mono.Documentation
             throw new ArgumentException ();
         }
 
-        private static string GetDocTypeName (TypeReference type)
+        private static string GetDocTypeName (TypeReference type, bool useTypeProjection = true)
         {
-            return docTypeFormatter.GetName (type);
+            return docTypeFormatter.GetName (type, useTypeProjection: useTypeProjection);
         }
 
-        internal static string GetDocTypeFullName (TypeReference type)
+        internal static string GetDocTypeFullName (TypeReference type, bool useTypeProjection = true)
         {
-            return DocTypeFullMemberFormatter.Default.GetName (type);
+            return DocTypeFullMemberFormatter.Default.GetName (type, useTypeProjection: useTypeProjection);
         }
 
         internal static string GetXPathForMember (DocumentationMember member)

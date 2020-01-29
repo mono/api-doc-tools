@@ -1,0 +1,666 @@
+<Type Name="PatternMatchingExamples" FullName="PatternMatching.PatternMatchingExamples">
+  <TypeSignature Language="C#" Value="public static class PatternMatchingExamples" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed PatternMatchingExamples extends System.Object" />
+  <TypeSignature Language="F#" Value="module PatternMatchingExamples" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="constructQuery">
+      <MemberSignature Language="C#" Value="public static void constructQuery (PatternMatching.PatternMatchingExamples.PersonName personName);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void constructQuery(class PatternMatching.PatternMatchingExamples/PersonName personName) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.constructQuery : PatternMatching.PatternMatchingExamples.PersonName -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.constructQuery personName" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="personName" Type="PatternMatching.PatternMatchingExamples+PersonName" />
+      </Parameters>
+      <Docs>
+        <param name="personName">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="countValues&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static int countValues&lt;a&gt; (Microsoft.FSharp.Collections.FSharpList&lt;a&gt; list, a value);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 countValues&lt;a&gt;(class Microsoft.FSharp.Collections.FSharpList`1&lt;!!a&gt; list, !!a value) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.countValues : List&lt;'a&gt; -&gt; 'a -&gt; int" Usage="PatternMatching.PatternMatchingExamples.countValues list value" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="list" Type="Microsoft.FSharp.Collections.FSharpList&lt;a&gt;" />
+        <Parameter Name="value" Type="a" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="list">To be added.</param>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="countValues2&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Collections.FSharpList&lt;a&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;a,int&gt;&gt; countValues2&lt;a&gt; ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Collections.FSharpList`1&lt;!!a&gt;, class Microsoft.FSharp.Core.FSharpFunc`2&lt;!!a, int32&gt;&gt; countValues2&lt;a&gt;() cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.countValues2 : unit -&gt; (List&lt;'a&gt; -&gt; 'a -&gt; int)" Usage="PatternMatching.PatternMatchingExamples.countValues2 " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Collections.FSharpList&lt;a&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;a,System.Int32&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters />
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="detect1">
+      <MemberSignature Language="C#" Value="public static void detect1 (int x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void detect1(int32 x) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.detect1 : int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.detect1 x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="detectZeroAND">
+      <MemberSignature Language="C#" Value="public static void detectZeroAND (int point_0, int point_1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void detectZeroAND(int32 point_0, int32 point_1) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.detectZeroAND : int * int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.detectZeroAND (point_0, point_1)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="point_0" Type="System.Int32" />
+        <Parameter Name="point_1" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="point_0">To be added.</param>
+        <param name="point_1">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="detectZeroOR">
+      <MemberSignature Language="C#" Value="public static void detectZeroOR (int point_0, int point_1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void detectZeroOR(int32 point_0, int32 point_1) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.detectZeroOR : int * int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.detectZeroOR (point_0, point_1)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="point_0" Type="System.Int32" />
+        <Parameter Name="point_1" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="point_0">To be added.</param>
+        <param name="point_1">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="detectZeroTuple">
+      <MemberSignature Language="C#" Value="public static void detectZeroTuple (int point_0, int point_1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void detectZeroTuple(int32 point_0, int32 point_1) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.detectZeroTuple : int * int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.detectZeroTuple (point_0, point_1)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="point_0" Type="System.Int32" />
+        <Parameter Name="point_1" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="point_0">To be added.</param>
+        <param name="point_1">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="filter123">
+      <MemberSignature Language="C#" Value="public static void filter123 (int x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void filter123(int32 x) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.filter123 : int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.filter123 x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="fs">
+      <MemberSignature Language="C#" Value="public static System.IO.FileStream fs { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.IO.FileStream fs" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.fs : System.IO.FileStream" Usage="PatternMatching.PatternMatchingExamples.fs" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.IO.FileStream</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function1">
+      <MemberSignature Language="C#" Value="public static void function1 (int x_0, int x_1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function1(int32 x_0, int32 x_1) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.function1 : int * int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.function1 (x_0, x_1)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x_0" Type="System.Int32" />
+        <Parameter Name="x_1" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x_0">To be added.</param>
+        <param name="x_1">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsMatchByName">
+      <MemberSignature Language="C#" Value="public static bool IsMatchByName (PatternMatching.PatternMatchingExamples.MyRecord record1, string name);" />
+      <MemberSignature Language="ILAsm" Value=".method public static bool IsMatchByName(class PatternMatching.PatternMatchingExamples/MyRecord record1, string name) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.IsMatchByName : PatternMatching.PatternMatchingExamples.MyRecord -&gt; string -&gt; bool" Usage="PatternMatching.PatternMatchingExamples.IsMatchByName record1 name" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="record1" Type="PatternMatching.PatternMatchingExamples+MyRecord" />
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="record1">To be added.</param>
+        <param name="name">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="isMatched1">
+      <MemberSignature Language="C#" Value="public static bool isMatched1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool isMatched1" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.isMatched1 : bool" Usage="PatternMatching.PatternMatchingExamples.isMatched1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="isMatched2">
+      <MemberSignature Language="C#" Value="public static bool isMatched2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property bool isMatched2" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.isMatched2 : bool" Usage="PatternMatching.PatternMatchingExamples.isMatched2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="list1">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Collections.FSharpList&lt;int&gt; list1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Collections.FSharpList`1&lt;int32&gt; list1" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.list1 : List&lt;int&gt;" Usage="PatternMatching.PatternMatchingExamples.list1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Collections.FSharpList&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="listLength&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static int listLength&lt;a&gt; (Microsoft.FSharp.Collections.FSharpList&lt;a&gt; list);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 listLength&lt;a&gt;(class Microsoft.FSharp.Collections.FSharpList`1&lt;!!a&gt; list) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.listLength : List&lt;'a&gt; -&gt; int" Usage="PatternMatching.PatternMatchingExamples.listLength list" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="list" Type="Microsoft.FSharp.Collections.FSharpList&lt;a&gt;" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="list">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="matchShape">
+      <MemberSignature Language="C#" Value="public static void matchShape (PatternMatching.PatternMatchingExamples.Shape shape);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void matchShape(class PatternMatching.PatternMatchingExamples/Shape shape) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.matchShape : PatternMatching.PatternMatchingExamples.Shape -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.matchShape shape" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="shape" Type="PatternMatching.PatternMatchingExamples+Shape" />
+      </Parameters>
+      <Docs>
+        <param name="shape">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="matchShape2">
+      <MemberSignature Language="C#" Value="public static void matchShape2 (PatternMatching.PatternMatchingExamples.Shape shape);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void matchShape2(class PatternMatching.PatternMatchingExamples/Shape shape) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.matchShape2 : PatternMatching.PatternMatchingExamples.Shape -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.matchShape2 shape" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="shape" Type="PatternMatching.PatternMatchingExamples+Shape" />
+      </Parameters>
+      <Docs>
+        <param name="shape">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="printColorName">
+      <MemberSignature Language="C#" Value="public static void printColorName (PatternMatching.PatternMatchingExamples.Color color);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void printColorName(valuetype PatternMatching.PatternMatchingExamples/Color color) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.printColorName : PatternMatching.PatternMatchingExamples.Color -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.printColorName color" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="color" Type="PatternMatching.PatternMatchingExamples+Color" />
+      </Parameters>
+      <Docs>
+        <param name="color">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="printList">
+      <MemberSignature Language="C#" Value="public static void printList (Microsoft.FSharp.Collections.FSharpList&lt;int&gt; l);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void printList(class Microsoft.FSharp.Collections.FSharpList`1&lt;int32&gt; l) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.printList : List&lt;int&gt; -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.printList l" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="l" Type="Microsoft.FSharp.Collections.FSharpList&lt;System.Int32&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="l">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="printOption">
+      <MemberSignature Language="C#" Value="public static void printOption (Microsoft.FSharp.Core.FSharpOption&lt;int&gt; data);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void printOption(class Microsoft.FSharp.Core.FSharpOption`1&lt;int32&gt; data) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.printOption : option&lt;int&gt; -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.printOption data" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="Microsoft.FSharp.Core.FSharpOption&lt;System.Int32&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="data">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReadFromFile">
+      <MemberSignature Language="C#" Value="public static bool ReadFromFile (System.IO.StreamReader reader);" />
+      <MemberSignature Language="ILAsm" Value=".method public static bool ReadFromFile(class System.IO.StreamReader reader) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.ReadFromFile : System.IO.StreamReader -&gt; bool" Usage="PatternMatching.PatternMatchingExamples.ReadFromFile reader" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="reader" Type="System.IO.StreamReader" />
+      </Parameters>
+      <Docs>
+        <param name="reader">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="recordX">
+      <MemberSignature Language="C#" Value="public static PatternMatching.PatternMatchingExamples.MyRecord recordX { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class PatternMatching.PatternMatchingExamples/MyRecord recordX" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.recordX : PatternMatching.PatternMatchingExamples.MyRecord" Usage="PatternMatching.PatternMatchingExamples.recordX" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>PatternMatching.PatternMatchingExamples+MyRecord</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="result">
+      <MemberSignature Language="C#" Value="public static int result { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 result" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.result : int" Usage="PatternMatching.PatternMatchingExamples.result" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="sr">
+      <MemberSignature Language="C#" Value="public static System.IO.StreamReader sr { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.IO.StreamReader sr" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.sr : System.IO.StreamReader" Usage="PatternMatching.PatternMatchingExamples.sr" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.IO.StreamReader</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Three">
+      <MemberSignature Language="C#" Value="public const int Three = 3;" />
+      <MemberSignature Language="ILAsm" Value=".field public static literal int32 Three = (3)" />
+      <MemberSignature Language="F#" Value="val mutable Three : int" Usage="PatternMatching.PatternMatchingExamples.Three" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.Literal</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Diagnostics.DebuggerBrowsable(System.Diagnostics.DebuggerBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <MemberValue>3</MemberValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="tuple1">
+      <MemberSignature Language="C#" Value="public static Tuple&lt;int,int&gt; tuple1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.Tuple`2&lt;int32, int32&gt; tuple1" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.tuple1 : int * int" Usage="PatternMatching.PatternMatchingExamples.tuple1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Tuple&lt;System.Int32,System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="var1">
+      <MemberSignature Language="C#" Value="public static int var1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 var1" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.var1 : int" Usage="PatternMatching.PatternMatchingExamples.var1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="var2">
+      <MemberSignature Language="C#" Value="public static int var2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property int32 var2" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.var2 : int" Usage="PatternMatching.PatternMatchingExamples.var2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="vectorLength">
+      <MemberSignature Language="C#" Value="public static double vectorLength (double[] vec);" />
+      <MemberSignature Language="ILAsm" Value=".method public static float64 vectorLength(float64[] vec) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.vectorLength : double[] -&gt; double" Usage="PatternMatching.PatternMatchingExamples.vectorLength vec" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="vec" Type="System.Double[]" />
+      </Parameters>
+      <Docs>
+        <param name="vec">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

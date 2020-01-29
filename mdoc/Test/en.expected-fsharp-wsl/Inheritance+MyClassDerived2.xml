@@ -1,0 +1,44 @@
+<Type Name="Inheritance+MyClassDerived2" FullName="Inheritance+MyClassDerived2">
+  <TypeSignature Language="C#" Value="public class Inheritance.MyClassDerived2 : Inheritance.MyClassBase2" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Inheritance/MyClassDerived2 extends tance/MyClassBase2" />
+  <TypeSignature Language="F#" Value="type Inheritance.MyClassDerived2 = class&#xA;    inherit Inheritance.MyClassBase2" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>Inheritance+MyClassBase2</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MyClassDerived2 (int y);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(int32 y) cil managed" />
+      <MemberSignature Language="F#" Value="new Inheritance.MyClassDerived2 : int -&gt; Inheritance.MyClassDerived2" Usage="new Inheritance.MyClassDerived2 y" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="y" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="y">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -7,8 +7,13 @@ namespace Mono.Documentation.Updater
     {
         public override string Language => Consts.FSharp;
 
-        private readonly MemberFormatter usageFormatter = new FSharpUsageFormatter();
+        private readonly MemberFormatter usageFormatter;
         public override MemberFormatter UsageFormatter => usageFormatter;
+
+        public FSharpFullMemberFormatter() : this(null) {}
+        public FSharpFullMemberFormatter(TypeMap map) : base(map) {
+             usageFormatter = new FSharpUsageFormatter(map);
+        }
 
         protected override StringBuilder AppendNamespace(StringBuilder buf, TypeReference type)
         {

@@ -27,7 +27,7 @@ namespace mdoc.Test
         public void Method_GetPrimesOrdered()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "GetPrimesOrdered",
-                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int first, int last);");
+                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<winrt::Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int first, int last);");
 
         }
 
@@ -79,19 +79,29 @@ namespace mdoc.Test
 
 
 
-        #region NoSupport
         [Test]
-        [Category("NoSupport")]
-        public void NoSupport_Property()
+        [Category("Event")]
+        public void Event_Class1_primeFoundEvent()
         {
-            TestPropertySignature(CppCxTestLibName, "Namespace2.Class3", "LongProperty", null);
+            var expectedSig = @"// Register
+event_token primeFoundEvent(UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;
+
+// Revoke with event_token
+void primeFoundEvent(event_token const* cookie) const;
+
+// Revoke with event_revoker
+primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;";
+            TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", expectedSig);
         }
 
+        #region NoSupport
         [Test]
-        [Category("NoSupport")]
-        public void NoSupport_Event()
+        [Category("Properties")]
+        public void Property_Class3_LongProperty()
         {
-            TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", null);
+            TestPropertySignature(CppCxTestLibName, "Namespace2.Class3", "LongProperty", @"long LongProperty();
+
+void LongProperty(long __set_formal);");
         }
 
         [Test]

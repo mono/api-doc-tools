@@ -54,17 +54,18 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public override AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters)
         {
-            return Resolve(name, parameters, null, null);
+            return Resolve(name, parameters, null, null, null);
         }
 
         public event EventHandler<TypeForwardEventArgs> TypeExported;
 
-        internal AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters r, TypeReference forType, List<string> exportedFiles)
+        internal AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters r, TypeReference forType, List<string> exportedFiles, IDictionary<string, AssemblyDefinition> cache)
         {
             if (exportedFiles == null)
                 exportedFiles = new List<string>();
 
             var a = this.ResolveCore(name, r, exportedFiles);
+            cache[name.FullName] = a;
 
             if (forType != null && a.MainModule.HasExportedTypes)
             {
@@ -78,7 +79,7 @@ namespace Mono.Documentation.Updater.Frameworks
                         TypeExported?.Invoke(this, new TypeForwardEventArgs(name, exportedTo, forType?.FullName));
 
                     exportedFiles.Add(file);
-                    return Resolve(exportedTo, r, forType, exportedFiles);
+                    return Resolve(exportedTo, r, forType, exportedFiles, cache);
                 }
             }
 
@@ -88,7 +89,12 @@ namespace Mono.Documentation.Updater.Frameworks
         AssemblyDefinition ResolveCore(AssemblyNameReference name, ReaderParameters parameters, IEnumerable<string> assembliesToIgnore)
         {
             var ver = name.Version;
-            if (ver.Major == 255 && ver.Minor == 255 && ver.Revision == 255 && name.Name == "mscorlib")
+            if (ver.Major == 255 && ver.Minor == 255 && name.Name.Equals("Windows.Foundation", StringComparison.OrdinalIgnoreCase))
+            {
+                var anr = new AssemblyNameReference("Windows.Foundation.FoundationContract", ver);
+                return base.Resolve(anr, parameters, assembliesToIgnore);
+            }
+            else if (ver.Major == 255 && ver.Minor == 255 && ver.Revision == 255 && name.Name == "mscorlib")
             {
                 var v = new Version(4, 5, 0);
                 var anr = new AssemblyNameReference(name.Name, v);
@@ -291,22 +297,13 @@ namespace Mono.Documentation.Updater.Frameworks
                     if (etype != null)
                     {
                         var escope = (AssemblyNameReference)etype.Scope;
-                        if (cache.TryGetValue(escope.FullName, out assembly))
-                        {
-                            return assembly;
-                        }
-                        else
-                        {
-                            assembly = ((MDocResolver)this.Resolver).Resolve(escope, parameters, forType, null);
-                            cache[escope.FullName] = assembly;
-                        }
+                        return ResolveCore(escope, parameters, forType);
                     }
                 }
                 return assembly;
             }
 
-            assembly = ((MDocResolver)this.Resolver).Resolve(name, parameters, forType, null);
-            cache[cacheKey] = assembly;
+            assembly = ((MDocResolver)this.Resolver).Resolve(name, parameters, forType, null, cache);
 
             return assembly;
         }

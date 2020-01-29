@@ -78,7 +78,7 @@
     <Member MemberName="Load">
       <MemberSignature Language="C#" Value="public void Load (string entryPoint);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Load([in]string entryPoint) runtime managed" />
-      <MemberSignature Language="C++ WINRT" Value="void Load(std::wstring const &amp; entryPoint);" />
+      <MemberSignature Language="C++ WINRT" Value="void Load(winrt::hstring const &amp; entryPoint);" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:Windows.ApplicationModel.Core.IFrameworkView.Load(System.String)</InterfaceMember>
@@ -101,10 +101,8 @@
     <Member MemberName="m_activated">
       <MemberSignature Language="C#" Value="public Windows.UI.Core.CoreWindow m_activated { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance class Windows.UI.Core.CoreWindow m_activated" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::UI::Core::CoreWindow m_activated();&#xA;&#xA;void m_activated(winrt::Windows::UI::Core::CoreWindow __set_formal);" />
       <MemberType>Property</MemberType>
-      <Implements>
-        <InterfaceMember>P:Namespace222.__IAppPublicNonVirtuals.m_activated</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>
@@ -120,10 +118,8 @@
     <Member MemberName="m_target">
       <MemberSignature Language="C#" Value="public Windows.UI.Composition.CompositionTarget m_target { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance class Windows.UI.Composition.CompositionTarget m_target" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::UI::Composition::CompositionTarget m_target();&#xA;&#xA;void m_target(winrt::Windows::UI::Composition::CompositionTarget __set_formal);" />
       <MemberType>Property</MemberType>
-      <Implements>
-        <InterfaceMember>P:Namespace222.__IAppPublicNonVirtuals.m_target</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>
@@ -184,9 +180,6 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetWindow1([in]class Windows.UI.Core.CoreWindow window) runtime managed" />
       <MemberSignature Language="C++ WINRT" Value="void SetWindow1(winrt::Windows::UI::Core::CoreWindow const &amp; window);" />
       <MemberType>Method</MemberType>
-      <Implements>
-        <InterfaceMember>M:Namespace222.__IAppPublicNonVirtuals.SetWindow1(Windows.UI.Core.CoreWindow)</InterfaceMember>
-      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
       </AssemblyInfo>

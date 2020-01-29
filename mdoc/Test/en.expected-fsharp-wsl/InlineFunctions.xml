@@ -1,0 +1,69 @@
+<Type Name="InlineFunctions" FullName="InlineFunctions">
+  <TypeSignature Language="C#" Value="public static class InlineFunctions" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed InlineFunctions extends System.Object" />
+  <TypeSignature Language="F#" Value="module InlineFunctions" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="increment">
+      <MemberSignature Language="C#" Value="public static int increment (int x);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 increment(int32 x) cil managed" />
+      <MemberSignature Language="F#" Value="InlineFunctions.increment : int -&gt; int" Usage="InlineFunctions.increment x" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="x" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="printAsFloatingPoint&lt;a&gt;">
+      <MemberSignature Language="C#" Value="public static void printAsFloatingPoint&lt;a&gt; (a number);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void printAsFloatingPoint&lt;a&gt;(!!a number) cil managed" />
+      <MemberSignature Language="F#" Value="InlineFunctions.printAsFloatingPoint : 'a -&gt; unit" Usage="InlineFunctions.printAsFloatingPoint number" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="number" Type="a" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <param name="number">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

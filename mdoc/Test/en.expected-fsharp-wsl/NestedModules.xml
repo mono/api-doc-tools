@@ -1,0 +1,23 @@
+<Type Name="NestedModules" FullName="NestedModules">
+  <TypeSignature Language="C#" Value="public static class NestedModules" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed NestedModules extends System.Object" />
+  <TypeSignature Language="F#" Value="module NestedModules" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members />
+</Type>

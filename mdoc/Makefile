@@ -4,6 +4,7 @@ MONO = mono
 CSCOMPILE = mcs
 VBCOMPILE = vbnc
 TEST_CSCFLAGS = -target:library
+ENVIRONMENT = notwsl#use 'wsl' when running on wsl
 
 MDOC_COMMON_FLAGS = \
 	/resource:../../class/monodoc/Resources/mdoc-html-format.xsl,mdoc-html-format.xsl    \
@@ -46,10 +47,11 @@ EXTRA_DISTFILES = \
 MULTI-CLASSIC = Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll
 MULTI-UNIFIED = Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll
 
-DIFF = diff -rup
+DIFF = diff -rup 
 DIFF_QUIET = diff --brief
-ifeq ($(PLATFORM), win32)
-DIFF = diff -rupZ
+
+ifeq ($(ENVIRONMENT),wsl)
+DIFF = diff -rup -Z
 DIFF_QUIET = diff --brief -Z
 endif
 
@@ -124,7 +126,7 @@ Test/DocTest.dll-v1:
 Test/DocTest.dll-v2: 
 	-rm -f Test/DocTest.cs
 	cp Test/DocTest-v1.cs Test/DocTest.cs
-	cd Test && patch -p0 < DocTest-v2.patch
+	cd Test && patch -p0 --binary < DocTest-v2.patch
 	-rm -f Test/DocTest.dll
 	$(MAKE) Test/DocTest.dll
 
@@ -540,7 +542,12 @@ check-monodocer-fsharp:
 	-rm -Rf Test/en.actual
 	msbuild ../mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
 	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
+
+ifeq ($(ENVIRONMENT), wsl)
+	$(DIFF) Test/en.expected-fsharp-wsl Test/en.actual
+else
 	$(DIFF) Test/en.expected-fsharp Test/en.actual
+endif
 
 check-monodocer-members-implementation:
 	-rm -Rf Test/en.actual

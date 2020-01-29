@@ -1,0 +1,90 @@
+<Type Name="DiscriminatedUnions" FullName="DiscriminatedUnions">
+  <TypeSignature Language="C#" Value="public static class DiscriminatedUnions" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed DiscriminatedUnions extends System.Object" />
+  <TypeSignature Language="F#" Value="module DiscriminatedUnions" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="circ">
+      <MemberSignature Language="C#" Value="public static DiscriminatedUnions.Shape circ { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property DiscriminatedUnions/Shape circ" />
+      <MemberSignature Language="F#" Value="DiscriminatedUnions.circ : DiscriminatedUnions.Shape" Usage="DiscriminatedUnions.circ" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>DiscriminatedUnions+Shape</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="prism">
+      <MemberSignature Language="C#" Value="public static DiscriminatedUnions.Shape prism { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property DiscriminatedUnions/Shape prism" />
+      <MemberSignature Language="F#" Value="DiscriminatedUnions.prism : DiscriminatedUnions.Shape" Usage="DiscriminatedUnions.prism" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>DiscriminatedUnions+Shape</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="rect">
+      <MemberSignature Language="C#" Value="public static DiscriminatedUnions.Shape rect { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property DiscriminatedUnions/Shape rect" />
+      <MemberSignature Language="F#" Value="DiscriminatedUnions.rect : DiscriminatedUnions.Shape" Usage="DiscriminatedUnions.rect" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>DiscriminatedUnions+Shape</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

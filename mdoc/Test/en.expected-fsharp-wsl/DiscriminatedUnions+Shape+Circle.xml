@@ -1,0 +1,58 @@
+<Type Name="DiscriminatedUnions+Shape+Circle" FullName="DiscriminatedUnions+Shape+Circle">
+  <TypeSignature Language="C#" Value="public class DiscriminatedUnions.Shape.Circle : DiscriminatedUnions.Shape" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable beforefieldinit DiscriminatedUnions/Shape/Circle extends minatedUnions/Shape" />
+  <TypeSignature Language="F#" Value="DiscriminatedUnions.Shape.Circle : double -&gt; DiscriminatedUnions.Shape" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>DiscriminatedUnions+Shape</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerDisplay("{__DebugDisplay(),nq}")</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(DiscriminatedUnions/Shape/Circle@DebugTypeProxy))</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="radius">
+      <MemberSignature Language="C#" Value="public double radius { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 radius" />
+      <MemberSignature Language="F#" Value="val radius : double" Usage="DiscriminatedUnions.Shape.Circle.radius" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 1, 0)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

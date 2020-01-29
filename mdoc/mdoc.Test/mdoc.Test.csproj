@@ -92,6 +92,7 @@
     <Compile Include="JsUsageFormatterTests.cs" />
     <Compile Include="MDocFileSourceTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
+    <Compile Include="TypeMapTests.cs" />
     <Compile Include="SampleClasses\ReadonlyRefClass.cs" />
     <Compile Include="SampleClasses\ReadOnlySpan.cs" />
     <Compile Include="SampleClasses\SomeDelegate.cs" />
