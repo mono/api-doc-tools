@@ -68,23 +68,22 @@ namespace mdoc.Mono.Documentation.Updater.Formatters
 
         public override bool IsSupported(MemberReference mref)
         {
-            switch (mref)
+            if (mref is PropertyDefinition)
             {
-                case PropertyDefinition propertyDefinition:
-                    if (!IsPropertySupported(propertyDefinition))
-                        return false;
-                    break;
-                case MethodDefinition methodDefinition:
-                    if (!IsMethodSupported(methodDefinition))
-                        return false;
-                    break;
-                case FieldDefinition _:
-                    return false;// In WinRT fields can be exposed only by structures.
-                case AttachedEventDefinition _:
-                    return false;
-                case AttachedPropertyDefinition _:
+                PropertyDefinition propertyDefinition = (PropertyDefinition)mref;
+                if (!IsPropertySupported(propertyDefinition))
                     return false;
             }
+            else if (mref is MethodDefinition)
+            {
+                MethodDefinition methodDefinition = (MethodDefinition)mref;
+                if (!IsMethodSupported(methodDefinition))
+                    return false;
+            }
+            else if (mref is FieldDefinition // In WinRT fields can be exposed only by structures.
+                || mref is AttachedEventDefinition
+                || mref is AttachedPropertyDefinition)
+                return false;
 
             var member = mref.Resolve();
             return member != null

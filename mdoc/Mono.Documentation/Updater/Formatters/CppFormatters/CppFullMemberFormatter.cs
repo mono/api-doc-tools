@@ -1029,20 +1029,16 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (mref.IsDefinition == false)
                 mref = mref.Resolve() as MemberReference;
             
-            switch (mref)
-            {
-                case FieldDefinition field:
-                    return IsSupportedField(field);
-                case MethodDefinition method:
-                    return IsSupportedMethod(method);
-                case PropertyDefinition property:
-                    return IsSupportedProperty(property);
-                case EventDefinition @event:
-                    return IsSupportedEvent(@event);
-                case AttachedPropertyDefinition _:
-                case AttachedEventDefinition _:
-                    return false;
-            }
+            if (mref is FieldDefinition)
+                return IsSupportedField((FieldDefinition)mref);
+            else if (mref is MethodDefinition)
+                return IsSupportedMethod((MethodDefinition)mref);
+            else if (mref is PropertyDefinition)
+                return IsSupportedProperty((PropertyDefinition)mref);
+            else if (mref is EventDefinition)
+                return IsSupportedEvent((EventDefinition)mref);
+            else if (mref is AttachedPropertyDefinition || mref is AttachedEventDefinition)
+                return false;
 
             throw new NotSupportedException("Unsupported member type: " + mref?.GetType().FullName);
         }

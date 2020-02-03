@@ -293,8 +293,8 @@ namespace Mono.Documentation.Updater
         {
             bool IEqualityComparer<TypeReference>.Equals (TypeReference x, TypeReference y)
             {
-                if (x is null && y is null) return true;
-                if (x is null || y is null) return false;
+                if (x == null && y == null) return true;
+                if (x == null || y == null) return false;
                 return x.FullName == y.FullName;
             }
 
@@ -314,7 +314,7 @@ namespace Mono.Documentation.Updater
 
         private static IEnumerable<TypeReference> GetAllInterfacesFromType(TypeDefinition type)
         {
-            if (type is null)
+            if (type == null)
                 yield break;
 
             foreach(var i in type.Interfaces)
@@ -525,26 +525,29 @@ namespace Mono.Documentation.Updater
             FillUnifiedMemberTypeNames(unifiedTypeNames, memberReference as IGenericParameterProvider);// Fill the member generic parameters unified names as M0, M1....
             FillUnifiedTypeNames(unifiedTypeNames, memberReference.DeclaringType, genericInterface);// Fill the type generic parameters unified names as T0, T1....
 
-            switch (memberReference)
+            if (memberReference is IMethodSignature)
             {
-                case IMethodSignature methodSignature:
-                    buf.Append(GetUnifiedTypeName(methodSignature.ReturnType, unifiedTypeNames)).Append(" ");
-                    buf.Append(SimplifyName(memberReference.Name)).Append(" ");
-                    AppendParameters(buf, methodSignature.Parameters, unifiedTypeNames);
-                    break;
-                case PropertyDefinition propertyReference:
-                    buf.Append(GetUnifiedTypeName(propertyReference.PropertyType, unifiedTypeNames)).Append(" ");
-                    if (propertyReference.GetMethod != null)
-                        buf.Append("get").Append(" ");
-                    if (propertyReference.SetMethod != null)
-                        buf.Append("set").Append(" ");
-                    buf.Append(SimplifyName(memberReference.Name)).Append(" ");
-                    AppendParameters(buf, propertyReference.Parameters, unifiedTypeNames);
-                    break;
-                case EventDefinition eventReference:
-                    buf.Append(GetUnifiedTypeName(eventReference.EventType, unifiedTypeNames)).Append(" ");
-                    buf.Append(SimplifyName(memberReference.Name)).Append(" ");
-                    break;
+                IMethodSignature methodSignature = (IMethodSignature)memberReference;
+                buf.Append(GetUnifiedTypeName(methodSignature.ReturnType, unifiedTypeNames)).Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
+                AppendParameters(buf, methodSignature.Parameters, unifiedTypeNames);
+            }
+            if (memberReference is PropertyDefinition)
+            {
+                PropertyDefinition propertyReference = (PropertyDefinition)memberReference;
+                buf.Append(GetUnifiedTypeName(propertyReference.PropertyType, unifiedTypeNames)).Append(" ");
+                if (propertyReference.GetMethod != null)
+                    buf.Append("get").Append(" ");
+                if (propertyReference.SetMethod != null)
+                    buf.Append("set").Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
+                AppendParameters(buf, propertyReference.Parameters, unifiedTypeNames);
+            }
+            if (memberReference is EventDefinition)
+            {
+                EventDefinition eventReference = (EventDefinition)memberReference;
+                buf.Append(GetUnifiedTypeName(eventReference.EventType, unifiedTypeNames)).Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
             }
             
             var memberUnifiedTypeNames = new Dictionary<string, string>();
@@ -666,14 +669,20 @@ namespace Mono.Documentation.Updater
         /// </summary>
         private static Collection<MethodReference> GetOverrides(MemberReference memberReference)
         {
-            switch (memberReference)
+            if (memberReference is MethodDefinition)
             {
-                case MethodDefinition methodDefinition:
-                    return methodDefinition.Overrides;
-                case PropertyDefinition propertyDefinition:
-                    return (propertyDefinition.GetMethod ?? propertyDefinition.SetMethod)?.Overrides;
-                case EventDefinition evendDefinition:
-                    return evendDefinition.AddMethod.Overrides;
+                MethodDefinition methodDefinition = (MethodDefinition)memberReference;
+                return methodDefinition.Overrides;
+            }
+            if (memberReference is PropertyDefinition)
+            {
+                PropertyDefinition propertyDefinition = (PropertyDefinition)memberReference;
+                return (propertyDefinition.GetMethod ?? propertyDefinition.SetMethod)?.Overrides;
+            }
+            if (memberReference is EventDefinition)
+            {
+                EventDefinition evendDefinition = (EventDefinition)memberReference;
+                return evendDefinition.AddMethod.Overrides;
             }
 
             return null;
