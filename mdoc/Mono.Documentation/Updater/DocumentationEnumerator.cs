@@ -341,7 +341,7 @@ namespace Mono.Documentation.Updater
                             var method = ((PropertyDefinition) mr).GetMethod ?? ((PropertyDefinition) mr).SetMethod;
                             if (method?.Overrides != null && method.Overrides.Any())
                             {
-                                DocUtils.GetInfoForExplicitlyImplementedMethod(method, out var iface, out var ifaceMethod);
+                                DocUtils.GetInfoForExplicitlyImplementedMethod(method, out TypeReference iface, out MethodReference ifaceMethod);
                                 var newName = DocUtils.GetMemberForProperty(ifaceMethod.Name);
                                 if (newName == memberName && verifyInterface(mr) && docName.Contains (iface.Name))
                                     yield return mr;
