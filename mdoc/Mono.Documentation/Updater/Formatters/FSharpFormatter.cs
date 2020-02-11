@@ -1029,15 +1029,15 @@ namespace Mono.Documentation.Updater
                 }
                 return false;
             }
-            switch (mref)
+            if (mref is MethodDefinition)
             {
-                case MethodDefinition method:
-                    return !(method.HasCustomAttributes && method.CustomAttributes.Any(
-                                 ca => ca.GetDeclaringType() ==
-                                       "System.Diagnostics.Contracts.ContractInvariantMethodAttribute"
-                                       || ca.GetDeclaringType() ==
-                                       Consts.CompilerGeneratedAttribute))
-                            && AppendVisibility(new StringBuilder(), method) != null;
+                MethodDefinition method = (MethodDefinition)mref;
+                return !(method.HasCustomAttributes && method.CustomAttributes.Any(
+                              ca => ca.GetDeclaringType() ==
+                                    "System.Diagnostics.Contracts.ContractInvariantMethodAttribute"
+                                    || ca.GetDeclaringType() ==
+                                    Consts.CompilerGeneratedAttribute))
+                        && AppendVisibility(new StringBuilder(), method) != null;
             }
 
             return true;

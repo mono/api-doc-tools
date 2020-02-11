@@ -58,12 +58,9 @@ namespace mdoc.Mono.Documentation.Updater.Formatters
 
         public override bool IsSupported(MemberReference mref)
         {
-            switch (mref)
+            if (mref is PropertyDefinition || mref is EventDefinition)
             {
-                case PropertyDefinition _:
-                    return false;
-                case EventDefinition _:
-                    return false;
+                return false;
             }
             return base.IsSupported(mref);
         }
