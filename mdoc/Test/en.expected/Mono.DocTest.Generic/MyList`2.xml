@@ -91,6 +91,9 @@
       <MemberSignature Language="C++ CX" Value="public:&#xA; void CopyTo(Platform::Array &lt;A&gt; ^ array, int arrayIndex);" />
       <MemberSignature Language="C++ WINRT" Value="void CopyTo(std::Array &lt;A&gt; const &amp; array, int arrayIndex);" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>

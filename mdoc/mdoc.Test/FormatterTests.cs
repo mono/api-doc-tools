@@ -330,6 +330,18 @@ namespace mdoc.Test
             var sig2 = formatter2.GetDeclaration(member2);
             Assert.NotNull(sig2);
         }
+        
+        [Test]
+        public void ClassInterface()
+        {
+            // CopyTo :
+            // Orignal return value: "System.Void CopyTo (T[], System.Int32, )
+            var sig = "System.Void CopyTo (System.Collections.Generic.KeyValuePair`2<System.String,mdoc.Test.SampleClasses.TestClassTwo>[], System.Int32, )";
+            var type = GetType(typeof(TestClassThree));
+            var interFaceMembers = GetClassInterface(type);
+            bool flag = interFaceMembers.ContainsKey(sig);
+            Assert.AreEqual(true, flag);
+        }
 
         #region Helper Methods
         string RealTypeName(string name){

@@ -140,6 +140,9 @@
       <MemberSignature Language="C#" Value="void ICollection&lt;KeyValuePair&lt;string,TestClassTwo&gt;&gt;.CopyTo (System.Collections.Generic.KeyValuePair&lt;string,mdoc.Test.SampleClasses.TestClassTwo&gt;[] array, int arrayIndex);" />
       <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.Collections.Generic.ICollection&lt;System.Collections.Generic.KeyValuePair&lt;string,mdoc.Test.SampleClasses.TestClassTwo&gt;&gt;.CopyTo(valuetype System.Collections.Generic.KeyValuePair`2&lt;string, class mdoc.Test.SampleClasses.TestClassTwo&gt;[] array, int32 arrayIndex) cil managed" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
