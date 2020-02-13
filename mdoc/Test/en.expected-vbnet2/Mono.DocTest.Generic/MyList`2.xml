@@ -198,6 +198,7 @@
     <Member MemberName="Mono.DocTest.Generic.IFoo&lt;A&gt;.Method&lt;U&gt;">
       <MemberSignature Language="C#" Value="A IFoo&lt;A&gt;.Method&lt;U&gt; (A a, U u);" />
       <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance !A Mono.DocTest.Generic.IFoo&lt;A&gt;.Method&lt;U&gt;(!A a, !!U u) cil managed" />
+      <MemberSignature Language="VB.NET" Value="Function Method(Of U) (a As A, u As U) As A Implements IFoo(Of A).Method" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:Mono.DocTest.Generic.IFoo`1.Method``1(`0,``0)</InterfaceMember>

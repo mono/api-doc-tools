@@ -829,12 +829,6 @@ namespace Mono.Documentation.Updater
                         && typeReference.Name != typeReference2.Name)
                         return false;
                 }
-                foreach (var parameterDefinition in method.Parameters)
-                {
-                    // it there's a parameter which name is case-insensitively equal to typename 
-                    if (parameterDefinition.Name.Equals(typeReference.Name, StringComparison.InvariantCultureIgnoreCase))
-                        return false;
-                }
             }
 
             foreach (var parameterDefinition in method.Parameters)

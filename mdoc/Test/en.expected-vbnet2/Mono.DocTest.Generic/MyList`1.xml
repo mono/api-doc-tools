@@ -97,6 +97,7 @@
     <Member MemberName="Method&lt;U&gt;">
       <MemberSignature Language="C#" Value="public void Method&lt;U&gt; (T t, U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Method&lt;U&gt;(!T t, !!U u) cil managed" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Method(Of U) (t As T, u As U)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -122,6 +123,7 @@
     <Member MemberName="RefMethod&lt;U&gt;">
       <MemberSignature Language="C#" Value="public void RefMethod&lt;U&gt; (ref T t, ref U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RefMethod&lt;U&gt;(!T&amp; t, !!U&amp; u) cil managed" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RefMethod(Of U) (ByRef t As T, ByRef u As U)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -168,6 +170,7 @@
     <Member MemberName="Test">
       <MemberSignature Language="C#" Value="public void Test (T t);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Test(!T t) cil managed" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Test (t As T)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

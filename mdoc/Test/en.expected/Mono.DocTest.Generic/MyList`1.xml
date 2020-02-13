@@ -112,6 +112,7 @@
       <MemberSignature Language="C#" Value="public void Method&lt;U&gt; (T t, U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Method&lt;U&gt;(!T t, !!U u) cil managed" />
       <MemberSignature Language="DocId" Value="M:Mono.DocTest.Generic.MyList`1.Method``1(`0,``0)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Method(Of U) (t As T, u As U)" />
       <MemberSignature Language="F#" Value="member this.Method : 'T * 'U -&gt; unit" Usage="myList.Method (t, u)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void Method(T t, U u);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void Method(T t, U u);" />
@@ -142,6 +143,7 @@
       <MemberSignature Language="C#" Value="public void RefMethod&lt;U&gt; (ref T t, ref U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RefMethod&lt;U&gt;(!T&amp; t, !!U&amp; u) cil managed" />
       <MemberSignature Language="DocId" Value="M:Mono.DocTest.Generic.MyList`1.RefMethod``1(`0@,``0@)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub RefMethod(Of U) (ByRef t As T, ByRef u As U)" />
       <MemberSignature Language="F#" Value="member this.RefMethod : 'T * 'U -&gt; unit" Usage="myList.RefMethod (t, u)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T % t, U % u);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T &amp;  t, U &amp;  u);" />
@@ -173,6 +175,7 @@
       <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance class System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() cil managed" />
       <MemberSignature Language="DocId" Value="M:Mono.DocTest.Generic.MyList`1.System#Collections#IEnumerable#GetEnumerator" />
       <MemberSignature Language="VB.NET" Value="Function GetEnumerator () As IEnumerator Implements IEnumerable.GetEnumerator" />
+      <MemberSignature Language="F#" Value="abstract member System.Collections.IEnumerable.GetEnumerator : unit -&gt; System.Collections.IEnumerator&#xA;override this.System.Collections.IEnumerable.GetEnumerator : unit -&gt; System.Collections.IEnumerator" Usage="myList.System.Collections.IEnumerable.GetEnumerator " />
       <MemberSignature Language="C++ CLI" Value=" virtual System::Collections::IEnumerator ^ System.Collections.IEnumerable.GetEnumerator() = System::Collections::IEnumerable::GetEnumerator;" />
       <MemberType>Method</MemberType>
       <Implements>
@@ -195,6 +198,7 @@
       <MemberSignature Language="C#" Value="public void Test (T t);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Test(!T t) cil managed" />
       <MemberSignature Language="DocId" Value="M:Mono.DocTest.Generic.MyList`1.Test(`0)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Test (t As T)" />
       <MemberSignature Language="F#" Value="member this.Test : 'T -&gt; unit" Usage="myList.Test t" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void Test(T t);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; void Test(T t);" />
