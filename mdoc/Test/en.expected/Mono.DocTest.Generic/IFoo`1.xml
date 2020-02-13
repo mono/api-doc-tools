@@ -25,6 +25,7 @@
       <MemberSignature Language="C#" Value="public T Method&lt;U&gt; (T t, U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance !T Method&lt;U&gt;(!T t, !!U u) cil managed" />
       <MemberSignature Language="DocId" Value="M:Mono.DocTest.Generic.IFoo`1.Method``1(`0,``0)" />
+      <MemberSignature Language="VB.NET" Value="Public Function Method(Of U) (t As T, u As U) As T" />
       <MemberSignature Language="F#" Value="abstract member Method : 'T * 'U -&gt; 'T" Usage="iFoo.Method (t, u)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U&gt;&#xA; T Method(T t, U u);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; T Method(T t, U u);" />

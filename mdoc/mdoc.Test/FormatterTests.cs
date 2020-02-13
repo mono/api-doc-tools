@@ -315,6 +315,22 @@ namespace mdoc.Test
             Assert.AreEqual("public static ExpandoToDispatchExMarshaler ();", sig);
         }
 
+        [Test]
+        public void MissSignature()
+        {
+            var member1 = GetMethod(typeof(System.IO.FileStream), m => m.FullName == "System.Void System.IO.FileStream::.ctor(System.String,System.IO.FileMode,System.Security.AccessControl.FileSystemRights,System.IO.FileShare,System.Int32,System.IO.FileOptions,System.Security.AccessControl.FileSecurity)"); ;
+            var fomatter1 = new VBMemberFormatter();
+            // Original return null
+            var sig1 = fomatter1.GetDeclaration(member1);
+            Assert.NotNull(sig1);
+
+            var member2 = GetMethod(typeof(TestClassThree), m => m.FullName == "System.Collections.IEnumerator mdoc.Test.SampleClasses.TestClassThree::System.Collections.IEnumerable.GetEnumerator()"); ;
+            var formatter2 = new FSharpFormatter(MDocUpdater.Instance.TypeMap);
+            // Original return null
+            var sig2 = formatter2.GetDeclaration(member2);
+            Assert.NotNull(sig2);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
