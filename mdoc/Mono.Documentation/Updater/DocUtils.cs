@@ -653,7 +653,23 @@ namespace Mono.Documentation.Updater
 
             return genericTypes.ContainsKey(type.Name)
                 ? genericTypes[type.Name]
-                : type.FullName;
+                : SpecialTypesChk(type, genericTypes);
+        }
+
+        private static string SpecialTypesChk(TypeReference type, Dictionary<string, string> genericTypes)
+        {
+            if (type.IsArray)
+            {
+                var elements = type.GetElementType();
+                if (elements != null && elements.IsGenericParameter && genericTypes.ContainsKey(elements.Name))
+                    return type.FullName.Replace(elements.Name, genericTypes[elements.Name]);
+                else
+                {
+                    return type.FullName;
+                }
+            }
+            else
+                return type.FullName;
         }
 
         public static string GetExplicitTypeName(MemberReference memberReference)
