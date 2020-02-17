@@ -2327,6 +2327,11 @@ namespace Mono.Documentation
                 XmlElement basenode = WriteElement(root, "Base");
 
                 string basetypename = GetDocTypeFullName(type.BaseType);
+
+                // Initially CLR used to support both singlecast and multicast for delegates. But then distinction was removed later.
+                // The line could be added to reduces clutter in the docs by not showing the redundant MulticastDelegate.
+                // Although all delegates are multicast now. We will keep this line to avoid huge changes in ecmaxml files.
+                // https://ceapex.visualstudio.com/Engineering/_workitems/129591
                 if (basetypename == "System.MulticastDelegate") basetypename = "System.Delegate";
 
                 if (string.IsNullOrWhiteSpace(FrameworksPath))
