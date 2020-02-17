@@ -304,15 +304,23 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void CSharpStaticConstructor()
+        public void StaticConstructor()
         {
             var member = GetMethod(
-                  GetType("SampleClasses/custommarshalers.dll", "System.Runtime.InteropServices.CustomMarshalers.ExpandoToDispatchExMarshaler"),
-                  m => m.Name == ".cctor"
-             );
+                 GetType(typeof(StaticClass)),
+                 m => m.Name == ".cctor"
+            );
             var formatter = new CSharpFullMemberFormatter();
-            var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public static ExpandoToDispatchExMarshaler ();", sig);
+            var sigCsharp = formatter.GetDeclaration(member);
+            Assert.AreEqual("static StaticClass ();", sigCsharp);
+
+            var formatterVB = new VBFullMemberFormatter();
+            var sigVB = formatterVB.GetDeclaration(member);
+            Assert.AreEqual("Shared Sub New ()", sigVB);
+
+            var formatterC = new CppFullMemberFormatter();
+            var sigC = formatterC.GetDeclaration(member);
+            Assert.AreEqual(" static StaticClass();", sigC);
         }
 
         [Test]
