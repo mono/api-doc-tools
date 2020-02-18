@@ -93,6 +93,7 @@
     <Compile Include="MDocFileSourceTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
     <Compile Include="SampleClasses\NullablesAndTuples.cs" />
+    <Compile Include="SampleClasses\StaticClass.cs" />
     <Compile Include="SampleClasses\TestClassThree.cs" />
     <Compile Include="TypeMapTests.cs" />
     <Compile Include="SampleClasses\ReadonlyRefClass.cs" />
@@ -152,9 +153,6 @@
   <ItemGroup>
     <Content Include="cppcli\Debug\cppcli.dll">
       <Link>SampleClasses\cppcli.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SampleClasses\custommarshalers.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

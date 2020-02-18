@@ -327,8 +327,11 @@ namespace Mono.Documentation.Updater
         {
             StringBuilder buf = new StringBuilder();
             AppendVisibility(buf, constructor);
-            if (buf.Length == 0)
+            if (buf.Length == 0 && !constructor.IsStatic) //Static constructor is needed
                 return null;
+
+            if (constructor.IsStatic)
+                buf.Append(buf.Length == 0 ? "Shared" : " Shared");
 
             buf.Append(" Sub New ");
             AppendParameters(buf, constructor, constructor.Parameters);
