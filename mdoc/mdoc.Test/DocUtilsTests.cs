@@ -1,6 +1,7 @@
 ﻿using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater;
 using NUnit.Framework;
+using System.Xml;
 
 namespace mdoc.Test
 {
@@ -45,6 +46,26 @@ namespace mdoc.Test
             var isIgnoredPropertyGeneratedMethod = DocUtils.IsIgnored(method);
 
             Assert.IsTrue(isIgnoredPropertyGeneratedMethod);
+        }
+
+        [Test]
+        public void TestNodeCleaner()
+        {
+            string xml = @"<Docs>
+    <summary>To be added.</summary>
+    <param name=""one"">To be added.</param>
+    <param name=""two"">written docs</param>
+<param name=""three"">Written but not provided</param>
+</Docs>"; string xml2 = @"<Docs>
+    <param name=""two"">written docs</param>
+</Docs>";
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            XmlDocument incomingDoc = new XmlDocument();
+            incomingDoc.LoadXml(xml2);
+            DocUtils.ClearNodesIfNotDefault(doc.FirstChild, incomingDoc.FirstChild);
+            Assert.IsTrue(doc.FirstChild.ChildNodes.Count == 3) ;
         }
     }
 }

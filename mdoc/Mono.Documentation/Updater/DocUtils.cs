@@ -261,6 +261,46 @@ namespace Mono.Documentation.Updater
                     baseRef.FullName == "System.MulticastDelegate";
         }
 
+        public static bool ClearNodesIfNotDefault(XmlNode n, XmlNode incoming, int depth = 0)
+        {
+            if (n is XmlText && n.InnerText == "To Be Added.")
+                return false;
+            else
+            {
+                bool removed = true;
+                foreach (var nchild in n.ChildNodes.Cast<XmlNode>().ToArray())
+                {
+                    if (depth == 0)
+                    {
+                        // check the first level children to see if there's an incoming node that matches
+                        var avalues = nchild.Attributes.Cast<XmlAttribute>().Select(a => $"@{a.Name}='{a.Value}'").ToArray();
+                        var nodexpath = $"./{nchild.Name}";
+                        if (avalues.Length > 0)
+                            nodexpath += $"[{ string.Join(" AND ", avalues) }]";
+                        var incomingEquivalent = incoming.SelectSingleNode(nodexpath);
+                        if (incomingEquivalent != null)
+                        {
+                            nchild.ParentNode.RemoveChild(nchild);
+                            removed = true;
+                        }
+                    }
+                    else if (ClearNodesIfNotDefault(nchild, incoming, depth + 1) && depth == 1)
+                    {
+                        nchild.ParentNode.RemoveChild(nchild);
+                        removed = true;
+                    }
+                    else
+                    {
+                        removed = false;
+                    }
+                }
+                if (removed) return true;
+            }
+
+            return false;
+
+        }
+
         public static bool NeedsOverwrite(XmlElement element)
         {
             return element != null &&
