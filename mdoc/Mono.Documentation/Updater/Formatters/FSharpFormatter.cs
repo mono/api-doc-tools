@@ -975,9 +975,14 @@ namespace Mono.Documentation.Updater
         {
             if (method.IsPublic
                 || method.IsFamily
-                || method.IsFamilyOrAssembly)
+                || method.IsFamilyOrAssembly || IsExplicitlyImplemented(method))
                 return buf.Append("");
             return null;
+        }
+
+        public static bool IsExplicitlyImplemented(MethodDefinition method)
+        {
+            return method != null && method.IsPrivate && method.IsFinal && method.IsVirtual;
         }
 
         private static string GetTypeVisibility(TypeAttributes ta)

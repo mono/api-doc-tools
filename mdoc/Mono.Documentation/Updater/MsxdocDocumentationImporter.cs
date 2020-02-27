@@ -56,6 +56,12 @@ namespace Mono.Documentation.Updater
 
             XmlElement e = info.Node;
 
+            if (e.SelectNodes("./*[@overwrite]").Count == 0)
+            {
+                // there are no overwrites in this node, just clear everything except for default nodes and nodes that don't have an incoming equivalent
+                DocUtils.ClearNodesIfNotDefault(e, elem);
+            }
+
             if (elem.SelectSingleNode("summary") != null && DocUtils.NeedsOverwrite(e["summary"]))
                 MDocUpdater.ClearElement(e, "summary");
             if (elem.SelectSingleNode("remarks") != null && DocUtils.NeedsOverwrite(e["remarks"]))
@@ -81,6 +87,15 @@ namespace Mono.Documentation.Updater
                             if (name == null)
                                 break;
                             XmlElement p2 = (XmlElement)e.SelectSingleNode (child.Name + "[@name='" + name.Value + "']");
+                            if (p2 == null)
+                            {
+                                p2 = e.OwnerDocument.CreateElement(child.Name);
+                                var pname = e.OwnerDocument.CreateAttribute("name");
+                                pname.Value = name.Value;
+
+                                p2.Attributes.Append(pname);
+                                e.AppendChild(p2);
+                            }
                             if (DocUtils.NeedsOverwrite(p2))
                             {
                                 p2.RemoveAttribute("overwrite");

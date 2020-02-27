@@ -261,6 +261,46 @@ namespace Mono.Documentation.Updater
                     baseRef.FullName == "System.MulticastDelegate";
         }
 
+        public static bool ClearNodesIfNotDefault(XmlNode n, XmlNode incoming, int depth = 0)
+        {
+            if (n is XmlText && n.InnerText == "To Be Added.")
+                return false;
+            else
+            {
+                bool removed = true;
+                foreach (var nchild in n.ChildNodes.Cast<XmlNode>().ToArray())
+                {
+                    if (depth == 0)
+                    {
+                        // check the first level children to see if there's an incoming node that matches
+                        var avalues = nchild.Attributes.Cast<XmlAttribute>().Select(a => $"@{a.Name}='{a.Value}'").ToArray();
+                        var nodexpath = $"./{nchild.Name}";
+                        if (avalues.Length > 0)
+                            nodexpath += $"[{ string.Join(" AND ", avalues) }]";
+                        var incomingEquivalent = incoming.SelectSingleNode(nodexpath);
+                        if (incomingEquivalent != null)
+                        {
+                            nchild.ParentNode.RemoveChild(nchild);
+                            removed = true;
+                        }
+                    }
+                    else if (ClearNodesIfNotDefault(nchild, incoming, depth + 1) && depth == 1)
+                    {
+                        nchild.ParentNode.RemoveChild(nchild);
+                        removed = true;
+                    }
+                    else
+                    {
+                        removed = false;
+                    }
+                }
+                if (removed) return true;
+            }
+
+            return false;
+
+        }
+
         public static bool NeedsOverwrite(XmlElement element)
         {
             return element != null &&
@@ -412,7 +452,17 @@ namespace Mono.Documentation.Updater
                     buf.Append(" = ").Append(val.ToString());
                 else if (val is IFormattable)
                 {
-                    string value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                    string value = null;
+                    switch (field.FieldType.FullName)
+                    {
+                        case "System.Double":                          
+                        case "System.Single":
+                            value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture);
+                            break;
+                        default:
+                            value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                            break;
+                    }
                     if (val is string)
                         value = "\"" + value + "\"";
                     buf.Append(" = ").Append(value);
@@ -643,7 +693,23 @@ namespace Mono.Documentation.Updater
 
             return genericTypes.ContainsKey(type.Name)
                 ? genericTypes[type.Name]
-                : type.FullName;
+                : SpecialTypesChk(type, genericTypes);
+        }
+
+        private static string SpecialTypesChk(TypeReference type, Dictionary<string, string> genericTypes)
+        {
+            if (type.IsArray)
+            {
+                var elements = type.GetElementType();
+                if (elements != null && elements.IsGenericParameter && genericTypes.ContainsKey(elements.Name))
+                    return type.FullName.Replace(elements.Name, genericTypes[elements.Name]);
+                else
+                {
+                    return type.FullName;
+                }
+            }
+            else
+                return type.FullName;
         }
 
         public static string GetExplicitTypeName(MemberReference memberReference)

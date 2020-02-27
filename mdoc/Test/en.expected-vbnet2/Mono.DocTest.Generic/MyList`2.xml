@@ -79,6 +79,9 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CopyTo(!A[] array, int32 arrayIndex) cil managed" />
       <MemberSignature Language="VB.NET" Value="Public Sub CopyTo (array As A(), arrayIndex As Integer)" />
       <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)</InterfaceMember>
+      </Implements>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -195,6 +198,7 @@
     <Member MemberName="Mono.DocTest.Generic.IFoo&lt;A&gt;.Method&lt;U&gt;">
       <MemberSignature Language="C#" Value="A IFoo&lt;A&gt;.Method&lt;U&gt; (A a, U u);" />
       <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance !A Mono.DocTest.Generic.IFoo&lt;A&gt;.Method&lt;U&gt;(!A a, !!U u) cil managed" />
+      <MemberSignature Language="VB.NET" Value="Function Method(Of U) (a As A, u As U) As A Implements IFoo(Of A).Method" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:Mono.DocTest.Generic.IFoo`1.Method``1(`0,``0)</InterfaceMember>
