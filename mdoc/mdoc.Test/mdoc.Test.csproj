@@ -95,6 +95,7 @@
     <Compile Include="SampleClasses\NullablesAndTuples.cs" />
     <Compile Include="SampleClasses\StaticClass.cs" />
     <Compile Include="SampleClasses\TestClassThree.cs" />
+    <Compile Include="SpanSpecial.cs" />
     <Compile Include="TypeMapTests.cs" />
     <Compile Include="SampleClasses\ReadonlyRefClass.cs" />
     <Compile Include="SampleClasses\ReadOnlySpan.cs" />

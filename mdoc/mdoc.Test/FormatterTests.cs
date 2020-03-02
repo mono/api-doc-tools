@@ -208,6 +208,17 @@ namespace mdoc.Test
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual ("public void DoSomethingWithParams (params int[] values);", sig);
         }
+
+        [Test]
+        public void RefProperty()
+        {
+            var member = GetType(typeof(SpanSpecial<>))
+                .Properties.FirstOrDefault(t => t.FullName == "T& mdoc.Test.SpanSpecial`1::Item(System.Int32)");
+            var formatterCsharp = new CSharpFullMemberFormatter();
+            string sig = formatterCsharp.GetDeclaration(member);
+            Assert.AreEqual("public ref T this[int index] { get; }", sig);
+        }
+
         [Test]
         public void IL_RefAndOut ()
         {
