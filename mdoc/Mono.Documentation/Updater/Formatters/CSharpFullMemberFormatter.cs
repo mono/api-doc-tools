@@ -598,6 +598,9 @@ namespace Mono.Documentation.Updater
                 modifiers = "";
             buf.Append (modifiers).Append (' ');
 
+            if (property.PropertyType.IsByReference)
+                buf.Append("ref ");
+
             buf.Append (GetTypeName (property.PropertyType, new DynamicParserContext (property))).Append (' ');
 
             IEnumerable<MemberReference> defs = property.DeclaringType.GetDefaultMembers ();
