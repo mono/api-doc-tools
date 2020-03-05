@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
+using System.Xml.XPath;
 using Mono.Cecil;
 using Mono.Collections.Generic;
 using Mono.Documentation.Util;
@@ -265,6 +265,8 @@ namespace Mono.Documentation.Updater
         {
             if (n is XmlText && n.InnerText == "To Be Added.")
                 return false;
+            else if (n is XmlComment)
+                return false;
             else
             {
                 bool removed = true;
@@ -272,14 +274,32 @@ namespace Mono.Documentation.Updater
                 {
                     if (nchild == null) continue;
 
+                    if (nchild is XmlComment || nchild is XmlText || nchild is XmlCDataSection)
+                    {
+                        nchild.ParentNode.RemoveChild(nchild);
+                        removed = true;
+                        continue;
+                    }
+
                     if (depth == 0)
                     {
                         // check the first level children to see if there's an incoming node that matches
                         var avalues = nchild.Attributes?.Cast<XmlAttribute>().Select(a => $"@{a.Name}='{a.Value}'").ToArray();
                         var nodexpath = $"./{nchild.Name}";
                         if (avalues?.Length > 0)
-                            nodexpath += $"[{ string.Join(" AND ", avalues) }]";
-                        var incomingEquivalent = incoming.SelectSingleNode(nodexpath);
+                            nodexpath += $"[{ string.Join(" and ", avalues) }]";
+
+                        XmlNode incomingEquivalent;
+
+                        try
+                        {
+                            incomingEquivalent = incoming.SelectSingleNode(nodexpath);
+                        }
+                        catch (XPathException xex)
+                        {
+                            throw new MDocException($"xpath error: {nodexpath}. On incoming node {incoming.OuterXml}", xex);
+                        }
+
                         if (incomingEquivalent != null)
                         {
                             nchild.ParentNode.RemoveChild(nchild);
