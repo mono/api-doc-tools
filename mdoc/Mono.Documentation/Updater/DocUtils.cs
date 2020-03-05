@@ -270,12 +270,14 @@ namespace Mono.Documentation.Updater
                 bool removed = true;
                 foreach (var nchild in n.ChildNodes.Cast<XmlNode>().ToArray())
                 {
+                    if (nchild == null) continue;
+
                     if (depth == 0)
                     {
                         // check the first level children to see if there's an incoming node that matches
-                        var avalues = nchild.Attributes.Cast<XmlAttribute>().Select(a => $"@{a.Name}='{a.Value}'").ToArray();
+                        var avalues = nchild.Attributes?.Cast<XmlAttribute>().Select(a => $"@{a.Name}='{a.Value}'").ToArray();
                         var nodexpath = $"./{nchild.Name}";
-                        if (avalues.Length > 0)
+                        if (avalues?.Length > 0)
                             nodexpath += $"[{ string.Join(" AND ", avalues) }]";
                         var incomingEquivalent = incoming.SelectSingleNode(nodexpath);
                         if (incomingEquivalent != null)
