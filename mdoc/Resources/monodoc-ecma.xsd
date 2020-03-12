@@ -61,7 +61,6 @@ add masterdoc support?
   <xs:element name="AssemblyVersion" type="xs:string" />
   <xs:element name="AssemblyCulture" type="xs:string" />
   <xs:element name="AttributeName" type="xs:string" />
-  <xs:element name="BaseTypeName" type="xs:string" />
   <xs:element name="Excluded" type="xs:string" />
   <xs:element name="ExcludedBaseTypeName" type="xs:string" />
   <xs:element name="ExcludedLibrary" type="xs:string" />
@@ -83,6 +82,15 @@ add masterdoc support?
   <xs:element name="InterfaceMember" type="xs:string" />
 
   <!-- define complex elements -->
+  <xs:element name="BaseTypeName">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="FrameworkAlternate" use="optional" />
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
   
   <xs:element name="Meta">
     <xs:complexType>
