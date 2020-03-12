@@ -3204,11 +3204,21 @@ namespace Mono.Documentation
 
             string elementName = "TypeForwardingChain";
 
+            var forwardings = new List<MDocResolver.TypeForwardEventArgs>();
+
             // Get type forwardings of current type and framkework 
-            var forwardings = this.assemblies
+            Func<TypeDefinition, List<MDocResolver.TypeForwardEventArgs>> getForwardings = (TypeDefinition typeToQuery) => this.assemblies
                 .Where(a => a.Name == typeEntry.Framework.Name)
-                .SelectMany(a => a.ForwardingChains(type))
+                .SelectMany(a => a.ForwardingChains(typeToQuery))
                 .ToList();
+
+            forwardings.AddRange(getForwardings(type));
+
+            // If current type is nested inner class, add forwardings from outer class as well
+            if (type.IsNested && !type.HasNestedTypes)
+            {
+                forwardings.AddRange(getForwardings(type.DeclaringType.Resolve()));
+            }
 
             XmlElement exsitingChain = (XmlElement)root.SelectSingleNode(elementName);
 
