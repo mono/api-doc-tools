@@ -75,8 +75,6 @@ namespace Mono.Documentation.Updater.Frameworks
                     string file = a.MainModule.FileName;
                     AssemblyNameReference exportedTo = (AssemblyNameReference)etype.Scope;
                     Console.WriteLine($"resolving {forType.FullName} in {name.FullName}. Found {file}, but it's exported to {exportedTo.FullName}");
-                    if (forType != null)
-                        TypeExported?.Invoke(this, new TypeForwardEventArgs(name, exportedTo, forType?.FullName));
 
                     exportedFiles.Add(file);
                     return Resolve(exportedTo, r, forType, exportedFiles, cache);
