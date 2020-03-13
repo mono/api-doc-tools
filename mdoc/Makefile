@@ -157,6 +157,25 @@ Test/DocTest-typeForwards-Third.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Third-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:THIRD
 
+# build test dll to test forwardings nested type
+Test/DocTest-nestedType-typeForwards-First.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-nestedType-typeForwards.cs /define:FIRST
+
+.PHONY: Test/DocTest-nestedType-typeForwards-Second.dll
+Test/DocTest-nestedType-typeForwards-Second.dll:
+	rm -f $@
+	rm -f Test/DocTest-nestedType-typeForwards-Second-First.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-nestedType-typeForwards.cs /define:FIRST
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-nestedType-typeForwards-Second-First.dll /reference:$@ Test/DocTest-nestedType-typeForwards.cs /define:SECOND
+
+.PHONY: Test/DocTest-nestedType-typeForwards-Third.dll
+Test/DocTest-nestedType-typeForwards-Third.dll:
+	rm -f $@
+	rm -f Test/DocTest-nestedType-typeForwards-Third-First.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-nestedType-typeForwards.cs /define:FIRST
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-nestedType-typeForwards-Third-First.dll /reference:$@ Test/DocTest-nestedType-typeForwards.cs /define:THIRD
+
 .PHONY: Test/FrameworkTestData
 Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll
 	rm -rf Test/FrameworkTestData
@@ -215,6 +234,37 @@ check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-typeForwards
 	$(DIFF) Test/en.expected.typeForwards Test/en.actual
 
+.PHONY: check-monodocer-nestedType-typeForwards
+check-monodocer-nestedType-typeForwards : Test/DocTest-nestedType-typeForwards-First.dll Test/DocTest-nestedType-typeForwards-Second.dll Test/DocTest-nestedType-typeForwards-Third.dll
+	-rm -Rf Test/en.actual
+
+	# set up the fx test data
+	-rm -Rf Test/FrameworkTestData-fx-nestedType-typeForwards
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/One
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/Two
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/Three
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/One
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Two
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
+	cp Test/DocTest-nestedType-typeForwards-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/One
+	cp Test/DocTest-nestedType-typeForwards-Second-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/One
+	cp Test/DocTest-nestedType-typeForwards-Second.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/One
+	cp Test/DocTest-nestedType-typeForwards-Second-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Two
+	cp Test/DocTest-nestedType-typeForwards-Third-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Two
+	cp Test/DocTest-nestedType-typeForwards-Second.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Two
+	cp Test/DocTest-nestedType-typeForwards-Third.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Two
+	cp Test/DocTest-nestedType-typeForwards-Second-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Three
+	cp Test/DocTest-nestedType-typeForwards-Third-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Three
+	cp Test/DocTest-nestedType-typeForwards-Second.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
+	cp Test/DocTest-nestedType-typeForwards-Third.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-nestedType-typeForwards
+
+	# now run mdoc update
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-nestedType-typeForwards
+	$(DIFF) Test/en.expected-nestedType.typeForwards Test/en.actual
+	
 check-monodocer-frameworks: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
@@ -778,6 +828,7 @@ run-test-update : check-doc-tools-update
 
 check-doc-tools:  \
 	check-monodocer-typeForwards \
+	check-monodocer-nestedType-typeForwards \
 	check-monodocer-Eii-importslashdoc \
 	check-monodocer-Eii-importecmadoc-oldNames \
 	check-monodocer-Eii \
