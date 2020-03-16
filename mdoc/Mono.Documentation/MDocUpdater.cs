@@ -1734,6 +1734,9 @@ namespace Mono.Documentation
                             }
                         }
 
+                        if (DocUtils.DocIdCheck(seenmembers[sig], oldmember))
+                        { continue; }
+
                         oldmember.SetAttribute ("ToDelete", "true");
                         DeleteMember ("Duplicate Member Found", output, oldmember, todelete, type);
                         statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
