@@ -788,5 +788,22 @@ namespace Mono.Documentation.Updater
         {
             return method.Name.StartsWith("op_", StringComparison.Ordinal);
         }
+
+        public static bool DocIdCheck(XmlNode a, XmlElement b)
+        {
+            if (b.LocalName != "Member" || a.LocalName != "Member")
+                return false;
+
+            var oldMembersDocid = b.SelectSingleNode("MemberSignature[@Language='DocId']/@Value")?.Value;
+            var seenNembersDocid = a.SelectSingleNode("MemberSignature[@Language='DocId']/@Value")?.Value;
+
+            if (oldMembersDocid != null && seenNembersDocid != null)
+            {
+                if (!seenNembersDocid.Equals(oldMembersDocid))
+                    return true;
+            }
+
+            return false;
+        }
     }
 }
