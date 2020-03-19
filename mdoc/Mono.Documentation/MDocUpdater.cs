@@ -2307,7 +2307,10 @@ namespace Mono.Documentation
 
             if (DocUtils.IsDelegate (type))
             {
-                MakeTypeParameters (typeEntry, root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
+                // Checked with dotnet team, we should be align with MSDN
+                // If a generic parameter is from delaring type rather than delegate itself, we should not add "TypeParameter" node in ecmaxml
+
+                MakeTypeParameters(typeEntry, root, DocUtils.GetGenericParameters(type), type, MDocUpdater.HasDroppedNamespace (type));
                 var member = type.GetMethod ("Invoke");
 
                 bool fxAlternateTriggered = false;
@@ -4227,6 +4230,7 @@ namespace Mono.Documentation
                     root.RemoveChild (f);
                 return;
             }
+
             XmlElement e = WriteElement (root, "TypeParameters");
 
             var nodes = e.SelectNodes ("TypeParameter").Cast<XmlElement> ().ToArray ();

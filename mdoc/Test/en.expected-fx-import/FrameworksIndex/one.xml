@@ -150,6 +150,7 @@
       <Member Id="M:Mono.DocTest.Generic.MyList`1.Helper`2.#ctor" />
       <Member Id="M:Mono.DocTest.Generic.MyList`1.Helper`2.UseT(`0,`1,`2)" />
     </Type>
+    <Type Name="Mono.DocTest.Generic.MyList`1/RefDelegate" Id="T:Mono.DocTest.Generic.MyList`1.RefDelegate" />
     <Type Name="Mono.DocTest.Generic.MyList`2" Id="T:Mono.DocTest.Generic.MyList`2">
       <Member Id="M:Mono.DocTest.Generic.MyList`2.#ctor" />
       <Member Id="M:Mono.DocTest.Generic.MyList`2.CopyTo(`0[],System.Int32)" />

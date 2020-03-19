@@ -32,17 +32,8 @@ namespace Mono.Documentation.Updater
             if (type == null)
                 throw new ArgumentNullException ("type");
             Type = type;
-            GenericParameters = new List<GenericParameter> (type.GenericParameters);
-            List<TypeReference> declTypes = DocUtils.GetDeclaringTypes (type);
-            int maxGenArgs = DocUtils.GetGenericArgumentCount (type);
-            for (int i = 0; i < declTypes.Count - 1; ++i)
-            {
-                int remove = System.Math.Min (maxGenArgs,
-                        DocUtils.GetGenericArgumentCount (declTypes[i]));
-                maxGenArgs -= remove;
-                while (remove-- > 0)
-                    GenericParameters.RemoveAt (0);
-            }
+            GenericParameters = DocUtils.GetGenericParameters(type);
+
             if (DocUtils.IsDelegate (type))
             {
                 Parameters = type.GetMethod ("Invoke").Parameters;

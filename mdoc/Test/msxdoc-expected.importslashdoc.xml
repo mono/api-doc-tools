@@ -818,6 +818,12 @@ class Example {
             <remarks>
                 <c>M:Mono.DocTest.MyList`1.Helper`2.UseT(`0,`1,`2)</c>.</remarks>
         </member>
+        <member name="T:Mono.DocTest.Generic.MyList`1.RefDelegate">
+            <summary>To be added.</summary>
+            <returns>To be added.</returns>
+            <remarks>
+                <c>T:Mono.DocTest.MyList`1.RefDelegate</c>.</remarks>
+        </member>
         <member name="T:Mono.DocTest.Generic.MyList`2">
             <typeparam name="A">Ako generic param</typeparam>
             <typeparam name="B">Bko generic param</typeparam>

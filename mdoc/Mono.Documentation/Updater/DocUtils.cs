@@ -847,5 +847,27 @@ namespace Mono.Documentation.Updater
 
             return false;
         }
+
+        // For some types, the generic parameters resolved by mono declared by their declaring type
+        // This method will return the generic parameters declared by type itself
+        public static List<GenericParameter> GetGenericParameters(TypeDefinition type)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            var genericParameters = new List<GenericParameter>(type.GenericParameters);
+            List<TypeReference> declTypes = GetDeclaringTypes(type);
+            int maxGenArgs = GetGenericArgumentCount(type);
+            
+            for (int i = 0; i < declTypes.Count - 1; ++i)
+            {
+                int remove = System.Math.Min(maxGenArgs,
+                        GetGenericArgumentCount(declTypes[i]));
+                maxGenArgs -= remove;
+                while (remove-- > 0)
+                    genericParameters.RemoveAt(0);
+            }
+            return genericParameters;
+        }
     }
 }
