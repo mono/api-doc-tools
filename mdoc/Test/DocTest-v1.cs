@@ -636,6 +636,9 @@ namespace Mono.DocTest.Generic {
 
 		/// <remarks><c>M:Mono.DocTest.MyList`1.GetEnumerator</c>.</remarks>
 		public IEnumerator<int[]> GetEnumerator () {return null;}
+		
+		/// <remarks><c>T:Mono.DocTest.MyList`1.RefDelegate</c>.</remarks>
+		public delegate bool RefDelegate ();
 	}
 
 	/// <typeparam name="T">T generic param</typeparam>
