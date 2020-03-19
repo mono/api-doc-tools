@@ -9,7 +9,9 @@ namespace TheNamespace
     public class TheClass
     {
         protected class InnerClass
-        {}
+        {
+            protected class Enumerator {}
+        }
     }
     #endif
 }
