@@ -37,6 +37,7 @@
     <Namespace Name="TheNamespace">
       <Type Name="TheClass" Kind="Class" />
       <Type Name="TheClass+InnerClass" Kind="Class" />
+      <Type Name="TheClass+InnerClass+Enumerator" Kind="Class" />
     </Namespace>
   </Types>
   <Title>Untitled</Title>

@@ -3217,10 +3217,19 @@ namespace Mono.Documentation
 
             forwardings.AddRange(getForwardings(type));
 
-            // If current type is nested inner class, add forwardings from outer class as well
-            if (type.IsNested && !type.HasNestedTypes)
+            // If current type is nested inner class, add forwardings from outer classes as well
+            // Using AddRange here becuase IsForwarder=true is used as filter when import exportedType from metadata
+            // And for inner class IsForwarder will be false
+            if (type.IsNested)
             {
-                forwardings.AddRange(getForwardings(type.DeclaringType.Resolve()));
+                var outerType = type.DeclaringType;
+
+                // Handle multiple layers nested
+                while (null != outerType)
+                {
+                    forwardings.AddRange(getForwardings(outerType.Resolve()));
+                    outerType = outerType.DeclaringType;
+                }
             }
 
             XmlElement exsitingChain = (XmlElement)root.SelectSingleNode(elementName);

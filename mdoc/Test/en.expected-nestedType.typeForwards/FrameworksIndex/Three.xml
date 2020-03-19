@@ -11,5 +11,8 @@
     <Type Name="TheNamespace.TheClass/InnerClass" Id="T:TheNamespace.TheClass.InnerClass">
       <Member Id="M:TheNamespace.TheClass.InnerClass.#ctor" />
     </Type>
+    <Type Name="TheNamespace.TheClass/InnerClass/Enumerator" Id="T:TheNamespace.TheClass.InnerClass.Enumerator">
+      <Member Id="M:TheNamespace.TheClass.InnerClass.Enumerator.#ctor" />
+    </Type>
   </Namespace>
 </Framework>
