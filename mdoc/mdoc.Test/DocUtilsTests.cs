@@ -1,5 +1,6 @@
 ﻿using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater;
+using Mono.Documentation.Updater.Frameworks;
 using NUnit.Framework;
 using System.Xml;
 
@@ -131,7 +132,5 @@ random text
             var flg3 = DocUtils.DocIdCheck(b, (XmlElement)d);
             Assert.IsTrue(flg3);
         }
-
-
     }
 }
