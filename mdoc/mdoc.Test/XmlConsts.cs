@@ -298,6 +298,100 @@
      </Member>
     </Members>
    </Type>";
-  #endregion
+        #endregion
+
+        #region internalEllRemove
+        public const string internalEllXml = @"<Type Name=""InternalEIICalss"" FullName=""mdoc.Test2.InternalEIICalss"">
+  <TypeSignature Language = ""C#"" Value=""public class InternalEIICalss"" />
+  <TypeSignature Language = ""ILAsm"" Value="".class public auto ansi beforefieldinit InternalEIICalss extends System.Object"" />
+  <TypeSignature Language = ""DocId"" Value=""T:mdoc.Test2.InternalEIICalss"" />
+  <TypeSignature Language = ""VB.NET"" Value=""Public Class InternalEIICalss"" />
+  <TypeSignature Language = ""C++ CLI"" Value=""public ref class InternalEIICalss"" />
+  <TypeSignature Language = ""F#"" Value=""type InternalEIICalss = class"" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName = "".ctor"" >
+      <MemberSignature Language=""C#"" Value=""public InternalEIICalss ();"" />
+      <MemberSignature Language = ""ILAsm"" Value="".method public hidebysig specialname rtspecialname instance void .ctor() cil managed"" />
+      <MemberSignature Language = ""DocId"" Value=""M:mdoc.Test2.InternalEIICalss.#ctor"" />
+      <MemberSignature Language = ""VB.NET"" Value=""Public Sub New ()"" />
+      <MemberSignature Language = ""C++ CLI"" Value=""public:&#xA; InternalEIICalss();"" />
+      <MemberSignature Language = ""C++ CX"" Value=""public:&#xA; InternalEIICalss();"" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName = ""Getstring"" >
+      <MemberSignature Language=""C#"" Value=""public string Getstring (int a);"" />
+      <MemberSignature Language = ""ILAsm"" Value="".method public hidebysig instance string Getstring(int32 a) cil managed"" />
+      <MemberSignature Language = ""DocId"" Value=""M:mdoc.Test2.InternalEIICalss.Getstring(System.Int32)"" />
+      <MemberSignature Language = ""VB.NET"" Value=""Public Function Getstring (a As Integer) As String"" />
+      <MemberSignature Language = ""C++ CLI"" Value=""public:&#xA; System::String ^ Getstring(int a);"" />
+      <MemberSignature Language = ""C++ CX"" Value=""public:&#xA; Platform::String ^ Getstring(int a);"" />
+      <MemberSignature Language = ""F#"" Value=""member this.Getstring : int -&gt; string"" Usage=""internalEIICalss.Getstring a"" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name = ""a"" Type=""System.Int32"" />
+      </Parameters>
+      <Docs>
+        <param name = ""a"" > To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=""mdoc.Test.SampleClasses.InterfaceA.Getstring"">
+      <MemberSignature Language = ""C#"" Value=""string InterfaceA.Getstring (int a);"" />
+      <MemberSignature Language = ""ILAsm"" Value="".method hidebysig newslot virtual instance string mdoc.Test.SampleClasses.InterfaceA.Getstring(int32 a) cil managed"" />
+      <MemberSignature Language = ""DocId"" Value=""M:mdoc.Test2.InternalEIICalss.mdoc#Test#SampleClasses#InterfaceA#Getstring(System.Int32)"" />
+      <MemberSignature Language = ""VB.NET"" Value=""Function Getstring (a As Integer) As String Implements InterfaceA.Getstring"" />
+      <MemberSignature Language = ""C++ CLI"" Value="" virtual System::String ^ mdoc.Test.SampleClasses.InterfaceA.Getstring(int a) = mdoc::Test::SampleClasses::InterfaceA::Getstring;"" />
+      <MemberSignature Language = ""C++ CX"" Value="" virtual Platform::String ^ mdoc.Test.SampleClasses.InterfaceA.Getstring(int a) = mdoc::Test::SampleClasses::InterfaceA::Getstring;"" />
+      <MemberSignature Language = ""F#"" Value=""abstract member mdoc.Test.SampleClasses.InterfaceA.Getstring : int -&gt; string&#xA;override this.mdoc.Test.SampleClasses.InterfaceA.Getstring : int -&gt; string"" Usage=""internalEIICalss.mdoc.Test.SampleClasses.InterfaceA.Getstring a"" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name = ""a"" Type=""System.Int32"" />
+      </Parameters>
+      <Docs>
+        <param name = ""a"" > To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
+";
+
+        #endregion
     }
 }

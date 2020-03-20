@@ -4,4 +4,9 @@
     {
         int B { get; set; }
     }
+
+    internal interface InterfaceA
+    {
+        string Getstring(int a);
+    }
 }
