@@ -1691,6 +1691,14 @@ namespace Mono.Documentation
                     continue;
                 }
 
+                // Delete NonPublicEII Member
+                if (!IsMemberPublicEII(oldmember2))
+                {
+                    DeleteMember("Member Removed", output, oldmember, todelete, type);
+                    statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
+                    continue;
+                }
+
                 // Duplicated
                 if (seenmembers.ContainsKey (sig))
                 {
