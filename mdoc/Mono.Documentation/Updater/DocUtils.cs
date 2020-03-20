@@ -8,12 +8,54 @@ using System.Xml;
 using System.Xml.XPath;
 using Mono.Cecil;
 using Mono.Collections.Generic;
+using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater
 {
     public static class DocUtils
     {
+
+        public static void AddElementWithFx(FrameworkTypeEntry typeEntry, XmlElement parent, Action<XmlElement> clear, Func<XmlElement, XmlElement> findExisting, Func<XmlElement, XmlElement> addItem)
+        {
+            if (typeEntry.TimesProcessed > 1)
+                return;
+
+            if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
+            {
+                clear(parent);
+            }
+
+            var item = findExisting(parent);
+
+            if (item == null)
+            {
+                item = addItem(parent);
+            }
+
+            item.AddFrameworkToElement(typeEntry.Framework);
+            
+            if (typeEntry.Framework.IsLastFrameworkForType(typeEntry))
+            {
+                item.ClearFrameworkIfAll(typeEntry);
+            }
+        }
+        public static void ClearFrameworkIfAll(this XmlElement element, FrameworkTypeEntry typeEntry)
+        {
+            var allFrameworks = typeEntry.Framework.AllFrameworksWithType(typeEntry);
+            if (element.HasAttribute(Consts.FrameworkAlternate) && element.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
+            {
+                element.RemoveAttribute(Consts.FrameworkAlternate);
+            }
+        }
+
+        public static void AddFrameworkToElement(this XmlElement element, FrameworkEntry framework)
+        {
+            var fxaValue = FXUtils.AddFXToList(element.GetAttribute(Consts.FrameworkAlternate), framework.Name);
+
+            element.SetAttribute(Consts.FrameworkAlternate, fxaValue);
+        }
+
         public static bool DoesNotHaveApiStyle (this XmlElement element, ApiStyle style)
         {
             string styleString = style.ToString ().ToLowerInvariant ();

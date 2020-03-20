@@ -683,6 +683,127 @@ namespace mdoc.Test
             Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
         }
 
+
+        [Test]
+        public void FxElementTest()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(@"<Parent><X>old value</X></Parent>");
+            var context = InitContext<MyClass>(string.Format(typeFrameXml, multiFrameworkXml), 0, forceAlignment: false);
+            
+            var fx = context.fx.Frameworks[0];
+            FrameworkTypeEntry typeEntry = fx.Types.First();
+            
+            XmlElement parentx = doc.DocumentElement;
+
+
+            DocUtils.AddElementWithFx(
+                typeEntry,
+                parentx,
+                clear: parent =>
+                {
+                    parent.RemoveAll();
+                },
+                findExisting: parent =>
+                {
+                    return parent.SelectSingleNode("X") as XmlElement;
+                },
+                addItem: parent =>
+                {
+                    var item = parent.OwnerDocument.CreateElement("X");
+                    item.InnerText = "value";
+                    parent.AppendChild(item);
+                    return item;
+                });
+
+            Assert.AreEqual(1, parentx.ChildNodes.Count);
+            Assert.AreEqual("value", parentx.ChildNodes[0].InnerText);
+            Assert.AreEqual("One", parentx.ChildNodes[0].Attributes[0].Value);
+        }
+        [Test]
+        public void FxElementTest_Two()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(@"<Parent><X>old value</X></Parent>");
+            var context = InitContext<MyClass>(string.Format(typeFrameXml, multiFrameworkXml), 0, forceAlignment: false);
+
+            var fx = context.fx.Frameworks[1];
+            FrameworkTypeEntry typeEntry = fx.Types.First();
+
+            XmlElement parentx = doc.DocumentElement;
+
+            System.Func<FrameworkTypeEntry, string, bool> runfx = (te, value) =>
+            {
+                DocUtils.AddElementWithFx(
+                    te,
+                    parentx,
+                    clear: parent =>
+                    {
+                        parent.RemoveAll();
+                    },
+                    findExisting: parent =>
+                    {
+                        return parent.ChildNodes.Cast<XmlElement>().SingleOrDefault(e => e.Name == "X" && e.Value == value);
+                    },
+                    addItem: parent =>
+                    {
+                        var item = parent.OwnerDocument.CreateElement("X");
+                        item.InnerText = value;
+                        parent.AppendChild(item);
+                        return item;
+                    });
+                return true;
+            };
+
+            runfx(context.fx.Frameworks[0].Types.First(), "one");
+            runfx(context.fx.Frameworks[1].Types.First(), "two");
+
+            Assert.AreEqual(parentx.ChildNodes.Count, 2);
+            Assert.IsTrue(parentx.ChildNodes.Cast<XmlElement>().Any(e => e.HasAttribute(Consts.FrameworkAlternate)), "fx check");
+        }
+        
+        [Test]
+        public void FxElementTest_Three()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(@"<Parent><X>old value</X></Parent>");
+            var context = InitContext<MyClass>(string.Format(typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            var fx = context.fx.Frameworks[1];
+            FrameworkTypeEntry typeEntry = fx.Types.First();
+
+            XmlElement parentx = doc.DocumentElement;
+
+            System.Func<FrameworkTypeEntry, bool> runfx = (te) =>
+            {
+                DocUtils.AddElementWithFx(
+                    te,
+                    parentx,
+                    clear: parent =>
+                    {
+                        parent.RemoveAll();
+                    },
+                    findExisting: parent =>
+                    {
+                        return parent.SelectSingleNode("X") as XmlElement;
+                    },
+                    addItem: parent =>
+                    {
+                        var item = parent.OwnerDocument.CreateElement("X");
+                        item.InnerText = "value";
+                        parent.AppendChild(item);
+                        return item;
+                    });
+                return true;
+            };
+
+            runfx(context.fx.Frameworks[0].Types.First());
+            runfx(context.fx.Frameworks[1].Types.First());
+            runfx(context.fx.Frameworks[2].Types.First());
+
+            Assert.AreEqual(parentx.ChildNodes.Count, 1);
+        }
+
         string Normalize(string xml, bool clearFx = false) {
             XmlDocument doc = new XmlDocument ();
 
