@@ -51,8 +51,41 @@ namespace mdoc.Test
         [Test]
         public void GetMethod() => TestMethodMember("BeginRead", XML_METHOD_TESTMETHOD);
 
+        [Test]
+        public void MergeDiffReturnTypes_MatchExplicitConversion_String() => testReturnType("op_Explicit", "System.String");
+
+        [Test]
+        public void MergeDiffReturnTypes_MatchExplicitConversion_CharArray() => testReturnType("op_Explicit", "System.Char[]");
+
+        [Test]
+        public void MergeDiffReturnTypes_MatchExplicitConversion_Int() => testReturnType("op_Implicit", "System.Int32");
+        [Test]
+        public void MergeDiffReturnTypes_MatchExplicitConversion_IntArray() => testReturnType("op_Implicit", "System.Int32[]");
+
         #region Test infrastructure
 
+        private void testReturnType(string methName, string r)
+        {
+            TypeDefinition theclass = GetTypeDef<ConcreteClass>();
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(@"<Member MemberName="""+ methName +@""">
+      <MemberType>Method</MemberType>
+      <ReturnValue>
+        <ReturnType>" + r + @"</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name=""value"" Type=""mdoc.Test.EnumeratorTests+ConcreteClass"" />
+      </Parameters>
+    </Member>");
+
+            DocumentationMember docmember = new DocumentationMember(doc.DocumentElement, typeEntry: null);
+            var result = DocumentationEnumerator.GetMember(theclass, docmember) as MethodReference;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(methName, result.Name);
+            Assert.AreEqual(r, result.ReturnType.FullName);
+        }
         private void TestProperty (string propertyName)
         {
             TypeDefinition theclass = GetTypeDef<ConcreteClass> ();
@@ -110,6 +143,11 @@ namespace mdoc.Test
             string IFace1.AProperty { get; set; }
             string IFace2.AProperty { get; set; }
             public IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback asyncCallback, object asyncState) => null;
+
+            public static explicit operator string(ConcreteClass value) => value.AProperty;
+            public static explicit operator char[](ConcreteClass value) => value.AProperty.ToCharArray();
+            public static implicit operator int(ConcreteClass value) => value.AProperty.Length;
+            public static implicit operator int[](ConcreteClass value) => value.AProperty.ToCharArray().Select(c => (int)c).ToArray();
         }
 
         #endregion

@@ -127,10 +127,22 @@ and the second dimension indexed by 1, 2, and 3. </para>
       </Parameters>
       <Docs>
         <typeparam name="T">To be added.</typeparam>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="array">The array to wrap in a read-only <see cref="T:System.Collections.Generic.IList&lt;T&gt;" /> wrapper.</param>
+        <summary>
+							<para>Returns a read-only <see cref="T: System.Collections.Generic.IList&lt;T&gt;" /> wrapper around the specified array.</para>
+						</summary>
+        <returns>
+							<para>A read-only <see cref="T:System.Collections.Generic.IList&lt;T&gt;" />  wrapper around the specified array.</para>
+						</returns>
+        <remarks>
+							<para>
+								<block subset="none" type="note">To prevent any modifications to the array, expose the array only through this wrapper.</block>
+							</para>
+							<para>The returned <see langword="IList&lt;T&gt;" /> has the same enumeration order as the array it wraps.</para>
+							<para>A collection that is read-only is simply a collection with a wrapper that prevents modifying the underlying array; therefore, if changes are made to the underlying array, the read-only collection reflects those changes.</para>
+						</remarks>
+        <exception cref="T:System.ArgumentNullException">
+							<paramref name="array" /> is <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ConvertAll&lt;TInput,TOutput&gt;">

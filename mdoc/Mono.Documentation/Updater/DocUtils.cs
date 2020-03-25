@@ -16,12 +16,12 @@ namespace Mono.Documentation.Updater
     public static class DocUtils
     {
 
-        public static void AddElementWithFx(FrameworkTypeEntry typeEntry, XmlElement parent, Action<XmlElement> clear, Func<XmlElement, XmlElement> findExisting, Func<XmlElement, XmlElement> addItem)
+        public static void AddElementWithFx(FrameworkTypeEntry typeEntry, XmlElement parent, bool isFirst, bool isLast, Lazy<string> allfxstring, Action<XmlElement> clear, Func<XmlElement, XmlElement> findExisting, Func<XmlElement, XmlElement> addItem)
         {
             if (typeEntry.TimesProcessed > 1)
                 return;
 
-            if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
+            if (isFirst)
             {
                 clear(parent);
             }
@@ -35,15 +35,14 @@ namespace Mono.Documentation.Updater
 
             item.AddFrameworkToElement(typeEntry.Framework);
             
-            if (typeEntry.Framework.IsLastFrameworkForType(typeEntry))
+            if (isLast)
             {
-                item.ClearFrameworkIfAll(typeEntry);
+                item.ClearFrameworkIfAll(allfxstring.Value);
             }
         }
-        public static void ClearFrameworkIfAll(this XmlElement element, FrameworkTypeEntry typeEntry)
+        public static void ClearFrameworkIfAll(this XmlElement element, string allfxstring)
         {
-            var allFrameworks = typeEntry.Framework.AllFrameworksWithType(typeEntry);
-            if (element.HasAttribute(Consts.FrameworkAlternate) && element.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
+            if (element.HasAttribute(Consts.FrameworkAlternate) && element.GetAttribute(Consts.FrameworkAlternate) == allfxstring)
             {
                 element.RemoveAttribute(Consts.FrameworkAlternate);
             }

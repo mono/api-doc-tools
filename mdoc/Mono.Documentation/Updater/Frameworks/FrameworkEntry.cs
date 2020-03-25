@@ -90,7 +90,8 @@ namespace Mono.Documentation.Updater.Frameworks
                 return fxType.ContainsCSharpSig (memberSig) || fxType.ContainsDocId(docidsig);
             }).ToArray ();
 
-            if (!fxlist.Any ()) return false;
+            if (!fxlist.Any ()) 
+                return false;
 
             var lastListed = fxlist.Last ();
             return lastListed.Name == this.Name;
