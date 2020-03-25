@@ -4349,7 +4349,7 @@ namespace Mono.Documentation
             return typename;
         }
 
-        private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, TypeReference type, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)
+        private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, TypeReference type, MemberReference member, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)
         {
             XmlElement e = WriteElement (root, "ReturnValue");
             var valueToUse = GetDocTypeFullName (type);
@@ -4364,18 +4364,29 @@ namespace Mono.Documentation
                     valueToUse = valueToUse.Remove(valueToUse.Length - 1);
             }
 
-            AddXmlNode (e.SelectNodes ("ReturnType").Cast<XmlElement> ().ToArray (),
-                x => x.InnerText == valueToUse,
-                x => x.InnerText = valueToUse,
-                () =>
-                {
-                    var newNode = WriteElementText (e, "ReturnType", valueToUse, forceNewElement: true);
-                    if (attributes != null)
-					MakeAttributes (e, GetCustomAttributes (attributes, ""), typeEntry.Framework, typeEntry);
 
-                    return newNode;
-                },
-            type);
+            DocUtils.AddElementWithFx(
+                    typeEntry,
+                    parent: e,
+                    isFirst: typeEntry.IsMemberOnFirstFramework(member),// typeEntry.Framework.IsFirstFrameworkForType(typeEntry),
+                    isLast: typeEntry.IsMemberOnLastFramework(member),// typeEntry.Framework.IsLastFrameworkForType(typeEntry),
+                    allfxstring: new Lazy<string>(() => typeEntry.AllFrameworkStringForMember(member)),
+                    clear: parent =>
+                    {
+                        parent.RemoveAll();
+                    },
+                    findExisting: parent =>
+                    {
+                        return parent.ChildNodes.Cast<XmlElement>().SingleOrDefault(rt => rt.Name == "ReturnType" && rt.InnerText == valueToUse);
+                    },
+                    addItem: parent =>
+                    {
+                        var newNode = WriteElementText(e, "ReturnType", valueToUse, forceNewElement: true);
+                        if (attributes != null)
+                            MakeAttributes(e, GetCustomAttributes(attributes, ""), typeEntry.Framework, typeEntry);
+
+                        return newNode;
+                    });
         }
 
         private bool IsReadonlyAttribute(IList<CustomAttribute> attributes)
@@ -4397,13 +4408,13 @@ namespace Mono.Documentation
             if (mi is MethodDefinition && ((MethodDefinition)mi).IsConstructor)
                 return;
             else if (mi is MethodDefinition)
-                MakeReturnValue (typeEntry, root, ((MethodDefinition)mi).ReturnType, ((MethodDefinition)mi).MethodReturnType.CustomAttributes, shouldDuplicateWithNew);
+                MakeReturnValue (typeEntry, root, ((MethodDefinition)mi).ReturnType,mi, ((MethodDefinition)mi).MethodReturnType.CustomAttributes, shouldDuplicateWithNew);
             else if (mi is PropertyDefinition)
-                MakeReturnValue (typeEntry, root, ((PropertyDefinition)mi).PropertyType, null, shouldDuplicateWithNew);
+                MakeReturnValue (typeEntry, root, ((PropertyDefinition)mi).PropertyType, mi, null, shouldDuplicateWithNew);
             else if (mi is FieldDefinition)
-                MakeReturnValue (typeEntry, root, ((FieldDefinition)mi).FieldType, null, shouldDuplicateWithNew);
+                MakeReturnValue (typeEntry, root, ((FieldDefinition)mi).FieldType, mi, null, shouldDuplicateWithNew);
             else if (mi is EventDefinition)
-                MakeReturnValue (typeEntry, root, ((EventDefinition)mi).EventType, null, shouldDuplicateWithNew);
+                MakeReturnValue (typeEntry, root, ((EventDefinition)mi).EventType, mi, null, shouldDuplicateWithNew);
             else if (mi is AttachedEventReference)
                 return;
             else if (mi is AttachedPropertyReference)

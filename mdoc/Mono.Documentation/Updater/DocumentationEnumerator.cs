@@ -107,7 +107,7 @@ namespace Mono.Documentation.Updater
                     continue;
 
                 MethodDefinition mDef = mi as MethodDefinition;
-                if (mDef != null && !mDef.IsConstructor)
+                if (mDef != null && !mDef.IsConstructor && (mDef.Name.StartsWith("op_Explicit", StringComparison.Ordinal) || mDef.Name.StartsWith("op_Implicit", StringComparison.Ordinal))) 
                 {
                     // Casting operators can overload based on return type.
                     string rtype = GetReplacedString (

@@ -700,6 +700,9 @@ namespace mdoc.Test
             DocUtils.AddElementWithFx(
                 typeEntry,
                 parentx,
+                isFirst: typeEntry.Framework.IsFirstFrameworkForType(typeEntry),
+                isLast: typeEntry.Framework.IsLastFrameworkForType(typeEntry),
+                allfxstring: new Lazy<string>(() => typeEntry.Framework.AllFrameworksWithType(typeEntry)),
                 clear: parent =>
                 {
                     parent.RemoveAll();
@@ -737,6 +740,9 @@ namespace mdoc.Test
                 DocUtils.AddElementWithFx(
                     te,
                     parentx,
+                    isFirst: te.Framework.IsFirstFrameworkForType(te),
+                    isLast: te.Framework.IsLastFrameworkForType(te),
+                    allfxstring: new Lazy<string>(() => typeEntry.Framework.AllFrameworksWithType(typeEntry)),
                     clear: parent =>
                     {
                         parent.RemoveAll();
@@ -779,6 +785,9 @@ namespace mdoc.Test
                 DocUtils.AddElementWithFx(
                     te,
                     parentx,
+                    isFirst: typeEntry.Framework.IsFirstFrameworkForType(typeEntry),
+                    isLast: typeEntry.Framework.IsLastFrameworkForType(typeEntry),
+                    allfxstring: new Lazy<string>(() => typeEntry.Framework.AllFrameworksWithType(typeEntry)),
                     clear: parent =>
                     {
                         parent.RemoveAll();
