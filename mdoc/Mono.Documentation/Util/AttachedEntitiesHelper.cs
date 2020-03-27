@@ -158,7 +158,8 @@ namespace Mono.Documentation.Util
             return method.Parameters.Count == 2// The Set method takes two arguments.
                    
                    // The first has type DependencyObject(or IsAssignableTo…), 
-                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml))
+                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml)
+                    || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameIInputElement) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameObject))
 
                    // the second has type dp.PropertyType (or IsAssignableTo…).
                    // && IsAssignableTo(method.Parameters[1].ParameterType, "")
