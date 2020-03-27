@@ -1641,8 +1641,8 @@ namespace Mono.Documentation
                 if (oldmember2 != null && sig == null)
                     oldmember2 = null;
 
-                // Deleted (or signature changed)
-                if (oldmember2 == null)
+                // Deleted (or signature changed, or existing member is EII to a private interface)
+                if (oldmember2 == null || !IsMemberPublicEII(oldmember2))
                 {
                     if (!string.IsNullOrWhiteSpace (FrameworksPath))
                     {
@@ -1691,13 +1691,6 @@ namespace Mono.Documentation
                     continue;
                 }
 
-                // Delete NonPublicEII Member
-                if (!IsMemberPublicEII(oldmember2))
-                {
-                    DeleteMember("Member Removed", output, oldmember, todelete, type);
-                    statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
-                    continue;
-                }
 
                 // Duplicated
                 if (seenmembers.ContainsKey (sig))
