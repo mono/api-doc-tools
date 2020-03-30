@@ -457,7 +457,7 @@ namespace Mono.Documentation
                                 foreach (var type in assembly.GetTypes())
                                 {
                                     var t = a.ProcessType(type, assembly);
-                                    foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i)))
+                                    foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i) && IsMemberNotPrivateEII(i)))
                                         t.ProcessMember(member);
                                 }
                             }
@@ -1642,7 +1642,7 @@ namespace Mono.Documentation
                     oldmember2 = null;
 
                 // Deleted (or signature changed, or existing member is EII to a private interface)
-                if (oldmember2 == null || !IsMemberPublicEII(oldmember2))
+                if (oldmember2 == null || !IsMemberNotPrivateEII(oldmember2))
                 {
                     if (!string.IsNullOrWhiteSpace (FrameworksPath))
                     {
@@ -1796,7 +1796,7 @@ namespace Mono.Documentation
                             // member of an internal interface, in which case we shouldn't return true.
                             
 
-                            if (!IsMemberPublicEII(m))
+                            if (!IsMemberNotPrivateEII(m))
                                 return false;
 
                             return true;
@@ -1920,7 +1920,7 @@ namespace Mono.Documentation
             }
         }
 
-        private static bool IsMemberPublicEII(MemberReference m)
+        public static bool IsMemberNotPrivateEII(MemberReference m)
         {
             MethodDefinition methdef = null;
             if (m is MethodDefinition)
