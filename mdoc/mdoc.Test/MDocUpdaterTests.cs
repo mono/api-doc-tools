@@ -49,7 +49,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void InterNalELLTest()
+        public void InternalEIITest()
         {
             XmlDocument doc = new System.Xml.XmlDocument();
             doc.LoadXml(XmlConsts.internalEllXml);
@@ -58,22 +58,21 @@ namespace mdoc.Test
             var type = GetType(typeof(mdoc.Test2.InternalEIICalss));
             var docEnum = new DocumentationEnumerator();
 
-            BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Static;
-            MethodInfo mInfo = typeof(MDocUpdater).GetMethod("IsMemberPublicEII", flags);
-
+            bool internalEIIflagged = false;
             foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers(doc, type, FrameworkTypeEntry.Empty))
             {
-                object[] parametors = new object[] { info.Member };
-                var flag = (bool)mInfo.Invoke(null, parametors);
+                var flag = MDocUpdater.IsMemberNotPrivateEII(info.Member);
 
                 if (!flag)
                 {
+                    internalEIIflagged = true;
                     oldmember = info.Member;
                     //Note : The following operation will not be carried out, just prompt
                       //-> DeleteMember();
                       //-> statisticsCollector.AddMetric();
                 }
             }
+            Assert.IsTrue(internalEIIflagged, "Internal EII was not flagged");
             Assert.AreEqual("System.String mdoc.Test2.InternalEIICalss::mdoc.Test.SampleClasses.InterfaceA.Getstring(System.Int32)", oldmember.FullName);
 
         }
