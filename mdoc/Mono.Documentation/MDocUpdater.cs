@@ -457,7 +457,7 @@ namespace Mono.Documentation
                                 foreach (var type in assembly.GetTypes())
                                 {
                                     var t = a.ProcessType(type, assembly);
-                                    foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i) && IsMemberNotPrivateEII(i)))
+                                    foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i)))
                                         t.ProcessMember(member);
                                 }
                             }
@@ -1642,9 +1642,12 @@ namespace Mono.Documentation
                     oldmember2 = null;
 
                 // Deleted (or signature changed, or existing member is EII to a private interface)
-                if (oldmember2 == null || !IsMemberNotPrivateEII(oldmember2))
+                // note: apologies for the double negatives in names here ... but the intent is ultimately 
+                // to remove private EII members that were there prior to this rule being instated 
+                bool isprivateeii = !IsMemberNotPrivateEII(oldmember2);
+                if (oldmember2 == null || isprivateeii)
                 {
-                    if (!string.IsNullOrWhiteSpace (FrameworksPath))
+                    if (!string.IsNullOrWhiteSpace (FrameworksPath) && !isprivateeii) // only do this check if fx mode AND it's not a private EII. If it's a private EII, we just want to delete it
                     {
                         // verify that this member wasn't seen in another framework and is indeed valid
                         var sigFromXml = oldmember
