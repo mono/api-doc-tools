@@ -15,7 +15,7 @@ namespace Mono.Documentation.Updater.CppFormatters
         public override string Language => Consts.CppWinRt;
         protected override string RefTypeModifier => " &";
 
-        public CppWinRtFullMemberFormatter() : this(null) {}
+        public CppWinRtFullMemberFormatter() : this(null) { }
         public CppWinRtFullMemberFormatter(TypeMap map) : base(map) { }
 
         protected override IList<string> GetAllowedTypes()
@@ -25,7 +25,7 @@ namespace Mono.Documentation.Updater.CppFormatters
 
         protected override StringBuilder AppendNamespace(StringBuilder buf, TypeReference type)
         {
-            var @namespace=base.AppendNamespace(buf, type);
+            var @namespace = base.AppendNamespace(buf, type);
             if (@namespace.ToString().StartsWith($"Windows{NestedTypeSeparator}"))
             {
                 buf.Insert(0, $"winrt{NestedTypeSeparator}");
@@ -63,7 +63,7 @@ namespace Mono.Documentation.Updater.CppFormatters
                 case "System.UInt16": typeToCompare = "unsigned short"; break;
                 case "System.UInt32": typeToCompare = "unsigned int"; break;
                 case "System.UInt64": typeToCompare = "uint64_t"; break;
-                    
+
                 case "System.Single": typeToCompare = "float"; break;
                 case "System.Double": typeToCompare = "double"; break;
 
@@ -84,11 +84,11 @@ namespace Mono.Documentation.Updater.CppFormatters
             return typeToCompare == t ? null : typeToCompare;
         }
 
-        protected override  StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
         {
             if (parameter.ParameterType is ByReferenceType && parameter.IsOut)
             {
-               //no notion of out -> mark with attribute to distinguish in other languages 
+                //no notion of out -> mark with attribute to distinguish in other languages 
                 buf.Append("[Runtime::InteropServices::Out] ");
             }
 
@@ -109,7 +109,7 @@ namespace Mono.Documentation.Updater.CppFormatters
 
             return buf;
         }
-        
+
         protected override string GetTypeKind(TypeDefinition t)
         {
             if (t.IsEnum || t.FullName == "System.Enum")
@@ -168,7 +168,7 @@ namespace Mono.Documentation.Updater.CppFormatters
                     buf.AppendLine($"void {apiName}({returnType});");
                 else
                     buf.AppendLine($"void {apiName}({returnType} {paramName});");
-             }
+            }
             return buf.ToString().Replace("\r\n", "\n").Trim();
         }
 
@@ -191,7 +191,7 @@ namespace Mono.Documentation.Updater.CppFormatters
         protected override string GetTypeDeclaration(TypeDefinition type)
         {
             StringBuilder buf = new StringBuilder();
-            
+
             var genericParamList = GetTypeSpecifiGenericParameters(type);
             AppendGenericItem(buf, genericParamList);
             AppendGenericTypeConstraints(buf, type);
@@ -287,7 +287,7 @@ namespace Mono.Documentation.Updater.CppFormatters
 
         protected override string AppendSealedModifiers(string modifiersString, MethodDefinition method)
         {
-            if (method.IsFinal) modifiersString += " sealed";
+            if (method.IsFinal || (method.IsVirtual & method.IsFamily & IsEII(method))) modifiersString += " sealed";
             if (modifiersString == " virtual sealed") modifiersString = "";
             
             return modifiersString;
@@ -381,6 +381,27 @@ namespace Mono.Documentation.Updater.CppFormatters
             return
                 IsSupported(mdef.ReturnType)
                 && mdef.Parameters.All(i => IsSupported(i.ParameterType));
+        }
+
+        private static bool IsEII(MethodDefinition methdef)
+        {
+            if (methdef != null)
+            {
+                TypeReference iface;
+                MethodReference imethod;
+
+                if (methdef.Overrides.Count == 1)
+                {
+                    DocUtils.GetInfoForExplicitlyImplementedMethod(methdef, out iface, out imethod);
+                    var ifaceRes = iface.Resolve();
+                    if (ifaceRes != null)
+                    {
+                        if (ifaceRes.IsInterface)
+                            return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
