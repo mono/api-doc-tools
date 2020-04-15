@@ -439,6 +439,16 @@ namespace Mono.Documentation
                 assemblyPaths.AddRange (sets.SelectMany (s => s.AssemblyPaths));
                 Console.WriteLine($"Frameworks Configuration contains {assemblyPaths.Count} assemblies");
 
+
+                if (!DisableSearchDirectoryRecurse)
+                {
+                    // unless it's been explicitly disabled, let's
+                    // add all of the subdirectories to the resolver
+                    // search paths.
+                    foreach (var assemblySet in this.assemblies)
+                        assemblySet.RecurseSearchDirectories();
+                }
+
                 // Create a cache of all frameworks, so we can look up 
                 // members that may exist only other frameworks before deleting them
                 Console.Write ("Creating frameworks cache: ");
@@ -457,7 +467,7 @@ namespace Mono.Documentation
                                 foreach (var type in assembly.GetTypes())
                                 {
                                     var t = a.ProcessType(type, assembly);
-                                    foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i)))
+                                    foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i) && IsMemberNotPrivateEII(i)))
                                         t.ProcessMember(member);
                                 }
                             }
@@ -481,14 +491,6 @@ namespace Mono.Documentation
             if (assemblyPaths.Count == 0)
                 Error ("No assemblies specified.");
 
-            if (!DisableSearchDirectoryRecurse)
-            {
-                // unless it's been explicitly disabled, let's
-                // add all of the subdirectories to the resolver
-                // search paths.
-                foreach (var assemblySet in this.assemblies)
-                    assemblySet.RecurseSearchDirectories ();
-            }
 
             // validation for the api-style parameter
             if (apistyle == "classic")
@@ -1947,7 +1949,8 @@ namespace Mono.Documentation
                 if (methdef.Overrides.Count == 1 && !methdef.IsPublic && !(methdef.IsFamily && methdef.IsVirtual && !methdef.DeclaringType.IsSealed))
                 {
                     DocUtils.GetInfoForExplicitlyImplementedMethod(methdef, out iface, out imethod);
-                    if (!DocUtils.IsPublic(iface.Resolve())) return false;
+                    if (!DocUtils.IsPublic(iface.Resolve())) 
+                        return false;
                 }
             }
 
