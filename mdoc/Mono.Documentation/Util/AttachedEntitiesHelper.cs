@@ -122,12 +122,12 @@ namespace Mono.Documentation.Util
             // https://github.com/mono/api-doc-tools/issues/63#issuecomment-328995418
             if (!field.Name.EndsWith(PropertyConst, StringComparison.Ordinal))
                 return false;
-            var propertyName = GetPropertyName(field.Name);
+            var propertyName = GetPropertyName(field.Name); 
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
 
-            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal));
-            var hasExistingField = field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, System.StringComparison.Ordinal));
+            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal) && ChkPropertyVisible(p));
+            var hasExistingField = field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, System.StringComparison.Ordinal) && ChkFieldVisible(f));
 
             return !hasExistingProperty.IsTrue () && !hasExistingField.IsTrue () &&
                 // Class X has a static field of type DependencyProperty [Name]Property
@@ -180,6 +180,38 @@ namespace Mono.Documentation.Util
             return type.FullName == targetTypeName || IsAssignableTo(typeDefenition.BaseType, targetTypeName);
         }
 
+        private static bool ChkPropertyVisible(PropertyDefinition property)
+        {
+            MethodDefinition method;
+            bool get_visible = false;
+            bool set_visible = false;
+
+            if ((method = property.GetMethod) != null &&
+                    (DocUtils.IsExplicitlyImplemented(method) ||
+                     (!method.IsPrivate && !method.IsAssembly && !method.IsFamilyAndAssembly)))
+                get_visible = true;
+
+            if ((method = property.SetMethod) != null &&
+                    (DocUtils.IsExplicitlyImplemented(method) ||
+                     (!method.IsPrivate && !method.IsAssembly && !method.IsFamilyAndAssembly)))
+                set_visible = true;
+
+            if ((set_visible == false) && (get_visible == false))
+                return false;
+            else
+                return true;
+        }
+
+        private static bool ChkFieldVisible(FieldDefinition field)
+        {
+            TypeDefinition declType = (TypeDefinition)field.DeclaringType;
+
+            if (declType.IsEnum && field.Name == "value__")
+                return false; // This member of enums aren't documented.
+
+            return field.IsPublic || field.IsFamily || field.IsFamilyOrAssembly;
+
+        }
 
     }
     internal static class NBoolExtensions
