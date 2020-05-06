@@ -312,6 +312,9 @@
     <AssemblyName>mdoc.Test</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
   </AssemblyInfo>
+  <AssemblyInfo>
+     <AssemblyName>System.Object</AssemblyName>
+  </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Object</BaseTypeName>
   </Base>
@@ -373,7 +376,7 @@
       <MemberSignature Language = ""F#"" Value=""abstract member mdoc.Test.SampleClasses.InterfaceA.Getstring : int -&gt; string&#xA;override this.mdoc.Test.SampleClasses.InterfaceA.Getstring : int -&gt; string"" Usage=""internalEIICalss.mdoc.Test.SampleClasses.InterfaceA.Getstring a"" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
-        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+        <AssemblyName>System.Object</AssemblyName>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>

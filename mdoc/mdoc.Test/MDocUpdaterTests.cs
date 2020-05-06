@@ -76,5 +76,29 @@ namespace mdoc.Test
             Assert.AreEqual("System.String mdoc.Test2.InternalEIICalss::mdoc.Test.SampleClasses.InterfaceA.Getstring(System.Int32)", oldmember.FullName);
 
         }
+
+        [Test]
+        public void RemoveInvalidAssembliesInfo()
+        {
+            XmlDocument doc = new System.Xml.XmlDocument();
+            doc.LoadXml(XmlConsts.internalEllXml);
+
+            var type = GetType(typeof(mdoc.Test2.InternalEIICalss));
+            var docEnum = new DocumentationEnumerator();
+
+            var delList = DocUtils.RemoveInvalidAssemblyInfo(doc.DocumentElement, false, "Type");
+            Assert.IsTrue(delList.Count == 1);
+
+            foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers(doc, type, FrameworkTypeEntry.Empty))
+            {
+                delList.AddRange(DocUtils.RemoveInvalidAssemblyInfo(info.Node, false, "Member"));
+            }
+
+            Assert.IsTrue(delList.Count == 2);
+
+            ///Note : (The following operation will not be carried out, just prompt)
+            //   foreach (var delitem in delList)
+            // delitem.ParentNode.RemoveChild(child);        
+        }
     }
 }
