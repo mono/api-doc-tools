@@ -868,5 +868,25 @@ namespace Mono.Documentation.Updater
             }
             return genericParameters;
         }
+
+        public static List<System.Xml.XmlNode> RemoveInvalidAssemblyInfo(XmlElement Nodeinfo, bool No_assembly_versions, String Type)
+        {
+            List<System.Xml.XmlNode> assemblyDelList = new List<System.Xml.XmlNode>();
+            if (No_assembly_versions)
+                return assemblyDelList;
+
+            var filter = Type == "Member" ? "AssemblyInfo" : $"/{Type}/AssemblyInfo";
+
+            var assemblyFromXml = Nodeinfo
+                                     .SelectNodes(filter)
+                                     .Cast<XmlElement>();
+
+            foreach (var item in assemblyFromXml)
+            {
+                if (item.GetElementsByTagName("AssemblyVersion").Count == 0)
+                    assemblyDelList.Add(item);
+            }
+            return assemblyDelList;
+        }
     }
 }
