@@ -119,7 +119,7 @@ namespace Mono.Documentation.Updater.CppFormatters
             if (t.IsClass)
                 return "class";
             if (t.IsInterface)
-                return "__interface";
+                return "struct";
             throw new ArgumentException(t.FullName);
         }
 

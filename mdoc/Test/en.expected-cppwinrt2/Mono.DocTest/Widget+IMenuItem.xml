@@ -1,7 +1,7 @@
 <Type Name="Widget+IMenuItem" FullName="Mono.DocTest.Widget+IMenuItem">
   <TypeSignature Language="C#" Value="public interface Widget.IMenuItem" />
   <TypeSignature Language="ILAsm" Value=".class nested public interface auto ansi abstract Widget/IMenuItem" />
-  <TypeSignature Language="C++ WINRT" Value="__interface Widget::IMenuItem" />
+  <TypeSignature Language="C++ WINRT" Value="struct Widget::IMenuItem" />
   <AssemblyInfo>
     <AssemblyName>DocTest</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
