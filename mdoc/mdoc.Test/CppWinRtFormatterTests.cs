@@ -59,7 +59,7 @@ namespace mdoc.Test
         public void TypeSignature_GenericInterface()
         {
             TestTypeSignature(typeof(IFoo<>), @"template <typename T>
-__interface IFoo");
+struct IFoo");
         }
 
         [Test]

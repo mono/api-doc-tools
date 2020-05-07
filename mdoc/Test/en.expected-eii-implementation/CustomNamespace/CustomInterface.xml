@@ -5,7 +5,7 @@
   <TypeSignature Language="F#" Value="type CustomInterface = interface" />
   <TypeSignature Language="C++ CLI" Value="public interface class CustomInterface" />
   <TypeSignature Language="C++ CX" Value="public interface class CustomInterface" />
-  <TypeSignature Language="C++ WINRT" Value="__interface CustomInterface" />
+  <TypeSignature Language="C++ WINRT" Value="struct CustomInterface" />
   <AssemblyInfo>
     <AssemblyName>DocTest-VB-Eii</AssemblyName>
     <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
