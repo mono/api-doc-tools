@@ -2289,12 +2289,19 @@ namespace Mono.Documentation
                         .ToList ();
 
                 XmlElement interfaces = WriteElement (root, "Interfaces");
-                interfaces.RemoveAll ();
+                if (typeEntry.IsOnFirstFramework)
+                {
+                    interfaces.RemoveAll();
+                }
+
                 foreach (string iname in interface_names)
                 {
-                    XmlElement iface = root.OwnerDocument.CreateElement ("Interface");
-                    interfaces.AppendChild (iface);
-                    WriteElementText (iface, "InterfaceName", iname);
+                    XmlElement iface = WriteElementWithSubElementText(interfaces, "Interface", "InterfaceName", iname);
+                    iface.AddFrameworkToElement(typeEntry.Framework);
+                    if (typeEntry.IsOnLastFramework)
+                    {
+                        iface.ClearFrameworkIfAll(typeEntry.Framework.AllFrameworksWithType(typeEntry));
+                    }
                 }
             }
             else
@@ -2839,7 +2846,13 @@ namespace Mono.Documentation
             foreach (var implementedMember in implementedMembers)
             {
                 var value = msxdocxSlashdocFormatter.GetDeclaration(implementedMember);
-                WriteElementWithText(e, "InterfaceMember", value);
+                var interfaceMemberElement = WriteElementWithText(e, "InterfaceMember", value);
+
+                interfaceMemberElement.AddFrameworkToElement(typeEntry.Framework);
+                if (typeEntry.IsMemberOnLastFramework(mi))
+                {
+                    interfaceMemberElement.ClearFrameworkIfAll(typeEntry.AllFrameworkStringForMember(mi));
+                }
             }
 
             if (e.ParentNode == null)
@@ -3368,6 +3381,33 @@ namespace Mono.Documentation
             {
                 element = parent.OwnerDocument.CreateElement(elementName);
                 element.InnerText = value;
+                parent.AppendChild(element);
+            }
+            return element;
+        }
+
+        internal static XmlElement WriteElementWithSubElementText(XmlNode parent, string elementName, string subElementName, string value)
+        {
+            XmlElement element = null;
+            XmlElement subElement = null;
+            foreach (var elementCandidate in parent.ChildNodes.SafeCast<XmlElement>().Where(e => e.Name == elementName))
+            {
+                var subElementCandidate = elementCandidate.ChildNodes.SafeCast<XmlElement>().FirstOrDefault(e => e.Name == subElementName && e.InnerText == value);
+                if (subElementCandidate != null)
+                {
+                    element = elementCandidate;
+                    subElement = subElementCandidate;
+                    break;
+                }
+            }
+
+            // Create element if not exsits
+            if (subElement == null)
+            {
+                element = parent.OwnerDocument.CreateElement(elementName);
+                subElement = parent.OwnerDocument.CreateElement(subElementName);
+                subElement.InnerText = value;
+                element.AppendChild(subElement);
                 parent.AppendChild(element);
             }
             return element;
