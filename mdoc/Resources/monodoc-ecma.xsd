@@ -423,7 +423,11 @@ add masterdoc support?
 
   <xs:element name="InterfaceMember">
     <xs:complexType>
-      <xs:attribute name="FrameworkAlternate" use="optional" />
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="FrameworkAlternate" use="optional" />
+        </xs:extension>
+      </xs:simpleContent>
     </xs:complexType>
   </xs:element>
   
