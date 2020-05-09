@@ -79,7 +79,6 @@ add masterdoc support?
   <xs:element name="pre" />
   <xs:element name="ReturnType" type="xs:string" />
   <xs:element name="TypeExcluded" type="xs:string" />
-  <xs:element name="InterfaceMember" type="xs:string" />
 
   <!-- define complex elements -->
   <xs:element name="BaseTypeName">
@@ -422,12 +421,19 @@ add masterdoc support?
     </xs:complexType>
   </xs:element>
 
+  <xs:element name="InterfaceMember">
+    <xs:complexType>
+      <xs:attribute name="FrameworkAlternate" use="optional" />
+    </xs:complexType>
+  </xs:element>
+  
   <xs:element name="Interface">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="InterfaceName" />
         <xs:element ref="Excluded" minOccurs="0" />
       </xs:sequence>
+      <xs:attribute name="FrameworkAlternate" use="optional" />
     </xs:complexType>
   </xs:element>
 
