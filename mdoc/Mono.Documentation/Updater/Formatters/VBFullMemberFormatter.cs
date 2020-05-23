@@ -583,7 +583,8 @@ namespace Mono.Documentation.Updater
             buf.Append(GetTypeName(parameter.ParameterType, new DynamicParserContext(parameter)));
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
-                buf.AppendFormat(" = {0}", MDocUpdater.MakeAttributesValueString(parameter.Constant, parameter.ParameterType));
+                var paramterValue = MDocUpdater.MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
+                buf.AppendFormat(" = {0}", paramterValue == "null" ? "Nothing" : paramterValue);
             }
             return buf;
         }
