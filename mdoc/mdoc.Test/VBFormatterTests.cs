@@ -124,6 +124,14 @@ namespace mdoc.Test
             Assert.AreEqual("Public Sub DoSomethingWithParams (ParamArray values As Integer())", sig);
         }
 
+        [Test]
+        public void DefaultNullValueForParams()
+        {
+            var member = GetMethod(typeof(SomeGenericClass<>), m => m.Name == "SomeMethod4");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("Public Sub SomeMethod4 (ByRef a As String, t As T, Optional b As Object = Nothing)", sig);
+        }
+
         #region Helper Methods
         string RealTypeName(string name)
         {
