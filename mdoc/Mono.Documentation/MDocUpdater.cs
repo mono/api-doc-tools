@@ -464,7 +464,7 @@ namespace Mono.Documentation
                             {
                                 var a = cacheIndex.StartProcessingAssembly(assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
 
-                                foreach (var type in assembly.GetTypes())
+                                foreach (var type in assembly.GetTypes().Where(t => DocUtils.IsPublic(t)))
                                 {
                                     var t = a.ProcessType(type, assembly);
                                     foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i) && IsMemberNotPrivateEII(i)))
