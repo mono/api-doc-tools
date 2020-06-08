@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using Mono.Cecil;
-using Mono.Documentation.Updater.CppFormatters;
 
 namespace Mono.Documentation.Updater.Formatters.CppFormatters
 {

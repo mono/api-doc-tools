@@ -4,9 +4,8 @@ using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
 using Mono.Cecil;
-using Mono.Documentation.Updater.Formatters.CppFormatters;
 
-namespace Mono.Documentation.Updater.CppFormatters
+namespace Mono.Documentation.Updater.Formatters.CppFormatters
 {
     public class CppWinRtFullMemberFormatter : CppCxFullMemberFormatter
     {

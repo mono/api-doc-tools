@@ -1,6 +1,5 @@
 ﻿using System;
 using Mono.Cecil;
-using Mono.Documentation.Updater.CppFormatters;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
 using Mono_DocTest;
 using Mono_DocTest_Generic;

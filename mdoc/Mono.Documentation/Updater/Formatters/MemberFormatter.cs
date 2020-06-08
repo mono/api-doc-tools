@@ -6,7 +6,6 @@ using System.Text;
 
 using Mono.Documentation.Util;
 using Mono.Cecil;
-using mdoc.Mono.Documentation.Updater;
 
 namespace Mono.Documentation.Updater
 {

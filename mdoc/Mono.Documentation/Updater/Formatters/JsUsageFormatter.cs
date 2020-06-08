@@ -5,7 +5,7 @@ using Mono.Documentation;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Util;
 
-namespace mdoc.Mono.Documentation.Updater.Formatters
+namespace Mono.Documentation.Updater.Formatters
 {
     public class JsUsageFormatter : JsFormatter
     {
