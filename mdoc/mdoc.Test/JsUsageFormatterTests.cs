@@ -1,4 +1,4 @@
-﻿using mdoc.Mono.Documentation.Updater.Formatters;
+﻿using Mono.Documentation.Updater.Formatters;
 using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater;
 using NUnit.Framework;

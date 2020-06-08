@@ -3,7 +3,7 @@ using Mono.Cecil;
 using Mono.Documentation;
 using Mono.Documentation.Updater;
 
-namespace mdoc.Mono.Documentation.Updater.Formatters
+namespace Mono.Documentation.Updater.Formatters
 {
     public class JsMemberFormatter : JsFormatter
     {

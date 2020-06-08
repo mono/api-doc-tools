@@ -9,11 +9,9 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using mdoc.Mono.Documentation.Updater.Formatters;
-using Mono.Documentation.Updater.Formatters.CppFormatters;
 using Mono.Cecil;
 using Mono.Documentation.Updater;
-using Mono.Documentation.Updater.CppFormatters;
+using Mono.Documentation.Updater.Formatters;
 using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Updater.Statistics;
 using Mono.Documentation.Util;
@@ -22,10 +20,6 @@ using Mono.Options;
 using MyXmlNodeList = System.Collections.Generic.List<System.Xml.XmlNode>;
 using StringList = System.Collections.Generic.List<string>;
 using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.Xml.XmlNode>;
-using System.Web.UI.WebControls;
-using mdoc.Mono.Documentation.Updater;
-using Lucene.Net.Documents;
-using System.Runtime.Serialization;
 
 namespace Mono.Documentation
 {
@@ -51,19 +45,9 @@ namespace Mono.Documentation
 
         string since;
 
-        static DocIdFormatter docIdFormatterField;
         static MemberFormatter docTypeFormatterField;
         static MemberFormatter filenameFormatterField;
 
-        static DocIdFormatter docIdFormatter
-        {
-            get
-            {
-                if (docIdFormatterField == null)
-                    docIdFormatterField = new DocIdFormatter(MDocUpdater.Instance.TypeMap);
-                return docIdFormatterField;
-            }
-        }
         static MemberFormatter docTypeFormatter
         {
             get
@@ -80,37 +64,6 @@ namespace Mono.Documentation
                 if (filenameFormatterField == null)
                     filenameFormatterField = new FileNameMemberFormatter(MDocUpdater.Instance.TypeMap);
                 return filenameFormatterField;
-            }
-        }
-
-        static MemberFormatter[] typeFormattersField;
-        static MemberFormatter[] typeFormatters
-        {
-            get
-            {
-                if (typeFormattersField == null)
-                    typeFormattersField = new MemberFormatter[]{
-                        new CSharpMemberFormatter (MDocUpdater.Instance.TypeMap),
-                        new ILMemberFormatter (MDocUpdater.Instance.TypeMap),
-
-                    };
-
-                return typeFormattersField;
-            }
-        }
-
-        static MemberFormatter[] memberFormattersField;
-        static MemberFormatter[] memberFormatters
-        {
-            get
-            {
-                if (memberFormattersField == null)
-                    memberFormattersField = new MemberFormatter[]{
-                        new CSharpFullMemberFormatter (MDocUpdater.Instance.TypeMap),
-                        new ILFullMemberFormatter (MDocUpdater.Instance.TypeMap),
-
-                    };
-                return memberFormattersField;
             }
         }
 
@@ -329,13 +282,13 @@ namespace Mono.Documentation
                 "Add 'DocId' to the list of type and member signatures",
                 v =>
                 {
-                    AddFormatter(Consts.DocId);
+                    FormatterManager.AddFormatter(Consts.DocId);
                 } },
             { "lang=",
                 "Add languages to the list of type and member signatures (DocId, VB.NET). Values can be coma separated",
                 v =>
                 {
-                    AddFormatter(v);
+                    FormatterManager.AddFormatter(v);
                 } },
             { "disable-searchdir-recurse",
                 "Default behavior for adding search directories ('-L') is to recurse them and search in all subdirectories. This disables that",
@@ -382,7 +335,7 @@ namespace Mono.Documentation
                     TypeMap map = TypeMap.FromXml(typeMapPath);
                     this.TypeMap = map;
 
-                    foreach (var f in typeFormatters.Union(memberFormatters))
+                    foreach (var f in FormatterManager.TypeFormatters.Union(FormatterManager.MemberFormatters))
                         f.TypeMap = map;
 
                 }
@@ -537,50 +490,6 @@ namespace Mono.Documentation
             }
 
             Console.WriteLine ("Members Added: {0}, Members Deleted: {1}", additions, deletions);
-        }
-
-        private static void AddFormatter(string langId)
-        {
-            MemberFormatter memberFormatter;
-            MemberFormatter typeFormatter;
-            langId = langId.ToLower();
-            var map = MDocUpdater.Instance.TypeMap;
-            switch (langId)
-            {
-                case Consts.DocIdLowCase:
-                    typeFormatter = new DocIdFormatter(map);
-                    memberFormatter = new DocIdFormatter(map);
-                    break;
-                case Consts.VbNetLowCase:
-                    typeFormatter = new VBMemberFormatter(map);
-                    memberFormatter = new VBMemberFormatter(map);
-                    break;
-                case Consts.CppCliLowCase:
-                    typeFormatter = new CppMemberFormatter(map);
-                    memberFormatter = new CppFullMemberFormatter(map);
-                    break;
-                case Consts.CppCxLowCase:
-                    typeFormatter = new CppCxMemberFormatter(map);
-                    memberFormatter = new CppCxFullMemberFormatter(map);
-                    break;
-                case Consts.CppWinRtLowCase:
-                    typeFormatter = new CppWinRtMemberFormatter(map);
-                    memberFormatter = new CppWinRtFullMemberFormatter(map);
-                    break;
-                case Consts.FSharpLowCase:
-                case "fsharp":
-                    typeFormatter = new FSharpMemberFormatter(map);
-                    memberFormatter = new FSharpFullMemberFormatter(map);
-                    break;
-                case Consts.JavascriptLowCase:
-                    typeFormatter = new JsMemberFormatter(map);
-                    memberFormatter = new JsMemberFormatter(map);
-                    break;
-                default:
-                    throw new ArgumentException("Unsupported formatter id '" + langId + "'.");
-            }
-            typeFormattersField = typeFormatters.Union(new[] { typeFormatter }).ToArray();
-            memberFormattersField = memberFormatters.Union(new[] { memberFormatter }).ToArray();
         }
 
         public static bool IsInAssemblies (string name)
@@ -1644,7 +1553,7 @@ namespace Mono.Documentation
                     }
                 }
 
-                string sig = oldmember2 != null ? memberFormatters[1].GetDeclaration (oldmember2) : null;
+                string sig = oldmember2 != null ? FormatterManager.MemberFormatters[1].GetDeclaration (oldmember2) : null;
 
                 // Interface implementations and overrides are deleted from the docs
                 // unless the overrides option is given.
@@ -1796,13 +1705,13 @@ namespace Mono.Documentation
                         .Where(m =>
                         {
                             if (m is TypeDefinition) return false;
-                            string cssig = memberFormatters[0].GetDeclaration(m);
+                            string cssig = FormatterManager.MemberFormatters[0].GetDeclaration(m);
                             if (cssig == null) return false;
 
-                            string sig = memberFormatters[1].GetDeclaration(m);
+                            string sig = FormatterManager.MemberFormatters[1].GetDeclaration(m);
                             if (sig == null || seenmembers.ContainsKey(sig)) return false;
 
-                            var docidsig = docIdFormatter.GetDeclaration(m);
+                            var docidsig = FormatterManager.DocIdFormatter.GetDeclaration(m);
                             if (seenmembersdocid.ContainsKey(docidsig ?? "")) return false;
 
                             // Verify that the member isn't an explicitly implemented 
@@ -2208,7 +2117,7 @@ namespace Mono.Documentation
 
         public XmlElement StubType (AssemblySet set, AssemblyDefinition assembly, TypeDefinition type, FrameworkTypeEntry typeEntry, string output, IEnumerable<DocumentationImporter> importers, string Id, string Version)
         {
-            string typesig = typeFormatters[0].GetDeclaration (type);
+            string typesig = FormatterManager.TypeFormatters[0].GetDeclaration (type);
             if (typesig == null) return null; // not publicly visible
 
             XmlDocument doc = new XmlDocument ();
@@ -2235,7 +2144,7 @@ namespace Mono.Documentation
             root.SetAttribute ("Name", GetDocTypeName (type, useTypeProjection: false));
             root.SetAttribute ("FullName", GetDocTypeFullName (type, useTypeProjection: false));
 
-            foreach (MemberFormatter f in typeFormatters)
+            foreach (MemberFormatter f in FormatterManager.TypeFormatters)
             {
                 UpdateSignature(f, type, root, typeEntry);
             }
@@ -2559,7 +2468,7 @@ namespace Mono.Documentation
             MakeDocNode (info, typeEntry.Framework.Importers, typeEntry);
 
             
-            foreach (MemberFormatter f in memberFormatters)
+            foreach (MemberFormatter f in FormatterManager.MemberFormatters)
             {
                 UpdateSignature (f, mi, me, typeEntry, implementedMembers);
             }
@@ -4484,7 +4393,7 @@ namespace Mono.Documentation
             MemberReference mi = info.Member;
             if (mi is TypeDefinition) return null;
 
-            string sigs = memberFormatters[0].GetDeclaration (mi);
+            string sigs = FormatterManager.MemberFormatters[0].GetDeclaration (mi);
             if (sigs == null) return null; // not publicly visible
 
             if (DocUtils.IsIgnored(mi))
@@ -4583,7 +4492,7 @@ namespace Mono.Documentation
         /// SIGNATURE GENERATION FUNCTIONS
         internal static bool IsPrivate (MemberReference mi)
         {
-            return memberFormatters[0].GetDeclaration (mi) == null;
+            return FormatterManager.MemberFormatters[0].GetDeclaration (mi) == null;
         }
 
         internal static string GetMemberType (MemberReference mi)
