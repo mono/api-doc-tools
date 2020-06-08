@@ -1,4 +1,4 @@
-﻿using Mono.Documentation.Updater.CppFormatters;
+﻿using Mono.Documentation.Updater.Formatters.CppFormatters;
 using Mono_DocTest;
 using NUnit.Framework;
 using Cpp = Mono_DocTest_Generic;

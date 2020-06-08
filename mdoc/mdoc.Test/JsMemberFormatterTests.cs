@@ -1,5 +1,5 @@
-﻿using mdoc.Mono.Documentation.Updater.Formatters;
-using mdoc.Test.SampleClasses;
+﻿using mdoc.Test.SampleClasses;
+using Mono.Documentation.Updater.Formatters;
 using NUnit.Framework;
 
 namespace mdoc.Test

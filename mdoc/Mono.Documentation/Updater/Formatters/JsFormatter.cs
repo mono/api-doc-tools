@@ -4,10 +4,9 @@ using System.Text;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 using Mono.Collections.Generic;
-using Mono.Documentation.Updater;
 using Mono.Documentation.Util;
 
-namespace mdoc.Mono.Documentation.Updater.Formatters
+namespace Mono.Documentation.Updater.Formatters
 {
     public class JsFormatter : MemberFormatter
     {
