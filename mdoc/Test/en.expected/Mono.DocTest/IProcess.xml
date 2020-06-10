@@ -6,7 +6,7 @@
   <TypeSignature Language="F#" Value="type IProcess = interface" />
   <TypeSignature Language="C++ CLI" Value="public interface class IProcess" />
   <TypeSignature Language="C++ CX" Value="public interface class IProcess" />
-  <TypeSignature Language="C++ WINRT" Value="__interface IProcess" />
+  <TypeSignature Language="C++ WINRT" Value="struct IProcess" />
   <AssemblyInfo>
     <AssemblyName>DocTest</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
