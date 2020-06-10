@@ -19,6 +19,8 @@ namespace Mono.Documentation.Updater.Formatters
 
         public static DocIdFormatter DocIdFormatter { get; private set; } = new DocIdFormatter(MDocUpdater.Instance.TypeMap);
 
+        public static MemberFormatter SlashdocFormatter { get; private set; } = new SlashDocMemberFormatter(MDocUpdater.Instance.TypeMap);
+
         public static void AddFormatter(string langId)
         {
             MemberFormatter memberFormatter;
@@ -61,6 +63,14 @@ namespace Mono.Documentation.Updater.Formatters
             }
             TypeFormatters.Add(typeFormatter);
             MemberFormatters.Add(memberFormatter);
+        }
+
+        public static void UpdateTypeMap(TypeMap typeMap)
+        {
+            DocIdFormatter.TypeMap = typeMap;
+            SlashdocFormatter.TypeMap = typeMap;
+            foreach (var f in TypeFormatters.Union(MemberFormatters))
+                f.TypeMap = typeMap;
         }
     }
 }

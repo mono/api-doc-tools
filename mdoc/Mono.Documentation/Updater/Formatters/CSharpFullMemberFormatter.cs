@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 
 using Mono.Cecil;
-
 using Mono.Documentation.Util;
 
-namespace Mono.Documentation.Updater
+namespace Mono.Documentation.Updater.Formatters
 {
     public class CSharpFullMemberFormatter : MemberFormatter
     {
@@ -542,7 +541,7 @@ namespace Mono.Documentation.Updater
             buf.Append (parameter.Name);
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
-                var ReturnVal = MDocUpdater.MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
+                var ReturnVal = AttributeFormatter.MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
                 buf.AppendFormat (" = {0}", ReturnVal == "null" ? "default" : ReturnVal);
             }
             return buf;

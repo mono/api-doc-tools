@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mono.Cecil;
-using Mono.Cecil.Rocks;
+using Mono.Documentation.Updater.Formatters;
 
 namespace Mono.Documentation.Updater.Frameworks
 {
@@ -12,7 +12,6 @@ namespace Mono.Documentation.Updater.Frameworks
         Dictionary<string, bool> sigDocMap = new Dictionary<string, bool>();
 
         ILFullMemberFormatter formatterField;
-        DocIdFormatter docidFormatterField;
         ILFullMemberFormatter formatter
         {
             get
