@@ -56,7 +56,8 @@
     <Compile Include="Mono.Documentation\Framework\FrameworkIndexHelper.cs" />
     <Compile Include="Mono.Documentation\Framework\FrameworkTypeModel.cs" />
     <Compile Include="Mono.Documentation\Framework\FrameworkNamespaceModel.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\ApplePlatformEnumFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\ApplePlatformEnumFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\AttributeFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FormatterManager.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
@@ -73,9 +74,9 @@
     <Compile Include="Mono.Documentation\Updater\Formatters\CSharpMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\SlashDocCSharpMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\MsxdocSlashDocMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\StandardFlagsEnumFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\DefaultAttributeValueFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeValueFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\StandardFlagsEnumFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\DefaultAttributeValueFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\AttributeValueFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\VBFullMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\VBMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\ResolvedTypeInfo.cs" />

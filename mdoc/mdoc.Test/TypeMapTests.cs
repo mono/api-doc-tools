@@ -8,8 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Windows.Foundation;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
+using Mono.Documentation.Updater.Formatters;
 
 namespace mdoc.Test
 {

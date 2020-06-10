@@ -16,8 +16,8 @@ namespace Mono.Documentation.Updater
             {
 
                 string typename = MDocUpdater.GetDocTypeFullName (valueType);
-                var values = MDocUpdater.GetEnumerationValues (valueDef);
-                long c = MDocUpdater.ToInt64 (v);
+                var values = GetEnumerationValues (valueDef);
+                long c = ToInt64 (v);
                 returnvalue = string.Join (" | ",
                     (from i in values.Keys
                      where (c & i) == i && i != 0

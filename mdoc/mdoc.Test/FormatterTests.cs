@@ -7,8 +7,7 @@ using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater;
 using Mono.Documentation;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
-
-
+using Mono.Documentation.Updater.Formatters;
 
 namespace mdoc.Test
 {

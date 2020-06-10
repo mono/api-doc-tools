@@ -1,4 +1,4 @@
-﻿namespace Mono.Documentation.Updater
+﻿namespace Mono.Documentation.Updater.Formatters
 {
     class ILNativeTypeMemberFormatter : ILFullMemberFormatter
     {

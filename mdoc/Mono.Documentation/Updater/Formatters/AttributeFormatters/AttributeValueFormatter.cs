@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
 using Mono.Cecil;
 
 using Mono.Documentation.Util;
@@ -51,8 +52,8 @@ namespace Mono.Documentation.Updater
             }
 
             string typename = MDocUpdater.GetDocTypeFullName (valueType);
-            var values = MDocUpdater.GetEnumerationValues (valueDef);
-            long c = MDocUpdater.ToInt64 (v);
+            var values = GetEnumerationValues (valueDef);
+            long c = ToInt64 (v);
             if (values.ContainsKey (c))
             {
                 returnvalue = typename + "." + values[c];
@@ -61,6 +62,26 @@ namespace Mono.Documentation.Updater
 
             returnvalue = null;
             return false;
+        }
+
+        internal static IDictionary<long, string> GetEnumerationValues(TypeDefinition type)
+        {
+            var values = new Dictionary<long, string>();
+            foreach (var f in
+                    (from f in type.Fields
+                     where !(f.IsRuntimeSpecialName || f.IsSpecialName)
+                     select f))
+            {
+                values[ToInt64(f.Constant)] = f.Name;
+            }
+            return values;
+        }
+
+        internal static long ToInt64(object value)
+        {
+            if (value is ulong)
+                return (long)(ulong)value;
+            return Convert.ToInt64(value);
         }
     }
 }

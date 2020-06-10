@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Mono.Cecil;
+using Mono.Documentation.Updater.Formatters;
 using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater
@@ -583,7 +584,7 @@ namespace Mono.Documentation.Updater
             buf.Append(GetTypeName(parameter.ParameterType, new DynamicParserContext(parameter)));
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
-                var parameterValue = MDocUpdater.MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
+                var parameterValue = AttributeFormatter.MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
                 buf.AppendFormat(" = {0}", parameterValue == "null" ? "Nothing" : parameterValue);
             }
             return buf;
