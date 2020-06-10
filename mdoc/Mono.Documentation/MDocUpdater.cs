@@ -43,6 +43,8 @@ namespace Mono.Documentation
 
         DocumentationEnumerator docEnum;
 
+        AttributeFormatter attributeFormatter = new AttributeFormatter();
+
         string since;
 
         static MemberFormatter docTypeFormatterField;
@@ -72,18 +74,6 @@ namespace Mono.Documentation
             Consts.CompilerGeneratedAttribute,
             "System.Runtime.InteropServices.TypeIdentifierAttribute"
         };
-
-        internal static MemberFormatter slashdocFormatterField;
-        internal static MemberFormatter slashdocFormatter
-        {
-            get
-            {
-                if (slashdocFormatterField == null)
-                    slashdocFormatterField = new SlashDocMemberFormatter(MDocUpdater.Instance.TypeMap);
-
-                return slashdocFormatterField;
-            }
-        }
 
         internal static MemberFormatter csharpSlashdocFormatterField;
         internal static MemberFormatter csharpSlashdocFormatter
@@ -334,10 +324,7 @@ namespace Mono.Documentation
                     Console.WriteLine($"Loading typemap file at {typeMapPath}");
                     TypeMap map = TypeMap.FromXml(typeMapPath);
                     this.TypeMap = map;
-
-                    foreach (var f in FormatterManager.TypeFormatters.Union(FormatterManager.MemberFormatters))
-                        f.TypeMap = map;
-
+                    FormatterManager.UpdateTypeMap(map);
                 }
 
                 Console.WriteLine($"Opening frameworks file '{configPath}'");
@@ -1013,7 +1000,7 @@ namespace Mono.Documentation
                 index_assembly.AppendChild (culture);
             }
 
-            MakeAttributes (index_assembly, GetCustomAttributes (assembly.CustomAttributes, ""), fx, typeEntry: null, assemblyName: assembly.Name.Name);
+            MakeAttributes (index_assembly, attributeFormatter.GetCustomAttributes(assembly.CustomAttributes, ""), fx, typeEntry: null, assemblyName: assembly.Name.Name);
             parent.AppendChild (index_assembly);
         }
 
@@ -1295,12 +1282,6 @@ namespace Mono.Documentation
             if (type.IsClass || type.FullName == "System.Enum") // FIXME
                 return "Class";
             throw new ArgumentException ("Unknown kind for type: " + type.FullName);
-        }
-
-        [Obsolete("Use DocUtils.IsPublic instead")]
-        public static bool IsPublic (TypeDefinition type)
-        {
-            return DocUtils.IsPublic (type);
         }
 
         private void CleanupFiles (string dest, HashSet<string> goodfiles)
@@ -2234,7 +2215,7 @@ namespace Mono.Documentation
                 ClearElement (root, "Interfaces");
             }
 
-			MakeAttributes (root, GetCustomAttributes (type), typeEntry.Framework, typeEntry);
+			MakeAttributes (root, attributeFormatter.GetCustomAttributes(type), typeEntry.Framework, typeEntry);
 
             if (DocUtils.IsDelegate (type))
             {
@@ -2448,7 +2429,7 @@ namespace Mono.Documentation
                 ClearElement (me, "AssemblyInfo");
             }
 
-			MakeAttributes (me, GetCustomAttributes (mi), typeEntry.Framework, typeEntry);
+			MakeAttributes (me, attributeFormatter.GetCustomAttributes(mi), typeEntry.Framework, typeEntry);
 
             MakeReturnValue (typeEntry, me, mi, MDocUpdater.HasDroppedNamespace (mi));
             if (mi is MethodReference)
@@ -2920,92 +2901,6 @@ namespace Mono.Documentation
             }
         }
 
-        IEnumerable<string> GetCustomAttributes (MemberReference mi)
-        {
-            IEnumerable<string> attrs = Enumerable.Empty<string> ();
-
-            ICustomAttributeProvider p = mi as ICustomAttributeProvider;
-            if (p != null)
-                attrs = attrs.Concat (GetCustomAttributes (p.CustomAttributes, ""));
-
-            TypeDefinition typeDefinition = mi as TypeDefinition;
-            if (typeDefinition != null && typeDefinition.IsSerializable)
-            {
-                attrs = attrs.Concat (new[] { "System.Serializable" });
-            }
-
-            PropertyDefinition pd = mi as PropertyDefinition;
-            if (pd != null)
-            {
-                if (pd.GetMethod != null)
-                    attrs = attrs.Concat (GetCustomAttributes (pd.GetMethod.CustomAttributes, "get: "));
-                if (pd.SetMethod != null)
-                    attrs = attrs.Concat (GetCustomAttributes (pd.SetMethod.CustomAttributes, "set: "));
-            }
-
-            EventDefinition ed = mi as EventDefinition;
-            if (ed != null)
-            {
-                if (ed.AddMethod != null)
-                    attrs = attrs.Concat (GetCustomAttributes (ed.AddMethod.CustomAttributes, "add: "));
-                if (ed.RemoveMethod != null)
-                    attrs = attrs.Concat (GetCustomAttributes (ed.RemoveMethod.CustomAttributes, "remove: "));
-            }
-
-            return attrs;
-        }
-
-        public IEnumerable<string> GetCustomAttributes (IList<CustomAttribute> attributes, string prefix)
-        {
-            foreach (CustomAttribute attribute in attributes.OrderBy (ca => ca.AttributeType.FullName).Where (i => !IsIgnoredAttribute(i)))
-            {
-                TypeDefinition attrType = attribute.AttributeType as TypeDefinition;
-                if (attrType != null && !IsPublic (attrType))
-                    continue;
-                if (slashdocFormatter.GetName (attribute.AttributeType) == null)
-                    continue;
-
-                if (Array.IndexOf (IgnorableAttributes, attribute.AttributeType.FullName) >= 0)
-                    continue;
-
-                StringList fields = new StringList ();
-
-                for (int i = 0; i < attribute.ConstructorArguments.Count; ++i)
-                {
-                    CustomAttributeArgument argument = attribute.ConstructorArguments[i];
-                    fields.Add (MakeAttributesValueString (
-                            argument.Value,
-                            argument.Type));
-                }
-                var namedArgs =
-                    (from namedArg in attribute.Fields
-                     select new { Type = namedArg.Argument.Type, Name = namedArg.Name, Value = namedArg.Argument.Value })
-                    .Concat (
-                            (from namedArg in attribute.Properties
-                             select new { Type = namedArg.Argument.Type, Name = namedArg.Name, Value = namedArg.Argument.Value }))
-                    .OrderBy (v => v.Name);
-                foreach (var d in namedArgs)
-                    fields.Add (string.Format ("{0}={1}", d.Name,
-                            MakeAttributesValueString (d.Value, d.Type)));
-
-                string a2 = String.Join (", ", fields.ToArray ());
-                if (a2 != "") a2 = "(" + a2 + ")";
-
-                string name = attribute.GetDeclaringType ();
-                if (name.EndsWith ("Attribute")) name = name.Substring (0, name.Length - "Attribute".Length);
-                yield return prefix + name + a2;
-            }
-        }
-
-        private bool IsIgnoredAttribute (CustomAttribute customAttribute)
-        {
-            // An Obsolete attribute with a known string is added to all ref-like structs
-            // https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.2/span-safety.md#metadata-representation-or-ref-like-structs
-            return customAttribute.AttributeType.FullName == typeof(ObsoleteAttribute).FullName
-                && customAttribute.HasConstructorArguments
-                && customAttribute.ConstructorArguments.First().Value.ToString() == Consts.RefTypeObsoleteString;
-        }
-
         static readonly string[] ValidExtensionMembers = {
         "Docs",
         "MemberSignature",
@@ -3041,8 +2936,8 @@ namespace Mono.Documentation
             RemoveExcept (member.SelectSingleNode ("Docs"), ValidExtensionDocMembers);
             WriteElementText (member, "MemberType", "ExtensionMethod");
             XmlElement link = member.OwnerDocument.CreateElement ("Link");
-            var linktype = slashdocFormatter.GetName (me.DeclaringType);
-            var linkmember = slashdocFormatter.GetDeclaration (me);
+            var linktype = FormatterManager.SlashdocFormatter.GetName (me.DeclaringType);
+            var linkmember = FormatterManager.SlashdocFormatter.GetDeclaration (me);
             link.SetAttribute ("Type", linktype);
             link.SetAttribute ("Member", linkmember);
             member.AppendChild (link);
@@ -3082,8 +2977,8 @@ namespace Mono.Documentation
                 var reference = info.Parameters[0].ParameterType;
                 TypeReference typeReference = reference as TypeReference;
                 var declaration = reference != null ?
-                    slashdocFormatter.GetDeclaration (typeReference) :
-                    slashdocFormatter.GetDeclaration (reference);
+                    FormatterManager.SlashdocFormatter.GetDeclaration (typeReference) :
+                    FormatterManager.SlashdocFormatter.GetDeclaration (reference);
 
                 AppendElementAttributeText (targets, "Target", "Type", declaration);
             }
@@ -3107,7 +3002,7 @@ namespace Mono.Documentation
 #else
                     foreach (TypeReference c in constraints)
                         AppendElementAttributeText (targets, "Target", "Type",
-                            slashdocFormatter.GetDeclaration (c));
+                            FormatterManager.SlashdocFormatter.GetDeclaration (c));
 #endif
             }
         }
@@ -3608,7 +3503,7 @@ namespace Mono.Documentation
             string indent = new string (' ', 10);
             foreach (var source in new ExceptionLookup (exceptions.Value)[member])
             {
-                string cref = slashdocFormatter.GetDeclaration (source.Exception);
+                string cref = FormatterManager.SlashdocFormatter.GetDeclaration (source.Exception);
                 var node = docs.SelectSingleNode ("exception[@cref='" + cref + "']");
                 if (node != null)
                     continue;
@@ -3731,32 +3626,6 @@ namespace Mono.Documentation
             return anyNodesLeft;
         }
 
-        // FIXME: get TypeReferences instead of string comparison?
-        private static string[] IgnorableAttributes = {
-		// Security related attributes
-		"System.Reflection.AssemblyKeyFileAttribute",
-        "System.Reflection.AssemblyDelaySignAttribute",
-		// Present in @RefType
-		"System.Runtime.InteropServices.OutAttribute",
-		// For naming the indexer to use when not using indexers
-		"System.Reflection.DefaultMemberAttribute",
-		// for decimal constants
-		"System.Runtime.CompilerServices.DecimalConstantAttribute",
-		// compiler generated code
-		Consts.CompilerGeneratedAttribute,
-		// more compiler generated code, e.g. iterator methods
-		"System.Diagnostics.DebuggerHiddenAttribute",
-        "System.Runtime.CompilerServices.FixedBufferAttribute",
-        "System.Runtime.CompilerServices.UnsafeValueTypeAttribute",
-        "System.Runtime.CompilerServices.AsyncStateMachineAttribute",
-		// extension methods
-		"System.Runtime.CompilerServices.ExtensionAttribute",
-		// Used to differentiate 'object' from C#4 'dynamic'
-		"System.Runtime.CompilerServices.DynamicAttribute",
-		// F# compiler attribute
-		"Microsoft.FSharp.Core.CompilationMapping",
-    };
-
         public static string FilterSpecialChars (string value)
         {
             return new string (FilterSpecialCharsCore (value).ToArray());
@@ -3801,9 +3670,6 @@ namespace Mono.Documentation
 		public static void MakeAttributes (XmlElement root, IEnumerable<string> attributes, FrameworkEntry fx, FrameworkTypeEntry typeEntry, string assemblyName=null)
         {
             XmlElement e = (XmlElement)root.SelectSingleNode ("Attributes");
-            bool noAttributes = attributes.Any ();
-            bool currentlyHasAttributes = e != null && e.ChildNodes.Count > 0;
-            
             
             if (e == null)
                 e = root.OwnerDocument.CreateElement ("Attributes");
@@ -3922,59 +3788,6 @@ namespace Mono.Documentation
             return;
         }
 
-        public static string MakeAttributesValueString (object v, TypeReference valueType)
-        {
-            var formatters = new[] {
-            new AttributeValueFormatter (),
-            new ApplePlatformEnumFormatter (),
-            new StandardFlagsEnumFormatter (),
-            new DefaultAttributeValueFormatter (),
-        };
-
-            ResolvedTypeInfo type = new ResolvedTypeInfo (valueType);
-
-            if (valueType is ArrayType && v is CustomAttributeArgument[])
-            {
-                ArrayType atype = valueType as ArrayType;
-                CustomAttributeArgument[] args = v as CustomAttributeArgument[];
-                var returnvalue = $"new {atype.FullName}{(atype.FullName.EndsWith ("[]") ? "" : "[]")} {{ { string.Join (", ", args.Select (a => MakeAttributesValueString (a.Value, a.Type)).ToArray ()) } }}";
-                return returnvalue;
-            }
-
-            foreach (var formatter in formatters)
-            {
-                string formattedValue;
-                if (formatter.TryFormatValue (v, type, out formattedValue))
-                {
-                    return formattedValue;
-                }
-            }
-
-            // this should never occur because the DefaultAttributeValueFormatter will always
-            // successfully format the value ... but this is needed to satisfy the compiler :)
-            throw new InvalidDataException (string.Format ("Unable to format attribute value ({0})", v.ToString ()));
-        }
-
-        internal static IDictionary<long, string> GetEnumerationValues (TypeDefinition type)
-        {
-            var values = new Dictionary<long, string> ();
-            foreach (var f in
-                    (from f in type.Fields
-                     where !(f.IsRuntimeSpecialName || f.IsSpecialName)
-                     select f))
-            {
-                values[ToInt64 (f.Constant)] = f.Name;
-            }
-            return values;
-        }
-
-        internal static long ToInt64 (object value)
-        {
-            if (value is ulong)
-                return (long)(ulong)value;
-            return Convert.ToInt64 (value);
-        }
-
         public void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
         {
             if (typeEntry.TimesProcessed > 1)
@@ -4012,7 +3825,7 @@ namespace Mono.Documentation
                 //if (addfx)
                     pe.SetAttribute (Consts.FrameworkAlternate, fx);
 
-				MakeAttributes (pe, GetCustomAttributes (param.CustomAttributes, ""), typeEntry.Framework, typeEntry);
+				MakeAttributes (pe, attributeFormatter.GetCustomAttributes(param.CustomAttributes, ""), typeEntry.Framework, typeEntry);
             };
             /// addFXAttributes, adds the index attribute to all existing elements.
             /// Used when we first detect the scenario which requires this.
@@ -4225,7 +4038,7 @@ namespace Mono.Documentation
                         XmlElement pe = root.OwnerDocument.CreateElement ("TypeParameter");
                         e.AppendChild (pe);
                         pe.SetAttribute ("Name", t.Name);
-					    MakeAttributes (pe, GetCustomAttributes (t.CustomAttributes, ""), entry.Framework, entry);
+					    MakeAttributes (pe, attributeFormatter.GetCustomAttributes(t.CustomAttributes, ""), entry.Framework, entry);
                         XmlElement ce = (XmlElement)e.SelectSingleNode ("Constraints");
                         if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                         {
@@ -4348,7 +4161,7 @@ namespace Mono.Documentation
                     {
                         var newNode = WriteElementText(e, "ReturnType", valueToUse, forceNewElement: true);
                         if (attributes != null)
-                            MakeAttributes(e, GetCustomAttributes(attributes, ""), typeEntry.Framework, typeEntry);
+                            MakeAttributes(e, attributeFormatter.GetCustomAttributes(attributes, ""), typeEntry.Framework, typeEntry);
 
                         return newNode;
                     });

@@ -17,8 +17,8 @@ namespace Mono.Documentation.Updater
             if (typename.Contains ("ObjCRuntime.Platform") && valueDef.CustomAttributes.Any (ca => ca.AttributeType.FullName == "System.FlagsAttribute"))
             {
 
-                var values = MDocUpdater.GetEnumerationValues (valueDef);
-                long c = MDocUpdater.ToInt64 (v);
+                var values = GetEnumerationValues (valueDef);
+                long c = ToInt64 (v);
 
                 returnvalue = Format (c, values, typename);
                 return true;

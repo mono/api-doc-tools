@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Mono.Documentation.Util;
 using Windows.UI.Xaml;
 using Mono.Documentation.Updater;
+using Mono.Documentation.Updater.Formatters;
 
 namespace mdoc.Test.Enumeration
 {

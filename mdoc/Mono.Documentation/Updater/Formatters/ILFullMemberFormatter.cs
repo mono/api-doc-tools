@@ -8,7 +8,7 @@ using Mono.Cecil;
 
 using Mono.Documentation.Util;
 
-namespace Mono.Documentation.Updater
+namespace Mono.Documentation.Updater.Formatters
 {
     public class ILFullMemberFormatter : MemberFormatter
     {
@@ -184,7 +184,7 @@ namespace Mono.Documentation.Updater
                     buf.Append (full.GetName (type.BaseType).Substring ("class ".Length));
             }
             bool first = true;
-            foreach (var name in type.Interfaces.Where (i => MDocUpdater.IsPublic (i.InterfaceType.Resolve ()))
+            foreach (var name in type.Interfaces.Where (i => DocUtils.IsPublic (i.InterfaceType.Resolve ()))
                     .Select (i => full.GetName (i.InterfaceType))
                     .OrderBy (n => n))
             {

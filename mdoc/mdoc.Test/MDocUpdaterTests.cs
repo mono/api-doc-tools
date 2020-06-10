@@ -8,6 +8,7 @@ using Mono.Cecil.Rocks;
 using Mono.Collections.Generic;
 using Mono.Documentation;
 using Mono.Documentation.Updater;
+using Mono.Documentation.Updater.Formatters;
 using Mono.Documentation.Updater.Frameworks;
 using NUnit.Framework;
 using Cpp = Mono_DocTest_Generic;
@@ -18,14 +19,14 @@ namespace mdoc.Test
     public class MDocUpdaterTests : BasicTests
     {
         readonly MDocUpdater updater = new MDocUpdater();
-
+        readonly AttributeFormatter formatter = new AttributeFormatter();
         [Test]
         public void Test_GetCustomAttributes_IgnoredObsoleteAttribute()
         {
             TypeDefinition testType = GetType(typeof(MDocUpdaterTests).Module.FullyQualifiedName, "System.Span`1");
             Collection<CustomAttribute> attributes = testType.CustomAttributes;
 
-            IEnumerable<string> customAttributes = updater.GetCustomAttributes(attributes, "");
+            IEnumerable<string> customAttributes = formatter.GetCustomAttributes(attributes, "");
 
             Assert.AreEqual(1, attributes.Count);
             Assert.IsEmpty(customAttributes);

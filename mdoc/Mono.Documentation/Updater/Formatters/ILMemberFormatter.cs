@@ -2,7 +2,7 @@
 
 using Mono.Cecil;
 
-namespace Mono.Documentation.Updater
+namespace Mono.Documentation.Updater.Formatters
 {
     public class ILMemberFormatter : ILFullMemberFormatter
     {
