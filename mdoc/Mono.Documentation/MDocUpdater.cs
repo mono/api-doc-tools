@@ -1543,6 +1543,14 @@ namespace Mono.Documentation
                     }
 
                     AddEiiNameAsAttribute(info.Member, oldmember, memberName);
+
+                    // Check valid Member AssemblyInfo and delete invalid
+                    if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
+                    {
+                        var delList = DocUtils.RemoveInvalidAssemblyInfo(info.Node, no_assembly_versions, "Member");
+                        foreach (var delitem in delList)
+                            info.Node.RemoveChild(delitem);
+                    }
                 }
 
                 string sig = oldmember2 != null ? FormatterManager.MemberFormatters[1].GetDeclaration (oldmember2) : null;
@@ -2139,6 +2147,14 @@ namespace Mono.Documentation
             foreach (MemberFormatter f in FormatterManager.TypeFormatters)
             {
                 UpdateSignature(f, type, root, typeEntry);
+            }
+
+            // Check valid Type AssemblyInfo and delete invalid
+            if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
+            {
+                var delList = DocUtils.RemoveInvalidAssemblyInfo(root, no_assembly_versions, "Type");
+                foreach (var delitem in delList)
+                    delitem.ParentNode.RemoveChild(delitem);
             }
 
             AddAssemblyNameToNode (root, type);
