@@ -1494,7 +1494,7 @@ namespace Mono.Documentation
             Console.WriteLine (message + ": " + type.FullName);
             StringToXmlNodeMap seenmembers = new StringToXmlNodeMap ();
             StringToXmlNodeMap seenmembersdocid = new StringToXmlNodeMap();
-
+            var allTypeEiimembers = GetTypeEiiMembers(type);
             // Update type metadata
             UpdateType (basefile.DocumentElement, type, typeEntry);
 
@@ -1649,7 +1649,7 @@ namespace Mono.Documentation
                 }
 
                 // Update signature information
-                UpdateMember (info, typeEntry, implementedMembers);
+                UpdateMember (info, typeEntry, implementedMembers, allTypeEiimembers);
                 memberSet.Add (info.Member.FullName);
 
                 // get all apistyles of sig from info.Node
@@ -1707,7 +1707,7 @@ namespace Mono.Documentation
                         .ToArray();
                 foreach (MemberReference m in typemembers)
                 {
-                    XmlElement mm = MakeMember (basefile, new DocsNodeInfo (null, m), members, typeEntry, implementedMembers);
+                    XmlElement mm = MakeMember (basefile, new DocsNodeInfo (null, m), members, typeEntry, implementedMembers, allTypeEiimembers);
                     if (mm == null) continue;
 
                     if (MDocUpdater.SwitchingToMagicTypes || MDocUpdater.HasDroppedNamespace (m))
@@ -2400,7 +2400,7 @@ namespace Mono.Documentation
             return l;
         }
 
-        private void UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers)
+        private void UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers, IEnumerable<Eiimembers> eiiMenbers)
         {
             XmlElement me = (XmlElement)info.Node;
             MemberReference mi = info.Member;
@@ -2411,7 +2411,7 @@ namespace Mono.Documentation
             me.SetAttribute ("MemberName", memberName);
 
             WriteElementText (me, "MemberType", GetMemberType (mi));
-            AddImplementedMembers(typeEntry, mi, implementedMembers, me);
+            AddImplementedMembers(typeEntry, mi, implementedMembers, me, eiiMenbers);
 
             if (!no_assembly_versions)
             {
@@ -2703,7 +2703,7 @@ namespace Mono.Documentation
         }
 
 
-        private static void AddImplementedMembers(FrameworkTypeEntry typeEntry, MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root)
+        public static void AddImplementedMembers(FrameworkTypeEntry typeEntry, MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root, IEnumerable<Eiimembers> eiiMembers)
         {
             if (typeEntry.TimesProcessed > 1)
                 return;
@@ -2740,6 +2740,45 @@ namespace Mono.Documentation
                         explicitlyImplemented
                     };
                 }
+            }
+
+            if (!isExplicitlyImplemented)
+            {
+                eiiMembers.Where(x => x.Fingerprint == fingerprint).ToList().ForEach(t =>
+                {
+                    t.Interfaces.ForEach(u =>
+                    {
+                        var delitem = implementedMembers.FirstOrDefault(i =>
+                        {
+                            if (mi is MethodDefinition)
+                            {
+                                MethodDefinition methodDefinition = (MethodDefinition)i;
+                                if (methodDefinition.FullName == u.FullName)
+                                    return true;
+                            }
+
+                            if (mi is PropertyDefinition)
+                            {
+                                PropertyDefinition propertyDefinition = (PropertyDefinition)i;
+                                if (propertyDefinition.GetMethod?.FullName == u.FullName
+                                    || propertyDefinition.SetMethod?.FullName == u.FullName)
+                                    return true;
+                            }
+
+                            if (mi is EventDefinition)
+                            {
+                                EventDefinition evendDefinition = (EventDefinition)i;
+                                if (evendDefinition.AddMethod?.FullName == u.FullName
+                                    || evendDefinition.RemoveMethod?.FullName == u.FullName)
+                                    return true;
+                            }
+                            return false;
+                        });
+
+                        if (delitem != null)
+                            implementedMembers.Remove(delitem);
+                    });
+                });
             }
 
             if (!implementedMembers.Any())
@@ -4201,7 +4240,7 @@ namespace Mono.Documentation
                 throw new ArgumentException (mi + " is a " + mi.GetType ().FullName);
         }
 
-        private XmlElement MakeMember (XmlDocument doc, DocsNodeInfo info, XmlNode members, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> iplementedMembers)
+        private XmlElement MakeMember (XmlDocument doc, DocsNodeInfo info, XmlNode members, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> iplementedMembers, IEnumerable<Eiimembers> eiiMenbers)
         {
             MemberReference mi = info.Member;
             if (mi is TypeDefinition) return null;
@@ -4220,7 +4259,7 @@ namespace Mono.Documentation
             AddEiiNameAsAttribute(mi, me, memberName);
 
             info.Node = me;
-            UpdateMember (info, typeEntry, iplementedMembers);
+            UpdateMember (info, typeEntry, iplementedMembers, eiiMenbers);
             if (exceptions.HasValue &&
                     (exceptions.Value & ExceptionLocations.AddedMembers) != 0)
                 UpdateExceptions (info.Node, info.Member);
@@ -4420,6 +4459,32 @@ namespace Mono.Documentation
         private static IEnumerable<XmlElement> QueryXmlElementsByXpath(XmlElement parentNode, string xPath)
         {
             return parentNode.SelectNodes(xPath).SafeCast<XmlElement>().ToArray();
+        }
+
+        public static IEnumerable<Eiimembers> GetTypeEiiMembers(TypeDefinition type)
+        {
+            if (!DocUtils.IsDelegate(type))
+            {
+                var eiiTypeMembers = type.GetMembers()
+                        .Where(m =>
+                        {
+                            if (m is TypeDefinition) return false;
+                            string cssig = FormatterManager.MemberFormatters[0].GetDeclaration(m);
+                            if (cssig == null) return false;
+
+                            string sig = FormatterManager.MemberFormatters[1].GetDeclaration(m);
+                            if (sig == null) return false;
+
+                            if (!IsMemberNotPrivateEII(m))
+                                return false;
+                            return true;
+                        })
+                        .Where(t => DocUtils.IsExplicitlyImplemented(t))
+                        .Select(t => new Eiimembers { Fingerprint = DocUtils.GetFingerprint(t), Interfaces = DocUtils.GetOverrides(t).ToList<MemberReference>() });
+                return eiiTypeMembers;
+            }
+            else
+            { return new List<Eiimembers>(); }
         }
     }
 }
