@@ -116,6 +116,7 @@
     <Compile Include="Mono.Documentation\Util\AttachedPropertyDefinition.cs" />
     <Compile Include="Mono.Documentation\Util\AttachedPropertyReference.cs" />
     <Compile Include="Mono.Documentation\Util\CecilExtensions.cs" />
+    <Compile Include="Mono.Documentation\Util\DataModel.cs" />
     <Compile Include="Mono.Documentation\Util\NativeTypeManager.cs" />
     <Compile Include="Mono.Rocks\ObjectRocks.cs" />
     <Compile Include="Mono.Rocks\StreamRocks.cs" />

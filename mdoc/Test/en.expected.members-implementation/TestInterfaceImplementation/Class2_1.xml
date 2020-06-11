@@ -43,7 +43,6 @@
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:TestInterfaceImplementation.Interface2.Method(System.Int32)</InterfaceMember>
-        <InterfaceMember>M:TestInterfaceImplementation.Interface3.Method(System.Int32)</InterfaceMember>
         <InterfaceMember>M:TestInterfaceImplementation.Interface3_1.Method(System.Int32)</InterfaceMember>
       </Implements>
       <AssemblyInfo>
