@@ -796,7 +796,7 @@ namespace Mono.Documentation.Updater
         /// <summary>
         /// Get which members are overriden by memberReference
         /// </summary>
-        private static Collection<MethodReference> GetOverrides(MemberReference memberReference)
+        public static Collection<MethodReference> GetOverrides(MemberReference memberReference)
         {
             if (memberReference is MethodDefinition)
             {

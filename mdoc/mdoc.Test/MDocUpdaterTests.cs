@@ -101,5 +101,62 @@ namespace mdoc.Test
             //   foreach (var delitem in delList)
             // delitem.ParentNode.RemoveChild(child);        
         }
+
+        [Test]
+        public void UpdateToRight_MethodInterface_Test()
+        {
+            var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Methods.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::GetNo()");
+            var nodeinfo = UpdateXml("GetNo", member);
+            Assert.IsTrue(nodeinfo.Count() == 1);
+            Assert.AreEqual("M:mdoc.Test2.Interface_B.GetNo", nodeinfo[0].InnerText);
+            Assert.AreEqual("dotnet-plat-ext-2.2", nodeinfo[0].GetAttribute(Consts.FrameworkAlternate));
+        }
+
+        [Test]
+        public void UpdateToRight_PropertyInterface_Test()
+        {
+            var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Properties.FirstOrDefault(t => t.FullName == "System.Int32 mdoc.Test2.EiiImplementClass::no()");
+            var nodeinfo = UpdateXml("no", member);
+            Assert.IsTrue(nodeinfo.Count() == 1);
+            Assert.AreEqual("P:mdoc.Test2.Interface_A.no", nodeinfo[0].InnerText);
+            Assert.AreEqual("dotnet-plat-ext-2.2", nodeinfo[0].GetAttribute(Consts.FrameworkAlternate));
+        }
+
+        [Test]
+        public void UpdateToRight_EventInterface_Test()
+        {
+            var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Events.FirstOrDefault(t => t.FullName == "System.EventHandler`1<System.EventArgs> mdoc.Test2.EiiImplementClass::ItemChanged");
+            var nodeinfo = UpdateXml("ItemChanged", member);
+            Assert.IsTrue(nodeinfo.Count() == 1);
+            Assert.AreEqual("E:mdoc.Test2.Interface_A.ItemChanged", nodeinfo[0].InnerText);
+            Assert.AreEqual("dotnet-plat-ext-2.2", nodeinfo[0].GetAttribute(Consts.FrameworkAlternate));
+        }
+
+        private List<XmlElement> UpdateXml(string XmlNodeName, MemberReference mi)
+        {
+            List<XmlElement> returnValue = new List<XmlElement>();
+
+            List<FrameworkEntry> entries = new List<FrameworkEntry>();
+            FrameworkEntry singleEntry = new FrameworkEntry(entries, entries);
+            singleEntry.Name = "dotnet-plat-ext-2.2";
+            FrameworkTypeEntry enttyType = new FrameworkTypeEntry(singleEntry);
+
+            var type = GetType(typeof(mdoc.Test2.EiiImplementClass));
+            var ieeImplementList = MDocUpdater.GetTypeEiiMembers(type);
+            var typeInterfaces = GetClassInterface(type);
+
+            var doc = new XmlDocument();
+            doc.LoadXml(XmlConsts.EiiErrorImplement);
+
+            var node = doc.SelectSingleNode($"/Type/Members/Member[@MemberName='{XmlNodeName}']");
+
+            if (node != null)
+            {
+                MDocUpdater.AddImplementedMembers(enttyType, mi, typeInterfaces, (XmlElement)node, ieeImplementList);
+                returnValue = node.SelectNodes("Implements/InterfaceMember").Cast<XmlElement>().ToList();
+            }
+
+            return returnValue;
+        }
     }
 }
