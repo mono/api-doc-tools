@@ -25,11 +25,9 @@ namespace mdoc.Test
         {
             TypeDefinition testType = GetType(typeof(MDocUpdaterTests).Module.FullyQualifiedName, "System.Span`1");
             Collection<CustomAttribute> attributes = testType.CustomAttributes;
-
-            IEnumerable<string> customAttributes = formatter.GetCustomAttributes(attributes, "");
-
             Assert.AreEqual(1, attributes.Count);
-            Assert.IsEmpty(customAttributes);
+
+            Assert.IsFalse(formatter.TryGetAttributeString(attributes.First(), out string rval));
         }
 
         [Test]

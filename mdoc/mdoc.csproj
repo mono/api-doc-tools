@@ -58,6 +58,8 @@
     <Compile Include="Mono.Documentation\Framework\FrameworkNamespaceModel.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\ApplePlatformEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\AttributeFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\FSharpAttributeFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\CSharpAttributeFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FormatterManager.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />

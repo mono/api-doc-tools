@@ -372,7 +372,7 @@ namespace mdoc.Test
             var fx = context.fx.Frameworks[1];
             FrameworkTypeEntry typeEntry = fx.Types.First();
 
-            string[] attributeList = new[] { "One" };
+            var attributeList = new[] { ((CustomAttribute)null, "One") };
 
             MDocUpdater.MakeAttributes(context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             var attrNode = context.doc.FirstChild.SelectSingleNode("Attributes");
@@ -390,12 +390,12 @@ namespace mdoc.Test
             var fx = context.fx.Frameworks[1];
             FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-            string[] attributeList = new[] { "One" };
+            var attributeList = new[] { ((CustomAttribute)null, "One") };
 
             MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
 
-            MDocUpdater.MakeAttributes(context.doc.FirstChild as XmlElement, new string[0], fx, typeEntry);
-            MDocUpdater.MakeAttributes(context.doc.FirstChild as XmlElement, new string[0], context.fx.Frameworks[2] , typeEntry);
+            MDocUpdater.MakeAttributes(context.doc.FirstChild as XmlElement, (IEnumerable<CustomAttribute>)null, fx, typeEntry);
+            MDocUpdater.MakeAttributes(context.doc.FirstChild as XmlElement, (IEnumerable<CustomAttribute>)null, context.fx.Frameworks[2] , typeEntry);
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
             Assert.IsNull(attrNode);
         }
@@ -410,7 +410,7 @@ namespace mdoc.Test
                 //var fx = context.fx.Frameworks[1];
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One" };
+                var attributeList = new[] { ((CustomAttribute)null, "One") };
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
@@ -433,10 +433,10 @@ namespace mdoc.Test
                 //var fx = context.fx.Frameworks[1];
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One" };
+                var attributeList = new[] { ((CustomAttribute)null, "One") };
 
                 if (fx.IsFirstFramework)
-                    attributeList = new string[0];
+                    attributeList = null;
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
@@ -460,10 +460,10 @@ namespace mdoc.Test
                 //var fx = context.fx.Frameworks[1];
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One" };
+                var attributeList = new[] { ((CustomAttribute)null, "One") };
 
                 if (fx.IsLastFramework)
-                    attributeList = new string[0];
+                    attributeList = null;
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
@@ -487,7 +487,7 @@ namespace mdoc.Test
             {
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One", "Two" };
+                var attributeList = new[] { ((CustomAttribute)null, "One"), ((CustomAttribute)null, "Two") };
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
@@ -498,10 +498,10 @@ namespace mdoc.Test
             {
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One" };
+                var attributeList = new[] { ((CustomAttribute)null, "One") };
 
                 if (!fx.IsFirstFramework && !fx.IsLastFramework) {
-                    attributeList = new[] { "One", "Two" };
+                    attributeList = new[] { ((CustomAttribute)null, "One"), ((CustomAttribute)null, "Two") };
                 }
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
@@ -528,7 +528,7 @@ namespace mdoc.Test
             {
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One", "Two" };
+                var attributeList = new[] { ((CustomAttribute)null, "One"), ((CustomAttribute)null, "Two") };
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
@@ -539,11 +539,11 @@ namespace mdoc.Test
             {
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One" };
+                var attributeList = new[] { ((CustomAttribute)null, "One") };
 
                 if (fx.IsFirstFramework)
                 {
-                    attributeList = new[] { "One", "Two" };
+                    attributeList = new[] { ((CustomAttribute)null, "One"), ((CustomAttribute)null, "Two") };
                 }
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
@@ -570,7 +570,7 @@ namespace mdoc.Test
             {
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One", "Two" };
+                var attributeList = new[] { ((CustomAttribute)null, "One"), ((CustomAttribute)null, "Two") };
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
@@ -579,11 +579,11 @@ namespace mdoc.Test
             {
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "Two" };
+                var attributeList = new[] { ((CustomAttribute)null, "Two") };
 
                 if (fx.IsLastFramework)
                 {
-                    attributeList = new[] { "One", "Two" };
+                    attributeList = new[] { ((CustomAttribute)null, "One"), ((CustomAttribute)null, "Two") };
                 }
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
@@ -611,10 +611,10 @@ namespace mdoc.Test
                 //var fx = context.fx.Frameworks[1];
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One" };
+                var attributeList = new[] { ((CustomAttribute)null, "One") };
 
                 if (!fx.IsLastFramework && !fx.IsFirstFramework)
-                    attributeList = new string[0];
+                    attributeList = null;
 
                 MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
             }
@@ -638,11 +638,11 @@ namespace mdoc.Test
             {
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One" };
+                var attributeList = new[] { ((CustomAttribute)null, "One") };
 
                 if (!fx.IsLastFramework && !fx.IsFirstFramework)
                 {
-                    attributeList = new string[0];
+                    attributeList = null;
                 }
 
 
@@ -668,7 +668,7 @@ namespace mdoc.Test
 
                 FrameworkTypeEntry typeEntry = fx.Types.First ();
 
-                string[] attributeList = new[] { "One" };
+                var attributeList = new[] { ((CustomAttribute)null, "One") };
                 
                 // this is the 'second' fx, and we've changed the expected assembly name, 
                 // so the attribute, while it doesn't exist yet, shouldn't have an FX made since it doesn't exist in any other FX
