@@ -3668,6 +3668,7 @@ namespace Mono.Documentation
                                   elem => elem.SelectSingleNode("/AttributeName[@" + Language + "='" + Consts.CSharp + "']")?.InnerText
                                           ?? elem.FirstChild.InnerText
                                   , elem => elem);
+            var currentAttrBatch = new HashSet<string>();
 
             if (customAttributesWithPrefix != null)
             {
@@ -3677,6 +3678,7 @@ namespace Mono.Documentation
                     var prefix = customAttrWithPrefix.Item2;
                     if (FormatterManager.CSharpAttributeFormatter.TryGetAttributeString(customAttr, out string csharpAttrStr, prefix))
                     {
+                        currentAttrBatch.Add(csharpAttrStr);
                         if (existingAttrElements.TryGetValue(csharpAttrStr, out XmlElement elem))
                         {
                             if (fx.FrameworksCount > 1)
@@ -3712,6 +3714,27 @@ namespace Mono.Documentation
                             existingAttrElements.Add(csharpAttrStr, ae);
                         }
                     }
+                }
+            }
+
+            // iterate the state's attributes to find attributes that aren't 
+            // a part of this framework's attributes.
+            foreach (var stateAttribute in existingAttrElements)
+            {
+                if (currentAttrBatch.Contains(stateAttribute.Key))
+                {
+                    continue;
+                }
+                else // let's remove it 
+                {
+                    if (fx.FrameworksCount > 1)
+                    {
+                        var newfxlist = FXUtils.RemoveFXFromList(stateAttribute.Value.GetAttribute(Consts.FrameworkAlternate), fx.Name);
+                        stateAttribute.Value.SetAttribute(Consts.FrameworkAlternate, newfxlist);
+
+                    }
+                    else
+                        stateAttribute.Value.ParentNode.RemoveChild(stateAttribute.Value);
                 }
             }
 
