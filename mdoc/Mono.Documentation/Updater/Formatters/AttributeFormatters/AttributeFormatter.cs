@@ -65,6 +65,12 @@ namespace Mono.Documentation.Updater.Formatters
                 return true;
             }
 
+            if (IsIgnoredAttribute(attribute))
+            {
+                rval = null;
+                return false;
+            }
+
             TypeDefinition attrType = attribute.AttributeType as TypeDefinition;
             if (attrType != null && !DocUtils.IsPublic(attrType)
                 || (FormatterManager.SlashdocFormatter.GetName(attribute.AttributeType) == null)

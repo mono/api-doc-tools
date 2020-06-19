@@ -3671,7 +3671,7 @@ namespace Mono.Documentation
 
             if (customAttributesWithPrefix != null)
             {
-                foreach (var customAttrWithPrefix in customAttributesWithPrefix)
+                foreach (var customAttrWithPrefix in customAttributesWithPrefix.OrderBy(ca => ca.Item1?.AttributeType.FullName))
                 {
                     var customAttr = customAttrWithPrefix.Item1;
                     var prefix = customAttrWithPrefix.Item2;
