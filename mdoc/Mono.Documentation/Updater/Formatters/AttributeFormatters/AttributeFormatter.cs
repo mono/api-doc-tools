@@ -52,7 +52,7 @@ namespace Mono.Documentation.Updater.Formatters
             return customAttributes;
         }
 
-        public virtual bool TryGetAttributeString(CustomAttribute attribute, out string rval, string prefix = null)
+        public virtual bool TryGetAttributeString(CustomAttribute attribute, out string rval, string prefix = null, bool withBrackets = true)
         {
             if (attribute == null)
             {
@@ -104,7 +104,8 @@ namespace Mono.Documentation.Updater.Formatters
 
             string name = attribute.GetDeclaringType();
             if (name.EndsWith("Attribute")) name = name.Substring(0, name.Length - "Attribute".Length);
-            rval = PrefixBrackets + prefix + name + a2 + SurfixBrackets;
+            rval = withBrackets ? PrefixBrackets + prefix + name + a2 + SurfixBrackets
+                : prefix + name + a2;
             return true;
         }
 

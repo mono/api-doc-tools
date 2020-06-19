@@ -3676,7 +3676,7 @@ namespace Mono.Documentation
                 {
                     var customAttr = customAttrWithPrefix.Item1;
                     var prefix = customAttrWithPrefix.Item2;
-                    if (FormatterManager.CSharpAttributeFormatter.TryGetAttributeString(customAttr, out string csharpAttrStr, prefix))
+                    if (FormatterManager.CSharpAttributeFormatter.TryGetAttributeString(customAttr, out string csharpAttrStr, prefix, !isAssemblyAttribute))
                     {
                         currentAttrBatch.Add(csharpAttrStr);
                         if (existingAttrElements.TryGetValue(csharpAttrStr, out XmlElement elem))
