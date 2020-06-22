@@ -46,7 +46,7 @@ namespace Mono.Documentation.Updater.Formatters
                 }
                 if (ed.RemoveMethod != null)
                 {
-                    customAttributes.AddRange(ed.RemoveMethod.CustomAttributes.Select(attr => (attr, "add: ")));
+                    customAttributes.AddRange(ed.RemoveMethod.CustomAttributes.Select(attr => (attr, "remove: ")));
                 }
             }
             return customAttributes;

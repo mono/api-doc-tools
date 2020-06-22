@@ -11,7 +11,6 @@
   <Attributes>
     <Attribute>
       <AttributeName Language="C#">[System.AttributeUsage(System.AttributeTargets.All)]</AttributeName>
-      <AttributeName Language="F#">[&lt;System.AttributeUsage(System.AttributeTargets.All)&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
