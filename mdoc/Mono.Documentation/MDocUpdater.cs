@@ -3692,7 +3692,7 @@ namespace Mono.Documentation
                         {
                             XmlElement ae = root.OwnerDocument.CreateElement("Attribute");
                             e.AppendChild(ae);
-                            var node = WriteElementText(ae, "AttributeName", csharpAttrStr);
+                            var node = WriteElementText(ae, "AttributeName", csharpAttrStr, forceNewElement: true);
                             if (!isAssemblyAttribute)
                             {
                                 WriteElementAttribute(node, Language, Consts.CSharp);
@@ -3701,7 +3701,7 @@ namespace Mono.Documentation
                                 {
                                     if (formatter.TryGetAttributeString(customAttr, out string attrStr, prefix))
                                     {
-                                        node = WriteElementText(ae, "AttributeName", attrStr);
+                                        node = WriteElementText(ae, "AttributeName", attrStr, forceNewElement: true);
                                         WriteElementAttribute(node, Language, formatter.Language);
                                     }
                                 }
