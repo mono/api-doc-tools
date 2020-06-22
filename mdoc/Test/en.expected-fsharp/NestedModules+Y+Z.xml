@@ -12,10 +12,12 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>Microsoft.FSharp.Core.AutoOpen</AttributeName>
+      <AttributeName Language="C#">[Microsoft.FSharp.Core.AutoOpen]</AttributeName>
+      <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.AutoOpen&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+      <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)]</AttributeName>
+      <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -33,7 +35,8 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+          <AttributeName Language="C#">[get: System.Diagnostics.DebuggerNonUserCode]</AttributeName>
+          <AttributeName Language="F#">[&lt;get: System.Diagnostics.DebuggerNonUserCode&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

@@ -36,7 +36,8 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyFlagEnum(Platform.iOS_4_2 | Platform.iOS_Arch32)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyFlagEnum(Platform.iOS_4_2 | Platform.iOS_Arch32)]</AttributeName>
+          <AttributeName Language="F#">[&lt;MyNamespace.MyFlagEnum(Platform.iOS_4_2 | Platform.iOS_Arch32)&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -58,7 +59,8 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyFlagEnum(Platform.Mac_10_8 | Platform.Mac_Arch64)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyFlagEnum(Platform.Mac_10_8 | Platform.Mac_Arch64)]</AttributeName>
+          <AttributeName Language="F#">[&lt;MyNamespace.MyFlagEnum(Platform.Mac_10_8 | Platform.Mac_Arch64)&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -80,7 +82,8 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyFlagEnum(ObjCRuntime.Platform.None)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyFlagEnum(ObjCRuntime.Platform.None)]</AttributeName>
+          <AttributeName Language="F#">[&lt;MyNamespace.MyFlagEnum(ObjCRuntime.Platform.None)&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -102,7 +105,8 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyEnum(MyNamespace.MyEnum.One)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyEnum(MyNamespace.MyEnum.One)]</AttributeName>
+          <AttributeName Language="F#">[&lt;MyNamespace.MyEnum(MyNamespace.MyEnum.One)&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -124,7 +128,8 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyEnum((MyNamespace.MyEnum) 234234)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyEnum((MyNamespace.MyEnum) 234234)]</AttributeName>
+          <AttributeName Language="F#">[&lt;MyNamespace.MyEnum((MyNamespace.MyEnum) 234234)&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

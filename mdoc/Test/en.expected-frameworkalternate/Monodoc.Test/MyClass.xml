@@ -52,10 +52,12 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Monodoc.Test.First</AttributeName>
+          <AttributeName Language="C#">[Monodoc.Test.First]</AttributeName>
+          <AttributeName Language="F#">[&lt;Monodoc.Test.First&gt;]</AttributeName>
         </Attribute>
         <Attribute FrameworkAlternate="Two">
-          <AttributeName>Monodoc.Test.Second</AttributeName>
+          <AttributeName Language="C#">[Monodoc.Test.Second]</AttributeName>
+          <AttributeName Language="F#">[&lt;Monodoc.Test.Second&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
