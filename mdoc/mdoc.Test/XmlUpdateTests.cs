@@ -379,7 +379,7 @@ namespace mdoc.Test
             var attributes = attrNode.SelectNodes("Attribute").Cast<XmlElement>().ToArray();
 
             Assert.IsTrue(attributes.Count() == 1);
-            Assert.AreEqual("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual("[One]", attributes[0].FirstChild.InnerText);
             Assert.AreEqual("Three", attributes[0].GetAttribute(Consts.FrameworkAlternate));
         }
 
@@ -419,7 +419,7 @@ namespace mdoc.Test
             var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
 
             Assert.IsTrue (attributes.Count () == 1);
-            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual ("[One]", attributes[0].FirstChild.InnerText);
             Assert.IsFalse (attributes[0].HasAttribute (Consts.FrameworkAlternate));
         }
 
@@ -445,7 +445,7 @@ namespace mdoc.Test
             var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
 
             Assert.IsTrue (attributes.Count () == 1);
-            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual ("[One]", attributes[0].FirstChild.InnerText);
             Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("Three;Two", attributes[0].GetAttribute (Consts.FrameworkAlternate));
         }
@@ -472,7 +472,7 @@ namespace mdoc.Test
             var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
 
             Assert.IsTrue (attributes.Count () == 1);
-            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual ("[One]", attributes[0].FirstChild.InnerText);
             Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("One;Three", attributes[0].GetAttribute (Consts.FrameworkAlternate));
         }
@@ -511,9 +511,9 @@ namespace mdoc.Test
             var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
 
             Assert.IsTrue (attributes.Count () == 2);
-            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual ("[One]", attributes[0].FirstChild.InnerText);
             Assert.IsFalse (attributes[0].HasAttribute (Consts.FrameworkAlternate));
-            Assert.AreEqual ("Two", attributes[1].FirstChild.InnerText);
+            Assert.AreEqual ("[Two]", attributes[1].FirstChild.InnerText);
             Assert.IsTrue (attributes[1].HasAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("Three", attributes[1].GetAttribute (Consts.FrameworkAlternate));
         }
@@ -553,9 +553,9 @@ namespace mdoc.Test
             var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
 
             Assert.IsTrue (attributes.Count () == 2);
-            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual ("[One]", attributes[0].FirstChild.InnerText);
             Assert.IsFalse (attributes[0].HasAttribute (Consts.FrameworkAlternate));
-            Assert.AreEqual ("Two", attributes[1].FirstChild.InnerText);
+            Assert.AreEqual ("[Two]", attributes[1].FirstChild.InnerText);
             Assert.IsTrue (attributes[1].HasAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("One", attributes[1].GetAttribute (Consts.FrameworkAlternate));
         }
@@ -593,10 +593,10 @@ namespace mdoc.Test
             var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
 
             Assert.IsTrue (attributes.Count () == 2);
-            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual ("[One]", attributes[0].FirstChild.InnerText);
             Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("Two", attributes[0].GetAttribute (Consts.FrameworkAlternate));
-            Assert.AreEqual ("Two", attributes[1].FirstChild.InnerText);
+            Assert.AreEqual ("[Two]", attributes[1].FirstChild.InnerText);
             Assert.IsFalse (attributes[1].HasAttribute (Consts.FrameworkAlternate));
 
         }
@@ -623,7 +623,7 @@ namespace mdoc.Test
             var attributes = attrNode.SelectNodes ("Attribute").Cast<XmlElement> ().ToArray ();
 
             Assert.IsTrue (attributes.Count () == 1);
-            Assert.AreEqual ("One", attributes[0].FirstChild.InnerText);
+            Assert.AreEqual ("[One]", attributes[0].FirstChild.InnerText);
             Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
             Assert.AreEqual ("One;Two", attributes[0].GetAttribute (Consts.FrameworkAlternate));
         }
@@ -646,7 +646,7 @@ namespace mdoc.Test
                 }
 
 
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry, "one.dll");
             }
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");
@@ -672,7 +672,7 @@ namespace mdoc.Test
                 
                 // this is the 'second' fx, and we've changed the expected assembly name, 
                 // so the attribute, while it doesn't exist yet, shouldn't have an FX made since it doesn't exist in any other FX
-                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry);
+                MDocUpdater.MakeAttributes (context.doc.FirstChild as XmlElement, attributeList, fx, typeEntry, "one.dll");
             
 
             var attrNode = context.doc.FirstChild.SelectSingleNode ("Attributes");

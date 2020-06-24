@@ -61,7 +61,7 @@ namespace Mono.Documentation.Updater.Formatters
                     rval = null;
                     return false;
                 }
-                rval = prefix;
+                rval = withBrackets ? PrefixBrackets + prefix + SurfixBrackets : prefix;
                 return true;
             }
 
