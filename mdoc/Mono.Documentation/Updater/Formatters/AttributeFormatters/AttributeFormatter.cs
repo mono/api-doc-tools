@@ -18,7 +18,7 @@ namespace Mono.Documentation.Updater.Formatters
             List<(CustomAttribute, string)> customAttributes = new List<(CustomAttribute, string)>();
             if (mi is ICustomAttributeProvider p && p.CustomAttributes?.Count > 0)
             {
-                customAttributes.AddRange(p.CustomAttributes.Select(attr => (attr, "")));
+                customAttributes.AddRange(p.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "")));
             }
 
             if (mi is TypeDefinition typeDefinition && typeDefinition.IsSerializable)
@@ -30,11 +30,11 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (pd.GetMethod != null)
                 {
-                    customAttributes.AddRange(pd.GetMethod.CustomAttributes.Select(attr => (attr, "get: ")));
+                    customAttributes.AddRange(pd.GetMethod.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "get: ")));
                 }
                 if (pd.SetMethod != null)
                 {
-                    customAttributes.AddRange(pd.SetMethod.CustomAttributes.Select(attr => (attr, "set: ")));
+                    customAttributes.AddRange(pd.SetMethod.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "set: ")));
                 }
             }
 
@@ -42,11 +42,11 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (ed.AddMethod != null)
                 {
-                    customAttributes.AddRange(ed.AddMethod.CustomAttributes.Select(attr => (attr, "add: ")));
+                    customAttributes.AddRange(ed.AddMethod.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "add: ")));
                 }
                 if (ed.RemoveMethod != null)
                 {
-                    customAttributes.AddRange(ed.RemoveMethod.CustomAttributes.Select(attr => (attr, "remove: ")));
+                    customAttributes.AddRange(ed.RemoveMethod.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "remove: ")));
                 }
             }
             return customAttributes;

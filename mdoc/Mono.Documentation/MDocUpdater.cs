@@ -3631,7 +3631,7 @@ namespace Mono.Documentation
             string assemblyName = null)
         {
             MakeAttributes(root,
-                customAttributes?.Select(attr => (attr, "")),
+                customAttributes?.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "")),
                 fx,
                 typeEntry,
                 assemblyName);
@@ -3672,7 +3672,7 @@ namespace Mono.Documentation
 
             if (customAttributesWithPrefix != null)
             {
-                foreach (var customAttrWithPrefix in customAttributesWithPrefix.OrderBy(ca => ca.Item1?.AttributeType.FullName))
+                foreach (var customAttrWithPrefix in customAttributesWithPrefix)
                 {
                     var customAttr = customAttrWithPrefix.Item1;
                     var prefix = customAttrWithPrefix.Item2;
