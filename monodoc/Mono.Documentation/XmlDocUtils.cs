@@ -32,7 +32,7 @@ namespace Mono.Documentation {
 		{
 			type = type.Replace ("&", "@").Replace ("<", "{").Replace (">", "}");
 			for (int i = 0; i < typeGenParams.Count; ++i) {
-				string name = typeGenParams [i].InnerText;
+				string name = typeGenParams [i].Attributes["Name"].Value;
 				type = Regex.Replace (type, @"\b" + name + @"\b", "`" + i);
 			}
 			for (int i = 0; i < memberGenParams.Count; ++i) {
