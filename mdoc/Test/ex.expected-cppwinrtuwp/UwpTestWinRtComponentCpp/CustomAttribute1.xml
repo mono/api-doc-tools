@@ -12,7 +12,6 @@
   <Attributes>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.Version(1)]</AttributeName>
-      <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.Version(1)&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -31,7 +30,6 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Windows.Foundation.Metadata.Overload("CreateInstance1")]</AttributeName>
-          <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.Overload("CreateInstance1")&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters />

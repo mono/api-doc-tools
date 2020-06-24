@@ -13,23 +13,18 @@
   <Attributes>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.Composable(typeof(Namespace2.__IClass2ProtectedFactory), Windows.Foundation.Metadata.CompositionType.Protected, 1)]</AttributeName>
-      <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.Composable(typeof(Namespace2.__IClass2ProtectedFactory), Windows.Foundation.Metadata.CompositionType.Protected, 1)&gt;]</AttributeName>
     </Attribute>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.MarshalingBehavior(Windows.Foundation.Metadata.MarshalingType.Agile)]</AttributeName>
-      <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.MarshalingBehavior(Windows.Foundation.Metadata.MarshalingType.Agile)&gt;]</AttributeName>
     </Attribute>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.Threading(Windows.Foundation.Metadata.ThreadingModel.Both)]</AttributeName>
-      <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.Threading(Windows.Foundation.Metadata.ThreadingModel.Both)&gt;]</AttributeName>
     </Attribute>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.Version(1)]</AttributeName>
-      <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.Version(1)&gt;]</AttributeName>
     </Attribute>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.WebHostHidden]</AttributeName>
-      <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.WebHostHidden&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>

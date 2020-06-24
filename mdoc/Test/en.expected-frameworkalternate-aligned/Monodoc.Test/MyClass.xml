@@ -51,7 +51,6 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Monodoc.Test.First]</AttributeName>
-          <AttributeName Language="F#">[&lt;Monodoc.Test.First&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

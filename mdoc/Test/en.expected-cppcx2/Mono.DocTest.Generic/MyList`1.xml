@@ -10,7 +10,6 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("Type Parameter!")]</AttributeName>
-          <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("Type Parameter!")&gt;]</AttributeName>
         </Attribute>
       </Attributes>
     </TypeParameter>

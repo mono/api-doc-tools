@@ -11,11 +11,9 @@
   <Attributes>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.Guid(603281085, 10445, 12788, 160, 94, 209, 35, 22, 179, 109, 110)]</AttributeName>
-      <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.Guid(603281085, 10445, 12788, 160, 94, 209, 35, 22, 179, 109, 110)&gt;]</AttributeName>
     </Attribute>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.Version(1)]</AttributeName>
-      <AttributeName Language="F#">[&lt;Windows.Foundation.Metadata.Version(1)&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Parameters>
