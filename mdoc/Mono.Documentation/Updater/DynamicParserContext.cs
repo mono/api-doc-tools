@@ -11,7 +11,7 @@ namespace Mono.Documentation.Updater
     {
         public ReadOnlyCollection<bool> TransformFlags;
         public int TransformIndex;
-
+        public bool IsNullableAttribute;
         public DynamicParserContext (ICustomAttributeProvider provider)
         {
             CustomAttribute da;
@@ -25,6 +25,9 @@ namespace Mono.Documentation.Updater
 
                 TransformFlags = new ReadOnlyCollection<bool> (values.Select (t => (bool)t.Value).ToArray ());
             }
+
+            IsNullableAttribute = provider.HasCustomAttributes &&
+                provider.CustomAttributes.Any(ca => ca.AttributeType.FullName == "System.Runtime.CompilerServices.NullableAttribute");
         }
     }
 }
