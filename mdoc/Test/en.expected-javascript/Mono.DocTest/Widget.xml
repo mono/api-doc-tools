@@ -77,15 +77,12 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("Del event")]</AttributeName>
-          <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("Del event")&gt;]</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName Language="C#">[add: Mono.DocTest.Doc("Del add accessor")]</AttributeName>
-          <AttributeName Language="F#">[&lt;add: Mono.DocTest.Doc("Del add accessor")&gt;]</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName Language="C#">[remove: Mono.DocTest.Doc("Del remove accessor")]</AttributeName>
-          <AttributeName Language="F#">[&lt;remove: Mono.DocTest.Doc("Del remove accessor")&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -312,7 +309,6 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[System.Obsolete("why not")]</AttributeName>
-          <AttributeName Language="F#">[&lt;System.Obsolete("why not")&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -381,7 +377,6 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("Height property")]</AttributeName>
-          <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("Height property")&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -403,11 +398,9 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("Item property")]</AttributeName>
-          <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("Item property")&gt;]</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName Language="C#">[set: Mono.DocTest.Doc("Item property set accessor")]</AttributeName>
-          <AttributeName Language="F#">[&lt;set: Mono.DocTest.Doc("Item property set accessor")&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -472,7 +465,6 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("normal DocAttribute", Field=true)]</AttributeName>
-          <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("normal DocAttribute", Field=true)&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -480,7 +472,6 @@
         <Attributes>
           <Attribute>
             <AttributeName Language="C#">[Mono.DocTest.Doc("return:DocAttribute", Property=typeof(Mono.DocTest.Widget))]</AttributeName>
-            <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("return:DocAttribute", Property=typeof(Mono.DocTest.Widget))&gt;]</AttributeName>
           </Attribute>
         </Attributes>
       </ReturnValue>
@@ -489,7 +480,6 @@
           <Attributes>
             <Attribute>
               <AttributeName Language="C#">[Mono.DocTest.Doc("c", FlagsEnum=System.ConsoleModifiers.Alt | System.ConsoleModifiers.Control)]</AttributeName>
-              <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("c", FlagsEnum=System.ConsoleModifiers.Alt | System.ConsoleModifiers.Control)&gt;]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
@@ -497,7 +487,6 @@
           <Attributes>
             <Attribute>
               <AttributeName Language="C#">[Mono.DocTest.Doc("f", NonFlagsEnum=Mono.DocTest.Color.Red)]</AttributeName>
-              <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("f", NonFlagsEnum=Mono.DocTest.Color.Red)&gt;]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
@@ -505,7 +494,6 @@
           <Attributes>
             <Attribute>
               <AttributeName Language="C#">[Mono.DocTest.Doc("v")]</AttributeName>
-              <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("v")&gt;]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
@@ -625,7 +613,6 @@
           <Attributes>
             <Attribute>
               <AttributeName Language="C#">[System.ParamArray]</AttributeName>
-              <AttributeName Language="F#">[&lt;System.ParamArray&gt;]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
@@ -841,15 +828,12 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("Width property")]</AttributeName>
-          <AttributeName Language="F#">[&lt;Mono.DocTest.Doc("Width property")&gt;]</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName Language="C#">[get: Mono.DocTest.Doc("Width get accessor")]</AttributeName>
-          <AttributeName Language="F#">[&lt;get: Mono.DocTest.Doc("Width get accessor")&gt;]</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName Language="C#">[set: Mono.DocTest.Doc("Width set accessor")]</AttributeName>
-          <AttributeName Language="F#">[&lt;set: Mono.DocTest.Doc("Width set accessor")&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

@@ -44,7 +44,6 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[System.ComponentModel.DefaultValue('\0')]</AttributeName>
-          <AttributeName Language="F#">[&lt;System.ComponentModel.DefaultValue('\0')&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
