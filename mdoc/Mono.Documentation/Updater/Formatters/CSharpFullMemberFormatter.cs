@@ -139,6 +139,12 @@ namespace Mono.Documentation.Updater.Formatters
                 }
             }
 
+            if (context != null && context.IsNullableAttribute)
+            {
+                var TypeName = base.GetTypeName(type, context, appendGeneric, useTypeProjection);
+                return TypeName + "?";
+            }
+
             return base.GetTypeName(type, context, appendGeneric, useTypeProjection);
         }
 
