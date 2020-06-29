@@ -18,7 +18,7 @@ namespace Mono.Documentation.Updater.Formatters
             List<(CustomAttribute, string)> customAttributes = new List<(CustomAttribute, string)>();
             if (mi is ICustomAttributeProvider p && p.CustomAttributes?.Count > 0)
             {
-                customAttributes.AddRange(p.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "")));
+                customAttributes.AddRange(PreProcessCustomAttributes(p.CustomAttributes));
             }
 
             if (mi is TypeDefinition typeDefinition && typeDefinition.IsSerializable)
@@ -30,11 +30,11 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (pd.GetMethod != null)
                 {
-                    customAttributes.AddRange(pd.GetMethod.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "get: ")));
+                    customAttributes.AddRange(PreProcessCustomAttributes(pd.GetMethod.CustomAttributes, "get: "));
                 }
                 if (pd.SetMethod != null)
                 {
-                    customAttributes.AddRange(pd.SetMethod.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "set: ")));
+                    customAttributes.AddRange(PreProcessCustomAttributes(pd.SetMethod.CustomAttributes, "set: "));
                 }
             }
 
@@ -42,14 +42,19 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (ed.AddMethod != null)
                 {
-                    customAttributes.AddRange(ed.AddMethod.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "add: ")));
+                    customAttributes.AddRange(PreProcessCustomAttributes(ed.AddMethod.CustomAttributes, "add: "));
                 }
                 if (ed.RemoveMethod != null)
                 {
-                    customAttributes.AddRange(ed.RemoveMethod.CustomAttributes.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "remove: ")));
+                    customAttributes.AddRange(PreProcessCustomAttributes(ed.RemoveMethod.CustomAttributes, "remove: "));
                 }
             }
             return customAttributes;
+        }
+
+        public static IEnumerable<(CustomAttribute, string)> PreProcessCustomAttributes(IEnumerable<CustomAttribute> customAttributes, string prefix = "")
+        {
+            return customAttributes?.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, prefix));
         }
 
         public virtual bool TryGetAttributeString(CustomAttribute attribute, out string rval, string prefix = null, bool withBrackets = true)

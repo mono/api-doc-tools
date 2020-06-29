@@ -18,7 +18,7 @@ namespace Mono.Documentation.Updater
 
         public static void AddElementWithFx(FrameworkTypeEntry typeEntry, XmlElement parent, bool isFirst, bool isLast, Lazy<string> allfxstring, Action<XmlElement> clear, Func<XmlElement, XmlElement> findExisting, Func<XmlElement, XmlElement> addItem)
         {
-            if (typeEntry.TimesProcessed > 1)
+            if (typeEntry != null && typeEntry.TimesProcessed > 1)
                 return;
 
             if (isFirst)
@@ -33,7 +33,10 @@ namespace Mono.Documentation.Updater
                 item = addItem(parent);
             }
 
-            item.AddFrameworkToElement(typeEntry.Framework);
+            if (typeEntry != null)
+            {
+                item.AddFrameworkToElement(typeEntry.Framework);
+            }
             
             if (isLast)
             {

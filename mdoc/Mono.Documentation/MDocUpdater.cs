@@ -998,7 +998,7 @@ namespace Mono.Documentation
                 index_assembly.AppendChild (culture);
             }
 
-            MakeAttributes (index_assembly, assembly.CustomAttributes, fx, typeEntry: null, assemblyName: assembly.Name.Name);
+            MakeAssemblyAttributes(index_assembly, fx, assembly);
             parent.AppendChild (index_assembly);
         }
 
@@ -2213,7 +2213,7 @@ namespace Mono.Documentation
                 ClearElement (root, "Interfaces");
             }
 
-			MakeAttributes (root, AttributeFormatter.GetCustomAttributes(type), typeEntry.Framework, typeEntry);
+			MakeAttributes (root, AttributeFormatter.GetCustomAttributes(type), typeEntry);
 
             if (DocUtils.IsDelegate (type))
             {
@@ -2427,7 +2427,7 @@ namespace Mono.Documentation
                 ClearElement (me, "AssemblyInfo");
             }
 
-			MakeAttributes (me, AttributeFormatter.GetCustomAttributes(mi), typeEntry.Framework, typeEntry);
+			MakeAttributes (me, AttributeFormatter.GetCustomAttributes(mi), typeEntry, mi);
 
             MakeReturnValue (typeEntry, me, mi, MDocUpdater.HasDroppedNamespace (mi));
             if (mi is MethodReference)
@@ -3623,153 +3623,139 @@ namespace Mono.Documentation
             return anyNodesLeft;
         }
 
+        public static void MakeAssemblyAttributes(
+            XmlElement root,
+            FrameworkEntry fx,
+            AssemblyDefinition assembly)
+        {
+            if (assembly == null || !assembly.HasCustomAttributes)
+            {
+                return;
+            }
+            var assemblyName = assembly.Name.Name;
+            MakeAttributes(
+                root,
+                AttributeFormatter.PreProcessCustomAttributes(assembly.CustomAttributes),
+                fx.IsFirstFrameworkForAssembly(assemblyName),
+                fx.IsLastFrameworkForAssembly(assemblyName),
+                () => fx.AllFrameworksStringWithAssembly(assemblyName),
+                null,
+                perLanguage: false);
+        }
+
         public static void MakeAttributes(
             XmlElement root,
             IEnumerable<CustomAttribute> customAttributes,
-            FrameworkEntry fx,
-            FrameworkTypeEntry typeEntry,
-            string assemblyName = null)
+            FrameworkTypeEntry typeEntry)
         {
-            MakeAttributes(root,
-                customAttributes?.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, "")),
-                fx,
+            MakeAttributes(root, AttributeFormatter.PreProcessCustomAttributes(customAttributes), typeEntry);
+        }
+
+        public static void MakeAttributes(
+            XmlElement root,
+            IEnumerable<(CustomAttribute, string)> customAttributesWithPrefix,
+            FrameworkTypeEntry typeEntry)
+        {
+            MakeAttributes(
+                root,
+                customAttributesWithPrefix,
+                typeEntry.Framework.IsFirstFrameworkForType(typeEntry),
+                typeEntry.Framework.IsLastFrameworkForType(typeEntry),
+                () => typeEntry.Framework.AllFrameworksWithType(typeEntry),
                 typeEntry,
-                assemblyName);
+                perLanguage: true);
+        }
+
+        public static void MakeAttributes(
+            XmlElement root,
+            IEnumerable<(CustomAttribute, string)> customAttributesWithPrefix,
+            FrameworkTypeEntry typeEntry,
+            MemberReference member)
+        {
+            MakeAttributes(
+                root,
+                customAttributesWithPrefix,
+                typeEntry.IsMemberOnFirstFramework(member),
+                typeEntry.IsMemberOnLastFramework(member),
+                () => typeEntry.AllFrameworkStringForMember(member),
+                typeEntry,
+                perLanguage: true);
         }
 
         /// <summary>
         /// Update attributes in parent xml node
         /// </summary>
         /// <param name="root">parent xml node</param>
-        /// <param name="attributes">attribute strings in C# format</param>
-        /// <param name="fx"></param>
+        /// <param name="customAttributesWithPrefix">attributes and prefix</param>
+        /// <param name="isFirstFramework"></param>
+        /// <param name="isLastFramework"></param>
+        /// <param name="getAllFxString"></param>
         /// <param name="typeEntry"></param>
-        /// <param name="assemblyName"></param>
-        /// <param name="otherLangs"></param>
+        /// <param name="perLanguage"></param>
         public static void MakeAttributes(
             XmlElement root,
             IEnumerable<(CustomAttribute, string)> customAttributesWithPrefix,
-            FrameworkEntry fx,
+            bool isFirstFramework,
+            bool isLastFramework,
+            Func<string> getAllFxString,
             FrameworkTypeEntry typeEntry,
-            string assemblyName = null)
+            bool perLanguage = true
+            )
         {
             const string Language = "Language";
-
-            bool isAssemblyAttribute = !string.IsNullOrWhiteSpace(assemblyName);
-
             XmlElement e = (XmlElement)root.SelectSingleNode("Attributes");
-
             if (e == null)
                 e = root.OwnerDocument.CreateElement("Attributes");
-
-            // we'll use C# version as key identifier of each attribute
-            var existingAttrElements = e.ChildNodes.SafeCast<XmlElement>()
-                                .ToDictionary(
-                                  elem => elem.SelectSingleNode("/AttributeName[@" + Language + "='" + Consts.CSharp + "']")?.InnerText
-                                          ?? elem.FirstChild.InnerText
-                                  , elem => elem);
-            var currentAttrBatch = new HashSet<string>();
-
+            if (isFirstFramework)
+            {
+                e.RemoveAll();
+            }
             if (customAttributesWithPrefix != null)
             {
                 foreach (var customAttrWithPrefix in customAttributesWithPrefix)
                 {
                     var customAttr = customAttrWithPrefix.Item1;
                     var prefix = customAttrWithPrefix.Item2;
-                    if (FormatterManager.CSharpAttributeFormatter.TryGetAttributeString(customAttr, out string csharpAttrStr, prefix, !isAssemblyAttribute))
+                    if (FormatterManager.CSharpAttributeFormatter.TryGetAttributeString(customAttr, out string csharpAttrStr, prefix, perLanguage))
                     {
-                        currentAttrBatch.Add(csharpAttrStr);
-                        if (existingAttrElements.TryGetValue(csharpAttrStr, out XmlElement elem))
-                        {
-                            if (fx.FrameworksCount > 1)
+                        DocUtils.AddElementWithFx(
+                            typeEntry,
+                            parent: e,
+                            isFirst: isFirstFramework,
+                            isLast: isLastFramework,
+                            allfxstring: new Lazy<string>(() => getAllFxString()),
+                            clear: parent => { },
+                            findExisting: parent =>
                             {
-                                var newfxlist = FXUtils.AddFXToList(elem.GetAttribute(Consts.FrameworkAlternate), fx.Name);
-                                elem.SetAttribute(Consts.FrameworkAlternate, newfxlist);
-                            }
-                            continue;
-                        }
-                        else // let's create it
-                        {
-                            XmlElement ae = root.OwnerDocument.CreateElement("Attribute");
-                            e.AppendChild(ae);
-                            var node = WriteElementText(ae, "AttributeName", csharpAttrStr, forceNewElement: true);
-                            if (!isAssemblyAttribute)
-                            {
-                                WriteElementAttribute(node, Language, Consts.CSharp);
-
-                                foreach (var formatter in FormatterManager.AdditionalAttributeFormatters)
-                                {
-                                    if (formatter.TryGetAttributeString(customAttr, out string attrStr, prefix))
+                                return parent.ChildNodes.Cast<XmlElement>().FirstOrDefault(
+                                    rt =>
                                     {
-                                        node = WriteElementText(ae, "AttributeName", attrStr, forceNewElement: true);
-                                        WriteElementAttribute(node, Language, formatter.Language);
+                                        var text = rt.SelectSingleNode("/AttributeName[@" + Language + "='" + Consts.CSharp + "']")?.InnerText
+                                          ?? rt.FirstChild.InnerText;
+                                        return text == csharpAttrStr;
+                                    });
+                            },
+                            addItem: parent =>
+                            {
+                                XmlElement ae = root.OwnerDocument.CreateElement("Attribute");
+                                e.AppendChild(ae);
+                                var node = WriteElementText(ae, "AttributeName", csharpAttrStr, forceNewElement: true);
+                                if (perLanguage)
+                                {
+                                    WriteElementAttribute(node, Language, Consts.CSharp);
+
+                                    foreach (var formatter in FormatterManager.AdditionalAttributeFormatters)
+                                    {
+                                        if (formatter.TryGetAttributeString(customAttr, out string attrStr, prefix))
+                                        {
+                                            node = WriteElementText(ae, "AttributeName", attrStr, forceNewElement: true);
+                                            WriteElementAttribute(node, Language, formatter.Language);
+                                        }
                                     }
                                 }
-                            }
 
-                            if (fx.FrameworksCount > 1)
-                            {
-                                ae.SetAttribute(Consts.FrameworkAlternate, fx.Name);
-                            }
-                            existingAttrElements.Add(csharpAttrStr, ae);
-                        }
-                    }
-                }
-            }
-
-            // iterate the state's attributes to find attributes that aren't 
-            // a part of this framework's attributes.
-            foreach (var stateAttribute in existingAttrElements)
-            {
-                if (currentAttrBatch.Contains(stateAttribute.Key))
-                {
-                    continue;
-                }
-                else // let's remove it 
-                {
-                    if (fx.FrameworksCount > 1)
-                    {
-                        var newfxlist = FXUtils.RemoveFXFromList(stateAttribute.Value.GetAttribute(Consts.FrameworkAlternate), fx.Name);
-                        stateAttribute.Value.SetAttribute(Consts.FrameworkAlternate, newfxlist);
-
-                    }
-                    else
-                        stateAttribute.Value.ParentNode.RemoveChild(stateAttribute.Value);
-                }
-            }
-
-            // clean up
-            bool lastFxForAssembly = (isAssemblyAttribute && fx.IsLastFrameworkForAssembly(assemblyName));
-            bool lastFxForType = (typeEntry != null && fx.IsLastFrameworkForType(typeEntry));
-            if (lastFxForAssembly || lastFxForType)
-            {
-                string allFxString = null;
-
-                foreach (var attr in existingAttrElements.Values)
-                {
-                    if (attr.HasAttribute(Consts.FrameworkAlternate))
-                    {
-                        var fxAttributeValue = attr.GetAttribute(Consts.FrameworkAlternate);
-
-                        if (string.IsNullOrWhiteSpace(fxAttributeValue))
-                        {
-                            attr.ParentNode.RemoveChild(attr);
-                            continue;
-                        }
-
-                        if (string.IsNullOrWhiteSpace(allFxString))
-                        {
-                            if (lastFxForType)
-                                allFxString = fx.AllFrameworksWithType(typeEntry);
-                            else if (lastFxForAssembly)
-                                allFxString = fx.AllFrameworksWithAssembly(assemblyName);
-                            else
-                                allFxString = fx.AllFrameworksString;
-                        }
-
-                        if (fxAttributeValue.Equals(allFxString, StringComparison.Ordinal))
-                            attr.RemoveAttribute(Consts.FrameworkAlternate);
-
+                                return ae;
+                            });
                     }
                 }
             }
@@ -3787,8 +3773,6 @@ namespace Mono.Documentation
             }
 
             NormalizeWhitespace(e);
-
-            return;
         }
 
         public void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
@@ -3828,7 +3812,7 @@ namespace Mono.Documentation
                 //if (addfx)
                     pe.SetAttribute (Consts.FrameworkAlternate, fx);
 
-				MakeAttributes (pe, param.CustomAttributes, typeEntry.Framework, typeEntry);
+				MakeAttributes (pe, AttributeFormatter.PreProcessCustomAttributes(param.CustomAttributes), typeEntry, member);
             };
             /// addFXAttributes, adds the index attribute to all existing elements.
             /// Used when we first detect the scenario which requires this.
@@ -4041,7 +4025,7 @@ namespace Mono.Documentation
                         XmlElement pe = root.OwnerDocument.CreateElement ("TypeParameter");
                         e.AppendChild (pe);
                         pe.SetAttribute ("Name", t.Name);
-					    MakeAttributes (pe, t.CustomAttributes, entry.Framework, entry);
+					    MakeAttributes (pe, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
                         XmlElement ce = (XmlElement)e.SelectSingleNode ("Constraints");
                         if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                         {
@@ -4164,7 +4148,7 @@ namespace Mono.Documentation
                     {
                         var newNode = WriteElementText(e, "ReturnType", valueToUse, forceNewElement: true);
                         if (attributes != null)
-                            MakeAttributes(e, attributes, typeEntry.Framework, typeEntry);
+                            MakeAttributes(e, AttributeFormatter.PreProcessCustomAttributes(attributes), typeEntry, member);
 
                         return newNode;
                     });
