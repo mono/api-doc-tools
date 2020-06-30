@@ -2427,7 +2427,7 @@ namespace Mono.Documentation
                 ClearElement (me, "AssemblyInfo");
             }
 
-			MakeAttributes (me, AttributeFormatter.GetCustomAttributes(mi), typeEntry, mi);
+			MakeMemberAttributes (me, mi, typeEntry);
 
             MakeReturnValue (typeEntry, me, mi, MDocUpdater.HasDroppedNamespace (mi));
             if (mi is MethodReference)
@@ -3645,14 +3645,6 @@ namespace Mono.Documentation
 
         public static void MakeAttributes(
             XmlElement root,
-            IEnumerable<CustomAttribute> customAttributes,
-            FrameworkTypeEntry typeEntry)
-        {
-            MakeAttributes(root, AttributeFormatter.PreProcessCustomAttributes(customAttributes), typeEntry);
-        }
-
-        public static void MakeAttributes(
-            XmlElement root,
             IEnumerable<(CustomAttribute, string)> customAttributesWithPrefix,
             FrameworkTypeEntry typeEntry)
         {
@@ -3666,20 +3658,42 @@ namespace Mono.Documentation
                 perLanguage: true);
         }
 
-        public static void MakeAttributes(
+        public static void MakeMemberAttributes(
+            XmlElement root,
+            MemberReference member,
+            FrameworkTypeEntry typeEntry)
+        {
+            MakeAttributes(
+                root,
+                AttributeFormatter.GetCustomAttributes(member),
+                typeEntry.IsMemberOnFirstFramework(member),
+                typeEntry.IsMemberOnLastFramework(member),
+                () => typeEntry.Framework.AllFrameworksWithType(typeEntry),
+                typeEntry,
+                perLanguage: true);
+        }
+
+        public static void MakeParamsAttributes(
             XmlElement root,
             IEnumerable<(CustomAttribute, string)> customAttributesWithPrefix,
             FrameworkTypeEntry typeEntry,
             MemberReference member)
         {
-            MakeAttributes(
-                root,
-                customAttributesWithPrefix,
-                typeEntry.IsMemberOnFirstFramework(member),
-                typeEntry.IsMemberOnLastFramework(member),
-                () => typeEntry.AllFrameworkStringForMember(member),
-                typeEntry,
-                perLanguage: true);
+            if (member is TypeDefinition t)
+            {
+                MakeAttributes(root, customAttributesWithPrefix, typeEntry);
+            }
+            else
+            {
+                MakeAttributes(
+                    root,
+                    customAttributesWithPrefix,
+                    typeEntry.IsMemberOnFirstFramework(member),
+                    typeEntry.IsMemberOnLastFramework(member),
+                    () => typeEntry.AllFrameworkStringForMember(member),
+                    typeEntry,
+                    perLanguage: true);
+            }
         }
 
         /// <summary>
@@ -3812,7 +3826,7 @@ namespace Mono.Documentation
                 //if (addfx)
                     pe.SetAttribute (Consts.FrameworkAlternate, fx);
 
-				MakeAttributes (pe, AttributeFormatter.PreProcessCustomAttributes(param.CustomAttributes), typeEntry, member);
+				MakeParamsAttributes (pe, AttributeFormatter.PreProcessCustomAttributes(param.CustomAttributes), typeEntry, member);
             };
             /// addFXAttributes, adds the index attribute to all existing elements.
             /// Used when we first detect the scenario which requires this.
@@ -4009,47 +4023,39 @@ namespace Mono.Documentation
 #endif
                 GenericParameterAttributes attrs = t.Attributes;
 
-
-                AddXmlNode (
-                    nodes,
-                    x =>
+                var existing = nodes.FirstOrDefault(x => x.GetAttribute("Name") == t.Name);
+                if (existing != null)
+                {
+                    MakeParamsAttributes(existing, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
+                }
+                else
+                {
+                    XmlElement pe = root.OwnerDocument.CreateElement("TypeParameter");
+                    e.AppendChild(pe);
+                    pe.SetAttribute("Name", t.Name);
+                    MakeParamsAttributes(pe, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
+                    XmlElement ce = (XmlElement)e.SelectSingleNode("Constraints");
+                    if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     {
-                        var baseType = e.SelectSingleNode ("BaseTypeName");
-                        // TODO: should this comparison take into account BaseTypeName?
-                        return x.GetAttribute ("Name") == t.Name;
-                    },
-                    x => { }, // no additional action required
-                    () =>
-                    {
-
-                        XmlElement pe = root.OwnerDocument.CreateElement ("TypeParameter");
-                        e.AppendChild (pe);
-                        pe.SetAttribute ("Name", t.Name);
-					    MakeAttributes (pe, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
-                        XmlElement ce = (XmlElement)e.SelectSingleNode ("Constraints");
-                        if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
-                        {
-                            if (ce != null)
-                                e.RemoveChild (ce);
-                            return pe;
-                        }
                         if (ce != null)
-                            ce.RemoveAll ();
-                        else
-                        {
-                            ce = root.OwnerDocument.CreateElement ("Constraints");
-                        }
-                        pe.AppendChild (ce);
-                        if ((attrs & GenericParameterAttributes.Contravariant) != 0)
-                            AppendElementText (ce, "ParameterAttribute", "Contravariant");
-                        if ((attrs & GenericParameterAttributes.Covariant) != 0)
-                            AppendElementText (ce, "ParameterAttribute", "Covariant");
-                        if ((attrs & GenericParameterAttributes.DefaultConstructorConstraint) != 0)
-                            AppendElementText (ce, "ParameterAttribute", "DefaultConstructorConstraint");
-                        if ((attrs & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0)
-                            AppendElementText (ce, "ParameterAttribute", "NotNullableValueTypeConstraint");
-                        if ((attrs & GenericParameterAttributes.ReferenceTypeConstraint) != 0)
-                            AppendElementText (ce, "ParameterAttribute", "ReferenceTypeConstraint");
+                            e.RemoveChild(ce);
+                    }
+                    if (ce != null)
+                        ce.RemoveAll();
+                    else
+                    {
+                        ce = root.OwnerDocument.CreateElement("Constraints");
+                    }
+                    if ((attrs & GenericParameterAttributes.Contravariant) != 0)
+                        AppendElementText(ce, "ParameterAttribute", "Contravariant");
+                    if ((attrs & GenericParameterAttributes.Covariant) != 0)
+                        AppendElementText(ce, "ParameterAttribute", "Covariant");
+                    if ((attrs & GenericParameterAttributes.DefaultConstructorConstraint) != 0)
+                        AppendElementText(ce, "ParameterAttribute", "DefaultConstructorConstraint");
+                    if ((attrs & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0)
+                        AppendElementText(ce, "ParameterAttribute", "NotNullableValueTypeConstraint");
+                    if ((attrs & GenericParameterAttributes.ReferenceTypeConstraint) != 0)
+                        AppendElementText(ce, "ParameterAttribute", "ReferenceTypeConstraint");
 
 #if NEW_CECIL
                        foreach (GenericParameterConstraint c in constraints)
@@ -4060,18 +4066,19 @@ namespace Mono.Documentation
                                     GetDocTypeFullName (c.ConstraintType));
                         }
 #else
-                        foreach (TypeReference c in constraints)
-                        {
-                            TypeDefinition cd = c.Resolve ();
-                            AppendElementText (ce,
-                                    (cd != null && cd.IsInterface) ? "InterfaceName" : "BaseTypeName",
-                                    GetDocTypeFullName (c));
-                        }
+                    foreach (TypeReference c in constraints)
+                    {
+                        TypeDefinition cd = c.Resolve();
+                        AppendElementText(ce,
+                                (cd != null && cd.IsInterface) ? "InterfaceName" : "BaseTypeName",
+                                GetDocTypeFullName(c));
+                    }
 #endif
-
-                        return pe;
-                    },
-                member);
+                    if (ce.HasChildNodes)
+                    {
+                        pe.AppendChild(ce);
+                    }
+                }
             }
         }
 
@@ -4148,7 +4155,7 @@ namespace Mono.Documentation
                     {
                         var newNode = WriteElementText(e, "ReturnType", valueToUse, forceNewElement: true);
                         if (attributes != null)
-                            MakeAttributes(e, AttributeFormatter.PreProcessCustomAttributes(attributes), typeEntry, member);
+                            MakeParamsAttributes(e, AttributeFormatter.PreProcessCustomAttributes(attributes), typeEntry, member);
 
                         return newNode;
                     });
