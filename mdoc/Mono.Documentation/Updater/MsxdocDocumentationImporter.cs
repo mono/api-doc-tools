@@ -179,5 +179,22 @@ namespace Mono.Documentation.Updater
                 return mappedValue;
             return null;
         }
+
+        public override bool CheckRemoveByMapping(DocsNodeInfo info, string xmlChildName)
+        {
+            XmlNode elem = GetDocs(info.Member ?? info.Type, MDocUpdater.csharpSlashdocFormatter) ??
+                                     GetDocs(info.Member ?? info.Type, MDocUpdater.msxdocxSlashdocFormatter);
+
+            if (elem != null)
+            {
+                foreach (XmlNode child in elem.ChildNodes)
+                {
+                    if (child.Name == xmlChildName)
+                    { return true; }
+                }
+            }
+
+            return false;
+        }
     }
 }

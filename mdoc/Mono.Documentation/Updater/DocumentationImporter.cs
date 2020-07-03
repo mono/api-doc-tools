@@ -4,5 +4,7 @@
     {
 
         public abstract void ImportDocumentation (DocsNodeInfo info);
+
+        public abstract bool CheckRemoveByMapping(DocsNodeInfo info, string xmlChildName);
     }
 }
