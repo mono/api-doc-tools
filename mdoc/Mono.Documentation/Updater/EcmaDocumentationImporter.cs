@@ -114,5 +114,24 @@ namespace Mono.Documentation.Updater
                 }
             }
         }
+
+        public override bool CheckRemoveByMapping(DocsNodeInfo info, string xmlChildName)
+        {
+            if (!ecmadocs.IsStartElement("Docs"))
+            {
+                return false;
+            }
+
+            ecmadocs.ReadStartElement("Docs");
+            while (ecmadocs.Read())
+            {
+                if (!ecmadocs.IsStartElement())
+                    continue;
+                if (ecmadocs.Name == xmlChildName)
+                    return true;
+            }
+
+            return false;
+        }
     }
 }
