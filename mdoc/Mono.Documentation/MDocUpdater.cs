@@ -3352,6 +3352,27 @@ namespace Mono.Documentation
                 UpdateParameters (e, "typeparam", values, typeEntry);
             }
 
+            Predicate<string> CheckRemoveByImporter =
+               (string filter) =>
+               {
+                   foreach (DocumentationImporter i in importers)
+                   {
+                       if (i.CheckRemoveByMapping(info, filter))
+                           return true;
+                   }
+
+                   if (setimporters != null)
+                   {
+                       foreach (var i in setimporters)
+                       {
+                           if (i.CheckRemoveByMapping(info, filter))
+                               return true;
+                       }
+                   }
+
+                   return false;
+               };
+
             string retnodename = null;
             if (returntype != null && returntype.FullName != "System.Void")
             { // FIXME
@@ -3375,9 +3396,15 @@ namespace Mono.Documentation
             else
             {
                 if (DocUtils.NeedsOverwrite(e["returns"]))
-                    ClearElement(e, "returns");
+                {
+                    if (CheckRemoveByImporter("returns"))
+                        ClearElement(e, "returns");
+                }
                 if (DocUtils.NeedsOverwrite(e["value"]))
-                    ClearElement(e, "value");
+                {
+                    if (CheckRemoveByImporter("value"))
+                        ClearElement(e, "value");
+                }
             }
 
             if (addremarks)
