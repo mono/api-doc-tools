@@ -12,16 +12,16 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>Windows.Foundation.Metadata.MarshalingBehavior(Windows.Foundation.Metadata.MarshalingType.Agile)</AttributeName>
+      <AttributeName Language="C#">[Windows.Foundation.Metadata.MarshalingBehavior(Windows.Foundation.Metadata.MarshalingType.Agile)]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Windows.Foundation.Metadata.Threading(Windows.Foundation.Metadata.ThreadingModel.Both)</AttributeName>
+      <AttributeName Language="C#">[Windows.Foundation.Metadata.Threading(Windows.Foundation.Metadata.ThreadingModel.Both)]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+      <AttributeName Language="C#">[Windows.Foundation.Metadata.Version(1)]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Windows.Foundation.Metadata.WebHostHidden</AttributeName>
+      <AttributeName Language="C#">[Windows.Foundation.Metadata.WebHostHidden]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>

@@ -30,12 +30,12 @@ namespace Mono.Documentation.Updater
             }
             if (valueType.FullName == "System.String")
             {
-                returnvalue = "\"" + MDocUpdater.FilterSpecialChars (v.ToString ()) + "\"";
+                returnvalue = "\"" + FilterSpecialChars (v.ToString ()) + "\"";
                 return true;
             }
             if (valueType.FullName == "System.Char")
             {
-                returnvalue = "'" + MDocUpdater.FilterSpecialChars (v.ToString ()) + "'";
+                returnvalue = "'" + FilterSpecialChars (v.ToString ()) + "'";
                 return true;
             }
             if (v is Boolean)
@@ -82,6 +82,16 @@ namespace Mono.Documentation.Updater
             if (value is ulong)
                 return (long)(ulong)value;
             return Convert.ToInt64(value);
+        }
+
+        public static string FilterSpecialChars(string value)
+        {
+            return value.Replace("\0", "\\0")
+                .Replace("\t", "\\t")
+                .Replace("\n", "\\n")
+                .Replace("\r", "\\r")
+                .Replace("\f", "\\f")
+                .Replace("\b", "\\b");
         }
     }
 }

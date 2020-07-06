@@ -12,7 +12,8 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+      <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)]</AttributeName>
+      <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -30,7 +31,8 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+          <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)]</AttributeName>
+          <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -52,7 +54,8 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+          <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })]</AttributeName>
+          <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

@@ -6,7 +6,7 @@
     {
         public override bool TryFormatValue (object v, ResolvedTypeInfo type, out string returnvalue)
         {
-            returnvalue = "(" + MDocUpdater.GetDocTypeFullName (type.Reference) + ") " + MDocUpdater.FilterSpecialChars(v.ToString ());
+            returnvalue = "(" + MDocUpdater.GetDocTypeFullName (type.Reference) + ") " + FilterSpecialChars(v.ToString ());
             return true;
         }
     }

@@ -9,7 +9,7 @@
   </Base>
   <Attributes>
     <Attribute>
-      <AttributeName>System.Flags</AttributeName>
+      <AttributeName Language="C#">[System.Flags]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>

@@ -50,7 +50,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Monodoc.Test.First</AttributeName>
+          <AttributeName Language="C#">[Monodoc.Test.First]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

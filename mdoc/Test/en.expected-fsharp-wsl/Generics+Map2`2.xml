@@ -10,17 +10,20 @@
     <TypeParameter Name="Key">
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.EqualityConditionalOn</AttributeName>
+          <AttributeName Language="C#">[Microsoft.FSharp.Core.EqualityConditionalOn]</AttributeName>
+          <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.EqualityConditionalOn&gt;]</AttributeName>
         </Attribute>
       </Attributes>
     </TypeParameter>
     <TypeParameter Name="Value">
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.ComparisonConditionalOn</AttributeName>
+          <AttributeName Language="C#">[Microsoft.FSharp.Core.ComparisonConditionalOn]</AttributeName>
+          <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.ComparisonConditionalOn&gt;]</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.EqualityConditionalOn</AttributeName>
+          <AttributeName Language="C#">[Microsoft.FSharp.Core.EqualityConditionalOn]</AttributeName>
+          <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.EqualityConditionalOn&gt;]</AttributeName>
         </Attribute>
       </Attributes>
     </TypeParameter>
@@ -31,10 +34,12 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+      <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)]</AttributeName>
+      <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>System.Serializable</AttributeName>
+      <AttributeName Language="C#">[System.Serializable]</AttributeName>
+      <AttributeName Language="F#">[&lt;System.Serializable&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
