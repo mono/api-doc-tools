@@ -12,7 +12,8 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+      <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)]</AttributeName>
+      <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>

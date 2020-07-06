@@ -12,16 +12,20 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>Attributes/Company("Microsoft")</AttributeName>
+      <AttributeName Language="C#">[Attributes/Company("Microsoft")]</AttributeName>
+      <AttributeName Language="F#">[&lt;Attributes/Company("Microsoft")&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Attributes/Owner("Jason Carlson")</AttributeName>
+      <AttributeName Language="C#">[Attributes/Owner("Jason Carlson")]</AttributeName>
+      <AttributeName Language="F#">[&lt;Attributes/Owner("Jason Carlson")&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+      <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)]</AttributeName>
+      <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>System.Serializable</AttributeName>
+      <AttributeName Language="C#">[System.Serializable]</AttributeName>
+      <AttributeName Language="F#">[&lt;System.Serializable&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>

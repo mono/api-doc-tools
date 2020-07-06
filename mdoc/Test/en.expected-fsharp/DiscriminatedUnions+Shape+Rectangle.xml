@@ -12,13 +12,16 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>System.Diagnostics.DebuggerDisplay("{__DebugDisplay(),nq}")</AttributeName>
+      <AttributeName Language="C#">[System.Diagnostics.DebuggerDisplay("{__DebugDisplay(),nq}")]</AttributeName>
+      <AttributeName Language="F#">[&lt;System.Diagnostics.DebuggerDisplay("{__DebugDisplay(),nq}")&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(DiscriminatedUnions/Shape/Rectangle@DebugTypeProxy))</AttributeName>
+      <AttributeName Language="C#">[System.Diagnostics.DebuggerTypeProxy(typeof(DiscriminatedUnions/Shape/Rectangle@DebugTypeProxy))]</AttributeName>
+      <AttributeName Language="F#">[&lt;System.Diagnostics.DebuggerTypeProxy(typeof(DiscriminatedUnions/Shape/Rectangle@DebugTypeProxy))&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>System.Serializable</AttributeName>
+      <AttributeName Language="C#">[System.Serializable]</AttributeName>
+      <AttributeName Language="F#">[&lt;System.Serializable&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -36,13 +39,16 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0, 1)</AttributeName>
+          <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0, 1)]</AttributeName>
+          <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0, 1)&gt;]</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.Diagnostics.DebuggerNonUserCode</AttributeName>
+          <AttributeName Language="C#">[System.Diagnostics.DebuggerNonUserCode]</AttributeName>
+          <AttributeName Language="F#">[&lt;System.Diagnostics.DebuggerNonUserCode&gt;]</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+          <AttributeName Language="C#">[get: System.Diagnostics.DebuggerNonUserCode]</AttributeName>
+          <AttributeName Language="F#">[&lt;get: System.Diagnostics.DebuggerNonUserCode&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -64,13 +70,16 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0, 0)</AttributeName>
+          <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0, 0)]</AttributeName>
+          <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Field, 0, 0)&gt;]</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.Diagnostics.DebuggerNonUserCode</AttributeName>
+          <AttributeName Language="C#">[System.Diagnostics.DebuggerNonUserCode]</AttributeName>
+          <AttributeName Language="F#">[&lt;System.Diagnostics.DebuggerNonUserCode&gt;]</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>get: System.Diagnostics.DebuggerNonUserCode</AttributeName>
+          <AttributeName Language="C#">[get: System.Diagnostics.DebuggerNonUserCode]</AttributeName>
+          <AttributeName Language="F#">[&lt;get: System.Diagnostics.DebuggerNonUserCode&gt;]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

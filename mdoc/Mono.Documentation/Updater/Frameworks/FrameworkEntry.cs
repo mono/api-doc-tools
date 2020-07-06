@@ -55,16 +55,23 @@ namespace Mono.Documentation.Updater.Frameworks
         {
             if (this == Empty) return true;
 
-            var retval = this.allcachedframeworks
-                .Where(f => f.AllProcessedAssemblies
-                                .Any(ass => ass.Assemblies
-                                                .Any(a => a.Name.Name.Equals(assemblyName, StringComparison.OrdinalIgnoreCase))))
-                .ToArray();
+            var retval = AllFrameworksWithAssembly(assemblyName);
 
             if (!retval.Any ()) return false;
 
-            var lastListed = retval.Last ();
-            return lastListed.Name == this.Name;
+            return retval.Last().Name == this.Name;
+        }
+
+        /// <param name="assemblyName">should be the assembly name (without version and file extension)</param>
+        public bool IsFirstFrameworkForAssembly(string assemblyName)
+        {
+            if (this == Empty) return true;
+
+            var retval = AllFrameworksWithAssembly(assemblyName);
+
+            if (!retval.Any()) return false;
+
+            return retval.First().Name == this.Name;
         }
 
         public bool IsLastFrameworkForType (FrameworkTypeEntry typeEntry)
@@ -97,12 +104,19 @@ namespace Mono.Documentation.Updater.Frameworks
             return lastListed.Name == this.Name;
         }
 
-        public string AllFrameworksWithAssembly(string assemblyName)
+        public FrameworkEntry[] AllFrameworksWithAssembly(string assemblyName)
+        {
+            var fxlist = this.allcachedframeworks
+                .Where(f => f.allAssemblies
+                   .Any(ass => ass.Assemblies
+                      .Any(a => a.Name.Name.Equals(assemblyName, StringComparison.OrdinalIgnoreCase))));
+            return fxlist.ToArray();
+        }
+
+        public string AllFrameworksStringWithAssembly(string assemblyName)
         {
             if (this == Empty) return this.Name;
-
-            var fxlist = this.allcachedframeworks.Where (f => f.allAssemblies.Any (ass => ass.Assemblies.Any (a => a.Name.Name.Equals (assemblyName, StringComparison.OrdinalIgnoreCase))));
-            return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
+            return string.Join (";", AllFrameworksWithAssembly(assemblyName).Select (f => f.Name).ToArray ());
         }
 
         public string AllFrameworksWithType(FrameworkTypeEntry typeEntry)

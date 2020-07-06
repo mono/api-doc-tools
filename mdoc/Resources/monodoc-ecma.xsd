@@ -60,7 +60,6 @@ add masterdoc support?
   <xs:element name="AssemblyPublicKey" type="xs:string" />
   <xs:element name="AssemblyVersion" type="xs:string" />
   <xs:element name="AssemblyCulture" type="xs:string" />
-  <xs:element name="AttributeName" type="xs:string" />
   <xs:element name="Excluded" type="xs:string" />
   <xs:element name="ExcludedBaseTypeName" type="xs:string" />
   <xs:element name="ExcludedLibrary" type="xs:string" />
@@ -134,10 +133,20 @@ add masterdoc support?
     </xs:complexType>
   </xs:element>
 
+  <xs:element name="AttributeName">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="Language" use="optional" />
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  
   <xs:element name="Attribute">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="AttributeName" />
+        <xs:element ref="AttributeName" minOccurs="0" maxOccurs="unbounded" />
         <xs:element ref="Excluded" minOccurs="0" />
         <xs:element ref="ExcludedTypeName" minOccurs="0" />
         <xs:element ref="ExcludedLibraryName" minOccurs="0" />

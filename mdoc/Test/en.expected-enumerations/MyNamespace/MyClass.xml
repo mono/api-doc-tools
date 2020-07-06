@@ -36,7 +36,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyFlagEnum(Platform.iOS_4_2 | Platform.iOS_Arch32)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyFlagEnum(Platform.iOS_4_2 | Platform.iOS_Arch32)]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -58,7 +58,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyFlagEnum(Platform.Mac_10_8 | Platform.Mac_Arch64)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyFlagEnum(Platform.Mac_10_8 | Platform.Mac_Arch64)]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -80,7 +80,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyFlagEnum(ObjCRuntime.Platform.None)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyFlagEnum(ObjCRuntime.Platform.None)]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -102,7 +102,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyEnum(MyNamespace.MyEnum.One)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyEnum(MyNamespace.MyEnum.One)]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -124,7 +124,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>MyNamespace.MyEnum((MyNamespace.MyEnum) 234234)</AttributeName>
+          <AttributeName Language="C#">[MyNamespace.MyEnum((MyNamespace.MyEnum) 234234)]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

@@ -43,7 +43,7 @@
       </AssemblyInfo>
       <Attributes>
         <Attribute>
-          <AttributeName>System.ComponentModel.DefaultValue('\0')</AttributeName>
+          <AttributeName Language="C#">[System.ComponentModel.DefaultValue('\0')]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>

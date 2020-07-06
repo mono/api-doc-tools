@@ -58,6 +58,8 @@
     <Compile Include="Mono.Documentation\Framework\FrameworkNamespaceModel.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\ApplePlatformEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\AttributeFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\FSharpAttributeFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\CSharpAttributeFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FormatterManager.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
@@ -166,16 +168,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\class\monodoc\Resources\mdoc-html-format.xsl">
+    <None Include="..\monodoc\Resources\mdoc-html-format.xsl">
       <Link>Resources\mdoc-html-format.xsl</Link>
     </None>
-    <None Include="..\..\class\monodoc\Resources\mdoc-html-utils.xsl">
+    <None Include="..\monodoc\Resources\mdoc-html-utils.xsl">
       <Link>Resources\mdoc-html-utils.xsl</Link>
     </None>
-    <None Include="..\..\class\monodoc\Resources\mdoc-sections-css.xsl">
+    <None Include="..\monodoc\Resources\mdoc-sections-css.xsl">
       <Link>Resources\mdoc-sections-css.xsl</Link>
     </None>
-    <None Include="..\..\class\monodoc\Resources\mono-ecma-css.xsl">
+    <None Include="..\monodoc\Resources\mono-ecma-css.xsl">
       <Link>Resources\mono-ecma-css.xsl</Link>
     </None>
     <None Include="packages.config" />

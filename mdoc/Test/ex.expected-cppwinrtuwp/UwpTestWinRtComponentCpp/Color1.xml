@@ -11,7 +11,7 @@
   </Base>
   <Attributes>
     <Attribute>
-      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+      <AttributeName Language="C#">[Windows.Foundation.Metadata.Version(1)]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>

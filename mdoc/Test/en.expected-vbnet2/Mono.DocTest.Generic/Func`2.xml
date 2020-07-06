@@ -10,7 +10,7 @@
     <TypeParameter Name="TArg">
       <Attributes>
         <Attribute>
-          <AttributeName>Mono.DocTest.Doc("arg!")</AttributeName>
+          <AttributeName Language="C#">[Mono.DocTest.Doc("arg!")]</AttributeName>
         </Attribute>
       </Attributes>
       <Constraints>
@@ -21,7 +21,7 @@
     <TypeParameter Name="TRet">
       <Attributes>
         <Attribute>
-          <AttributeName>Mono.DocTest.Doc("ret!")</AttributeName>
+          <AttributeName Language="C#">[Mono.DocTest.Doc("ret!")]</AttributeName>
         </Attribute>
       </Attributes>
       <Constraints>
@@ -34,14 +34,14 @@
   </Base>
   <Attributes>
     <Attribute>
-      <AttributeName>Mono.DocTest.Doc("method")</AttributeName>
+      <AttributeName Language="C#">[Mono.DocTest.Doc("method")]</AttributeName>
     </Attribute>
   </Attributes>
   <Parameters>
     <Parameter Name="a" Type="TArg">
       <Attributes>
         <Attribute>
-          <AttributeName>Mono.DocTest.Doc("arg-actual")</AttributeName>
+          <AttributeName Language="C#">[Mono.DocTest.Doc("arg-actual")]</AttributeName>
         </Attribute>
       </Attributes>
     </Parameter>
@@ -50,7 +50,7 @@
     <ReturnType>TRet</ReturnType>
     <Attributes>
       <Attribute>
-        <AttributeName>Mono.DocTest.Doc("return", Field=false)</AttributeName>
+        <AttributeName Language="C#">[Mono.DocTest.Doc("return", Field=false)]</AttributeName>
       </Attribute>
     </Attributes>
   </ReturnValue>

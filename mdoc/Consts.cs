@@ -8,6 +8,7 @@ namespace Mono.Documentation
 		public const string CppCli = "C++ CLI";
 	    public const string CppCx = "C++ CX";
 	    public const string CppWinRt = "C++ WINRT";
+        public const string CSharp = "C#";
         public const string VbNet = "VB.NET";
 		public const string DocIdLowCase = "docid";
 		public const string VbNetLowCase = "vb.net";

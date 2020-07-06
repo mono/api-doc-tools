@@ -9,81 +9,114 @@ namespace Mono.Documentation.Updater.Formatters
 {
     public class AttributeFormatter
     {
-        public IEnumerable<string> GetCustomAttributes(MemberReference mi)
+        public virtual string PrefixBrackets { get; } = "";
+        public virtual string SurfixBrackets { get; } = "";
+        public virtual string Language { get; } = "";
+
+        public static IEnumerable<(CustomAttribute, string)> GetCustomAttributes(MemberReference mi)
         {
-            IEnumerable<string> attrs = Enumerable.Empty<string>();
-
-            ICustomAttributeProvider p = mi as ICustomAttributeProvider;
-            if (p != null)
-                attrs = attrs.Concat(GetCustomAttributes(p.CustomAttributes, ""));
-
-            TypeDefinition typeDefinition = mi as TypeDefinition;
-            if (typeDefinition != null && typeDefinition.IsSerializable)
+            List<(CustomAttribute, string)> customAttributes = new List<(CustomAttribute, string)>();
+            if (mi is ICustomAttributeProvider p && p.CustomAttributes?.Count > 0)
             {
-                attrs = attrs.Concat(new[] { "System.Serializable" });
+                customAttributes.AddRange(PreProcessCustomAttributes(p.CustomAttributes));
             }
 
-            PropertyDefinition pd = mi as PropertyDefinition;
-            if (pd != null)
+            if (mi is TypeDefinition typeDefinition && typeDefinition.IsSerializable)
+            {
+                customAttributes.Add((null, "System.Serializable"));
+            }
+
+            if (mi is PropertyDefinition pd)
             {
                 if (pd.GetMethod != null)
-                    attrs = attrs.Concat(GetCustomAttributes(pd.GetMethod.CustomAttributes, "get: "));
+                {
+                    customAttributes.AddRange(PreProcessCustomAttributes(pd.GetMethod.CustomAttributes, "get: "));
+                }
                 if (pd.SetMethod != null)
-                    attrs = attrs.Concat(GetCustomAttributes(pd.SetMethod.CustomAttributes, "set: "));
+                {
+                    customAttributes.AddRange(PreProcessCustomAttributes(pd.SetMethod.CustomAttributes, "set: "));
+                }
             }
 
-            EventDefinition ed = mi as EventDefinition;
-            if (ed != null)
+            if (mi is EventDefinition ed)
             {
                 if (ed.AddMethod != null)
-                    attrs = attrs.Concat(GetCustomAttributes(ed.AddMethod.CustomAttributes, "add: "));
+                {
+                    customAttributes.AddRange(PreProcessCustomAttributes(ed.AddMethod.CustomAttributes, "add: "));
+                }
                 if (ed.RemoveMethod != null)
-                    attrs = attrs.Concat(GetCustomAttributes(ed.RemoveMethod.CustomAttributes, "remove: "));
+                {
+                    customAttributes.AddRange(PreProcessCustomAttributes(ed.RemoveMethod.CustomAttributes, "remove: "));
+                }
             }
-
-            return attrs;
+            return customAttributes;
         }
 
-        public IEnumerable<string> GetCustomAttributes(IList<CustomAttribute> attributes, string prefix)
+        public static IEnumerable<(CustomAttribute, string)> PreProcessCustomAttributes(IEnumerable<CustomAttribute> customAttributes, string prefix = "")
         {
-            foreach (CustomAttribute attribute in attributes.OrderBy(ca => ca.AttributeType.FullName).Where(i => !IsIgnoredAttribute(i)))
+            return customAttributes?.OrderBy(ca => ca.AttributeType.FullName).Select(attr => (attr, prefix));
+        }
+
+        public virtual bool TryGetAttributeString(CustomAttribute attribute, out string rval, string prefix = null, bool withBrackets = true)
+        {
+            if (attribute == null)
             {
-                TypeDefinition attrType = attribute.AttributeType as TypeDefinition;
-                if (attrType != null && !DocUtils.IsPublic(attrType))
-                    continue;
-                if (FormatterManager.SlashdocFormatter.GetName(attribute.AttributeType) == null)
-                    continue;
-
-                if (Array.IndexOf(IgnorableAttributes, attribute.AttributeType.FullName) >= 0)
-                    continue;
-
-                var fields = new List<string>();
-
-                for (int i = 0; i < attribute.ConstructorArguments.Count; ++i)
+                if (string.IsNullOrEmpty(prefix))
                 {
-                    CustomAttributeArgument argument = attribute.ConstructorArguments[i];
-                    fields.Add(MakeAttributesValueString(
-                            argument.Value,
-                            argument.Type));
+                    rval = null;
+                    return false;
                 }
-                var namedArgs =
-                    (from namedArg in attribute.Fields
-                     select new { Type = namedArg.Argument.Type, Name = namedArg.Name, Value = namedArg.Argument.Value })
-                    .Concat(
-                            (from namedArg in attribute.Properties
-                             select new { Type = namedArg.Argument.Type, Name = namedArg.Name, Value = namedArg.Argument.Value }))
-                    .OrderBy(v => v.Name);
-                foreach (var d in namedArgs)
-                    fields.Add(string.Format("{0}={1}", d.Name,
-                            MakeAttributesValueString(d.Value, d.Type)));
-
-                string a2 = String.Join(", ", fields.ToArray());
-                if (a2 != "") a2 = "(" + a2 + ")";
-
-                string name = attribute.GetDeclaringType();
-                if (name.EndsWith("Attribute")) name = name.Substring(0, name.Length - "Attribute".Length);
-                yield return prefix + name + a2;
+                rval = withBrackets ? PrefixBrackets + prefix + SurfixBrackets : prefix;
+                return true;
             }
+
+            if (IsIgnoredAttribute(attribute))
+            {
+                rval = null;
+                return false;
+            }
+
+            TypeDefinition attrType = attribute.AttributeType as TypeDefinition;
+            if (attrType != null && !DocUtils.IsPublic(attrType)
+                || (FormatterManager.SlashdocFormatter.GetName(attribute.AttributeType) == null)
+                || Array.IndexOf(IgnorableAttributes, attribute.AttributeType.FullName) >= 0)
+            {
+                rval = null;
+                return false;
+            }
+
+            var fields = new List<string>();
+
+            for (int i = 0; i < attribute.ConstructorArguments.Count; ++i)
+            {
+                CustomAttributeArgument argument = attribute.ConstructorArguments[i];
+                fields.Add(MakeAttributesValueString(
+                        argument.Value,
+                        argument.Type));
+            }
+            var namedArgs =
+                (from namedArg in attribute.Fields
+                 select new { Type = namedArg.Argument.Type, Name = namedArg.Name, Value = namedArg.Argument.Value })
+                .Concat(
+                        (from namedArg in attribute.Properties
+                         select new { Type = namedArg.Argument.Type, Name = namedArg.Name, Value = namedArg.Argument.Value }))
+                .OrderBy(v => v.Name);
+            foreach (var d in namedArgs)
+                fields.Add(MakeNamedArgumentString(d.Name, MakeAttributesValueString(d.Value, d.Type)));
+
+            string a2 = String.Join(", ", fields.ToArray());
+            if (a2 != "") a2 = "(" + a2 + ")";
+
+            string name = attribute.GetDeclaringType();
+            if (name.EndsWith("Attribute")) name = name.Substring(0, name.Length - "Attribute".Length);
+            rval = withBrackets ? PrefixBrackets + prefix + name + a2 + SurfixBrackets
+                : prefix + name + a2;
+            return true;
+        }
+
+        protected virtual string MakeNamedArgumentString(string name, string value)
+        {
+            return $"{name}={value}";
         }
 
         public static string MakeAttributesValueString(object v, TypeReference valueType)

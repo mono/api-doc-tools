@@ -17,7 +17,8 @@
 				<AssemblyCulture>none</AssemblyCulture>
 				<Attributes>
 					<Attribute>
-						<AttributeName>CLSCompliantAttribute(true)</AttributeName>
+						<AttributeName Language="C#">[CLSCompliantAttribute(true)]</AttributeName>
+						<AttributeName Language="F#">[&lt;CLSCompliantAttribute(true)&gt;]</AttributeName>
 						<Excluded>0</Excluded>
 					</Attribute>
 				</Attributes>
@@ -58,7 +59,8 @@
 				<AssemblyCulture>none</AssemblyCulture>
 				<Attributes>
 					<Attribute>
-						<AttributeName>CLSCompliantAttribute(true)</AttributeName>
+						<AttributeName Language="C#">[CLSCompliantAttribute(true)]</AttributeName>
+						<AttributeName Language="F#">[&lt;CLSCompliantAttribute(true)&gt;]</AttributeName>
 						<Excluded>0</Excluded>
 					</Attribute>
 				</Attributes>
@@ -92,7 +94,8 @@
 				<AssemblyCulture>none</AssemblyCulture>
 				<Attributes>
 					<Attribute>
-						<AttributeName>CLSCompliantAttribute(true)</AttributeName>
+						<AttributeName Language="C#">[CLSCompliantAttribute(true)]</AttributeName>
+						<AttributeName Language="F#">[&lt;CLSCompliantAttribute(true)&gt;]</AttributeName>
 						<Excluded>0</Excluded>
 					</Attribute>
 				</Attributes>
@@ -189,7 +192,8 @@
 				<AssemblyCulture>none</AssemblyCulture>
 				<Attributes>
 					<Attribute>
-						<AttributeName>CLSCompliantAttribute(true)</AttributeName>
+						<AttributeName Language="C#">[CLSCompliantAttribute(true)]</AttributeName>
+						<AttributeName Language="F#">[&lt;CLSCompliantAttribute(true)&gt;]</AttributeName>
 						<Excluded>0</Excluded>
 					</Attribute>
 				</Attributes>

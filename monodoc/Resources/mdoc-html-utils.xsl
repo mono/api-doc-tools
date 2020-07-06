@@ -142,14 +142,26 @@
 					<xsl:choose>
 					<xsl:when test="$language='C#'">
 
-						<xsl:for-each select="Attributes/Attribute">
+						<xsl:for-each select="Attributes/Attribute[AttributeName[@Language='C#']]">
+							<xsl:value-of select="AttributeName"/>
+							<br/>
+						</xsl:for-each>
+
+						<xsl:for-each select="ReturnValue/Attributes/Attribute[AttributeName[@Language='C#']]">
+							<xsl:text>[return:</xsl:text>
+							<xsl:value-of select="substring-before(substring-after(AttributeName,'['),']')"/>
+							<xsl:text>]</xsl:text>
+							<br/>
+						</xsl:for-each>	
+
+						<xsl:for-each select="Attributes/Attribute[AttributeName[not(@Language)]]">
 							<xsl:text>[</xsl:text>
 							<xsl:value-of select="AttributeName"/>
 							<xsl:text>]</xsl:text>
 							<br/>
 						</xsl:for-each>
 
-						<xsl:for-each select="ReturnValue/Attributes/Attribute">
+						<xsl:for-each select="ReturnValue/Attributes/Attribute[AttributeName[not(@Language)]]">
 							<xsl:text>[return:</xsl:text>
 							<xsl:value-of select="AttributeName"/>
 							<xsl:text>]</xsl:text>
@@ -286,7 +298,11 @@
 				<xsl:value-of select="substring-before ($name, '&lt;')" />
 				<xsl:text>&lt;</xsl:text>
 				<xsl:for-each select="$TypeParameters/TypeParameter">
-					<xsl:for-each select="Attributes/Attribute">
+					<xsl:for-each select="Attributes/Attribute[AttributeName[@Language='C#']]">
+						<xsl:value-of select="AttributeName"/>
+						<xsl:value-of select="' '"/>
+					</xsl:for-each>
+					<xsl:for-each select="Attributes/Attribute[AttributeName[not(@Language)]]">
 						<xsl:text>[</xsl:text>
 						<xsl:value-of select="AttributeName"/>
 						<xsl:text>] </xsl:text>
@@ -425,15 +441,27 @@
 			</xsl:if>
 
 			<!-- recreate the signature -->
-		
-			<xsl:for-each select="Attributes/Attribute[AttributeName != 'System.Runtime.CompilerServices.Extension']">
+
+			<xsl:for-each select="Attributes/Attribute[AttributeName[@Language='C#'] and AttributeName != 'System.Runtime.CompilerServices.Extension']">
+				<xsl:value-of select="AttributeName"/>
+				<br/>
+			</xsl:for-each>	
+
+			<xsl:for-each select="ReturnValue/Attributes/Attribute[AttributeName[@Language='C#']]">
+				<xsl:text>[return:</xsl:text>
+				<xsl:value-of select="substring-before(substring-after(AttributeName,'['),']')"/>
+				<xsl:text>]</xsl:text>
+				<br/>
+			</xsl:for-each>
+
+			<xsl:for-each select="Attributes/Attribute[AttributeName[not(@Language)] and AttributeName != 'System.Runtime.CompilerServices.Extension']">
 				<xsl:text>[</xsl:text>
 				<xsl:value-of select="AttributeName"/>
 				<xsl:text>]</xsl:text>
 				<br/>
 			</xsl:for-each>	
 
-			<xsl:for-each select="ReturnValue/Attributes/Attribute">
+			<xsl:for-each select="ReturnValue/Attributes/Attribute[AttributeName[not(@Language)]]">
 				<xsl:text>[return:</xsl:text>
 				<xsl:value-of select="AttributeName"/>
 				<xsl:text>]</xsl:text>
@@ -590,15 +618,19 @@
 		<xsl:param name="prototype" select="false()"/>
 
 		<xsl:if test="not($prototype)">
-			<xsl:for-each select="$Param/Attributes/Attribute[not(Exclude='1') and not(AttributeName='ParamArrayAttribute' or AttributeName='System.ParamArray')]">
+			<xsl:for-each select="$Param/Attributes/Attribute[not(Exclude='1') and not(AttributeName='ParamArrayAttribute' or AttributeName='System.ParamArray') and AttributeName[not(@Language)]]">
 				<xsl:text>[</xsl:text>
 				<xsl:value-of select="AttributeName"/>
 				<xsl:text>]</xsl:text>
 				<xsl:value-of select="' '"/>
 			</xsl:for-each>
+			<xsl:for-each select="$Param/Attributes/Attribute[not(Exclude='1') and not(AttributeName='[ParamArrayAttribute]' or AttributeName='[System.ParamArray]') and AttributeName[@Language='C#']]">
+				<xsl:value-of select="AttributeName"/>
+				<xsl:value-of select="' '"/>
+			</xsl:for-each>
 		</xsl:if>
 
-		<xsl:if test="count($Param/Attributes/Attribute/AttributeName[.='ParamArrayAttribute' or .='System.ParamArray'])">
+		<xsl:if test="count($Param/Attributes/Attribute/AttributeName[.='ParamArrayAttribute' or .='System.ParamArray' or .='[ParamArrayAttribute]' or .='[System.ParamArray]'])">
 			<b>params</b>
 			<xsl:value-of select="' '"/>
 		</xsl:if>

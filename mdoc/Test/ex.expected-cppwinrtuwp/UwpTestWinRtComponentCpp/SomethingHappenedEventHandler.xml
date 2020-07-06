@@ -10,10 +10,10 @@
   </Base>
   <Attributes>
     <Attribute>
-      <AttributeName>Windows.Foundation.Metadata.Guid(2298425249, 32140, 14992, 141, 140, 226, 207, 230, 43, 42, 170)</AttributeName>
+      <AttributeName Language="C#">[Windows.Foundation.Metadata.Guid(2298425249, 32140, 14992, 141, 140, 226, 207, 230, 43, 42, 170)]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>Windows.Foundation.Metadata.Version(1)</AttributeName>
+      <AttributeName Language="C#">[Windows.Foundation.Metadata.Version(1)]</AttributeName>
     </Attribute>
   </Attributes>
   <Parameters>

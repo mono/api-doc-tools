@@ -7,15 +7,20 @@ namespace Mono.Documentation.Updater.Formatters
 {
     static class FormatterManager
     {
-        public static List<MemberFormatter> TypeFormatters { get; private set; } = new List<MemberFormatter>{
-                        new CSharpMemberFormatter(MDocUpdater.Instance.TypeMap),
-                        new ILMemberFormatter(MDocUpdater.Instance.TypeMap),
-                    };
+        public static List<MemberFormatter> TypeFormatters { get; private set; } = new List<MemberFormatter>
+        {
+            new CSharpMemberFormatter(MDocUpdater.Instance.TypeMap),
+            new ILMemberFormatter(MDocUpdater.Instance.TypeMap),
+        };
 
-        public static List<MemberFormatter> MemberFormatters { get; private set; } = new List<MemberFormatter>{
-                        new CSharpFullMemberFormatter (MDocUpdater.Instance.TypeMap),
-                        new ILFullMemberFormatter (MDocUpdater.Instance.TypeMap),
-                    };
+        public static List<MemberFormatter> MemberFormatters { get; private set; } = new List<MemberFormatter>
+        {
+            new CSharpFullMemberFormatter (MDocUpdater.Instance.TypeMap),
+            new ILFullMemberFormatter (MDocUpdater.Instance.TypeMap),
+        };
+
+        public static AttributeFormatter CSharpAttributeFormatter { get; private set; } = new CSharpAttributeFormatter();
+        public static List<AttributeFormatter> AdditionalAttributeFormatters { get; private set; } = new List<AttributeFormatter> { };
 
         public static DocIdFormatter DocIdFormatter { get; private set; } = new DocIdFormatter(MDocUpdater.Instance.TypeMap);
 
@@ -23,46 +28,43 @@ namespace Mono.Documentation.Updater.Formatters
 
         public static void AddFormatter(string langId)
         {
-            MemberFormatter memberFormatter;
-            MemberFormatter typeFormatter;
             langId = langId.ToLower();
             var map = MDocUpdater.Instance.TypeMap;
             switch (langId)
             {
                 case Consts.DocIdLowCase:
-                    typeFormatter = DocIdFormatter;
-                    memberFormatter = DocIdFormatter;
+                    TypeFormatters.Add(DocIdFormatter);
+                    MemberFormatters.Add(DocIdFormatter);
                     break;
                 case Consts.VbNetLowCase:
-                    typeFormatter = new VBMemberFormatter(map);
-                    memberFormatter = new VBMemberFormatter(map);
+                    TypeFormatters.Add(new VBMemberFormatter(map));
+                    MemberFormatters.Add(new VBMemberFormatter(map));
                     break;
                 case Consts.CppCliLowCase:
-                    typeFormatter = new CppMemberFormatter(map);
-                    memberFormatter = new CppFullMemberFormatter(map);
+                    TypeFormatters.Add(new CppMemberFormatter(map));
+                    MemberFormatters.Add(new CppFullMemberFormatter(map));
                     break;
                 case Consts.CppCxLowCase:
-                    typeFormatter = new CppCxMemberFormatter(map);
-                    memberFormatter = new CppCxFullMemberFormatter(map);
+                    TypeFormatters.Add(new CppCxMemberFormatter(map));
+                    MemberFormatters.Add(new CppCxFullMemberFormatter(map));
                     break;
                 case Consts.CppWinRtLowCase:
-                    typeFormatter = new CppWinRtMemberFormatter(map);
-                    memberFormatter = new CppWinRtFullMemberFormatter(map);
+                    TypeFormatters.Add(new CppWinRtMemberFormatter(map));
+                    MemberFormatters.Add(new CppWinRtFullMemberFormatter(map));
                     break;
                 case Consts.FSharpLowCase:
                 case "fsharp":
-                    typeFormatter = new FSharpMemberFormatter(map);
-                    memberFormatter = new FSharpFullMemberFormatter(map);
+                    TypeFormatters.Add(new FSharpMemberFormatter(map));
+                    MemberFormatters.Add(new FSharpFullMemberFormatter(map));
+                    AdditionalAttributeFormatters.Add(new FSharpAttributeFormatter());
                     break;
                 case Consts.JavascriptLowCase:
-                    typeFormatter = new JsMemberFormatter(map);
-                    memberFormatter = new JsMemberFormatter(map);
+                    TypeFormatters.Add(new JsMemberFormatter(map));
+                    MemberFormatters.Add(new JsMemberFormatter(map));
                     break;
                 default:
                     throw new ArgumentException("Unsupported formatter id '" + langId + "'.");
             }
-            TypeFormatters.Add(typeFormatter);
-            MemberFormatters.Add(memberFormatter);
         }
 
         public static void UpdateTypeMap(TypeMap typeMap)
@@ -70,7 +72,9 @@ namespace Mono.Documentation.Updater.Formatters
             DocIdFormatter.TypeMap = typeMap;
             SlashdocFormatter.TypeMap = typeMap;
             foreach (var f in TypeFormatters.Union(MemberFormatters))
+            {
                 f.TypeMap = typeMap;
+            }
         }
     }
 }

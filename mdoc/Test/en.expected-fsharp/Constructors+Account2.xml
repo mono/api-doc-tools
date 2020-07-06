@@ -12,10 +12,12 @@
   <Interfaces />
   <Attributes>
     <Attribute>
-      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+      <AttributeName Language="C#">[Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)]</AttributeName>
+      <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName>System.Serializable</AttributeName>
+      <AttributeName Language="C#">[System.Serializable]</AttributeName>
+      <AttributeName Language="F#">[&lt;System.Serializable&gt;]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -36,21 +38,24 @@
         <Parameter Name="first" Type="Microsoft.FSharp.Core.FSharpOption&lt;System.String&gt;">
           <Attributes>
             <Attribute>
-              <AttributeName>Microsoft.FSharp.Core.OptionalArgument</AttributeName>
+              <AttributeName Language="C#">[Microsoft.FSharp.Core.OptionalArgument]</AttributeName>
+              <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.OptionalArgument&gt;]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
         <Parameter Name="last" Type="Microsoft.FSharp.Core.FSharpOption&lt;System.String&gt;">
           <Attributes>
             <Attribute>
-              <AttributeName>Microsoft.FSharp.Core.OptionalArgument</AttributeName>
+              <AttributeName Language="C#">[Microsoft.FSharp.Core.OptionalArgument]</AttributeName>
+              <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.OptionalArgument&gt;]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
         <Parameter Name="bal" Type="Microsoft.FSharp.Core.FSharpOption&lt;System.Double&gt;">
           <Attributes>
             <Attribute>
-              <AttributeName>Microsoft.FSharp.Core.OptionalArgument</AttributeName>
+              <AttributeName Language="C#">[Microsoft.FSharp.Core.OptionalArgument]</AttributeName>
+              <AttributeName Language="F#">[&lt;Microsoft.FSharp.Core.OptionalArgument&gt;]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
