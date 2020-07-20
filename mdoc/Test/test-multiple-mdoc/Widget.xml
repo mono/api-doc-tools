@@ -495,7 +495,7 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("normal DocAttribute", Field=true)]</AttributeName>
-          <AttributeName Language="C++ WINRT">[Mono.DocTest.Doc("normal DocAttribute", Field=true)]</AttributeName>
+          <AttributeName Language="C++ WINRT">///[Mono.DocTest.Doc("normal DocAttribute", Field=true)]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -503,7 +503,7 @@
         <Attributes>
           <Attribute>
             <AttributeName Language="C#">[Mono.DocTest.Doc("return:DocAttribute", Property=typeof(Mono.DocTest.Widget))]</AttributeName>
-            <AttributeName Language="C++ WINRT">[Mono.DocTest.Doc("return:DocAttribute", Property=Mono.DocTest.Widget)]</AttributeName>
+            <AttributeName Language="C++ WINRT">///[Mono.DocTest.Doc("return:DocAttribute", Property=Mono.DocTest.Widget)]</AttributeName>
           </Attribute>
         </Attributes>
       </ReturnValue>
@@ -512,7 +512,7 @@
           <Attributes>
             <Attribute>
               <AttributeName Language="C#">[Mono.DocTest.Doc("c", FlagsEnum=System.ConsoleModifiers.Alt | System.ConsoleModifiers.Control)]</AttributeName>
-              <AttributeName Language="C++ WINRT">[Mono.DocTest.Doc("c", FlagsEnum=System.ConsoleModifiers.Alt | System.ConsoleModifiers.Control)]</AttributeName>
+              <AttributeName Language="C++ WINRT">///[Mono.DocTest.Doc("c", FlagsEnum=System.ConsoleModifiers.Alt | System.ConsoleModifiers.Control)]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
@@ -520,7 +520,7 @@
           <Attributes>
             <Attribute>
               <AttributeName Language="C#">[Mono.DocTest.Doc("f", NonFlagsEnum=Mono.DocTest.Color.Red)]</AttributeName>
-              <AttributeName Language="C++ WINRT">[Mono.DocTest.Doc("f", NonFlagsEnum=Mono.DocTest.Color.Red)]</AttributeName>
+              <AttributeName Language="C++ WINRT">///[Mono.DocTest.Doc("f", NonFlagsEnum=Mono.DocTest.Color.Red)]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>
@@ -528,7 +528,7 @@
           <Attributes>
             <Attribute>
               <AttributeName Language="C#">[Mono.DocTest.Doc("v")]</AttributeName>
-              <AttributeName Language="C++ WINRT">[Mono.DocTest.Doc("v")]</AttributeName>
+              <AttributeName Language="C++ WINRT">///[Mono.DocTest.Doc("v")]</AttributeName>
             </Attribute>
           </Attributes>
         </Parameter>

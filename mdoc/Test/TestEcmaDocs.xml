@@ -19,7 +19,7 @@
 					<Attribute>
 						<AttributeName Language="C#">[CLSCompliantAttribute(true)]</AttributeName>
 						<AttributeName Language="F#">[&lt;CLSCompliantAttribute(true)&gt;]</AttributeName>
-						<AttributeName Language="C++ WINRT">[CLSCompliantAttribute(true)]</AttributeName>
+						<AttributeName Language="C++ WINRT">///[CLSCompliantAttribute(true)]</AttributeName>
 						<Excluded>0</Excluded>
 					</Attribute>
 				</Attributes>
@@ -62,7 +62,7 @@
 					<Attribute>
 						<AttributeName Language="C#">[CLSCompliantAttribute(true)]</AttributeName>
 						<AttributeName Language="F#">[&lt;CLSCompliantAttribute(true)&gt;]</AttributeName>
-						<AttributeName Language="C++ WINRT">[CLSCompliantAttribute(true)]</AttributeName>
+						<AttributeName Language="C++ WINRT">///[CLSCompliantAttribute(true)]</AttributeName>
 						<Excluded>0</Excluded>
 					</Attribute>
 				</Attributes>
@@ -98,7 +98,7 @@
 					<Attribute>
 						<AttributeName Language="C#">[CLSCompliantAttribute(true)]</AttributeName>
 						<AttributeName Language="F#">[&lt;CLSCompliantAttribute(true)&gt;]</AttributeName>
-						<AttributeName Language="C++ WINRT">[CLSCompliantAttribute(true)]</AttributeName>
+						<AttributeName Language="C++ WINRT">///[CLSCompliantAttribute(true)]</AttributeName>
 						<Excluded>0</Excluded>
 					</Attribute>
 				</Attributes>
@@ -197,7 +197,7 @@
 					<Attribute>
 						<AttributeName Language="C#">[CLSCompliantAttribute(true)]</AttributeName>
 						<AttributeName Language="F#">[&lt;CLSCompliantAttribute(true)&gt;]</AttributeName>
-						<AttributeName Language="C++ WINRT">[CLSCompliantAttribute(true)]</AttributeName>
+						<AttributeName Language="C++ WINRT">///[CLSCompliantAttribute(true)]</AttributeName>
 						<Excluded>0</Excluded>
 					</Attribute>
 				</Attributes>

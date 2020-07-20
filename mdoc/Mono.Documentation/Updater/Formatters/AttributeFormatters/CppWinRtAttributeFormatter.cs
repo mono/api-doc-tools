@@ -8,7 +8,7 @@ namespace Mono.Documentation.Updater.Formatters
 {
     class CppWinRtAttributeFormatter : AttributeFormatter
     {
-        public override string PrefixBrackets { get; } = "[";
+        public override string PrefixBrackets { get; } = "///[";
         public override string SurfixBrackets { get; } = "]";
         public override string Language => Consts.CppWinRt;
     }
