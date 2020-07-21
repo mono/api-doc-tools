@@ -77,7 +77,7 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("Del event")]</AttributeName>
-          <AttributeName Language="C++ WINRT"///>[Mono.DocTest.Doc("Del event")]</AttributeName>
+          <AttributeName Language="C++ WINRT">///[Mono.DocTest.Doc("Del event")]</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName Language="C#">[add: Mono.DocTest.Doc("Del add accessor")]</AttributeName>
