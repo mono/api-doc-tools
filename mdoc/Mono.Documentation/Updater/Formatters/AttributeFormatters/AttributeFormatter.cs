@@ -90,9 +90,10 @@ namespace Mono.Documentation.Updater.Formatters
             for (int i = 0; i < attribute.ConstructorArguments.Count; ++i)
             {
                 CustomAttributeArgument argument = attribute.ConstructorArguments[i];
-                fields.Add(MakeAttributesValueString(
-                        argument.Value,
-                        argument.Type));
+                string attributesValue = MakeAttributesValueString(argument.Value, argument.Type);
+                if (Language == Consts.CppWinRt && attributesValue.StartsWith("typeof("))
+                    attributesValue = attributesValue.Substring(7, attributesValue.Length - 8);
+                fields.Add(attributesValue);
             }
             var namedArgs =
                 (from namedArg in attribute.Fields
@@ -101,8 +102,12 @@ namespace Mono.Documentation.Updater.Formatters
                         (from namedArg in attribute.Properties
                          select new { Type = namedArg.Argument.Type, Name = namedArg.Name, Value = namedArg.Argument.Value }))
                 .OrderBy(v => v.Name);
-            foreach (var d in namedArgs)
-                fields.Add(MakeNamedArgumentString(d.Name, MakeAttributesValueString(d.Value, d.Type)));
+            foreach (var d in namedArgs) {
+                string namedArgument = MakeNamedArgumentString(d.Name, MakeAttributesValueString(d.Value, d.Type));
+                if (Language == Consts.CppWinRt && namedArgument.StartsWith("typeof("))
+                    namedArgument = namedArgument.Substring(7, namedArgument.Length - 8);
+                fields.Add(namedArgument);
+            }
 
             string a2 = String.Join(", ", fields.ToArray());
             if (a2 != "") a2 = "(" + a2 + ")";
