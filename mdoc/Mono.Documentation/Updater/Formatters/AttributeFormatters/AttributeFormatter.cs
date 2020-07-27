@@ -90,10 +90,7 @@ namespace Mono.Documentation.Updater.Formatters
             for (int i = 0; i < attribute.ConstructorArguments.Count; ++i)
             {
                 CustomAttributeArgument argument = attribute.ConstructorArguments[i];
-                string attributesValue = MakeAttributesValueString(argument.Value, argument.Type);
-                if (Language == Consts.CppWinRt && attributesValue.StartsWith("typeof("))
-                    attributesValue = attributesValue.Substring(7, attributesValue.Length - 8);
-                fields.Add(attributesValue);
+                fields.Add(MakeAttributesValueString(argument.Value, argument.Type));
             }
             var namedArgs =
                 (from namedArg in attribute.Fields
@@ -102,12 +99,8 @@ namespace Mono.Documentation.Updater.Formatters
                         (from namedArg in attribute.Properties
                          select new { Type = namedArg.Argument.Type, Name = namedArg.Name, Value = namedArg.Argument.Value }))
                 .OrderBy(v => v.Name);
-            foreach (var d in namedArgs) {
-                string namedArgument = MakeNamedArgumentString(d.Name, MakeAttributesValueString(d.Value, d.Type));
-                if (Language == Consts.CppWinRt && namedArgument.StartsWith("typeof("))
-                    namedArgument = namedArgument.Substring(7, namedArgument.Length - 8);
-                fields.Add(namedArgument);
-            }
+            foreach (var d in namedArgs)
+                fields.Add(MakeNamedArgumentString(d.Name, MakeAttributesValueString(d.Value, d.Type)));
 
             string a2 = String.Join(", ", fields.ToArray());
             if (a2 != "") a2 = "(" + a2 + ")";
@@ -157,7 +150,7 @@ namespace Mono.Documentation.Updater.Formatters
             throw new InvalidDataException(string.Format("Unable to format attribute value ({0})", v.ToString()));
         }
 
-        private bool IsIgnoredAttribute(CustomAttribute customAttribute)
+        protected bool IsIgnoredAttribute(CustomAttribute customAttribute)
         {
             // An Obsolete attribute with a known string is added to all ref-like structs
             // https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.2/span-safety.md#metadata-representation-or-ref-like-structs
@@ -167,7 +160,7 @@ namespace Mono.Documentation.Updater.Formatters
         }
 
         // FIXME: get TypeReferences instead of string comparison?
-        private static string[] IgnorableAttributes = {
+        protected static string[] IgnorableAttributes = {
 		    // Security related attributes
 		    "System.Reflection.AssemblyKeyFileAttribute",
             "System.Reflection.AssemblyDelaySignAttribute",
