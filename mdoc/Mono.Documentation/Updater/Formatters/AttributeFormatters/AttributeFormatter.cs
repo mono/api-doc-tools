@@ -90,7 +90,9 @@ namespace Mono.Documentation.Updater.Formatters
             for (int i = 0; i < attribute.ConstructorArguments.Count; ++i)
             {
                 CustomAttributeArgument argument = attribute.ConstructorArguments[i];
-                fields.Add(MakeAttributesValueString(argument.Value, argument.Type));
+                fields.Add(MakeAttributesValueString(
+                        argument.Value,
+                        argument.Type));
             }
             var namedArgs =
                 (from namedArg in attribute.Fields
