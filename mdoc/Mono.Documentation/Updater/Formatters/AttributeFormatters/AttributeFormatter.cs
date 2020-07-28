@@ -119,7 +119,7 @@ namespace Mono.Documentation.Updater.Formatters
             return $"{name}={value}";
         }
 
-        public static string MakeAttributesValueString(object v, TypeReference valueType)
+        public virtual string MakeAttributesValueString(object v, TypeReference valueType)
         {
             var formatters = new[] {
                 new AttributeValueFormatter (),
@@ -152,7 +152,7 @@ namespace Mono.Documentation.Updater.Formatters
             throw new InvalidDataException(string.Format("Unable to format attribute value ({0})", v.ToString()));
         }
 
-        protected bool IsIgnoredAttribute(CustomAttribute customAttribute)
+        private bool IsIgnoredAttribute(CustomAttribute customAttribute)
         {
             // An Obsolete attribute with a known string is added to all ref-like structs
             // https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.2/span-safety.md#metadata-representation-or-ref-like-structs
@@ -162,7 +162,7 @@ namespace Mono.Documentation.Updater.Formatters
         }
 
         // FIXME: get TypeReferences instead of string comparison?
-        protected static string[] IgnorableAttributes = {
+        private static string[] IgnorableAttributes = {
 		    // Security related attributes
 		    "System.Reflection.AssemblyKeyFileAttribute",
             "System.Reflection.AssemblyDelaySignAttribute",

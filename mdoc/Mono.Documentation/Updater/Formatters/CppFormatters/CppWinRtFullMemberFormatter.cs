@@ -103,7 +103,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
-                buf.AppendFormat(" = {0}", AttributeFormatter.MakeAttributesValueString(parameter.Constant, parameter.ParameterType));
+                buf.AppendFormat(" = {0}", new AttributeFormatter().MakeAttributesValueString(parameter.Constant, parameter.ParameterType));
             }
 
             return buf;
