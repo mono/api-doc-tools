@@ -486,7 +486,7 @@
         <Attributes>
           <Attribute>
             <AttributeName Language="C#">[Mono.DocTest.Doc("return:DocAttribute", Property=typeof(Mono.DocTest.Widget))]</AttributeName>
-            <AttributeName Language="C++ WINRT">/// [Mono.DocTest.Doc("return:DocAttribute", Property=typeof(Mono.DocTest.Widget))]</AttributeName>
+            <AttributeName Language="C++ WINRT">/// [Mono.DocTest.Doc("return:DocAttribute", Property=Mono.DocTest.Widget)]</AttributeName>
           </Attribute>
         </Attributes>
       </ReturnValue>
