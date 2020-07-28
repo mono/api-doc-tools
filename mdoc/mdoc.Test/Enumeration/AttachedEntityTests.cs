@@ -71,6 +71,15 @@ namespace mdoc.Test.Enumeration
             Assert.AreEqual(expected, def);
         }
 
+        [TestCase]
+        public void Test_AttachedProperty_Property()
+        {
+            var type = GetTypeDef<AttachedPropertyTestClass>();
+            Assert.AreEqual(1, type.Properties.Count(t => t.Name == "AttributeAttachProperty"));
+            var list = AttachedEntitiesHelper.GetAttachedEntities(type);
+            Assert.AreEqual("AttributeAttach", list.FirstOrDefault(t => t.Name == "AttributeAttach").Name);
+        }
+
         public class AttachedTestClassNoAttachedEntities { }
 
         public class AttachedTestClass
@@ -91,6 +100,13 @@ namespace mdoc.Test.Enumeration
             public static DependencyProperty SomeNotReadonlyProperty;
             public static bool GetSomeNotReadOnly(DependencyObject obj) { return false; }
             public static void SetSomeNotReadOnly(DependencyObject obj, bool val) { }
+        }
+
+        public class AttachedPropertyTestClass
+        {
+            public DependencyProperty AttributeAttachProperty { get; set; }
+            public static bool GetAttributeAttach(DependencyObject obj) { return false; }
+            public static void SetAttributeAttach(DependencyObject obj, bool val) { }
         }
     }
 }
