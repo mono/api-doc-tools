@@ -114,6 +114,13 @@ namespace Mono.Documentation.Util
                 if (IsAttachedProperty(field, methods))
                     yield return new AttachedPropertyReference(field);
             }
+
+            foreach (var property in type.Properties.Where(t => t.PropertyType.FullName == Consts.DependencyPropertyFullName
+            || t.PropertyType.FullName == Consts.DependencyPropertyFullNameXaml))
+            {
+                if (IsAttachedProperty(property, methods))
+                    yield return new AttachedPropertyReference(property);
+            }
         }
 
         private static bool IsAttachedProperty(FieldDefinition field, Dictionary<string, IEnumerable<MethodDefinition>> methods)
@@ -126,8 +133,8 @@ namespace Mono.Documentation.Util
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
 
-            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal) && ChkPropertyVisible(p));
-            var hasExistingField = field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, System.StringComparison.Ordinal) && ChkFieldVisible(f));
+            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
+            var hasExistingField = field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, System.StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
 
             return !hasExistingProperty.IsTrue () && !hasExistingField.IsTrue () &&
                 // Class X has a static field of type DependencyProperty [Name]Property
@@ -135,6 +142,29 @@ namespace Mono.Documentation.Util
                 && field.IsPublic
                 && field.IsStatic
                 && field.IsInitOnly
+
+                // Class X also has static methods with the following names: Get[Name] and Set[Name]
+                && ((methods.ContainsKey(getMethodName) && methods[getMethodName].Any(IsAttachedPropertyGetMethod))
+                    || (methods.ContainsKey(setMethodName) && methods[setMethodName].Any(IsAttachedPropertySetMethod)));
+
+        }
+
+        private static bool IsAttachedProperty(PropertyDefinition property, Dictionary<string, IEnumerable<MethodDefinition>> methods)
+        {
+
+            if (!property.Name.EndsWith(PropertyConst, StringComparison.Ordinal))
+                return false;
+            var propertyName = GetPropertyName(property.Name);
+            var getMethodName = $"Get{propertyName}";
+            var setMethodName = $"Set{propertyName}";
+
+            var hasExistingProperty = property?.DeclaringType?.Properties.Any(p => p.Name.Equals(propertyName, System.StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
+            var hasExistingField = property?.DeclaringType?.Fields.Any(f => f.Name.Equals(propertyName, System.StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
+
+            return !hasExistingProperty.IsTrue() && !hasExistingField.IsTrue() &&
+                // Class X has a static field of type DependencyProperty [Name]Property
+                (property.PropertyType.Name == Consts.DependencyPropertyFullName || property.PropertyType.FullName == Consts.DependencyPropertyFullNameXaml)
+
 
                 // Class X also has static methods with the following names: Get[Name] and Set[Name]
                 && ((methods.ContainsKey(getMethodName) && methods[getMethodName].Any(IsAttachedPropertyGetMethod))
@@ -178,6 +208,19 @@ namespace Mono.Documentation.Util
                 return type.FullName == targetTypeName;
 
             return type.FullName == targetTypeName || IsAssignableTo(typeDefenition.BaseType, targetTypeName);
+        }
+
+        private static bool GetCheckVisible(IMemberDefinition member)
+        {
+            if (member == null)
+                throw new ArgumentNullException("member");
+            PropertyDefinition prop = member as PropertyDefinition;
+            if (prop != null)
+                return ChkPropertyVisible(prop);
+            FieldDefinition field = member as FieldDefinition;
+            if (field != null)
+                return ChkFieldVisible(field);
+            return false;
         }
 
         private static bool ChkPropertyVisible(PropertyDefinition property)
