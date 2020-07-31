@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>mdoc.Test</name>
+    </assembly>
+    <members>
+        <member name="M:mdoc.Test2.InternalEIICalss.Getstring(System.Int32)">
+            <summary>
+            Extension methods for <see cref="M:mdoc.Test2.InternalEIICalss.Getstring(System.Int32)"/>.
+            </summary>
+ <seealso cref= "M:mdoc.Test.FeatureSelectionCatalog.SelectFeaturesBasedOnCount(mdoc.Test.TransformsCatalog.FeatureSelectionTransforms,System.String,System.String,System.Int64)"/>  
+        <value> 0 </value>
+        <returns> A list of scores.</returns>
+        <related>222</related>
+        </member>
+    </members>
+</doc>

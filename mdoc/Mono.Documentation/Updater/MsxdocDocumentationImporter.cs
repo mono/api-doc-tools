@@ -8,7 +8,7 @@ using Mono.Cecil;
 
 namespace Mono.Documentation.Updater
 {
-    class MsxdocDocumentationImporter : DocumentationImporter
+   public class MsxdocDocumentationImporter : DocumentationImporter
     {
         XmlDocument slashdocs;
         Dictionary<string, XmlNode> slashdocsMapping = new Dictionary<string, XmlNode>();

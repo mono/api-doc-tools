@@ -891,5 +891,25 @@ namespace Mono.Documentation.Updater
             }
             return assemblyDelList;
         }
+
+        public static bool CheckRemoveByImporter(DocsNodeInfo info, string keyName, List<DocumentationImporter> DocImports, IEnumerable<DocumentationImporter> SetImports)
+        {
+            foreach (DocumentationImporter i in DocImports)
+            {
+                if (i.CheckRemoveByMapping(info, keyName))
+                    return true;
+            }
+
+            if (SetImports != null)
+            {
+                foreach (var i in SetImports)
+                {
+                    if (i.CheckRemoveByMapping(info, keyName))
+                        return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
@@ -155,6 +156,32 @@ namespace mdoc.Test
             }
 
             return returnValue;
+        }
+
+        [Test]
+        public void Update_ImportDoc_Test()
+        {
+            List<DocumentationImporter> setimporters = new List<DocumentationImporter>();
+            List<DocumentationImporter> importers = new List<DocumentationImporter>();
+            var filePath = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses\\testImportDoc.xml");
+            MsxdocDocumentationImporter importer = new MsxdocDocumentationImporter(
+                 filePath);
+            setimporters.Add(importer);
+
+            XmlDocument doc = new System.Xml.XmlDocument();
+            doc.LoadXml(XmlConsts.internalEllXml);
+
+            var type = GetType(typeof(mdoc.Test2.InternalEIICalss));
+            var docEnum = new DocumentationEnumerator();
+
+            var nodeMember = docEnum.GetDocumentationMembers(doc, type, FrameworkTypeEntry.Empty).FirstOrDefault(t => t.Member.FullName == "System.String mdoc.Test2.InternalEIICalss::Getstring(System.Int32)");
+
+            var testKeys = new string[] { "returns", "value", "related", "seealso" };
+
+            for (int i = 0; i < testKeys.Length; i++)
+            {
+                Assert.IsTrue(DocUtils.CheckRemoveByImporter(nodeMember, testKeys[i], importers, setimporters));
+            }
         }
     }
 }
