@@ -72,6 +72,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
         protected override StringBuilder AppendRequiredModifierType(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
         {
+            // handled in AppendHat
+            if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsByValue")
+                return _AppendTypeName(buf, type.ElementType, context);
+
             _AppendTypeName(buf, type.ElementType, context);
             buf.Append(" modreq(");
             _AppendTypeName(buf, type.ModifierType, context);
@@ -88,6 +92,12 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsSignUnspecifiedByte" &&
                 type.ElementType.FullName == "System.SByte")
                 return buf.Append("char");
+            if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsConst")
+            {
+                buf.Append("const ");
+                _AppendTypeName(buf, type.ElementType, context);
+                return buf;
+            }
 
             _AppendTypeName(buf, type.ElementType, context);
             buf.Append(" modopt(");
@@ -312,7 +322,9 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 && !NoHatTypes.Contains(type.FullName) 
                 //check for generic type
                 && !NoHatTypes.Contains(type.GetType().FullName)
-                
+                //check IsByValue
+                && !(type is RequiredModifierType requiredModifierType
+                    && requiredModifierType.ModifierType.FullName == "System.Runtime.CompilerServices.IsByValue")
                 )
             {
                //add handler for reference types to have managed context
@@ -911,17 +923,6 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (field.IsInitOnly)
                 buf.Append("initonly ");
 
-            string fieldFullName = field.FullName;
-            if (fieldFullName.Contains(' '))
-            {
-                var splitType = fieldFullName.Split(' ');
-
-                if (splitType.Any(str => str == "modopt(System.Runtime.CompilerServices.IsConst)"))
-                {
-                    buf.Append("const ");
-                }
-            }
-            
             buf.Append(GetTypeNameWithOptions(field.FieldType, AppendHatOnReturn)).Append(' ');
             buf.Append(field.Name);
             AppendFieldValue (buf, field);

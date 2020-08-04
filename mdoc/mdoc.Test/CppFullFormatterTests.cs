@@ -247,7 +247,7 @@ generic <typename T>
         [Category("Methods")]
         public void MethodSignature_opAddition() =>
             TestMethodSignature(typeof(Widget), @"public:
- static Mono_DocTest::Widget ^ operator +(Mono_DocTest::Widget ^ x1, Mono_DocTest::Widget ^ x2);",
+ static Mono_DocTest::Widget ^ operator +(Mono_DocTest::Widget x1, Mono_DocTest::Widget x2);",
                 "op_Addition");
 
 
@@ -276,7 +276,7 @@ generic <typename T>
         [Category("Methods")]
         public void MethodSignature_opImplicit() =>
             TestMethodSignature(typeof(Widget), @"public:
- static operator long(Mono_DocTest::Widget ^ x);",
+ static operator long(Mono_DocTest::Widget x);",
                 "op_Implicit");
 
         [Test]
