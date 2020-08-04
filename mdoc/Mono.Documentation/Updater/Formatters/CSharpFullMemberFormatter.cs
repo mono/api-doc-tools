@@ -532,12 +532,18 @@ namespace Mono.Documentation.Updater
 
         private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
-            if (parameter.ParameterType is ByReferenceType)
+            TypeReference parameterType = parameter.ParameterType;
+
+            if (parameterType is ByReferenceType byReferenceType)
             {
                 if (parameter.IsOut)
                     buf.Append ("out ");
+                else if (parameter.IsIn)
+                    buf.Append ("in ");
                 else
                     buf.Append ("ref ");
+
+                parameterType = byReferenceType.ElementType;
             }
             if (parameter.HasCustomAttributes)
             {
@@ -545,7 +551,7 @@ namespace Mono.Documentation.Updater
                 if (isParams)
                     buf.AppendFormat ("params ");
             }
-            buf.Append (GetTypeName (parameter.ParameterType, new DynamicParserContext (parameter))).Append (" ");
+            buf.Append (GetTypeName (parameterType, new DynamicParserContext (parameter))).Append (" ");
             buf.Append (parameter.Name);
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
@@ -604,9 +610,6 @@ namespace Mono.Documentation.Updater
             if (modifiers == " virtual sealed")
                 modifiers = "";
             buf.Append (modifiers).Append (' ');
-
-            if (property.PropertyType.IsByReference)
-                buf.Append("ref ");
 
             buf.Append (GetTypeName (property.PropertyType, new DynamicParserContext (property))).Append (' ');
 

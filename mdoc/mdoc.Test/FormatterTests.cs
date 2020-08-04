@@ -235,7 +235,7 @@ namespace mdoc.Test
         {
             var member = GetMethod(typeof(SomeGenericClass<>), m => m.Name == "SomeMethod4");
             var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public void SomeMethod4 (out string a, T t, object b = default);", sig);
+            Assert.AreEqual("public void SomeMethod4 (out string a, in int i, T t, object b = default);", sig);
         }
 
         [Test]
