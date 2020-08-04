@@ -104,25 +104,10 @@ namespace Mono.Documentation.Updater
 
         protected virtual MemberFormatterState MemberFormatterState { get; set; }
 
-        protected virtual StringBuilder AppendRequiredModifierTypeName(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
-        {
-            return _AppendTypeName (buf, type.ElementType, context);
-        }
-
-        protected virtual StringBuilder AppendOptionalModifierTypeName(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
-        {
-            return _AppendTypeName(buf, type.ElementType, context);
-        }
-
         protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, ArrayType type, DynamicParserContext context)
         {
             _AppendTypeName(buf, type.ElementType, context);
             return AppendArrayModifiers(buf, type);
-        }
-
-        protected virtual bool ShouldStripModFromTypeName
-        {
-            get => true;
         }
 
         protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection =false)
@@ -132,16 +117,6 @@ namespace Mono.Documentation.Updater
 
             StringBuilder interimBuilder = new StringBuilder();
 
-            if (ShouldStripModFromTypeName && type is RequiredModifierType)
-            {
-                AppendRequiredModifierTypeName(interimBuilder, type as RequiredModifierType, context);
-                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
-            }
-            if (ShouldStripModFromTypeName && type is OptionalModifierType)
-            {
-                AppendOptionalModifierTypeName(interimBuilder, type as OptionalModifierType, context);
-                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
-            }
             if (type is ArrayType arrayType)
             {
                 AppendArrayTypeName(interimBuilder, arrayType, context);

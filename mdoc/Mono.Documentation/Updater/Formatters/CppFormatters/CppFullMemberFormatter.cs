@@ -24,8 +24,6 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
         protected override string NestedTypeSeparator => "::";
 
-        protected override bool ShouldStripModFromTypeName => false;
-
         public CppFullMemberFormatter() : this(null) {}
         public CppFullMemberFormatter(TypeMap map) : base(map) { }
 
@@ -72,6 +70,16 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return typeToCompare == t ? null : typeToCompare;
         }
 
+        protected override StringBuilder AppendRequiredModifierType(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            _AppendTypeName(buf, type.ElementType, context);
+            buf.Append(" modreq(");
+            _AppendTypeName(buf, type.ModifierType, context);
+            buf.Append(')');
+
+            return buf;
+        }
+
         protected override StringBuilder AppendOptionalModifierType(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
         {
             if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsLong" &&
@@ -81,7 +89,12 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 type.ElementType.FullName == "System.SByte")
                 return buf.Append("char");
 
-            return base.AppendOptionalModifierType(buf, type, context);
+            _AppendTypeName(buf, type.ElementType, context);
+            buf.Append(" modopt(");
+            _AppendTypeName(buf, type.ModifierType, context);
+            buf.Append(')');
+
+            return buf;
         }
 
         protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
