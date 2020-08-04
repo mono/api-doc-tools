@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Xml;
 using mdoc.Test.SampleClasses;
 using Mono.Cecil;
 using Mono.Cecil.Rocks;
 using Mono.Collections.Generic;
 using Mono.Documentation;
 using Mono.Documentation.Updater;
+using Mono.Documentation.Updater.Frameworks;
 using NUnit.Framework;
 using Cpp = Mono_DocTest_Generic;
 
@@ -43,6 +46,35 @@ namespace mdoc.Test
             TypeDefinition testType = GetType(typeof(ReadOnlySpan<>).Module.FullyQualifiedName, "mdoc.Test.SampleClasses.ReadOnlySpan`1");
             var ns = DocUtils.GetNamespace(testType.GenericParameters.First());
             Assert.AreEqual("", ns);
+        }
+
+        [Test]
+        public void InternalEIITest()
+        {
+            XmlDocument doc = new System.Xml.XmlDocument();
+            doc.LoadXml(XmlConsts.internalEllXml);
+
+            MemberReference oldmember = null;
+            var type = GetType(typeof(mdoc.Test2.InternalEIICalss));
+            var docEnum = new DocumentationEnumerator();
+
+            bool internalEIIflagged = false;
+            foreach (DocsNodeInfo info in docEnum.GetDocumentationMembers(doc, type, FrameworkTypeEntry.Empty))
+            {
+                var flag = MDocUpdater.IsMemberNotPrivateEII(info.Member);
+
+                if (!flag)
+                {
+                    internalEIIflagged = true;
+                    oldmember = info.Member;
+                    //Note : The following operation will not be carried out, just prompt
+                      //-> DeleteMember();
+                      //-> statisticsCollector.AddMetric();
+                }
+            }
+            Assert.IsTrue(internalEIIflagged, "Internal EII was not flagged");
+            Assert.AreEqual("System.String mdoc.Test2.InternalEIICalss::mdoc.Test.SampleClasses.InterfaceA.Getstring(System.Int32)", oldmember.FullName);
+
         }
     }
 }

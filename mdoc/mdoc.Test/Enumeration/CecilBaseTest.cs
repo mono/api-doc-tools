@@ -14,7 +14,9 @@ namespace mdoc.Test
             var type = typeof(T);
             var path = type.Module.Assembly.Location;
             var assemblyResolver = new MDocResolver();
-            var dependencyPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(path), "..", "..", "..", "..", "external", "Windows");
+
+            var projPath = typeof(CecilBaseTest).Module.Assembly.Location;
+            var dependencyPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(projPath), "..", "..", "..", "..", "external", "Windows");
             assemblyResolver.AddSearchDirectory(dependencyPath);
             var cachedResolver = new CachedResolver(assemblyResolver);
             if (!System.IO.Directory.Exists(dependencyPath))

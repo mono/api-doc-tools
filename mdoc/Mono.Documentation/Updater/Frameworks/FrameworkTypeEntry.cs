@@ -9,13 +9,40 @@ namespace Mono.Documentation.Updater.Frameworks
 	public class FrameworkTypeEntry : IComparable<FrameworkTypeEntry>
 	{
         Dictionary<string, string> sigMap = new Dictionary<string, string> ();
+        Dictionary<string, bool> sigDocMap = new Dictionary<string, bool>();
 
-		ILFullMemberFormatter formatter = new ILFullMemberFormatter ();
-        DocIdFormatter docidFormatter = new DocIdFormatter ();
+        ILFullMemberFormatter formatterField;
+        DocIdFormatter docidFormatterField;
+        ILFullMemberFormatter formatter
+        {
+            get
+            {
+                if (formatterField == null)
+                    formatterField = new ILFullMemberFormatter(MDocUpdater.Instance.TypeMap);
+                return formatterField;
+            }
+        }
+        DocIdFormatter docidFormatter = new DocIdFormatter (MDocUpdater.Instance.TypeMap);
 
 		FrameworkEntry fx;
 
         Lazy<FrameworkTypeEntry[]> previouslyProcessedFXTypes;
+
+        public int TimesProcessed { get; set; }
+
+        public Dictionary<string, bool> AssembliesMemberOf = new Dictionary<string, bool>();
+
+        public void NoteAssembly(AssemblyDefinition noting, AssemblyDefinition source)
+        {
+            if (noting == null || source == null)
+                return;
+
+            bool isForward = noting.Name.Name == source.Name.Name;
+            if (!AssembliesMemberOf.ContainsKey(noting.Name.Name))
+            {
+                AssembliesMemberOf.Add(noting.Name.Name, isForward);
+            }
+        }
 
         /// <summary>
         /// Returns a list of all corresponding type entries,
@@ -56,7 +83,16 @@ namespace Mono.Documentation.Updater.Frameworks
 		public string Namespace { get; set; }
 		public FrameworkEntry Framework { get { return fx; } }
 
-		public IEnumerable<string> Members {
+        public bool IsOnLastFramework { get { return this.Framework.IsLastFrameworkForType(this); } }
+        public bool IsOnFirstFramework { get { return this.Framework.IsFirstFrameworkForType(this); } }
+        public bool IsMemberOnLastFramework (MemberReference memberSig)
+            => this.Framework.IsLastFrameworkForMember (this, formatter.GetDeclaration(memberSig), docidFormatter.GetDeclaration(memberSig));
+        public bool IsMemberOnFirstFramework (MemberReference memberSig)
+            => this.Framework.IsFirstFrameworkForMember (this, formatter.GetDeclaration (memberSig), docidFormatter.GetDeclaration(memberSig));
+        public string AllFrameworkStringForMember (MemberReference memberSig)
+            => this.Framework.AllFrameworksWithMember (this, formatter.GetDeclaration (memberSig), docidFormatter.GetDeclaration(memberSig));
+
+        public IEnumerable<string> Members {
 			get {
 				return this.sigMap.Values.OrderBy(v => v).Distinct();
 			}
@@ -85,18 +121,33 @@ namespace Mono.Documentation.Updater.Frameworks
 			if (resolvedMember != null) {
                 var docid = docidFormatter.GetDeclaration (member);
 				sigMap[key] = docid;
+                sigDocMap[docid] = true;
 			}
 			else 
 				sigMap[key] = member.FullName;
 
-		}
+        }
 
-		public bool ContainsCSharpSig (string sig)
-		{
-			return sigMap.ContainsKey (sig);
-		}
+        public virtual void ProcessMember(string ifacedocid)
+        {
+            if (string.IsNullOrWhiteSpace(ifacedocid))
+                return;
 
-		public override string ToString () => $"{this.Name} in {this.fx.Name}";
+            sigMap[ifacedocid] = ifacedocid;
+            sigDocMap[ifacedocid] = true;
+        }
+
+        public bool ContainsCSharpSig(string sig)
+        {
+            return sigMap.ContainsKey(sig);
+        }
+
+        public bool ContainsDocId(string sig)
+        {
+            return sigDocMap.ContainsKey(sig);
+        }
+
+        public override string ToString () => $"{this.Name} in {this.fx.Name}";
 
 		public int CompareTo (FrameworkTypeEntry other)
 		{
@@ -122,6 +173,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		{
 			public EmptyTypeEntry (FrameworkEntry fx) : base (fx) { }
 			public override void ProcessMember (MemberReference member) { }
-		}
-	}
+            public override void ProcessMember(string ifacedocid) { }
+        }
+    }
 }

@@ -1,0 +1,50 @@
+<Type Name="Interfaces+MyClass" FullName="Interfaces+MyClass">
+  <TypeSignature Language="C#" Value="public class Interfaces.MyClass : Interfaces.Interface3" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Interfaces/MyClass extends System.Object implements Interfaces/Interface3" />
+  <TypeSignature Language="F#" Value="type Interfaces.MyClass = class&#xA;    interface Interfaces.Interface3" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>Interfaces+Interface1</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>Interfaces+Interface2</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>Interfaces+Interface3</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public MyClass ();" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

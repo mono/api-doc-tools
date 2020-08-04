@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Mono.Cecil;
 using Mono.Documentation.Framework;
+using Mono.Documentation.Updater;
 
 namespace mdoc.Test
 {
@@ -96,6 +97,11 @@ namespace mdoc.Test
             if (member == null)
                 throw new Exception("Did not find the member in the test class");
             return member;
+        }
+
+        protected Dictionary<string, List<MemberReference>> GetClassInterface(TypeDefinition type)
+        {
+            return DocUtils.GetImplementedMembersFingerprintLookup(type);
         }
     }
 }

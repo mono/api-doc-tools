@@ -6,6 +6,8 @@ namespace Mono.Documentation.Updater
 {
     class SlashDocCSharpMemberFormatter : MsxdocSlashDocMemberFormatter
     {
+        public SlashDocCSharpMemberFormatter(TypeMap map) : base(map) { }
+
         /// <summary>
         /// C# compiler uses complecated logic to generate docIds for Eii properties. Need to have special logic here.
         /// </summary>

@@ -1,0 +1,64 @@
+<Type Name="Methods+Circle" FullName="Methods+Circle">
+  <TypeSignature Language="C#" Value="public class Methods.Circle : Methods.Ellipse" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Methods/Circle extends s/Ellipse" />
+  <TypeSignature Language="F#" Value="type Methods.Circle = class&#xA;    inherit Methods.Ellipse" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>Methods+Ellipse</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Circle (double radius);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(float64 radius) cil managed" />
+      <MemberSignature Language="F#" Value="new Methods.Circle : double -&gt; Methods.Circle" Usage="new Methods.Circle radius" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="radius" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="radius">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rotate">
+      <MemberSignature Language="C#" Value="public override void Rotate (double _arg1);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rotate(float64 _arg1) cil managed" />
+      <MemberSignature Language="F#" Value="override this.Rotate : double -&gt; unit" Usage="circle.Rotate _arg1" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="_arg1" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="_arg1">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

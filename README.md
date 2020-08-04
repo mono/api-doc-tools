@@ -34,6 +34,8 @@ You can also control some parameters from the command line:
 
 If you want to compile in debug mode: `make all CONFIGURATION=Debug`  
 
+If you are using WSL, use: `make all ENVIRONMENT=wsl`
+
 Feel free to open a pull request early in order to make it easy to ask questions during development, and for the maintainers to offer feedback.
 
 ## Troubleshooting
@@ -55,7 +57,7 @@ If you are running an older version (for example, if you originally installed WS
     - `sudo apt-get upgrade`
     - `sudo apt-get dist-upgrade`
 
-With that run ... you should be able to run the build locally. 
+With that run ... you should be able to run the build locally using `make all ENVIRONMENT=wsl`. 
 
 ### Linux
 

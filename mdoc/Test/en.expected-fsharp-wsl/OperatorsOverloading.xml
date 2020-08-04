@@ -1,0 +1,186 @@
+<Type Name="OperatorsOverloading" FullName="OperatorsOverloading">
+  <TypeSignature Language="C#" Value="public static class OperatorsOverloading" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed OperatorsOverloading extends System.Object" />
+  <TypeSignature Language="F#" Value="module OperatorsOverloading" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="v1">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector v1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property OperatorsOverloading/Vector v1" />
+      <MemberSignature Language="F#" Value="OperatorsOverloading.v1 : OperatorsOverloading.Vector" Usage="OperatorsOverloading.v1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v10&lt;T2,T3,T1&gt;">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.FSharpFunc&lt;T2,T3&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.FSharpFunc&lt;T1,T2&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;T1,T3&gt;&gt;&gt; v10&lt;T2,T3,T1&gt; ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Core.FSharpFunc`2&lt;!!T2, !!T3&gt;, class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Core.FSharpFunc`2&lt;!!T1, !!T2&gt;, class Microsoft.FSharp.Core.FSharpFunc`2&lt;!!T1, !!T3&gt;&gt;&gt; v10&lt;T2, T3, T1&gt;() cil managed" />
+      <MemberSignature Language="F#" Value="OperatorsOverloading.v10 : unit -&gt; ('T2 -&gt; 'T3 -&gt; 'T1 -&gt; 'T2 -&gt; 'T1 -&gt; 'T3)" Usage="OperatorsOverloading.v10 " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.FSharpFunc&lt;T2,T3&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.FSharpFunc&lt;T1,T2&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;T1,T3&gt;&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T2" />
+        <TypeParameter Name="T3" />
+        <TypeParameter Name="T1" />
+      </TypeParameters>
+      <Parameters />
+      <Docs>
+        <typeparam name="T2">To be added.</typeparam>
+        <typeparam name="T3">To be added.</typeparam>
+        <typeparam name="T1">To be added.</typeparam>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v2">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector v2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property OperatorsOverloading/Vector v2" />
+      <MemberSignature Language="F#" Value="OperatorsOverloading.v2 : OperatorsOverloading.Vector" Usage="OperatorsOverloading.v2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v4">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector v4 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property OperatorsOverloading/Vector v4" />
+      <MemberSignature Language="F#" Value="OperatorsOverloading.v4 : OperatorsOverloading.Vector" Usage="OperatorsOverloading.v4" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v5">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector v5 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property OperatorsOverloading/Vector v5" />
+      <MemberSignature Language="F#" Value="OperatorsOverloading.v5 : OperatorsOverloading.Vector" Usage="OperatorsOverloading.v5" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v7">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector v7 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property OperatorsOverloading/Vector v7" />
+      <MemberSignature Language="F#" Value="OperatorsOverloading.v7 : OperatorsOverloading.Vector" Usage="OperatorsOverloading.v7" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="v9&lt;T2,T3,T1&gt;">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.FSharpFunc&lt;T2,T3&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.FSharpFunc&lt;T1,T2&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;T1,T3&gt;&gt;&gt; v9&lt;T2,T3,T1&gt; ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Core.FSharpFunc`2&lt;!!T2, !!T3&gt;, class Microsoft.FSharp.Core.FSharpFunc`2&lt;class Microsoft.FSharp.Core.FSharpFunc`2&lt;!!T1, !!T2&gt;, class Microsoft.FSharp.Core.FSharpFunc`2&lt;!!T1, !!T3&gt;&gt;&gt; v9&lt;T2, T3, T1&gt;() cil managed" />
+      <MemberSignature Language="F#" Value="OperatorsOverloading.v9 : unit -&gt; ('T2 -&gt; 'T3 -&gt; 'T1 -&gt; 'T2 -&gt; 'T1 -&gt; 'T3)" Usage="OperatorsOverloading.v9 " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.FSharpFunc&lt;T2,T3&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;Microsoft.FSharp.Core.FSharpFunc&lt;T1,T2&gt;,Microsoft.FSharp.Core.FSharpFunc&lt;T1,T3&gt;&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T2" />
+        <TypeParameter Name="T3" />
+        <TypeParameter Name="T1" />
+      </TypeParameters>
+      <Parameters />
+      <Docs>
+        <typeparam name="T2">To be added.</typeparam>
+        <typeparam name="T3">To be added.</typeparam>
+        <typeparam name="T1">To be added.</typeparam>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -12,6 +12,11 @@ namespace Mono.Documentation.Updater
     {
         public override string Language => Consts.VbNet;
 
+        public override string SingleLineComment => "'";
+
+        public VBFullMemberFormatter() : this(null) {}
+        public VBFullMemberFormatter(TypeMap map) : base(map) { }
+
         protected override StringBuilder AppendNamespace(StringBuilder buf, TypeReference type)
         {
             string ns = DocUtils.GetNamespace(type);
@@ -107,7 +112,7 @@ namespace Mono.Documentation.Updater
             buf.Append(visibility);
             buf.Append(" ");
 
-            MemberFormatter full = new VBMemberFormatter();
+            MemberFormatter full = new VBMemberFormatter(this.TypeMap);
             if (DocUtils.IsDelegate(type))
             {
                 buf.Append("Delegate ");
@@ -204,7 +209,7 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                     type is GenericInstanceType ? type.GetElementType() : type);
@@ -236,7 +241,7 @@ namespace Mono.Documentation.Updater
                         if (i > 0)
                             buf.Append(", ");
                         var genArg = genArgs[argIdx++];
-                        _AppendTypeName(buf, genArg, context);
+                        _AppendTypeName(buf, genArg, context, useTypeProjection: useTypeProjection);
                         var genericParameter = genArg as GenericParameter;
                         if (genericParameter != null)
                             AppendConstraints(buf, genericParameter);
@@ -322,8 +327,11 @@ namespace Mono.Documentation.Updater
         {
             StringBuilder buf = new StringBuilder();
             AppendVisibility(buf, constructor);
-            if (buf.Length == 0)
+            if (buf.Length == 0 && !constructor.IsStatic) //Static constructor is needed
                 return null;
+
+            if (constructor.IsStatic)
+                buf.Append(buf.Length == 0 ? "Shared" : " Shared");
 
             buf.Append(" Sub New ");
             AppendParameters(buf, constructor, constructor.Parameters);
@@ -376,7 +384,7 @@ namespace Mono.Documentation.Updater
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod(method, out iface, out ifaceMethod);
                 buf.Append(" Implements ")
-                    .Append(new VBMemberFormatter().GetName(iface))
+                    .Append(new VBMemberFormatter(this.TypeMap).GetName(iface))
                     .Append('.')
                     .Append(ifaceMethod.Name);
             }
@@ -655,7 +663,7 @@ namespace Mono.Documentation.Updater
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod(method, out iface, out ifaceMethod);
                 buf.Append(" Implements ")
-                    .Append(new VBMemberFormatter().GetName(iface))
+                    .Append(new VBMemberFormatter(this.TypeMap).GetName(iface))
                     .Append('.')
                     .Append(DocUtils.GetPropertyName(property, NestedTypeSeparator).Split('.').Last());
             }
@@ -822,12 +830,6 @@ namespace Mono.Documentation.Updater
                     // if there are types which differ only in letter case
                     if (typeReference.Name.Equals(typeReference2.Name, StringComparison.InvariantCultureIgnoreCase)
                         && typeReference.Name != typeReference2.Name)
-                        return false;
-                }
-                foreach (var parameterDefinition in method.Parameters)
-                {
-                    // it there's a parameter which name is case-insensitively equal to typename 
-                    if (parameterDefinition.Name.Equals(typeReference.Name, StringComparison.InvariantCultureIgnoreCase))
                         return false;
                 }
             }

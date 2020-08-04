@@ -1,0 +1,36 @@
+<Type Name="Collections+MDocTestMap&lt;Key,Value&gt;" FullName="Collections+MDocTestMap&lt;Key,Value&gt;">
+  <TypeSignature Language="C#" Value="public class Collections.MDocTestMap&lt;Key,Value&gt; : Collections.MDocInterface&lt;System.Collections.Generic.KeyValuePair&lt;Key,Value&gt;&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable beforefieldinit Collections/MDocTestMap`2&lt;Key, Value&gt; extends System.Object implements Collections/MDocInterface`1&lt;valuetype System.Collections.Generic.KeyValuePair`2&lt;!Key, !Value&gt;&gt;" />
+  <TypeSignature Language="F#" Value="type Collections.MDocTestMap&lt;'Key, 'Value&gt; = class&#xA;    interface Collections.MDocInterface&lt;KeyValuePair&lt;'Key, 'Value&gt;&gt;" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="Key" />
+    <TypeParameter Name="Value" />
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>Collections+MDocInterface&lt;System.Collections.Generic.KeyValuePair&lt;Key,Value&gt;&gt;</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <typeparam name="Key">To be added.</typeparam>
+    <typeparam name="Value">To be added.</typeparam>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members />
+</Type>

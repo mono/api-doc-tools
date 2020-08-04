@@ -47,6 +47,7 @@
       <MemberSignature Language="F#" Value="member this.B : int with get, set" Usage="Mono.DocTest.Widget.IMenuItem.B" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property int B { int get(); void set(int value); };" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; property int B { int get(); void set(int value); };" />
+      <MemberSignature Language="C++ WINRT" Value="int B();&#xA;&#xA;void B(int value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

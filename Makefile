@@ -2,6 +2,7 @@ MSBUILD = msbuild
 CONFIGURATION = Release
 BIN = bin/$(CONFIGURATION)
 MDOC = $(BIN)/mdoc.exe
+ENVIRONMENT = notwsl#use 'wsl' when running on wsl
 
 all: build
 
@@ -29,3 +30,4 @@ nuget:
 
 check-monodoc:
 	cd monodoc; $(MAKE) check -B
+	

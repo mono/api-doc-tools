@@ -1,0 +1,977 @@
+<Type Name="Delegates" FullName="Delegates">
+  <TypeSignature Language="C#" Value="public static class Delegates" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed Delegates extends System.Object" />
+  <TypeSignature Language="F#" Value="module Delegates" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Module)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="del1">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate1 del1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate1 del1" />
+      <MemberSignature Language="F#" Value="Delegates.del1 : Delegates.Delegate1" Usage="Delegates.del1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate1</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="del2">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate2 del2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate2 del2" />
+      <MemberSignature Language="F#" Value="Delegates.del2 : Delegates.Delegate2" Usage="Delegates.del2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate2</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="del3">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate1 del3 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate1 del3" />
+      <MemberSignature Language="F#" Value="Delegates.del3 : Delegates.Delegate1" Usage="Delegates.del3" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate1</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="del4">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate2 del4 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate2 del4" />
+      <MemberSignature Language="F#" Value="Delegates.del4 : Delegates.Delegate2" Usage="Delegates.del4" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate2</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate3 delObject { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate3 delObject" />
+      <MemberSignature Language="F#" Value="Delegates.delObject : Delegates.Delegate3" Usage="Delegates.delObject" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate3</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject1">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate1 delObject1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate1 delObject1" />
+      <MemberSignature Language="F#" Value="Delegates.delObject1 : Delegates.Delegate1" Usage="Delegates.delObject1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate1</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject10">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate10 delObject10 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate10 delObject10" />
+      <MemberSignature Language="F#" Value="Delegates.delObject10 : Delegates.Delegate10" Usage="Delegates.delObject10" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate10</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject11">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate11 delObject11 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate11 delObject11" />
+      <MemberSignature Language="F#" Value="Delegates.delObject11 : Delegates.Delegate11" Usage="Delegates.delObject11" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate11</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject12">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate12 delObject12 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate12 delObject12" />
+      <MemberSignature Language="F#" Value="Delegates.delObject12 : Delegates.Delegate12" Usage="Delegates.delObject12" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate12</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject12_1">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate12 delObject12_1 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate12 delObject12_1" />
+      <MemberSignature Language="F#" Value="Delegates.delObject12_1 : Delegates.Delegate12" Usage="Delegates.delObject12_1" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate12</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject13">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate13 delObject13 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate13 delObject13" />
+      <MemberSignature Language="F#" Value="Delegates.delObject13 : Delegates.Delegate13" Usage="Delegates.delObject13" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate13</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject2">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate2 delObject2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate2 delObject2" />
+      <MemberSignature Language="F#" Value="Delegates.delObject2 : Delegates.Delegate2" Usage="Delegates.delObject2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate2</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject3">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate3 delObject3 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate3 delObject3" />
+      <MemberSignature Language="F#" Value="Delegates.delObject3 : Delegates.Delegate3" Usage="Delegates.delObject3" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate3</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject4">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate4 delObject4 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate4 delObject4" />
+      <MemberSignature Language="F#" Value="Delegates.delObject4 : Delegates.Delegate4" Usage="Delegates.delObject4" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate4</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject5">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate5 delObject5 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate5 delObject5" />
+      <MemberSignature Language="F#" Value="Delegates.delObject5 : Delegates.Delegate5" Usage="Delegates.delObject5" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate5</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject6">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate6 delObject6 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate6 delObject6" />
+      <MemberSignature Language="F#" Value="Delegates.delObject6 : Delegates.Delegate6" Usage="Delegates.delObject6" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate6</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject7">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate7 delObject7 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate7 delObject7" />
+      <MemberSignature Language="F#" Value="Delegates.delObject7 : Delegates.Delegate7" Usage="Delegates.delObject7" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate7</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject8">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate8 delObject8 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate8 delObject8" />
+      <MemberSignature Language="F#" Value="Delegates.delObject8 : Delegates.Delegate8" Usage="Delegates.delObject8" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate8</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="delObject9">
+      <MemberSignature Language="C#" Value="public static Delegates.Delegate9 delObject9 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Delegate9 delObject9" />
+      <MemberSignature Language="F#" Value="Delegates.delObject9 : Delegates.Delegate9" Usage="Delegates.delObject9" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Delegate9</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function1">
+      <MemberSignature Language="C#" Value="public static int function1 (int i, int i2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 function1(int32 i, int32 i2) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function1 : int * int -&gt; int" Usage="Delegates.function1 (i, i2)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="i2" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <param name="i2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function1_">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.FSharpFunc&lt;char,string&gt;&gt; function1_ { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, class Microsoft.FSharp.Core.FSharpFunc`2&lt;char, string&gt;&gt; function1_" />
+      <MemberSignature Language="F#" Value="Delegates.function1_ : int -&gt; char -&gt; string" Usage="Delegates.function1_" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.FSharpFunc&lt;System.Char,System.String&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function10">
+      <MemberSignature Language="C#" Value="public static char function10 (int i, int i2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static char function10(int32 i, int32 i2) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function10 : int -&gt; int -&gt; char" Usage="Delegates.function10 i i2" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="i2" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <param name="i2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function11">
+      <MemberSignature Language="C#" Value="public static void function11 (char c);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function11(char c) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function11 : char -&gt; unit" Usage="Delegates.function11 c" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c" Type="System.Char" />
+      </Parameters>
+      <Docs>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function12">
+      <MemberSignature Language="C#" Value="public static char function12 (Microsoft.FSharp.Core.Unit c);" />
+      <MemberSignature Language="ILAsm" Value=".method public static char function12(class Microsoft.FSharp.Core.Unit c) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function12 : unit -&gt; char" Usage="Delegates.function12 c" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="c" Type="Microsoft.FSharp.Core.Unit" />
+      </Parameters>
+      <Docs>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function12_1">
+      <MemberSignature Language="C#" Value="public static char function12_1 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static char function12_1() cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function12_1 : unit -&gt; char" Usage="Delegates.function12_1 " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function13">
+      <MemberSignature Language="C#" Value="public static double function13 (Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.FSharpFunc&lt;char,Microsoft.FSharp.Core.FSharpFunc&lt;string,decimal&gt;&gt;&gt; intCharStringDecimalFunction);" />
+      <MemberSignature Language="ILAsm" Value=".method public static float64 function13(class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, class Microsoft.FSharp.Core.FSharpFunc`2&lt;char, class Microsoft.FSharp.Core.FSharpFunc`2&lt;string, valuetype System.Decimal&gt;&gt;&gt; intCharStringDecimalFunction) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function13 : (int -&gt; char -&gt; string -&gt; decimal) -&gt; double" Usage="Delegates.function13 intCharStringDecimalFunction" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="intCharStringDecimalFunction" Type="Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.FSharpFunc&lt;System.Char,Microsoft.FSharp.Core.FSharpFunc&lt;System.String,System.Decimal&gt;&gt;&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="intCharStringDecimalFunction">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function2">
+      <MemberSignature Language="C#" Value="public static int function2 (int i, int ch);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 function2(int32 i, int32 ch) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function2 : int -&gt; int -&gt; int" Usage="Delegates.function2 i ch" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="ch" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <param name="ch">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function3">
+      <MemberSignature Language="C#" Value="public static string function3 (int i, char s);" />
+      <MemberSignature Language="ILAsm" Value=".method public static string function3(int32 i, char s) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function3 : int -&gt; char -&gt; string" Usage="Delegates.function3 i s" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="s" Type="System.Char" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <param name="s">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function4">
+      <MemberSignature Language="C#" Value="public static char function4 (int i, int ch);" />
+      <MemberSignature Language="ILAsm" Value=".method public static char function4(int32 i, int32 ch) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function4 : int -&gt; int -&gt; char" Usage="Delegates.function4 i ch" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="ch" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <param name="ch">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function5">
+      <MemberSignature Language="C#" Value="public static string function5 (int i, int i2, char ch);" />
+      <MemberSignature Language="ILAsm" Value=".method public static string function5(int32 i, int32 i2, char ch) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function5 : int -&gt; int -&gt; char -&gt; string" Usage="Delegates.function5 i i2 ch" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="i2" Type="System.Int32" />
+        <Parameter Name="ch" Type="System.Char" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <param name="i2">To be added.</param>
+        <param name="ch">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function6">
+      <MemberSignature Language="C#" Value="public static char function6 (Microsoft.FSharp.Core.FSharpFunc&lt;int,double&gt; intIntFunction);" />
+      <MemberSignature Language="ILAsm" Value=".method public static char function6(class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, float64&gt; intIntFunction) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function6 : (int -&gt; double) -&gt; char" Usage="Delegates.function6 intIntFunction" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="intIntFunction" Type="Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,System.Double&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="intIntFunction">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function7">
+      <MemberSignature Language="C#" Value="public static double function7 (Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.FSharpFunc&lt;char,string&gt;&gt; intCharStringFunction);" />
+      <MemberSignature Language="ILAsm" Value=".method public static float64 function7(class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, class Microsoft.FSharp.Core.FSharpFunc`2&lt;char, string&gt;&gt; intCharStringFunction) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function7 : (int -&gt; char -&gt; string) -&gt; double" Usage="Delegates.function7 intCharStringFunction" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="intCharStringFunction" Type="Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.FSharpFunc&lt;System.Char,System.String&gt;&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="intCharStringFunction">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function8">
+      <MemberSignature Language="C#" Value="public static char function8 (int i);" />
+      <MemberSignature Language="ILAsm" Value=".method public static char function8(int32 i) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function8 : int -&gt; char" Usage="Delegates.function8 i" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="function9">
+      <MemberSignature Language="C#" Value="public static char function9 (int i_0, int i_1);" />
+      <MemberSignature Language="ILAsm" Value=".method public static char function9(int32 i_0, int32 i_1) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.function9 : int * int -&gt; char" Usage="Delegates.function9 (i_0, i_1)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Char</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i_0" Type="System.Int32" />
+        <Parameter Name="i_1" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i_0">To be added.</param>
+        <param name="i_1">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="functionValue">
+      <MemberSignature Language="C#" Value="public static Microsoft.FSharp.Core.FSharpFunc&lt;Tuple&lt;int,char&gt;,string&gt; functionValue { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class Microsoft.FSharp.Core.FSharpFunc`2&lt;class System.Tuple`2&lt;int32, char&gt;, string&gt; functionValue" />
+      <MemberSignature Language="F#" Value="Delegates.functionValue : int * char -&gt; string" Usage="Delegates.functionValue" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Tuple&lt;System.Int32,System.Char&gt;,System.String&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InvokeDelegate1">
+      <MemberSignature Language="C#" Value="public static int InvokeDelegate1 (Delegates.Delegate1 dlg, int a, int b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 InvokeDelegate1(Delegates/Delegate1 dlg, int32 a, int32 b) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.InvokeDelegate1 : Delegates.Delegate1 -&gt; int -&gt; int -&gt; int" Usage="Delegates.InvokeDelegate1 dlg a b" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dlg" Type="Delegates+Delegate1" />
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="dlg">To be added.</param>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InvokeDelegate2">
+      <MemberSignature Language="C#" Value="public static int InvokeDelegate2 (Delegates.Delegate2 dlg, int a, int b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 InvokeDelegate2(Delegates/Delegate2 dlg, int32 a, int32 b) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.InvokeDelegate2 : Delegates.Delegate2 -&gt; int -&gt; int -&gt; int" Usage="Delegates.InvokeDelegate2 dlg a b" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dlg" Type="Delegates+Delegate2" />
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="dlg">To be added.</param>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="replicate">
+      <MemberSignature Language="C#" Value="public static string replicate (int n, char c);" />
+      <MemberSignature Language="ILAsm" Value=".method public static string replicate(int32 n, char c) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.replicate : int -&gt; char -&gt; string" Usage="Delegates.replicate n c" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="n" Type="System.Int32" />
+        <Parameter Name="c" Type="System.Char" />
+      </Parameters>
+      <Docs>
+        <param name="n">To be added.</param>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="replicate'">
+      <MemberSignature Language="C#" Value="public static string replicate' (int n, char c);" />
+      <MemberSignature Language="ILAsm" Value=".method public static string replicate'(int32 n, char c) cil managed" />
+      <MemberSignature Language="F#" Value="Delegates.replicate' : int -&gt; char -&gt; string" Usage="Delegates.replicate' n c" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="n" Type="System.Int32" />
+        <Parameter Name="c" Type="System.Char" />
+      </Parameters>
+      <Docs>
+        <param name="n">To be added.</param>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="stringArray">
+      <MemberSignature Language="C#" Value="public static string[] stringArray { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property string[] stringArray" />
+      <MemberSignature Language="F#" Value="Delegates.stringArray : string[]" Usage="Delegates.stringArray" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String[]</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="testObject">
+      <MemberSignature Language="C#" Value="public static Delegates.Test1 testObject { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property Delegates/Test1 testObject" />
+      <MemberSignature Language="F#" Value="Delegates.testObject : Delegates.Test1" Usage="Delegates.testObject" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.Value)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>Delegates+Test1</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

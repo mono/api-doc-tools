@@ -14,6 +14,10 @@
         {
             
         }
+        public void SomeMethod4(out string a, T t, object b = null)
+        {
+            a = "default";
+        }
         ~SomeGenericClass()
         {
 

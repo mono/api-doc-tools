@@ -135,6 +135,8 @@ namespace Mono.Documentation.Updater
 
         private GenericParameterState genericParameterState = GenericParameterState.None;
 
+        public FSharpFormatter(TypeMap map) : base(map) { }
+
         protected string GetFSharpType(TypeReference type)
         {
             string typeToCompare = type.FullName;
@@ -162,6 +164,8 @@ namespace Mono.Documentation.Updater
 
         protected override StringBuilder AppendTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
         {
+            if (type == null) return buf;
+
             string fSharpType = GetFSharpType(type);
             if (fSharpType != null)
             {
@@ -304,7 +308,7 @@ namespace Mono.Documentation.Updater
             return "class";
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                    type is GenericInstanceType ? type.GetElementType() : type);
@@ -353,9 +357,9 @@ namespace Mono.Documentation.Updater
                         {
                             buf.Append("#");// replace genericParameter which is a flexible type with its constraint type
 #if NEW_CECIL
-                            _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context);
+                            _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context, useTypeProjection:useTypeProjection);
 #else
-                            _AppendTypeName(buf, genericParameter.Constraints[0], context);
+                            _AppendTypeName(buf, genericParameter.Constraints[0], context, useTypeProjection: useTypeProjection);
 #endif
                         }
                         else
@@ -611,7 +615,8 @@ namespace Mono.Documentation.Updater
 
         protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, DynamicParserContext context)
         {
-            return buf;
+            ByReferenceType reftype = type as ByReferenceType;
+            return AppendTypeName(buf, reftype?.ElementType, context);
         }
 
         protected override StringBuilder AppendModifiers(StringBuilder buf, MethodDefinition method)
@@ -969,9 +974,14 @@ namespace Mono.Documentation.Updater
         {
             if (method.IsPublic
                 || method.IsFamily
-                || method.IsFamilyOrAssembly)
+                || method.IsFamilyOrAssembly || IsExplicitlyImplemented(method))
                 return buf.Append("");
             return null;
+        }
+
+        public static bool IsExplicitlyImplemented(MethodDefinition method)
+        {
+            return method != null && method.IsPrivate && method.IsFinal && method.IsVirtual;
         }
 
         private static string GetTypeVisibility(TypeAttributes ta)
@@ -1023,15 +1033,15 @@ namespace Mono.Documentation.Updater
                 }
                 return false;
             }
-            switch (mref)
+            if (mref is MethodDefinition)
             {
-                case MethodDefinition method:
-                    return !(method.HasCustomAttributes && method.CustomAttributes.Any(
-                                 ca => ca.GetDeclaringType() ==
-                                       "System.Diagnostics.Contracts.ContractInvariantMethodAttribute"
-                                       || ca.GetDeclaringType() ==
-                                       Consts.CompilerGeneratedAttribute))
-                            && AppendVisibility(new StringBuilder(), method) != null;
+                MethodDefinition method = (MethodDefinition)mref;
+                return !(method.HasCustomAttributes && method.CustomAttributes.Any(
+                              ca => ca.GetDeclaringType() ==
+                                    "System.Diagnostics.Contracts.ContractInvariantMethodAttribute"
+                                    || ca.GetDeclaringType() ==
+                                    Consts.CompilerGeneratedAttribute))
+                        && AppendVisibility(new StringBuilder(), method) != null;
             }
 
             return true;

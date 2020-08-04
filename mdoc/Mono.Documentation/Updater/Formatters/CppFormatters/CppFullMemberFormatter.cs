@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.UI.HtmlControls;
+using mdoc.Mono.Documentation.Updater;
 using Mono.Cecil;
 using Mono.Collections.Generic;
 using Mono.Documentation.Util;
@@ -21,6 +23,11 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected virtual string HatModifier => " ^";
 
         protected override string NestedTypeSeparator => "::";
+
+        protected override bool ShouldStripModFromTypeName => false;
+
+        public CppFullMemberFormatter() : this(null) {}
+        public CppFullMemberFormatter(TypeMap map) : base(map) { }
 
         protected virtual IEnumerable<string> NoHatTypes => new List<string>()
         {
@@ -134,7 +141,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 AppendGenericTypeConstraints(buf, type);
             }
 
-            CppFullMemberFormatter full = new CppFullMemberFormatter ();
+            CppFullMemberFormatter full = new CppFullMemberFormatter (this.TypeMap);
 
             if (DocUtils.IsDelegate (type))
             {
@@ -391,6 +398,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             
 
             buf.Append(' ');
+
+            if (constructor.IsStatic)
+                buf.Append("static ");
+
             base.AppendTypeName(buf, constructor.DeclaringType.Name);
             AppendParameters(buf, constructor, constructor.Parameters);
             buf.Append(';');
@@ -519,7 +530,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return AppendConstraints (buf, method.GenericParameters);
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                 type is GenericInstanceType ? type.GetElementType() : type);
@@ -563,7 +574,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
 
                     var item = genArgs[argIndex++];
-                    _AppendTypeName(buf, item, context);
+                    _AppendTypeName(buf, item, context, useTypeProjection: useTypeProjection);
                     if (declDef.GenericParameters.All(x => x.FullName != item.FullName))
                     {
                         AppendHat(buf, item, AppendHatOnReturn);
@@ -940,7 +951,17 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     buf.Append(" = ").Append(val);
                 else if (val is IFormattable)
                 {
-                    string value = ((IFormattable)val).ToString (null, CultureInfo.InvariantCulture);
+                    string value = null;
+                    switch (field.FieldType.FullName)
+                    {
+                        case "System.Double":
+                        case "System.Single":
+                            value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture);
+                            break;
+                        default:
+                            value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                            break;
+                    }
                     buf.Append(" = ").Append(value);
                 }
             }
@@ -991,20 +1012,16 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (mref.IsDefinition == false)
                 mref = mref.Resolve() as MemberReference;
             
-            switch (mref)
-            {
-                case FieldDefinition field:
-                    return IsSupportedField(field);
-                case MethodDefinition method:
-                    return IsSupportedMethod(method);
-                case PropertyDefinition property:
-                    return IsSupportedProperty(property);
-                case EventDefinition @event:
-                    return IsSupportedEvent(@event);
-                case AttachedPropertyDefinition _:
-                case AttachedEventDefinition _:
-                    return false;
-            }
+            if (mref is FieldDefinition)
+                return IsSupportedField((FieldDefinition)mref);
+            else if (mref is MethodDefinition)
+                return IsSupportedMethod((MethodDefinition)mref);
+            else if (mref is PropertyDefinition)
+                return IsSupportedProperty((PropertyDefinition)mref);
+            else if (mref is EventDefinition)
+                return IsSupportedEvent((EventDefinition)mref);
+            else if (mref is AttachedPropertyDefinition || mref is AttachedEventDefinition)
+                return false;
 
             throw new NotSupportedException("Unsupported member type: " + mref?.GetType().FullName);
         }

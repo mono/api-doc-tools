@@ -107,7 +107,7 @@ namespace Mono.Documentation.Updater
                     continue;
 
                 MethodDefinition mDef = mi as MethodDefinition;
-                if (mDef != null && !mDef.IsConstructor)
+                if (mDef != null && !mDef.IsConstructor && (mDef.Name.StartsWith("op_Explicit", StringComparison.Ordinal) || mDef.Name.StartsWith("op_Implicit", StringComparison.Ordinal))) 
                 {
                     // Casting operators can overload based on return type.
                     string rtype = GetReplacedString (
@@ -131,10 +131,14 @@ namespace Mono.Documentation.Updater
 
                 if (pcount == 0)
                     return mi;
+                bool isExtensionMethod = DocUtils.IsExtensionMethod(mDef);
                 bool good = true;
                 for (int i = 0; i < pis.Count; i++)
                 {
                     bool isRefType = pis[i].ParameterType is ByReferenceType;
+
+                    if (i == 0 && !isRefType && isExtensionMethod)
+                        isRefType = true; // this will be the case for generic parameter types
 
                     string paramType = GetReplacedString (
                         MDocUpdater.GetDocParameterType (pis[i].ParameterType),
@@ -149,6 +153,7 @@ namespace Mono.Documentation.Updater
 
                     string xmlMemberType = member.Parameters[i];
 
+                    // TODO: take into account extension method reftype
                     bool xmlIsRefType = xmlMemberType.Contains ('&');
                     bool refTypesMatch = isRefType == xmlIsRefType;
 
@@ -336,7 +341,7 @@ namespace Mono.Documentation.Updater
                             var method = ((PropertyDefinition) mr).GetMethod ?? ((PropertyDefinition) mr).SetMethod;
                             if (method?.Overrides != null && method.Overrides.Any())
                             {
-                                DocUtils.GetInfoForExplicitlyImplementedMethod(method, out var iface, out var ifaceMethod);
+                                DocUtils.GetInfoForExplicitlyImplementedMethod(method, out TypeReference iface, out MethodReference ifaceMethod);
                                 var newName = DocUtils.GetMemberForProperty(ifaceMethod.Name);
                                 if (newName == memberName && verifyInterface(mr) && docName.Contains (iface.Name))
                                     yield return mr;

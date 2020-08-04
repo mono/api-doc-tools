@@ -1,0 +1,45 @@
+<Type Name="Interfaces+Interface0" FullName="Interfaces+Interface0">
+  <TypeSignature Language="C#" Value="public interface Interfaces.Interface0" />
+  <TypeSignature Language="ILAsm" Value=".class nested public interface auto ansi abstract serializable Interfaces/Interface0" />
+  <TypeSignature Language="F#" Value="type Interfaces.Interface0 = interface" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Method1">
+      <MemberSignature Language="C#" Value="public int Method1 (int );" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 Method1(int32 ) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Method1 : int -&gt; int" Usage="interface0.Method1 " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

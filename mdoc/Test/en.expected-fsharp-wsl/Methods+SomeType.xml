@@ -1,0 +1,297 @@
+<Type Name="Methods+SomeType" FullName="Methods+SomeType">
+  <TypeSignature Language="C#" Value="public class Methods.SomeType" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable Methods/SomeType extends System.Object" />
+  <TypeSignature Language="F#" Value="type Methods.SomeType = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SomeType (int factor0);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(int32 factor0) cil managed" />
+      <MemberSignature Language="F#" Value="new Methods.SomeType : int -&gt; Methods.SomeType" Usage="new Methods.SomeType factor0" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="factor0" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="factor0">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeMethod">
+      <MemberSignature Language="C#" Value="public int SomeMethod (int a, int b, int c);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 SomeMethod(int32 a, int32 b, int32 c) cil managed" />
+      <MemberSignature Language="F#" Value="member this.SomeMethod : int * int * int -&gt; int" Usage="someType.SomeMethod (a, b, c)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+        <Parameter Name="c" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeOtherMethod">
+      <MemberSignature Language="C#" Value="public int SomeOtherMethod (int a, int b, int c);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 SomeOtherMethod(int32 a, int32 b, int32 c) cil managed" />
+      <MemberSignature Language="F#" Value="member this.SomeOtherMethod : int * int * int -&gt; int" Usage="someType.SomeOtherMethod (a, b, c)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+        <Parameter Name="c" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeOtherMethod2">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.FSharpFunc&lt;Tuple&lt;int,int&gt;,Tuple&lt;int,int&gt;&gt;&gt; SomeOtherMethod2 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, class Microsoft.FSharp.Core.FSharpFunc`2&lt;class System.Tuple`2&lt;int32, int32&gt;, class System.Tuple`2&lt;int32, int32&gt;&gt;&gt; SomeOtherMethod2" />
+      <MemberSignature Language="F#" Value="member this.SomeOtherMethod2 : int -&gt; int * int -&gt; int * int" Usage="Methods.SomeType.SomeOtherMethod2" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.FSharpFunc&lt;System.Tuple&lt;System.Int32,System.Int32&gt;,System.Tuple&lt;System.Int32,System.Int32&gt;&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeOtherMethod3">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpFunc&lt;Tuple&lt;Microsoft.FSharp.Core.FSharpFunc&lt;int,int&gt;,int&gt;,Tuple&lt;int,int&gt;&gt; SomeOtherMethod3 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Core.FSharpFunc`2&lt;class System.Tuple`2&lt;class Microsoft.FSharp.Core.FSharpFunc`2&lt;int32, int32&gt;, int32&gt;, class System.Tuple`2&lt;int32, int32&gt;&gt; SomeOtherMethod3" />
+      <MemberSignature Language="F#" Value="member this.SomeOtherMethod3 : (int -&gt; int) * int -&gt; int * int" Usage="Methods.SomeType.SomeOtherMethod3" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Tuple&lt;Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,System.Int32&gt;,System.Int32&gt;,System.Tuple&lt;System.Int32,System.Int32&gt;&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeOtherStaticMethod">
+      <MemberSignature Language="C#" Value="public static int SomeOtherStaticMethod (int a, int b, int c);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 SomeOtherStaticMethod(int32 a, int32 b, int32 c) cil managed" />
+      <MemberSignature Language="F#" Value="static member SomeOtherStaticMethod : int * int * int -&gt; int" Usage="Methods.SomeType.SomeOtherStaticMethod (a, b, c)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+        <Parameter Name="c" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeOtherStaticMethod2">
+      <MemberSignature Language="C#" Value="public static int SomeOtherStaticMethod2 (int a, int b, int c);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 SomeOtherStaticMethod2(int32 a, int32 b, int32 c) cil managed" />
+      <MemberSignature Language="F#" Value="static member SomeOtherStaticMethod2 : int -&gt; int -&gt; int -&gt; int" Usage="Methods.SomeType.SomeOtherStaticMethod2 a b c" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+        <Parameter Name="c" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeOtherStaticMethod3">
+      <MemberSignature Language="C#" Value="public static int SomeOtherStaticMethod3 (int a, int b, int c, int d);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 SomeOtherStaticMethod3(int32 a, int32 b, int32 c, int32 d) cil managed" />
+      <MemberSignature Language="F#" Value="static member SomeOtherStaticMethod3 : int * int -&gt; int -&gt; int -&gt; int" Usage="Methods.SomeType.SomeOtherStaticMethod3 (a, b) c d" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 2, 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+        <Parameter Name="c" Type="System.Int32" />
+        <Parameter Name="d" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <param name="c">To be added.</param>
+        <param name="d">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SomeStaticMethod">
+      <MemberSignature Language="C#" Value="public static int SomeStaticMethod (int a, int b, int c);" />
+      <MemberSignature Language="ILAsm" Value=".method public static int32 SomeStaticMethod(int32 a, int32 b, int32 c) cil managed" />
+      <MemberSignature Language="F#" Value="static member SomeStaticMethod : int * int * int -&gt; int" Usage="Methods.SomeType.SomeStaticMethod (a, b, c)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="b" Type="System.Int32" />
+        <Parameter Name="c" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <param name="c">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Test">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpFunc&lt;Tuple&lt;int,int,int&gt;,int&gt; Test ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Microsoft.FSharp.Core.FSharpFunc`2&lt;class System.Tuple`3&lt;int32, int32, int32&gt;, int32&gt; Test() cil managed" />
+      <MemberSignature Language="F#" Value="member this.Test : unit -&gt; (int * int * int -&gt; int)" Usage="someType.Test " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Tuple&lt;System.Int32,System.Int32,System.Int32&gt;,System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Test2">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpFunc&lt;Tuple&lt;int,int,int&gt;,int&gt; Test2 ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Microsoft.FSharp.Core.FSharpFunc`2&lt;class System.Tuple`3&lt;int32, int32, int32&gt;, int32&gt; Test2() cil managed" />
+      <MemberSignature Language="F#" Value="member this.Test2 : unit -&gt; (int * int * int -&gt; int)" Usage="someType.Test2 " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Tuple&lt;System.Int32,System.Int32,System.Int32&gt;,System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestRefParam">
+      <MemberSignature Language="C#" Value="public int TestRefParam (Microsoft.FSharp.Core.FSharpRef&lt;int&gt; i);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance int32 TestRefParam(class Microsoft.FSharp.Core.FSharpRef`1&lt;int32&gt; i) cil managed" />
+      <MemberSignature Language="F#" Value="member this.TestRefParam : ref&lt;int&gt; -&gt; int" Usage="someType.TestRefParam i" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="Microsoft.FSharp.Core.FSharpRef&lt;System.Int32&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -9,7 +9,12 @@ namespace Mono.Documentation.Updater
     {
         public override string Language => Consts.DocId;
 
-        private SlashDocMemberFormatter slashDocMemberFormatter = new SlashDocMemberFormatter();
+        private SlashDocMemberFormatter slashDocMemberFormatter;
+
+        public DocIdFormatter(TypeMap map) : base(map)
+        {
+            slashDocMemberFormatter = new SlashDocMemberFormatter(map);
+        }
 
         public override string GetDeclaration (TypeReference tref)
         {

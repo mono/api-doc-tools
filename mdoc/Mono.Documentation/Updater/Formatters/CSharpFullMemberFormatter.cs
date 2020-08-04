@@ -12,6 +12,8 @@ namespace Mono.Documentation.Updater
 {
     public class CSharpFullMemberFormatter : MemberFormatter
     {
+        public CSharpFullMemberFormatter() : this(null) {}
+        public CSharpFullMemberFormatter(TypeMap map) : base(map) { }
 
         public override string Language
         {
@@ -111,6 +113,36 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
+        protected override string GetTypeName(TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        {
+            GenericInstanceType genType = type as GenericInstanceType;
+            if (genType != null)
+            {
+                if (genType.Name.StartsWith("Nullable`") && genType.HasGenericArguments)
+                {
+
+                    var underlyingTypeName = base.GetTypeName(genType.GenericArguments.First(), context, appendGeneric, useTypeProjection);
+                    return underlyingTypeName + "?";
+                }
+
+                if (genType.Name.StartsWith("Tuple`") || genType.Name.StartsWith("ValueTuple`"))
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("(");
+
+                    var genArgList = genType.GenericArguments.Select(genArg => base.GetTypeName(genArg, context, appendGeneric, useTypeProjection)).ToArray();
+
+                    sb.Append(string.Join(",", genArgList));
+
+                    sb.Append(")");
+
+                    return sb.ToString();
+                }
+            }
+
+            return base.GetTypeName(type, context, appendGeneric, useTypeProjection);
+        }
+
         protected override string GetTypeDeclaration (TypeDefinition type)
         {
             string visibility = GetTypeVisibility (type.Attributes);
@@ -122,7 +154,7 @@ namespace Mono.Documentation.Updater
             buf.Append (visibility);
             buf.Append (" ");
 
-            MemberFormatter full = new CSharpFullMemberFormatter ();
+            MemberFormatter full = new CSharpFullMemberFormatter (this.TypeMap);
 
             if (DocUtils.IsDelegate (type))
             {
@@ -280,8 +312,11 @@ namespace Mono.Documentation.Updater
         {
             StringBuilder buf = new StringBuilder ();
             AppendVisibility (buf, constructor);
-            if (buf.Length == 0)
+            if (buf.Length == 0 && !constructor.IsStatic) //Static constructor is needed
                 return null;
+
+            if (constructor.IsStatic)
+                buf.Append(buf.Length == 0 ? "static" : " static");
 
             buf.Append (' ');
             base.AppendTypeName (buf, constructor.DeclaringType.Name).Append (' ');
@@ -306,7 +341,7 @@ namespace Mono.Documentation.Updater
                 TypeReference iface;
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod (method, out iface, out ifaceMethod);
-                return buf.Append (new CSharpMemberFormatter ().GetName (iface))
+                return buf.Append (new CSharpMemberFormatter (this.TypeMap).GetName (iface))
                     .Append ('.')
                     .Append (ifaceMethod.Name);
             }
@@ -514,7 +549,8 @@ namespace Mono.Documentation.Updater
             buf.Append (parameter.Name);
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
-                buf.AppendFormat (" = {0}", MDocUpdater.MakeAttributesValueString (parameter.Constant, parameter.ParameterType));
+                var ReturnVal = MDocUpdater.MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
+                buf.AppendFormat (" = {0}", ReturnVal == "null" ? "default" : ReturnVal);
             }
             return buf;
         }
@@ -568,6 +604,9 @@ namespace Mono.Documentation.Updater
             if (modifiers == " virtual sealed")
                 modifiers = "";
             buf.Append (modifiers).Append (' ');
+
+            if (property.PropertyType.IsByReference)
+                buf.Append("ref ");
 
             buf.Append (GetTypeName (property.PropertyType, new DynamicParserContext (property))).Append (' ');
 

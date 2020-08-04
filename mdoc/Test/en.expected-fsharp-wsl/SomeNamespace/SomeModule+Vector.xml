@@ -1,0 +1,141 @@
+<Type Name="SomeModule+Vector" FullName="SomeNamespace.SomeModule+Vector">
+  <TypeSignature Language="C#" Value="public class SomeModule.Vector" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable SomeModule/Vector extends System.Object" />
+  <TypeSignature Language="F#" Value="type SomeModule.Vector = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Vector (double x, double y);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(float64 x, float64 y) cil managed" />
+      <MemberSignature Language="F#" Value="new SomeNamespace.SomeModule.Vector : double * double -&gt; SomeNamespace.SomeModule.Vector" Usage="new SomeNamespace.SomeModule.Vector (x, y)" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="x" Type="System.Double" />
+        <Parameter Name="y" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Mag">
+      <MemberSignature Language="C#" Value="public double Mag { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 Mag" />
+      <MemberSignature Language="F#" Value="member this.Mag : double" Usage="SomeNamespace.SomeModule.Vector.Mag" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Addition">
+      <MemberSignature Language="C#" Value="public static SomeNamespace.SomeModule.Vector operator + (SomeNamespace.SomeModule.Vector a, SomeNamespace.SomeModule.Vector b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname class SomeNamespace.SomeModule/Vector op_Addition(class SomeNamespace.SomeModule/Vector a, class SomeNamespace.SomeModule/Vector b) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( + ) : SomeNamespace.SomeModule.Vector * SomeNamespace.SomeModule.Vector -&gt; SomeNamespace.SomeModule.Vector" Usage="a + b" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>SomeNamespace.SomeModule+Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="SomeNamespace.SomeModule+Vector" />
+        <Parameter Name="b" Type="SomeNamespace.SomeModule+Vector" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Scale">
+      <MemberSignature Language="C#" Value="public SomeNamespace.SomeModule.Vector Scale (double s);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class SomeNamespace.SomeModule/Vector Scale(float64 s) cil managed" />
+      <MemberSignature Language="F#" Value="member this.Scale : double -&gt; SomeNamespace.SomeModule.Vector" Usage="vector.Scale s" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>SomeNamespace.SomeModule+Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="s" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="s">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="X">
+      <MemberSignature Language="C#" Value="public double X { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 X" />
+      <MemberSignature Language="F#" Value="member this.X : double" Usage="SomeNamespace.SomeModule.Vector.X" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Y">
+      <MemberSignature Language="C#" Value="public double Y { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 Y" />
+      <MemberSignature Language="F#" Value="member this.Y : double" Usage="SomeNamespace.SomeModule.Vector.Y" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

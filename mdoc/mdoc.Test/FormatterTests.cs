@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using mdoc.Test.SampleClasses;
+using Mono.Documentation;
 using Mono.Documentation.Updater;
+using Mono.Documentation.Updater.Formatters.CppFormatters;
 using NUnit.Framework;
 
 namespace mdoc.Test
@@ -160,8 +164,8 @@ namespace mdoc.Test
             TestMod ("SomeFunc3", "public SomeClass** SomeFunc3 (int param);", returnType: "cppcli.SomeClass**");
 
         [Test]
-        public void CSharp_pointerref_modreqparam () =>
-            TestMod ("SomeFunc4", "public int SomeFunc4 (SomeClass** param, int param2);", returnType: "int");
+        public void CSharp_pointerref_modreqparam() =>
+            TestMod("SomeFunc4", "public int SomeFunc4 (SomeClass** param, int param2);", returnType: "int");
 
         [Test]
         public void DoubleMod ()
@@ -180,11 +184,19 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void DoubleMod_Pointer ()
+        public void DoubleMod_Pointer()
         {
             string doubledUp = "System.ValueType modreq(System.DateTime) modopt(System.Runtime.CompilerServices.IsBoxed)*";
-            string result = MemberFormatter.RemoveMod (doubledUp);
-            Assert.AreEqual ("System.ValueType*", result);
+            string result = MemberFormatter.RemoveMod(doubledUp);
+            Assert.AreEqual("System.ValueType*", result);
+        }
+
+        [Test]
+        public void Mod_Ref()
+        {
+            string doubledUp = "System.ValueType& modopt(System.Runtime.CompilerServices.IsBoxed)";
+            string result = MemberFormatter.RemoveMod(doubledUp);
+            Assert.AreEqual("System.ValueType&", result);
         }
 
         [Test]
@@ -194,6 +206,17 @@ namespace mdoc.Test
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual ("public void DoSomethingWithParams (params int[] values);", sig);
         }
+
+        [Test]
+        public void RefProperty()
+        {
+            var member = GetType(typeof(SpanSpecial<>))
+                .Properties.FirstOrDefault(t => t.FullName == "T& mdoc.Test.SpanSpecial`1::Item(System.Int32)");
+            var formatterCsharp = new CSharpFullMemberFormatter();
+            string sig = formatterCsharp.GetDeclaration(member);
+            Assert.AreEqual("public ref T this[int index] { get; }", sig);
+        }
+
         [Test]
         public void IL_RefAndOut ()
         {
@@ -207,6 +230,13 @@ namespace mdoc.Test
             TestMethodSignature(typeof(SomeGenericClass<>),
                 "~SomeGenericClass ();",
                 "Finalize");
+        [Test]
+        public void FuncParams()
+        {
+            var member = GetMethod(typeof(SomeGenericClass<>), m => m.Name == "SomeMethod4");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public void SomeMethod4 (out string a, T t, object b = default);", sig);
+        }
 
         [Test]
         public void CSharpReadonlyRefReturn()
@@ -238,6 +268,110 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, sig);
         }
 
+        [Test]
+        public void CSharpTuple()
+        {
+            var member = GetMethod(typeof(NullablesAndTuples), m => m.Name == "TupleReturn");
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public (int,string) TupleReturn ();", sig);
+        }
+
+        [Test]
+        public void CSharpNullable()
+        {
+            var member = GetMethod(typeof(NullablesAndTuples), m => m.Name == "NullableInt");
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public int? NullableInt ();", sig);
+        }
+
+        [Test]
+        public void PItest()
+        {
+            string sig = "";
+            var member  = GetType(typeof(System.Math)).Fields.FirstOrDefault(t=>t.Name=="PI");
+            BindingFlags flags    = BindingFlags.NonPublic | BindingFlags.Static;
+            BindingFlags flagsPub = BindingFlags.Public | BindingFlags.Static;
+
+            Type type1 = typeof(MDocUpdater);
+            MethodInfo mInfo1 = type1.GetMethod("GetFieldConstValue", flags);
+            Object[] parametors1 = new Object[] { member, sig };
+            mInfo1.Invoke(null, parametors1);
+            sig = (string)parametors1[1];
+            Assert.AreEqual("3.1415926535897931", sig);
+          
+            Type type2 = typeof(ILFullMemberFormatter);
+            sig = "";
+            MethodInfo mInfo2 = type2.GetMethod("AppendFieldValue", flags);
+            Object[] parametors2 = new Object[] { new StringBuilder(), member};
+            sig = mInfo2.Invoke(null, parametors2).ToString();
+            Assert.AreEqual(" = (3.1415926535897931)", sig);
+ 
+            Type type3 = typeof(DocUtils);
+            sig = "";                      
+            MethodInfo mInfo3 = type3.GetMethod("AppendFieldValue", flagsPub);
+            Object[] parametors3 = new Object[] { new StringBuilder(), member };
+            mInfo3.Invoke(null, parametors3);
+            sig = parametors3[0].ToString();
+            Assert.AreEqual(" = 3.1415926535897931", sig);
+ 
+            Type type4 = typeof(CppFullMemberFormatter);
+            sig = "";
+            MethodInfo mInfo4 = type4.GetMethod("AppendFieldValue", flags);
+            Object[] parametors4 = new Object[] { new StringBuilder(), member };
+            sig = mInfo4.Invoke(null, parametors4).ToString();
+            Assert.AreEqual(" = 3.1415926535897931", sig);
+        }
+
+        [Test]
+        public void StaticConstructor()
+        {
+            var member = GetMethod(
+                 GetType(typeof(StaticClass)),
+                 m => m.Name == ".cctor"
+            );
+            var formatter = new CSharpFullMemberFormatter();
+            var sigCsharp = formatter.GetDeclaration(member);
+            Assert.AreEqual("static StaticClass ();", sigCsharp);
+
+            var formatterVB = new VBFullMemberFormatter();
+            var sigVB = formatterVB.GetDeclaration(member);
+            Assert.AreEqual("Shared Sub New ()", sigVB);
+
+            var formatterC = new CppFullMemberFormatter();
+            var sigC = formatterC.GetDeclaration(member);
+            Assert.AreEqual(" static StaticClass();", sigC);
+        }
+
+        [Test]
+        public void MissSignature()
+        {
+            var member1 = GetMethod(typeof(System.IO.FileStream), m => m.FullName == "System.Void System.IO.FileStream::.ctor(System.String,System.IO.FileMode,System.Security.AccessControl.FileSystemRights,System.IO.FileShare,System.Int32,System.IO.FileOptions,System.Security.AccessControl.FileSecurity)"); ;
+            var fomatter1 = new VBMemberFormatter();
+            // Original return null
+            var sig1 = fomatter1.GetDeclaration(member1);
+            Assert.NotNull(sig1);
+
+            var member2 = GetMethod(typeof(TestClassThree), m => m.FullName == "System.Collections.IEnumerator mdoc.Test.SampleClasses.TestClassThree::System.Collections.IEnumerable.GetEnumerator()"); ;
+            var formatter2 = new FSharpFormatter(MDocUpdater.Instance.TypeMap);
+            // Original return null
+            var sig2 = formatter2.GetDeclaration(member2);
+            Assert.NotNull(sig2);
+        }
+        
+        [Test]
+        public void ClassInterface()
+        {
+            // CopyTo :
+            // Orignal return value: "System.Void CopyTo (T[], System.Int32, )
+            var sig = "System.Void CopyTo (System.Collections.Generic.KeyValuePair`2<System.String,mdoc.Test.SampleClasses.TestClassTwo>[], System.Int32, )";
+            var type = GetType(typeof(TestClassThree));
+            var interFaceMembers = GetClassInterface(type);
+            bool flag = interFaceMembers.ContainsKey(sig);
+            Assert.AreEqual(true, flag);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
@@ -246,6 +380,7 @@ namespace mdoc.Test
                 default: return name;
             }
         }
+
 
         void TestConversionOp (string name, string type, string leftType, string rightType) {
             TestOp (name, $"public static {type} operator {leftType} ({rightType} c1);", argCount: 1, returnType: leftType);

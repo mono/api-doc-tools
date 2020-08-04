@@ -26,6 +26,9 @@ namespace Mono.Documentation.Updater
             }
         }
 
+        public ILFullMemberFormatter() : this(null) {}
+        public ILFullMemberFormatter(TypeMap map) : base(map) { }
+
         protected override StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
         {
             if (GetBuiltinType (type.FullName) != null)
@@ -121,7 +124,7 @@ namespace Mono.Documentation.Updater
             IList<TypeReference> constraints = type.Constraints;
             if (constraints.Count > 0)
             {
-                var full = new ILFullMemberFormatter ();
+                var full = new ILFullMemberFormatter (this.TypeMap);
                 buf.Append ("(").Append (full.GetName (constraints[0]));
                 for (int i = 1; i < constraints.Count; ++i)
                 {
@@ -171,7 +174,7 @@ namespace Mono.Documentation.Updater
             MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
             buf.Append (GetName (type));
             MemberFormatterState = state;
-            var full = new ILFullMemberFormatter ();
+            var full = new ILFullMemberFormatter (this.TypeMap);
             if (type.BaseType != null)
             {
                 buf.Append (" extends ");
@@ -220,7 +223,7 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true)
+        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (
                     type is GenericInstanceType ? type.GetElementType () : type);
@@ -374,7 +377,7 @@ namespace Mono.Documentation.Updater
                 TypeReference iface;
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod (method, out iface, out ifaceMethod);
-                return buf.Append (new CSharpMemberFormatter ().GetName (iface))
+                return buf.Append (new CSharpMemberFormatter (this.TypeMap).GetName (iface))
                     .Append ('.')
                     .Append (ifaceMethod.Name);
             }
@@ -576,7 +579,17 @@ namespace Mono.Documentation.Updater
                         .Append (')');
                 else if (val is IFormattable)
                 {
-                    string value = ((IFormattable)val).ToString (null, CultureInfo.InvariantCulture);
+                    string value = null;
+                    switch (field.FieldType.FullName)
+                    {
+                        case "System.Double":
+                        case "System.Single":
+                            value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture);
+                            break;
+                        default:
+                            value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                            break;
+                    }
                     buf.Append (" = ");
                     if (val is string)
                         buf.Append ("\"" + value + "\"");

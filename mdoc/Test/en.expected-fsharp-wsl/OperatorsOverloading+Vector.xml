@@ -1,0 +1,323 @@
+<Type Name="OperatorsOverloading+Vector" FullName="OperatorsOverloading+Vector">
+  <TypeSignature Language="C#" Value="public class OperatorsOverloading.Vector" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable OperatorsOverloading/Vector extends System.Object" />
+  <TypeSignature Language="F#" Value="type OperatorsOverloading.Vector = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Vector (double x, double y);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(float64 x, float64 y) cil managed" />
+      <MemberSignature Language="F#" Value="new OperatorsOverloading.Vector : double * double -&gt; OperatorsOverloading.Vector" Usage="new OperatorsOverloading.Vector (x, y)" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="x" Type="System.Double" />
+        <Parameter Name="y" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Addition">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector operator + (OperatorsOverloading.Vector v, OperatorsOverloading.Vector v2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_Addition(OperatorsOverloading/Vector v, OperatorsOverloading/Vector v2) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( + ) : OperatorsOverloading.Vector * OperatorsOverloading.Vector -&gt; OperatorsOverloading.Vector" Usage="v + v2" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="v" Type="OperatorsOverloading+Vector" />
+        <Parameter Name="v2" Type="OperatorsOverloading+Vector" />
+      </Parameters>
+      <Docs>
+        <param name="v">To be added.</param>
+        <param name="v2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_BarPlusMinusPlus">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector op_BarPlusMinusPlus (int a, OperatorsOverloading.Vector v);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_BarPlusMinusPlus(int32 a, OperatorsOverloading/Vector v) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( |+-+ ) : int * OperatorsOverloading.Vector -&gt; OperatorsOverloading.Vector" Usage="a |+-+ v" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Int32" />
+        <Parameter Name="v" Type="OperatorsOverloading+Vector" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="v">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_DynamicAssignment&lt;f&gt;">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector op_DynamicAssignment&lt;f&gt; (double a, f v, OperatorsOverloading.Vector b);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_DynamicAssignment&lt;f&gt;(float64 a, !!f v, OperatorsOverloading/Vector b) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( ?&lt;- ) : double * 'f * OperatorsOverloading.Vector -&gt; OperatorsOverloading.Vector" Usage="a ?&lt;- v b" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="f" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="a" Type="System.Double" />
+        <Parameter Name="v" Type="f" />
+        <Parameter Name="b" Type="OperatorsOverloading+Vector" />
+      </Parameters>
+      <Docs>
+        <typeparam name="f">To be added.</typeparam>
+        <param name="a">To be added.</param>
+        <param name="v">To be added.</param>
+        <param name="b">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_ExclusiveOr">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector operator ^ (double a, OperatorsOverloading.Vector v);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_ExclusiveOr(float64 a, OperatorsOverloading/Vector v) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( ^^^ ) : double * OperatorsOverloading.Vector -&gt; OperatorsOverloading.Vector" Usage="a ^^^ v" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="a" Type="System.Double" />
+        <Parameter Name="v" Type="OperatorsOverloading+Vector" />
+      </Parameters>
+      <Docs>
+        <param name="a">To be added.</param>
+        <param name="v">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_LogicalNot">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector operator ! (OperatorsOverloading.Vector v);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_LogicalNot(OperatorsOverloading/Vector v) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( ~~~ ) : OperatorsOverloading.Vector -&gt; OperatorsOverloading.Vector" Usage="~~~ v" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="v" Type="OperatorsOverloading+Vector" />
+      </Parameters>
+      <Docs>
+        <param name="v">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Multiply">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector operator * (OperatorsOverloading.Vector v, double a);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_Multiply(OperatorsOverloading/Vector v, float64 a) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( * ) : OperatorsOverloading.Vector * double -&gt; OperatorsOverloading.Vector" Usage="v * a" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="v" Type="OperatorsOverloading+Vector" />
+        <Parameter Name="a" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="v">To be added.</param>
+        <param name="a">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_Range&lt;a,b&gt;">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector op_Range&lt;a,b&gt; (a start, b finish);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_Range&lt;a, b&gt;(!!a start, !!b finish) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( .. ) : 'a * 'b -&gt; OperatorsOverloading.Vector" Usage="start .. finish" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="a" />
+        <TypeParameter Name="b" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="start" Type="a" />
+        <Parameter Name="finish" Type="b" />
+      </Parameters>
+      <Docs>
+        <typeparam name="a">To be added.</typeparam>
+        <typeparam name="b">To be added.</typeparam>
+        <param name="start">To be added.</param>
+        <param name="finish">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_RangeStep&lt;c,d,e&gt;">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector op_RangeStep&lt;c,d,e&gt; (c start, d step, e finish);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_RangeStep&lt;c, d, e&gt;(!!c start, !!d step, !!e finish) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( .. .. ) : 'c * 'd * 'e -&gt; OperatorsOverloading.Vector" Usage="start .. step .. finish" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="c" />
+        <TypeParameter Name="d" />
+        <TypeParameter Name="e" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="start" Type="c" />
+        <Parameter Name="step" Type="d" />
+        <Parameter Name="finish" Type="e" />
+      </Parameters>
+      <Docs>
+        <typeparam name="c">To be added.</typeparam>
+        <typeparam name="d">To be added.</typeparam>
+        <typeparam name="e">To be added.</typeparam>
+        <param name="start">To be added.</param>
+        <param name="step">To be added.</param>
+        <param name="finish">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="op_UnaryNegation">
+      <MemberSignature Language="C#" Value="public static OperatorsOverloading.Vector operator - (OperatorsOverloading.Vector v);" />
+      <MemberSignature Language="ILAsm" Value=".method public static specialname OperatorsOverloading/Vector op_UnaryNegation(OperatorsOverloading/Vector v) cil managed" />
+      <MemberSignature Language="F#" Value="static member ( ~- ) : OperatorsOverloading.Vector -&gt; OperatorsOverloading.Vector" Usage="- v" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>OperatorsOverloading+Vector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="v" Type="OperatorsOverloading+Vector" />
+      </Parameters>
+      <Docs>
+        <param name="v">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ToString">
+      <MemberSignature Language="C#" Value="public override string ToString ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string ToString() cil managed" />
+      <MemberSignature Language="F#" Value="override this.ToString : unit -&gt; string" Usage="vector.ToString " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="x">
+      <MemberSignature Language="C#" Value="public double x { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 x" />
+      <MemberSignature Language="F#" Value="member this.x : double" Usage="OperatorsOverloading.Vector.x" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="y">
+      <MemberSignature Language="C#" Value="public double y { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 y" />
+      <MemberSignature Language="F#" Value="member this.y : double" Usage="OperatorsOverloading.Vector.y" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,25 @@
+<Type Name="MyList&lt;T&gt;+RefDelegate" FullName="Mono.DocTest.Generic.MyList&lt;T&gt;+RefDelegate">
+  <TypeSignature Language="C#" Value="public delegate bool MyList&lt;T&gt;.RefDelegate();" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed MyList`1/RefDelegate&lt;T&gt; extends System.MulticastDelegate" />
+  <TypeSignature Language="DocId" Value="T:Mono.DocTest.Generic.MyList`1.RefDelegate" />
+  <TypeSignature Language="VB.NET" Value="Public Delegate Function MyList(Of T).RefDelegate() As Boolean " />
+  <TypeSignature Language="F#" Value="type MyList&lt;'T&gt;.RefDelegate = delegate of unit -&gt; bool" />
+  <TypeSignature Language="C++ CLI" Value="public: delegate bool MyList&lt;T&gt;::RefDelegate();" />
+  <TypeSignature Language="C++ CX" Value="public: delegate bool MyList&lt;T&gt;::RefDelegate();" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters />
+  <ReturnValue>
+    <ReturnType>System.Boolean</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <summary>To be added.</summary>
+    <returns>To be added.</returns>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>

@@ -37,8 +37,8 @@
       </Docs>
     </Member>
     <Member MemberName="Meth">
-      <MemberSignature Language="C#" Value="public void Meth (int a, string b, int c);" FrameworkAlternate="One;Three;Two" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Meth(int32 a, string b, int32 c) cil managed" FrameworkAlternate="One;Three;Two" />
+      <MemberSignature Language="C#" Value="public void Meth (int a, string b, int c);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Meth(int32 a, string b, int32 c) cil managed" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>DocTest-frameworkalternate-one</AssemblyName>

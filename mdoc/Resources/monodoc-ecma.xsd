@@ -61,7 +61,6 @@ add masterdoc support?
   <xs:element name="AssemblyVersion" type="xs:string" />
   <xs:element name="AssemblyCulture" type="xs:string" />
   <xs:element name="AttributeName" type="xs:string" />
-  <xs:element name="BaseTypeName" type="xs:string" />
   <xs:element name="Excluded" type="xs:string" />
   <xs:element name="ExcludedBaseTypeName" type="xs:string" />
   <xs:element name="ExcludedLibrary" type="xs:string" />
@@ -80,9 +79,33 @@ add masterdoc support?
   <xs:element name="pre" />
   <xs:element name="ReturnType" type="xs:string" />
   <xs:element name="TypeExcluded" type="xs:string" />
-  <xs:element name="InterfaceMember" type="xs:string" />
 
   <!-- define complex elements -->
+  <xs:element name="BaseTypeName">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="FrameworkAlternate" use="optional" />
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="Meta">
+    <xs:complexType>
+      <xs:attribute ref="Name" />
+      <xs:attribute ref="Value" />
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="Metadata">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Meta" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="altcompliant">
     <xs:complexType>
       <xs:attribute ref="cref" />
@@ -398,12 +421,23 @@ add masterdoc support?
     </xs:complexType>
   </xs:element>
 
+  <xs:element name="InterfaceMember">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="FrameworkAlternate" use="optional" />
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  
   <xs:element name="Interface">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="InterfaceName" />
         <xs:element ref="Excluded" minOccurs="0" />
       </xs:sequence>
+      <xs:attribute name="FrameworkAlternate" use="optional" />
     </xs:complexType>
   </xs:element>
 
@@ -485,6 +519,7 @@ add masterdoc support?
   <xs:element name="Member">
     <xs:complexType>
       <xs:sequence>
+        <xs:element ref="Metadata" minOccurs="0" maxOccurs="1" />
         <xs:element ref="MemberSignature" minOccurs="1" maxOccurs="unbounded" />
         <xs:element ref="MemberType" maxOccurs="1" />
         <xs:element ref="Implements" minOccurs="0" maxOccurs="1" />
@@ -889,6 +924,7 @@ add masterdoc support?
   <xs:element name="Type">
     <xs:complexType>
       <xs:choice maxOccurs="unbounded">
+        <xs:element ref="Metadata" minOccurs="0" maxOccurs="1" />
         <xs:element ref="TypeSignature" minOccurs="1" />
         <xs:element ref="MemberOfLibrary" minOccurs="0" />
         <xs:element ref="AssemblyInfo" minOccurs="1" />

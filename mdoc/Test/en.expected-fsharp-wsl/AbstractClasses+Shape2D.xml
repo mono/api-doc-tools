@@ -1,0 +1,167 @@
+<Type Name="AbstractClasses+Shape2D" FullName="AbstractClasses+Shape2D">
+  <TypeSignature Language="C#" Value="public abstract class AbstractClasses.Shape2D" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi abstract serializable AbstractClasses/Shape2D extends System.Object" />
+  <TypeSignature Language="F#" Value="type AbstractClasses.Shape2D = class" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.AbstractClass</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Shape2D (double x0, double y0);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(float64 x0, float64 y0) cil managed" />
+      <MemberSignature Language="F#" Value="new AbstractClasses.Shape2D : double * double -&gt; AbstractClasses.Shape2D" Usage="new AbstractClasses.Shape2D (x0, y0)" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="x0" Type="System.Double" />
+        <Parameter Name="y0" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="x0">To be added.</param>
+        <param name="y0">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Area">
+      <MemberSignature Language="C#" Value="public abstract double Area { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 Area" />
+      <MemberSignature Language="F#" Value="member this.Area : double" Usage="AbstractClasses.Shape2D.Area" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CenterX">
+      <MemberSignature Language="C#" Value="public double CenterX { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 CenterX" />
+      <MemberSignature Language="F#" Value="member this.CenterX : double with get, set" Usage="AbstractClasses.Shape2D.CenterX" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Move">
+      <MemberSignature Language="C#" Value="public void Move (double dx, double dy);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Move(float64 dx, float64 dy) cil managed" />
+      <MemberSignature Language="F#" Value="member this.Move : double -&gt; double -&gt; unit" Usage="shape2D.Move dx dy" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>Microsoft.FSharp.Core.CompilationArgumentCounts(new System.Int32[] { 1, 1 })</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dx" Type="System.Double" />
+        <Parameter Name="dy" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="dx">To be added.</param>
+        <param name="dy">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rotate">
+      <MemberSignature Language="C#" Value="public override void Rotate (double angle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rotate(float64 angle) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Rotate : double -&gt; unit&#xA;override this.Rotate : double -&gt; unit" Usage="shape2D.Rotate angle" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="angle" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="angle">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rotate2">
+      <MemberSignature Language="C#" Value="public abstract void Rotate2 (double );" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rotate2(float64 ) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Rotate2 : double -&gt; unit" Usage="shape2D.Rotate2 " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rotate3">
+      <MemberSignature Language="C#" Value="public Microsoft.FSharp.Core.FSharpFunc&lt;double,Microsoft.FSharp.Core.Unit&gt; Rotate3 { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class Microsoft.FSharp.Core.FSharpFunc`2&lt;float64, class Microsoft.FSharp.Core.Unit&gt; Rotate3" />
+      <MemberSignature Language="F#" Value="member this.Rotate3 : double -&gt; unit" Usage="AbstractClasses.Shape2D.Rotate3" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Double,Microsoft.FSharp.Core.Unit&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

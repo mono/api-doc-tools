@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using Mono.Cecil;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
@@ -13,7 +14,10 @@ namespace Mono.Documentation.Updater.CppFormatters
         protected override string HatModifier => $" const{RefTypeModifier}";
         public override string Language => Consts.CppWinRt;
         protected override string RefTypeModifier => " &";
-        
+
+        public CppWinRtFullMemberFormatter() : this(null) { }
+        public CppWinRtFullMemberFormatter(TypeMap map) : base(map) { }
+
         protected override IList<string> GetAllowedTypes()
         {
             return new List<string>(AllowedFundamentalTypes);
@@ -21,7 +25,7 @@ namespace Mono.Documentation.Updater.CppFormatters
 
         protected override StringBuilder AppendNamespace(StringBuilder buf, TypeReference type)
         {
-            var @namespace=base.AppendNamespace(buf, type);
+            var @namespace = base.AppendNamespace(buf, type);
             if (@namespace.ToString().StartsWith($"Windows{NestedTypeSeparator}"))
             {
                 buf.Insert(0, $"winrt{NestedTypeSeparator}");
@@ -58,8 +62,8 @@ namespace Mono.Documentation.Updater.CppFormatters
                 case "System.Int64": typeToCompare = "long"; break;
                 case "System.UInt16": typeToCompare = "unsigned short"; break;
                 case "System.UInt32": typeToCompare = "unsigned int"; break;
-                case "System.UInt64": typeToCompare = "unsigned long";break;
-                    
+                case "System.UInt64": typeToCompare = "uint64_t"; break;
+
                 case "System.Single": typeToCompare = "float"; break;
                 case "System.Double": typeToCompare = "double"; break;
 
@@ -67,7 +71,7 @@ namespace Mono.Documentation.Updater.CppFormatters
                 case "System.Char": typeToCompare = "char"; break;
                 case "System.Void": typeToCompare = "void"; break;
                 //API specific type is "winrt::hstring"; but c++ in built type is better variant
-                case "System.String": typeToCompare = "std::wstring"; break;
+                case "System.String": typeToCompare = "winrt::hstring"; break;
                 case "System.Object": typeToCompare = "winrt::Windows::Foundation::IInspectable"; break;
             }
 
@@ -80,11 +84,11 @@ namespace Mono.Documentation.Updater.CppFormatters
             return typeToCompare == t ? null : typeToCompare;
         }
 
-        protected override  StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
         {
             if (parameter.ParameterType is ByReferenceType && parameter.IsOut)
             {
-               //no notion of out -> mark with attribute to distinguish in other languages 
+                //no notion of out -> mark with attribute to distinguish in other languages 
                 buf.Append("[Runtime::InteropServices::Out] ");
             }
 
@@ -105,7 +109,7 @@ namespace Mono.Documentation.Updater.CppFormatters
 
             return buf;
         }
-        
+
         protected override string GetTypeKind(TypeDefinition t)
         {
             if (t.IsEnum || t.FullName == "System.Enum")
@@ -145,10 +149,46 @@ namespace Mono.Documentation.Updater.CppFormatters
             return buf;
         }
 
+        protected override string GetPropertyDeclaration(PropertyDefinition property)
+        {
+            var returnType = GetTypeNameWithOptions(property.PropertyType, AppendHatOnReturn);
+            var apiName = property.Name;
+
+            StringBuilder buf = new StringBuilder();
+
+            if (property.GetMethod != null)
+                buf.AppendLine($"{returnType} {apiName}();").AppendLine();
+
+            if (property.SetMethod != null) {
+                string paramName = property.SetMethod.Parameters.First().Name;
+                if (string.IsNullOrWhiteSpace(paramName))
+                    buf.AppendLine($"void {apiName}({returnType});");
+                else
+                    buf.AppendLine($"void {apiName}({returnType} {paramName});");
+            }
+            return buf.ToString().Replace("\r\n", "\n").Trim();
+        }
+
+        protected override string GetEventDeclaration(EventDefinition e)
+        {
+            string apiName = e.Name, typeName = GetTypeNameWithOptions(e.EventType, AppendHatOnReturn);
+
+            StringBuilder buf = new StringBuilder();
+            //if (AppendVisibility(buf, e.AddMethod).Length == 0)
+            buf.AppendLine("// Register");
+            buf.AppendLine($"event_token {apiName}({typeName} const& handler) const;");
+            buf.AppendLine().AppendLine("// Revoke with event_token");
+            buf.AppendLine($"void {apiName}(event_token const* cookie) const;");
+            buf.AppendLine().AppendLine("// Revoke with event_revoker");
+            buf.Append($"{apiName}_revoker {apiName}(auto_revoke_t, {typeName} const& handler) const;");
+
+            return buf.ToString().Replace("\r\n", "\n");
+        }
+
         protected override string GetTypeDeclaration(TypeDefinition type)
         {
             StringBuilder buf = new StringBuilder();
-            
+
             var genericParamList = GetTypeSpecifiGenericParameters(type);
             AppendGenericItem(buf, genericParamList);
             AppendGenericTypeConstraints(buf, type);
@@ -166,7 +206,7 @@ namespace Mono.Documentation.Updater.CppFormatters
             if (type.IsSealed && !DocUtils.IsDelegate(type) && !type.IsValueType)
                 buf.Append(" sealed");
 
-            CppWinRtFullMemberFormatter full = new CppWinRtFullMemberFormatter();
+            CppWinRtFullMemberFormatter full = new CppWinRtFullMemberFormatter(this.TypeMap);
 
             if (!type.IsEnum)
             {
@@ -244,7 +284,7 @@ namespace Mono.Documentation.Updater.CppFormatters
 
         protected override string AppendSealedModifiers(string modifiersString, MethodDefinition method)
         {
-            if (method.IsFinal) modifiersString += " sealed";
+            if (method.IsFinal || (method.IsVirtual & method.IsFamily & IsEII(method))) modifiersString += " sealed";
             if (modifiersString == " virtual sealed") modifiersString = "";
             
             return modifiersString;
@@ -311,14 +351,12 @@ namespace Mono.Documentation.Updater.CppFormatters
 
         public override bool IsSupportedProperty(PropertyDefinition pdef)
         {
-            //properties can be used only in managed context
-            return false;
+            return true;
         }
 
         public override bool IsSupportedEvent(EventDefinition edef)
         {
-            //events can be used only in managed context
-            return false;
+            return true;
         }
 
         public override bool IsSupportedField(FieldDefinition fdef)
@@ -340,6 +378,27 @@ namespace Mono.Documentation.Updater.CppFormatters
             return
                 IsSupported(mdef.ReturnType)
                 && mdef.Parameters.All(i => IsSupported(i.ParameterType));
+        }
+
+        private static bool IsEII(MethodDefinition methdef)
+        {
+            if (methdef != null)
+            {
+                TypeReference iface;
+                MethodReference imethod;
+
+                if (methdef.Overrides.Count == 1)
+                {
+                    DocUtils.GetInfoForExplicitlyImplementedMethod(methdef, out iface, out imethod);
+                    var ifaceRes = iface.Resolve();
+                    if (ifaceRes != null)
+                    {
+                        if (ifaceRes.IsInterface)
+                            return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

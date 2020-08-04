@@ -5,15 +5,56 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
+using System.Xml.XPath;
 using Mono.Cecil;
 using Mono.Collections.Generic;
+using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater
 {
     public static class DocUtils
     {
+
+        public static void AddElementWithFx(FrameworkTypeEntry typeEntry, XmlElement parent, bool isFirst, bool isLast, Lazy<string> allfxstring, Action<XmlElement> clear, Func<XmlElement, XmlElement> findExisting, Func<XmlElement, XmlElement> addItem)
+        {
+            if (typeEntry.TimesProcessed > 1)
+                return;
+
+            if (isFirst)
+            {
+                clear(parent);
+            }
+
+            var item = findExisting(parent);
+
+            if (item == null)
+            {
+                item = addItem(parent);
+            }
+
+            item.AddFrameworkToElement(typeEntry.Framework);
+            
+            if (isLast)
+            {
+                item.ClearFrameworkIfAll(allfxstring.Value);
+            }
+        }
+        public static void ClearFrameworkIfAll(this XmlElement element, string allfxstring)
+        {
+            if (element.HasAttribute(Consts.FrameworkAlternate) && element.GetAttribute(Consts.FrameworkAlternate) == allfxstring)
+            {
+                element.RemoveAttribute(Consts.FrameworkAlternate);
+            }
+        }
+
+        public static void AddFrameworkToElement(this XmlElement element, FrameworkEntry framework)
+        {
+            var fxaValue = FXUtils.AddFXToList(element.GetAttribute(Consts.FrameworkAlternate), framework.Name);
+
+            element.SetAttribute(Consts.FrameworkAlternate, fxaValue);
+        }
+
         public static bool DoesNotHaveApiStyle (this XmlElement element, ApiStyle style)
         {
             string styleString = style.ToString ().ToLowerInvariant ();
@@ -243,6 +284,8 @@ namespace Mono.Documentation.Updater
 
         public static bool IsExtensionMethod (MethodDefinition method)
         {
+            if (method == null) return false;
+
             return
                 method.CustomAttributes
                         .Any (m => m.AttributeType.FullName == "System.Runtime.CompilerServices.ExtensionAttribute")
@@ -257,6 +300,68 @@ namespace Mono.Documentation.Updater
                 return false;
             return !type.IsAbstract && baseRef.FullName == "System.Delegate" || // FIXME
                     baseRef.FullName == "System.MulticastDelegate";
+        }
+
+        public static bool ClearNodesIfNotDefault(XmlNode n, XmlNode incoming, int depth = 0)
+        {
+            if (n is XmlText && n.InnerText == "To Be Added.")
+                return false;
+            else if (n is XmlComment)
+                return false;
+            else
+            {
+                bool removed = true;
+                foreach (var nchild in n.ChildNodes.Cast<XmlNode>().ToArray())
+                {
+                    if (nchild == null) continue;
+
+                    if (nchild is XmlComment || nchild is XmlText || nchild is XmlCDataSection)
+                    {
+                        nchild.ParentNode.RemoveChild(nchild);
+                        removed = true;
+                        continue;
+                    }
+
+                    if (depth == 0)
+                    {
+                        // check the first level children to see if there's an incoming node that matches
+                        var avalues = nchild.Attributes?.Cast<XmlAttribute>().Select(a => $"@{a.Name}='{a.Value}'").ToArray();
+                        var nodexpath = $"./{nchild.Name}";
+                        if (avalues?.Length > 0)
+                            nodexpath += $"[{ string.Join(" and ", avalues) }]";
+
+                        XmlNode incomingEquivalent;
+
+                        try
+                        {
+                            incomingEquivalent = incoming.SelectSingleNode(nodexpath);
+                        }
+                        catch (XPathException xex)
+                        {
+                            throw new MDocException($"xpath error: {nodexpath}. On incoming node {incoming.OuterXml}", xex);
+                        }
+
+                        if (incomingEquivalent != null)
+                        {
+                            nchild.ParentNode.RemoveChild(nchild);
+                            removed = true;
+                        }
+                    }
+                    else if (ClearNodesIfNotDefault(nchild, incoming, depth + 1) && depth == 1)
+                    {
+                        nchild.ParentNode.RemoveChild(nchild);
+                        removed = true;
+                    }
+                    else
+                    {
+                        removed = false;
+                    }
+                }
+                if (removed) return true;
+            }
+
+            return false;
+
         }
 
         public static bool NeedsOverwrite(XmlElement element)
@@ -291,8 +396,8 @@ namespace Mono.Documentation.Updater
         {
             bool IEqualityComparer<TypeReference>.Equals (TypeReference x, TypeReference y)
             {
-                if (x is null && y is null) return true;
-                if (x is null || y is null) return false;
+                if (x == null && y == null) return true;
+                if (x == null || y == null) return false;
                 return x.FullName == y.FullName;
             }
 
@@ -312,7 +417,7 @@ namespace Mono.Documentation.Updater
 
         private static IEnumerable<TypeReference> GetAllInterfacesFromType(TypeDefinition type)
         {
-            if (type is null)
+            if (type == null)
                 yield break;
 
             foreach(var i in type.Interfaces)
@@ -327,13 +432,23 @@ namespace Mono.Documentation.Updater
 
         public static IEnumerable<TypeReference> GetUserImplementedInterfaces (TypeDefinition type)
         {
+            if (!type.HasInterfaces)
+                return new TypeReference[0];
+
+            if (!Consts.CollapseInheritedInterfaces)
+                return type.Interfaces.Select(i=> i.InterfaceType.Resolve()).Where(i => IsPublic (i));
+
             HashSet<string> inheritedInterfaces = GetInheritedInterfaces (type);
+
             List<TypeReference> userInterfaces = new List<TypeReference> ();
             foreach (var ii in type.Interfaces)
             {
                 var iface = ii.InterfaceType;
                 TypeReference lookup = iface.Resolve () ?? iface;
-                if (!inheritedInterfaces.Contains (GetQualifiedTypeName (lookup)))
+
+                var iname = GetQualifiedTypeName(lookup);
+
+                if (!inheritedInterfaces.Contains (iname))
                     userInterfaces.Add (iface);
             }
             return userInterfaces.Where (i => IsPublic (i.Resolve ()));
@@ -346,14 +461,17 @@ namespace Mono.Documentation.Updater
 
         private static HashSet<string> GetInheritedInterfaces (TypeDefinition type)
         {
+
             HashSet<string> inheritedInterfaces = new HashSet<string> ();
+
             Action<TypeDefinition> a = null;
             a = t =>
             {
                 if (t == null) return;
                 foreach (var r in t.Interfaces)
                 {
-                    inheritedInterfaces.Add (GetQualifiedTypeName (r.InterfaceType));
+                    var iname = GetQualifiedTypeName(r.InterfaceType);
+                    inheritedInterfaces.Add (iname);
                     a (r.InterfaceType.Resolve ());
                 }
             };
@@ -397,7 +515,17 @@ namespace Mono.Documentation.Updater
                     buf.Append(" = ").Append(val.ToString());
                 else if (val is IFormattable)
                 {
-                    string value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                    string value = null;
+                    switch (field.FieldType.FullName)
+                    {
+                        case "System.Double":                          
+                        case "System.Single":
+                            value = ((IFormattable)val).ToString("R", CultureInfo.InvariantCulture);
+                            break;
+                        default:
+                            value = ((IFormattable)val).ToString(null, CultureInfo.InvariantCulture);
+                            break;
+                    }
                     if (val is string)
                         value = "\"" + value + "\"";
                     buf.Append(" = ").Append(value);
@@ -510,26 +638,29 @@ namespace Mono.Documentation.Updater
             FillUnifiedMemberTypeNames(unifiedTypeNames, memberReference as IGenericParameterProvider);// Fill the member generic parameters unified names as M0, M1....
             FillUnifiedTypeNames(unifiedTypeNames, memberReference.DeclaringType, genericInterface);// Fill the type generic parameters unified names as T0, T1....
 
-            switch (memberReference)
+            if (memberReference is IMethodSignature)
             {
-                case IMethodSignature methodSignature:
-                    buf.Append(GetUnifiedTypeName(methodSignature.ReturnType, unifiedTypeNames)).Append(" ");
-                    buf.Append(SimplifyName(memberReference.Name)).Append(" ");
-                    AppendParameters(buf, methodSignature.Parameters, unifiedTypeNames);
-                    break;
-                case PropertyDefinition propertyReference:
-                    buf.Append(GetUnifiedTypeName(propertyReference.PropertyType, unifiedTypeNames)).Append(" ");
-                    if (propertyReference.GetMethod != null)
-                        buf.Append("get").Append(" ");
-                    if (propertyReference.SetMethod != null)
-                        buf.Append("set").Append(" ");
-                    buf.Append(SimplifyName(memberReference.Name)).Append(" ");
-                    AppendParameters(buf, propertyReference.Parameters, unifiedTypeNames);
-                    break;
-                case EventDefinition eventReference:
-                    buf.Append(GetUnifiedTypeName(eventReference.EventType, unifiedTypeNames)).Append(" ");
-                    buf.Append(SimplifyName(memberReference.Name)).Append(" ");
-                    break;
+                IMethodSignature methodSignature = (IMethodSignature)memberReference;
+                buf.Append(GetUnifiedTypeName(methodSignature.ReturnType, unifiedTypeNames)).Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
+                AppendParameters(buf, methodSignature.Parameters, unifiedTypeNames);
+            }
+            if (memberReference is PropertyDefinition)
+            {
+                PropertyDefinition propertyReference = (PropertyDefinition)memberReference;
+                buf.Append(GetUnifiedTypeName(propertyReference.PropertyType, unifiedTypeNames)).Append(" ");
+                if (propertyReference.GetMethod != null)
+                    buf.Append("get").Append(" ");
+                if (propertyReference.SetMethod != null)
+                    buf.Append("set").Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
+                AppendParameters(buf, propertyReference.Parameters, unifiedTypeNames);
+            }
+            if (memberReference is EventDefinition)
+            {
+                EventDefinition eventReference = (EventDefinition)memberReference;
+                buf.Append(GetUnifiedTypeName(eventReference.EventType, unifiedTypeNames)).Append(" ");
+                buf.Append(SimplifyName(memberReference.Name)).Append(" ");
             }
             
             var memberUnifiedTypeNames = new Dictionary<string, string>();
@@ -625,7 +756,23 @@ namespace Mono.Documentation.Updater
 
             return genericTypes.ContainsKey(type.Name)
                 ? genericTypes[type.Name]
-                : type.FullName;
+                : SpecialTypesChk(type, genericTypes);
+        }
+
+        private static string SpecialTypesChk(TypeReference type, Dictionary<string, string> genericTypes)
+        {
+            if (type.IsArray)
+            {
+                var elements = type.GetElementType();
+                if (elements != null && elements.IsGenericParameter && genericTypes.ContainsKey(elements.Name))
+                    return type.FullName.Replace(elements.Name, genericTypes[elements.Name]);
+                else
+                {
+                    return type.FullName;
+                }
+            }
+            else
+                return type.FullName;
         }
 
         public static string GetExplicitTypeName(MemberReference memberReference)
@@ -651,14 +798,20 @@ namespace Mono.Documentation.Updater
         /// </summary>
         private static Collection<MethodReference> GetOverrides(MemberReference memberReference)
         {
-            switch (memberReference)
+            if (memberReference is MethodDefinition)
             {
-                case MethodDefinition methodDefinition:
-                    return methodDefinition.Overrides;
-                case PropertyDefinition propertyDefinition:
-                    return (propertyDefinition.GetMethod ?? propertyDefinition.SetMethod)?.Overrides;
-                case EventDefinition evendDefinition:
-                    return evendDefinition.AddMethod.Overrides;
+                MethodDefinition methodDefinition = (MethodDefinition)memberReference;
+                return methodDefinition.Overrides;
+            }
+            if (memberReference is PropertyDefinition)
+            {
+                PropertyDefinition propertyDefinition = (PropertyDefinition)memberReference;
+                return (propertyDefinition.GetMethod ?? propertyDefinition.SetMethod)?.Overrides;
+            }
+            if (memberReference is EventDefinition)
+            {
+                EventDefinition evendDefinition = (EventDefinition)memberReference;
+                return evendDefinition.AddMethod.Overrides;
             }
 
             return null;
@@ -675,6 +828,45 @@ namespace Mono.Documentation.Updater
         public static bool IsOperator(MethodReference method)
         {
             return method.Name.StartsWith("op_", StringComparison.Ordinal);
+        }
+
+        public static bool DocIdCheck(XmlNode a, XmlElement b)
+        {
+            if (b.LocalName != "Member" || a.LocalName != "Member")
+                return false;
+
+            var oldMembersDocid = b.SelectSingleNode("MemberSignature[@Language='DocId']/@Value")?.Value;
+            var seenNembersDocid = a.SelectSingleNode("MemberSignature[@Language='DocId']/@Value")?.Value;
+
+            if (oldMembersDocid != null && seenNembersDocid != null)
+            {
+                if (!seenNembersDocid.Equals(oldMembersDocid))
+                    return true;
+            }
+
+            return false;
+        }
+
+        // For some types, the generic parameters resolved by mono declared by their declaring type
+        // This method will return the generic parameters declared by type itself
+        public static List<GenericParameter> GetGenericParameters(TypeDefinition type)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            var genericParameters = new List<GenericParameter>(type.GenericParameters);
+            List<TypeReference> declTypes = GetDeclaringTypes(type);
+            int maxGenArgs = GetGenericArgumentCount(type);
+            
+            for (int i = 0; i < declTypes.Count - 1; ++i)
+            {
+                int remove = System.Math.Min(maxGenArgs,
+                        GetGenericArgumentCount(declTypes[i]));
+                maxGenArgs -= remove;
+                while (remove-- > 0)
+                    genericParameters.RemoveAt(0);
+            }
+            return genericParameters;
         }
     }
 }

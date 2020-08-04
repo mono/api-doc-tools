@@ -23,7 +23,7 @@
     <Member MemberName="StringField">
       <MemberSignature Language="C#" Value="public string StringField;" />
       <MemberSignature Language="ILAsm" Value=".field public string StringField" />
-      <MemberSignature Language="C++ WINRT" Value="std::wstring StringField;" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::hstring StringField;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>

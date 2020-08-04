@@ -67,13 +67,31 @@ namespace Mono.Documentation.Updater.Frameworks
             return lastListed.Name == this.Name;
         }
 
-        public bool IsLastFrameworkForType(FrameworkTypeEntry typeEntry)
+        public bool IsLastFrameworkForType (FrameworkTypeEntry typeEntry)
         {
             if (this == Empty) return true;
 
-            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null).ToArray();
+            var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null).ToArray ();
 
             if (!fxlist.Any ()) return false;
+
+            var lastListed = fxlist.Last ();
+            return lastListed.Name == this.Name;
+        }
+
+        public bool IsLastFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig, string docidsig)
+        {
+            if (this == Empty) return true;
+
+            var fxlist = this.allcachedframeworks.Where (f => {
+                var fxType = f.FindTypeEntry (typeEntry);
+                if (fxType == null) return false;
+
+                return fxType.ContainsCSharpSig (memberSig) || fxType.ContainsDocId(docidsig);
+            }).ToArray ();
+
+            if (!fxlist.Any ()) 
+                return false;
 
             var lastListed = fxlist.Last ();
             return lastListed.Name == this.Name;
@@ -93,6 +111,24 @@ namespace Mono.Documentation.Updater.Frameworks
 
             var fxlist = this.allcachedframeworks.Where (f => f.FindTypeEntry (typeEntry) != null);
             return string.Join (";", fxlist.Select (f => f.Name).ToArray ());
+        }
+
+        public string AllFrameworksWithMember (FrameworkTypeEntry typeEntry, string memberSig, string memberDocId)
+        {
+            return AllFrameworksThatMatch ((fx) =>
+             {
+                 var fxtype = fx.FindTypeEntry (typeEntry);
+                 if (fxtype == null) return false;
+                 return fxtype.ContainsCSharpSig (memberSig) || fxtype.ContainsDocId (memberDocId);
+             });
+        }
+
+        public string AllFrameworksThatMatch(Func<FrameworkEntry, bool> clause)
+        {
+            if (this == Empty) return this.Name;
+
+            var fxlist = this.allcachedframeworks.Where(clause).ToArray();
+            return string.Join(";", fxlist.Select(f => f.Name).ToArray());
         }
 
         string _allFxString = "";
@@ -130,14 +166,29 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		/// <summary>Gets a value indicating whether this <see cref="T:Mono.Documentation.Updater.Frameworks.FrameworkEntry"/> is first framework being processed.</summary>
 		public bool IsFirstFramework { 
-            get => this.Index == 0; 
+            get => this.Index == 0;
         }
 
-        public bool IsFirstFrameworkForType(FrameworkTypeEntry typeEntry)
+        public bool IsFirstFrameworkForType (FrameworkTypeEntry typeEntry)
         {
             if (this == Empty) return true;
 
-            var firstFx = this.allcachedframeworks.FirstOrDefault(f => f.FindTypeEntry(typeEntry) != null);
+            var firstFx = this.allcachedframeworks.FirstOrDefault (f => f.FindTypeEntry (typeEntry) != null);
+
+            return firstFx == null || firstFx.Name == this.Name;
+        }
+
+        public bool IsFirstFrameworkForMember (FrameworkTypeEntry typeEntry, string memberSig, string docidsig)
+        {
+            if (this == Empty) return true;
+
+            var firstFx = this.allcachedframeworks.FirstOrDefault (f =>
+            {
+                var fxType = f.FindTypeEntry (typeEntry);
+                if (fxType == null) return false;
+
+                return fxType.ContainsCSharpSig (memberSig) || fxType.ContainsDocId (docidsig);
+            });
 
             return firstFx == null || firstFx.Name == this.Name;
         }
@@ -169,7 +220,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
 		public static readonly FrameworkEntry Empty = new EmptyFrameworkEntry () { Name = "Empty" };
 
-		public virtual FrameworkTypeEntry ProcessType (TypeDefinition type)
+		public virtual FrameworkTypeEntry ProcessType (TypeDefinition type, AssemblyDefinition source)
 		{
             FrameworkTypeEntry entry;
 
@@ -182,6 +233,9 @@ namespace Mono.Documentation.Updater.Frameworks
 
                 typeMap.Add (Str (entry.Name), entry);
             }
+            entry.NoteAssembly(type.Module.Assembly, source);
+            entry.NoteAssembly(source, source);
+            entry.TimesProcessed++;
             return entry;
         }
 
@@ -207,7 +261,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		class EmptyFrameworkEntry : FrameworkEntry
 		{
 			public EmptyFrameworkEntry () : base (null, 1, null) { }
-			public override FrameworkTypeEntry ProcessType (TypeDefinition type) { return FrameworkTypeEntry.Empty; }
+			public override FrameworkTypeEntry ProcessType (TypeDefinition type, AssemblyDefinition source) { return FrameworkTypeEntry.Empty; }
 
 
 		}

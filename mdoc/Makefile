@@ -4,6 +4,7 @@ MONO = mono
 CSCOMPILE = mcs
 VBCOMPILE = vbnc
 TEST_CSCFLAGS = -target:library
+ENVIRONMENT = notwsl#use 'wsl' when running on wsl
 
 MDOC_COMMON_FLAGS = \
 	/resource:../../class/monodoc/Resources/mdoc-html-format.xsl,mdoc-html-format.xsl    \
@@ -46,10 +47,11 @@ EXTRA_DISTFILES = \
 MULTI-CLASSIC = Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll
 MULTI-UNIFIED = Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll
 
-DIFF = diff -rup
+DIFF = diff -rup 
 DIFF_QUIET = diff --brief
-ifeq ($(PLATFORM), win32)
-DIFF = diff -rupZ
+
+ifeq ($(ENVIRONMENT),wsl)
+DIFF = diff -rup -Z
 DIFF_QUIET = diff --brief -Z
 endif
 
@@ -115,6 +117,9 @@ Test/DocTest-framework-inheritance-one.dll:
 Test/DocTest-framework-inheritance-two.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-framework-inheritance.cs /define:FXTWO
 
+Test/DocTest-framework-inheritance-three.dll:
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-framework-inheritance.cs /define:FXTHREE
+
 Test/DocTest.dll-v1: 
 	-rm -f Test/DocTest.cs
 	cp Test/DocTest-v1.cs Test/DocTest.cs
@@ -124,7 +129,7 @@ Test/DocTest.dll-v1:
 Test/DocTest.dll-v2: 
 	-rm -f Test/DocTest.cs
 	cp Test/DocTest-v1.cs Test/DocTest.cs
-	cd Test && patch -p0 < DocTest-v2.patch
+	cd Test && patch -p0 --binary < DocTest-v2.patch
 	-rm -f Test/DocTest.dll
 	$(MAKE) Test/DocTest.dll
 
@@ -145,6 +150,32 @@ Test/DocTest-typeForwards-Second.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Second-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:SECOND
 
+.PHONY: Test/DocTest-typeForwards-Third.dll
+Test/DocTest-typeForwards-Third.dll:
+	rm -f $@
+	rm -f Test/DocTest-typeForwards-Third-First.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Third-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:THIRD
+
+# build test dll to test forwardings nested type
+Test/DocTest-nestedType-typeForwards-First.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-nestedType-typeForwards.cs /define:FIRST
+
+.PHONY: Test/DocTest-nestedType-typeForwards-Second.dll
+Test/DocTest-nestedType-typeForwards-Second.dll:
+	rm -f $@
+	rm -f Test/DocTest-nestedType-typeForwards-Second-First.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-nestedType-typeForwards.cs /define:FIRST
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-nestedType-typeForwards-Second-First.dll /reference:$@ Test/DocTest-nestedType-typeForwards.cs /define:SECOND
+
+.PHONY: Test/DocTest-nestedType-typeForwards-Third.dll
+Test/DocTest-nestedType-typeForwards-Third.dll:
+	rm -f $@
+	rm -f Test/DocTest-nestedType-typeForwards-Third-First.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-nestedType-typeForwards.cs /define:FIRST
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-nestedType-typeForwards-Third-First.dll /reference:$@ Test/DocTest-nestedType-typeForwards.cs /define:THIRD
+
 .PHONY: Test/FrameworkTestData
 Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll
 	rm -rf Test/FrameworkTestData
@@ -157,35 +188,83 @@ Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-class
 	cp Test/DocTest-DropNS-classic-secondary.dll Test/FrameworkTestData/Two/
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData
 
-Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dll Test/DocTest-framework-inheritance-two.dll
+Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dll Test/DocTest-framework-inheritance-two.dll Test/DocTest-framework-inheritance-three.dll
 	rm -rf Test/FrameworkTestData-fx-inheritance
 	mkdir Test/FrameworkTestData-fx-inheritance
 	mkdir Test/FrameworkTestData-fx-inheritance/One
 	mkdir Test/FrameworkTestData-fx-inheritance/Two
+	mkdir Test/FrameworkTestData-fx-inheritance/Three
 	cp Test/DocTest-framework-inheritance-one.dll Test/FrameworkTestData-fx-inheritance/One/
 	cp Test/DocTest-framework-inheritance-two.dll Test/FrameworkTestData-fx-inheritance/Two/
+	cp Test/DocTest-framework-inheritance-three.dll Test/FrameworkTestData-fx-inheritance/Three/
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-inheritance
 
 .PHONY: check-monodocer-typeForwards
-check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll
+check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll Test/DocTest-typeForwards-Third.dll
 	-rm -Rf Test/en.actual
 
 	# set up the fx test data
+	# all frameworks One, Two, Three should have the type forwarding from DocTest-typeForwards-Second-First to DocTest-typeForwards-Second \
+	# so in xml should find no "FrameworkAlternate" attribute  for this forwarding, the attribute  is removed as expected since it is full frameworks list
+	# frameworks Two and Three should have the type forwarding from DocTest-typeForwards-Third-First to DocTest-typeForwards-third \
+	# in xml we should see FrameworkAlternate="Three;Two"
 	-rm -Rf Test/FrameworkTestData-fx-typeForwards
 	mkdir Test/FrameworkTestData-fx-typeForwards
 	mkdir Test/FrameworkTestData-fx-typeForwards/One
 	mkdir Test/FrameworkTestData-fx-typeForwards/Two
+	mkdir Test/FrameworkTestData-fx-typeForwards/Three
 	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies
+	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/One
 	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/Two
+	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/Three
 	cp Test/DocTest-typeForwards-First.dll Test/FrameworkTestData-fx-typeForwards/One
+	cp Test/DocTest-typeForwards-Second-First.dll Test/FrameworkTestData-fx-typeForwards/One
+	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/One
 	cp Test/DocTest-typeForwards-Second-First.dll Test/FrameworkTestData-fx-typeForwards/Two
+	cp Test/DocTest-typeForwards-Third-First.dll Test/FrameworkTestData-fx-typeForwards/Two
 	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Two
+	cp Test/DocTest-typeForwards-Third.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Two
+	cp Test/DocTest-typeForwards-Second-First.dll Test/FrameworkTestData-fx-typeForwards/Three
+	cp Test/DocTest-typeForwards-Third-First.dll Test/FrameworkTestData-fx-typeForwards/Three
+	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
+	cp Test/DocTest-typeForwards-Third.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-typeForwards
 
 	# now run mdoc update
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-typeForwards
 	$(DIFF) Test/en.expected.typeForwards Test/en.actual
 
+.PHONY: check-monodocer-nestedType-typeForwards
+check-monodocer-nestedType-typeForwards : Test/DocTest-nestedType-typeForwards-First.dll Test/DocTest-nestedType-typeForwards-Second.dll Test/DocTest-nestedType-typeForwards-Third.dll
+	-rm -Rf Test/en.actual
+
+	# set up the fx test data
+	-rm -Rf Test/FrameworkTestData-fx-nestedType-typeForwards
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/One
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/Two
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/Three
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/One
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Two
+	mkdir Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
+	cp Test/DocTest-nestedType-typeForwards-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/One
+	cp Test/DocTest-nestedType-typeForwards-Second-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/One
+	cp Test/DocTest-nestedType-typeForwards-Second.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/One
+	cp Test/DocTest-nestedType-typeForwards-Second-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Two
+	cp Test/DocTest-nestedType-typeForwards-Third-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Two
+	cp Test/DocTest-nestedType-typeForwards-Second.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Two
+	cp Test/DocTest-nestedType-typeForwards-Third.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Two
+	cp Test/DocTest-nestedType-typeForwards-Second-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Three
+	cp Test/DocTest-nestedType-typeForwards-Third-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Three
+	cp Test/DocTest-nestedType-typeForwards-Second.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
+	cp Test/DocTest-nestedType-typeForwards-Third.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-nestedType-typeForwards
+
+	# now run mdoc update
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-nestedType-typeForwards
+	$(DIFF) Test/en.expected-nestedType.typeForwards Test/en.actual
+	
 check-monodocer-frameworks: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData
@@ -540,7 +619,12 @@ check-monodocer-fsharp:
 	-rm -Rf Test/en.actual
 	msbuild ../mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
 	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
+
+ifeq ($(ENVIRONMENT), wsl)
+	$(DIFF) Test/en.expected-fsharp-wsl Test/en.actual
+else
 	$(DIFF) Test/en.expected-fsharp Test/en.actual
+endif
 
 check-monodocer-members-implementation:
 	-rm -Rf Test/en.actual
@@ -744,6 +828,7 @@ run-test-update : check-doc-tools-update
 
 check-doc-tools:  \
 	check-monodocer-typeForwards \
+	check-monodocer-nestedType-typeForwards \
 	check-monodocer-Eii-importslashdoc \
 	check-monodocer-Eii-importecmadoc-oldNames \
 	check-monodocer-Eii \

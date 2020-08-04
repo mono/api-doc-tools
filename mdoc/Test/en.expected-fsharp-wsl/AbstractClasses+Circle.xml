@@ -1,0 +1,122 @@
+<Type Name="AbstractClasses+Circle" FullName="AbstractClasses+Circle">
+  <TypeSignature Language="C#" Value="public class AbstractClasses.Circle : AbstractClasses.Shape2D" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable AbstractClasses/Circle extends ctClasses/Shape2D" />
+  <TypeSignature Language="F#" Value="type AbstractClasses.Circle = class&#xA;    inherit AbstractClasses.Shape2D" />
+  <AssemblyInfo>
+    <AssemblyName>mdoc.Test.FSharp</AssemblyName>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>AbstractClasses+Shape2D</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>Microsoft.FSharp.Core.CompilationMapping(Microsoft.FSharp.Core.SourceConstructFlags.ObjectType)</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Serializable</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public Circle (double x, double y, double radius);" />
+      <MemberSignature Language="ILAsm" Value=".method public specialname rtspecialname instance void .ctor(float64 x, float64 y, float64 radius) cil managed" />
+      <MemberSignature Language="F#" Value="new AbstractClasses.Circle : double * double * double -&gt; AbstractClasses.Circle" Usage="new AbstractClasses.Circle (x, y, radius)" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="x" Type="System.Double" />
+        <Parameter Name="y" Type="System.Double" />
+        <Parameter Name="radius" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="x">To be added.</param>
+        <param name="y">To be added.</param>
+        <param name="radius">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Area">
+      <MemberSignature Language="C#" Value="public override double Area { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 Area" />
+      <MemberSignature Language="F#" Value="member this.Area : double" Usage="AbstractClasses.Circle.Area" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Radius">
+      <MemberSignature Language="C#" Value="public double Radius { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 Radius" />
+      <MemberSignature Language="F#" Value="member this.Radius : double" Usage="AbstractClasses.Circle.Radius" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rotate">
+      <MemberSignature Language="C#" Value="public override void Rotate (double _arg1);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rotate(float64 _arg1) cil managed" />
+      <MemberSignature Language="F#" Value="override this.Rotate : double -&gt; unit" Usage="circle.Rotate _arg1" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="_arg1" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="_arg1">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rotate2">
+      <MemberSignature Language="C#" Value="public override void Rotate2 (double angle);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rotate2(float64 angle) cil managed" />
+      <MemberSignature Language="F#" Value="override this.Rotate2 : double -&gt; unit" Usage="circle.Rotate2 angle" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="angle" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="angle">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -103,7 +103,7 @@
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Resize&lt;T&gt;(!!T[]&amp; array, int32 newSize) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Array.Resize``1(``0[]@,System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Public Shared Sub Resize(Of T) (ByRef array As T(), newSize As Integer)" />
-      <MemberSignature Language="F#" Value="static member Resize :  * int -&gt; unit" Usage="System.Array.Resize (array, newSize)" />
+      <MemberSignature Language="F#" Value="static member Resize : T[] * int -&gt; unit" Usage="System.Array.Resize (array, newSize)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; static void Resize(cli::array &lt;T&gt; ^ % array, int newSize);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename T&gt;&#xA; static void Resize(Platform::Array &lt;T&gt; ^ &amp;  array, int newSize);" />
       <MemberSignature Language="C++ WINRT" Value="template &lt;typename T&gt;&#xA; static void Resize(std::Array &lt;T&gt; const &amp; &amp; array, int newSize);" />

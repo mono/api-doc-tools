@@ -8,6 +8,7 @@ using Mono.Cecil;
 using System.Collections.Generic;
 using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Updater;
+using System.Runtime.InteropServices;
 
 namespace mdoc.Test
 {
@@ -184,7 +185,7 @@ namespace mdoc.Test
 
             foreach (var it in fx.Frameworks)
             {
-                var t = it.ProcessType(theType);
+                var t = it.ProcessType(theType, theType.Module.Assembly);
                 foreach(var m in theType.Methods)
                 {
                     t.ProcessMember(m);
@@ -337,115 +338,6 @@ namespace mdoc.Test
             Assert.IsTrue(afterXML.Contains("param name=\"C\""), "missing 'C'");
         }
         #endregion
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_Align ()
-        {
-            var context = InitContext <MyClass>(SigmultiFrameworkXml, 0, forceAlignment: true);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First ();
-
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered:false);
-
-            var afterXML = context.doc.OuterXml;
-            // first framework looks like it already looked, so no need to update
-            Assert.AreEqual (Normalize (SigmultiFrameworkXml), Normalize (afterXML));
-
-        }
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_Align2 ()
-        {
-            var context = InitContext <MyClass>(SigmultiFrameworkXml, 2, forceAlignment: true);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
-
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: false);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigmultiFrameworkAligned), Normalize (afterXML));
-
-        }
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_NoChange ()
-        {
-            var context = InitContext <MyClass>(SigmultiFrameworkXml, 2, forceAlignment: false);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[2].Types.First ();
-
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: false);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigmultiFrameworkXml), Normalize (afterXML));
-
-        }
-
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_NoChange_regular ()
-        {
-            var context = InitContext<MyClass> (SigRegular, 1, forceAlignment: false);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[1].Types.First ();
-
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: false);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigRegular), Normalize (afterXML));
-
-        }
-
-
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_NameChanged_SingleFX()
-        {
-            // handles the case 
-            var context = InitContext<MyClass> (SigRegular, 2, forceAlignment: false);
-
-            FrameworkTypeEntry typeEntry = context.fx.Frameworks[0].Types.First ();
-            context.fx.Frameworks.RemoveAt (2);
-            context.fx.Frameworks.RemoveAt (1);
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry, fxAlternateTriggered: true);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigRegularChanged), Normalize (afterXML));
-
-        }
-
-        [Test ()]
-        public void MemberSignature_Updating_Existing_NameChanged_MultiFX ()
-        {
-            // handles the case 
-            var context = InitContext<MyClass> (SigRegular, 2, forceAlignment: false);
-
-            Func<int, FrameworkTypeEntry> typeEntry = i => context.fx.Frameworks[i].Types.First ();
-
-            var sig = new CSharpMemberFormatter ();
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(0), fxAlternateTriggered: true);
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(1), fxAlternateTriggered: false);
-            MDocUpdater.UpdateSignature (sig, context.method, context.doc.FirstChild as XmlElement, typeEntry(2), fxAlternateTriggered: false);
-
-            var afterXML = context.doc.OuterXml;
-
-            Assert.AreEqual (Normalize (SigRegularAllAligned), Normalize (afterXML));
-
-        }
 
         [Test ()]
         public void DocMemberEnumerator()
@@ -791,6 +683,136 @@ namespace mdoc.Test
             Assert.IsTrue (attributes[0].HasAttribute (Consts.FrameworkAlternate));
         }
 
+
+        [Test]
+        public void FxElementTest()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(@"<Parent><X>old value</X></Parent>");
+            var context = InitContext<MyClass>(string.Format(typeFrameXml, multiFrameworkXml), 0, forceAlignment: false);
+            
+            var fx = context.fx.Frameworks[0];
+            FrameworkTypeEntry typeEntry = fx.Types.First();
+            
+            XmlElement parentx = doc.DocumentElement;
+
+
+            DocUtils.AddElementWithFx(
+                typeEntry,
+                parentx,
+                isFirst: typeEntry.Framework.IsFirstFrameworkForType(typeEntry),
+                isLast: typeEntry.Framework.IsLastFrameworkForType(typeEntry),
+                allfxstring: new Lazy<string>(() => typeEntry.Framework.AllFrameworksWithType(typeEntry)),
+                clear: parent =>
+                {
+                    parent.RemoveAll();
+                },
+                findExisting: parent =>
+                {
+                    return parent.SelectSingleNode("X") as XmlElement;
+                },
+                addItem: parent =>
+                {
+                    var item = parent.OwnerDocument.CreateElement("X");
+                    item.InnerText = "value";
+                    parent.AppendChild(item);
+                    return item;
+                });
+
+            Assert.AreEqual(1, parentx.ChildNodes.Count);
+            Assert.AreEqual("value", parentx.ChildNodes[0].InnerText);
+            Assert.AreEqual("One", parentx.ChildNodes[0].Attributes[0].Value);
+        }
+        [Test]
+        public void FxElementTest_Two()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(@"<Parent><X>old value</X></Parent>");
+            var context = InitContext<MyClass>(string.Format(typeFrameXml, multiFrameworkXml), 0, forceAlignment: false);
+
+            var fx = context.fx.Frameworks[1];
+            FrameworkTypeEntry typeEntry = fx.Types.First();
+
+            XmlElement parentx = doc.DocumentElement;
+
+            System.Func<FrameworkTypeEntry, string, bool> runfx = (te, value) =>
+            {
+                DocUtils.AddElementWithFx(
+                    te,
+                    parentx,
+                    isFirst: te.Framework.IsFirstFrameworkForType(te),
+                    isLast: te.Framework.IsLastFrameworkForType(te),
+                    allfxstring: new Lazy<string>(() => typeEntry.Framework.AllFrameworksWithType(typeEntry)),
+                    clear: parent =>
+                    {
+                        parent.RemoveAll();
+                    },
+                    findExisting: parent =>
+                    {
+                        return parent.ChildNodes.Cast<XmlElement>().SingleOrDefault(e => e.Name == "X" && e.Value == value);
+                    },
+                    addItem: parent =>
+                    {
+                        var item = parent.OwnerDocument.CreateElement("X");
+                        item.InnerText = value;
+                        parent.AppendChild(item);
+                        return item;
+                    });
+                return true;
+            };
+
+            runfx(context.fx.Frameworks[0].Types.First(), "one");
+            runfx(context.fx.Frameworks[1].Types.First(), "two");
+
+            Assert.AreEqual(parentx.ChildNodes.Count, 2);
+            Assert.IsTrue(parentx.ChildNodes.Cast<XmlElement>().Any(e => e.HasAttribute(Consts.FrameworkAlternate)), "fx check");
+        }
+        
+        [Test]
+        public void FxElementTest_Three()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(@"<Parent><X>old value</X></Parent>");
+            var context = InitContext<MyClass>(string.Format(typeFrameXml, multiFrameworkXml), 2, forceAlignment: false);
+
+            var fx = context.fx.Frameworks[1];
+            FrameworkTypeEntry typeEntry = fx.Types.First();
+
+            XmlElement parentx = doc.DocumentElement;
+
+            System.Func<FrameworkTypeEntry, bool> runfx = (te) =>
+            {
+                DocUtils.AddElementWithFx(
+                    te,
+                    parentx,
+                    isFirst: typeEntry.Framework.IsFirstFrameworkForType(typeEntry),
+                    isLast: typeEntry.Framework.IsLastFrameworkForType(typeEntry),
+                    allfxstring: new Lazy<string>(() => typeEntry.Framework.AllFrameworksWithType(typeEntry)),
+                    clear: parent =>
+                    {
+                        parent.RemoveAll();
+                    },
+                    findExisting: parent =>
+                    {
+                        return parent.SelectSingleNode("X") as XmlElement;
+                    },
+                    addItem: parent =>
+                    {
+                        var item = parent.OwnerDocument.CreateElement("X");
+                        item.InnerText = "value";
+                        parent.AppendChild(item);
+                        return item;
+                    });
+                return true;
+            };
+
+            runfx(context.fx.Frameworks[0].Types.First());
+            runfx(context.fx.Frameworks[1].Types.First());
+            runfx(context.fx.Frameworks[2].Types.First());
+
+            Assert.AreEqual(parentx.ChildNodes.Count, 1);
+        }
+
         string Normalize(string xml, bool clearFx = false) {
             XmlDocument doc = new XmlDocument ();
 
@@ -941,7 +963,7 @@ namespace mdoc.Test
             {
                 if (indexCheck(i) || forceAlignment)
                 {
-                    var t = f.ProcessType (type);
+                    var t = f.ProcessType (type, type.Module.Assembly);
                     t.ProcessMember (method);
 
                     var aset = new AssemblySet (new[] { "one.dll" });
@@ -949,7 +971,7 @@ namespace mdoc.Test
 
                 }
                 else {
-                    var t = f.ProcessType (type2);
+                    var t = f.ProcessType (type2, type2.Module.Assembly);
                     t.ProcessMember (method2);
                 }
                 i++;
