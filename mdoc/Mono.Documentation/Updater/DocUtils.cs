@@ -911,5 +911,14 @@ namespace Mono.Documentation.Updater
 
             return false;
         }
+
+        public static bool IsEiiIgnoredMethod(MethodReference method, MethodReference imethod)
+        {
+            if (DocUtils.IsExplicitlyImplemented(method.Resolve()) && !method.Resolve().IsSpecialName)
+                if (IsIgnored(imethod))
+                    return true;
+
+            return false;
+        }
     }
 }
