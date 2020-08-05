@@ -30,4 +30,8 @@ nuget:
 
 check-monodoc:
 	cd monodoc; $(MAKE) check -B
+
+zip:
+	rm -f $(BIN)/mdoc*.zip
+	zip -j $(BIN)/mdoc.zip $(BIN)/*
 	
