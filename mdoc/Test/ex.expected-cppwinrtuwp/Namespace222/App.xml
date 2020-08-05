@@ -54,7 +54,7 @@
     </Member>
     <Member MemberName="Initialize">
       <MemberSignature Language="C#" Value="public void Initialize (Windows.ApplicationModel.Core.CoreApplicationView applicationView);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Initialize([in]class Windows.ApplicationModel.Core.CoreApplicationView applicationView) runtime managed" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Initialize([in] class Windows.ApplicationModel.Core.CoreApplicationView applicationView) runtime managed" />
       <MemberSignature Language="C++ WINRT" Value="void Initialize(winrt::Windows::ApplicationModel::Core::CoreApplicationView const &amp; applicationView);" />
       <MemberType>Method</MemberType>
       <Implements>
@@ -77,7 +77,7 @@
     </Member>
     <Member MemberName="Load">
       <MemberSignature Language="C#" Value="public void Load (string entryPoint);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Load([in]string entryPoint) runtime managed" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Load([in] string entryPoint) runtime managed" />
       <MemberSignature Language="C++ WINRT" Value="void Load(winrt::hstring const &amp; entryPoint);" />
       <MemberType>Method</MemberType>
       <Implements>
@@ -154,7 +154,7 @@
     </Member>
     <Member MemberName="SetWindow">
       <MemberSignature Language="C#" Value="public void SetWindow (Windows.UI.Core.CoreWindow window);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetWindow([in]class Windows.UI.Core.CoreWindow window) runtime managed" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetWindow([in] class Windows.UI.Core.CoreWindow window) runtime managed" />
       <MemberSignature Language="C++ WINRT" Value="void SetWindow(winrt::Windows::UI::Core::CoreWindow const &amp; window);" />
       <MemberType>Method</MemberType>
       <Implements>
@@ -177,7 +177,7 @@
     </Member>
     <Member MemberName="SetWindow1">
       <MemberSignature Language="C#" Value="public void SetWindow1 (Windows.UI.Core.CoreWindow window);" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetWindow1([in]class Windows.UI.Core.CoreWindow window) runtime managed" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetWindow1([in] class Windows.UI.Core.CoreWindow window) runtime managed" />
       <MemberSignature Language="C++ WINRT" Value="void SetWindow1(winrt::Windows::UI::Core::CoreWindow const &amp; window);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>

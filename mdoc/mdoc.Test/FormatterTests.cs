@@ -234,8 +234,11 @@ namespace mdoc.Test
         public void FuncParams()
         {
             var member = GetMethod(typeof(SomeGenericClass<>), m => m.Name == "SomeMethod4");
-            var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public void SomeMethod4 (out string a, in int i, T t, object b = default);", sig);
+            var ilSig = new ILFullMemberFormatter().GetDeclaration(member);
+            Assert.AreEqual(
+                ".method public hidebysig instance void SomeMethod4([out] string& a, [in] int32& i, !T t, object b) cil managed", ilSig);
+            var csharpSig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public void SomeMethod4 (out string a, in int i, T t, object b = default);", csharpSig);
         }
 
         [Test]
