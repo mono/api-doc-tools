@@ -140,22 +140,19 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return typeToCompare == t ? null : typeToCompare;
         }
 
-        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type,
+        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, ArrayType type,
             DynamicParserContext context)
         {
             buf.Append("Platform::Array <");
 
-            var item = type is TypeSpecification spec ? spec.ElementType : type.GetElementType();
+            var item = type.ElementType;
             _AppendTypeName(buf, item, context);
             AppendHat(buf, item);
 
-            if (type is ArrayType arrayType)
+            int rank = type.Rank;
+            if (rank > 1)
             {
-                int rank = arrayType.Rank;
-                if (rank > 1)
-                {
-                    buf.AppendFormat(", {0}", rank);
-                }
+                buf.AppendFormat(", {0}", rank);
             }
 
             buf.Append(">");

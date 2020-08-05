@@ -92,6 +92,7 @@
     <Compile Include="JsUsageFormatterTests.cs" />
     <Compile Include="MDocFileSourceTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
+    <Compile Include="SampleClasses\IndexerClasses.cs" />
     <Compile Include="SampleClasses\InternalEIICalss.cs" />
     <Compile Include="SampleClasses\NullablesAndTuples.cs" />
     <Compile Include="SampleClasses\StaticClass.cs" />

@@ -1,14 +1,12 @@
-﻿using NUnit.Framework;
-using System;
-using System.Reflection;
+﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using mdoc.Test.SampleClasses;
-using Mono.Documentation.Updater;
 using Mono.Documentation;
+using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
-
-
+using NUnit.Framework;
 
 namespace mdoc.Test
 {
@@ -236,8 +234,11 @@ namespace mdoc.Test
         public void FuncParams()
         {
             var member = GetMethod(typeof(SomeGenericClass<>), m => m.Name == "SomeMethod4");
-            var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public void SomeMethod4 (out string a, T t, object b = default);", sig);
+            var ilSig = new ILFullMemberFormatter().GetDeclaration(member);
+            Assert.AreEqual(
+                ".method public hidebysig instance void SomeMethod4([out] string& a, [in] int32& i, !T t, object b) cil managed", ilSig);
+            var csharpSig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public void SomeMethod4 (out string a, in int i, T t, object b = default);", csharpSig);
         }
 
         [Test]
@@ -256,6 +257,18 @@ namespace mdoc.Test
             var formatter = new CSharpFullMemberFormatter();
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual("public ref int Ref ();", sig);
+        }
+
+        [TestCase(typeof(RefIndexer), "public ref int this[int i] { get; }")]
+        [TestCase(typeof(RefReadonlyIndexer), "public ref readonly int this[int i] { get; }")]
+        [TestCase(typeof(GenericRefIndexer<>), "public ref T this[int i] { get; }")]
+        [TestCase(typeof(GenericRefReadonlyIndexer<>), "public ref readonly T this[int i] { get; }")]
+        public void CSharpIndexer(Type type, string expectedSignature)
+        {
+            var member = GetIndexer(type);
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSignature, sig);
         }
 
         [Test]

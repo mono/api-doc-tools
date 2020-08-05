@@ -89,6 +89,16 @@ namespace mdoc.Test
             return GetMethod(GetType(type), i => i.Name == name);
         }
 
+        protected PropertyDefinition GetIndexer(Type type)
+        {
+            var testclass = GetType(type);
+            var methods = testclass.Properties;
+            var member = methods.FirstOrDefault(p => p.Name == "Item" && p.HasParameters)?.Resolve();
+            if (member == null)
+                throw new Exception("Did not find the member in the test class");
+            return member;
+        }
+
         protected Dictionary<string, List<MemberReference>> GetClassInterface(TypeDefinition type)
         {
             return DocUtils.GetImplementedMembersFingerprintLookup(type);

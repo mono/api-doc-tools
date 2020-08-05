@@ -123,22 +123,19 @@ namespace Mono.Documentation.Updater.CppFormatters
             throw new ArgumentException(t.FullName);
         }
 
-        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type,
+        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, ArrayType type,
             DynamicParserContext context)
         {
             buf.Append("std::Array <");
 
-            var item = type is TypeSpecification spec ? spec.ElementType : type.GetElementType();
+            var item = type.ElementType;
             _AppendTypeName(buf, item, context);
             AppendHat(buf, item);
 
-            if (type is ArrayType arrayType)
+            int rank = type.Rank;
+            if (rank > 1)
             {
-                int rank = arrayType.Rank;
-                if (rank > 1)
-                {
-                    buf.AppendFormat(", {0}", rank);
-                }
+                buf.AppendFormat(", {0}", rank);
             }
 
             buf.Append(">");

@@ -66,10 +66,6 @@ namespace Mono.Documentation.Updater
 
             var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context, appendGeneric, useTypeProjection: useTypeProjection).ToString ();
 
-            typeName = RemoveMod (typeName);
-
-
-
             return typeName;
         }
 
@@ -108,26 +104,10 @@ namespace Mono.Documentation.Updater
 
         protected virtual MemberFormatterState MemberFormatterState { get; set; }
 
-        protected virtual StringBuilder AppendRequiredModifierTypeName(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, ArrayType type, DynamicParserContext context)
         {
-            return _AppendTypeName (buf, type.ElementType, context);
-        }
-
-        protected virtual StringBuilder AppendOptionalModifierTypeName(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
-        {
-            return _AppendTypeName(buf, type.ElementType, context);
-        }
-
-        protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
-        {
-            TypeSpecification spec = type as TypeSpecification;
-            _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
-            return AppendArrayModifiers(buf, (ArrayType)type);
-        }
-
-        protected virtual bool ShouldStripModFromTypeName
-        {
-            get => true;
+            _AppendTypeName(buf, type.ElementType, context);
+            return AppendArrayModifiers(buf, type);
         }
 
         protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection =false)
@@ -137,56 +117,38 @@ namespace Mono.Documentation.Updater
 
             StringBuilder interimBuilder = new StringBuilder();
 
-            if (ShouldStripModFromTypeName && type is RequiredModifierType)
+            if (type is ArrayType arrayType)
             {
-                AppendRequiredModifierTypeName(interimBuilder, type as RequiredModifierType, context);
+                AppendArrayTypeName(interimBuilder, arrayType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            if (ShouldStripModFromTypeName && type is OptionalModifierType)
+            if (type is ByReferenceType refType)
             {
-                AppendOptionalModifierTypeName(interimBuilder, type as OptionalModifierType, context);
+                AppendRefTypeName (interimBuilder, refType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            if (type is ArrayType)
+            if (type is PointerType pointerType)
             {
-                AppendArrayTypeName(interimBuilder, type, context);
+                AppendPointerTypeName (interimBuilder, pointerType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            if (type is ByReferenceType)
+            if (type is RequiredModifierType requiredModifierType)
             {
-                AppendRefTypeName (interimBuilder, type, context);
+                AppendRequiredModifierType(interimBuilder, requiredModifierType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            if (type is PointerType)
+            if (type is OptionalModifierType optionalModifierType)
             {
-                AppendPointerTypeName (interimBuilder, type, context);
+                AppendOptionalModifierType(interimBuilder, optionalModifierType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (type is GenericParameter)
             {
-                AppendTypeName (interimBuilder, type, context);
+                AppendTypeName(interimBuilder, type, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-
-
             AppendNamespace (interimBuilder, type);
             GenericInstanceType genInst = type as GenericInstanceType;
-
-            if (type.IsRequiredModifier)
-            {
-                try
-                {
-                    var rtype = type.Resolve ();
-                    if (rtype != null)
-                        type = rtype;
-                }
-                catch (Exception)
-                {
-                    // Suppress resolving error for UWP libraries.
-                    // It seems, they never have `type.IsRequiredModifier == true`, but just in case.
-                }
-            }
-
 
             if (type.GenericParameters.Count == 0 &&
                     (genInst == null ? true : genInst.GenericArguments.Count == 0))
@@ -269,10 +231,9 @@ namespace Mono.Documentation.Updater
             get { return "@"; }
         }
 
-        protected virtual StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            return _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+            return _AppendTypeName(buf, type.ElementType, context);
         }
 
         protected virtual string PointerModifier
@@ -280,11 +241,20 @@ namespace Mono.Documentation.Updater
             get { return "*"; }
         }
 
-        protected virtual StringBuilder AppendPointerTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendPointerTypeName(StringBuilder buf, PointerType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            return _AppendTypeName (buf, spec != null ? spec.ElementType : type.GetElementType (), context)
+            return _AppendTypeName (buf, type.ElementType, context)
                     .Append (PointerModifier);
+        }
+
+        protected virtual StringBuilder AppendRequiredModifierType(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            return _AppendTypeName(buf, type.ElementType, context);
+        }
+
+        protected virtual StringBuilder AppendOptionalModifierType(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
+        {
+            return _AppendTypeName(buf, type.ElementType, context);
         }
 
         protected virtual string[] GenericTypeContainer

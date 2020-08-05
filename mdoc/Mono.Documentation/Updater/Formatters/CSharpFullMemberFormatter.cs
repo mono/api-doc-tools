@@ -421,6 +421,26 @@ namespace Mono.Documentation.Updater
             get { return ""; }
         }
 
+        protected override StringBuilder AppendRefTypeName(
+            StringBuilder buf, ByReferenceType type, DynamicParserContext context)
+        {
+            buf.Append("ref ");
+            return base.AppendRefTypeName(buf, type, context);
+        }
+
+        protected override StringBuilder AppendRequiredModifierType(
+            StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            if (type.ModifierType.FullName == "System.Runtime.InteropServices.InAttribute" &&
+                type.ElementType is ByReferenceType refType)
+            {
+                buf.Append("ref readonly ");
+                return _AppendTypeName(buf, refType.ElementType, context);
+            }
+
+            return base.AppendRequiredModifierType(buf, type, context);
+        }
+
         protected override string GetFinalizerName (MethodDefinition method)
         {
             StringBuilder buf = new StringBuilder();
@@ -455,19 +475,6 @@ namespace Mono.Documentation.Updater
             if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
-
-            if ((method.ReturnType.IsRequiredModifier
-                  && ((RequiredModifierType)method.ReturnType).ElementType.IsByReference)
-                || method.ReturnType.IsByReference)
-            {
-                modifiers += " ref";
-            }
-
-            if (method.ReturnType.IsRequiredModifier
-                && method.MethodReturnType.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute"))
-            {
-                modifiers += " readonly";
-            }
 
             switch (method.Name)
             {
@@ -525,12 +532,19 @@ namespace Mono.Documentation.Updater
 
         private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
-            if (parameter.ParameterType is ByReferenceType)
+            TypeReference parameterType = parameter.ParameterType;
+
+            if (parameterType is ByReferenceType byReferenceType)
             {
                 if (parameter.IsOut)
                     buf.Append ("out ");
+                else if (parameter.IsIn &&
+                    parameter.CustomAttributes.Any(ca => ca.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute"))
+                    buf.Append ("in ");
                 else
                     buf.Append ("ref ");
+
+                parameterType = byReferenceType.ElementType;
             }
             if (parameter.HasCustomAttributes)
             {
@@ -538,7 +552,7 @@ namespace Mono.Documentation.Updater
                 if (isParams)
                     buf.AppendFormat ("params ");
             }
-            buf.Append (GetTypeName (parameter.ParameterType, new DynamicParserContext (parameter))).Append (" ");
+            buf.Append (GetTypeName (parameterType, new DynamicParserContext (parameter))).Append (" ");
             buf.Append (parameter.Name);
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
@@ -597,9 +611,6 @@ namespace Mono.Documentation.Updater
             if (modifiers == " virtual sealed")
                 modifiers = "";
             buf.Append (modifiers).Append (' ');
-
-            if (property.PropertyType.IsByReference)
-                buf.Append("ref ");
 
             buf.Append (GetTypeName (property.PropertyType, new DynamicParserContext (property))).Append (' ');
 

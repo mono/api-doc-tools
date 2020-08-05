@@ -203,6 +203,26 @@ namespace Mono.Documentation.Updater
             return buf.ToString ();
         }
 
+        protected override StringBuilder AppendRequiredModifierType(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            _AppendTypeName(buf, type.ElementType, context);
+            buf.Append(" modreq(");
+            _AppendTypeName(buf, type.ModifierType, context);
+            buf.Append(')');
+
+            return buf;
+        }
+
+        protected override StringBuilder AppendOptionalModifierType(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
+        {
+            _AppendTypeName(buf, type.ElementType, context);
+            buf.Append(" modopt(");
+            _AppendTypeName(buf, type.ModifierType, context);
+            buf.Append(')');
+
+            return buf;
+        }
+
         protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (
@@ -322,24 +342,8 @@ namespace Mono.Documentation.Updater
                 MemberFormatterState = state;
             }
 
-            buf.Append ('(');
-            bool first = true;
-            for (int i = 0; i < method.Parameters.Count; ++i)
-            {
-                var param = method.Parameters[i];
-                if (!first)
-                    buf.Append (", ");
-                first = false;
+            AppendParameters(buf, method, method.Parameters);
 
-                if (param.IsOut) buf.Append ("[out] ");
-                else if (param.IsIn) buf.Append ("[in]");
-
-                _AppendTypeName (buf, param.ParameterType, new DynamicParserContext (param));
-                if (param.ParameterType.IsByReference) buf.Append ("&");
-                buf.Append (' ');
-                buf.Append (param.Name);
-            }
-            buf.Append (')');
             if (method.IsIL)
                 buf.Append (" cil");
             if (method.IsRuntime)
@@ -418,17 +422,15 @@ namespace Mono.Documentation.Updater
 
         protected override StringBuilder AppendParameters (StringBuilder buf, MethodDefinition method, IList<ParameterDefinition> parameters)
         {
-            return AppendParameters (buf, method, parameters, '(', ')');
+            return AppendParameters(buf, parameters, '(', ')');
         }
 
-        private StringBuilder AppendParameters (StringBuilder buf, MethodDefinition method, IList<ParameterDefinition> parameters, char begin, char end)
+        private StringBuilder AppendParameters(StringBuilder buf, IList<ParameterDefinition> parameters, char begin, char end)
         {
             buf.Append (begin);
 
             if (parameters.Count > 0)
             {
-                if (DocUtils.IsExtensionMethod (method))
-                    buf.Append ("this ");
                 AppendParameter (buf, parameters[0]);
                 for (int i = 1; i < parameters.Count; ++i)
                 {
@@ -442,15 +444,15 @@ namespace Mono.Documentation.Updater
 
         private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
-            if (parameter.ParameterType is ByReferenceType)
-            {
-                if (parameter.IsOut)
-                    buf.Append ("out ");
-                else
-                    buf.Append ("ref ");
-            }
-            buf.Append (GetName (parameter.ParameterType)).Append (" ");
-            return buf.Append (parameter.Name);
+            if (parameter.IsIn) buf.Append("[in] ");
+            if (parameter.IsOut) buf.Append("[out] ");
+
+            _AppendTypeName(buf, parameter.ParameterType, new DynamicParserContext(parameter));
+            if (parameter.ParameterType.IsByReference) buf.Append("&");
+            buf.Append(' ');
+            buf.Append(parameter.Name);
+
+            return buf;
         }
 
         protected override string GetPropertyDeclaration (PropertyDefinition property)

@@ -14,7 +14,7 @@
         {
             
         }
-        public void SomeMethod4(out string a, T t, object b = null)
+        public void SomeMethod4(out string a, in int i, T t, object b = null)
         {
             a = "default";
         }

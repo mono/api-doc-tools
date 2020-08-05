@@ -24,8 +24,6 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
         protected override string NestedTypeSeparator => "::";
 
-        protected override bool ShouldStripModFromTypeName => false;
-
         public CppFullMemberFormatter() : this(null) {}
         public CppFullMemberFormatter(TypeMap map) : base(map) { }
 
@@ -45,39 +43,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         
         protected virtual string GetCppType (string t)
         {
-            // make sure there are no modifiers in the type string (add them back before returning)
             string typeToCompare = t;
-            string[] splitType = null;
-            if (t.Contains (' '))
-            {
-                splitType = t.Split (' ');
-                typeToCompare = splitType[0];
-                //for (int i = 1; i < splitType.Length; i++)
-                //{
-                //    var str = splitType[i];
-                //    if (str == "modopt(System.Runtime.CompilerServices.IsLong)" && typeToCompare == "System.Int32")
-                //        return "long";
-                //    if (str == "modopt(System.Runtime.CompilerServices.IsSignUnspecifiedByte)" && typeToCompare == "System.SByte")
-                //        return "char";
-                //    //if (typeToCompare == "System.Byte")
-                //    //    return "unsigned char";
-                //    //if (typeToCompare == "System.SByte")
-                //    //    return "signed char";
-                //}
-
-                foreach (var str in splitType)
-                {
-                    if (str == "modopt(System.Runtime.CompilerServices.IsLong)" && typeToCompare == "System.Int32")
-                        return "long";
-                    if (str == "modopt(System.Runtime.CompilerServices.IsSignUnspecifiedByte)" && typeToCompare == "System.SByte")
-                        return "char";
-                    //if (typeToCompare == "System.Byte")
-                    //    return "unsigned char";
-                    //if (typeToCompare == "System.SByte")
-                    //    return "signed char";
-                }
-
-            }
             
             switch (typeToCompare)
             {
@@ -101,13 +67,44 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Object": typeToCompare = "System::Object"; break;
             }
 
-            if (splitType != null)
-            {
-                // re-add modreq/modopt if it was there
-                splitType[0] = typeToCompare;
-                typeToCompare = string.Join (" ", splitType);
-            }
             return typeToCompare == t ? null : typeToCompare;
+        }
+
+        protected override StringBuilder AppendRequiredModifierType(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        {
+            // handled in AppendHat
+            if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsByValue")
+                return _AppendTypeName(buf, type.ElementType, context);
+
+            _AppendTypeName(buf, type.ElementType, context);
+            buf.Append(" modreq(");
+            _AppendTypeName(buf, type.ModifierType, context);
+            buf.Append(')');
+
+            return buf;
+        }
+
+        protected override StringBuilder AppendOptionalModifierType(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
+        {
+            if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsLong" &&
+                type.ElementType.FullName == "System.Int32")
+                return buf.Append("long");
+            if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsSignUnspecifiedByte" &&
+                type.ElementType.FullName == "System.SByte")
+                return buf.Append("char");
+            if (type.ModifierType.FullName == "System.Runtime.CompilerServices.IsConst")
+            {
+                buf.Append("const ");
+                _AppendTypeName(buf, type.ElementType, context);
+                return buf;
+            }
+
+            _AppendTypeName(buf, type.ElementType, context);
+            buf.Append(" modopt(");
+            _AppendTypeName(buf, type.ModifierType, context);
+            buf.Append(')');
+
+            return buf;
         }
 
         protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
@@ -325,7 +322,9 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 && !NoHatTypes.Contains(type.FullName) 
                 //check for generic type
                 && !NoHatTypes.Contains(type.GetType().FullName)
-                
+                //check IsByValue
+                && !(type is RequiredModifierType requiredModifierType
+                    && requiredModifierType.ModifierType.FullName == "System.Runtime.CompilerServices.IsByValue")
                 )
             {
                //add handler for reference types to have managed context
@@ -758,42 +757,37 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return buf;
         }
 
-        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, ArrayType type, DynamicParserContext context)
         {
             buf.Append("cli::array <");
 
-            var item = type is TypeSpecification spec ? spec.ElementType : type.GetElementType();
+            var item = type.ElementType;
             _AppendTypeName(buf, item, context);
             AppendHat(buf, item);
 
-            if (type is ArrayType arrayType)
+            int rank = type.Rank;
+            if (rank > 1)
             {
-                int rank = arrayType.Rank;
-                if (rank > 1)
-                {
-                    buf.AppendFormat(", {0}", rank);
-                }
+                buf.AppendFormat(", {0}", rank);
             }
-            
+
             buf.Append(">");
 
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+            _AppendTypeName(buf, type.ElementType, context);
             AppendHat(buf, type);
             buf.Append(RefTypeModifier);
 
             return buf;
         }
 
-        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, PointerType type, DynamicParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-             _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+             _AppendTypeName(buf, type.ElementType, context);
             AppendHat(buf, type);
             buf.Append(PointerModifier);
             return buf;
@@ -929,17 +923,6 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (field.IsInitOnly)
                 buf.Append("initonly ");
 
-            string fieldFullName = field.FullName;
-            if (fieldFullName.Contains(' '))
-            {
-                var splitType = fieldFullName.Split(' ');
-
-                if (splitType.Any(str => str == "modopt(System.Runtime.CompilerServices.IsConst)"))
-                {
-                    buf.Append("const ");
-                }
-            }
-            
             buf.Append(GetTypeNameWithOptions(field.FieldType, AppendHatOnReturn)).Append(' ');
             buf.Append(field.Name);
             AppendFieldValue (buf, field);
