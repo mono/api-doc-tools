@@ -538,7 +538,8 @@ namespace Mono.Documentation.Updater
             {
                 if (parameter.IsOut)
                     buf.Append ("out ");
-                else if (parameter.IsIn)
+                else if (parameter.IsIn &&
+                    parameter.CustomAttributes.Any(ca => ca.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute"))
                     buf.Append ("in ");
                 else
                     buf.Append ("ref ");
