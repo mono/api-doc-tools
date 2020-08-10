@@ -1847,6 +1847,9 @@ namespace Mono.Documentation
                     DocUtils.GetInfoForExplicitlyImplementedMethod(methdef, out iface, out imethod);
                     if (!DocUtils.IsPublic(iface.Resolve())) 
                         return false;
+
+                    if (DocUtils.IsEiiIgnoredMethod(methdef, imethod))
+                        return false;
                 }
             }
 

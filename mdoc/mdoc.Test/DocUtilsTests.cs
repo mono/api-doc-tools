@@ -1,4 +1,5 @@
-﻿using mdoc.Test.SampleClasses;
+﻿using System.Linq;
+using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Frameworks;
 using NUnit.Framework;
@@ -131,6 +132,17 @@ random text
             var d = doc.SelectSingleNode("/Type/Members/Member[@MemberName='Value']");
             var flg3 = DocUtils.DocIdCheck(b, (XmlElement)d);
             Assert.IsTrue(flg3);
+        }
+
+        [Test]
+        public void IsEiiignoredMethod()
+        {
+            var type = GetType(typeof(mdoc.Test2.InternalEIICalss));
+            var member = type.Methods.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.InternalEIICalss::mdoc.Test.SampleClasses.InterfaceA.get_color()");
+            Assert.IsTrue(member.IsSpecialName);
+            member.IsSpecialName = false;
+            var result = DocUtils.IsEiiIgnoredMethod(member, member.Overrides[0]);
+            Assert.IsTrue(result);
         }
     }
 }
