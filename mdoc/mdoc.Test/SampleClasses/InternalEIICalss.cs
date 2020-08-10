@@ -22,6 +22,6 @@ namespace mdoc.Test2
             return "";
         }
 
-    
+        string InterfaceA.color { get { return "Red"; } }
     }
 }

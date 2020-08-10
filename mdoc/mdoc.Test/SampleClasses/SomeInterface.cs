@@ -8,5 +8,6 @@
     internal interface InterfaceA
     {
         string Getstring(int a);
+        string color { get; }
     }
 }
