@@ -77,6 +77,13 @@ namespace Mono.Documentation.Updater.Frameworks
 
                 if (exported_type.Namespace != reference.Namespace)
                     continue;
+                else
+                {
+                    var exportNs = ExportTypeFindSourseNs(exported_type);
+                    var refNs = ReferenceTypeFindSourseNs(reference);
+                    if (exportNs != refNs)
+                        continue;
+                }
 
                 return exported_type.Resolve ();
             }
@@ -115,9 +122,23 @@ namespace Mono.Documentation.Updater.Frameworks
         }
         public static string TypeFullName (TypeReference self)
         {
-            return string.IsNullOrEmpty (self.Namespace)
+            var sourseNs = ReferenceTypeFindSourseNs(self);
+            return string.IsNullOrEmpty(sourseNs)
                 ? self.Name
-                : self.Namespace + '.' + self.Name;
+                : sourseNs + '.' + self.Name;
+        }
+
+        public static string ExportTypeFindSourseNs(ExportedType type)
+        {
+            return type.IsForwarder == false ?
+                 ExportTypeFindSourseNs(type.DeclaringType) : type.Namespace ?? "";
+
+        }
+
+        public static string ReferenceTypeFindSourseNs(TypeReference type)
+        {
+            return type.DeclaringType == null ?
+                 type.Namespace ?? "" : ReferenceTypeFindSourseNs(type.DeclaringType);
         }
     }
 }
