@@ -119,7 +119,7 @@ namespace Mono.Documentation.Updater.Formatters
             return $"{name}={value}";
         }
 
-        public static string MakeAttributesValueString(object v, TypeReference valueType)
+        public virtual string MakeAttributesValueString(object v, TypeReference valueType)
         {
             var formatters = new[] {
                 new AttributeValueFormatter (),

@@ -10,6 +10,7 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("arg!")]</AttributeName>
+          <AttributeName Language="C++ WINRT">/// [Mono.DocTest.Doc("arg!")]</AttributeName>
         </Attribute>
       </Attributes>
       <Constraints>
@@ -21,6 +22,7 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("ret!")]</AttributeName>
+          <AttributeName Language="C++ WINRT">/// [Mono.DocTest.Doc("ret!")]</AttributeName>
         </Attribute>
       </Attributes>
       <Constraints>
@@ -34,6 +36,7 @@
   <Attributes>
     <Attribute>
       <AttributeName Language="C#">[Mono.DocTest.Doc("method")]</AttributeName>
+      <AttributeName Language="C++ WINRT">/// [Mono.DocTest.Doc("method")]</AttributeName>
     </Attribute>
   </Attributes>
   <Parameters>
@@ -41,6 +44,7 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Mono.DocTest.Doc("arg-actual")]</AttributeName>
+          <AttributeName Language="C++ WINRT">/// [Mono.DocTest.Doc("arg-actual")]</AttributeName>
         </Attribute>
       </Attributes>
     </Parameter>
@@ -50,6 +54,7 @@
     <Attributes>
       <Attribute>
         <AttributeName Language="C#">[Mono.DocTest.Doc("return", Field=false)]</AttributeName>
+        <AttributeName Language="C++ WINRT">/// [Mono.DocTest.Doc("return", Field=false)]</AttributeName>
       </Attribute>
     </Attributes>
   </ReturnValue>

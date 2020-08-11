@@ -49,6 +49,7 @@
           <Attributes>
             <Attribute>
               <AttributeName Language="C#">[Mono.DocTest.Doc("S")]</AttributeName>
+              <AttributeName Language="C++ WINRT">/// [Mono.DocTest.Doc("S")]</AttributeName>
             </Attribute>
           </Attributes>
         </TypeParameter>

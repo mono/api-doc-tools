@@ -51,6 +51,7 @@ namespace Mono.Documentation.Updater.Formatters
                 case Consts.CppWinRtLowCase:
                     TypeFormatters.Add(new CppWinRtMemberFormatter(map));
                     MemberFormatters.Add(new CppWinRtFullMemberFormatter(map));
+                    AdditionalAttributeFormatters.Add(new CppWinRtAttributeFormatter());
                     break;
                 case Consts.FSharpLowCase:
                 case "fsharp":

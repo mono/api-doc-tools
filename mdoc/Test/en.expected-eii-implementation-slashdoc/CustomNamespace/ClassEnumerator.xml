@@ -105,6 +105,7 @@
         <Attribute>
           <AttributeName Language="C#">[System.STAThread]</AttributeName>
           <AttributeName Language="F#">[&lt;System.STAThread&gt;]</AttributeName>
+          <AttributeName Language="C++ WINRT">/// [System.STAThread]</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
