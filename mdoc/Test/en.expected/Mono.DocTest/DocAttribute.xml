@@ -18,6 +18,7 @@
     <Attribute>
       <AttributeName Language="C#">[System.AttributeUsage(System.AttributeTargets.All)]</AttributeName>
       <AttributeName Language="F#">[&lt;System.AttributeUsage(System.AttributeTargets.All)&gt;]</AttributeName>
+      <AttributeName Language="C++ WINRT">/// [System.AttributeUsage(System.AttributeTargets.All)]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>

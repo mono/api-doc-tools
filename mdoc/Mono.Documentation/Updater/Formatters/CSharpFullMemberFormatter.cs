@@ -547,7 +547,7 @@ namespace Mono.Documentation.Updater.Formatters
             buf.Append (parameter.Name);
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
-                var ReturnVal = AttributeFormatter.MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
+                var ReturnVal = new AttributeFormatter().MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
                 buf.AppendFormat (" = {0}", ReturnVal == "null" ? "default" : ReturnVal);
             }
             return buf;

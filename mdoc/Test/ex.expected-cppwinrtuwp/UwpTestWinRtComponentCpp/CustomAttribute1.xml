@@ -12,6 +12,7 @@
   <Attributes>
     <Attribute>
       <AttributeName Language="C#">[Windows.Foundation.Metadata.Version(1)]</AttributeName>
+      <AttributeName Language="C++ WINRT">/// [Windows.Foundation.Metadata.Version(1)]</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -30,6 +31,7 @@
       <Attributes>
         <Attribute>
           <AttributeName Language="C#">[Windows.Foundation.Metadata.Overload("CreateInstance1")]</AttributeName>
+          <AttributeName Language="C++ WINRT">/// [Windows.Foundation.Metadata.Overload("CreateInstance1")]</AttributeName>
         </Attribute>
       </Attributes>
       <Parameters />
