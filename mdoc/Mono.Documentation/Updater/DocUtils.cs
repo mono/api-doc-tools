@@ -570,11 +570,19 @@ namespace Mono.Documentation.Updater
         private static bool IsCompilerGenerated(MemberReference mi)
         {
            IMemberDefinition memberDefinition = mi.Resolve();
-            return memberDefinition.IsSpecialName
+            if (memberDefinition != null)
+            {
+                return memberDefinition.IsSpecialName
                    || memberDefinition.CustomAttributes.Any(i =>
                        i.AttributeType.FullName == Consts.CompilerGeneratedAttribute
                        || i.AttributeType.FullName == Consts.CompilationMappingAttribute
                    );
+            }
+            else
+            {
+                MDocUpdater.Instance.Warning($"IsIgnored->IsCompilerGenerated Unable to Resolve Member('{mi.FullName}')");
+                return false;
+            }
         }
 
     public static bool IsAvailablePropertyMethod(MethodDefinition method)
