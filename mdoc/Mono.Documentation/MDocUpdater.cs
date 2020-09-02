@@ -3395,21 +3395,25 @@ namespace Mono.Documentation
             }
             else
             {
-                var commMemberKeys = new string[] { "returns", "value", "related" };
+                var commMemberKeys = new string[] { "returns", "value" };
                 for (int i = 0; i < commMemberKeys.Length; i++)
                 {
                     if (DocUtils.NeedsOverwrite(e[commMemberKeys[i]]))
                         if (DocUtils.CheckRemoveByImporter(info, commMemberKeys[i], importers, setimporters))
                             ClearElement(e, commMemberKeys[i]);
-                }
-             
-                var altMemberKeys = new string[] { "altmember", "seealso" };
-                for (int i = 0; i < altMemberKeys.Length; i++)
-                 {
-                    if (DocUtils.NeedsOverwrite(e["altmember"]))
-                        if (DocUtils.CheckRemoveByImporter(info, altMemberKeys[i], importers, setimporters))
-                            ClearElement(e, "altmember");
-                 }               
+                }              
+            }
+
+            if (DocUtils.NeedsOverwrite(e["related"]))
+                if (DocUtils.CheckRemoveByImporter(info, "related", importers, setimporters))
+                    ClearElement(e, "related");
+
+            var altMemberKeys = new string[] { "altmember", "seealso" };
+            for (int i = 0; i < altMemberKeys.Length; i++)
+            {
+                if (DocUtils.NeedsOverwrite(e["altmember"]))
+                    if (DocUtils.CheckRemoveByImporter(info, altMemberKeys[i], importers, setimporters))
+                        ClearElement(e, "altmember");
             }
 
             if (addremarks)
