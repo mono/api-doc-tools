@@ -242,7 +242,7 @@ namespace Mono.Documentation.Updater.Frameworks
             {
 				var docid = DocCommentId.GetDocCommentId (type);
                 string nstouse = GetNamespace (type);
-                entry = new FrameworkTypeEntry (this) { Id = Str (docid), Name = Str (type.FullName), Namespace = nstouse };
+                entry = new FrameworkTypeEntry (this) { Id = Str (docid), Name = Str (type.FullName), Namespace = nstouse, IsforwardingType = this.ChkForwardsType(type) };
                 types.Add (entry);
 
                 typeMap.Add (Str (entry.Name), entry);
@@ -279,5 +279,34 @@ namespace Mono.Documentation.Updater.Frameworks
 
 
 		}
-	}
+
+        protected bool ChkForwardsType(TypeDefinition type)
+        {
+
+            bool ischk;
+
+            Func<TypeDefinition, bool> judgeForwardings = (TypeDefinition typeToQuery) => this.AllProcessedAssemblies
+                 .Any(a => a.ForwardingTypeChk(typeToQuery));
+
+            ischk = judgeForwardings(type);
+
+            if (!ischk)
+            {
+                if (type.IsNested)
+                {
+                    var outerType = type.DeclaringType;
+
+                    // Handle multiple layers nested
+                    while (null != outerType)
+                    {
+                        ischk = judgeForwardings(outerType.Resolve());
+                        if (ischk) break;
+                        outerType = outerType.DeclaringType;
+                    }
+                }
+            }
+
+            return ischk;
+        }
+    }
 }

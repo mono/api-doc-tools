@@ -1553,6 +1553,20 @@ namespace Mono.Documentation
                             .Cast<XmlElement> ()
                             .FirstOrDefault (x => x.GetAttribute ("Language").Equals ("DocId"));
 
+                        //delete Duplicate Docid Nodes
+                        if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry) && typeEntry.AssembliesMemberOf.Count > 1 && !typeEntry.IsforwardingType)
+                        {
+                            var chkDuplicateNodes = basefile.SelectNodes("/Type/Members/Member/MemberSignature")
+                                                   .Cast<XmlElement>()
+                                                   .Where(t => t.GetAttribute("Language").Equals("DocId")
+                                                   && t.GetAttribute("Value").Equals(sigFromXml.GetAttribute("Value")));
+                            if (chkDuplicateNodes.Count() > 1)
+                            {
+                                DeleteMember("Duplicate Member Found", output, oldmember, todelete, type);
+                                continue;
+                            }
+                        }
+
                         Func<FrameworkTypeEntry, string, bool> checksig = (t, s) => t.ContainsDocId (s);
 
                         if (sigFromXml == null)
@@ -2243,7 +2257,7 @@ namespace Mono.Documentation
 
         private void UpdateBaseType(XmlElement root, TypeDefinition type, FrameworkTypeEntry typeEntry)
         {
-            if (typeEntry.TimesProcessed > 1)
+            if (typeEntry.TimesProcessed > 1 && typeEntry.IsforwardingType)
                 return;
 
             if (typeEntry.Framework.IsFirstFrameworkForType(typeEntry))
@@ -2465,7 +2479,7 @@ namespace Mono.Documentation
             string elementXPath = $"{elementName}[@Language='" + formatter.Language + "']";
             var existingElements = QueryXmlElementsByXpath(xmlElement, elementXPath).ToList();
 
-            if (typeEntry.TimesProcessed > 1 && existingElements.Any())
+            if (typeEntry.TimesProcessed > 1 && existingElements.Any() && typeEntry.IsforwardingType)
                 return;
 
             // if first framework of type, clear signatures and generate from scratch
@@ -2567,7 +2581,7 @@ namespace Mono.Documentation
 
             var existingElements = elementsQuery();
 
-            if (typeEntry.TimesProcessed > 1 && existingElements.Any())
+            if (typeEntry.TimesProcessed > 1 && existingElements.Any() && typeEntry.IsforwardingType)
                 return;
 
             // pre: clear all the signatures
@@ -2707,7 +2721,7 @@ namespace Mono.Documentation
 
         public static void AddImplementedMembers(FrameworkTypeEntry typeEntry, MemberReference mi, Dictionary<string, List<MemberReference>> allImplementedMembers, XmlElement root, IEnumerable<Eiimembers> eiiMembers)
         {
-            if (typeEntry.TimesProcessed > 1)
+            if (typeEntry.TimesProcessed > 1 && typeEntry.IsforwardingType)
                 return;
 
             bool isExplicitlyImplemented = DocUtils.IsExplicitlyImplemented(mi);
@@ -3086,7 +3100,7 @@ namespace Mono.Documentation
         /// </summary>
         private void UpdateTypeForwardingChain(XmlElement root, FrameworkTypeEntry typeEntry, TypeDefinition type)
         {
-            if (typeEntry.TimesProcessed > 1)
+            if (typeEntry.TimesProcessed > 1 && typeEntry.IsforwardingType)
                 return;
 
             string elementName = "TypeForwardingChain";
@@ -3869,7 +3883,7 @@ namespace Mono.Documentation
 
         public void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
         {
-            if (typeEntry.TimesProcessed > 1)
+            if (typeEntry.TimesProcessed > 1 && typeEntry.IsforwardingType)
                 return;
 
             XmlElement e = WriteElement (root, "Parameters");

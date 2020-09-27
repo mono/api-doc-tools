@@ -81,7 +81,7 @@ namespace Mono.Documentation.Updater.Frameworks
 		public string Name { get; set; }
 		public string Namespace { get; set; }
 		public FrameworkEntry Framework { get { return fx; } }
-
+        public bool IsforwardingType { get; set; }
         public bool IsOnLastFramework { get { return this.Framework.IsLastFrameworkForType(this); } }
         public bool IsOnFirstFramework { get { return this.Framework.IsFirstFrameworkForType(this); } }
         public bool IsMemberOnLastFramework (MemberReference memberSig)
