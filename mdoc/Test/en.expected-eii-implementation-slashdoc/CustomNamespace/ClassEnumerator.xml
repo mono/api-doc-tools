@@ -6,7 +6,7 @@
   <TypeSignature Language="JavaScript" Value="function ClassEnumerator()" Usage="var classEnumerator = new ClassEnumerator();" />
   <TypeSignature Language="C++ CLI" Value="public ref class ClassEnumerator sealed : CustomNamespace::CustomInterface" />
   <TypeSignature Language="C++ CX" Value="public ref class ClassEnumerator sealed : CustomNamespace::CustomInterface" />
-  <TypeSignature Language="C++ WINRT" Value="class ClassEnumerator sealed : CustomNamespace::CustomInterface" />
+  <TypeSignature Language="C++ WINRT" Value="class ClassEnumerator final : CustomNamespace::CustomInterface" />
   <AssemblyInfo>
     <AssemblyName>DocTest-VB-Eii</AssemblyName>
     <AssemblyVersion>0.0.65535.65535</AssemblyVersion>
