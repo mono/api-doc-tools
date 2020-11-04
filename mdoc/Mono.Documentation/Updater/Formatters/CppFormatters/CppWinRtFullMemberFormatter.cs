@@ -206,7 +206,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (type.IsAbstract && !type.IsInterface)
                 buf.Append(" abstract");
             if (type.IsSealed && !DocUtils.IsDelegate(type) && !type.IsValueType)
-                buf.Append(" sealed");
+                buf.Append(" final");
 
             CppWinRtFullMemberFormatter full = new CppWinRtFullMemberFormatter(this.TypeMap);
 
