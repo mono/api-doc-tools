@@ -36,7 +36,7 @@ namespace mdoc.Test
         public void TypeSignature_publicSealedClass_Class1()
         {
             TestTypeSignature(_cppCxTestLibName, "UwpTestWinRtComponentCpp.Class1",
-                "class Class1 sealed");
+                "class Class1 final");
         }
 
         [Test]
