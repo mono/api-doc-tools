@@ -52,7 +52,7 @@ If you are running an older version (for example, if you originally installed WS
 
 - `sudo do-release-upgrade` ... this updates the version of Ubuntu. _Please note_, this will likely disable any external package sources, such as the one added when installing Mono.
 - Once you're done with that, then you just need to update `apt-get`
-    - Add back Mono's package repository source, as described in [the download instructions](www.mono-project.com/download/#download-lin-ubuntu).
+    - Add back Mono's package repository source, as described in [the download instructions](https://www.mono-project.com/download/stable/#download-lin).
     - `sudo apt-get update`
     - `sudo apt-get upgrade`
     - `sudo apt-get dist-upgrade`
