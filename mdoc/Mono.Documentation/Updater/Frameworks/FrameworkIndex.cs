@@ -110,7 +110,7 @@ namespace Mono.Documentation.Updater.Frameworks
                             "Assemblies",
                             fx.AssemblyNames.Distinct().Reverse().Select(an => 
                                                                new XElement("Assembly",
-                                                                            new XAttribute("Name-TF", an.Item1),
+                                                                            new XAttribute("Name", "TF" + an.Item1),
                                                                             new XAttribute("Version", an.Item2)
                                                                           ))
                                     ));
