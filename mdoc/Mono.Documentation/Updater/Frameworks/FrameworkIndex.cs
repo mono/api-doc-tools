@@ -108,7 +108,7 @@ namespace Mono.Documentation.Updater.Frameworks
                     frameworkElement.Add (
                         new XElement (
                             "Assemblies",
-                            fx.AssemblyNames.Distinct().Reverse().Select(an => 
+                            fx.AssemblyNames.Distinct().Select(an => 
                                                                new XElement("Assembly",
                                                                             new XAttribute("Name", "TF" + an.Item1),
                                                                             new XAttribute("Version", an.Item2)
