@@ -975,7 +975,7 @@ namespace Mono.Documentation
             if (index_assembly == null)
                 index_assembly = parent.OwnerDocument.CreateElement ("Assembly");
 
-            index_assembly.SetAttribute ("Name", "TU-" + assembly.Name.Name);
+            index_assembly.SetAttribute ("Name", assembly.Name.Name);
             index_assembly.SetAttribute ("Version", assembly.Name.Version.ToString ());
 
             AssemblyNameDefinition name = assembly.Name;
