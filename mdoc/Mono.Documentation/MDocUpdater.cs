@@ -699,7 +699,7 @@ namespace Mono.Documentation
             {
                 using (assemblySet)
                 {
-                    foreach (AssemblyDefinition assembly in assemblySet.Assemblies)
+                    foreach (AssemblyDefinition assembly in new SortedSet<AssemblyDefinition>(assemblySet.Assemblies).Reverse())
                     {
                         using (assembly)
                         {
