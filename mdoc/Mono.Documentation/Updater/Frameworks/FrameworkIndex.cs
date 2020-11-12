@@ -112,7 +112,7 @@ namespace Mono.Documentation.Updater.Frameworks
                                                                new XElement("Assembly",
                                                                             new XAttribute("Name", an.Item1),
                                                                             new XAttribute("Version", an.Item2)
-                                                                          ))
+                                                                          )).Reverse()
                                     ));
                 }
 
