@@ -108,10 +108,10 @@ namespace Mono.Documentation.Updater.Frameworks
                     frameworkElement.Add (
                         new XElement (
                             "Assemblies",
-                            new SortedList<string, Tuple<string, string>>(fx.AssemblyNames.Distinct().ToDictionary(p => p.Item1)).Select(an => 
+                            fx.AssemblyNames.Distinct().Select(an => 
                                                                new XElement("Assembly",
-                                                                            new XAttribute("Name", an.Key),
-                                                                            new XAttribute("Version", an.Value.Item2)
+                                                                            new XAttribute("Name", an.Item1),
+                                                                            new XAttribute("Version", an.Item2)
                                                                           ))
                                     ));
                 }
