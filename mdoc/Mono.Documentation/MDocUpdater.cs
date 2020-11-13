@@ -360,9 +360,7 @@ namespace Mono.Documentation
 
                 Func<string, string, IEnumerable<string>> getFiles = (string path, string filters) =>
                 {
-                    return filters
-                        .Split ('|')
-                        .SelectMany (v => Directory.GetFiles (path, v));
+                    return new SortedSet<string>(filters.Split ('|').SelectMany (v => Directory.GetFiles (path, v)));
                 };
 
                 var sets = fxd.Select (d => new AssemblySet (
@@ -699,7 +697,7 @@ namespace Mono.Documentation
             {
                 using (assemblySet)
                 {
-                    foreach (AssemblyDefinition assembly in assemblySet.Assemblies.Reverse())
+                    foreach (AssemblyDefinition assembly in assemblySet.Assemblies)
                     {
                         using (assembly)
                         {
@@ -1062,7 +1060,7 @@ namespace Mono.Documentation
             {
                 using (assemblySet)
                 {
-                    foreach (AssemblyDefinition assm in assemblySet.Assemblies.Reverse())
+                    foreach (AssemblyDefinition assm in assemblySet.Assemblies)
                     {
                         using (assm)
                         {
