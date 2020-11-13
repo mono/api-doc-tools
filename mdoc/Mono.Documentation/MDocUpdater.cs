@@ -360,7 +360,24 @@ namespace Mono.Documentation
 
                 Func<string, string, IEnumerable<string>> getFiles = (string path, string filters) =>
                 {
-                    return new SortedSet<string>(filters.Split ('|').SelectMany (v => Directory.GetFiles (path, v)));
+                    var oldFileList = filters.Split('|').SelectMany(v => Directory.GetFiles(path, v));
+                    var sortedFileList = new SortedSet<string>(oldFileList);
+
+                    bool fileMatch = true;
+                    var oldFileEnumerator = oldFileList.GetEnumerator();
+                    var sortedFileEnumerator = sortedFileList.GetEnumerator();
+                    while(oldFileEnumerator.MoveNext() && sortedFileEnumerator.MoveNext())
+                    {
+                        if (!oldFileEnumerator.Current.Equals(sortedFileEnumerator.Current))
+                        {
+                            fileMatch = false;
+                            break;
+                        }
+                    }
+
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "test.log"), DateTime.Now + ": " + fileMatch + Environment.NewLine);
+
+                    return sortedFileList;
                 };
 
                 var sets = fxd.Select (d => new AssemblySet (
