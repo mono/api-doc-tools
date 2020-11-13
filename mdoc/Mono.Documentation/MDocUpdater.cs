@@ -377,12 +377,9 @@ namespace Mono.Documentation
 
                     var logFile = Path.Combine(Environment.CurrentDirectory, "test.log");
                     File.AppendAllText(logFile, DateTime.Now + ": " + fileMatch + Environment.NewLine);
-                    if (!fileMatch)
+                    foreach (var item in oldFileList)
                     {
-                        foreach (var item in oldFileList)
-                        {
-                            File.AppendAllText(logFile, DateTime.Now + ": " + item + Environment.NewLine);
-                        }
+                        File.AppendAllText(logFile, DateTime.Now + ": " + item + Environment.NewLine);
                     }
 
                     return sortedFileList;
