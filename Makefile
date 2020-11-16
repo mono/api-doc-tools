@@ -12,6 +12,7 @@ $(MDOC):
 	$(MSBUILD) apidoctools.sln /p:Configuration=$(CONFIGURATION);
 
 prepare:
+	fsharpc --help
 	git submodule update --init --recursive
 	nuget restore apidoctools.sln
 	nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
