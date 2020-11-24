@@ -18,7 +18,15 @@ variables:
 steps:
 - task: NuGetToolInstaller@1
 
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: 'git submodule update --init --recursive'
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
-    restoreNugetPackages: true
