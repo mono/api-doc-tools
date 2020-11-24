@@ -1,0 +1,49 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: 'apidoctools.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  PublishFolder: '$(Build.ArtifactStagingDirectory)/Publish'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      git submodule update --init --recursive
+      nuget restore apidoctools.sln
+      nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: MSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArguments: '/p:RunCodeAnalysis=False,RunCodeAnalysisOnThisProject=False'
+
+- task: DotNetCoreCLI@2
+  displayName: publish mdoc
+  inputs:
+        command: publish
+        publishWebProjects: false
+        projects: '$(solution)'
+        arguments: '-c $(BuildConfiguration) -o $(PublishFolder)'
+        zipAfterPublish: false
+        modifyOutputPath: false
+        feedsToUse: config
+
+- task: ArchiveFiles@1
+  displayName: Archive site files
+  inputs:
+        rootFolder: '$(PublishFolder)'
+        includeRootFolder: false
+        archiveFile: '$(Build.ArtifactStagingDirectory)/zips/site-$(Build.BuildId).zip'
