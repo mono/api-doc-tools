@@ -30,17 +30,6 @@ steps:
     solution: '$(solution)'
     msbuildArguments: '/p:RunCodeAnalysis=False,RunCodeAnalysisOnThisProject=False'
 
-- task: DotNetCoreCLI@2
-  displayName: publish mdoc
-  inputs:
-        command: publish
-        publishWebProjects: false
-        projects: '$(solution)'
-        arguments: '-c $(BuildConfiguration) -o $(PublishFolder)'
-        zipAfterPublish: false
-        modifyOutputPath: false
-        feedsToUse: config
-
 - task: ArchiveFiles@1
   displayName: Archive site files
   inputs:
