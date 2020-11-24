@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  solution: 'apidoctools.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   PublishFolder: '$(Build.ArtifactStagingDirectory)/Publish'
@@ -23,7 +23,7 @@ steps:
     targetType: 'inline'
     script: |
       git submodule update --init --recursive
-      nuget restore apidoctools.sln
+      nuget restore $(solution)
       nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
 
 - task: NuGetCommand@2
@@ -32,5 +32,5 @@ steps:
 
 - task: MSBuild@1
   inputs:
-    solution: '**/*.sln'
+    solution: '$(solution)'
     msbuildArguments: '/p:RunCodeAnalysis=False,RunCodeAnalysisOnThisProject=False'
