@@ -34,3 +34,9 @@ steps:
         rootFolder: 'bin/Debug'
         includeRootFolder: false
         archiveFile: '$(Build.ArtifactStagingDirectory)/zips/site-$(Build.BuildId).zip'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)/zips'
+        artifact: 'Mdoc.Artifact'
