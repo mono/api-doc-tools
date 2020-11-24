@@ -14,6 +14,7 @@ steps:
 - task: NuGetToolInstaller@1
 
 - task: Bash@3
+  displayName: Nuget restore
   inputs:
     targetType: 'inline'
     script: |
@@ -21,18 +22,15 @@ steps:
       nuget restore apidoctools.sln
       nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
 - task: MSBuild@1
+  displayName: Build mdoc
   inputs:
     solution: '$(solution)'
     msbuildArguments: '/p:RunCodeAnalysis=False,RunCodeAnalysisOnThisProject=False'
 
 - task: ArchiveFiles@1
-  displayName: Archive site files
+  displayName: Archive mdoc files
   inputs:
-        rootFolder: '/bin/$(buildConfiguration)'
+        rootFolder: 'bin/$(buildConfiguration)'
         includeRootFolder: false
         archiveFile: '$(Build.ArtifactStagingDirectory)/zips/site-$(Build.BuildId).zip'
