@@ -30,3 +30,4 @@ steps:
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
+    msbuildArguments: '/p:RunCodeAnalysis=False,RunCodeAnalysisOnThisProject=False'
