@@ -32,7 +32,7 @@ steps:
   displayName: Sign executable and dll files
   inputs:
         ConnectedServiceName: 'CodeSigning-APEX'
-        FolderPath: '$(Build.ArtifactStagingDirectory)'
+        FolderPath: 'bin/$(buildConfiguration)'
         UseMinimatch: true
         signConfigType: inlineSignParams
         SessionTimeout: '60'
