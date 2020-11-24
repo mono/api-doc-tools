@@ -39,8 +39,8 @@ steps:
         MaxConcurrency: '100'
         MaxRetryAttempts: '5'
         Pattern: |
-            **\*.dll
-            **\*.exe
+            bin/$(buildConfiguration)/*.dll
+            bin/$(buildConfiguration)/*.exe
         inlineOperation: |
          [
             {
