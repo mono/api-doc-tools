@@ -11,7 +11,7 @@ variables:
 stages:
   - stage: 'Build'
     jobs:
-    - job: 'UnitTest_Build_CodeSigning_Archive'
+    - job: 'Build_UnitTest_CodeSigning_Archive'
       steps:
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tool'
