@@ -5,17 +5,25 @@ pool:
   vmImage: 'macos-latest'
 
 variables:
-  mdocPath: 'bin/Debug'
+  buildConfiguration: 'Release'
+  mdocPath: 'bin/$(buildConfiguration)'
 
 steps:
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet tool'
 
 - task: Bash@3
-  displayName: Build mdoc and run unit tests
+  displayName: 'Run unit tests'
   inputs:
     targetType: 'inline'
     script: 'make prepare all check CONFIGURATION=Debug'
+
+- task: MSBuild@1
+  displayName: 'Building mdoc in $(buildConfiguration) mode'
+  inputs:
+    solution: 'apidoctools.sln'
+    msbuildArguments: '/p:RunCodeAnalysis=False,RunCodeAnalysisOnThisProject=False'
+    configuration: '$(buildConfiguration)'
 
 - task: ArchiveFiles@1
   displayName: Archive mdoc files
