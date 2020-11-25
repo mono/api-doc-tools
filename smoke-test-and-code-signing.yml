@@ -9,7 +9,7 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@1
-  displayName: Install NuGet Tool
+  displayName: 'Install NuGet tool'
 
 - task: Bash@3
   displayName: Build mdoc and run unit tests
@@ -25,7 +25,7 @@ steps:
         archiveFile: '$(Build.ArtifactStagingDirectory)/zips/mdoc-$(Build.BuildId).zip'
 
 - task: PublishPipelineArtifact@1
-  displayName: 'Publish mdoc Artifact'
+  displayName: 'Publish mdoc atifact'
   inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)/zips'
         artifact: 'mdoc.Artifact'
