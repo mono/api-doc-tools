@@ -5,7 +5,7 @@ pool:
   vmImage: 'macos-latest'
 
 variables:
-  mdocPath: 'bin/Release'
+  mdocPath: 'mdoc/bin/Release'
 
 steps:
 - task: NuGetToolInstaller@1
