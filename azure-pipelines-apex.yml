@@ -8,6 +8,7 @@ variables:
   solution: 'apidoctools.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  mdocPath: 'bin/Release'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -32,7 +33,7 @@ steps:
   displayName: Sign executable and dll files
   inputs:
         ConnectedServiceName: 'CodeSigning-APEX'
-        FolderPath: 'bin/$(buildConfiguration)'
+        FolderPath: '$(mdocPath)'
         UseMinimatch: true
         signConfigType: inlineSignParams
         SessionTimeout: '60'
@@ -88,7 +89,7 @@ steps:
 - task: ArchiveFiles@1
   displayName: Archive mdoc files
   inputs:
-        rootFolder: 'bin/$(buildConfiguration)'
+        rootFolder: '$(mdocPath)'
         includeRootFolder: false
         archiveFile: '$(Build.ArtifactStagingDirectory)/zips/mdoc-$(Build.BuildId).zip'
 
