@@ -90,7 +90,7 @@ steps:
   inputs:
         rootFolder: 'bin/$(buildConfiguration)'
         includeRootFolder: false
-        archiveFile: '$(Build.ArtifactStagingDirectory)/zips/site-$(Build.BuildId).zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/zips/mdoc-$(Build.BuildId).zip'
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish mdoc Artifact'
