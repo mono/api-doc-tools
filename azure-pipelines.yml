@@ -6,11 +6,12 @@
 trigger:
 - '*'
 
+name: $(SourceBranchName)-$(Date:yyyyMMdd)$(Rev:.r)
+
 pool:
   vmImage: 'macos-latest'
 
 variables:
-  buildConfiguration: 'Release'
   mdocPath: 'bin/$(buildConfiguration)'
   
 steps:
@@ -21,14 +22,7 @@ steps:
   displayName: Run Unit and Integration Tests
   inputs:
     targetType: 'inline'
-    script: 'make prepare all check CONFIGURATION=Debug'
-    
-- task: MSBuild@1
-  displayName: 'Building mdoc In $(buildConfiguration) Mode'
-  inputs:
-    solution: 'apidoctools.sln'
-    msbuildArguments: '/p:RunCodeAnalysis=False,RunCodeAnalysisOnThisProject=False'
-    configuration: '$(buildConfiguration)'
+    script: 'make prepare all check CONFIGURATION=$(buildConfiguration)'
 
 - task: EsrpCodeSigning@1
   displayName: Sign executable and dll files
@@ -94,12 +88,11 @@ steps:
     rootFolderOrFile: '$(mdocPath)'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/zips/mdoc-$(Build.BuildId).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/zips/mdoc-$(Build.BuildNumber).zip'
     replaceExistingArchive: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish mdoc Artifact'
-  condition: ne(variables['Build.Reason'],'PullRequest')
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/zips'
     ArtifactName: 'mdoc.Artifact'
