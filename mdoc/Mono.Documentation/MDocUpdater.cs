@@ -361,6 +361,10 @@ namespace Mono.Documentation
                 Func<string, string, IEnumerable<string>> getFiles = (string path, string filters) =>
                 {
                     var assemblyFiles = filters.Split('|').SelectMany(v => Directory.GetFiles(path, v));
+
+                    // Directory.GetFiles method returned file names is not sort, 
+                    // this makes the order of the assembly elements of our generated XML files is inconsistent in different environments,
+                    // so we need to sort it.
                     return new SortedSet<string>(assemblyFiles);
                 };
 
