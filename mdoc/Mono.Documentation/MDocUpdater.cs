@@ -360,9 +360,8 @@ namespace Mono.Documentation
 
                 Func<string, string, IEnumerable<string>> getFiles = (string path, string filters) =>
                 {
-                    return filters
-                        .Split ('|')
-                        .SelectMany (v => Directory.GetFiles (path, v));
+                    var assemblyFiles = filters.Split('|').SelectMany(v => Directory.GetFiles(path, v));
+                    return new SortedSet<string>(assemblyFiles);
                 };
 
                 var sets = fxd.Select (d => new AssemblySet (
