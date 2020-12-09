@@ -54,7 +54,7 @@ If you are running an older version (for example, if you originally installed WS
 - Once you're done with that, then you just need to update `apt-get`
 - Steps to set up the local WSL mdoc environment
     - Install make `sudo apt-get install make`
-    - Install mono, Add back Mono's package repository source, as described in [the download instructions](www.mono-project.com/download/#download-lin-ubuntu).
+    - Install mono, Add back Mono's package repository source, as described in [the download instructions](https://www.mono-project.com/download/stable/#download-lin-ubuntu).
     - Install Nuget `sudo apt-get install nuget`
     - Install F# Compiler `sudo apt-get install mono-complete fsharp`
 
