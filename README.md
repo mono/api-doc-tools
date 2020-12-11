@@ -52,12 +52,13 @@ If you are running an older version (for example, if you originally installed WS
 
 - `sudo do-release-upgrade` ... this updates the version of Ubuntu. _Please note_, this will likely disable any external package sources, such as the one added when installing Mono.
 - Once you're done with that, then you just need to update `apt-get`
-    - Add back Mono's package repository source, as described in [the download instructions](www.mono-project.com/download/#download-lin-ubuntu).
-    - `sudo apt-get update`
-    - `sudo apt-get upgrade`
-    - `sudo apt-get dist-upgrade`
+- Steps to set up the local WSL mdoc environment
+    - Install make `sudo apt-get install make`
+    - Install mono, Add back Mono's package repository source, as described in [the download instructions](https://www.mono-project.com/download/stable/#download-lin-ubuntu).
+    - Install Nuget `sudo apt-get install nuget`
+    - Install F# Compiler `sudo apt-get install mono-complete fsharp`
 
-With that run ... you should be able to run the build locally using `make all ENVIRONMENT=wsl`. 
+With that run ... you should be able to run the build locally using `make prepare all check`. 
 
 ### Linux
 
