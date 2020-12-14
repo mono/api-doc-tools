@@ -96,3 +96,26 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/zips'
     ArtifactName: 'mdoc.Artifact'
+    
+- task: PowerShell@2
+  name: 'mdocVersion'
+  displayName: 'Checking remote and local version of mdoc'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    filePath: 'mdoc/CheckNugetPublish.ps1'
+
+- task: NuGetCommand@2
+  displayName: 'Create a NuGet package for mdoc'
+  condition: eq(variables['mdocVersion.NeedUpdate'], true)
+  inputs:
+    command: 'pack'
+    packagesToPack: 'mdoc/mdoc.nuspec'
+
+- task: NuGetCommand@2
+  displayName: 'Publishing mdoc package to nuget.org'
+  condition: eq(variables['mdocVersion.NeedUpdate'], true)
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'modc_nuget_org'
