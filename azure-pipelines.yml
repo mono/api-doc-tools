@@ -26,7 +26,6 @@ steps:
 
 - task: EsrpCodeSigning@1
   displayName: Sign executable and dll files
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     ConnectedServiceName: 'CodeSigning-APEX'
     FolderPath: '$(mdocPath)'
