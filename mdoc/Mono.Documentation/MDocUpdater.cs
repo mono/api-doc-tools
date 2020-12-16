@@ -360,9 +360,12 @@ namespace Mono.Documentation
 
                 Func<string, string, IEnumerable<string>> getFiles = (string path, string filters) =>
                 {
-                    return filters
-                        .Split ('|')
-                        .SelectMany (v => Directory.GetFiles (path, v));
+                    var assemblyFiles = filters.Split('|').SelectMany(v => Directory.GetFiles(path, v));
+
+                    // Directory.GetFiles method returned file names is not sort, 
+                    // this makes the order of the assembly elements of our generated XML files is inconsistent in different environments,
+                    // so we need to sort it.
+                    return new SortedSet<string>(assemblyFiles);
                 };
 
                 var sets = fxd.Select (d => new AssemblySet (
@@ -3395,21 +3398,25 @@ namespace Mono.Documentation
             }
             else
             {
-                var commMemberKeys = new string[] { "returns", "value", "related" };
+                var commMemberKeys = new string[] { "returns", "value" };
                 for (int i = 0; i < commMemberKeys.Length; i++)
                 {
                     if (DocUtils.NeedsOverwrite(e[commMemberKeys[i]]))
                         if (DocUtils.CheckRemoveByImporter(info, commMemberKeys[i], importers, setimporters))
                             ClearElement(e, commMemberKeys[i]);
-                }
-             
-                var altMemberKeys = new string[] { "altmember", "seealso" };
-                for (int i = 0; i < altMemberKeys.Length; i++)
-                 {
-                    if (DocUtils.NeedsOverwrite(e["altmember"]))
-                        if (DocUtils.CheckRemoveByImporter(info, altMemberKeys[i], importers, setimporters))
-                            ClearElement(e, "altmember");
-                 }               
+                }              
+            }
+
+            if (DocUtils.NeedsOverwrite(e["related"]))
+                if (DocUtils.CheckRemoveByImporter(info, "related", importers, setimporters))
+                    ClearElement(e, "related");
+
+            var altMemberKeys = new string[] { "altmember", "seealso" };
+            for (int i = 0; i < altMemberKeys.Length; i++)
+            {
+                if (DocUtils.NeedsOverwrite(e["altmember"]))
+                    if (DocUtils.CheckRemoveByImporter(info, altMemberKeys[i], importers, setimporters))
+                        ClearElement(e, "altmember");
             }
 
             if (addremarks)

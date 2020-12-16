@@ -2,8 +2,8 @@
 <Framework Name="One">
   <package Id="thepackage" Version="2.2.2" />
   <Assemblies>
-    <Assembly Name="DocTest-DropNS-classic" Version="0.0.0.0" />
     <Assembly Name="DocTest-addNonGeneric" Version="0.0.0.0" />
+    <Assembly Name="DocTest-DropNS-classic" Version="0.0.0.0" />
   </Assemblies>
   <Namespace Name="MyFramework.MyNamespace">
     <Type Name="MyFramework.MyNamespace.MyClass" Id="T:MyFramework.MyNamespace.MyClass">

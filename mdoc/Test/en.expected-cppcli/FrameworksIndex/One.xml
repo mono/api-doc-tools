@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Framework Name="One">
   <Assemblies>
-    <Assembly Name="DocTest-DropNS-classic" Version="0.0.0.0" />
     <Assembly Name="DocTest-addNonGeneric" Version="0.0.0.0" />
+    <Assembly Name="DocTest-DropNS-classic" Version="0.0.0.0" />
   </Assemblies>
   <Namespace Name="MyFramework.MyNamespace">
     <Type Name="MyFramework.MyNamespace.MyClass" Id="T:MyFramework.MyNamespace.MyClass">

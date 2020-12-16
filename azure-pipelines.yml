@@ -1,0 +1,121 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- '*'
+
+name: $(SourceBranchName)-$(Date:yyyyMMdd)$(Rev:.r)
+
+pool:
+  vmImage: 'macos-latest'
+
+variables:
+  mdocPath: 'bin/$(buildConfiguration)'
+  
+steps:
+- task: NuGetToolInstaller@1
+  displayName: Install NuGet Tool
+
+- task: Bash@3
+  displayName: Run Unit and Integration Tests
+  inputs:
+    targetType: 'inline'
+    script: 'make prepare all check CONFIGURATION=$(buildConfiguration)'
+
+- task: EsrpCodeSigning@1
+  displayName: Sign executable and dll files
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  inputs:
+    ConnectedServiceName: 'CodeSigning-APEX'
+    FolderPath: '$(mdocPath)'
+    UseMinimatch: true
+    signConfigType: inlineSignParams
+    SessionTimeout: '60'
+    MaxConcurrency: '100'
+    MaxRetryAttempts: '5'
+    Pattern: |
+        *.dll
+        *.exe
+    inlineOperation: |
+      [
+        {
+          "KeyCode": "CP-236167",
+          "OperationSetCode": "SigntoolSign",
+          "parameters": [
+            {
+              "parameterName": "OpusName",
+              "parameterValue": "Microsoft"
+            },
+            {
+              "parameterName": "OpusInfo",
+              "parameterValue": "http://www.microsoft.com"
+            },
+            {
+              "parameterName": "PageHash",
+              "parameterValue": "/NPH"
+            },
+            {
+              "parameterName": "TimeStamp",
+              "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+            },
+            {
+              "parameterName": "FileDigest",
+              "parameterValue": "/fd \"SHA256\""
+            }
+          ],
+          "ToolName": "sign",
+          "ToolVersion": "1.0"
+        },
+        {
+          "KeyCode": "CP-236167",
+          "OperationSetCode": "SigntoolVerify",
+          "Parameters": [
+            {
+              "parameterName": "VerifyAll",
+              "parameterValue": "/all"
+            }
+          ],
+          "ToolName": "sign",
+          "ToolVersion": "1.0"
+        }
+      ]
+
+- task: ArchiveFiles@2
+  displayName: Archive mdoc Files
+  inputs:
+    rootFolderOrFile: '$(mdocPath)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/zips/mdoc-$(Build.BuildNumber).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish mdoc Artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/zips'
+    ArtifactName: 'mdoc.Artifact'
+    
+- task: PowerShell@2
+  name: 'mdocVersion'
+  displayName: 'Checking remote and local version of mdoc'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    filePath: 'mdoc/CheckNugetPublish.ps1'
+
+- task: NuGetCommand@2
+  displayName: 'Create a NuGet package for mdoc'
+  condition: eq(variables['mdocVersion.NeedUpdate'], true)
+  inputs:
+    command: 'pack'
+    packagesToPack: 'mdoc/mdoc.nuspec'
+
+- task: NuGetCommand@2
+  displayName: 'Publishing mdoc package to nuget.org'
+  condition: eq(variables['mdocVersion.NeedUpdate'], true)
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'modc_nuget_org'
