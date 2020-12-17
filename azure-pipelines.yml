@@ -41,11 +41,7 @@ steps:
     inlineOperation: |
       [
         {
-<<<<<<< HEAD
-          "KeyCode": "CP-236167",
-=======
           "KeyCode": "CP-230012",
->>>>>>> develop
           "OperationSetCode": "SigntoolSign",
           "parameters": [
             {
@@ -73,11 +69,7 @@ steps:
           "ToolVersion": "1.0"
         },
         {
-<<<<<<< HEAD
-          "KeyCode": "CP-236167",
-=======
           "KeyCode": "CP-230012",
->>>>>>> develop
           "OperationSetCode": "SigntoolVerify",
           "Parameters": [
             {
