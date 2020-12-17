@@ -41,7 +41,7 @@ steps:
     inlineOperation: |
       [
         {
-          "KeyCode": "CP-236167",
+          "KeyCode": "CP-230012",
           "OperationSetCode": "SigntoolSign",
           "parameters": [
             {
@@ -69,7 +69,7 @@ steps:
           "ToolVersion": "1.0"
         },
         {
-          "KeyCode": "CP-236167",
+          "KeyCode": "CP-230012",
           "OperationSetCode": "SigntoolVerify",
           "Parameters": [
             {
@@ -96,7 +96,6 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/zips'
     ArtifactName: 'mdoc.Artifact'
-    
 - task: PowerShell@2
   name: 'mdocVersion'
   displayName: 'Checking remote and local version of mdoc'
@@ -110,6 +109,42 @@ steps:
   inputs:
     command: 'pack'
     packagesToPack: 'mdoc/mdoc.nuspec'
+
+- task: EsrpCodeSigning@1
+  displayName: 'Sign NuGet packages'
+  condition: eq(variables['mdocVersion.NeedUpdate'], true)
+  inputs:
+    ConnectedServiceName: 'CodeSigning-APEX'
+    FolderPath: '$(Build.ArtifactStagingDirectory)'
+    Pattern: '*.nupkg'
+    signConfigType: inlineSignParams
+    inlineOperation: |
+     [
+             {
+                 "KeyCode" : "CP-401405",
+                 "OperationSetCode" : "NuGetSign",
+                 "Parameters" : [
+                    {
+                      "parameterName": "TimeStamp",
+                      "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                    },
+                    {
+                      "parameterName": "FileDigest",
+                      "parameterValue": "/fd \"SHA256\""
+                    }
+                 ],
+                 "ToolName" : "sign",
+                 "ToolVersion" : "1.0"
+             },
+             {
+                 "KeyCode" : "CP-401405",
+                 "OperationSetCode" : "NuGetVerify",
+                 "Parameters" : [],
+                 "ToolName" : "sign",
+                 "ToolVersion" : "1.0"
+             }
+      ]
+    SessionTimeout: 20
 
 - task: NuGetCommand@2
   displayName: 'Publishing mdoc package to nuget.org'
