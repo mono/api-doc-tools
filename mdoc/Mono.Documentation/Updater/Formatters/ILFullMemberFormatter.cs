@@ -121,7 +121,7 @@ namespace Mono.Documentation.Updater.Formatters
                 buf.Append (") ");
             }
 #else
-            IList<TypeReference> constraints = type.Constraints;
+            IList<TypeReference> constraints = type.Constraints.Select(c => c.ConstraintType).ToList();
             if (constraints.Count > 0)
             {
                 var full = new ILFullMemberFormatter (this.TypeMap);

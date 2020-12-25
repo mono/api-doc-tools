@@ -3034,7 +3034,7 @@ namespace Mono.Documentation
 #if NEW_CECIL
                 Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = gp.Constraints;
 #else
-                IList<TypeReference> constraints = gp.Constraints;
+                IList<TypeReference> constraints = gp.Constraints.Select(c => c.ConstraintType).ToList();
 #endif
                 if (constraints.Count == 0)
                     AppendElementAttributeText (targets, "Target", "Type", "System.Object");
@@ -4100,7 +4100,7 @@ namespace Mono.Documentation
 #if NEW_CECIL
                 Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = t.Constraints;
 #else
-                IList<TypeReference> constraints = t.Constraints;
+                IList<TypeReference> constraints = t.Constraints.Select(c => c.ConstraintType).ToList();
 #endif
                 GenericParameterAttributes attrs = t.Attributes;
 

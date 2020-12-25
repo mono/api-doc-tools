@@ -359,7 +359,7 @@ namespace Mono.Documentation.Updater
 #if NEW_CECIL
                             _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context, useTypeProjection:useTypeProjection);
 #else
-                            _AppendTypeName(buf, genericParameter.Constraints[0], context, useTypeProjection: useTypeProjection);
+                            _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context, useTypeProjection: useTypeProjection);
 #endif
                         }
                         else
@@ -421,7 +421,7 @@ namespace Mono.Documentation.Updater
 #if NEW_CECIL
                 Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
 #else
-                IList<TypeReference> constraints = genArg.Constraints;
+                IList<TypeReference> constraints = genArg.Constraints.Select(c => c.ConstraintType).ToList();
 #endif
                 if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     continue;
@@ -936,7 +936,7 @@ namespace Mono.Documentation.Updater
 #if NEW_CECIL
             return genericParameter.Constraints.Count == 1 && GetFSharpType(genericParameter.Constraints[0].ConstraintType.GetElementType()) != null;
 #else
-            return genericParameter.Constraints.Count == 1 && GetFSharpType(genericParameter.Constraints[0].GetElementType()) != null;
+            return genericParameter.Constraints.Count == 1 && GetFSharpType(genericParameter.Constraints[0].ConstraintType.GetElementType()) != null;
 #endif
         }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-
+using mdoc.Mono.Documentation.Updater.Formatters;
 using Mono.Cecil;
 using Mono.Documentation.Util;
 
@@ -21,7 +21,6 @@ namespace Mono.Documentation.Updater.Formatters
 
         protected override StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
         {
-
             string ns = DocUtils.GetNamespace (type);
             if (GetCSharpType (type.FullName) == null && ns != null && ns.Length > 0 && ns != "System")
                 buf.Append (ns).Append ('.');
@@ -119,7 +118,6 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (genType.Name.StartsWith("Nullable`") && genType.HasGenericArguments)
                 {
-
                     var underlyingTypeName = base.GetTypeName(genType.GenericArguments.First(), context, appendGeneric, useTypeProjection);
                     return underlyingTypeName + "?";
                 }
@@ -137,12 +135,6 @@ namespace Mono.Documentation.Updater.Formatters
 
                     return sb.ToString();
                 }
-            }
-
-            if (context != null && context.IsNullableAttribute)
-            {
-                var TypeName = base.GetTypeName(type, context, appendGeneric, useTypeProjection);
-                return TypeName + "?";
             }
 
             return base.GetTypeName(type, context, appendGeneric, useTypeProjection);
@@ -266,7 +258,7 @@ namespace Mono.Documentation.Updater.Formatters
 #if NEW_CECIL
                 Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
 #else
-                IList<TypeReference> constraints = genArg.Constraints;
+                IList<TypeReference> constraints = genArg.Constraints.Select(c => c.ConstraintType).ToList();
 #endif
                 if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     continue;
@@ -414,6 +406,36 @@ namespace Mono.Documentation.Updater.Formatters
                 return base.AppendMethodName (buf, method);
         }
 
+        protected override StringBuilder AppendNullableSymbolToArrayTypeName(StringBuilder buf, TypeReference type, bool? isNullableType)
+        {
+            if (isNullableType.IsTrue() && !type.IsValueType)
+            {
+                return AppendNullableSymbol(buf, isNullableType);
+            }
+
+            return buf;
+        }
+
+        protected override StringBuilder AppendNullableSymbolToTypeName(StringBuilder buf, TypeReference type, bool? isNullableType)
+        {
+            if (!type.IsValueType)
+            {
+                return AppendNullableSymbol(buf, isNullableType);
+            }
+
+            return buf;
+        }
+
+        private StringBuilder AppendNullableSymbol(StringBuilder buf, bool? isNullableType)
+        {
+            if (isNullableType.IsTrue())
+            {
+                buf.Append("?");
+            }
+
+            return buf;
+        }
+
         protected override StringBuilder AppendGenericMethodConstraints (StringBuilder buf, MethodDefinition method)
         {
             if (method.GenericParameters.Count == 0)
@@ -543,14 +565,75 @@ namespace Mono.Documentation.Updater.Formatters
                 if (isParams)
                     buf.AppendFormat ("params ");
             }
-            buf.Append (GetTypeName (parameter.ParameterType, new DynamicParserContext (parameter))).Append (" ");
+
+            DynamicParserContext parserContext = new DynamicParserContext(parameter, GetNullableAttributeList(parameter));
+            var isNullableParameter = parserContext.IsNullableAttribute();
+            buf.Append (GetTypeName(parameter.ParameterType, parserContext));
+            AppendNullableSymbolToParameterName(buf, parameter.ParameterType, isNullableParameter);
+
+            buf.Append (" ");
             buf.Append (parameter.Name);
+
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
                 var ReturnVal = new AttributeFormatter().MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
                 buf.AppendFormat (" = {0}", ReturnVal == "null" ? "default" : ReturnVal);
             }
             return buf;
+        }
+
+        private StringBuilder AppendNullableSymbolToParameterName(StringBuilder buf, TypeReference type, bool? isNullableParameter)
+        {
+            if (!type.IsValueType)
+            {
+                AppendNullableSymbol(buf, isNullableParameter);
+            }
+
+            return buf;
+        }
+
+        private ICollection<ICustomAttributeProvider> GetNullableAttributeList(ParameterDefinition parameterDefinition)
+        {
+            List<ICustomAttributeProvider> resultList = new List<ICustomAttributeProvider>();
+            resultList.Add(parameterDefinition);
+            if (parameterDefinition.Method is MethodDefinition methodDefinition)
+            {
+                resultList.Add(methodDefinition);
+                resultList.Add(methodDefinition.DeclaringType);
+            }
+
+            return resultList;
+        }
+
+        private bool IsNullableReferenceType(ParameterDefinition parameter)
+        {
+            var nullableAttribute = parameter.CustomAttributes.SingleOrDefault(ca => ca.AttributeType.FullName == "System.Runtime.CompilerServices.NullableAttribute");
+            if (nullableAttribute == null)
+            {
+                if (parameter.Method is MethodDefinition methodDefinition)
+                {
+                    nullableAttribute = methodDefinition.CustomAttributes.SingleOrDefault(ca => ca.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
+                    if (nullableAttribute == null)
+                    {
+                        nullableAttribute = methodDefinition.DeclaringType.CustomAttributes.SingleOrDefault(ca => ca.AttributeType.FullName == "System.Runtime.CompilerServices.NullableContextAttribute");
+                    }
+                }
+            }
+
+            if (nullableAttribute != null)
+            {
+                var nullableAttributeValue = nullableAttribute.ConstructorArguments[0].Value;
+                if (nullableAttributeValue is CustomAttributeArgument[] nullableAttributeArguments)
+                {
+                    var nullableAttributeArgumentsValue = nullableAttributeArguments.Select(p => (byte)p.Value == 2);
+
+                    return nullableAttributeArgumentsValue.First();
+                }
+                    
+                return (byte)nullableAttributeValue == 2;
+            }
+
+            return false;
         }
 
         protected override string GetPropertyDeclaration (PropertyDefinition property)

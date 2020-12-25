@@ -14,6 +14,9 @@ namespace mdoc.Test
     [TestFixture ()]
     public class FormatterTests : BasicFormatterTests<CSharpMemberFormatter>
     {
+        private const string NullableReferenceTypesAssemblyPath = "../../../../external/Test/mdoc.Test.NullableReferenceTypes.dll";
+        private const string SystemRuntimeAssemblyPath = "../../../../external/Test/System.Runtime.dll";
+
         private CSharpMemberFormatter csharpMemberFormatter = new CSharpMemberFormatter();
         protected override CSharpMemberFormatter formatter => csharpMemberFormatter;
 
