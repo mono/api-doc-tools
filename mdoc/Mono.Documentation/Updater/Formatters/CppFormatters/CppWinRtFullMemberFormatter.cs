@@ -123,7 +123,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         }
 
         protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type,
-            DynamicParserContext context)
+            IAttributeParserContext context)
         {
             buf.Append("std::Array <");
 
