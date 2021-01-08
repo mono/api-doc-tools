@@ -524,9 +524,9 @@ namespace Mono.Documentation.Updater
 
         private StringBuilder AppendReturnTypeName (StringBuilder buf, MethodDefinition method)
         {
-            var dynamicParserContext = new AttributeParserContext (method.MethodReturnType);
-            var isNullableType = dynamicParserContext.IsNullable ();
-            var returnTypeName = GetTypeName (method.ReturnType, dynamicParserContext);
+            var context = AttributeParserContext.Create (method.MethodReturnType);
+            var isNullableType = context.IsNullable();
+            var returnTypeName = GetTypeName (method.ReturnType, context);
             buf.Append (returnTypeName);
             AppendNullableSymbolToTypeName (buf, method.ReturnType, isNullableType);
             buf.Append (" ");

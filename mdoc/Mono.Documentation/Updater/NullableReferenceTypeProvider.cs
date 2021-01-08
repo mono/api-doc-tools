@@ -60,7 +60,10 @@ namespace Mono.Documentation.Updater
         {
             if (typeCustomAttribute == null)
             {
-                return new List<bool?> { null };
+                return new List<bool?>
+                {
+                    null
+                };
             }
 
             var nullableAttributeValue = typeCustomAttribute.ConstructorArguments[0].Value;
@@ -69,7 +72,10 @@ namespace Mono.Documentation.Updater
                 return nullableAttributeArguments.Select(a => IsAnnotatedNullableAttribute((byte)a.Value)).ToList();
             }
 
-            return new List<bool?> { IsAnnotatedNullableAttribute((byte)nullableAttributeValue) };
+            return new List<bool?>
+            {
+                IsAnnotatedNullableAttribute((byte)nullableAttributeValue)
+            };
         }
 
         private bool? IsAnnotatedNullableAttribute(byte value)
@@ -106,7 +112,12 @@ namespace Mono.Documentation.Updater
                 return GetTypeNullableAttributes(propertyDefinition);
             }
 
-            return new List<ICustomAttributeProvider>();
+            if (provider is FieldDefinition fieldDefinition)
+            {
+                return GetTypeNullableAttributes(fieldDefinition);
+            }
+
+            throw new ArgumentException("We don't support this custom attribute provider type now.", "provider");
         }
 
         private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(ParameterDefinition parameterDefinition)
@@ -124,16 +135,23 @@ namespace Mono.Documentation.Updater
             return GetTypeNullableAttributes(propertyDefinition, propertyDefinition.GetMethod as MethodDefinition);
         }
 
+        private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(FieldDefinition fieldDefinition)
+        {
+            return new List<ICustomAttributeProvider>
+            {
+                fieldDefinition,
+                fieldDefinition.DeclaringType
+            };
+        }
+
         private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(ICustomAttributeProvider customAttributeProvider, MethodDefinition methodDefinition)
         {
-            List<ICustomAttributeProvider> resultList = new List<ICustomAttributeProvider> { customAttributeProvider };
-            if (methodDefinition != null)
+            return new List<ICustomAttributeProvider> 
             {
-                resultList.Add(methodDefinition);
-                resultList.Add(methodDefinition.DeclaringType);
-            }
-
-            return resultList;
+                customAttributeProvider,
+                methodDefinition,
+                methodDefinition.DeclaringType
+            };
         }
     }
 }

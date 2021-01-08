@@ -127,7 +127,7 @@ namespace Mono.Documentation.Updater
                 if (isFunction)
                 {
                     buf.Append(" As ");
-                    buf.Append(full.GetName(invoke.ReturnType, new AttributeParserContext(invoke.MethodReturnType))).Append(" ");
+                    buf.Append(full.GetName(invoke.ReturnType, AttributeParserContext.Create(invoke.MethodReturnType))).Append(" ");
                 }
 
                 return buf.ToString();
@@ -271,7 +271,7 @@ namespace Mono.Documentation.Updater
 #if NEW_CECIL
             Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
 #else
-            IList<TypeReference> constraints = genArg.Constraints.Select(c => c.ConstraintType).ToList();
+            IList<TypeReference> constraints = genArg.Constraints;
 #endif
             if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                 return;
@@ -376,7 +376,7 @@ namespace Mono.Documentation.Updater
             AppendParameters(buf, method, method.Parameters);
             AppendGenericMethodConstraints(buf, method);
             if (isFunction)
-                buf.Append(" As ").Append(GetTypeName(method.ReturnType, new AttributeParserContext(method.MethodReturnType)));
+                buf.Append(" As ").Append(GetTypeName(method.ReturnType, AttributeParserContext.Create(method.MethodReturnType)));
 
             if (DocUtils.IsExplicitlyImplemented(method))
             {
@@ -580,7 +580,7 @@ namespace Mono.Documentation.Updater
             }
             buf.Append(parameter.Name);
             buf.Append(" As ");
-            buf.Append(GetTypeName(parameter.ParameterType, new AttributeParserContext(parameter)));
+            buf.Append(GetTypeName(parameter.ParameterType, AttributeParserContext.Create(parameter)));
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
                 var parameterValue = new AttributeFormatter().MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
@@ -657,7 +657,7 @@ namespace Mono.Documentation.Updater
                 AppendParameters(buf, method, property.Parameters, '(', ')');
             }
             buf.Append(" As ");
-            buf.Append(GetTypeName(property.PropertyType, new AttributeParserContext(property)));
+            buf.Append(GetTypeName(property.PropertyType, AttributeParserContext.Create(property)));
             if (DocUtils.IsExplicitlyImplemented(property.GetMethod))
             {
                 TypeReference iface;
@@ -693,7 +693,7 @@ namespace Mono.Documentation.Updater
                 buf.Append(" Const");
 
             buf.Append(' ').Append(field.Name);
-            buf.Append(" As ").Append(GetTypeName(field.FieldType, new AttributeParserContext(field))).Append(' ');
+            buf.Append(" As ").Append(GetTypeName(field.FieldType, AttributeParserContext.Create(field))).Append(' ');
             DocUtils.AppendFieldValue(buf, field);
 
             return buf.ToString();
@@ -746,7 +746,7 @@ namespace Mono.Documentation.Updater
                 buf.Append(e.Name.Split('.').Last());
             else
                 buf.Append(e.Name);
-            buf.Append(" As ").Append(GetTypeName(e.EventType, new AttributeParserContext(e.AddMethod.Parameters[0]))).Append(' ');
+            buf.Append(" As ").Append(GetTypeName(e.EventType, AttributeParserContext.Create(e.AddMethod.Parameters[0]))).Append(' ');
             if (isPublicEII) {
                 var dotIndex = e.Name.LastIndexOf ('.');
                 dotIndex = dotIndex > -1 ? dotIndex : e.Name.Length;

@@ -366,7 +366,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 #if NEW_CECIL
                 Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
 #else
-                IList<TypeReference> constraints = genArg.Constraints.Select(c => c.ConstraintType).ToList();
+                IList<TypeReference> constraints = genArg.Constraints;
 #endif
                 if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     continue;

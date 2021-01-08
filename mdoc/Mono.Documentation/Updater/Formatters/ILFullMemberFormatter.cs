@@ -121,7 +121,7 @@ namespace Mono.Documentation.Updater.Formatters
                 buf.Append (") ");
             }
 #else
-            IList<TypeReference> constraints = type.Constraints.Select(c => c.ConstraintType).ToList();
+            IList<TypeReference> constraints = type.Constraints;
             if (constraints.Count > 0)
             {
                 var full = new ILFullMemberFormatter (this.TypeMap);
@@ -303,7 +303,7 @@ namespace Mono.Documentation.Updater.Formatters
                 buf.Append ("virtual ");
             if (!method.IsStatic)
                 buf.Append ("instance ");
-            _AppendTypeName (buf, method.ReturnType, new AttributeParserContext (method.MethodReturnType));
+            _AppendTypeName (buf, method.ReturnType, AttributeParserContext.Create (method.MethodReturnType));
             buf.Append (' ')
                 .Append (method.Name);
             if (method.IsGenericMethod ())
@@ -334,7 +334,7 @@ namespace Mono.Documentation.Updater.Formatters
                 if (param.IsOut) buf.Append ("[out] ");
                 else if (param.IsIn) buf.Append ("[in]");
 
-                _AppendTypeName (buf, param.ParameterType, new AttributeParserContext (param));
+                _AppendTypeName (buf, param.ParameterType, AttributeParserContext.Create (param));
                 if (param.ParameterType.IsByReference) buf.Append ("&");
                 buf.Append (' ');
                 buf.Append (param.Name);
@@ -475,7 +475,7 @@ namespace Mono.Documentation.Updater.Formatters
                 .Append (".property ");
             if (!(gm ?? sm).IsStatic)
                 buf.Append ("instance ");
-            _AppendTypeName (buf, property.PropertyType, new AttributeParserContext (property));
+            _AppendTypeName (buf, property.PropertyType, AttributeParserContext.Create (property));
             buf.Append (' ').Append (property.Name);
             if (!property.HasParameters || property.Parameters.Count == 0)
                 return buf.ToString ();
@@ -487,7 +487,7 @@ namespace Mono.Documentation.Updater.Formatters
                 if (!first)
                     buf.Append (", ");
                 first = false;
-                _AppendTypeName (buf, p.ParameterType, new AttributeParserContext (p));
+                _AppendTypeName (buf, p.ParameterType, AttributeParserContext.Create (p));
             }
             buf.Append (')');
 
@@ -513,7 +513,7 @@ namespace Mono.Documentation.Updater.Formatters
                 buf.Append ("initonly ");
             if (field.IsLiteral)
                 buf.Append ("literal ");
-            _AppendTypeName (buf, field.FieldType, new AttributeParserContext (field));
+            _AppendTypeName (buf, field.FieldType, AttributeParserContext.Create (field));
             buf.Append (' ').Append (field.Name);
             AppendFieldValue (buf, field);
 

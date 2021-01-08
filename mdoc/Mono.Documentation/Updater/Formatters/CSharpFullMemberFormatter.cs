@@ -159,7 +159,11 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 buf.Append ("delegate ");
                 MethodDefinition invoke = type.GetMethod ("Invoke");
-                buf.Append (full.GetName (invoke.ReturnType, new AttributeParserContext (invoke.MethodReturnType))).Append (" ");
+                var context = AttributeParserContext.Create (invoke.MethodReturnType);
+                var isNullableType = context.IsNullable();
+                buf.Append (full.GetName (invoke.ReturnType, context));
+                AppendNullableSymbolToTypeName (buf, invoke.ReturnType, isNullableType);
+                buf.Append (" ");
                 buf.Append (GetName (type));
                 AppendParameters (buf, invoke, invoke.Parameters);
                 AppendGenericTypeConstraints (buf, type);
@@ -260,7 +264,7 @@ namespace Mono.Documentation.Updater.Formatters
 #if NEW_CECIL
                 Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
 #else
-                IList<TypeReference> constraints = genArg.Constraints.Select(c => c.ConstraintType).ToList();
+                IList<TypeReference> constraints = genArg.Constraints;
 #endif
                 if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     continue;
@@ -548,9 +552,9 @@ namespace Mono.Documentation.Updater.Formatters
                     buf.AppendFormat ("params ");
             }
 
-            IAttributeParserContext attributeParserContext = new AttributeParserContext (parameter);
-            var isNullableType = attributeParserContext.IsNullable ();
-            buf.Append (GetTypeName (parameter.ParameterType, attributeParserContext));
+            var context = AttributeParserContext.Create (parameter);
+            var isNullableType = context.IsNullable ();
+            buf.Append (GetTypeName (parameter.ParameterType, context));
             AppendNullableSymbolToTypeName (buf, parameter.ParameterType, isNullableType);
             buf.Append (" ");
             buf.Append (parameter.Name);
@@ -616,9 +620,9 @@ namespace Mono.Documentation.Updater.Formatters
             if (property.PropertyType.IsByReference)
                 buf.Append("ref ");
 
-            IAttributeParserContext attributeParserContext = new AttributeParserContext (property);
-            var isNullableType = attributeParserContext.IsNullable ();
-            var propertyReturnTypeName = GetTypeName (property.PropertyType, attributeParserContext);
+            var context = AttributeParserContext.Create (property);
+            var isNullableType = context.IsNullable ();
+            var propertyReturnTypeName = GetTypeName (property.PropertyType, context);
             buf.Append (propertyReturnTypeName);
             AppendNullableSymbolToTypeName (buf, property.PropertyType, isNullableType);
             buf.Append (' ');
@@ -679,7 +683,12 @@ namespace Mono.Documentation.Updater.Formatters
             if (field.IsLiteral)
                 buf.Append (" const");
 
-            buf.Append (' ').Append (GetTypeName (field.FieldType, new AttributeParserContext (field))).Append (' ');
+            buf.Append (' ');
+            var context = AttributeParserContext.Create (field);
+            var isNullableType = context.IsNullable ();
+            buf.Append (GetTypeName (field.FieldType, context));
+            AppendNullableSymbolToTypeName (buf, field.FieldType, isNullableType);
+            buf.Append (' ');
             buf.Append (field.Name);
             DocUtils.AppendFieldValue (buf, field);
             buf.Append (';');
@@ -717,10 +726,10 @@ namespace Mono.Documentation.Updater.Formatters
 
             AppendModifiers (buf, e.AddMethod);
 
-            var attributeParserContext = new AttributeParserContext (e.AddMethod.Parameters[0]);
-            var isNullableType = attributeParserContext.IsNullable ();
+            var context = AttributeParserContext.Create (e.AddMethod.Parameters[0]);
+            var isNullableType = context.IsNullable ();
             buf.Append (buf.Length == 0 ? "event " : " event ");
-            buf.Append (GetTypeName(e.EventType, attributeParserContext));
+            buf.Append (GetTypeName(e.EventType, context));
             AppendNullableSymbolToTypeName (buf, e.EventType, isNullableType);
             buf.Append (' ');
             buf.Append (e.Name).Append (';');

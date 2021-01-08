@@ -74,26 +74,7 @@ namespace mdoc.Test
         protected void TestMethodSignature(string libPath, string fullTypeName, string memberName, string expected)
         {
             var type = GetType(libPath, fullTypeName);
-            var t1 = type.GenericParameters;
-            
-            foreach(var item in t1)
-            {
-                foreach(var gpc in item.Constraints)
-                {
-                    var c = gpc.CustomAttributes;
-                }
-            }
-
             var method = GetMethod(type, i => i.Name == memberName);
-            var m1 = method.GenericParameters;
-            foreach (var item in m1)
-            {
-                foreach (var gpc in item.Constraints)
-                {
-                    var c = gpc.CustomAttributes;
-                }
-            }
-
             var signature = formatter.GetDeclaration(method);
             Assert.AreEqual(FormatEndings(expected), signature);
         }

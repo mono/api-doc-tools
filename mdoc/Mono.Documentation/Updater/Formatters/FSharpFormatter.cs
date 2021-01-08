@@ -359,7 +359,7 @@ namespace Mono.Documentation.Updater
 #if NEW_CECIL
                             _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context, useTypeProjection:useTypeProjection);
 #else
-                            _AppendTypeName(buf, genericParameter.Constraints[0].ConstraintType, context, useTypeProjection: useTypeProjection);
+                            _AppendTypeName(buf, genericParameter.Constraints[0], context, useTypeProjection: useTypeProjection);
 #endif
                         }
                         else
@@ -421,7 +421,7 @@ namespace Mono.Documentation.Updater
 #if NEW_CECIL
                 Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = genArg.Constraints;
 #else
-                IList<TypeReference> constraints = genArg.Constraints.Select(c => c.ConstraintType).ToList();
+                IList<TypeReference> constraints = genArg.Constraints;
 #endif
                 if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
                     continue;
@@ -656,7 +656,7 @@ namespace Mono.Documentation.Updater
             
             if (property.PropertyType.FullName != "System.Object")
             {
-                var typeName = GetTypeName(property.PropertyType, new AttributeParserContext(property));
+                var typeName = GetTypeName(property.PropertyType, AttributeParserContext.Create(property));
                 if (hasParameterName)
                     buf.Append(" : ");
                 buf.Append(typeName);
@@ -698,7 +698,7 @@ namespace Mono.Documentation.Updater
             bool isFSharpFunction = IsFSharpFunction(parameter.ParameterType);
             if (isFSharpFunction)
                 buf.Append("(");
-            var typeName = GetTypeName(parameter.ParameterType, new AttributeParserContext(parameter));
+            var typeName = GetTypeName(parameter.ParameterType, AttributeParserContext.Create(parameter));
             buf.Append(typeName);
             if (isFSharpFunction)
                 buf.Append(")");
@@ -784,7 +784,7 @@ namespace Mono.Documentation.Updater
             buf.Append(" ");
             buf.Append(field.Name);
             buf.Append(" : ");
-            buf.Append(GetTypeName(field.FieldType, new AttributeParserContext(field)));
+            buf.Append(GetTypeName(field.FieldType, AttributeParserContext.Create(field)));
 
             return buf.ToString();
         }
@@ -802,7 +802,7 @@ namespace Mono.Documentation.Updater
             if (visibilityBuf.Length > 0)
                 buf.Append(visibilityBuf).Append(' ');
             buf.Append(e.Name).Append(" : ");
-            buf.Append(GetTypeName(e.EventType, new AttributeParserContext(e.AddMethod.Parameters[0]))).Append(' ');
+            buf.Append(GetTypeName(e.EventType, AttributeParserContext.Create(e.AddMethod.Parameters[0]))).Append(' ');
 
             return buf.ToString();
         }
@@ -936,7 +936,7 @@ namespace Mono.Documentation.Updater
 #if NEW_CECIL
             return genericParameter.Constraints.Count == 1 && GetFSharpType(genericParameter.Constraints[0].ConstraintType.GetElementType()) != null;
 #else
-            return genericParameter.Constraints.Count == 1 && GetFSharpType(genericParameter.Constraints[0].ConstraintType.GetElementType()) != null;
+            return genericParameter.Constraints.Count == 1 && GetFSharpType(genericParameter.Constraints[0].GetElementType()) != null;
 #endif
         }
 

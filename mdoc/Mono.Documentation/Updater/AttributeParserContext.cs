@@ -1,8 +1,8 @@
-﻿using Mono.Cecil;
+﻿using mdoc.Mono.Documentation.Updater;
+using Mono.Cecil;
 using Mono.Documentation.Util;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Mono.Documentation.Updater
 {
@@ -14,7 +14,7 @@ namespace Mono.Documentation.Updater
         private ReadOnlyCollection<bool?> nullableAttributeFlags;
         private ReadOnlyCollection<bool> dynamicAttributeFlags;
 
-        public AttributeParserContext(ICustomAttributeProvider provider)
+        private AttributeParserContext(ICustomAttributeProvider provider)
         {
             this.provider = provider;
 
@@ -26,7 +26,7 @@ namespace Mono.Documentation.Updater
         {
             get
             {
-                return nullableAttributeFlags?.Count > 0;
+                return nullableAttributeFlags.Count > 0;
             }
         }
 
@@ -36,6 +36,11 @@ namespace Mono.Documentation.Updater
             {
                 return nullableAttributeFlags.Count == 1;
             }
+        }
+
+        public static IAttributeParserContext Create(ICustomAttributeProvider provider)
+        {
+            return new AttributeParserContext(provider);
         }
 
         public void MoveToNextDynamicFlag()
@@ -57,12 +62,10 @@ namespace Mono.Documentation.Updater
                     return nullableAttributeFlags[0].IsTrue();
                 }
 
-                if (nullableAttributeIndex < nullableAttributeFlags?.Count)
+                if (nullableAttributeIndex < nullableAttributeFlags.Count)
                 {
                     return nullableAttributeFlags[nullableAttributeIndex++].IsTrue();
                 }
-
-                throw new IndexOutOfRangeException("You are out of range in the nullable attribute values, please call the method for each nullable checking only once.");
             }
 
             return false;
@@ -70,19 +73,11 @@ namespace Mono.Documentation.Updater
 
         private void ReadDynamicAttribute()
         {
-            if (provider.HasCustomAttributes)
+            DynamicTypeProvider dynamicTypeProvider = new DynamicTypeProvider(provider);
+            var dynamicTypeFlags = dynamicTypeProvider.GetDynamicTypeFlags();
+            if (dynamicTypeFlags != null)
             {
-                CustomAttribute dynamicAttribute = provider.CustomAttributes.SafeCast<CustomAttribute>().SingleOrDefault(ca => ca.GetDeclaringType() == "System.Runtime.CompilerServices.DynamicAttribute");
-                if (dynamicAttribute != null)
-                {
-                    CustomAttributeArgument[] attributeValues = new CustomAttributeArgument[0];
-                    if (dynamicAttribute.ConstructorArguments.Count > 0)
-                    {
-                        attributeValues = (CustomAttributeArgument[])dynamicAttribute.ConstructorArguments[0].Value;
-                    }
-
-                    dynamicAttributeFlags = new ReadOnlyCollection<bool>(attributeValues.Select(t => (bool)t.Value).ToList());
-                }
+                dynamicAttributeFlags = new ReadOnlyCollection<bool>(dynamicTypeFlags);
             }
         }
 
