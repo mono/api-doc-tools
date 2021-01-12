@@ -66,6 +66,8 @@ namespace Mono.Documentation.Updater
                 {
                     return nullableAttributeFlags[nullableAttributeIndex++].IsTrue();
                 }
+
+                throw new IndexOutOfRangeException("You are out of range in the nullable attribute values, please call the method for each nullable checking only once.");
             }
 
             return false;

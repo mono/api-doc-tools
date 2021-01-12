@@ -115,15 +115,20 @@ namespace Mono.Documentation.Updater
 
         protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
-            TypeReference arrayType = type.GetElementType ();
+            var elementType = type.GetElementType ();
             if (type is TypeSpecification typeSpecification)
             {
-                arrayType = typeSpecification.ElementType;
+                elementType = typeSpecification.ElementType;
             }
 
-            var isNullableType = context.IsNullable ();
-            _AppendTypeName (buf, arrayType, context);
-            AppendNullableSymbolToTypeName (buf, arrayType, isNullableType);
+            var isNullableType = false;
+            if (!elementType.IsValueType)
+            {
+                isNullableType = context.IsNullable ();
+            }
+
+            _AppendTypeName (buf, elementType, context);
+            AppendNullableSymbolToTypeName (buf, elementType, isNullableType);
 
             return AppendArrayModifiers (buf, (ArrayType)type);
         }
@@ -525,7 +530,7 @@ namespace Mono.Documentation.Updater
         private StringBuilder AppendReturnTypeName (StringBuilder buf, MethodDefinition method)
         {
             var context = AttributeParserContext.Create (method.MethodReturnType);
-            var isNullableType = context.IsNullable();
+            var isNullableType = context.IsNullable ();
             var returnTypeName = GetTypeName (method.ReturnType, context);
             buf.Append (returnTypeName);
             AppendNullableSymbolToTypeName (buf, method.ReturnType, isNullableType);

@@ -160,7 +160,7 @@ namespace Mono.Documentation.Updater.Formatters
                 buf.Append ("delegate ");
                 MethodDefinition invoke = type.GetMethod ("Invoke");
                 var context = AttributeParserContext.Create (invoke.MethodReturnType);
-                var isNullableType = context.IsNullable();
+                var isNullableType = context.IsNullable ();
                 buf.Append (full.GetName (invoke.ReturnType, context));
                 AppendNullableSymbolToTypeName (buf, invoke.ReturnType, isNullableType);
                 buf.Append (" ");
@@ -414,7 +414,9 @@ namespace Mono.Documentation.Updater.Formatters
 
         protected override StringBuilder AppendNullableSymbolToTypeName (StringBuilder buf, TypeReference type, bool? isNullableType)
         {
-            if (isNullableType.IsTrue () && !type.IsValueType && !type.FullName.Equals ("System.Void"))
+            if (isNullableType.IsTrue () &&
+               !type.IsValueType &&
+               !type.FullName.Equals ("System.Void"))
             {
                 return buf.Append ("?");
             }
