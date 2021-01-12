@@ -132,7 +132,7 @@ namespace Mono.Documentation.Updater
 
         private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(PropertyDefinition propertyDefinition)
         {
-            return GetTypeNullableAttributes(propertyDefinition, propertyDefinition.GetMethod as MethodDefinition);
+            return GetTypeNullableAttributes(propertyDefinition, propertyDefinition.GetMethod);
         }
 
         private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(FieldDefinition fieldDefinition)
