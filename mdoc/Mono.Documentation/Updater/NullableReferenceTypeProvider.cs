@@ -146,12 +146,18 @@ namespace Mono.Documentation.Updater
 
         private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(ICustomAttributeProvider customAttributeProvider, MethodDefinition methodDefinition)
         {
-            return new List<ICustomAttributeProvider> 
+            var resultList = new List<ICustomAttributeProvider> 
             {
-                customAttributeProvider,
-                methodDefinition,
-                methodDefinition.DeclaringType
+                customAttributeProvider
             };
+
+            if (methodDefinition != null)
+            {
+                resultList.Add(methodDefinition);
+                resultList.Add(methodDefinition.DeclaringType);
+            }
+
+            return resultList;
         }
     }
 }
