@@ -194,9 +194,9 @@ namespace Mono.Documentation.Updater
             }
 
             GenericInstanceType genInst = type as GenericInstanceType;
-            if (IsGenericNullableValueType (genInst))   // For special C# nullable value type only.
+            if (IsSpecialGenericNullableValueType (genInst))   // For special C# nullable value type only.
             {
-                AppendGenericNullableValueTypeName (buf, genInst, context);
+                AppendSpecialGenericNullableValueTypeName (buf, genInst, context);
                 return SetBuffer (buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
 
@@ -210,14 +210,15 @@ namespace Mono.Documentation.Updater
             return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
         }
 
-        protected virtual bool IsGenericNullableValueType(GenericInstanceType genInst)
+        protected virtual bool IsSpecialGenericNullableValueType(GenericInstanceType genInst)
         {
             // For special C# nullable value type only, the CSharpFullMemberFormatter subclass will override the method.
             return false;
         }
 
-        protected virtual StringBuilder AppendGenericNullableValueTypeName(StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        protected virtual StringBuilder AppendSpecialGenericNullableValueTypeName(StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
+            // For special C# nullable value type only, the CSharpFullMemberFormatter subclass will override the method.
             return buf;
         }
 
@@ -347,7 +348,7 @@ namespace Mono.Documentation.Updater
                     AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
                     for (int i = 1; i < c; ++i)
                     {
-                        buf.Append (", ");
+                        buf.Append (",");
                         AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
                     }
 

@@ -69,16 +69,16 @@ namespace Mono.Documentation.Updater
             var nullableAttributeValue = typeCustomAttribute.ConstructorArguments[0].Value;
             if (nullableAttributeValue is CustomAttributeArgument[] nullableAttributeArguments)
             {
-                return nullableAttributeArguments.Select(a => IsAnnotatedNullableAttribute((byte)a.Value)).ToList();
+                return nullableAttributeArguments.Select(a => IsAnnotated((byte)a.Value)).ToList();
             }
 
             return new List<bool?>
             {
-                IsAnnotatedNullableAttribute((byte)nullableAttributeValue)
+                IsAnnotated((byte)nullableAttributeValue)
             };
         }
 
-        private bool? IsAnnotatedNullableAttribute(byte value)
+        private bool? IsAnnotated(byte value)
         {
             switch (value)
             {

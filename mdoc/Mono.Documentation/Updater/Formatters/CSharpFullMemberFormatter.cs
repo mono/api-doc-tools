@@ -110,20 +110,22 @@ namespace Mono.Documentation.Updater.Formatters
         protected override string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
             GenericInstanceType genType = type as GenericInstanceType;
-            if (IsGenericNullableValueType (genType))
+            if (IsSpecialGenericNullableValueType (genType))
             {
-                return AppendGenericNullableValueTypeName (new StringBuilder (), genType, context, appendGeneric, useTypeProjection).ToString ();
+                return AppendSpecialGenericNullableValueTypeName (new StringBuilder (), genType, context, appendGeneric, useTypeProjection).ToString ();
             }
 
             return base.GetTypeName (type, context, appendGeneric, useTypeProjection);
         }
 
-        protected override bool IsGenericNullableValueType (GenericInstanceType genInst)
+        protected override bool IsSpecialGenericNullableValueType (GenericInstanceType genInst)
         {
-            return genInst != null && genInst.IsValueType;
+            return genInst != null && (genInst.Name.StartsWith("Tuple`") ||
+                                       genInst.Name.StartsWith("ValueTuple`") ||
+                                       (genInst.Name.StartsWith("Nullable`") && genInst.HasGenericArguments));
         }
 
-        protected override StringBuilder AppendGenericNullableValueTypeName (StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        protected override StringBuilder AppendSpecialGenericNullableValueTypeName (StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
             if (genInst.Name.StartsWith ("Nullable`") && genInst.HasGenericArguments)
             {
@@ -134,7 +136,18 @@ namespace Mono.Documentation.Updater.Formatters
             if (genInst.Name.StartsWith ("Tuple`") || genInst.Name.StartsWith ("ValueTuple`"))
             {
                 buf.Append ("(");
-                var genArgList = genInst.GenericArguments.Select (genArg => GetTypeName (genArg, context, appendGeneric, useTypeProjection)).ToArray ();
+                var genArgList = new List<string>();
+                foreach(var item in genInst.GenericArguments)
+                {
+                    var isNullableType = false;
+                    if (!item.IsValueType)
+                    {
+                        isNullableType = context.IsNullable();
+                    }
+
+                    var underlyingTypeName = GetTypeName(item, context, appendGeneric, useTypeProjection) + AppendNullableSymbolToTypeName(item, isNullableType);
+                    genArgList.Add(underlyingTypeName);
+                }
                 buf.Append (string.Join(",", genArgList));
                 buf.Append (")");
             }
@@ -414,14 +427,19 @@ namespace Mono.Documentation.Updater.Formatters
 
         protected override StringBuilder AppendNullableSymbolToTypeName (StringBuilder buf, TypeReference type, bool? isNullableType)
         {
-            if (isNullableType.IsTrue () &&
+            return buf.Append(AppendNullableSymbolToTypeName(type, isNullableType));
+        }
+
+        private string AppendNullableSymbolToTypeName(TypeReference type, bool? isNullableType)
+        {
+            if (isNullableType.IsTrue() &&
                !type.IsValueType &&
-               !type.FullName.Equals ("System.Void"))
+               !type.FullName.Equals("System.Void"))
             {
-                return buf.Append ("?");
+                return "?";
             }
 
-            return buf;
+            return string.Empty;
         }
 
         protected override StringBuilder AppendGenericMethodConstraints (StringBuilder buf, MethodDefinition method)
