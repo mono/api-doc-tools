@@ -120,9 +120,8 @@ namespace Mono.Documentation.Updater.Formatters
 
         protected override bool IsSpecialGenericNullableValueType (GenericInstanceType genInst)
         {
-            return genInst != null && (genInst.Name.StartsWith("Tuple`") ||
-                                       genInst.Name.StartsWith("ValueTuple`") ||
-                                       (genInst.Name.StartsWith("Nullable`") && genInst.HasGenericArguments));
+            return genInst != null && (genInst.Name.StartsWith("ValueTuple`") ||
+                                      (genInst.Name.StartsWith("Nullable`") && genInst.HasGenericArguments));
         }
 
         protected override StringBuilder AppendSpecialGenericNullableValueTypeName (StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
@@ -131,9 +130,11 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 var underlyingTypeName = GetTypeName (genInst.GenericArguments.First (), context, appendGeneric, useTypeProjection);
                 buf.Append (underlyingTypeName + "?");
+
+                return buf;
             }
 
-            if (genInst.Name.StartsWith ("Tuple`") || genInst.Name.StartsWith ("ValueTuple`"))
+            if (genInst.Name.StartsWith ("ValueTuple`"))
             {
                 buf.Append ("(");
                 var genArgList = new List<string>();
@@ -150,6 +151,8 @@ namespace Mono.Documentation.Updater.Formatters
                 }
                 buf.Append (string.Join(",", genArgList));
                 buf.Append (")");
+
+                return buf;
             }
 
             return buf;
