@@ -137,19 +137,19 @@ namespace Mono.Documentation.Updater.Formatters
             if (genInst.Name.StartsWith ("ValueTuple`"))
             {
                 buf.Append ("(");
-                var genArgList = new List<string>();
-                foreach(var item in genInst.GenericArguments)
+                var genArgList = new List<string> ();
+                foreach (var item in genInst.GenericArguments)
                 {
                     var isNullableType = false;
                     if (!item.IsValueType)
                     {
-                        isNullableType = context.IsNullable();
+                        isNullableType = context.IsNullable ();
                     }
 
-                    var underlyingTypeName = GetTypeName(item, context, appendGeneric, useTypeProjection) + AppendNullableSymbolToTypeName(item, isNullableType);
-                    genArgList.Add(underlyingTypeName);
+                    var underlyingTypeName = GetTypeName (item, context, appendGeneric, useTypeProjection) + AppendNullableSymbolToTypeName (item, isNullableType);
+                    genArgList.Add (underlyingTypeName);
                 }
-                buf.Append (string.Join(",", genArgList));
+                buf.Append (string.Join (",", genArgList));
                 buf.Append (")");
 
                 return buf;

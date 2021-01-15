@@ -322,17 +322,20 @@ namespace Mono.Documentation.Updater
 
         protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
-            List<TypeReference> decls = DocUtils.GetDeclaringTypes (
-                    type is GenericInstanceType ? type.GetElementType () : type);
-            List<TypeReference> genArgs = GetGenericArguments (type);
             int argIdx = 0;
             int prev = 0;
             bool insertNested = false;
+            var isGenericType = type is GenericInstanceType;
+            var declaringType = isGenericType ? type.GetElementType () : type;
+            List<TypeReference> decls = DocUtils.GetDeclaringTypes (declaringType);
+            List<TypeReference> genArgs = GetGenericArguments (type);
             foreach (var decl in decls)
             {
                 TypeReference declDef = decl;
-                if ( !(type is GenericInstanceType))
+                if (!isGenericType)
                 {
+                    // Generic type can't be resolve in WSL, macOS and Ubuntu OS environment that
+                    // an AssemblyResolutionException will be throwing here but it can work in the Windows OS environment as well.
                     declDef = decl.Resolve ();
                 }
 
@@ -366,25 +369,23 @@ namespace Mono.Documentation.Updater
 
         private void AppendGenericTypeParameter (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool useTypeProjection = true)
         {
+            var isNullableType = false;
             if (type is GenericInstanceType)
             {
-                var isNullableType = context.IsNullable ();
-                buf.Append (GetTypeName (type, context));
-                AppendNullableSymbolToTypeName (buf, type, isNullableType);
+                isNullableType = context.IsNullable();
+                buf.Append(GetTypeName(type, context));
             }
             else
             {
-                if (type.IsValueType)
+                if (!type.IsValueType)
                 {
-                    _AppendTypeName (buf, type, context, useTypeProjection: useTypeProjection);
+                    isNullableType = context.IsNullable();
                 }
-                else
-                {
-                    var isNullableType = context.IsNullable ();
-                    _AppendTypeName (buf, type, context, useTypeProjection: useTypeProjection);
-                    AppendNullableSymbolToTypeName (buf, type, isNullableType);
-                }
+
+                _AppendTypeName(buf, type, context, useTypeProjection: useTypeProjection);
             }
+
+            AppendNullableSymbolToTypeName(buf, type, isNullableType);
         }
 
         protected virtual StringBuilder AppendNullableSymbolToTypeName (StringBuilder buf, TypeReference type, bool? isNullableType)

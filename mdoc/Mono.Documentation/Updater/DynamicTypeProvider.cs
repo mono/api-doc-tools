@@ -19,19 +19,26 @@ namespace mdoc.Mono.Documentation.Updater
 
         public IList<bool> GetDynamicTypeFlags()
         {
+            CustomAttribute dynamicAttribute = FindDynamicAttribute();
+            if (dynamicAttribute != null)
+            {
+                CustomAttributeArgument[] attributeValues = new CustomAttributeArgument[0];
+                if (dynamicAttribute.ConstructorArguments.Count > 0)
+                {
+                    attributeValues = (CustomAttributeArgument[])dynamicAttribute.ConstructorArguments[0].Value;
+                }
+
+                return attributeValues.Select(t => (bool)t.Value).ToList();
+            }
+
+            return null;
+        }
+
+        private CustomAttribute FindDynamicAttribute()
+        {
             if (provider.HasCustomAttributes)
             {
-                CustomAttribute dynamicAttribute = provider.CustomAttributes.SafeCast<CustomAttribute>().SingleOrDefault(ca => ca.GetDeclaringType() == DynamicAttributeFulleName);
-                if (dynamicAttribute != null)
-                {
-                    CustomAttributeArgument[] attributeValues = new CustomAttributeArgument[0];
-                    if (dynamicAttribute.ConstructorArguments.Count > 0)
-                    {
-                        attributeValues = (CustomAttributeArgument[])dynamicAttribute.ConstructorArguments[0].Value;
-                    }
-
-                    return attributeValues.Select(t => (bool)t.Value).ToList();
-                }
+                return provider.CustomAttributes.SafeCast<CustomAttribute>().SingleOrDefault(ca => ca.GetDeclaringType() == DynamicAttributeFulleName);
             }
 
             return null;
