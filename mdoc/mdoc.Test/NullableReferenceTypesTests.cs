@@ -1,4 +1,5 @@
-﻿using Mono.Documentation.Updater.Formatters;
+﻿using Mono.Documentation;
+using Mono.Documentation.Updater.Formatters;
 using NUnit.Framework;
 
 namespace mdoc.Test
@@ -29,10 +30,6 @@ namespace mdoc.Test
         [TestCase("int[][]?", "NullableDimensionalArrayOfValueType")]
         [TestCase("int[][]?[][]?", "NullableFourDimensionalArrayOfValueTypeOfMiddleNullableArray")]
         [TestCase("int?[][]?[][]", "FourDimensionalArrayOfNullableValueTypeOfMiddleNullableArray")]
-        [TestCase("ValueTask<int>", "GenericValueTypeOfValueType")]
-        [TestCase("ValueTask<int>?", "NullableGenericValueTypeOfValueType")]
-        [TestCase("ValueTask<int?>", "GenericValueTypeOfNullableValueType")]
-        [TestCase("ValueTask<int?>?", "NullableGenericValueTypeOfNullableValueType")]
         [TestCase("Tuple<int,int>", "TupleOfValueType")]
         [TestCase("Tuple<int,int>?", "NullableTupleOfValueType")]
         [TestCase("Tuple<int?,int?>", "TupleOfNullableValueType")]
@@ -80,10 +77,6 @@ namespace mdoc.Test
         [TestCase("string[][]?", "NullableDimensionalArrayOfReferenceType")]
         [TestCase("string[][]?[][]?", "NullableFourDimensionalArrayOfReferenceTypeOfMiddleNullableArray")]
         [TestCase("string?[][]?[][]", "FourDimensionalArrayOfNullableReferenceTypeOfMiddleNullableArray")]
-        [TestCase("ValueTask<string>", "GenericValueTypeOfReferenceType")]
-        [TestCase("ValueTask<string>?", "NullableGenericValueTypeOfReferenceType")]
-        [TestCase("ValueTask<string?>", "GenericValueTypeOfNullableReferenceType")]
-        [TestCase("ValueTask<string?>?", "NullableGenericValueTypeOfNullableReferenceType")]
         [TestCase("Tuple<string,string>", "TupleOfReferenceType")]
         [TestCase("Tuple<string,string>?", "NullableTupleOfReferenceType")]
         [TestCase("Tuple<string?,string?>", "TupleOfNullableReferenceType")]
@@ -120,7 +113,7 @@ namespace mdoc.Test
         [TestCase("Dictionary<string,Tuple<string,string>>?", "NullableDictionaryOfReferenceTypeKeyAndTupleOfReferenceTypeValue")]
         [TestCase("Dictionary<string?,Tuple<string,string>?>?", "NullableDictionaryOfNullableReferenceTypeKeyAndNullableTupleOfReferenceTypeValue")]
         [TestCase("Dictionary<string?,Tuple<string?,string?>?>?", "NullableDictionaryOfNullableReferenceTypeKeyAndNullableTupleOfNullableReferenceTypeValue")]
-        public void TestCommonType(string returnType, string methodName)
+        public void TypeName(string returnType, string methodName)
         {
             // Test single parameter and return type for method, extension method, property, field, event, delegate.
             // They have the same process logic that we just test once the type of them.
@@ -136,7 +129,7 @@ namespace mdoc.Test
         [TestCase("NullableGenericValueTypeOfReferenceType", "ReadOnlySpan<string> s1, ReadOnlySpan<string?> s2, ReadOnlySpan<string> s3")]
         [TestCase("NullableAndNonNullableInterfaceOfValueType", "ICollection<int> collection1, ICollection<int>? collection2, ICollection<int> collection3")]
         [TestCase("NullableAndNonNullableInterfaceOfReferenceType", "ICollection<string> collection1, ICollection<string>? collection2, ICollection<string> collection3")]
-        public void TestMethod_Parameter(string methodName, string methodParameter)
+        public void MethodParameter(string methodName, string methodParameter)
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.MethodParameter",
                 methodName, $"public void {methodName} ({methodParameter});");
@@ -157,7 +150,7 @@ namespace mdoc.Test
         [TestCase("FuncGenericNullableValueType", "<T> ({0}) where T : struct", "Func<T?> func")]
         [TestCase("NullableFuncGenericNullableValueType", "<T> ({0}) where T : struct", "Func<T?>? func")]
         [TestCase("GenericNonNullableAndNullableValueType", "<T1,T2> ({0}) where T2 : struct", "T1 t1, T2? t2")]
-        public void TestGenericMethod_TypeParameter(string methodName, string otherPartOfMethodSignature, string genericParameter)
+        public void GenericMethodParameter(string methodName, string otherPartOfMethodSignature, string genericParameter)
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.GenericMethodParameter",
                 methodName, $"public void {methodName}{string.Format(otherPartOfMethodSignature, genericParameter)};");
@@ -168,7 +161,7 @@ namespace mdoc.Test
         [TestCase("T?", "GenericNullableReferenceType", "<T> () where T : class")]
         [TestCase("T", "GenericValueType", "<T> () where T : struct")]
         [TestCase("T?", "GenericNullableValueType", "<T> () where T : struct")]
-        public void TestGenericMethod_ReturnType(string returnType, string methodName, string otherPartOfMethodSignature)
+        public void GenericMethodReturnType(string returnType, string methodName, string otherPartOfMethodSignature)
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.GenericMethodReturnType",
                 methodName, $"public {returnType} {methodName}{otherPartOfMethodSignature};");
@@ -179,7 +172,7 @@ namespace mdoc.Test
         [TestCase("TClass?", "GenericNullableReferenceType")]
         [TestCase("TStruct", "GenericValueType")]
         [TestCase("TStruct?", "GenericNullableValueType")]
-        public void TestGenericProperty_ReturnType(string returnType, string propertyName)
+        public void GenericPropertyReturnType(string returnType, string propertyName)
         {
             TestPropertySignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.GenericPropertyReturnType`3",
                 propertyName, $"public {returnType} {propertyName} {{ get; }}");
@@ -191,16 +184,16 @@ namespace mdoc.Test
         [TestCase("EventHandler<EventArgs?>", "GenericEventHandlerOfNullableEventArgs")]
         [TestCase("EventHandler<EventArgs>?", "NullableGenericEventHandler")]
         [TestCase("EventHandler<EventArgs?>?", "NullableGenericEventHandlerOfNullableEventArgs")]
-        public void TestEvent_EventType(string eventType, string eventName)
+        public void EventDelegateType(string delegateType, string eventName)
         {
             TestEventSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.Event",
-                eventName, $"public event {eventType} {eventName};");
+                eventName, $"public event {delegateType} {eventName};");
         }
 
         [TestCase("Handler", "object sender, EventArgs args")]
         [TestCase("NullableSender", "object? sender, EventArgs args")]
         [TestCase("NullableSenderAndEventArgs", "object? sender, EventArgs? args")]
-        public void TestDelegate_Parameter(string delegateName, string delegateParameter)
+        public void DelegateTypeParameter(string delegateName, string delegateParameter)
         {
             TestTypeSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.Delegate.{delegateName}",
                 $"public delegate void {delegateName}({delegateParameter});");
@@ -211,7 +204,7 @@ namespace mdoc.Test
         [TestCase("NullableSenderAndEventArgs<TEventArgs>", "object? sender, TEventArgs? args", "{0} where TEventArgs : class", "NullableSenderAndEventArgs`1")]
         [TestCase("ActionHandler<TClass,TStruct>", "TClass t1, TStruct t2", "{0} where TClass : class where TStruct : struct", "ActionHandler`2")]
         [TestCase("NullableActionHandler<TClass,TStruct>", "TClass? t1, TStruct? t2", "{0} where TClass : class where TStruct : struct", "NullableActionHandler`2")]
-        public void TestGenericDelegate_Parameter(string delegateName, string delegateParameter, string otherPartOfMethodSignature, string delegateILName)
+        public void GenericDelegateTypeParameter(string delegateName, string delegateParameter, string otherPartOfMethodSignature, string delegateILName)
         {
             TestTypeSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.Delegate.{delegateILName}",
                 $"public delegate void {delegateName}{string.Format(otherPartOfMethodSignature, $"({delegateParameter})")};");
@@ -220,7 +213,7 @@ namespace mdoc.Test
         [TestCase("TReturn", "FuncHandler<TReturn>", "()", "FuncHandler`1")]
         [TestCase("TReturn?", "NullableReferenceType<TReturn>", "() where TReturn : class", "NullableReferenceType`1")]
         [TestCase("TReturn?", "NullableValueType<TReturn>", "() where TReturn : struct", "NullableValueType`1")]
-        public void TestGenericDelegate_ReturnType(string returnType, string delegateName, string otherPartOfMethodSignature, string delegateILName)
+        public void GenericDelegateTypeReturnType(string returnType, string delegateName, string otherPartOfMethodSignature, string delegateILName)
         {
             TestTypeSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.Delegate.{delegateILName}",
                 $"public delegate {returnType} {delegateName}{otherPartOfMethodSignature};");
@@ -230,7 +223,7 @@ namespace mdoc.Test
         [TestCase("NonNullableAndNullableReferenceType", "string s1, string? s2, string s3")]
         [TestCase("InterfaceOfValueType", "ICollection<int> collection1, ICollection<int>? collection2, ICollection<int> collection3")]
         [TestCase("InterfaceOfReferenceType", "ICollection<string> collection1, ICollection<string>? collection2, ICollection<string> collection3")]
-        public void TestConstructor_Parameter(string typeName, string constructorParameter)
+        public void ConstructorParameter(string typeName, string constructorParameter)
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.Constructor.{typeName}",
                 ".ctor", $"public {typeName} ({constructorParameter});");
@@ -255,7 +248,7 @@ namespace mdoc.Test
         [TestCase("GenericFieldTypeOfReferenceType", "Dictionary<Dictionary<T,string>,string>", "DictionaryOfDictionary")]
         [TestCase("GenericFieldTypeOfReferenceType", "Dictionary<Dictionary<T?,string>,string>", "DictionaryOfDictionaryOfNullableGenericTypeKey")]
         [TestCase("GenericFieldTypeOfReferenceType", "Dictionary<Dictionary<T?,string>,string>?", "NullableDictionaryOfDictionaryOfNullableGenericTypeKey")]
-        public void TestGenericField_ReturnType(string typeName, string returnType, string fieldName)
+        public void GenericFieldReturnType(string typeName, string returnType, string fieldName)
         {
             TestFieldSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.{typeName}`1",
                 fieldName, $"public {returnType} {fieldName};");
@@ -264,33 +257,27 @@ namespace mdoc.Test
         [TestCase("NullableAndNonNullableValueType", "this int? type, int? i1, int i2, int? i3")]
         [TestCase("NullableAndNonNullableNullableReferenceType", "this string? type, string? s1, string s2, string? s3")]
         [TestCase("NullableAndNonNullableNullableReferenceTypeAndValueType", "this string? type, string? s1, int? i1, int i2, string s2, string? s3")]
-        public void TestExtensionMethod_Parameter(string methodName, string methodParameter)
+        public void ExtensionMethodParameter(string methodName, string methodParameter)
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.ExtensionMethod",
                methodName, $"public static void {methodName} ({methodParameter});");
         }
 
-        [TestCase("op_Addition", "Student operator +", "Student s1, Student s2")]
-        [TestCase("op_Subtraction", "Student? operator -", "Student? s1, Student? s2")]
-        [TestCase("op_Multiply", "Student operator *", "Student s1, Student? s2")]
-        [TestCase("op_Division", "Student operator /", "Student? s1, Student s2")]
-        [TestCase("op_Implicit", "implicit operator ExamScore", "Student? s")]
-        [TestCase("op_Explicit", "explicit operator Student?", "ExamScore? s")]
-        public void TestOperatorOverloading_ReferenceType(string methodName, string operatorName, string methodParameter)
+        [TestCase("Student", "op_Addition", "Student operator +", "Student s1, Student s2")]
+        [TestCase("Student", "op_Subtraction", "Student? operator -", "Student? s1, Student? s2")]
+        [TestCase("Student", "op_Multiply", "Student operator *", "Student s1, Student? s2")]
+        [TestCase("Student", "op_Division", "Student operator /", "Student? s1, Student s2")]
+        [TestCase("Student", "op_Implicit", "implicit operator ExamScore", "Student? s")]
+        [TestCase("Student", "op_Explicit", "explicit operator Student?", "ExamScore? s")]
+        [TestCase("ExamScore", "op_Addition", "ExamScore operator +", "ExamScore s1, ExamScore s2")]
+        [TestCase("ExamScore", "op_Subtraction", "ExamScore? operator -", "ExamScore? s1, ExamScore? s2")]
+        [TestCase("ExamScore", "op_Multiply", "ExamScore operator *", "ExamScore s1, ExamScore? s2")]
+        [TestCase("ExamScore", "op_Division", "ExamScore operator /", "ExamScore? s1, ExamScore s2")]
+        [TestCase("ExamScore", "op_Implicit", "implicit operator ExamScore", "Student? s")]
+        [TestCase("ExamScore", "op_Explicit", "explicit operator Student?", "ExamScore? s")]
+        public void OperatorOverloading(string typeName, string methodName, string operatorName, string methodParameter)
         {
-            TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.OperatorOverloading.Student",
-               methodName, $"public static {operatorName} ({methodParameter});");
-        }
-
-        [TestCase("op_Addition", "ExamScore operator +", "ExamScore s1, ExamScore s2")]
-        [TestCase("op_Subtraction", "ExamScore? operator -", "ExamScore? s1, ExamScore? s2")]
-        [TestCase("op_Multiply", "ExamScore operator *", "ExamScore s1, ExamScore? s2")]
-        [TestCase("op_Division", "ExamScore operator /", "ExamScore? s1, ExamScore s2")]
-        [TestCase("op_Implicit", "implicit operator ExamScore", "Student? s")]
-        [TestCase("op_Explicit", "explicit operator Student?", "ExamScore? s")]
-        public void TestOperatorOverloading_ValueType(string methodName, string operatorName, string methodParameter)
-        {
-            TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.OperatorOverloading.ExamScore",
+            TestMethodSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.OperatorOverloading.{typeName}",
                methodName, $"public static {operatorName} ({methodParameter});");
         }
     }
