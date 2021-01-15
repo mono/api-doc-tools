@@ -330,7 +330,12 @@ namespace Mono.Documentation.Updater
             bool insertNested = false;
             foreach (var decl in decls)
             {
-                TypeReference declDef = decl.Resolve () ?? decl;
+                TypeReference declDef = decl;
+                if ( !(type is GenericInstanceType))
+                {
+                    declDef = decl.Resolve ();
+                }
+
                 if (insertNested)
                 {
                     buf.Append (NestedTypeSeparator);
