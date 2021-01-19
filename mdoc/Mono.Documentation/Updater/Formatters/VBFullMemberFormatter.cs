@@ -80,7 +80,7 @@ namespace Mono.Documentation.Updater
             string s = GetVBType(t);
             if (s != null)
             {
-                context.MoveToNextDynamicFlag();
+                context.NextDynamicFlag();
                 return buf.Append(s);
             }
 

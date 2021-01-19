@@ -71,7 +71,7 @@ namespace Mono.Documentation.Updater.Formatters
         {
             if (context.IsDynamic())
             {
-                context.MoveToNextDynamicFlag();
+                context.NextDynamicFlag();
                 return buf.Append ("dynamic");
             }
 
@@ -86,7 +86,7 @@ namespace Mono.Documentation.Updater.Formatters
             string s = GetCSharpType (t);
             if (s != null)
             {
-                context.MoveToNextDynamicFlag();
+                context.NextDynamicFlag();
                 return buf.Append (s);
             }
 
@@ -146,7 +146,7 @@ namespace Mono.Documentation.Updater.Formatters
                         isNullableType = context.IsNullable ();
                     }
 
-                    var underlyingTypeName = GetTypeName (item, context, appendGeneric, useTypeProjection) + AppendNullableSymbolToTypeName (item, isNullableType);
+                    var underlyingTypeName = GetTypeName (item, context, appendGeneric, useTypeProjection) + GetTypeNullableSymbol (item, isNullableType);
                     genArgList.Add (underlyingTypeName);
                 }
                 buf.Append (string.Join (",", genArgList));
@@ -178,7 +178,7 @@ namespace Mono.Documentation.Updater.Formatters
                 var context = AttributeParserContext.Create (invoke.MethodReturnType);
                 var isNullableType = context.IsNullable ();
                 buf.Append (full.GetName (invoke.ReturnType, context));
-                AppendNullableSymbolToTypeName (buf, invoke.ReturnType, isNullableType);
+                buf.Append (GetTypeNullableSymbol (invoke.ReturnType, isNullableType));
                 buf.Append (" ");
                 buf.Append (GetName (type));
                 AppendParameters (buf, invoke, invoke.Parameters);
@@ -428,12 +428,7 @@ namespace Mono.Documentation.Updater.Formatters
                 return base.AppendMethodName (buf, method);
         }
 
-        protected override StringBuilder AppendNullableSymbolToTypeName (StringBuilder buf, TypeReference type, bool? isNullableType)
-        {
-            return buf.Append(AppendNullableSymbolToTypeName(type, isNullableType));
-        }
-
-        private string AppendNullableSymbolToTypeName(TypeReference type, bool? isNullableType)
+        protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
         {
             if (isNullableType.IsTrue() &&
                !type.IsValueType &&
@@ -578,7 +573,7 @@ namespace Mono.Documentation.Updater.Formatters
             var context = AttributeParserContext.Create (parameter);
             var isNullableType = context.IsNullable ();
             buf.Append (GetTypeName (parameter.ParameterType, context));
-            AppendNullableSymbolToTypeName (buf, parameter.ParameterType, isNullableType);
+            buf.Append (GetTypeNullableSymbol (parameter.ParameterType, isNullableType));
             buf.Append (" ");
             buf.Append (parameter.Name);
 
@@ -647,7 +642,7 @@ namespace Mono.Documentation.Updater.Formatters
             var isNullableType = context.IsNullable ();
             var propertyReturnTypeName = GetTypeName (property.PropertyType, context);
             buf.Append (propertyReturnTypeName);
-            AppendNullableSymbolToTypeName (buf, property.PropertyType, isNullableType);
+            buf.Append (GetTypeNullableSymbol (property.PropertyType, isNullableType));
             buf.Append (' ');
 
             IEnumerable<MemberReference> defs = property.DeclaringType.GetDefaultMembers ();
@@ -710,7 +705,7 @@ namespace Mono.Documentation.Updater.Formatters
             var context = AttributeParserContext.Create (field);
             var isNullableType = context.IsNullable ();
             buf.Append (GetTypeName (field.FieldType, context));
-            AppendNullableSymbolToTypeName (buf, field.FieldType, isNullableType);
+            buf.Append (GetTypeNullableSymbol (field.FieldType, isNullableType));
             buf.Append (' ');
             buf.Append (field.Name);
             DocUtils.AppendFieldValue (buf, field);
@@ -753,7 +748,7 @@ namespace Mono.Documentation.Updater.Formatters
             var isNullableType = context.IsNullable ();
             buf.Append (buf.Length == 0 ? "event " : " event ");
             buf.Append (GetTypeName(e.EventType, context));
-            AppendNullableSymbolToTypeName (buf, e.EventType, isNullableType);
+            buf.Append (GetTypeNullableSymbol (e.EventType, isNullableType));
             buf.Append (' ');
             buf.Append (e.Name).Append (';');
 

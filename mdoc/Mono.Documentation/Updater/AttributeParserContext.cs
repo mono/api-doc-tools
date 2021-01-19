@@ -43,7 +43,7 @@ namespace Mono.Documentation.Updater
             return new AttributeParserContext(provider);
         }
 
-        public void MoveToNextDynamicFlag()
+        public void NextDynamicFlag()
         {
             dynamicAttributeIndex++;
         }

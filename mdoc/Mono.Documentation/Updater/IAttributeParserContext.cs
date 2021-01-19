@@ -2,7 +2,7 @@
 {
     public interface IAttributeParserContext
     {
-        void MoveToNextDynamicFlag();
+        void NextDynamicFlag();
         bool IsDynamic();
         bool IsNullable();
     }

@@ -13,7 +13,7 @@
             return singletonInstance;
         }
 
-        public void MoveToNextDynamicFlag()
+        public void NextDynamicFlag()
         {
         }
 

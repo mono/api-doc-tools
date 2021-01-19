@@ -128,7 +128,7 @@ namespace Mono.Documentation.Updater
             }
 
             _AppendTypeName (buf, elementType, context);
-            AppendNullableSymbolToTypeName (buf, elementType, isNullableType);
+            AppendNullableSymbol (buf, elementType, isNullableType);
 
             return AppendArrayModifiers (buf, (ArrayType)type);
         }
@@ -266,7 +266,7 @@ namespace Mono.Documentation.Updater
 
         protected virtual StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
-            context.MoveToNextDynamicFlag();
+            context.NextDynamicFlag();
             return AppendTypeName (buf, type.Name);
         }
 
@@ -385,12 +385,17 @@ namespace Mono.Documentation.Updater
                 _AppendTypeName(buf, type, context, useTypeProjection: useTypeProjection);
             }
 
-            AppendNullableSymbolToTypeName(buf, type, isNullableType);
+            AppendNullableSymbol(buf, type, isNullableType);
         }
 
-        protected virtual StringBuilder AppendNullableSymbolToTypeName (StringBuilder buf, TypeReference type, bool? isNullableType)
+        private StringBuilder AppendNullableSymbol (StringBuilder buf, TypeReference type, bool? isNullableType)
         {
-            return buf;
+            return buf.Append(GetTypeNullableSymbol(type, isNullableType));
+        }
+
+        protected virtual string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
+        {
+            return string.Empty;
         }
 
         protected List<TypeReference> GetGenericArguments (TypeReference type)
@@ -540,7 +545,7 @@ namespace Mono.Documentation.Updater
             var isNullableType = context.IsNullable ();
             var returnTypeName = GetTypeName (method.ReturnType, context);
             buf.Append (returnTypeName);
-            AppendNullableSymbolToTypeName (buf, method.ReturnType, isNullableType);
+            buf.Append (GetTypeNullableSymbol (method.ReturnType, isNullableType));
             buf.Append (" ");
 
             return buf;
