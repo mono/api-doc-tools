@@ -3801,7 +3801,7 @@ namespace Mono.Documentation
             XmlElement e = (XmlElement)root.SelectSingleNode("Attributes");
             if (e == null)
                 e = root.OwnerDocument.CreateElement("Attributes");
-            if (isFirstFramework)
+            if (isFirstFramework && typeEntry?.TimesProcessed == 1)
             {
                 e.RemoveAll();
             }
