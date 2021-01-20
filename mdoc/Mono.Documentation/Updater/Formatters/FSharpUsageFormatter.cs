@@ -32,7 +32,7 @@ namespace Mono.Documentation.Updater
             }
             else
             {
-                var typeName = AppendTypeName(new StringBuilder(), method.DeclaringType, null).ToString();
+                var typeName = AppendTypeName(new StringBuilder(), method.DeclaringType, EmptyAttributeParserContext.Empty()).ToString();
                 buf.Append($"{CamelCase(typeName)}.{method.Name} ");
             }
 

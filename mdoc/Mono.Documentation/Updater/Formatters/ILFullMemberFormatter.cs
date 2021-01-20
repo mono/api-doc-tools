@@ -77,7 +77,7 @@ namespace Mono.Documentation.Updater.Formatters
             return buf.Append (typename);
         }
 
-        protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             if (type is GenericParameter)
             {
@@ -203,7 +203,7 @@ namespace Mono.Documentation.Updater.Formatters
             return buf.ToString ();
         }
 
-        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (
                     type is GenericInstanceType ? type.GetElementType () : type);
@@ -303,7 +303,7 @@ namespace Mono.Documentation.Updater.Formatters
                 buf.Append ("virtual ");
             if (!method.IsStatic)
                 buf.Append ("instance ");
-            _AppendTypeName (buf, method.ReturnType, new DynamicParserContext (method.MethodReturnType));
+            _AppendTypeName (buf, method.ReturnType, AttributeParserContext.Create (method.MethodReturnType));
             buf.Append (' ')
                 .Append (method.Name);
             if (method.IsGenericMethod ())
@@ -334,7 +334,7 @@ namespace Mono.Documentation.Updater.Formatters
                 if (param.IsOut) buf.Append ("[out] ");
                 else if (param.IsIn) buf.Append ("[in]");
 
-                _AppendTypeName (buf, param.ParameterType, new DynamicParserContext (param));
+                _AppendTypeName (buf, param.ParameterType, AttributeParserContext.Create (param));
                 if (param.ParameterType.IsByReference) buf.Append ("&");
                 buf.Append (' ');
                 buf.Append (param.Name);
@@ -475,7 +475,7 @@ namespace Mono.Documentation.Updater.Formatters
                 .Append (".property ");
             if (!(gm ?? sm).IsStatic)
                 buf.Append ("instance ");
-            _AppendTypeName (buf, property.PropertyType, new DynamicParserContext (property));
+            _AppendTypeName (buf, property.PropertyType, AttributeParserContext.Create (property));
             buf.Append (' ').Append (property.Name);
             if (!property.HasParameters || property.Parameters.Count == 0)
                 return buf.ToString ();
@@ -487,7 +487,7 @@ namespace Mono.Documentation.Updater.Formatters
                 if (!first)
                     buf.Append (", ");
                 first = false;
-                _AppendTypeName (buf, p.ParameterType, new DynamicParserContext (p));
+                _AppendTypeName (buf, p.ParameterType, AttributeParserContext.Create (p));
             }
             buf.Append (')');
 
@@ -513,7 +513,7 @@ namespace Mono.Documentation.Updater.Formatters
                 buf.Append ("initonly ");
             if (field.IsLiteral)
                 buf.Append ("literal ");
-            _AppendTypeName (buf, field.FieldType, new DynamicParserContext (field));
+            _AppendTypeName (buf, field.FieldType, AttributeParserContext.Create (field));
             buf.Append (' ').Append (field.Name);
             AppendFieldValue (buf, field);
 

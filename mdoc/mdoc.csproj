@@ -53,15 +53,19 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Mono.Documentation\Updater\DynamicTypeProvider.cs" />
+    <Compile Include="Mono.Documentation\Updater\EmptyAttributeParserContext.cs" />
     <Compile Include="Mono.Documentation\Framework\FrameworkIndexHelper.cs" />
     <Compile Include="Mono.Documentation\Framework\FrameworkTypeModel.cs" />
     <Compile Include="Mono.Documentation\Framework\FrameworkNamespaceModel.cs" />
+    <Compile Include="Mono.Documentation\Updater\IAttributeParserContext.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\ApplePlatformEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\AttributeFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\CppWinRtAttributeFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\FSharpAttributeFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\CSharpAttributeFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtMemberFormatter.cs" />
+    <Compile Include="Mono.Documentation\Updater\NullableReferenceTypeProvider.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FormatterManager.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\JsFormatter.cs" />
@@ -96,7 +100,7 @@
     <Compile Include="Mono.Documentation\Updater\Formatters\DocIdFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\MemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\MemberFormatterState.cs" />
-    <Compile Include="Mono.Documentation\Updater\DynamicParserContext.cs" />
+    <Compile Include="Mono.Documentation\Updater\AttributeParserContext.cs" />
     <Compile Include="Mono.Documentation\Updater\DocumentationMember.cs" />
     <Compile Include="Mono.Documentation\Updater\EcmaDocumentationImporter.cs" />
     <Compile Include="Mono.Documentation\Updater\MsxdocDocumentationImporter.cs" />

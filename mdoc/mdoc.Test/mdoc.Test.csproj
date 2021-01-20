@@ -92,6 +92,7 @@
     <Compile Include="JsUsageFormatterTests.cs" />
     <Compile Include="MDocFileSourceTests.cs" />
     <Compile Include="MDocUpdaterTests.cs" />
+    <Compile Include="NullableReferenceTypesTests.cs" />
     <Compile Include="SampleClasses\EiiImplementclass.cs" />
     <Compile Include="SampleClasses\Interface_A.cs" />
     <Compile Include="SampleClasses\Interface_B.cs" />
