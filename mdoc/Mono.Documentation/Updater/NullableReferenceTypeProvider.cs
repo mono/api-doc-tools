@@ -92,7 +92,7 @@ namespace Mono.Documentation.Updater
                     return null;
             }
 
-            throw new ArgumentOutOfRangeException("value", value, $"The nullable attribute value is not a valid type argument.");
+            throw new ArgumentOutOfRangeException(nameof(value), value, $"The nullable attribute value is not a valid type argument.");
         }
 
         private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes()
@@ -117,7 +117,7 @@ namespace Mono.Documentation.Updater
                 return GetTypeNullableAttributes(fieldDefinition);
             }
 
-            throw new ArgumentException("We don't support this custom attribute provider type now.", "provider");
+            throw new ArgumentException("We don't support this custom attribute provider type now.", nameof(provider));
         }
 
         private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(ParameterDefinition parameterDefinition)

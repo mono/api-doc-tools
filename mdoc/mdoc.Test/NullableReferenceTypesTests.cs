@@ -1,6 +1,8 @@
 ﻿using Mono.Documentation;
 using Mono.Documentation.Updater.Formatters;
 using NUnit.Framework;
+using System;
+using System.Linq;
 
 namespace mdoc.Test
 {
@@ -174,7 +176,7 @@ namespace mdoc.Test
         [TestCase("TStruct?", "GenericNullableValueType")]
         public void GenericPropertyReturnType(string returnType, string propertyName)
         {
-            TestPropertySignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.GenericPropertyReturnType`3",
+            TestPropertySignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.{GetGenericTypeILName("GenericPropertyReturnType<T, TClass, TStruct>")}",
                 propertyName, $"public {returnType} {propertyName} {{ get; }}");
         }
 
@@ -199,23 +201,23 @@ namespace mdoc.Test
                 $"public delegate void {delegateName}({delegateParameter});");
         }
 
-        [TestCase("GenericHandler<TEventArgs>", "object sender, TEventArgs args", "{0}", "GenericHandler`1")]
-        [TestCase("NullableSender<TEventArgs>", "object? sender, TEventArgs args", "{0}", "NullableSender`1")]
-        [TestCase("NullableSenderAndEventArgs<TEventArgs>", "object? sender, TEventArgs? args", "{0} where TEventArgs : class", "NullableSenderAndEventArgs`1")]
-        [TestCase("ActionHandler<TClass,TStruct>", "TClass t1, TStruct t2", "{0} where TClass : class where TStruct : struct", "ActionHandler`2")]
-        [TestCase("NullableActionHandler<TClass,TStruct>", "TClass? t1, TStruct? t2", "{0} where TClass : class where TStruct : struct", "NullableActionHandler`2")]
-        public void GenericDelegateTypeParameter(string delegateName, string delegateParameter, string otherPartOfMethodSignature, string delegateILName)
+        [TestCase("GenericHandler<TEventArgs>", "object sender, TEventArgs args", "{0}")]
+        [TestCase("NullableSender<TEventArgs>", "object? sender, TEventArgs args", "{0}")]
+        [TestCase("NullableSenderAndEventArgs<TEventArgs>", "object? sender, TEventArgs? args", "{0} where TEventArgs : class")]
+        [TestCase("ActionHandler<TClass,TStruct>", "TClass t1, TStruct t2", "{0} where TClass : class where TStruct : struct")]
+        [TestCase("NullableActionHandler<TClass,TStruct>", "TClass? t1, TStruct? t2", "{0} where TClass : class where TStruct : struct")]
+        public void GenericDelegateTypeParameter(string delegateName, string delegateParameter, string otherPartOfMethodSignature)
         {
-            TestTypeSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.Delegate.{delegateILName}",
+            TestTypeSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.Delegate.{GetGenericTypeILName(delegateName)}",
                 $"public delegate void {delegateName}{string.Format(otherPartOfMethodSignature, $"({delegateParameter})")};");
         }
 
-        [TestCase("TReturn", "FuncHandler<TReturn>", "()", "FuncHandler`1")]
-        [TestCase("TReturn?", "NullableReferenceType<TReturn>", "() where TReturn : class", "NullableReferenceType`1")]
-        [TestCase("TReturn?", "NullableValueType<TReturn>", "() where TReturn : struct", "NullableValueType`1")]
-        public void GenericDelegateTypeReturnType(string returnType, string delegateName, string otherPartOfMethodSignature, string delegateILName)
+        [TestCase("TReturn", "FuncHandler<TReturn>", "()")]
+        [TestCase("TReturn?", "NullableReferenceType<TReturn>", "() where TReturn : class")]
+        [TestCase("TReturn?", "NullableValueType<TReturn>", "() where TReturn : struct")]
+        public void GenericDelegateTypeReturnType(string returnType, string delegateName, string otherPartOfMethodSignature)
         {
-            TestTypeSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.Delegate.{delegateILName}",
+            TestTypeSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.Delegate.{GetGenericTypeILName(delegateName)}",
                 $"public delegate {returnType} {delegateName}{otherPartOfMethodSignature};");
         }
 
@@ -229,28 +231,28 @@ namespace mdoc.Test
                 ".ctor", $"public {typeName} ({constructorParameter});");
         }
 
-        [TestCase("GenericFieldType", "T", "GenericType")]
-        [TestCase("GenericFieldTypeOfValueType", "T", "GenericType")]
-        [TestCase("GenericFieldTypeOfValueType", "T?", "NullableGenericType")]
-        [TestCase("GenericFieldTypeOfValueType", "ICollection<T>", "InterfaceOfGenericType")]
-        [TestCase("GenericFieldTypeOfValueType", "ICollection<T?>", "InterfaceOfNullableGenericType")]
-        [TestCase("GenericFieldTypeOfValueType", "ICollection<T>?", "NullableInterfaceOfGenericType")]
-        [TestCase("GenericFieldTypeOfValueType", "ICollection<T?>?", "NullableInterfaceOfNullableGenericType")]
-        [TestCase("GenericFieldTypeOfValueType", "Dictionary<Dictionary<T,string>,string>", "DictionaryOfDictionary")]
-        [TestCase("GenericFieldTypeOfValueType", "Dictionary<Dictionary<T?,string>,string>", "DictionaryOfDictionaryOfNullableGenericTypeKey")]
-        [TestCase("GenericFieldTypeOfValueType", "Dictionary<Dictionary<T?,string>,string>?", "NullableDictionaryOfDictionaryOfNullableGenericTypeKey")]
-        [TestCase("GenericFieldTypeOfReferenceType", "T", "GenericType")]
-        [TestCase("GenericFieldTypeOfReferenceType", "T?", "NullableGenericType")]
-        [TestCase("GenericFieldTypeOfReferenceType", "ICollection<T>", "InterfaceOfGenericType")]
-        [TestCase("GenericFieldTypeOfReferenceType", "ICollection<T?>", "InterfaceOfNullableGenericType")]
-        [TestCase("GenericFieldTypeOfReferenceType", "ICollection<T>?", "NullableInterfaceOfGenericType")]
-        [TestCase("GenericFieldTypeOfReferenceType", "ICollection<T?>?", "NullableInterfaceOfNullableGenericType")]
-        [TestCase("GenericFieldTypeOfReferenceType", "Dictionary<Dictionary<T,string>,string>", "DictionaryOfDictionary")]
-        [TestCase("GenericFieldTypeOfReferenceType", "Dictionary<Dictionary<T?,string>,string>", "DictionaryOfDictionaryOfNullableGenericTypeKey")]
-        [TestCase("GenericFieldTypeOfReferenceType", "Dictionary<Dictionary<T?,string>,string>?", "NullableDictionaryOfDictionaryOfNullableGenericTypeKey")]
+        [TestCase("GenericFieldType<T>", "T", "GenericType")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "T", "GenericType")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "T?", "NullableGenericType")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "ICollection<T>", "InterfaceOfGenericType")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "ICollection<T?>", "InterfaceOfNullableGenericType")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "ICollection<T>?", "NullableInterfaceOfGenericType")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "ICollection<T?>?", "NullableInterfaceOfNullableGenericType")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "Dictionary<Dictionary<T,string>,string>", "DictionaryOfDictionary")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "Dictionary<Dictionary<T?,string>,string>", "DictionaryOfDictionaryOfNullableGenericTypeKey")]
+        [TestCase("GenericFieldTypeOfValueType<T>", "Dictionary<Dictionary<T?,string>,string>?", "NullableDictionaryOfDictionaryOfNullableGenericTypeKey")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "T", "GenericType")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "T?", "NullableGenericType")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "ICollection<T>", "InterfaceOfGenericType")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "ICollection<T?>", "InterfaceOfNullableGenericType")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "ICollection<T>?", "NullableInterfaceOfGenericType")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "ICollection<T?>?", "NullableInterfaceOfNullableGenericType")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "Dictionary<Dictionary<T,string>,string>", "DictionaryOfDictionary")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "Dictionary<Dictionary<T?,string>,string>", "DictionaryOfDictionaryOfNullableGenericTypeKey")]
+        [TestCase("GenericFieldTypeOfReferenceType<T>", "Dictionary<Dictionary<T?,string>,string>?", "NullableDictionaryOfDictionaryOfNullableGenericTypeKey")]
         public void GenericFieldReturnType(string typeName, string returnType, string fieldName)
         {
-            TestFieldSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.{typeName}`1",
+            TestFieldSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.{GetGenericTypeILName(typeName)}",
                 fieldName, $"public {returnType} {fieldName};");
         }
 
@@ -279,6 +281,23 @@ namespace mdoc.Test
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, $"mdoc.Test.NullableReferenceTypes.OperatorOverloading.{typeName}",
                methodName, $"public static {operatorName} ({methodParameter});");
+        }
+
+        private string GetGenericTypeILName(string genericTypeName)
+        {
+            var startParameterIndex = genericTypeName.IndexOf('<');
+            var endParameterIndex = genericTypeName.IndexOf('>');
+
+            if (startParameterIndex != -1 && endParameterIndex != -1 && endParameterIndex == genericTypeName.Length - 1)
+            {
+                var parameterList = genericTypeName.Substring(startParameterIndex + 1, endParameterIndex - startParameterIndex - 1);
+                var parameterCount = parameterList.Split(',').Count();
+                var genericTypeNameWithoutParameter = genericTypeName.Substring(0, startParameterIndex);
+
+                return $"{genericTypeNameWithoutParameter}`{parameterCount}";
+            }
+
+            throw new ArgumentException("The generic type name is not a valid value.", nameof(genericTypeName));
         }
     }
 }
