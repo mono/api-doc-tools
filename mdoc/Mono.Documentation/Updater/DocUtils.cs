@@ -933,12 +933,15 @@ namespace Mono.Documentation.Updater
         {
             foreach (var method in type.Methods)
             {
-                var unnamedParameterIndex = 1;
-                foreach (var item in method.Parameters)
+                if (method is MethodDefinition methodDefinition && !methodDefinition.IsConstructor)
                 {
-                    if (string.IsNullOrEmpty(item.Name))
+                    var unnamedParameterIndex = 1;
+                    foreach (var item in method.Parameters)
                     {
-                        item.Name = $"unnamedParam{unnamedParameterIndex++}";
+                        if (string.IsNullOrEmpty(item.Name))
+                        {
+                            item.Name = $"unnamedParam{unnamedParameterIndex++}";
+                        }
                     }
                 }
             }
