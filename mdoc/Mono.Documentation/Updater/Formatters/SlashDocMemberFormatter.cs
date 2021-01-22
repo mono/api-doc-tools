@@ -23,7 +23,7 @@ namespace Mono.Documentation.Updater
 
         public SlashDocMemberFormatter(TypeMap map) : base(map) { }
 
-        protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             if (type is GenericParameter)
             {
@@ -82,7 +82,7 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             return base.AppendRefTypeName (buf, type, context).Append (RefTypeModifier);
         }
@@ -102,7 +102,7 @@ namespace Mono.Documentation.Updater
             return buf.Append (ArrayDelimeters[1]);
         }
 
-        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             if (!AddTypeCount)
                 base.AppendGenericType (buf, type, context);
@@ -111,7 +111,7 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        private StringBuilder AppendType (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        private StringBuilder AppendType (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (type);
             bool insertNested = false;

@@ -588,7 +588,7 @@
       </Docs>
     </Member>
     <Member MemberName="tuple1">
-      <MemberSignature Language="C#" Value="public static (int,int) tuple1 { get; }" />
+      <MemberSignature Language="C#" Value="public static Tuple&lt;int,int&gt; tuple1 { get; }" />
       <MemberSignature Language="ILAsm" Value=".property class System.Tuple`2&lt;int32, int32&gt; tuple1" />
       <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.tuple1 : int * int" Usage="PatternMatching.PatternMatchingExamples.tuple1" />
       <MemberType>Property</MemberType>
