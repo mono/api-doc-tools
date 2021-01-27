@@ -107,7 +107,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return typeToCompare == t ? null : typeToCompare;
         }
 
-        protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             string typeFullName = type.FullName;
             if (string.IsNullOrWhiteSpace (typeFullName))
@@ -275,7 +275,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
         protected virtual string GetTypeNameWithOptions(TypeReference type, bool appendHat, bool appendGeneric = true)
         {
-            var typeName = GetTypeName(type, null, appendGeneric);
+            var typeName = GetTypeName(type, EmptyAttributeParserContext.Empty(), appendGeneric);
             var hatTypeName =
                 !type.IsByReference && !type.IsPointer
                     ? AppendHat(typeName, type, appendHat)
@@ -553,7 +553,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return AppendConstraints (buf, method.GenericParameters);
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                 type is GenericInstanceType ? type.GetElementType() : type);
@@ -755,7 +755,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return buf;
         }
 
-        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             buf.Append("cli::array <");
 
@@ -777,7 +777,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             TypeSpecification spec = type as TypeSpecification;
             _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
@@ -787,7 +787,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return buf;
         }
 
-        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             TypeSpecification spec = type as TypeSpecification;
              _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);

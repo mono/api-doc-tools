@@ -27,10 +27,10 @@ namespace Mono.Documentation.Updater
 
         public string GetName (MemberReference member, bool appendGeneric = true, bool useTypeProjection = true)
         {
-            return GetName (member, null, appendGeneric, useTypeProjection: useTypeProjection);
+            return GetName (member, EmptyAttributeParserContext.Empty(), appendGeneric, useTypeProjection: useTypeProjection);
         }
 
-        public virtual string GetName (MemberReference member, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        public virtual string GetName (MemberReference member, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
             TypeReference type = member as TypeReference;
             if (type != null)
@@ -55,21 +55,17 @@ namespace Mono.Documentation.Updater
 
         protected virtual string GetTypeName (TypeReference type, bool appendGeneric = true, bool useTypeProjection = true)
         {
-            return GetTypeName (type, null, appendGeneric, useTypeProjection: useTypeProjection);
+            return GetTypeName (type, EmptyAttributeParserContext.Empty(), appendGeneric, useTypeProjection: useTypeProjection);
         }
 
-        protected virtual string GetTypeName (TypeReference type, DynamicParserContext context, bool appendGeneric=true, bool useTypeProjection = true)
+        protected virtual string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric=true, bool useTypeProjection = true)
         {
             if (type == null)
                 throw new ArgumentNullException (nameof (type));
 
             var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context, appendGeneric, useTypeProjection: useTypeProjection).ToString ();
 
-            typeName = RemoveMod (typeName);
-
-
-
-            return typeName;
+            return RemoveMod (typeName);
         }
 
         public static string RemoveMod (string typeName)
@@ -107,21 +103,34 @@ namespace Mono.Documentation.Updater
 
         protected virtual MemberFormatterState MemberFormatterState { get; set; }
 
-        protected virtual StringBuilder AppendRequiredModifierTypeName(StringBuilder buf, RequiredModifierType type, DynamicParserContext context)
+        protected virtual StringBuilder AppendRequiredModifierTypeName(StringBuilder buf, RequiredModifierType type, IAttributeParserContext context)
         {
             return _AppendTypeName (buf, type.ElementType, context);
         }
 
-        protected virtual StringBuilder AppendOptionalModifierTypeName(StringBuilder buf, OptionalModifierType type, DynamicParserContext context)
+        protected virtual StringBuilder AppendOptionalModifierTypeName(StringBuilder buf, OptionalModifierType type, IAttributeParserContext context)
         {
             return _AppendTypeName(buf, type.ElementType, context);
         }
 
-        protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
-            return AppendArrayModifiers(buf, (ArrayType)type);
+            var elementType = type.GetElementType ();
+            if (type is TypeSpecification typeSpecification)
+            {
+                elementType = typeSpecification.ElementType;
+            }
+
+            var isNullableType = false;
+            if (!elementType.IsValueType)
+            {
+                isNullableType = context.IsNullable ();
+            }
+
+            _AppendTypeName (buf, elementType, context);
+            AppendNullableSymbol (buf, elementType, isNullableType);
+
+            return AppendArrayModifiers (buf, (ArrayType)type);
         }
 
         protected virtual bool ShouldStripModFromTypeName
@@ -129,7 +138,7 @@ namespace Mono.Documentation.Updater
             get => true;
         }
 
-        protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection =false)
+        protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection =false)
         {
             if (type == null)
                 return buf;
@@ -167,9 +176,7 @@ namespace Mono.Documentation.Updater
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
 
-
             AppendNamespace (interimBuilder, type);
-            GenericInstanceType genInst = type as GenericInstanceType;
 
             if (type.IsRequiredModifier)
             {
@@ -186,6 +193,12 @@ namespace Mono.Documentation.Updater
                 }
             }
 
+            GenericInstanceType genInst = type as GenericInstanceType;
+            if (IsSpecialGenericNullableValueType (genInst))   // For special C# nullable value type only.
+            {
+                AppendSpecialGenericNullableValueTypeName (buf, genInst, context);
+                return SetBuffer (buf, interimBuilder, useTypeProjection: useTypeProjection);
+            }
 
             if (type.GenericParameters.Count == 0 &&
                     (genInst == null ? true : genInst.GenericArguments.Count == 0))
@@ -195,6 +208,18 @@ namespace Mono.Documentation.Updater
             }
             AppendGenericType (interimBuilder, type, context, appendGeneric, useTypeProjection: useTypeProjection);
             return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
+        }
+
+        protected virtual bool IsSpecialGenericNullableValueType(GenericInstanceType genInst)
+        {
+            // For special C# nullable value type only, the CSharpFullMemberFormatter subclass will override the method.
+            return false;
+        }
+
+        protected virtual StringBuilder AppendSpecialGenericNullableValueTypeName(StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        {
+            // For special C# nullable value type only, the CSharpFullMemberFormatter subclass will override the method.
+            return buf;
         }
 
         private StringBuilder SetBuffer(StringBuilder buf, StringBuilder interimBuilder, bool useTypeProjection)
@@ -232,17 +257,16 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        protected virtual StringBuilder AppendFullTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendFullTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             if (type.DeclaringType != null)
                 AppendFullTypeName (buf, type.DeclaringType, context).Append (NestedTypeSeparator);
             return AppendTypeName (buf, type, context);
         }
 
-        protected virtual StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
-            if (context != null)
-                context.TransformIndex++;
+            context.NextDynamicFlag();
             return AppendTypeName (buf, type.Name);
         }
 
@@ -268,7 +292,7 @@ namespace Mono.Documentation.Updater
             get { return "@"; }
         }
 
-        protected virtual StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             TypeSpecification spec = type as TypeSpecification;
             return _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
@@ -279,7 +303,7 @@ namespace Mono.Documentation.Updater
             get { return "*"; }
         }
 
-        protected virtual StringBuilder AppendPointerTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected virtual StringBuilder AppendPointerTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             TypeSpecification spec = type as TypeSpecification;
             return _AppendTypeName (buf, spec != null ? spec.ElementType : type.GetElementType (), context)
@@ -296,17 +320,25 @@ namespace Mono.Documentation.Updater
             get { return "."; }
         }
 
-        protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
-            List<TypeReference> decls = DocUtils.GetDeclaringTypes (
-                    type is GenericInstanceType ? type.GetElementType () : type);
-            List<TypeReference> genArgs = GetGenericArguments (type);
             int argIdx = 0;
             int prev = 0;
             bool insertNested = false;
+            var isGenericType = type is GenericInstanceType;
+            var declaringType = isGenericType ? type.GetElementType () : type;
+            List<TypeReference> decls = DocUtils.GetDeclaringTypes (declaringType);
+            List<TypeReference> genArgs = GetGenericArguments (type);
             foreach (var decl in decls)
             {
-                TypeReference declDef = decl.Resolve () ?? decl;
+                TypeReference declDef = decl;
+                if (!isGenericType)
+                {
+                    // Generic type can't be resolve in WSL, macOS and Ubuntu OS environment that
+                    // an AssemblyResolutionException will be throwing here but it can work in the Windows OS environment as well.
+                    declDef = decl.Resolve ();
+                }
+
                 if (insertNested)
                 {
                     buf.Append (NestedTypeSeparator);
@@ -316,21 +348,54 @@ namespace Mono.Documentation.Updater
                 int ac = DocUtils.GetGenericArgumentCount (declDef);
                 int c = ac - prev;
                 prev = ac;
-                if ( appendGeneric && c > 0)
+                if (appendGeneric && c > 0)
                 {
                     buf.Append (GenericTypeContainer[0]);
                     var origState = MemberFormatterState;
                     MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
-                    _AppendTypeName (buf, genArgs[argIdx++], context, useTypeProjection: useTypeProjection);
+                    AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
                     for (int i = 1; i < c; ++i)
                     {
-                        _AppendTypeName (buf.Append (","), genArgs[argIdx++], context, useTypeProjection: useTypeProjection);
+                        buf.Append (",");
+                        AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
                     }
+
                     MemberFormatterState = origState;
                     buf.Append (GenericTypeContainer[1]);
                 }
             }
             return buf;
+        }
+
+        private void AppendGenericTypeParameter (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool useTypeProjection = true)
+        {
+            var isNullableType = false;
+            if (type is GenericInstanceType)
+            {
+                isNullableType = context.IsNullable();
+                buf.Append(GetTypeName(type, context));
+            }
+            else
+            {
+                if (!type.IsValueType)
+                {
+                    isNullableType = context.IsNullable();
+                }
+
+                _AppendTypeName(buf, type, context, useTypeProjection: useTypeProjection);
+            }
+
+            AppendNullableSymbol(buf, type, isNullableType);
+        }
+
+        private StringBuilder AppendNullableSymbol (StringBuilder buf, TypeReference type, bool? isNullableType)
+        {
+            return buf.Append(GetTypeNullableSymbol(type, isNullableType));
+        }
+
+        protected virtual string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
+        {
+            return string.Empty;
         }
 
         protected List<TypeReference> GetGenericArguments (TypeReference type)
@@ -465,13 +530,25 @@ namespace Mono.Documentation.Updater
             if (buf.Length != 0)
                 buf.Append (" ");
 
-            buf.Append (GetTypeName (method.ReturnType, new DynamicParserContext (method.MethodReturnType))).Append (" ");
-
+            AppendReturnTypeName (buf, method);
             AppendMethodName (buf, method);
             AppendGenericMethod (buf, method).Append (" ");
             AppendParameters (buf, method, method.Parameters);
             AppendGenericMethodConstraints (buf, method);
             return buf.ToString ();
+        }
+
+
+        private StringBuilder AppendReturnTypeName (StringBuilder buf, MethodDefinition method)
+        {
+            var context = AttributeParserContext.Create (method.MethodReturnType);
+            var isNullableType = context.IsNullable ();
+            var returnTypeName = GetTypeName (method.ReturnType, context);
+            buf.Append (returnTypeName);
+            buf.Append (GetTypeNullableSymbol (method.ReturnType, isNullableType));
+            buf.Append (" ");
+
+            return buf;
         }
 
         protected virtual StringBuilder AppendMethodName (StringBuilder buf, MethodDefinition method)

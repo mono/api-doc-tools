@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Mono.Cecil;
+using Mono.Documentation.Util;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
-
-using Mono.Cecil;
-using Mono.Documentation.Util;
 
 namespace Mono.Documentation.Updater.Formatters
 {
@@ -21,7 +19,6 @@ namespace Mono.Documentation.Updater.Formatters
 
         protected override StringBuilder AppendNamespace (StringBuilder buf, TypeReference type)
         {
-
             string ns = DocUtils.GetNamespace (type);
             if (GetCSharpType (type.FullName) == null && ns != null && ns.Length > 0 && ns != "System")
                 buf.Append (ns).Append ('.');
@@ -70,12 +67,11 @@ namespace Mono.Documentation.Updater.Formatters
             return typeToCompare == t ? null : typeToCompare;
         }
 
-        protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
-            if (context != null && context.TransformFlags != null &&
-                    (context.TransformFlags.Count == 0 || context.TransformFlags[context.TransformIndex]))
+            if (context.IsDynamic())
             {
-                context.TransformIndex++;
+                context.NextDynamicFlag();
                 return buf.Append ("dynamic");
             }
 
@@ -90,15 +86,14 @@ namespace Mono.Documentation.Updater.Formatters
             string s = GetCSharpType (t);
             if (s != null)
             {
-                if (context != null)
-                    context.TransformIndex++;
+                context.NextDynamicFlag();
                 return buf.Append (s);
             }
 
             return base.AppendTypeName (buf, type, context);
         }
 
-        private StringBuilder AppendGenericParameterConstraints (StringBuilder buf, GenericParameter type, DynamicParserContext context)
+        private StringBuilder AppendGenericParameterConstraints (StringBuilder buf, GenericParameter type, IAttributeParserContext context)
         {
             if (MemberFormatterState != MemberFormatterState.WithinGenericTypeParameters)
                 return buf;
@@ -112,40 +107,55 @@ namespace Mono.Documentation.Updater.Formatters
             return buf;
         }
 
-        protected override string GetTypeName(TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        protected override string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
             GenericInstanceType genType = type as GenericInstanceType;
-            if (genType != null)
+            if (IsSpecialGenericNullableValueType (genType))
             {
-                if (genType.Name.StartsWith("Nullable`") && genType.HasGenericArguments)
-                {
-
-                    var underlyingTypeName = base.GetTypeName(genType.GenericArguments.First(), context, appendGeneric, useTypeProjection);
-                    return underlyingTypeName + "?";
-                }
-
-                if (genType.Name.StartsWith("Tuple`") || genType.Name.StartsWith("ValueTuple`"))
-                {
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append("(");
-
-                    var genArgList = genType.GenericArguments.Select(genArg => base.GetTypeName(genArg, context, appendGeneric, useTypeProjection)).ToArray();
-
-                    sb.Append(string.Join(",", genArgList));
-
-                    sb.Append(")");
-
-                    return sb.ToString();
-                }
+                return AppendSpecialGenericNullableValueTypeName (new StringBuilder (), genType, context, appendGeneric, useTypeProjection).ToString ();
             }
 
-            if (context != null && context.IsNullableAttribute)
+            return base.GetTypeName (type, context, appendGeneric, useTypeProjection);
+        }
+
+        protected override bool IsSpecialGenericNullableValueType (GenericInstanceType genInst)
+        {
+            return genInst != null && (genInst.Name.StartsWith("ValueTuple`") ||
+                                      (genInst.Name.StartsWith("Nullable`") && genInst.HasGenericArguments));
+        }
+
+        protected override StringBuilder AppendSpecialGenericNullableValueTypeName (StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        {
+            if (genInst.Name.StartsWith ("Nullable`") && genInst.HasGenericArguments)
             {
-                var TypeName = base.GetTypeName(type, context, appendGeneric, useTypeProjection);
-                return TypeName + "?";
+                var underlyingTypeName = GetTypeName (genInst.GenericArguments.First (), context, appendGeneric, useTypeProjection);
+                buf.Append (underlyingTypeName + "?");
+
+                return buf;
             }
 
-            return base.GetTypeName(type, context, appendGeneric, useTypeProjection);
+            if (genInst.Name.StartsWith ("ValueTuple`"))
+            {
+                buf.Append ("(");
+                var genArgList = new List<string> ();
+                foreach (var item in genInst.GenericArguments)
+                {
+                    var isNullableType = false;
+                    if (!item.IsValueType)
+                    {
+                        isNullableType = context.IsNullable ();
+                    }
+
+                    var underlyingTypeName = GetTypeName (item, context, appendGeneric, useTypeProjection) + GetTypeNullableSymbol (item, isNullableType);
+                    genArgList.Add (underlyingTypeName);
+                }
+                buf.Append (string.Join (",", genArgList));
+                buf.Append (")");
+
+                return buf;
+            }
+
+            return buf;
         }
 
         protected override string GetTypeDeclaration (TypeDefinition type)
@@ -165,7 +175,11 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 buf.Append ("delegate ");
                 MethodDefinition invoke = type.GetMethod ("Invoke");
-                buf.Append (full.GetName (invoke.ReturnType, new DynamicParserContext (invoke.MethodReturnType))).Append (" ");
+                var context = AttributeParserContext.Create (invoke.MethodReturnType);
+                var isNullableType = context.IsNullable ();
+                buf.Append (full.GetName (invoke.ReturnType, context));
+                buf.Append (GetTypeNullableSymbol (invoke.ReturnType, isNullableType));
+                buf.Append (" ");
                 buf.Append (GetName (type));
                 AppendParameters (buf, invoke, invoke.Parameters);
                 AppendGenericTypeConstraints (buf, type);
@@ -414,6 +428,18 @@ namespace Mono.Documentation.Updater.Formatters
                 return base.AppendMethodName (buf, method);
         }
 
+        protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
+        {
+            if (isNullableType.IsTrue() &&
+               !type.IsValueType &&
+               !type.FullName.Equals("System.Void"))
+            {
+                return "?";
+            }
+
+            return string.Empty;
+        }
+
         protected override StringBuilder AppendGenericMethodConstraints (StringBuilder buf, MethodDefinition method)
         {
             if (method.GenericParameters.Count == 0)
@@ -543,8 +569,14 @@ namespace Mono.Documentation.Updater.Formatters
                 if (isParams)
                     buf.AppendFormat ("params ");
             }
-            buf.Append (GetTypeName (parameter.ParameterType, new DynamicParserContext (parameter))).Append (" ");
+
+            var context = AttributeParserContext.Create (parameter);
+            var isNullableType = context.IsNullable ();
+            buf.Append (GetTypeName (parameter.ParameterType, context));
+            buf.Append (GetTypeNullableSymbol (parameter.ParameterType, isNullableType));
+            buf.Append (" ");
             buf.Append (parameter.Name);
+
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
                 var ReturnVal = new AttributeFormatter().MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
@@ -606,7 +638,12 @@ namespace Mono.Documentation.Updater.Formatters
             if (property.PropertyType.IsByReference)
                 buf.Append("ref ");
 
-            buf.Append (GetTypeName (property.PropertyType, new DynamicParserContext (property))).Append (' ');
+            var context = AttributeParserContext.Create (property);
+            var isNullableType = context.IsNullable ();
+            var propertyReturnTypeName = GetTypeName (property.PropertyType, context);
+            buf.Append (propertyReturnTypeName);
+            buf.Append (GetTypeNullableSymbol (property.PropertyType, isNullableType));
+            buf.Append (' ');
 
             IEnumerable<MemberReference> defs = property.DeclaringType.GetDefaultMembers ();
             string name = property.Name;
@@ -664,7 +701,12 @@ namespace Mono.Documentation.Updater.Formatters
             if (field.IsLiteral)
                 buf.Append (" const");
 
-            buf.Append (' ').Append (GetTypeName (field.FieldType, new DynamicParserContext (field))).Append (' ');
+            buf.Append (' ');
+            var context = AttributeParserContext.Create (field);
+            var isNullableType = context.IsNullable ();
+            buf.Append (GetTypeName (field.FieldType, context));
+            buf.Append (GetTypeNullableSymbol (field.FieldType, isNullableType));
+            buf.Append (' ');
             buf.Append (field.Name);
             DocUtils.AppendFieldValue (buf, field);
             buf.Append (';');
@@ -702,8 +744,12 @@ namespace Mono.Documentation.Updater.Formatters
 
             AppendModifiers (buf, e.AddMethod);
 
+            var context = AttributeParserContext.Create (e.AddMethod.Parameters[0]);
+            var isNullableType = context.IsNullable ();
             buf.Append (buf.Length == 0 ? "event " : " event ");
-            buf.Append (GetTypeName (e.EventType, new DynamicParserContext (e.AddMethod.Parameters[0]))).Append (' ');
+            buf.Append (GetTypeName(e.EventType, context));
+            buf.Append (GetTypeNullableSymbol (e.EventType, isNullableType));
+            buf.Append (' ');
             buf.Append (e.Name).Append (';');
 
             return buf.ToString ();
