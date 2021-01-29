@@ -47,7 +47,7 @@ namespace mdoc.Test
             return Array.Empty<string>();
         }
 
-        private static string GetDotnetCorePath()
+        private string GetDotnetCorePath()
         {
             var dotnetCorePath = GetMacOSDotnetCorePath();
             if (string.IsNullOrEmpty(dotnetCorePath))
@@ -63,7 +63,7 @@ namespace mdoc.Test
             return dotnetCorePath;
         }
 
-        private static string GetMacOSDotnetCorePath()
+        private string GetMacOSDotnetCorePath()
         {
             var macOSDotnetCorePath = GetAzureMacOSDotnetCorePath();
             if (string.IsNullOrEmpty(macOSDotnetCorePath))
@@ -75,7 +75,7 @@ namespace mdoc.Test
             return Directory.Exists(macOSDotnetCorePath) ? macOSDotnetCorePath : string.Empty;
         }
 
-        private static string GetAzureMacOSDotnetCorePath()
+        private string GetAzureMacOSDotnetCorePath()
         {
             var azureMacOSDotnetCorePath = Environment.GetEnvironmentVariable("DOTNET_ROOT");
             if (!string.IsNullOrEmpty(azureMacOSDotnetCorePath))
@@ -86,7 +86,7 @@ namespace mdoc.Test
             return string.Empty;
         }
 
-        private static string GetLinuxDotnetCorePath()
+        private string GetLinuxDotnetCorePath()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "dotnet/shared/Microsoft.NETCore.App");
         }
