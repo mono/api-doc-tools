@@ -336,7 +336,7 @@ namespace Mono.Documentation.Updater
                 }
 
                 insertNested = true;
-                TypeReference declDef = decl.Resolve();
+                TypeReference declDef = decl.Resolve () ?? decl;
                 AppendTypeName (buf, declDef, context);
                 int ac = DocUtils.GetGenericArgumentCount (declDef);
                 int c = ac - prev;

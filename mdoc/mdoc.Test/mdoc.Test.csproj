@@ -77,7 +77,7 @@
     <Compile Include="CppWinRtMembersTests.cs" />
     <Compile Include="CppWinRtFormatterTests.cs" />
     <Compile Include="Enumeration\AttachedEntityTests.cs" />
-    <Compile Include="ExternalAssemblyResolver.cs" />
+    <Compile Include="DotnetCoreAssemblyResolver.cs" />
     <Compile Include="FrameworkIndexHelperTests.cs" />
     <Compile Include="DocUtilsFSharpTests.cs" />
     <Compile Include="DocUtilsTests.cs" />

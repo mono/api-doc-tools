@@ -22,7 +22,7 @@ namespace mdoc.Test
             if (!moduleCash.ContainsKey(filepath))
             {
                 var fullpath = Path.Combine (Path.GetDirectoryName (this.GetType ().Module.Assembly.Location), filepath);
-                var resolver = new ExternalAssemblyResolver ();
+                var resolver = new DotnetCoreAssemblyResolver ();
                 var testAssemblyPath = Path.GetDirectoryName (this.GetType ().Module.Assembly.Location);
                 resolver.AddSearchDirectory (testAssemblyPath);
 
