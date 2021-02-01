@@ -2,38 +2,50 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace mdoc.Test
 {
-    // Fix DefaultAssemblyResolver don't load .NET Core Assemblies in macOS, WSL, and Ubuntu OS environment.
+    // Fix DefaultAssemblyResolver don't load .NET Core platform assemblies in macOS, WSL, and Ubuntu OS environment.
     public class DotnetCoreAssemblyResolver : DefaultAssemblyResolver
     {
         public DotnetCoreAssemblyResolver()
         {
-            AddDotnetCoreSearchDirectory();
+            AddDotnetCoreToSearchDirectory();
         }
 
-        private void AddDotnetCoreSearchDirectory()
+        private void AddDotnetCoreToSearchDirectory()
         {
             if (Environment.OSVersion.Platform == PlatformID.Unix ||
                 Environment.OSVersion.Platform == PlatformID.MacOSX)
             {
-                foreach (var item in GetDotnetCorePlatformAssembliesPath())
+                var latestDotnetCorePath = GetLatestPlatformAssembliesPath();
+                if (string.IsNullOrEmpty(latestDotnetCorePath))
                 {
-                    AddSearchDirectory(item);
+                    throw new DirectoryNotFoundException("The platform assemblies of .NET Core was not found, do you have .NET Core installed?");
                 }
+
+                AddSearchDirectory(latestDotnetCorePath);
             }
         }
 
-        private IEnumerable<string> GetDotnetCorePlatformAssembliesPath()
+        private string GetLatestPlatformAssembliesPath()
         {
+            SortedList<Version, string> versionResults = new SortedList<Version, string>();
             foreach (var installedSdkVersion in GetInstalledSdkVersions())
             {
                 if (File.Exists(Path.Combine(installedSdkVersion, "System.dll")))
                 {
-                    yield return installedSdkVersion;
+                    Version sdkVersion;
+                    DirectoryInfo sdkDirectoryInfo = new DirectoryInfo(installedSdkVersion);
+                    if (Version.TryParse(sdkDirectoryInfo.Name, out sdkVersion))
+                    {
+                        versionResults.Add(sdkVersion, installedSdkVersion);
+                    }
                 }
             }
+
+            return versionResults.LastOrDefault().Value;
         }
 
         private string[] GetInstalledSdkVersions()
@@ -68,7 +80,7 @@ namespace mdoc.Test
             var macOSDotnetCorePath = GetAzureMacOSDotnetCorePath();
             if (string.IsNullOrEmpty(macOSDotnetCorePath))
             {
-                // Hard code the path of .NET Core for macOS.
+                // Hard code the local path of .NET Core for macOS.
                 macOSDotnetCorePath = "/usr/local/share/dotnet/shared/Microsoft.NETCore.App";
             }
 
