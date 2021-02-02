@@ -22,7 +22,7 @@ namespace mdoc.Test
                 var latestDotnetCorePath = GetLatestPlatformAssembliesPath();
                 if (string.IsNullOrEmpty(latestDotnetCorePath))
                 {
-                    throw new DirectoryNotFoundException("The platform assemblies of .NET Core was not found, do you have .NET Core installed?");
+                    Console.WriteLine("The platform assemblies of .NET Core was not found, do you have .NET Core installed?");
                 }
 
                 AddSearchDirectory(latestDotnetCorePath);
@@ -69,7 +69,7 @@ namespace mdoc.Test
 
             if (!Directory.Exists(dotnetCorePath))
             {
-                throw new DirectoryNotFoundException($"The path of .NET Core was not found, do you have .NET Core installed? {dotnetCorePath}");
+                Console.WriteLine($"The path of .NET Core was not found, do you have .NET Core installed? {dotnetCorePath}");
             }
 
             return dotnetCorePath;
