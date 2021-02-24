@@ -430,14 +430,27 @@ namespace Mono.Documentation.Updater.Formatters
 
         protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
         {
-            if (isNullableType.IsTrue() &&
-               !type.IsValueType &&
-               !type.FullName.Equals("System.Void"))
+            if (isNullableType.IsTrue() && !IsValueTypeOrDefineByReference(type) && !type.FullName.Equals("System.Void"))
             {
                 return "?";
             }
 
             return string.Empty;
+        }
+
+        private bool IsValueTypeOrDefineByReference(TypeReference type)
+        {
+            if (type.IsValueType)
+            {
+                return true;
+            }
+
+            if (type is ByReferenceType byRefType)
+            {
+                return byRefType.ElementType.IsValueType;
+            }
+
+            return false;
         }
 
         protected override StringBuilder AppendGenericMethodConstraints (StringBuilder buf, MethodDefinition method)

@@ -36,5 +36,14 @@ namespace mdoc.Test.NullableReferenceTypes
         public void NullableAndNonNullableInterfaceOfReferenceType(ICollection<string> collection1, ICollection<string>? collection2, ICollection<string> collection3)
         {
         }
+
+        public void NonNullableValueTypeWithOutModifier(string? value, out bool result)
+        {
+            result = false;
+        }
+
+        public void NonNullableValueTypeWithRefModifier(string? value, ref bool result)
+        {
+        }
     }
 }

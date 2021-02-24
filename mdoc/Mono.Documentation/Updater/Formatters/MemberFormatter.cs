@@ -325,25 +325,18 @@ namespace Mono.Documentation.Updater
             int argIdx = 0;
             int prev = 0;
             bool insertNested = false;
-            var isGenericType = type is GenericInstanceType;
-            var declaringType = isGenericType ? type.GetElementType () : type;
+            var declaringType = type is GenericInstanceType ? type.GetElementType () : type;
             List<TypeReference> decls = DocUtils.GetDeclaringTypes (declaringType);
             List<TypeReference> genArgs = GetGenericArguments (type);
             foreach (var decl in decls)
             {
-                TypeReference declDef = decl;
-                if (!isGenericType)
-                {
-                    // Generic type can't be resolve in WSL, macOS and Ubuntu OS environment that
-                    // an AssemblyResolutionException will be throwing here but it can work in the Windows OS environment as well.
-                    declDef = decl.Resolve ();
-                }
-
                 if (insertNested)
                 {
                     buf.Append (NestedTypeSeparator);
                 }
+
                 insertNested = true;
+                TypeReference declDef = decl.Resolve () ?? decl;
                 AppendTypeName (buf, declDef, context);
                 int ac = DocUtils.GetGenericArgumentCount (declDef);
                 int c = ac - prev;
