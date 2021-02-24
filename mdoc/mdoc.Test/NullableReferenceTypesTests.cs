@@ -131,6 +131,8 @@ namespace mdoc.Test
         [TestCase("NullableGenericValueTypeOfReferenceType", "ReadOnlySpan<string> s1, ReadOnlySpan<string?> s2, ReadOnlySpan<string> s3")]
         [TestCase("NullableAndNonNullableInterfaceOfValueType", "ICollection<int> collection1, ICollection<int>? collection2, ICollection<int> collection3")]
         [TestCase("NullableAndNonNullableInterfaceOfReferenceType", "ICollection<string> collection1, ICollection<string>? collection2, ICollection<string> collection3")]
+        [TestCase("NonNullableValueTypeWithOutModifier", "string? value, out bool result")]
+        [TestCase("NonNullableValueTypeWithRefModifier", "string? value, ref bool result")]
         public void MethodParameter(string methodName, string methodParameter)
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.MethodParameter",
