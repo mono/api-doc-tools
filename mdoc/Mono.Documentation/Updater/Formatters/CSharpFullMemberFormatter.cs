@@ -430,7 +430,7 @@ namespace Mono.Documentation.Updater.Formatters
 
         protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
         {
-            if (isNullableType.IsTrue() && !IsValueTypeOrPassedByReference(type) && !type.FullName.Equals("System.Void"))
+            if (isNullableType.IsTrue() && !IsValueTypeOrDefineByReference(type) && !type.FullName.Equals("System.Void"))
             {
                 return "?";
             }
@@ -438,7 +438,7 @@ namespace Mono.Documentation.Updater.Formatters
             return string.Empty;
         }
 
-        private bool IsValueTypeOrPassedByReference(TypeReference type)
+        private bool IsValueTypeOrDefineByReference(TypeReference type)
         {
             if (type.IsValueType)
             {
