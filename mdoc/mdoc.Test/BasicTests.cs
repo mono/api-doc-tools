@@ -45,7 +45,7 @@ namespace mdoc.Test
                 throw new Exception($"Test was unable to find type {classname}");
             }
 
-            var typeDef = testclass.Resolve();
+            var typeDef = DocUtils.FixUnnamedParameters(testclass.Resolve());
             typesCash.Add(classname, typeDef);
             return typeDef;
         }
