@@ -99,7 +99,7 @@ steps:
 - task: PowerShell@2
   name: 'mdocVersion'
   displayName: 'Checking remote and local version of mdoc'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   inputs:
     filePath: 'mdoc/CheckNugetPublish.ps1'
 
