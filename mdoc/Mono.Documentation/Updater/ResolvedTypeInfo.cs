@@ -3,7 +3,7 @@ using Mono.Cecil;
 
 namespace Mono.Documentation.Updater
 {
-    class ResolvedTypeInfo
+    public class ResolvedTypeInfo
     {
         TypeDefinition typeDef;
 

@@ -117,6 +117,7 @@
     <Compile Include="Mono.Documentation\Updater\TypeMap.cs" />
     <Compile Include="Mono.Documentation\Util\ApiStyle.cs" />
     <Compile Include="Mono.Documentation\Updater\DocUtils.cs" />
+    <Compile Include="Mono.Documentation\Util\AssemblyLoader.cs" />
     <Compile Include="Mono.Documentation\Util\AttachedEventDefinition.cs" />
     <Compile Include="Mono.Documentation\Util\AttachedEntitiesHelper.cs" />
     <Compile Include="Mono.Documentation\Util\AttachedEventReference.cs" />
