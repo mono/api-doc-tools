@@ -81,7 +81,6 @@
     <Compile Include="Mono.Documentation\Updater\Formatters\CSharpMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\SlashDocCSharpMemberFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\MsxdocSlashDocMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\StandardFlagsEnumFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\DefaultAttributeValueFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\AttributeValueFormatter.cs" />
     <Compile Include="Mono.Documentation\Updater\Formatters\VBFullMemberFormatter.cs" />

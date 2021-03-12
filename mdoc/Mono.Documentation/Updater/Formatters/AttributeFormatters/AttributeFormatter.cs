@@ -123,21 +123,15 @@ namespace Mono.Documentation.Updater.Formatters
         {
             var formatters = new[] {
                 new AttributeValueFormatter (),
-                new ApplePlatformEnumFormatter (),
-                new StandardFlagsEnumFormatter (),
                 new DefaultAttributeValueFormatter (),
             };
 
-            ResolvedTypeInfo type = new ResolvedTypeInfo(valueType);
-
-            if (valueType is ArrayType && v is CustomAttributeArgument[])
+            if (IsArrayType(valueType, v))
             {
-                ArrayType atype = valueType as ArrayType;
-                CustomAttributeArgument[] args = v as CustomAttributeArgument[];
-                var returnvalue = $"new {atype.FullName}{(atype.FullName.EndsWith("[]") ? "" : "[]")} {{ { string.Join(", ", args.Select(a => MakeAttributesValueString(a.Value, a.Type)).ToArray()) } }}";
-                return returnvalue;
+                return ConvertToArrayType(valueType, v);
             }
 
+            ResolvedTypeInfo type = new ResolvedTypeInfo(valueType);
             foreach (var formatter in formatters)
             {
                 string formattedValue;
@@ -150,6 +144,31 @@ namespace Mono.Documentation.Updater.Formatters
             // this should never occur because the DefaultAttributeValueFormatter will always
             // successfully format the value ... but this is needed to satisfy the compiler :)
             throw new InvalidDataException(string.Format("Unable to format attribute value ({0})", v.ToString()));
+        }
+
+        private bool IsArrayType(TypeReference argumentTypeReference, object argumentValue)
+        {
+            if (argumentValue is CustomAttributeArgument attributeArgument)
+            {
+                return IsArrayType(attributeArgument.Type, attributeArgument.Value);
+            }
+
+            return argumentTypeReference is ArrayType && argumentValue is CustomAttributeArgument[];
+        }
+
+        private string ConvertToArrayType(TypeReference argumentTypeReference, object argumentValue)
+        {
+            if (argumentValue is CustomAttributeArgument attributeArgument)
+            {
+                return ConvertToArrayType(attributeArgument.Type, attributeArgument.Value);
+            }
+
+            var arrayType = argumentTypeReference as ArrayType;
+            var arrayArguments = argumentValue as CustomAttributeArgument[];
+            var arrayTypeFullName = $"new {arrayType.FullName}{(arrayType.FullName.EndsWith("[]") ? "" : "[]")}";
+            var arrayValues = arrayArguments.Select(a => MakeAttributesValueString(a.Value, a.Type)).ToArray();
+
+            return $"{arrayTypeFullName} {{ {string.Join(", ", arrayValues)} }}";
         }
 
         private bool IsIgnoredAttribute(CustomAttribute customAttribute)

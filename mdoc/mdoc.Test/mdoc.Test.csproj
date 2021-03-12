@@ -100,7 +100,7 @@
     <Compile Include="SampleClasses\Interface_B.cs" />
     <Compile Include="SampleClasses\InternalEIICalss.cs" />
     <Compile Include="SampleClasses\NullablesAndTuples.cs" />
-    <Compile Include="SampleClasses\DefaultValueObjectAttribute.cs" />
+    <Compile Include="SampleClasses\TestDataTypeAttribute.cs" />
     <Compile Include="SampleClasses\SomeAttribute.cs" />
     <Compile Include="SampleClasses\StaticClass.cs" />
     <Compile Include="SampleClasses\TestClassThree.cs" />

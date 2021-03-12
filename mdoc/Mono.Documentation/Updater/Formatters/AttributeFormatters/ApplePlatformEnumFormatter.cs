@@ -20,7 +20,7 @@ namespace Mono.Documentation.Updater
                 var values = GetEnumerationValues (valueDef);
                 long c = ToInt64 (v);
 
-                returnvalue = Format (c, values, typename);
+                returnvalue = FormatApplePlatformEnum(c, values, typename);
                 return true;
             }
 
@@ -28,7 +28,7 @@ namespace Mono.Documentation.Updater
             return false;
         }
 
-        string Format (long c, IDictionary<long, string> values, string typename)
+        string FormatApplePlatformEnum(long c, IDictionary<long, string> values, string typename)
         {
             int iosarch, iosmajor, iosminor, iossubminor;
             int macarch, macmajor, macminor, macsubminor;
@@ -37,20 +37,20 @@ namespace Mono.Documentation.Updater
 
             if (iosmajor == 0 & iosminor == 0 && iossubminor == 0)
             {
-                return FormatValues ("Mac", macarch, macmajor, macminor, macsubminor);
+                return FormatApplePlatformEnumValue("Mac", macarch, macmajor, macminor, macsubminor);
             }
 
             if (macmajor == 0 & macminor == 0 && macsubminor == 0)
             {
-                return FormatValues ("iOS", iosarch, iosmajor, iosminor, iossubminor);
+                return FormatApplePlatformEnumValue("iOS", iosarch, iosmajor, iosminor, iossubminor);
             }
 
             return string.Format ("(Platform){0}", c);
         }
 
-        string FormatValues (string plat, int arch, int major, int minor, int subminor)
+        string FormatApplePlatformEnumValue(string plat, int arch, int major, int minor, int subminor)
         {
-            string archstring = "";
+            var archstring = string.Empty;
             switch (arch)
             {
                 case 1:
@@ -60,6 +60,7 @@ namespace Mono.Documentation.Updater
                     archstring = "64";
                     break;
             }
+
             return string.Format ("Platform.{4}_{0}_{1}{2} | Platform.{4}_Arch{3}",
                 major,
                 minor,
@@ -73,17 +74,17 @@ namespace Mono.Documentation.Updater
         {
             long lowerBits = entireLong & 0xffffffff;
             int lowerBitsAsInt = (int)lowerBits;
-            GetEncoding (lowerBitsAsInt, out archindex, out major, out minor, out subminor);
+            GetEncodingApplePlatform(lowerBitsAsInt, out archindex, out major, out minor, out subminor);
         }
 
         void GetEncodingMac (ulong entireLong, out int archindex, out int major, out int minor, out int subminor)
         {
             ulong higherBits = entireLong & 0xffffffff00000000;
             int higherBitsAsInt = (int)((higherBits) >> 32);
-            GetEncoding (higherBitsAsInt, out archindex, out major, out minor, out subminor);
+            GetEncodingApplePlatform(higherBitsAsInt, out archindex, out major, out minor, out subminor);
         }
 
-        void GetEncoding (Int32 encodedBits, out int archindex, out int major, out int minor, out int subminor)
+        void GetEncodingApplePlatform(Int32 encodedBits, out int archindex, out int major, out int minor, out int subminor)
         {
             // format is AAJJNNSS
             archindex = (int)((encodedBits & 0xFF000000) >> 24);

@@ -94,23 +94,22 @@ namespace Mono.Documentation.Util
                 return base.Resolve(name, parameters, assembliesToIgnore);
         }
 
-        public Type ConvertToType(TypeReference typeReference)
+        public TypeDefinition ConvertToTypeDefinition(TypeReference typeReference)
         {
-            var typeAssembly = Assembly.LoadFrom(typeReference.Module.FileName);
-            var type = typeAssembly.GetType(FixTypeFullName(typeReference.FullName));
-            if (type == null)
-            {
-                var typeAssemblyDefinition = GetInstalledAssemblies(typeReference.Scope as AssemblyNameReference, new ReaderParameters(), new List<string>());
-                typeAssembly = Assembly.LoadFrom(typeAssemblyDefinition.First().MainModule.FileName);
-                type = typeAssembly.GetType(FixTypeFullName(typeReference.FullName));
-            }
+            var typeAssemblyDefinition = GetInstalledAssemblies(typeReference.Scope as AssemblyNameReference, new ReaderParameters(), new List<string>());
+            var typeDefinition = typeAssemblyDefinition.First().MainModule.GetTypes().SingleOrDefault(t => t.FullName == FixTypeFullName(typeReference.FullName));
 
-            return type;
+            return typeDefinition;
+        }
+
+        public string ConvertToTypeFullName(TypeReference typeReference)
+        {
+            return string.Empty;
         }
 
         private string FixTypeFullName(string fullName)
         {
-            // When define an type in a class internal that the type's full name will use '/' instead of '.' character, but the correctly character is '+'.
+            // When a type is nested type that the type's full name will use '/' instead of '.' character, but the correctly character is '+'.
             return fullName.Replace("/", "+");
         }
 

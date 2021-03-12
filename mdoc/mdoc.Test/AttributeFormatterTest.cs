@@ -12,44 +12,91 @@ namespace mdoc.Test
     [TestFixture()]
     public class AttributeFormatterTest : BasicTests
     {
-        [TestCase("PropertiyObjectWithBoolType", true)]
-        [TestCase("PropertiyObjectWithNull", null)]
-        [TestCase("PropertiyObjectWithInternalEnumType", SomeEnum.TestEnumElement2)]
-        [TestCase("PropertiyObjectWithExternalEnumType", ConsoleColor.Red)]
-        public void TestPropertiyObject(string methodName, params object[] argumentValue)
+        [TestCase("ObjectPropertyWithNull", null)]
+        [TestCase("TypeTypePropertyWithNull", null)]
+        [TestCase("TypeTypeProperty", "typeof(Mono.Cecil.TypeReference)")]
+        [TestCase("ObjectPropertyWithTypeType", "typeof(Mono.Cecil.TypeReference)")]
+        [TestCase("BoolTypeProperty", true)]
+        [TestCase("ObjectPropertyWithBoolType", true)]
+        [TestCase("SByteTypeProperty", SByte.MinValue)]
+        [TestCase("ObjectPropertyWithSByteType", SByte.MinValue)]
+        [TestCase("ByteTypeProperty", Byte.MaxValue)]
+        [TestCase("ObjectPropertyWithByteType", Byte.MaxValue)]
+        [TestCase("Int16TypeProperty", Int16.MinValue)]
+        [TestCase("ObjectPropertyWithInt16Type", Int16.MinValue)]
+        [TestCase("UInt16TypeProperty", UInt16.MaxValue)]
+        [TestCase("ObjectPropertyWithUInt16Type", UInt16.MaxValue)]
+        [TestCase("Int32TypeProperty", Int32.MinValue)]
+        [TestCase("ObjectPropertyWithInt32Type", Int32.MinValue)]
+        [TestCase("UInt32TypeProperty", UInt32.MaxValue)]
+        [TestCase("ObjectPropertyWithUInt32Type", UInt32.MaxValue)]
+        [TestCase("Int64TypeProperty", Int64.MinValue)]
+        [TestCase("ObjectPropertyWithInt64Type", Int64.MinValue)]
+        [TestCase("UInt64TypeProperty", UInt64.MaxValue)]
+        [TestCase("ObjectPropertyWithUInt64Type", UInt64.MaxValue)]
+        [TestCase("SingleTypeProperty", Single.MinValue)]
+        [TestCase("ObjectPropertyWithSingleType", Single.MinValue)]
+        [TestCase("DoubleTypeProperty", Double.MinValue)]
+        [TestCase("ObjectPropertyWithDoubleType", Double.MinValue)]
+        [TestCase("CharTypeProperty", 'C')]
+        [TestCase("ObjectPropertyWithCharType", 'C')]
+        [TestCase("StringTypeProperty", "\"This is a string argument.\"")]
+        [TestCase("StringTypePropertyWithNull", null)]
+        [TestCase("ObjectPropertyWithStringType", "\"This is a string argument.\"")]
+        [TestCase("InternalEnumTypeProperty", SomeEnum.TestEnumElement2)]
+        [TestCase("ObjectPropertyWithInternalEnumType", SomeEnum.TestEnumElement2)]
+        [TestCase("DotNetPlatformEnumTypeProperty", ConsoleColor.Red)]
+        [TestCase("ObjectPropertyWithDotNetPlatformEnumType", ConsoleColor.Red)]
+        [TestCase("FlagsEnumTypeProperty", "System.AttributeTargets.Class | System.AttributeTargets.Enum")]
+        [TestCase("ObjectPropertyWithFlagsEnumType", "System.AttributeTargets.Class | System.AttributeTargets.Enum")]
+        public void TestAttributeValueFormatterWithDifferentTypes(string methodName, object argumentValue)
         {
-            TestAttribute(methodName, argumentValue);
-
+            TestAttributeValueFormatter(methodName, argumentValue);
         }
 
-        private void TestAttribute(string memberName, params object[] expectedValues)
+
+        [TestCase("ArrayOfIntTypeProperty", "new System.Int32[] { 0, 0, 7 }")]
+        [TestCase("ArrayOfIntTypePropertyWithNull", null)]
+        [TestCase("ObjectPropertyWithArrayOfIntType", "new System.Int32[] { 0, 0, 7 }")]
+        public void TestAttributeFormatterWithArrayType(string methodName, object argumentValue)
         {
-            TestAttribute(typeof(SomeAttribute), memberName, expectedValues);
+            TestAttributeValueFormatterWithArrayType(typeof(SomeAttribute), methodName, argumentValue);
         }
 
-        private void TestAttribute(Type type, string memberName, params object[] expectedValues)
+        private void TestAttributeValueFormatter(string memberName, object expectedValues)
+        {
+            TestAttributeValueFormatter(typeof(SomeAttribute), memberName, expectedValues);
+        }
+
+        private void TestAttributeValueFormatter(Type type, string memberName, object expectedValue)
         {
             var methodDefinition = GetMethod(type, memberName);
             var methodAttribute = AttributeFormatter.GetCustomAttributes(methodDefinition).First();
-            var attributeArguments = GetAttributeArguments(methodAttribute.Item1);
+            var attributeArguments = GetAttributeArguments(methodAttribute.Item1).First();
+            var expectedArgumentValue = ConvertToDisplayValue(expectedValue);
+            var returnValue = string.Empty;
 
-            Assert.AreEqual(expectedValues.Length, attributeArguments.Count());
+            var attributeFormatter = new AttributeValueFormatter();
+            var formatterResult = attributeFormatter.TryFormatValue(attributeArguments.argumentValue, new ResolvedTypeInfo(attributeArguments.argumentType), out returnValue);
 
-            var expectedValueIndex = 0;
-            AttributeValueFormatter formatter = new AttributeValueFormatter();
-            foreach (var item in attributeArguments)
-            {
-                var argumentValue = ConvertArgumentValueToDisplayName(expectedValues[expectedValueIndex++]);
-                var returnValue = string.Empty;
-                var formatterResult = formatter.TryFormatValue(item.argumentValue, new ResolvedTypeInfo(item.argumentType), out returnValue);
-
-                Assert.IsTrue(formatterResult);
-                Assert.AreEqual(argumentValue, returnValue);
-            }
+            Assert.IsTrue(formatterResult);
+            Assert.AreEqual(expectedArgumentValue, returnValue);
         }
 
+        private void TestAttributeValueFormatterWithArrayType(Type type, string memberName, object expectedValue)
+        {
+            var methodDefinition = GetMethod(type, memberName);
+            var methodAttribute = AttributeFormatter.GetCustomAttributes(methodDefinition).First();
+            var attributeArguments = GetAttributeArguments(methodAttribute.Item1).First();
+            var expectedArgumentValue = ConvertToDisplayValue(expectedValue);
 
-        private string ConvertArgumentValueToDisplayName(object argumentValue)
+            var attributeFormatter = new AttributeFormatter();
+            var returnValue = attributeFormatter.MakeAttributesValueString(attributeArguments.argumentValue, attributeArguments.argumentType);
+
+            Assert.AreEqual(expectedArgumentValue, returnValue);
+        }
+
+        private string ConvertToDisplayValue(object argumentValue)
         {
             if (argumentValue == null)
             {
@@ -57,12 +104,28 @@ namespace mdoc.Test
             }
 
             Type valueType = argumentValue.GetType();
-            if (valueType.IsEnum)
+            switch(valueType.FullName)
             {
-                return $"{valueType.FullName}.{argumentValue}";
-            }
+                case "System.Char":
+                    return string.Format("'{0}'", FilterSpecialChars(argumentValue.ToString()));
 
-            return argumentValue.ToString();
+                case "System.Boolean":
+                    return argumentValue.ToString().ToLower();
+
+                default:
+                    return valueType.IsEnum ? $"{valueType.FullName}.{argumentValue}" : argumentValue.ToString();
+            }
+        }
+
+        public static string FilterSpecialChars(string value)
+        {
+            return value
+                .Replace("\0", "\\0")
+                .Replace("\t", "\\t")
+                .Replace("\n", "\\n")
+                .Replace("\r", "\\r")
+                .Replace("\f", "\\f")
+                .Replace("\b", "\\b");
         }
 
         private IEnumerable<(TypeReference argumentType, object argumentValue)> GetAttributeArguments(CustomAttribute customAttribute)
@@ -81,10 +144,10 @@ namespace mdoc.Test
         private IEnumerable<(string argumentName, TypeReference argumentType, object argumentValue)> GetAttributeArgumentsFromFieldsAndProperties(CustomAttribute customAttribute)
         {
             return (from namedArg in customAttribute.Fields
-                    select ValueTuple.Create(namedArg.Name, namedArg.Argument.Type, namedArg.Argument.Value))
+                    select (namedArg.Name, namedArg.Argument.Type, namedArg.Argument.Value))
                     .Concat(from namedArg in customAttribute.Properties
-                            select ValueTuple.Create(namedArg.Name, namedArg.Argument.Type, namedArg.Argument.Value))
-                    .OrderBy(v => v.Item1);
+                            select (namedArg.Name, namedArg.Argument.Type, namedArg.Argument.Value))
+                    .OrderBy(v => v.Name);
         }
     }
 }
