@@ -9,15 +9,10 @@ namespace Mono.Documentation.Updater
     /// <summary>Formats attribute values. Should return true if it is able to format the value.</summary>
     public class AttributeValueFormatter
     {
-        //private readonly string[] numericTypesFullNames =
-        //{ 
-        //    "System.Int16",
-        //    "System.Int32",
-        //    "System.Int64" 
-        //};
-
         public virtual bool TryFormatValue (object argumentValue, ResolvedTypeInfo resolvedType, out string returnvalue)
         {
+            // The types of positional and named parameters for an attribute class are limited to the attribute parameter types, which are:
+            // https://github.com/dotnet/csharplang/blob/main/spec/attributes.md#attribute-parameter-types
             if (argumentValue == null)
             {
                 returnvalue = "null";
@@ -49,12 +44,6 @@ namespace Mono.Documentation.Updater
                 return true;
             }
 
-            //if (IsNumericType(valueType, v))
-            //{
-            //    returnvalue = ConvertToNumeric(valueType, v);
-            //    return true;
-            //}
-            
             if (IsEnumType(valueType, argumentValue))
             {
                 returnvalue = ConvertToEnum(valueType, argumentValue);
@@ -72,8 +61,9 @@ namespace Mono.Documentation.Updater
 
         private bool IsEnumType(TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
                 return IsEnumType(attributeArgument.Type, attributeArgument.Value);
             }
 
@@ -106,31 +96,40 @@ namespace Mono.Documentation.Updater
             return IsType("System.Boolean", argumentTypeReference, argumentValue);
         }
 
-        //private bool IsNumericType(TypeReference argumentTypeReference, object argumentValue)
-        //{
-        //    return IsType(argumentTypeReference, argumentValue, numericTypesFullNames);
-        //}
-
         private bool IsType(string typeFullName, TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
                 return IsType(typeFullName, attributeArgument.Type, attributeArgument.Value);
             }
 
             return argumentTypeReference.FullName.Equals(typeFullName);
         }
 
+        /// <summary>
+        /// When a property type of an attribute is an object type you can assign any type to it,
+        /// so we need to convert the object type to a concrete object type.
+        /// </summary>
+        /// <param name="argumentValue">The value of the argument.</param>
+        private bool IsAssignToObject(object argumentValue)
+        {
+            return argumentValue is CustomAttributeArgument;
+        }
+
         private bool IsFlagsEnum(TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
                 return IsFlagsEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
             try
             {
-                return ConvertToTypeDefinition(argumentTypeReference).CustomAttributes.Any(a => a.AttributeType.FullName == "System.FlagsAttribute");
+                var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+
+                return argumentTypeDefinition.CustomAttributes.Any(a => a.AttributeType.FullName == "System.FlagsAttribute");
             }
             catch (DllNotFoundException) { }
 
@@ -139,8 +138,9 @@ namespace Mono.Documentation.Updater
 
         private bool IsApplePlatformEnum(TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
                 return IsApplePlatformEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
@@ -185,16 +185,12 @@ namespace Mono.Documentation.Updater
             return string.Format("'{0}'", FilterSpecialChars(valueResult));
         }
 
-        //private string ConvertToNumeric(TypeReference argumentTypeReference, object argumentValue)
-        //{
-        //    return GetArgumentValue(argumentTypeReference, argumentValue, numericTypesFullNames).ToString();
-        //}
-
         private string ConvertUnhandlerTypeToString(TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
-                return attributeArgument.Value.ToString();
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
+                return ConvertUnhandlerTypeToString(attributeArgument.Type, attributeArgument.Value);
             }
 
             return argumentValue.ToString();
@@ -217,7 +213,7 @@ namespace Mono.Documentation.Updater
                 if (enumValue == null)
                 {
                     // When assigning a value of flags type to an object type of a property
-                    // but the flags type is not defined in .NET platform assemblies or current assembly self(is a reference from an external assembly)
+                    // but the flags type is not defined in .NET platform assemblies or current assembly(is a reference from an external assembly)
                     // which the flags type will have not a FlagsAttribute annotation.
                     enumValue = ConvertToFlagsEnum(argumentTypeReference, argumentValue);
                 }
@@ -228,8 +224,9 @@ namespace Mono.Documentation.Updater
 
         private string ConvertToNormalEnum(TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
                 return ConvertToNormalEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
@@ -261,8 +258,9 @@ namespace Mono.Documentation.Updater
 
         private string ConvertToFlagsEnum(TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
                 return ConvertToFlagsEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
@@ -272,17 +270,25 @@ namespace Mono.Documentation.Updater
                 var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
                 var enumConstantNames = GetEnumerationValues(argumentTypeDefinition);
                 var enumValue = ToInt64(argumentValue);
-                var flagsEnumNames =
-                    (from i in enumConstantNames.Keys
-                     where (enumValue & i) == i && i != 0
-                     select typeFullName + "." + enumConstantNames[i])
-                    .DefaultIfEmpty(enumValue.ToString())
-                    .OrderBy(val => val) // to maintain a consistent list across frameworks/versions
-                    .ToArray();
 
-                if (flagsEnumNames.Length > 0)
+                if (enumConstantNames.ContainsKey(enumValue))
                 {
-                    return string.Join(" | ", flagsEnumNames);
+                    return typeFullName + "." + enumConstantNames[enumValue];
+                }
+                else
+                {
+                    var flagsEnumNames =
+                        (from i in enumConstantNames.Keys
+                         where (enumValue & i) == i && i != 0
+                         select typeFullName + "." + enumConstantNames[i])
+                        .DefaultIfEmpty(enumValue.ToString())
+                        .OrderBy(val => val) // to maintain a consistent list across frameworks/versions
+                        .ToArray();
+
+                    if (flagsEnumNames.Length > 0)
+                    {
+                        return string.Join(" | ", flagsEnumNames);
+                    }
                 }
 
                 return null;
@@ -312,8 +318,9 @@ namespace Mono.Documentation.Updater
 
         private string ConvertToApplePlatformEnum(object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
                 return ConvertToApplePlatformEnum(attributeArgument.Value);
             }
 
@@ -392,8 +399,9 @@ namespace Mono.Documentation.Updater
 
         private object GetArgumentValue(string argumentTypeFullName, TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
                 return GetArgumentValue(argumentTypeFullName, attributeArgument.Type, attributeArgument.Value);
             }
 
@@ -402,7 +410,7 @@ namespace Mono.Documentation.Updater
                 return argumentValue;
             }
 
-            throw new ArgumentException($"The argument type does not match {argumentTypeFullName}.", nameof(argumentTypeReference));
+            throw new ArgumentException($"The argument type does not match {argumentTypeFullName}.");
         }
 
         protected static IDictionary<long, string> GetEnumerationValues(TypeDefinition type)

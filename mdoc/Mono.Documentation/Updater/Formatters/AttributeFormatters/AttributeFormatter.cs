@@ -148,18 +148,32 @@ namespace Mono.Documentation.Updater.Formatters
 
         private bool IsArrayType(TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
+
                 return IsArrayType(attributeArgument.Type, attributeArgument.Value);
             }
 
             return argumentTypeReference is ArrayType && argumentValue is CustomAttributeArgument[];
         }
 
+        /// <summary>
+        /// When a property type of an attribute is an object type you can assign any type to it,
+        /// so we need to convert the object type to a concrete object type.
+        /// </summary>
+        /// <param name="argumentValue">The value of the argument.</param>
+        private bool IsAssignToObject(object argumentValue)
+        {
+            return argumentValue is CustomAttributeArgument;
+        }
+
         private string ConvertToArrayType(TypeReference argumentTypeReference, object argumentValue)
         {
-            if (argumentValue is CustomAttributeArgument attributeArgument)
+            if (IsAssignToObject(argumentValue))
             {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
+
                 return ConvertToArrayType(attributeArgument.Type, attributeArgument.Value);
             }
 

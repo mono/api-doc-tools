@@ -4,10 +4,6 @@ namespace mdoc.Test.SampleClasses
 {
     public class TestDataTypeAttribute : Attribute
     {
-        public TestDataTypeAttribute()
-        {
-        }
-
         public object ObjectType { get; set; }
 
         public Type TypeType { get; set; }
@@ -23,6 +19,8 @@ namespace mdoc.Test.SampleClasses
         public UInt16 UInt16Type { get; set; }
 
         public Int32 Int32Type { get; set; }
+
+        public Int32? NullableOfInt32Type { get; set; }
 
         public UInt32 UInt32Type { get; set; }
 
