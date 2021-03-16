@@ -121,24 +121,16 @@ namespace Mono.Documentation.Updater.Formatters
 
         public virtual string MakeAttributesValueString(object v, TypeReference valueType)
         {
-            var formatters = new[] {
-                new AttributeValueFormatter (),
-                new DefaultAttributeValueFormatter (),
-            };
-
             if (IsArrayType(valueType, v))
             {
                 return ConvertToArrayType(valueType, v);
             }
 
-            ResolvedTypeInfo type = new ResolvedTypeInfo(valueType);
-            foreach (var formatter in formatters)
+            var formattedValue = string.Empty;
+            var formatter = new AttributeValueFormatter();
+            if (formatter.TryFormatValue(v, valueType, out formattedValue))
             {
-                string formattedValue;
-                if (formatter.TryFormatValue(v, type, out formattedValue))
-                {
-                    return formattedValue;
-                }
+                return formattedValue;
             }
 
             // this should never occur because the DefaultAttributeValueFormatter will always

@@ -40,8 +40,12 @@ namespace mdoc.Test.SampleClasses
 
         public AttributeTargets FlagsEnumType { get; set; }
 
-        public ConsoleColor DotNetPlatformEnumType { get; set; }
+        public NotApplyAttributeFlagsEnum NotApplyAttributeFlagsEnumType { get; set; }
 
-        public SomeEnum InternalEnumType { get; set; }
+        public NotApplyAttributeInvalidFlagsEnum NotApplyAttributeInvalidFlagsEnum { get; set; }
+
+        public ObjCRuntime.Platform ApplePlatformFlagsEnumType { get; set; }
+
+        public ConsoleColor EnumType { get; set; }
     }
 }

@@ -28,10 +28,16 @@ namespace mdoc.Test
         [TestCase("PropertyCharType", 'C')]
         [TestCase("PropertyStringType", "\"This is a string argument.\"")]
         [TestCase("PropertyStringTypeWithNull", null)]
-        [TestCase("PropertyInternalEnumType", SomeEnum.TestEnumElement2)]
-        [TestCase("PropertyDotNetPlatformEnumType", ConsoleColor.Red)]
+        [TestCase("PropertyEnumType", ConsoleColor.Red)]
+        [TestCase("PropertyEnumTypeWithUnknownValue", "(System.ConsoleColor) 2147483647")]
         [TestCase("PropertyFlagsEnumType", "System.AttributeTargets.Class | System.AttributeTargets.Enum")]
         [TestCase("PropertyFlagsEnumTypeWithAll", "System.AttributeTargets.All")]
+        [TestCase("PropertyNotApplyAttributeFlagsEnumTypeWithCombinationValue", "mdoc.Test.SampleClasses.NotApplyAttributeFlagsEnum.Class | mdoc.Test.SampleClasses.NotApplyAttributeFlagsEnum.Enum")]
+        [TestCase("PropertyNotApplyAttributeFlagsEnumTypeWithSingleValue", "mdoc.Test.SampleClasses.NotApplyAttributeFlagsEnum.Class")]
+        [TestCase("PropertyNotApplyAttributeFlagsEnumTypeWithCombinationValue", "mdoc.Test.SampleClasses.NotApplyAttributeFlagsEnum.Class | mdoc.Test.SampleClasses.NotApplyAttributeFlagsEnum.Enum")]
+        [TestCase("PropertyNotApplyAttributeInvalidFlagsEnumTypeWithCombinationValue", "(mdoc.Test.SampleClasses.NotApplyAttributeInvalidFlagsEnum) 5")]
+        [TestCase("PropertyApplePlatformFlagsEnumType", "Platform.Mac_10_8 | Platform.Mac_Arch64")]
+        [TestCase("PropertyApplePlatformFlagsEnumTypeWithNone", "ObjCRuntime.Platform.None")]
         [TestCase("PropertyObjectWithNull", null)]
         [TestCase("PropertyObjectWithTypeType", "typeof(Mono.Cecil.TypeReference)")]
         [TestCase("PropertyObjectWithBoolType", true)]
@@ -47,10 +53,15 @@ namespace mdoc.Test
         [TestCase("PropertyObjectWithDoubleType", Double.MinValue)]
         [TestCase("PropertyObjectWithCharType", 'C')]
         [TestCase("PropertyObjectWithStringType", "\"This is a string argument.\"")]
-        [TestCase("PropertyObjectWithInternalEnumType", SomeEnum.TestEnumElement2)]
-        [TestCase("PropertyObjectWithDotNetPlatformEnumType", ConsoleColor.Red)]
+        [TestCase("PropertyObjectWithEnumType", ConsoleColor.Red)]
+        [TestCase("PropertyObjectWithUnknowEnumValue", "(System.ConsoleColor) 2147483647")]
         [TestCase("PropertyObjectWithFlagsEnumType", "System.AttributeTargets.Class | System.AttributeTargets.Enum")]
         [TestCase("PropertyObjectWithAllFlagsEnumType", "System.AttributeTargets.All")]
+        [TestCase("PropertyObjectWithNotApplyAttributeFlagsEnumTypeAndCombinationValue", "mdoc.Test.SampleClasses.NotApplyAttributeFlagsEnum.Class | mdoc.Test.SampleClasses.NotApplyAttributeFlagsEnum.Enum")]
+        [TestCase("PropertyObjectWithNotApplyAttributeFlagsEnumTypeAndSingleValue", "mdoc.Test.SampleClasses.NotApplyAttributeFlagsEnum.Class")]
+        [TestCase("PropertyObjectWithNotApplyAttributeInvalidFlagsEnumTypeAndCombinationValue", "(mdoc.Test.SampleClasses.NotApplyAttributeInvalidFlagsEnum) 5")]
+        [TestCase("PropertyObjectWithApplePlatformFlagsEnumType", "Platform.Mac_10_8 | Platform.Mac_Arch64")]
+        [TestCase("PropertyObjectWithApplePlatformFlagsEnumTypeAndNoneValue", "ObjCRuntime.Platform.None")]
         public void TestAttributeValueFormatterWithDifferentTypes(string methodName, object argumentValue)
         {
             TestAttributeValueFormatter(methodName, argumentValue);
@@ -78,7 +89,7 @@ namespace mdoc.Test
             var returnValue = string.Empty;
 
             var attributeFormatter = new AttributeValueFormatter();
-            var formatterResult = attributeFormatter.TryFormatValue(attributeArguments.argumentValue, new ResolvedTypeInfo(attributeArguments.argumentType), out returnValue);
+            var formatterResult = attributeFormatter.TryFormatValue(attributeArguments.argumentValue, attributeArguments.argumentType, out returnValue);
 
             Assert.IsTrue(formatterResult);
             Assert.AreEqual(expectedArgumentValue, returnValue);

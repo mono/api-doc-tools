@@ -105,13 +105,38 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
-        [TestDataType(InternalEnumType = SomeEnum.TestEnumElement2)]
-        public void PropertyInternalEnumType()
+        [TestDataType(NotApplyAttributeFlagsEnumType = NotApplyAttributeFlagsEnum.Class | NotApplyAttributeFlagsEnum.Enum)]
+        public void PropertyNotApplyAttributeFlagsEnumTypeWithCombinationValue()
         {
         }
 
-        [TestDataType(DotNetPlatformEnumType = ConsoleColor.Red)]
-        public void PropertyDotNetPlatformEnumType()
+        [TestDataType(NotApplyAttributeFlagsEnumType = NotApplyAttributeFlagsEnum.Class)]
+        public void PropertyNotApplyAttributeFlagsEnumTypeWithSingleValue()
+        {
+        }
+
+        [TestDataType(NotApplyAttributeInvalidFlagsEnum = NotApplyAttributeInvalidFlagsEnum.Read | NotApplyAttributeInvalidFlagsEnum.Open)]
+        public void PropertyNotApplyAttributeInvalidFlagsEnumTypeWithCombinationValue()
+        {
+        }
+
+        [TestDataType(ApplePlatformFlagsEnumType = ObjCRuntime.Platform.Mac_10_8 | ObjCRuntime.Platform.Mac_Arch64)]
+        public void PropertyApplePlatformFlagsEnumType()
+        {
+        }
+
+        [TestDataType(ApplePlatformFlagsEnumType = ObjCRuntime.Platform.None)]
+        public void PropertyApplePlatformFlagsEnumTypeWithNone()
+        {
+        }
+
+        [TestDataType(EnumType = ConsoleColor.Red)]
+        public void PropertyEnumType()
+        {
+        }
+
+        [TestDataType(EnumType = (ConsoleColor)int.MaxValue)]
+        public void PropertyEnumTypeWithUnknownValue()
         {
         }
 
@@ -205,13 +230,38 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
-        [TestDataType(ObjectType = SomeEnum.TestEnumElement2)]
-        public void PropertyObjectWithInternalEnumType()
+        [TestDataType(ObjectType = NotApplyAttributeFlagsEnum.Class | NotApplyAttributeFlagsEnum.Enum)]
+        public void PropertyObjectWithNotApplyAttributeFlagsEnumTypeAndCombinationValue()
+        {
+        }
+
+        [TestDataType(ObjectType = NotApplyAttributeFlagsEnum.Class)]
+        public void PropertyObjectWithNotApplyAttributeFlagsEnumTypeAndSingleValue()
+        {
+        }
+
+        [TestDataType(ObjectType = NotApplyAttributeInvalidFlagsEnum.Read | NotApplyAttributeInvalidFlagsEnum.Open)]
+        public void PropertyObjectWithNotApplyAttributeInvalidFlagsEnumTypeAndCombinationValue()
+        {
+        }
+
+        [TestDataType(ObjectType = ObjCRuntime.Platform.Mac_10_8 | ObjCRuntime.Platform.Mac_Arch64)]
+        public void PropertyObjectWithApplePlatformFlagsEnumType()
+        {
+        }
+
+        [TestDataType(ObjectType = ObjCRuntime.Platform.None)]
+        public void PropertyObjectWithApplePlatformFlagsEnumTypeAndNoneValue()
         {
         }
 
         [TestDataType(ObjectType = ConsoleColor.Red)]
-        public void PropertyObjectWithDotNetPlatformEnumType()
+        public void PropertyObjectWithEnumType()
+        {
+        }
+
+        [TestDataType(ObjectType = (ConsoleColor)int.MaxValue)]
+        public void PropertyObjectWithUnknowEnumValue()
         {
         }
     }

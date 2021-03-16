@@ -9,7 +9,7 @@ namespace Mono.Documentation.Updater
     /// <summary>Formats attribute values. Should return true if it is able to format the value.</summary>
     public class AttributeValueFormatter
     {
-        public virtual bool TryFormatValue (object argumentValue, ResolvedTypeInfo resolvedType, out string returnvalue)
+        public virtual bool TryFormatValue (object argumentValue, TypeReference argumentTypeReference, out string returnvalue)
         {
             // The types of positional and named parameters for an attribute class are limited to the attribute parameter types, which are:
             // https://github.com/dotnet/csharplang/blob/main/spec/attributes.md#attribute-parameter-types
@@ -19,34 +19,33 @@ namespace Mono.Documentation.Updater
                 return true;
             }
 
-            TypeReference valueType = resolvedType.Reference;
-            if (IsTypeType(valueType, argumentValue))
+            if (IsTypeType(argumentTypeReference, argumentValue))
             {
-                returnvalue = ConvertToType(valueType, argumentValue);
+                returnvalue = ConvertToType(argumentTypeReference, argumentValue);
                 return true;
             }
 
-            if (IsStringType(valueType, argumentValue))
+            if (IsStringType(argumentTypeReference, argumentValue))
             {
-                returnvalue = ConvertToString(valueType, argumentValue);
+                returnvalue = ConvertToString(argumentTypeReference, argumentValue);
                 return true;
             }
 
-            if (IsCharType(valueType, argumentValue))
+            if (IsCharType(argumentTypeReference, argumentValue))
             {
-                returnvalue = ConvertToChar(valueType, argumentValue);
+                returnvalue = ConvertToChar(argumentTypeReference, argumentValue);
                 return true;
             }
 
-            if (IsBoolType(valueType, argumentValue))
+            if (IsBoolType(argumentTypeReference, argumentValue))
             {
-                returnvalue = ConvertToBool(valueType, argumentValue);
+                returnvalue = ConvertToBool(argumentTypeReference, argumentValue);
                 return true;
             }
 
-            if (IsEnumType(valueType, argumentValue))
+            if (IsEnumType(argumentTypeReference, argumentValue))
             {
-                returnvalue = ConvertToEnum(valueType, argumentValue);
+                returnvalue = ConvertToEnum(argumentTypeReference, argumentValue);
                 if (returnvalue == null)
                 {
                     return false;
@@ -55,7 +54,7 @@ namespace Mono.Documentation.Updater
                 return true;
             }
 
-            returnvalue = ConvertUnhandlerTypeToString(valueType, argumentValue);
+            returnvalue = ConvertUnhandlerTypeToString(argumentTypeReference, argumentValue);
             return true;
         }
 
@@ -128,10 +127,48 @@ namespace Mono.Documentation.Updater
             try
             {
                 var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+                var isApplyFlagsAttributeEnumType = argumentTypeDefinition.CustomAttributes.Any(a => a.AttributeType.FullName == "System.FlagsAttribute");
+                var isNotApplyAttributeFlagsEnumType = IsNotApplyAttributeFlagsEnumType(argumentTypeDefinition, argumentValue);
 
-                return argumentTypeDefinition.CustomAttributes.Any(a => a.AttributeType.FullName == "System.FlagsAttribute");
+                return isApplyFlagsAttributeEnumType || isNotApplyAttributeFlagsEnumType;
             }
             catch (DllNotFoundException) { }
+
+            return false;
+        }
+
+        /// <summary>
+        /// We have a few legacy flags enum type not apply FlagsAttribute to it.
+        /// For example, Microsoft.JScript.JSFunctionAttributeEnum in .NET Framework 1.1 but the issue has been fixed in the newer version.
+        /// </summary>
+        private bool IsNotApplyAttributeFlagsEnumType(TypeDefinition argumentTypeDefinition, object argumentValue)
+        {
+            var enumConstants = GetEnumerationValues(argumentTypeDefinition);
+            var enumValue = ToInt64(argumentValue);
+
+            if (enumConstants.ContainsKey(enumValue))
+            {
+                // Not is a combinations of values.
+                return false;
+            }
+
+            // None = 0, Read = 1, Write = 2, ReadWrite = 3 maybe is a flags enum type but sometimes it is not.
+            var minFlagsEnumValueCount = 4;
+            var flagsEnumValues = enumConstants.Keys.ToList();
+            if (flagsEnumValues.Count() > minFlagsEnumValueCount)
+            {
+                flagsEnumValues.Remove(0);
+                long allEnumValue = 0;
+                foreach (var item in flagsEnumValues)
+                {
+                    allEnumValue = allEnumValue | item;
+                }
+
+                var isFlagsEnumType = !flagsEnumValues.Any(i => (i & allEnumValue) != i);
+                var isCombinationValue = flagsEnumValues.Count(i => (i & enumValue) != i) > 1;
+
+                return isFlagsEnumType && isCombinationValue;
+            }
 
             return false;
         }
@@ -202,7 +239,7 @@ namespace Mono.Documentation.Updater
             {
                 if (IsApplePlatformEnum(argumentTypeReference, argumentValue))
                 {
-                    return ConvertToApplePlatformEnum(argumentValue);
+                    return ConvertToApplePlatformEnum(argumentTypeReference, argumentValue);
                 }
 
                 return ConvertToFlagsEnum(argumentTypeReference, argumentValue);
@@ -212,6 +249,8 @@ namespace Mono.Documentation.Updater
                 var enumValue = ConvertToNormalEnum(argumentTypeReference, argumentValue);
                 if (enumValue == null)
                 {
+                    return "NoFlagsAttributeAnnotation";
+
                     // When assigning a value of flags type to an object type of a property
                     // but the flags type is not defined in .NET platform assemblies or current assembly(is a reference from an external assembly)
                     // which the flags type will have not a FlagsAttribute annotation.
@@ -233,8 +272,17 @@ namespace Mono.Documentation.Updater
             try
             {
                 var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+                var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
+                var enumConstants = GetEnumerationValues(argumentTypeDefinition);
+                var enumValue = ToInt64(argumentValue);
 
-                return ConvertEnumTypeValueToFullName(argumentTypeDefinition, argumentValue);
+                if (enumConstants.ContainsKey(enumValue))
+                {
+                    return typeFullName + "." + enumConstants[enumValue];
+                }
+
+                // There is a unknown value of the enum type.
+                return $"({typeFullName}) {enumValue}";
             }
             catch (DllNotFoundException)
             {
@@ -242,18 +290,27 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        private string ConvertEnumTypeValueToFullName(TypeDefinition typeDefinition, object argumentValue)
+        private string ConvertToUnknownEnum(TypeReference argumentTypeReference, object argumentValue)
         {
-            var typeFullName = MDocUpdater.GetDocTypeFullName(typeDefinition);
-            var enumConstantNames = GetEnumerationValues(typeDefinition);
-            var enumValue = ToInt64(argumentValue);
-
-            if (enumConstantNames.ContainsKey(enumValue))
+            if (IsAssignToObject(argumentValue))
             {
-                return typeFullName + "." + enumConstantNames[enumValue];
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
+                return ConvertToUnknownEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            return null;
+            try
+            {
+                var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+                var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
+                var enumValue = ToInt64(argumentValue);
+
+                // There is a unknown value of the enum type.
+                return $"({typeFullName}) {enumValue}";
+            }
+            catch (DllNotFoundException)
+            {
+                return "NotFoundEnumType";
+            }
         }
 
         private string ConvertToFlagsEnum(TypeReference argumentTypeReference, object argumentValue)
@@ -268,19 +325,19 @@ namespace Mono.Documentation.Updater
             {
                 var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
                 var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
-                var enumConstantNames = GetEnumerationValues(argumentTypeDefinition);
+                var enumConstants = GetEnumerationValues(argumentTypeDefinition);
                 var enumValue = ToInt64(argumentValue);
 
-                if (enumConstantNames.ContainsKey(enumValue))
+                if (enumConstants.ContainsKey(enumValue))
                 {
-                    return typeFullName + "." + enumConstantNames[enumValue];
+                    return typeFullName + "." + enumConstants[enumValue];
                 }
                 else
                 {
                     var flagsEnumNames =
-                        (from i in enumConstantNames.Keys
+                        (from i in enumConstants.Keys
                          where (enumValue & i) == i && i != 0
-                         select typeFullName + "." + enumConstantNames[i])
+                         select typeFullName + "." + enumConstants[i])
                         .DefaultIfEmpty(enumValue.ToString())
                         .OrderBy(val => val) // to maintain a consistent list across frameworks/versions
                         .ToArray();
@@ -316,15 +373,25 @@ namespace Mono.Documentation.Updater
             return typeReference as TypeDefinition;
         }
 
-        private string ConvertToApplePlatformEnum(object argumentValue)
+        private string ConvertToApplePlatformEnum(TypeReference argumentTypeReference, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
                 var attributeArgument = (CustomAttributeArgument)argumentValue;
-                return ConvertToApplePlatformEnum(attributeArgument.Value);
+                return ConvertToApplePlatformEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            return FormatApplePlatformEnum(ToInt64(argumentValue));
+            var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+            var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
+            var enumConstants = GetEnumerationValues(argumentTypeDefinition);
+            var enumValue = ToInt64(argumentValue);
+
+            if (enumConstants.ContainsKey(enumValue))
+            {
+                return typeFullName + "." + enumConstants[enumValue];
+            }
+
+            return FormatApplePlatformEnum(enumValue);
         }
 
         private string FormatApplePlatformEnum(long enumValue)
