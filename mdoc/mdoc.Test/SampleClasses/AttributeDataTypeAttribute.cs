@@ -2,7 +2,7 @@
 
 namespace mdoc.Test.SampleClasses
 {
-    public class TestDataTypeAttribute : Attribute
+    public class AttributeDataTypeAttribute : Attribute
     {
         public object ObjectType { get; set; }
 
@@ -42,7 +42,7 @@ namespace mdoc.Test.SampleClasses
 
         public NotApplyAttributeFlagsEnum NotApplyAttributeFlagsEnumType { get; set; }
 
-        public NotApplyAttributeInvalidFlagsEnum NotApplyAttributeInvalidFlagsEnum { get; set; }
+        public NotApplyAttributeInvalidFlagsEnum NotApplyAttributeInvalidFlagsEnumType { get; set; }
 
         public ObjCRuntime.Platform ApplePlatformFlagsEnumType { get; set; }
 
