@@ -66,13 +66,7 @@ namespace Mono.Documentation.Updater
                 return IsEnumType(attributeArgument.Type, attributeArgument.Value);
             }
 
-            try
-            {
-                return ConvertToTypeDefinition(argumentTypeReference).IsEnum;
-            }
-            catch (DllNotFoundException) { }
-
-            return false;
+            return ConvertToTypeDefinition(argumentTypeReference).IsEnum;
         }
 
         private bool IsTypeType(TypeReference argumentTypeReference, object argumentValue)
@@ -124,17 +118,11 @@ namespace Mono.Documentation.Updater
                 return IsFlagsEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            try
-            {
-                var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
-                var isApplyFlagsAttributeEnumType = argumentTypeDefinition.CustomAttributes.Any(a => a.AttributeType.FullName == "System.FlagsAttribute");
-                var isNotApplyAttributeFlagsEnumType = IsNotApplyAttributeFlagsEnumType(argumentTypeDefinition, argumentValue);
+            var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+            var isApplyFlagsAttributeEnumType = argumentTypeDefinition.CustomAttributes.Any(a => a.AttributeType.FullName == "System.FlagsAttribute");
+            var isNotApplyAttributeFlagsEnumType = IsNotApplyAttributeFlagsEnumType(argumentTypeDefinition, argumentValue);
 
-                return isApplyFlagsAttributeEnumType || isNotApplyAttributeFlagsEnumType;
-            }
-            catch (DllNotFoundException) { }
-
-            return false;
+            return isApplyFlagsAttributeEnumType || isNotApplyAttributeFlagsEnumType;
         }
 
         /// <summary>
@@ -269,25 +257,17 @@ namespace Mono.Documentation.Updater
                 return ConvertToNormalEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            try
-            {
-                var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
-                var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
-                var enumConstants = GetEnumerationValues(argumentTypeDefinition);
-                var enumValue = ToInt64(argumentValue);
+            var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+            var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
+            var enumConstants = GetEnumerationValues(argumentTypeDefinition);
+            var enumValue = ToInt64(argumentValue);
 
-                if (enumConstants.ContainsKey(enumValue))
-                {
-                    return typeFullName + "." + enumConstants[enumValue];
-                }
-
-                // There is a unknown value of the enum type.
-                return $"({typeFullName}) {enumValue}";
-            }
-            catch (DllNotFoundException)
+            if (enumConstants.ContainsKey(enumValue))
             {
-                return "NotFoundEnumType";
+                return typeFullName + "." + enumConstants[enumValue];
             }
+
+            return ConvertToUnknownEnum(argumentTypeReference, argumentValue);
         }
 
         private string ConvertToUnknownEnum(TypeReference argumentTypeReference, object argumentValue)
@@ -298,19 +278,11 @@ namespace Mono.Documentation.Updater
                 return ConvertToUnknownEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            try
-            {
-                var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
-                var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
-                var enumValue = ToInt64(argumentValue);
+            var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+            var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
+            var enumValue = ToInt64(argumentValue);
 
-                // There is a unknown value of the enum type.
-                return $"({typeFullName}) {enumValue}";
-            }
-            catch (DllNotFoundException)
-            {
-                return "NotFoundEnumType";
-            }
+            return $"({typeFullName}) {enumValue}";
         }
 
         private string ConvertToFlagsEnum(TypeReference argumentTypeReference, object argumentValue)
@@ -321,39 +293,32 @@ namespace Mono.Documentation.Updater
                 return ConvertToFlagsEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            try
+            var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
+            var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
+            var enumConstants = GetEnumerationValues(argumentTypeDefinition);
+            var enumValue = ToInt64(argumentValue);
+
+            if (enumConstants.ContainsKey(enumValue))
             {
-                var argumentTypeDefinition = ConvertToTypeDefinition(argumentTypeReference);
-                var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
-                var enumConstants = GetEnumerationValues(argumentTypeDefinition);
-                var enumValue = ToInt64(argumentValue);
-
-                if (enumConstants.ContainsKey(enumValue))
-                {
-                    return typeFullName + "." + enumConstants[enumValue];
-                }
-                else
-                {
-                    var flagsEnumNames =
-                        (from i in enumConstants.Keys
-                         where (enumValue & i) == i && i != 0
-                         select typeFullName + "." + enumConstants[i])
-                        .DefaultIfEmpty(enumValue.ToString())
-                        .OrderBy(val => val) // to maintain a consistent list across frameworks/versions
-                        .ToArray();
-
-                    if (flagsEnumNames.Length > 0)
-                    {
-                        return string.Join(" | ", flagsEnumNames);
-                    }
-                }
-
-                return null;
+                return typeFullName + "." + enumConstants[enumValue];
             }
-            catch (DllNotFoundException)
+            else
             {
-                return "NotFoundFlagsEnumType";
+                var flagsEnumNames =
+                    (from i in enumConstants.Keys
+                     where (enumValue & i) == i && i != 0
+                     select typeFullName + "." + enumConstants[i])
+                    .DefaultIfEmpty(enumValue.ToString())
+                    .OrderBy(val => val) // to maintain a consistent list across frameworks/versions
+                    .ToArray();
+
+                if (flagsEnumNames.Length > 0)
+                {
+                    return string.Join(" | ", flagsEnumNames);
+                }
             }
+
+            return ConvertToUnknownEnum(argumentTypeReference, argumentValue);
         }
 
         private TypeDefinition ConvertToTypeDefinition(TypeReference typeReference)
