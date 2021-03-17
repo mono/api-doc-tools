@@ -13,7 +13,7 @@ namespace Mono.Documentation.Updater
         {
             // The types of positional and named parameters for an attribute class are limited to the attribute parameter types, which are:
             // https://github.com/dotnet/csharplang/blob/main/spec/attributes.md#attribute-parameter-types
-            if (argumentValue == null)
+            if (IsNull(argumentValue))
             {
                 returnvalue = "null";
                 return true;
@@ -51,6 +51,11 @@ namespace Mono.Documentation.Updater
 
             returnvalue = ConvertUnhandlerTypeToString(argumentTypeReference, argumentValue);
             return true;
+        }
+
+        private bool IsNull(object argumentValue)
+        {
+            return argumentValue == null;
         }
 
         private bool IsEnumType(TypeReference argumentTypeReference, object argumentValue)
@@ -165,7 +170,7 @@ namespace Mono.Documentation.Updater
                 return IsApplePlatformEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            return MDocUpdater.GetDocTypeFullName(argumentTypeReference).Contains("ObjCRuntime.Platform");
+            return GetDocTypeFullName(argumentTypeReference).Contains("ObjCRuntime.Platform");
         }
 
         private string ConvertToType(TypeReference argumentTypeReference, object argumentValue)
@@ -180,7 +185,7 @@ namespace Mono.Documentation.Updater
                 valueResult = GetArgumentValue("System.Type", argumentTypeReference, argumentValue).ToString();
             }
 
-            return $"typeof({valueResult})";
+            return $"typeof({ConvertToDisplayName(valueResult)})";
         }
 
         private string ConvertToString(TypeReference argumentTypeReference, object argumentValue)
@@ -311,11 +316,30 @@ namespace Mono.Documentation.Updater
         private (string typeFullName, IDictionary<long, string> enumConstants, long enumValue) GetEnumTypeData(TypeReference argumentTypeReference, object argumentValue)
         {
             var argumentTypeDefinition = argumentTypeReference.Resolve();
-            var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
+            var typeFullName = GetDocTypeFullName(argumentTypeDefinition);
             var enumConstants = GetEnumerationValues(argumentTypeDefinition);
             var enumValue = ToInt64(argumentValue);
 
             return (typeFullName, enumConstants, enumValue);
+        }
+
+        private string GetDocTypeFullName(TypeReference type)
+        {
+            var typeFullName = MDocUpdater.GetDocTypeFullName(type);
+            if (type.IsNested)
+            {
+                return ConvertToDisplayName(typeFullName);
+            }
+
+            return typeFullName;
+        }
+
+        private string ConvertToDisplayName(string typeFullName)
+        {
+            // When a type is a nested types that the type's full name will use '/' or '+' instead of '.' character, so we need to convert it to the correct display name.
+            return typeFullName
+                .Replace("/", ".")
+                .Replace("+", ".");
         }
 
         private string FormatApplePlatformEnum(long enumValue)

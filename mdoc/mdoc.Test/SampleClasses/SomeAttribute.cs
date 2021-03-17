@@ -5,15 +5,21 @@ namespace mdoc.Test.SampleClasses
 {
     public class SomeAttribute
     {
+        [AttributeDataType(TypeType = typeof(TypeReference))]
+        public void PropertyTypeType()
+        {
+        }
+
         [AttributeDataType(TypeType = null)]
         public void PropertyTypeTypeWithNull()
         {
         }
 
-        [AttributeDataType(TypeType = typeof(TypeReference))]
-        public void PropertyTypeType()
+        [AttributeDataType(TypeType = typeof(SomeNestedTypes.NestedClass))]
+        public void PropertyTypeTypeWithNestedType()
         {
         }
+
 
         [AttributeDataType(BoolType = true)]
         public void PropertyBoolType()
@@ -85,6 +91,11 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
+        [AttributeDataType(StringType = "")]
+        public void PropertyStringTypeWithEmptyString()
+        {
+        }
+
         [AttributeDataType(ArrayOfIntType = new[] { 0, 0, 7 })]
         public void PropertyArrayOfIntType()
         {
@@ -92,6 +103,26 @@ namespace mdoc.Test.SampleClasses
 
         [AttributeDataType(ArrayOfIntType = null)]
         public void PropertyArrayOfIntTypeWithNull()
+        {
+        }
+
+        [AttributeDataType(EnumType = ConsoleColor.Red)]
+        public void PropertyEnumType()
+        {
+        }
+
+        [AttributeDataType(EnumType = (ConsoleColor)int.MaxValue)]
+        public void PropertyEnumTypeWithUnknownValue()
+        {
+        }
+
+        [AttributeDataType(NestedEnumType = SomeNestedTypes.NestedEnum.Read)]
+        public void PropertyNestedEnumType()
+        {
+        }
+
+        [AttributeDataType(NestedEnumType = (SomeNestedTypes.NestedEnum)int.MaxValue)]
+        public void PropertyNestedEnumTypeWithUnknownValue()
         {
         }
 
@@ -106,7 +137,17 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(FlagsEnumType = (AttributeTargets)0)]
-        public void PropertyFlagsEnumTypeWithUnknownValue()
+        public void PropertyFlagsEnumTypeWithUndefineValueZero()
+        {
+        }
+
+        [AttributeDataType(NestedFlagsEnumType = SomeNestedTypes.NestedFlagsEnum.Class | SomeNestedTypes.NestedFlagsEnum.Enum)]
+        public void PropertyNestedFlagsEnumType()
+        {
+        }
+
+        [AttributeDataType(NestedFlagsEnumType = (SomeNestedTypes.NestedFlagsEnum)0)]
+        public void PropertyNestedFlagsEnumTypeWithUndefineValueZero()
         {
         }
 
@@ -121,7 +162,7 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(NotApplyAttributeInvalidFlagsEnumType = (NotApplyAttributeInvalidFlagsEnum)5)]
-        public void PropertyFlagsEnumTypeWithNotApplyAttributeInvalidTypeAndCombinationValue()
+        public void PropertyFlagsEnumTypeWithNotApplyAttributeInvalidTypeAndUnknownCombinationValue()
         {
         }
 
@@ -135,16 +176,6 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
-        [AttributeDataType(EnumType = ConsoleColor.Red)]
-        public void PropertyEnumType()
-        {
-        }
-
-        [AttributeDataType(EnumType = (ConsoleColor)int.MaxValue)]
-        public void PropertyEnumTypeWithUnknownValue()
-        {
-        }
-
         [AttributeDataType(ObjectType = null)]
         public void PropertyObjectWithNull()
         {
@@ -152,6 +183,11 @@ namespace mdoc.Test.SampleClasses
 
         [AttributeDataType(ObjectType = typeof(TypeReference))]
         public void PropertyObjectWithTypeType()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(SomeNestedTypes.NestedClass))]
+        public void PropertyObjectWithNestedTypeType()
         {
         }
 
@@ -220,8 +256,33 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
+        [AttributeDataType(ObjectType = "")]
+        public void PropertyObjectWithStringTypeAndEmptyString()
+        {
+        }
+
         [AttributeDataType(ObjectType = new[] { 0, 0, 7 })]
         public void PropertyObjectWithArrayOfIntType()
+        {
+        }
+
+        [AttributeDataType(ObjectType = ConsoleColor.Red)]
+        public void PropertyObjectWithEnumType()
+        {
+        }
+
+        [AttributeDataType(ObjectType = (ConsoleColor)int.MaxValue)]
+        public void PropertyObjectWithEnumTypeAndUnknownValue()
+        {
+        }
+
+        [AttributeDataType(ObjectType = SomeNestedTypes.NestedEnum.Read)]
+        public void PropertyObjectWithNestedEnumType()
+        {
+        }
+
+        [AttributeDataType(ObjectType = (SomeNestedTypes.NestedEnum)int.MaxValue)]
+        public void PropertyObjectWithNestedEnumTypeAndUnknownValue()
         {
         }
 
@@ -236,7 +297,17 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(ObjectType = (AttributeTargets)0)]
-        public void PropertyObjectWithFlagsEnumTypeAndUnknownValue()
+        public void PropertyObjectWithFlagsEnumTypeAndUndefineValueZero()
+        {
+        }
+
+        [AttributeDataType(ObjectType = SomeNestedTypes.NestedFlagsEnum.Class | SomeNestedTypes.NestedFlagsEnum.Enum)]
+        public void PropertyObjectWithNestedFlagsEnumType()
+        {
+        }
+
+        [AttributeDataType(ObjectType = (SomeNestedTypes.NestedFlagsEnum)0)]
+        public void PropertyObjectWithNestedFlagsEnumTypeAndUndefineValueZero()
         {
         }
 
@@ -251,7 +322,7 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(ObjectType = (NotApplyAttributeInvalidFlagsEnum)5)]
-        public void PropertyObjectWithNotApplyAttributeInvalidFlagsEnumTypeAndCombinationValue()
+        public void PropertyObjectWithNotApplyAttributeInvalidFlagsEnumTypeAndUnknownCombinationValue()
         {
         }
 
@@ -262,16 +333,6 @@ namespace mdoc.Test.SampleClasses
 
         [AttributeDataType(ObjectType = ObjCRuntime.Platform.None)]
         public void PropertyObjectWithApplePlatformFlagsEnumTypeAndNoneValue()
-        {
-        }
-
-        [AttributeDataType(ObjectType = ConsoleColor.Red)]
-        public void PropertyObjectWithEnumType()
-        {
-        }
-
-        [AttributeDataType(ObjectType = (ConsoleColor)int.MaxValue)]
-        public void PropertyObjectWithEnumTypeAndUnknownValue()
         {
         }
     }

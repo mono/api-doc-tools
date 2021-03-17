@@ -12,8 +12,9 @@ namespace mdoc.Test
     [TestFixture()]
     public class AttributeFormatterTest : BasicTests
     {
-        [TestCase("PropertyTypeTypeWithNull", null)]
         [TestCase("PropertyTypeType", "typeof(Mono.Cecil.TypeReference)")]
+        [TestCase("PropertyTypeTypeWithNull", null)]
+        [TestCase("PropertyTypeTypeWithNestedType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes.NestedClass)")]
         [TestCase("PropertyBoolType", true)]
         [TestCase("PropertySByteType", SByte.MinValue)]
         [TestCase("PropertyByteType", Byte.MaxValue)]
@@ -27,19 +28,25 @@ namespace mdoc.Test
         [TestCase("PropertyDoubleType", Double.MinValue)]
         [TestCase("PropertyCharType", 'C')]
         [TestCase("PropertyStringType", "\"This is a string argument.\"")]
+        [TestCase("PropertyStringTypeWithEmptyString", "")]
         [TestCase("PropertyStringTypeWithNull", null)]
         [TestCase("PropertyEnumType", ConsoleColor.Red)]
         [TestCase("PropertyEnumTypeWithUnknownValue", "(System.ConsoleColor) 2147483647")]
+        [TestCase("PropertyNestedEnumType", SomeNestedTypes.NestedEnum.Read)]
+        [TestCase("PropertyNestedEnumTypeWithUnknownValue", "(mdoc.Test.SampleClasses.SomeNestedTypes.NestedEnum) 2147483647")]
         [TestCase("PropertyFlagsEnumType", "System.AttributeTargets.Class | System.AttributeTargets.Enum")]
         [TestCase("PropertyFlagsEnumTypeWithAllValue", "System.AttributeTargets.All")]
-        [TestCase("PropertyFlagsEnumTypeWithUnknownValue", "(System.AttributeTargets) 0")]
+        [TestCase("PropertyFlagsEnumTypeWithUndefineValueZero", "(System.AttributeTargets) 0")]
+        [TestCase("PropertyNestedFlagsEnumType", "mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum.Class | mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum.Enum")]
+        [TestCase("PropertyNestedFlagsEnumTypeWithUndefineValueZero", "(mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum) 0")]
         [TestCase("PropertyFlagsEnumTypeWithNotApplyAttributeValidTypeAndCombinationValue", "mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Class | mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Enum")]
         [TestCase("PropertyFlagsEnumTypeWithNotApplyAttributeValidTypeAndSingleValue", "mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Class")]
-        [TestCase("PropertyFlagsEnumTypeWithNotApplyAttributeInvalidTypeAndCombinationValue", "(mdoc.Test.SampleClasses.NotApplyAttributeInvalidFlagsEnum) 5")]
+        [TestCase("PropertyFlagsEnumTypeWithNotApplyAttributeInvalidTypeAndUnknownCombinationValue", "(mdoc.Test.SampleClasses.NotApplyAttributeInvalidFlagsEnum) 5")]
         [TestCase("PropertyFlagsEnumTypeWithApplePlatformType", "Platform.Mac_10_8 | Platform.Mac_Arch64")]
         [TestCase("PropertyFlagsEnumTypeWithApplePlatformAndNoneValue", "ObjCRuntime.Platform.None")]
         [TestCase("PropertyObjectWithNull", null)]
         [TestCase("PropertyObjectWithTypeType", "typeof(Mono.Cecil.TypeReference)")]
+        [TestCase("PropertyObjectWithNestedTypeType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes.NestedClass)")]
         [TestCase("PropertyObjectWithBoolType", true)]
         [TestCase("PropertyObjectWithSByteType", SByte.MinValue)]
         [TestCase("PropertyObjectWithByteType", Byte.MaxValue)]
@@ -53,14 +60,19 @@ namespace mdoc.Test
         [TestCase("PropertyObjectWithDoubleType", Double.MinValue)]
         [TestCase("PropertyObjectWithCharType", 'C')]
         [TestCase("PropertyObjectWithStringType", "\"This is a string argument.\"")]
+        [TestCase("PropertyObjectWithStringTypeAndEmptyString", "")]
         [TestCase("PropertyObjectWithEnumType", ConsoleColor.Red)]
         [TestCase("PropertyObjectWithEnumTypeAndUnknownValue", "(System.ConsoleColor) 2147483647")]
+        [TestCase("PropertyObjectWithNestedEnumType", SomeNestedTypes.NestedEnum.Read)]
+        [TestCase("PropertyObjectWithNestedEnumTypeAndUnknownValue", "(mdoc.Test.SampleClasses.SomeNestedTypes.NestedEnum) 2147483647")]
         [TestCase("PropertyObjectWithFlagsEnumType", "System.AttributeTargets.Class | System.AttributeTargets.Enum")]
         [TestCase("PropertyObjectWithFlagsEnumTypeAndAllValue", "System.AttributeTargets.All")]
-        [TestCase("PropertyObjectWithFlagsEnumTypeAndUnknownValue", "(System.AttributeTargets) 0")]
+        [TestCase("PropertyObjectWithFlagsEnumTypeAndUndefineValueZero", "(System.AttributeTargets) 0")]
+        [TestCase("PropertyObjectWithNestedFlagsEnumType", "mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum.Class | mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum.Enum")]
+        [TestCase("PropertyObjectWithNestedFlagsEnumTypeAndUndefineValueZero", "(mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum) 0")]
         [TestCase("PropertyObjectWithNotApplyAttributeValidFlagsEnumTypeAndCombinationValue", "mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Class | mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Enum")]
         [TestCase("PropertyObjectWithNotApplyAttributeValidFlagsEnumTypeAndSingleValue", "mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Class")]
-        [TestCase("PropertyObjectWithNotApplyAttributeInvalidFlagsEnumTypeAndCombinationValue", "(mdoc.Test.SampleClasses.NotApplyAttributeInvalidFlagsEnum) 5")]
+        [TestCase("PropertyObjectWithNotApplyAttributeInvalidFlagsEnumTypeAndUnknownCombinationValue", "(mdoc.Test.SampleClasses.NotApplyAttributeInvalidFlagsEnum) 5")]
         [TestCase("PropertyObjectWithApplePlatformFlagsEnumType", "Platform.Mac_10_8 | Platform.Mac_Arch64")]
         [TestCase("PropertyObjectWithApplePlatformFlagsEnumTypeAndNoneValue", "ObjCRuntime.Platform.None")]
         public void TestAttributeValueFormatterWithDifferentTypes(string methodName, object argumentValue)
@@ -83,14 +95,12 @@ namespace mdoc.Test
 
         private void TestAttributeValueFormatter(Type type, string memberName, object expectedValue)
         {
-            var methodDefinition = GetMethod(type, memberName);
-            var methodAttribute = AttributeFormatter.GetCustomAttributes(methodDefinition).First();
-            var attributeArguments = GetAttributeArguments(methodAttribute.Item1).First();
+            var (argumentType, argumentValue) = GetAttributeArguments(type, memberName);
             var expectedArgumentValue = ConvertToDisplayValue(expectedValue);
             var returnValue = string.Empty;
 
             var attributeFormatter = new AttributeValueFormatter();
-            var formatterResult = attributeFormatter.TryFormatValue(attributeArguments.argumentValue, attributeArguments.argumentType, out returnValue);
+            var formatterResult = attributeFormatter.TryFormatValue(argumentValue, argumentType, out returnValue);
 
             Assert.IsTrue(formatterResult);
             Assert.AreEqual(expectedArgumentValue, returnValue);
@@ -98,36 +108,81 @@ namespace mdoc.Test
 
         private void TestAttributeValueFormatterWithArrayType(Type type, string memberName, object expectedValue)
         {
-            var methodDefinition = GetMethod(type, memberName);
-            var methodAttribute = AttributeFormatter.GetCustomAttributes(methodDefinition).First();
-            var attributeArguments = GetAttributeArguments(methodAttribute.Item1).First();
+            var (argumentType, argumentValue) = GetAttributeArguments(type, memberName);
             var expectedArgumentValue = ConvertToDisplayValue(expectedValue);
 
             var attributeFormatter = new AttributeFormatter();
-            var returnValue = attributeFormatter.MakeAttributesValueString(attributeArguments.argumentValue, attributeArguments.argumentType);
+            var returnValue = attributeFormatter.MakeAttributesValueString(argumentValue, argumentType);
 
             Assert.AreEqual(expectedArgumentValue, returnValue);
         }
 
         private string ConvertToDisplayValue(object argumentValue)
         {
-            if (argumentValue == null)
+            if (IsNull(argumentValue))
             {
                 return "null";
             }
 
-            Type valueType = argumentValue.GetType();
-            switch(valueType.FullName)
+            if (IsEmptyString(argumentValue.ToString()))
             {
-                case "System.Char":
-                    return string.Format("'{0}'", FilterSpecialChars(argumentValue.ToString()));
-
-                case "System.Boolean":
-                    return argumentValue.ToString().ToLower();
-
-                default:
-                    return valueType.IsEnum ? $"{valueType.FullName}.{argumentValue}" : argumentValue.ToString();
+                return "\"\"";
             }
+
+            if (IsChar(argumentValue))
+            {
+                return string.Format("'{0}'", FilterSpecialChars(argumentValue.ToString()));
+            }
+
+            if (IsBool(argumentValue))
+            {
+                return argumentValue.ToString().ToLower();
+            }
+
+            if (IsEnum(argumentValue))
+            {
+                return $"{ConvertToDisplayName(argumentValue.GetType().FullName)}.{argumentValue}";
+            }
+            
+            return argumentValue.ToString();
+        }
+
+        private bool IsNull(object argumentValue)
+        {
+            return argumentValue == null;
+        }
+
+        private bool IsEmptyString(object argumentValue)
+        {
+            return string.Empty.Equals(argumentValue);
+        }
+
+        private bool IsType(object argumentValue, string typeFullName)
+        {
+            return argumentValue.GetType().FullName == typeFullName;
+        }
+
+        private bool IsChar(object argumentValue)
+        {
+            return IsType(argumentValue, "System.Char");
+        }
+
+        private bool IsBool(object argumentValue)
+        {
+            return IsType(argumentValue, "System.Boolean");
+        }
+
+        private bool IsEnum(object argumentValue)
+        {
+            return argumentValue.GetType().IsEnum;
+        }
+
+        private string ConvertToDisplayName(string typeFullName)
+        {
+            // When a type is a nested types that the type's full name will use '/' or '+' instead of '.' character, so we need to convert it to the correct display name.
+            return typeFullName
+                .Replace("/", ".")
+                .Replace("+", ".");
         }
 
         public static string FilterSpecialChars(string value)
@@ -141,17 +196,24 @@ namespace mdoc.Test
                 .Replace("\b", "\\b");
         }
 
-        private IEnumerable<(TypeReference argumentType, object argumentValue)> GetAttributeArguments(CustomAttribute customAttribute)
+        private (TypeReference argumentType, object argumentValue) GetAttributeArguments(Type type, string memberName)
         {
+            var methodDefinition = GetMethod(type, memberName);
+            var methodAttribute = AttributeFormatter.GetCustomAttributes(methodDefinition).First();
+            CustomAttribute customAttribute = methodAttribute.Item1;
+
+            var customAttributeList = new List<(TypeReference, object)>();
             for (int i = 0; i < customAttribute.ConstructorArguments.Count; ++i)
             {
-                yield return (customAttribute.ConstructorArguments[i].Type, customAttribute.ConstructorArguments[i].Value);
+                customAttributeList.Add((customAttribute.ConstructorArguments[i].Type, customAttribute.ConstructorArguments[i].Value));
             }
 
             foreach (var item in GetAttributeArgumentsFromFieldsAndProperties(customAttribute))
             {
-                yield return (item.argumentType, item.argumentValue);
+                customAttributeList.Add((item.argumentType, item.argumentValue));
             }
+
+            return customAttributeList.First();
         }
 
         private IEnumerable<(string argumentName, TypeReference argumentType, object argumentValue)> GetAttributeArgumentsFromFieldsAndProperties(CustomAttribute customAttribute)

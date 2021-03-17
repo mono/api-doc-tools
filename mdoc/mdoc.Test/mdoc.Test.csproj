@@ -105,6 +105,7 @@
     <Compile Include="SampleClasses\NullablesAndTuples.cs" />
     <Compile Include="SampleClasses\AttributeDataTypeAttribute.cs" />
     <Compile Include="SampleClasses\SomeAttribute.cs" />
+    <Compile Include="SampleClasses\SomeNestedTypes.cs" />
     <Compile Include="SampleClasses\StaticClass.cs" />
     <Compile Include="SampleClasses\TestClassThree.cs" />
     <Compile Include="SpanSpecial.cs" />

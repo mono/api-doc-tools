@@ -38,6 +38,12 @@ namespace mdoc.Test.SampleClasses
 
         public int[] ArrayOfIntType { get; set; }
 
+        public ConsoleColor EnumType { get; set; }
+
+        public SomeNestedTypes.NestedEnum NestedEnumType { get; set; }
+
+        public SomeNestedTypes.NestedFlagsEnum NestedFlagsEnumType { get; set; }
+
         public AttributeTargets FlagsEnumType { get; set; }
 
         public NotApplyAttributeValidFlagsEnum NotApplyAttributeFlagsEnumType { get; set; }
@@ -45,7 +51,5 @@ namespace mdoc.Test.SampleClasses
         public NotApplyAttributeInvalidFlagsEnum NotApplyAttributeInvalidFlagsEnumType { get; set; }
 
         public ObjCRuntime.Platform ApplePlatformFlagsEnumType { get; set; }
-
-        public ConsoleColor EnumType { get; set; }
     }
 }
