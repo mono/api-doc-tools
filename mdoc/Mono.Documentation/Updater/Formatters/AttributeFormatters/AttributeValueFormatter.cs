@@ -170,7 +170,7 @@ namespace Mono.Documentation.Updater
                 return IsApplePlatformEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            return GetDocTypeFullName(argumentTypeReference).Contains("ObjCRuntime.Platform");
+            return MDocUpdater.GetDocTypeFullName(argumentTypeReference).Contains("ObjCRuntime.Platform");
         }
 
         private string ConvertToType(TypeReference argumentTypeReference, object argumentValue)
@@ -185,7 +185,7 @@ namespace Mono.Documentation.Updater
                 valueResult = GetArgumentValue("System.Type", argumentTypeReference, argumentValue).ToString();
             }
 
-            return $"typeof({ConvertToDisplayName(valueResult)})";
+            return $"typeof({valueResult})";
         }
 
         private string ConvertToString(TypeReference argumentTypeReference, object argumentValue)
@@ -316,28 +316,11 @@ namespace Mono.Documentation.Updater
         private (string typeFullName, IDictionary<long, string> enumConstants, long enumValue) GetEnumTypeData(TypeReference argumentTypeReference, object argumentValue)
         {
             var argumentTypeDefinition = argumentTypeReference.Resolve();
-            var typeFullName = GetDocTypeFullName(argumentTypeDefinition);
+            var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
             var enumConstants = GetEnumerationValues(argumentTypeDefinition);
             var enumValue = ToInt64(argumentValue);
 
             return (typeFullName, enumConstants, enumValue);
-        }
-
-        private string GetDocTypeFullName(TypeReference type)
-        {
-            var typeFullName = MDocUpdater.GetDocTypeFullName(type);
-            if (type.IsNested)
-            {
-                return ConvertToDisplayName(typeFullName);
-            }
-
-            return typeFullName;
-        }
-
-        private string ConvertToDisplayName(string typeFullName)
-        {
-            // When a type is a nested types that the property FullName of Type will use '/' instead of '+' character, so we need to convert it to the correct display name.
-            return typeFullName.Replace("/", "+");
         }
 
         private string FormatApplePlatformEnum(long enumValue)

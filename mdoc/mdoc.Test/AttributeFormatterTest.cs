@@ -14,7 +14,7 @@ namespace mdoc.Test
     {
         [TestCase("PropertyTypeType", "typeof(Mono.Cecil.TypeReference)")]
         [TestCase("PropertyTypeTypeWithNull", null)]
-        [TestCase("PropertyTypeTypeWithNestedType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes+NestedClass)")]
+        [TestCase("PropertyTypeTypeWithNestedType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes/NestedClass)")]
         [TestCase("PropertyBoolType", true)]
         [TestCase("PropertySByteType", SByte.MinValue)]
         [TestCase("PropertyByteType", Byte.MaxValue)]
@@ -46,7 +46,7 @@ namespace mdoc.Test
         [TestCase("PropertyFlagsEnumTypeWithApplePlatformAndNoneValue", "ObjCRuntime.Platform.None")]
         [TestCase("PropertyObjectWithNull", null)]
         [TestCase("PropertyObjectWithTypeType", "typeof(Mono.Cecil.TypeReference)")]
-        [TestCase("PropertyObjectWithNestedTypeType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes+NestedClass)")]
+        [TestCase("PropertyObjectWithNestedTypeType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes/NestedClass)")]
         [TestCase("PropertyObjectWithBoolType", true)]
         [TestCase("PropertyObjectWithSByteType", SByte.MinValue)]
         [TestCase("PropertyObjectWithByteType", Byte.MaxValue)]
@@ -141,7 +141,7 @@ namespace mdoc.Test
 
             if (IsEnum(argumentValue))
             {
-                return $"{ConvertToDisplayName(argumentValue.GetType().FullName)}.{argumentValue}";
+                return $"{argumentValue.GetType().FullName}.{argumentValue}";
             }
             
             return argumentValue.ToString();
@@ -175,12 +175,6 @@ namespace mdoc.Test
         private bool IsEnum(object argumentValue)
         {
             return argumentValue.GetType().IsEnum;
-        }
-
-        private string ConvertToDisplayName(string typeFullName)
-        {
-            // When a type is a nested types that the property FullName of Type will use '/' instead of '+' character, so we need to convert it to the correct full name.
-            return typeFullName.Replace("/", "+");
         }
 
         public static string FilterSpecialChars(string value)
