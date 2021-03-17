@@ -336,10 +336,8 @@ namespace Mono.Documentation.Updater
 
         private string ConvertToDisplayName(string typeFullName)
         {
-            // When a type is a nested types that the type's full name will use '/' or '+' instead of '.' character, so we need to convert it to the correct display name.
-            return typeFullName
-                .Replace("/", ".")
-                .Replace("+", ".");
+            // When a type is a nested types that the property FullName of Type will use '/' instead of '+' character, so we need to convert it to the correct display name.
+            return typeFullName.Replace("/", "+");
         }
 
         private string FormatApplePlatformEnum(long enumValue)

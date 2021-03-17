@@ -14,7 +14,7 @@ namespace mdoc.Test
     {
         [TestCase("PropertyTypeType", "typeof(Mono.Cecil.TypeReference)")]
         [TestCase("PropertyTypeTypeWithNull", null)]
-        [TestCase("PropertyTypeTypeWithNestedType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes.NestedClass)")]
+        [TestCase("PropertyTypeTypeWithNestedType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes+NestedClass)")]
         [TestCase("PropertyBoolType", true)]
         [TestCase("PropertySByteType", SByte.MinValue)]
         [TestCase("PropertyByteType", Byte.MaxValue)]
@@ -33,12 +33,12 @@ namespace mdoc.Test
         [TestCase("PropertyEnumType", ConsoleColor.Red)]
         [TestCase("PropertyEnumTypeWithUnknownValue", "(System.ConsoleColor) 2147483647")]
         [TestCase("PropertyNestedEnumType", SomeNestedTypes.NestedEnum.Read)]
-        [TestCase("PropertyNestedEnumTypeWithUnknownValue", "(mdoc.Test.SampleClasses.SomeNestedTypes.NestedEnum) 2147483647")]
+        [TestCase("PropertyNestedEnumTypeWithUnknownValue", "(mdoc.Test.SampleClasses.SomeNestedTypes+NestedEnum) 2147483647")]
         [TestCase("PropertyFlagsEnumType", "System.AttributeTargets.Class | System.AttributeTargets.Enum")]
         [TestCase("PropertyFlagsEnumTypeWithAllValue", "System.AttributeTargets.All")]
         [TestCase("PropertyFlagsEnumTypeWithUndefineValueZero", "(System.AttributeTargets) 0")]
-        [TestCase("PropertyNestedFlagsEnumType", "mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum.Class | mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum.Enum")]
-        [TestCase("PropertyNestedFlagsEnumTypeWithUndefineValueZero", "(mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum) 0")]
+        [TestCase("PropertyNestedFlagsEnumType", "mdoc.Test.SampleClasses.SomeNestedTypes+NestedFlagsEnum.Class | mdoc.Test.SampleClasses.SomeNestedTypes+NestedFlagsEnum.Enum")]
+        [TestCase("PropertyNestedFlagsEnumTypeWithUndefineValueZero", "(mdoc.Test.SampleClasses.SomeNestedTypes+NestedFlagsEnum) 0")]
         [TestCase("PropertyFlagsEnumTypeWithNotApplyAttributeValidTypeAndCombinationValue", "mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Class | mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Enum")]
         [TestCase("PropertyFlagsEnumTypeWithNotApplyAttributeValidTypeAndSingleValue", "mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Class")]
         [TestCase("PropertyFlagsEnumTypeWithNotApplyAttributeInvalidTypeAndUnknownCombinationValue", "(mdoc.Test.SampleClasses.NotApplyAttributeInvalidFlagsEnum) 5")]
@@ -46,7 +46,7 @@ namespace mdoc.Test
         [TestCase("PropertyFlagsEnumTypeWithApplePlatformAndNoneValue", "ObjCRuntime.Platform.None")]
         [TestCase("PropertyObjectWithNull", null)]
         [TestCase("PropertyObjectWithTypeType", "typeof(Mono.Cecil.TypeReference)")]
-        [TestCase("PropertyObjectWithNestedTypeType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes.NestedClass)")]
+        [TestCase("PropertyObjectWithNestedTypeType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes+NestedClass)")]
         [TestCase("PropertyObjectWithBoolType", true)]
         [TestCase("PropertyObjectWithSByteType", SByte.MinValue)]
         [TestCase("PropertyObjectWithByteType", Byte.MaxValue)]
@@ -64,12 +64,12 @@ namespace mdoc.Test
         [TestCase("PropertyObjectWithEnumType", ConsoleColor.Red)]
         [TestCase("PropertyObjectWithEnumTypeAndUnknownValue", "(System.ConsoleColor) 2147483647")]
         [TestCase("PropertyObjectWithNestedEnumType", SomeNestedTypes.NestedEnum.Read)]
-        [TestCase("PropertyObjectWithNestedEnumTypeAndUnknownValue", "(mdoc.Test.SampleClasses.SomeNestedTypes.NestedEnum) 2147483647")]
+        [TestCase("PropertyObjectWithNestedEnumTypeAndUnknownValue", "(mdoc.Test.SampleClasses.SomeNestedTypes+NestedEnum) 2147483647")]
         [TestCase("PropertyObjectWithFlagsEnumType", "System.AttributeTargets.Class | System.AttributeTargets.Enum")]
         [TestCase("PropertyObjectWithFlagsEnumTypeAndAllValue", "System.AttributeTargets.All")]
         [TestCase("PropertyObjectWithFlagsEnumTypeAndUndefineValueZero", "(System.AttributeTargets) 0")]
-        [TestCase("PropertyObjectWithNestedFlagsEnumType", "mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum.Class | mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum.Enum")]
-        [TestCase("PropertyObjectWithNestedFlagsEnumTypeAndUndefineValueZero", "(mdoc.Test.SampleClasses.SomeNestedTypes.NestedFlagsEnum) 0")]
+        [TestCase("PropertyObjectWithNestedFlagsEnumType", "mdoc.Test.SampleClasses.SomeNestedTypes+NestedFlagsEnum.Class | mdoc.Test.SampleClasses.SomeNestedTypes+NestedFlagsEnum.Enum")]
+        [TestCase("PropertyObjectWithNestedFlagsEnumTypeAndUndefineValueZero", "(mdoc.Test.SampleClasses.SomeNestedTypes+NestedFlagsEnum) 0")]
         [TestCase("PropertyObjectWithNotApplyAttributeValidFlagsEnumTypeAndCombinationValue", "mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Class | mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Enum")]
         [TestCase("PropertyObjectWithNotApplyAttributeValidFlagsEnumTypeAndSingleValue", "mdoc.Test.SampleClasses.NotApplyAttributeValidFlagsEnum.Class")]
         [TestCase("PropertyObjectWithNotApplyAttributeInvalidFlagsEnumTypeAndUnknownCombinationValue", "(mdoc.Test.SampleClasses.NotApplyAttributeInvalidFlagsEnum) 5")]
@@ -179,10 +179,8 @@ namespace mdoc.Test
 
         private string ConvertToDisplayName(string typeFullName)
         {
-            // When a type is a nested types that the type's full name will use '/' or '+' instead of '.' character, so we need to convert it to the correct display name.
-            return typeFullName
-                .Replace("/", ".")
-                .Replace("+", ".");
+            // When a type is a nested types that the property FullName of Type will use '/' instead of '+' character, so we need to convert it to the correct full name.
+            return typeFullName.Replace("/", "+");
         }
 
         public static string FilterSpecialChars(string value)
