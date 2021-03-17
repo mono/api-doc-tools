@@ -2,9 +2,9 @@
 {
     public enum NotApplyAttributeInvalidFlagsEnum
     {
+        None = 0,
         Read = 1,
         Write = 2,
-        Open = 4,
-        Close = 8
+        ReadWrite = 3
     }
 }

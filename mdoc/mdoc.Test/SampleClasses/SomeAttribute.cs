@@ -101,32 +101,37 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(FlagsEnumType = AttributeTargets.All)]
-        public void PropertyFlagsEnumTypeWithAll()
+        public void PropertyFlagsEnumTypeWithAllValue()
         {
         }
 
-        [AttributeDataType(NotApplyAttributeFlagsEnumType = NotApplyAttributeFlagsEnum.Class | NotApplyAttributeFlagsEnum.Enum)]
-        public void PropertyNotApplyAttributeFlagsEnumTypeWithCombinationValue()
+        [AttributeDataType(FlagsEnumType = (AttributeTargets)0)]
+        public void PropertyFlagsEnumTypeWithUnknownValue()
         {
         }
 
-        [AttributeDataType(NotApplyAttributeFlagsEnumType = NotApplyAttributeFlagsEnum.Class)]
-        public void PropertyNotApplyAttributeFlagsEnumTypeWithSingleValue()
+        [AttributeDataType(NotApplyAttributeFlagsEnumType = NotApplyAttributeValidFlagsEnum.Class | NotApplyAttributeValidFlagsEnum.Enum)]
+        public void PropertyFlagsEnumTypeWithNotApplyAttributeValidTypeAndCombinationValue()
         {
         }
 
-        [AttributeDataType(NotApplyAttributeInvalidFlagsEnumType = NotApplyAttributeInvalidFlagsEnum.Read | NotApplyAttributeInvalidFlagsEnum.Open)]
-        public void PropertyNotApplyAttributeInvalidFlagsEnumTypeWithCombinationValue()
+        [AttributeDataType(NotApplyAttributeFlagsEnumType = NotApplyAttributeValidFlagsEnum.Class)]
+        public void PropertyFlagsEnumTypeWithNotApplyAttributeValidTypeAndSingleValue()
+        {
+        }
+
+        [AttributeDataType(NotApplyAttributeInvalidFlagsEnumType = (NotApplyAttributeInvalidFlagsEnum)5)]
+        public void PropertyFlagsEnumTypeWithNotApplyAttributeInvalidTypeAndCombinationValue()
         {
         }
 
         [AttributeDataType(ApplePlatformFlagsEnumType = ObjCRuntime.Platform.Mac_10_8 | ObjCRuntime.Platform.Mac_Arch64)]
-        public void PropertyApplePlatformFlagsEnumType()
+        public void PropertyFlagsEnumTypeWithApplePlatformType()
         {
         }
 
         [AttributeDataType(ApplePlatformFlagsEnumType = ObjCRuntime.Platform.None)]
-        public void PropertyApplePlatformFlagsEnumTypeWithNone()
+        public void PropertyFlagsEnumTypeWithApplePlatformAndNoneValue()
         {
         }
 
@@ -226,21 +231,26 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(ObjectType = AttributeTargets.All)]
-        public void PropertyObjectWithAllFlagsEnumType()
+        public void PropertyObjectWithFlagsEnumTypeAndAllValue()
         {
         }
 
-        [AttributeDataType(ObjectType = NotApplyAttributeFlagsEnum.Class | NotApplyAttributeFlagsEnum.Enum)]
-        public void PropertyObjectWithNotApplyAttributeFlagsEnumTypeAndCombinationValue()
+        [AttributeDataType(ObjectType = (AttributeTargets)0)]
+        public void PropertyObjectWithFlagsEnumTypeAndUnknownValue()
         {
         }
 
-        [AttributeDataType(ObjectType = NotApplyAttributeFlagsEnum.Class)]
-        public void PropertyObjectWithNotApplyAttributeFlagsEnumTypeAndSingleValue()
+        [AttributeDataType(ObjectType = NotApplyAttributeValidFlagsEnum.Class | NotApplyAttributeValidFlagsEnum.Enum)]
+        public void PropertyObjectWithNotApplyAttributeValidFlagsEnumTypeAndCombinationValue()
         {
         }
 
-        [AttributeDataType(ObjectType = NotApplyAttributeInvalidFlagsEnum.Read | NotApplyAttributeInvalidFlagsEnum.Open)]
+        [AttributeDataType(ObjectType = NotApplyAttributeValidFlagsEnum.Class)]
+        public void PropertyObjectWithNotApplyAttributeValidFlagsEnumTypeAndSingleValue()
+        {
+        }
+
+        [AttributeDataType(ObjectType = (NotApplyAttributeInvalidFlagsEnum)5)]
         public void PropertyObjectWithNotApplyAttributeInvalidFlagsEnumTypeAndCombinationValue()
         {
         }
@@ -261,7 +271,7 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(ObjectType = (ConsoleColor)int.MaxValue)]
-        public void PropertyObjectWithUnknowEnumValue()
+        public void PropertyObjectWithEnumTypeAndUnknownValue()
         {
         }
     }

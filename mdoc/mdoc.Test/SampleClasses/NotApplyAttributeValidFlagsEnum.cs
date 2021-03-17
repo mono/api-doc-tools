@@ -1,6 +1,6 @@
 ﻿namespace mdoc.Test.SampleClasses
 {
-    public enum NotApplyAttributeFlagsEnum
+    public enum NotApplyAttributeValidFlagsEnum
     {
         None = 0,
         Assembly = 1,

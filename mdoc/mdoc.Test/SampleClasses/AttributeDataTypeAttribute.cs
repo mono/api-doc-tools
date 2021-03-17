@@ -40,7 +40,7 @@ namespace mdoc.Test.SampleClasses
 
         public AttributeTargets FlagsEnumType { get; set; }
 
-        public NotApplyAttributeFlagsEnum NotApplyAttributeFlagsEnumType { get; set; }
+        public NotApplyAttributeValidFlagsEnum NotApplyAttributeFlagsEnumType { get; set; }
 
         public NotApplyAttributeInvalidFlagsEnum NotApplyAttributeInvalidFlagsEnumType { get; set; }
 
