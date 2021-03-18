@@ -20,7 +20,6 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
-
         [AttributeDataType(BoolType = true)]
         public void PropertyBoolType()
         {

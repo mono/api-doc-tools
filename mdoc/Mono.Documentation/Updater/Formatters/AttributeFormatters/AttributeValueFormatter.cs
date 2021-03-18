@@ -113,7 +113,6 @@ namespace Mono.Documentation.Updater
             if (IsAssignToObject(argumentValue))
             {
                 var attributeArgument = (CustomAttributeArgument)argumentValue;
-
                 return IsArrayType(attributeArgument.Type, attributeArgument.Value);
             }
 
@@ -125,7 +124,6 @@ namespace Mono.Documentation.Updater
             if (IsAssignToObject(argumentValue))
             {
                 var attributeArgument = (CustomAttributeArgument)argumentValue;
-
                 return ConvertToArrayType(attributeArgument.Type, attributeArgument.Value);
             }
 
