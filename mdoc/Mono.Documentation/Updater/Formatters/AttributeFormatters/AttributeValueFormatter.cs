@@ -205,11 +205,11 @@ namespace Mono.Documentation.Updater
             var typeFullName = string.Empty;
             if (argumentValue is TypeReference argumentValueType)
             {
-                typeFullName = NativeTypeManager.GetTranslatedName(argumentValueType);   // TODO: drop NS handling
+                typeFullName = MDocUpdater.GetDocTypeFullName(argumentType);
             }
             else
             {
-                typeFullName = GetArgumentValue("System.Type", argumentType, argumentValue).ToString();
+                typeFullName = MDocUpdater.GetDocTypeFullName(argumentType);
             }
 
             return $"typeof({typeFullName})";
