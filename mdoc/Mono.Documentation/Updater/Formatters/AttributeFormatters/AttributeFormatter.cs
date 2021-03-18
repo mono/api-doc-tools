@@ -2,13 +2,14 @@
 using Mono.Documentation.Util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Mono.Documentation.Updater.Formatters
 {
     public class AttributeFormatter
     {
+        private AttributeValueFormatter valueFormatter = new AttributeValueFormatter();
+
         public virtual string PrefixBrackets { get; } = "";
         public virtual string SurfixBrackets { get; } = "";
         public virtual string Language { get; } = "";
@@ -119,62 +120,9 @@ namespace Mono.Documentation.Updater.Formatters
             return $"{name}={value}";
         }
 
-        public virtual string MakeAttributesValueString(object v, TypeReference valueType)
+        public virtual string MakeAttributesValueString(object argumentValue, TypeReference argumentType)
         {
-            if (IsArrayType(valueType, v))
-            {
-                return ConvertToArrayType(valueType, v);
-            }
-
-            var formattedValue = string.Empty;
-            var formatter = new AttributeValueFormatter();
-            if (formatter.TryFormatValue(v, valueType, out formattedValue))
-            {
-                return formattedValue;
-            }
-
-            // this should never occur because the DefaultAttributeValueFormatter will always
-            // successfully format the value ... but this is needed to satisfy the compiler :)
-            throw new InvalidDataException(string.Format("Unable to format attribute value ({0})", v.ToString()));
-        }
-
-        private bool IsArrayType(TypeReference argumentTypeReference, object argumentValue)
-        {
-            if (IsAssignToObject(argumentValue))
-            {
-                var attributeArgument = (CustomAttributeArgument)argumentValue;
-
-                return IsArrayType(attributeArgument.Type, attributeArgument.Value);
-            }
-
-            return argumentTypeReference is ArrayType && argumentValue is CustomAttributeArgument[];
-        }
-
-        /// <summary>
-        /// When a property type of an attribute is an object type you can assign any type to it,
-        /// so we need to convert the object type to a concrete object type.
-        /// </summary>
-        /// <param name="argumentValue">The value of the argument.</param>
-        private bool IsAssignToObject(object argumentValue)
-        {
-            return argumentValue is CustomAttributeArgument;
-        }
-
-        private string ConvertToArrayType(TypeReference argumentTypeReference, object argumentValue)
-        {
-            if (IsAssignToObject(argumentValue))
-            {
-                var attributeArgument = (CustomAttributeArgument)argumentValue;
-
-                return ConvertToArrayType(attributeArgument.Type, attributeArgument.Value);
-            }
-
-            var arrayType = argumentTypeReference as ArrayType;
-            var arrayArguments = argumentValue as CustomAttributeArgument[];
-            var arrayTypeFullName = $"new {arrayType.FullName}{(arrayType.FullName.EndsWith("[]") ? "" : "[]")}";
-            var arrayValues = arrayArguments.Select(a => MakeAttributesValueString(a.Value, a.Type)).ToArray();
-
-            return $"{arrayTypeFullName} {{ {string.Join(", ", arrayValues)} }}";
+            return valueFormatter.FormatValue(argumentType, argumentValue);
         }
 
         private bool IsIgnoredAttribute(CustomAttribute customAttribute)

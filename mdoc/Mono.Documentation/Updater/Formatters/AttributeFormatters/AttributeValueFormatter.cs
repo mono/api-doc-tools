@@ -8,49 +8,47 @@ namespace Mono.Documentation.Updater
 {
     /// <summary>Formats attribute values. Should return true if it is able to format the value.</summary>
     public class AttributeValueFormatter
-    {
-        public virtual bool TryFormatValue (object argumentValue, TypeReference argumentTypeReference, out string returnvalue)
+    {            
+        // The types of positional and named parameters for an attribute class are limited to the attribute parameter types, which are:
+        // https://github.com/dotnet/csharplang/blob/main/spec/attributes.md#attribute-parameter-types
+        public string FormatValue (TypeReference argumentType, object argumentValue)
         {
-            // The types of positional and named parameters for an attribute class are limited to the attribute parameter types, which are:
-            // https://github.com/dotnet/csharplang/blob/main/spec/attributes.md#attribute-parameter-types
             if (IsNull(argumentValue))
             {
-                returnvalue = "null";
-                return true;
+                return "null";
             }
 
-            if (IsTypeType(argumentTypeReference, argumentValue))
+            if (IsArrayType(argumentType, argumentValue))
             {
-                returnvalue = ConvertToType(argumentTypeReference, argumentValue);
-                return true;
+                return ConvertToArrayType(argumentType, argumentValue);
             }
 
-            if (IsStringType(argumentTypeReference, argumentValue))
+            if (IsTypeType(argumentType, argumentValue))
             {
-                returnvalue = ConvertToString(argumentTypeReference, argumentValue);
-                return true;
+                return ConvertToType(argumentType, argumentValue);
             }
 
-            if (IsCharType(argumentTypeReference, argumentValue))
+            if (IsStringType(argumentType, argumentValue))
             {
-                returnvalue = ConvertToChar(argumentTypeReference, argumentValue);
-                return true;
+                return ConvertToString(argumentType, argumentValue);
             }
 
-            if (IsBoolType(argumentTypeReference, argumentValue))
+            if (IsCharType(argumentType, argumentValue))
             {
-                returnvalue = ConvertToBool(argumentTypeReference, argumentValue);
-                return true;
+                return ConvertToChar(argumentType, argumentValue);
             }
 
-            if (IsEnumType(argumentTypeReference, argumentValue))
+            if (IsBoolType(argumentType, argumentValue))
             {
-                returnvalue = ConvertToEnum(argumentTypeReference, argumentValue);
-                return true;
+                return ConvertToBool(argumentType, argumentValue);
             }
 
-            returnvalue = ConvertUnhandlerTypeToString(argumentTypeReference, argumentValue);
-            return true;
+            if (IsEnumType(argumentType, argumentValue))
+            {
+                return ConvertToEnum(argumentType, argumentValue);
+            }
+
+            return ConvertUnhandlerTypeToString(argumentValue);
         }
 
         private bool IsNull(object argumentValue)
@@ -58,7 +56,7 @@ namespace Mono.Documentation.Updater
             return argumentValue == null;
         }
 
-        private bool IsEnumType(TypeReference argumentTypeReference, object argumentValue)
+        private bool IsEnumType(TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -66,30 +64,30 @@ namespace Mono.Documentation.Updater
                 return IsEnumType(attributeArgument.Type, attributeArgument.Value);
             }
 
-            return argumentTypeReference.Resolve().IsEnum;
+            return argumentType.Resolve().IsEnum;
         }
 
-        private bool IsTypeType(TypeReference argumentTypeReference, object argumentValue)
+        private bool IsTypeType(TypeReference argumentType, object argumentValue)
         {
-            return IsType("System.Type", argumentTypeReference, argumentValue);
+            return IsType("System.Type", argumentType, argumentValue);
         }
 
-        private bool IsStringType(TypeReference argumentTypeReference, object argumentValue)
+        private bool IsStringType(TypeReference argumentType, object argumentValue)
         {
-            return IsType("System.String", argumentTypeReference, argumentValue);
+            return IsType("System.String", argumentType, argumentValue);
         }
 
-        private bool IsCharType(TypeReference argumentTypeReference, object argumentValue)
+        private bool IsCharType(TypeReference argumentType, object argumentValue)
         {
-            return IsType("System.Char", argumentTypeReference, argumentValue);
+            return IsType("System.Char", argumentType, argumentValue);
         }
 
-        private bool IsBoolType(TypeReference argumentTypeReference, object argumentValue)
+        private bool IsBoolType(TypeReference argumentType, object argumentValue)
         {
-            return IsType("System.Boolean", argumentTypeReference, argumentValue);
+            return IsType("System.Boolean", argumentType, argumentValue);
         }
 
-        private bool IsType(string typeFullName, TypeReference argumentTypeReference, object argumentValue)
+        private bool IsType(string typeFullName, TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -97,7 +95,7 @@ namespace Mono.Documentation.Updater
                 return IsType(typeFullName, attributeArgument.Type, attributeArgument.Value);
             }
 
-            return argumentTypeReference.FullName.Equals(typeFullName);
+            return argumentType.FullName.Equals(typeFullName);
         }
 
         /// <summary>
@@ -110,7 +108,36 @@ namespace Mono.Documentation.Updater
             return argumentValue is CustomAttributeArgument;
         }
 
-        private bool IsFlagsEnum(TypeReference argumentTypeReference, object argumentValue)
+        private bool IsArrayType(TypeReference argumentType, object argumentValue)
+        {
+            if (IsAssignToObject(argumentValue))
+            {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
+
+                return IsArrayType(attributeArgument.Type, attributeArgument.Value);
+            }
+
+            return argumentType is ArrayType && argumentValue is CustomAttributeArgument[];
+        }
+
+        private string ConvertToArrayType(TypeReference argumentType, object argumentValue)
+        {
+            if (IsAssignToObject(argumentValue))
+            {
+                var attributeArgument = (CustomAttributeArgument)argumentValue;
+
+                return ConvertToArrayType(attributeArgument.Type, attributeArgument.Value);
+            }
+
+            var arrayType = argumentType as ArrayType;
+            var arrayArguments = argumentValue as CustomAttributeArgument[];
+            var arrayTypeFullName = $"new {arrayType.FullName}{(arrayType.FullName.EndsWith("[]") ? "" : "[]")}";
+            var arrayArgumentValues = arrayArguments.Select(i => FormatValue(i.Type, i.Value));
+
+            return $"{arrayTypeFullName} {{ {string.Join(", ", arrayArgumentValues)} }}";
+        }
+
+        private bool IsFlagsEnum(TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -118,7 +145,7 @@ namespace Mono.Documentation.Updater
                 return IsFlagsEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            var argumentTypeDefinition = argumentTypeReference.Resolve();
+            var argumentTypeDefinition = argumentType.Resolve();
             var isApplyFlagsAttributeEnumType = argumentTypeDefinition.CustomAttributes.Any(a => a.AttributeType.FullName == "System.FlagsAttribute");
             var isNotApplyAttributeFlagsEnumType = IsNotApplyAttributeFlagsEnumType(argumentTypeDefinition, argumentValue);
 
@@ -129,9 +156,9 @@ namespace Mono.Documentation.Updater
         /// We have a few legacy flags enum type not apply FlagsAttribute to it.
         /// For example, Microsoft.JScript.JSFunctionAttributeEnum in .NET Framework 1.1 but the issue has been fixed in the newer version.
         /// </summary>
-        private bool IsNotApplyAttributeFlagsEnumType(TypeDefinition argumentTypeDefinition, object argumentValue)
+        private bool IsNotApplyAttributeFlagsEnumType(TypeDefinition argumentType, object argumentValue)
         {
-            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentTypeDefinition, argumentValue);
+            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentType, argumentValue);
             if (enumConstants.ContainsKey(enumValue))
             {
                 // Not is a combinations of values.
@@ -147,13 +174,13 @@ namespace Mono.Documentation.Updater
             var minFlagsEnumValueCount = 4;
             if (flagsEnumValues.Count() >= minFlagsEnumValueCount)
             {
-                long allLogicalOrEnumValue = 0;
+                long allEnumLogicalOrValue = 0;
                 foreach (var item in flagsEnumValues)
                 {
-                    allLogicalOrEnumValue = allLogicalOrEnumValue | item;
+                    allEnumLogicalOrValue = allEnumLogicalOrValue | item;
                 }
 
-                var isFlagsEnumType = !flagsEnumValues.Any(i => (i & allLogicalOrEnumValue) != i);
+                var isFlagsEnumType = !flagsEnumValues.Any(i => (i & allEnumLogicalOrValue) != i);
                 var isCombinationValue = flagsEnumValues.Count(i => (i & enumValue) != i) > 1;
 
                 return isFlagsEnumType && isCombinationValue;
@@ -162,7 +189,7 @@ namespace Mono.Documentation.Updater
             return false;
         }
 
-        private bool IsApplePlatformEnum(TypeReference argumentTypeReference, object argumentValue)
+        private bool IsApplePlatformEnum(TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -170,27 +197,27 @@ namespace Mono.Documentation.Updater
                 return IsApplePlatformEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            return MDocUpdater.GetDocTypeFullName(argumentTypeReference).Contains("ObjCRuntime.Platform");
+            return MDocUpdater.GetDocTypeFullName(argumentType).Contains("ObjCRuntime.Platform");
         }
 
-        private string ConvertToType(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToType(TypeReference argumentType, object argumentValue)
         {
-            var valueResult = string.Empty;
+            var typeFullName = string.Empty;
             if (argumentValue is TypeReference argumentValueType)
             {
-                valueResult = NativeTypeManager.GetTranslatedName(argumentValueType);   // TODO: drop NS handling
+                typeFullName = NativeTypeManager.GetTranslatedName(argumentValueType);   // TODO: drop NS handling
             }
             else
             {
-                valueResult = GetArgumentValue("System.Type", argumentTypeReference, argumentValue).ToString();
+                typeFullName = GetArgumentValue("System.Type", argumentType, argumentValue).ToString();
             }
 
-            return $"typeof({valueResult})";
+            return $"typeof({typeFullName})";
         }
 
-        private string ConvertToString(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToString(TypeReference argumentType, object argumentValue)
         {
-            var valueResult = GetArgumentValue("System.String", argumentTypeReference, argumentValue);
+            var valueResult = GetArgumentValue("System.String", argumentType, argumentValue);
             if (valueResult == null)
             {
                 return "null";
@@ -199,45 +226,45 @@ namespace Mono.Documentation.Updater
             return string.Format("\"{0}\"", FilterSpecialChars(valueResult.ToString()));
         }
 
-        private string ConvertToBool(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToBool(TypeReference argumentType, object argumentValue)
         {
-            return GetArgumentValue("System.Boolean", argumentTypeReference, argumentValue).ToString().ToLower();
+            return GetArgumentValue("System.Boolean", argumentType, argumentValue).ToString().ToLower();
         }
 
-        private string ConvertToChar(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToChar(TypeReference argumentType, object argumentValue)
         {
-            var valueResult = GetArgumentValue("System.Char", argumentTypeReference, argumentValue).ToString();
+            var valueResult = GetArgumentValue("System.Char", argumentType, argumentValue).ToString();
 
             return string.Format("'{0}'", FilterSpecialChars(valueResult));
         }
 
-        private string ConvertUnhandlerTypeToString(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertUnhandlerTypeToString(object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
                 var attributeArgument = (CustomAttributeArgument)argumentValue;
-                return ConvertUnhandlerTypeToString(attributeArgument.Type, attributeArgument.Value);
+                return ConvertUnhandlerTypeToString(attributeArgument.Value);
             }
 
             return argumentValue.ToString();
         }
 
-        private string ConvertToEnum(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToEnum(TypeReference argumentType, object argumentValue)
         {
-            if (IsFlagsEnum(argumentTypeReference, argumentValue))
+            if (IsFlagsEnum(argumentType, argumentValue))
             {
-                if (IsApplePlatformEnum(argumentTypeReference, argumentValue))
+                if (IsApplePlatformEnum(argumentType, argumentValue))
                 {
-                    return ConvertToApplePlatformEnum(argumentTypeReference, argumentValue);
+                    return ConvertToApplePlatformEnum(argumentType, argumentValue);
                 }
 
-                return ConvertToFlagsEnum(argumentTypeReference, argumentValue);
+                return ConvertToFlagsEnum(argumentType, argumentValue);
             }
 
-            return ConvertToNormalEnum(argumentTypeReference, argumentValue);
+            return ConvertToNormalEnum(argumentType, argumentValue);
         }
 
-        private string ConvertToNormalEnum(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToNormalEnum(TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -245,16 +272,16 @@ namespace Mono.Documentation.Updater
                 return ConvertToNormalEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentTypeReference, argumentValue);
+            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentType, argumentValue);
             if (enumConstants.ContainsKey(enumValue))
             {
                 return typeFullName + "." + enumConstants[enumValue];
             }
 
-            return ConvertToUnknownEnum(argumentTypeReference, argumentValue);
+            return ConvertToUnknownEnum(argumentType, argumentValue);
         }
 
-        private string ConvertToUnknownEnum(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToUnknownEnum(TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -262,12 +289,12 @@ namespace Mono.Documentation.Updater
                 return ConvertToUnknownEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentTypeReference, argumentValue);
+            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentType, argumentValue);
 
             return $"({typeFullName}) {enumValue}";
         }
 
-        private string ConvertToFlagsEnum(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToFlagsEnum(TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -275,7 +302,7 @@ namespace Mono.Documentation.Updater
                 return ConvertToFlagsEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentTypeReference, argumentValue);
+            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentType, argumentValue);
             if (enumConstants.ContainsKey(enumValue))
             {
                 return typeFullName + "." + enumConstants[enumValue];
@@ -293,10 +320,10 @@ namespace Mono.Documentation.Updater
                 return string.Join(" | ", flagsEnumNames);
             }
 
-            return ConvertToUnknownEnum(argumentTypeReference, argumentValue);
+            return ConvertToUnknownEnum(argumentType, argumentValue);
         }
 
-        private string ConvertToApplePlatformEnum(TypeReference argumentTypeReference, object argumentValue)
+        private string ConvertToApplePlatformEnum(TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -304,7 +331,7 @@ namespace Mono.Documentation.Updater
                 return ConvertToApplePlatformEnum(attributeArgument.Type, attributeArgument.Value);
             }
 
-            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentTypeReference, argumentValue);
+            (var typeFullName, var enumConstants, var enumValue) = GetEnumTypeData(argumentType, argumentValue);
             if (enumConstants.ContainsKey(enumValue))
             {
                 return typeFullName + "." + enumConstants[enumValue];
@@ -313,9 +340,9 @@ namespace Mono.Documentation.Updater
             return FormatApplePlatformEnum(enumValue);
         }
 
-        private (string typeFullName, IDictionary<long, string> enumConstants, long enumValue) GetEnumTypeData(TypeReference argumentTypeReference, object argumentValue)
+        private (string typeFullName, IDictionary<long, string> enumConstants, long enumValue) GetEnumTypeData(TypeReference argumentType, object argumentValue)
         {
-            var argumentTypeDefinition = argumentTypeReference.Resolve();
+            var argumentTypeDefinition = argumentType.Resolve();
             var typeFullName = MDocUpdater.GetDocTypeFullName(argumentTypeDefinition);
             var enumConstants = GetEnumerationValues(argumentTypeDefinition);
             var enumValue = ToInt64(argumentValue);
@@ -388,7 +415,7 @@ namespace Mono.Documentation.Updater
             subminor = (int)((encodedBits & 0x000000FF) >> 0);
         }
 
-        private object GetArgumentValue(string argumentTypeFullName, TypeReference argumentTypeReference, object argumentValue)
+        private object GetArgumentValue(string argumentTypeFullName, TypeReference argumentType, object argumentValue)
         {
             if (IsAssignToObject(argumentValue))
             {
@@ -396,7 +423,7 @@ namespace Mono.Documentation.Updater
                 return GetArgumentValue(argumentTypeFullName, attributeArgument.Type, attributeArgument.Value);
             }
 
-            if (argumentTypeReference.FullName.Equals(argumentTypeFullName))
+            if (argumentType.FullName.Equals(argumentTypeFullName))
             {
                 return argumentValue;
             }
@@ -404,9 +431,9 @@ namespace Mono.Documentation.Updater
             throw new ArgumentException($"The argument type does not match {argumentTypeFullName}.");
         }
 
-        protected static IDictionary<long, string> GetEnumerationValues(TypeDefinition type)
+        protected static IDictionary<long, string> GetEnumerationValues(TypeDefinition argumentType)
         {
-            var enumValues = from f in type.Fields
+            var enumValues = from f in argumentType.Fields
                              where !(f.IsRuntimeSpecialName || f.IsSpecialName)
                              select f;
 
