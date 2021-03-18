@@ -14,7 +14,7 @@ namespace mdoc.Test
     {
         [TestCase("PropertyTypeType", "typeof(Mono.Cecil.TypeReference)")]
         [TestCase("PropertyTypeTypeWithNull", "null")]
-        [TestCase("PropertyTypeTypeWithNestedType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes/NestedClass)")]
+        [TestCase("PropertyTypeTypeWithNestedType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes+NestedClass)")]
         [TestCase("PropertyBoolType", "true")]
         [TestCase("PropertySByteType", SByte.MinValue)]
         [TestCase("PropertyByteType", Byte.MaxValue)]
@@ -48,7 +48,7 @@ namespace mdoc.Test
         [TestCase("PropertyArrayOfIntTypeWithNull", "null")]
         [TestCase("PropertyObjectWithNull", "null")]
         [TestCase("PropertyObjectWithTypeType", "typeof(Mono.Cecil.TypeReference)")]
-        [TestCase("PropertyObjectWithNestedTypeType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes/NestedClass)")]
+        [TestCase("PropertyObjectWithNestedTypeType", "typeof(mdoc.Test.SampleClasses.SomeNestedTypes+NestedClass)")]
         [TestCase("PropertyObjectWithBoolType", "true")]
         [TestCase("PropertyObjectWithSByteType", SByte.MinValue)]
         [TestCase("PropertyObjectWithByteType", Byte.MaxValue)]
