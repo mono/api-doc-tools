@@ -275,6 +275,11 @@ namespace Mono.Documentation.Updater
             int n = typename.IndexOf ("`");
             if (n >= 0)
                 return buf.Append (typename.Substring (0, n));
+
+            var isNotPassGenericParameter = typename.IndexOf ("!") == 0;
+            if (isNotPassGenericParameter)
+                return buf;
+
             return buf.Append (typename);
         }
 

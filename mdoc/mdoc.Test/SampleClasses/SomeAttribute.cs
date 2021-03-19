@@ -1,5 +1,6 @@
 ﻿using Mono.Cecil;
 using System;
+using System.Collections.Generic;
 
 namespace mdoc.Test.SampleClasses
 {
@@ -17,6 +18,26 @@ namespace mdoc.Test.SampleClasses
 
         [AttributeDataType(TypeType = typeof(SomeNestedTypes.NestedClass))]
         public void PropertyTypeTypeWithNestedType()
+        {
+        }
+
+        [AttributeDataType(TypeType = typeof(ICollection<>))]
+        public void PropertyTypeTypeWithCollectionOfNone()
+        {
+        }
+
+        [AttributeDataType(TypeType = typeof(ICollection<int>))]
+        public void PropertyTypeTypeWithCollectionOfInt()
+        {
+        }
+
+        [AttributeDataType(TypeType = typeof(IDictionary<,>))]
+        public void PropertyTypeTypeWithDictionaryOfNone()
+        {
+        }
+
+        [AttributeDataType(TypeType = typeof(IDictionary<int, int>))]
+        public void PropertyTypeTypeWithDictionaryOfInt()
         {
         }
 
@@ -187,6 +208,26 @@ namespace mdoc.Test.SampleClasses
 
         [AttributeDataType(ObjectType = typeof(SomeNestedTypes.NestedClass))]
         public void PropertyObjectWithNestedTypeType()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(ICollection<>))]
+        public void PropertyObjectWithCollectionTypeOfNone()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(ICollection<int>))]
+        public void PropertyObjectWithCollectionTypeOfInt()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(IDictionary<,>))]
+        public void PropertyObjectWithDictionaryTypeOfNone()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(IDictionary<int, int>))]
+        public void PropertyObjectWithDictionaryTypeOfInt()
         {
         }
 
