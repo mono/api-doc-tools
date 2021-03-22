@@ -41,6 +41,16 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
+        [AttributeDataType(TypeType = typeof(SomeGenericClass<>))]
+        public void PropertyTypeTypeWithCustomGenericTypeOfNone()
+        {
+        }
+
+        [AttributeDataType(TypeType = typeof(SomeGenericClass<int>))]
+        public void PropertyTypeTypeWithCustomGenericTypeOfInt()
+        {
+        }
+
         [AttributeDataType(BoolType = true)]
         public void PropertyBoolType()
         {
@@ -228,6 +238,16 @@ namespace mdoc.Test.SampleClasses
 
         [AttributeDataType(ObjectType = typeof(IDictionary<int, int>))]
         public void PropertyObjectWithDictionaryTypeOfInt()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(SomeGenericClass<>))]
+        public void PropertyObjectWithCustomGenericTypeOfNone()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(SomeGenericClass<int>))]
+        public void PropertyObjectWithCustomGenericTypeOfInt()
         {
         }
 

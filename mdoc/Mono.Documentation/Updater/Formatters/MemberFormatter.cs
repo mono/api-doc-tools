@@ -275,11 +275,6 @@ namespace Mono.Documentation.Updater
             int n = typename.IndexOf ("`");
             if (n >= 0)
                 return buf.Append (typename.Substring (0, n));
-
-            var isNotPassGenericParameter = typename.IndexOf ("!") == 0;
-            if (isNotPassGenericParameter)
-                return buf;
-
             return buf.Append (typename);
         }
 
@@ -346,23 +341,40 @@ namespace Mono.Documentation.Updater
                 int ac = DocUtils.GetGenericArgumentCount (declDef);
                 int c = ac - prev;
                 prev = ac;
-                if (appendGeneric && c > 0)
+                if (c > 0)
                 {
                     buf.Append (GenericTypeContainer[0]);
-                    var origState = MemberFormatterState;
-                    MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
-                    AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
-                    for (int i = 1; i < c; ++i)
+
+                    if (IsTypeOfOperatorAndNotPassType(appendGeneric, genArgs))
                     {
-                        buf.Append (",");
+                        buf.Append(string.Join(string.Empty, Enumerable.Repeat(",", genArgs.Count - 1)));
+                    }
+                    else
+                    {
+                        var origState = MemberFormatterState;
+                        MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
                         AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
+                        for (int i = 1; i < c; ++i)
+                        {
+                            buf.Append (",");
+                            AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
+                        }
+
+                        MemberFormatterState = origState;
                     }
 
-                    MemberFormatterState = origState;
                     buf.Append (GenericTypeContainer[1]);
                 }
             }
+
             return buf;
+        }
+
+        private bool IsTypeOfOperatorAndNotPassType(bool appendGeneric, List<TypeReference> genArgs)
+        {
+            // If appendGeneric equal true current is a typeof operator and the generic arguments are not pass any parameter type.
+            // For example, typeof(ICollection<>), typeof(IDictionary<,>).
+            return !appendGeneric && genArgs.TrueForAll(i => i is GenericParameter);
         }
 
         private void AppendGenericTypeParameter (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool useTypeProjection = true)
