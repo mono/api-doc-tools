@@ -345,7 +345,7 @@ namespace Mono.Documentation.Updater
                 {
                     buf.Append (GenericTypeContainer[0]);
 
-                    if (IsTypeOfOperatorAndNotPassType(appendGeneric, genArgs))
+                    if (IsTypeOfOperatorWithUnboundGenericTypese(appendGeneric, genArgs))
                     {
                         buf.Append(string.Join(string.Empty, Enumerable.Repeat(",", genArgs.Count - 1)));
                     }
@@ -370,7 +370,7 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        private bool IsTypeOfOperatorAndNotPassType(bool appendGeneric, List<TypeReference> genArgs)
+        private bool IsTypeOfOperatorWithUnboundGenericTypese(bool appendGeneric, List<TypeReference> genArgs)
         {
             // If appendGeneric equal false represent this is a typeof operator.
             // If all arguments is GenericParameter represent the generic type is an unbound generic types.

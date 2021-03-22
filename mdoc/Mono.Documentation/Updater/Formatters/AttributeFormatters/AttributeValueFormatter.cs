@@ -350,7 +350,7 @@ namespace Mono.Documentation.Updater
             throw new ArgumentException($"The argument type does not match {argumentTypeFullName}.");
         }
 
-        protected static IDictionary<long, string> GetEnumerationValues(TypeDefinition argumentType)
+        private IDictionary<long, string> GetEnumerationValues(TypeDefinition argumentType)
         {
             var enumValues = from f in argumentType.Fields
                              where !(f.IsRuntimeSpecialName || f.IsSpecialName)
@@ -365,7 +365,7 @@ namespace Mono.Documentation.Updater
             return values;
         }
 
-        protected static long ToInt64(object value)
+        private long ToInt64(object value)
         {
             if (value is ulong)
                 return (long)(ulong)value;
@@ -373,7 +373,7 @@ namespace Mono.Documentation.Updater
             return Convert.ToInt64(value);
         }
 
-        protected static string FilterSpecialChars(string value)
+        private string FilterSpecialChars(string value)
         {
             return value
                 .Replace("\0", "\\0")
