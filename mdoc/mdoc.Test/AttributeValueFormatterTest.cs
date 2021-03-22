@@ -101,7 +101,7 @@ namespace mdoc.Test
             var (argumentType, argumentValue) = GetAttributeArguments(type, memberName);
 
             var attributeFormatter = new AttributeValueFormatter();
-            var formatValue = attributeFormatter.FormatValue(argumentType, argumentValue);
+            var formatValue = attributeFormatter.Format(argumentType, argumentValue);
 
             Assert.AreEqual(expectedValue.ToString(), formatValue);
         }

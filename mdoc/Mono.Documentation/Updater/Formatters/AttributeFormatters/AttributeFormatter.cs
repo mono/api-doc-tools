@@ -122,7 +122,7 @@ namespace Mono.Documentation.Updater.Formatters
 
         public virtual string MakeAttributesValueString(object argumentValue, TypeReference argumentType)
         {
-            return valueFormatter.FormatValue(argumentType, argumentValue);
+            return valueFormatter.Format(argumentType, argumentValue);
         }
 
         private bool IsIgnoredAttribute(CustomAttribute customAttribute)
