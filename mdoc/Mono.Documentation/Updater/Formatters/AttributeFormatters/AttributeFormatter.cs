@@ -121,6 +121,14 @@ namespace Mono.Documentation.Updater.Formatters
 
         public virtual string MakeAttributesValueString(object v, TypeReference valueType)
         {
+            // When a property type of an attribute is an object type you can assign any type to it,
+            // so we need to convert the object type to a concrete object type.
+            if (v is CustomAttributeArgument)
+            {
+                var attributeArgument = (CustomAttributeArgument)v;
+                return MakeAttributesValueString(attributeArgument.Value, attributeArgument.Type);
+            }
+
             var formatters = new[] {
                 new AttributeValueFormatter (),
                 new ApplePlatformEnumFormatter (),
