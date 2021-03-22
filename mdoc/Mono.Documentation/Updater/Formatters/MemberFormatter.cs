@@ -372,8 +372,9 @@ namespace Mono.Documentation.Updater
 
         private bool IsTypeOfOperatorAndNotPassType(bool appendGeneric, List<TypeReference> genArgs)
         {
-            // If appendGeneric equal true current is a typeof operator and the generic arguments are not pass any parameter type.
-            // For example, typeof(ICollection<>), typeof(IDictionary<,>).
+            // If appendGeneric equal false represent this is a typeof operator.
+            // If all arguments is GenericParameter represent the generic type is an unbound generic types.
+            // For example, typeof(ICollection<>), typeof(IDictionary<,>), typeof(CustomGenericType<>).
             return !appendGeneric && genArgs.TrueForAll(i => i is GenericParameter);
         }
 
