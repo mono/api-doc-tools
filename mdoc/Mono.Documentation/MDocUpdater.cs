@@ -320,7 +320,7 @@ namespace Mono.Documentation
                 if (File.Exists(typeMapPath))
                 {
                     Console.WriteLine($"Loading typemap file at {typeMapPath}");
-                    File.Copy(typeMapPath, srcPath + "TypeMap.xml", true);
+                    File.Copy(typeMapPath, Path.Combine(srcPath, "TypeMap.xml"), true);
                     TypeMap map = TypeMap.FromXml(typeMapPath);
                     this.TypeMap = map;
                     FormatterManager.UpdateTypeMap(map);
