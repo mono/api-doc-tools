@@ -4407,9 +4407,9 @@ namespace Mono.Documentation
             return docTypeFormatter.GetName (type, useTypeProjection: useTypeProjection);
         }
 
-        internal static string GetDocTypeFullName (TypeReference type, bool appendGeneric = true, bool useTypeProjection = true)
+        internal static string GetDocTypeFullName (TypeReference type, bool appendGeneric = true, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
-            return DocTypeFullMemberFormatter.Default.GetName (type, appendGeneric, useTypeProjection: useTypeProjection);
+            return DocTypeFullMemberFormatter.Default.GetName (type, appendGeneric, useTypeProjection: useTypeProjection, isTypeofOperator);
         }
 
         internal static string GetXPathForMember (DocumentationMember member)

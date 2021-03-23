@@ -165,7 +165,7 @@ namespace Mono.Documentation.Updater
         private string ConvertToType(TypeReference argumentType, object argumentValue)
         {
             var valueResult = GetArgumentValue("System.Type", argumentType, argumentValue);
-            var typeFullName = MDocUpdater.GetDocTypeFullName((TypeReference)valueResult, false);
+            var typeFullName = MDocUpdater.GetDocTypeFullName((TypeReference)valueResult, isTypeofOperator: true);
 
             return $"typeof({typeFullName})";
         }
