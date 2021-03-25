@@ -22,7 +22,7 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(TypeType = typeof(ICollection<>))]
-        public void PropertyTypeTypeWithCollectionOfNone()
+        public void PropertyTypeTypeWithUnboundCollection()
         {
         }
 
@@ -32,7 +32,7 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(TypeType = typeof(IDictionary<,>))]
-        public void PropertyTypeTypeWithDictionaryOfNone()
+        public void PropertyTypeTypeWithUnboundDictionary()
         {
         }
 
@@ -42,12 +42,33 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(TypeType = typeof(SomeGenericClass<>))]
-        public void PropertyTypeTypeWithCustomGenericTypeOfNone()
+        public void PropertyTypeTypeWithUnboundCustomGenericType()
         {
         }
 
         [AttributeDataType(TypeType = typeof(SomeGenericClass<int>))]
         public void PropertyTypeTypeWithCustomGenericTypeOfInt()
+        {
+        }
+
+        [AttributeDataType(TypeType = typeof(SomeNestedTypes.NestedGenericType<>))]
+        public void PropertyTypeTypeWithUnboundNestedGenericType()
+        {
+        }
+
+        [AttributeDataType(TypeType = typeof(SomeNestedTypes.NestedGenericType<int>))]
+        public void PropertyTypeTypeWithNestedGenericTypeOfInt()
+        {
+        }
+
+
+        [AttributeDataType(TypeType = typeof(SomeNestedTypes.NestedGenericType<>.InnerNestedGenericType<>))]
+        public void PropertyTypeTypeWithUnboundInnerNestedGenericType()
+        {
+        }
+
+        [AttributeDataType(TypeType = typeof(SomeNestedTypes.NestedGenericType<string>.InnerNestedGenericType<int>))]
+        public void PropertyTypeTypeWithInnerNestedGenericTypeOfInt()
         {
         }
 
@@ -222,7 +243,7 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(ObjectType = typeof(ICollection<>))]
-        public void PropertyObjectWithCollectionTypeOfNone()
+        public void PropertyObjectWithUnboundCollectionType()
         {
         }
 
@@ -232,7 +253,7 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(ObjectType = typeof(IDictionary<,>))]
-        public void PropertyObjectWithDictionaryTypeOfNone()
+        public void PropertyObjectWithUnboundDictionaryType()
         {
         }
 
@@ -242,12 +263,32 @@ namespace mdoc.Test.SampleClasses
         }
 
         [AttributeDataType(ObjectType = typeof(SomeGenericClass<>))]
-        public void PropertyObjectWithCustomGenericTypeOfNone()
+        public void PropertyObjectWithUnboundCustomGenericType()
         {
         }
 
         [AttributeDataType(ObjectType = typeof(SomeGenericClass<int>))]
         public void PropertyObjectWithCustomGenericTypeOfInt()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(SomeNestedTypes.NestedGenericType<>))]
+        public void PropertyObjectWithUnboundNestedGenericType()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(SomeNestedTypes.NestedGenericType<int>))]
+        public void PropertyObjectWithNestedGenericTypeOfInt()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(SomeNestedTypes.NestedGenericType<>.InnerNestedGenericType<>))]
+        public void PropertyObjectWithUnboundInnerNestedGenericType()
+        {
+        }
+
+        [AttributeDataType(ObjectType = typeof(SomeNestedTypes.NestedGenericType<string>.InnerNestedGenericType<int>))]
+        public void PropertyObjectWithInnerNestedGenericTypeOfInt()
         {
         }
 

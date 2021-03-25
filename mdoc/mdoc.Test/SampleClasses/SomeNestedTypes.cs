@@ -8,6 +8,13 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
+        public class NestedGenericType<T>
+        {
+            public class InnerNestedGenericType<T1>
+            {
+            }
+        }
+
         public enum NestedEnum
         {
             Read = 1,

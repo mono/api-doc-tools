@@ -58,7 +58,7 @@ namespace Mono.Documentation.Updater
                 return ConvertToEnum(argumentType, argumentValue);
             }
 
-            return ConvertUnhandlerTypeToString(argumentValue);
+            return ConvertUnhandledTypeToString(argumentValue);
         }
 
         private bool IsNull(object argumentValue)
@@ -193,7 +193,7 @@ namespace Mono.Documentation.Updater
             return string.Format("'{0}'", FilterSpecialChars(valueResult));
         }
 
-        private string ConvertUnhandlerTypeToString(object argumentValue)
+        private string ConvertUnhandledTypeToString(object argumentValue)
         {
             return argumentValue.ToString();
         }

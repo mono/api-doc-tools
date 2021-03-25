@@ -345,9 +345,10 @@ namespace Mono.Documentation.Updater
                 {
                     buf.Append (GenericTypeContainer[0]);
 
-                    if (IsTypeOfOperatorWithUnboundGenericType(type, genArgs, isTypeofOperator))
+                    var currentTypeArguments = genArgs.Skip(prev).Take(c);
+                    if (IsTypeOfOperatorWithUnboundGenericType(type, currentTypeArguments, isTypeofOperator))
                     {
-                        buf.Append(string.Join(string.Empty, Enumerable.Repeat(",", genArgs.Count - 1)));
+                        buf.Append(string.Join(string.Empty, Enumerable.Repeat(",", c - 1)));
                     }
                     else
                     {
@@ -370,17 +371,21 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        private bool IsTypeOfOperatorWithUnboundGenericType(TypeReference type, List<TypeReference> genArgs, bool isTypeofOperator)
+        private bool IsTypeOfOperatorWithUnboundGenericType(TypeReference type, IEnumerable<TypeReference> genericArguments, bool isTypeofOperator)
         {
-            var countSeparatorIndex = type.FullName.IndexOf("`");
-            var leftAngleBracketIndex = type.FullName.IndexOf("<");
-            var rightAngleBracketIndex = type.FullName.IndexOf(">");
-            var isUnboundGenericType = countSeparatorIndex >= 0 &&
-                                       leftAngleBracketIndex == -1 &&
-                                       rightAngleBracketIndex == -1 &&
-                                       genArgs.TrueForAll(i => i is GenericParameter);
+            if (isTypeofOperator)
+            {
+                var countSeparatorIndex = type.FullName.IndexOf("`");
+                var leftAngleBracketIndex = type.FullName.IndexOf("<");
+                var rightAngleBracketIndex = type.FullName.IndexOf(">");
+                
+                return countSeparatorIndex >= 0 &&
+                       leftAngleBracketIndex == -1 &&
+                       rightAngleBracketIndex == -1 &&
+                       genericArguments.All(i => i is GenericParameter);
+            }
 
-            return isTypeofOperator && isUnboundGenericType;
+            return false;
         }
 
         private void AppendGenericTypeParameter (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool useTypeProjection = true)
