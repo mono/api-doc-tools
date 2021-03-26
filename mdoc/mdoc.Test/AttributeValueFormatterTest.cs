@@ -100,12 +100,16 @@ namespace mdoc.Test
         [TestCase("PropertyObjectWithArrayOfIntType", "new System.Int32[] { 0, 0, 7 }")]
         public void TestFormatValueWithDifferentTypes(string methodName, object argumentValue)
         {
-            TestAttributeValueFormatter(methodName, argumentValue);
+            TestAttributeValueFormatter(typeof(SomeAttribute), methodName, argumentValue);
         }
 
-        private void TestAttributeValueFormatter(string memberName, object expectedValues)
+        [TestCase("GetEnumerator", "typeof(mdoc.Test.SampleClasses.SomeIteratorStateMachine<,>+<GetEnumerator>d__0)", typeof(SomeIteratorStateMachine<,>))]
+        [TestCase("GetEnumerator", "typeof(mdoc.Test.SampleClasses.SomeIteratorStateMachine<,>+SomeNestedIteratorStateMachine<,>+<GetEnumerator>d__0)", typeof(SomeIteratorStateMachine<,>.SomeNestedIteratorStateMachine<,>))]
+        [TestCase("WithParameterType", "typeof(mdoc.Test.SampleClasses.SomeIteratorStateMachine<,>+<WithParameterType>d__2<,>)", typeof(SomeIteratorStateMachine<,>))]
+        [TestCase("WithParameterType", "typeof(mdoc.Test.SampleClasses.SomeIteratorStateMachine<,>+SomeNestedIteratorStateMachine<,>+<WithParameterType>d__2<,>)", typeof(SomeIteratorStateMachine<,>.SomeNestedIteratorStateMachine<,>))]
+        public void TestFormartValueWithIteratorStateMachineAttribute(string methodName, object argumentValue, Type type)
         {
-            TestAttributeValueFormatter(typeof(SomeAttribute), memberName, expectedValues);
+            TestAttributeValueFormatter(type, methodName, argumentValue);
         }
 
         private void TestAttributeValueFormatter(Type type, string memberName, object expectedValue)
@@ -145,6 +149,19 @@ namespace mdoc.Test
                     .Concat(from namedArg in customAttribute.Properties
                             select (namedArg.Name, namedArg.Argument.Type, namedArg.Argument.Value))
                     .OrderBy(v => v.Name);
+        }
+
+        protected override TypeDefinition GetType(Type type)
+        {
+            var moduleName = type.Module.FullyQualifiedName;
+            return GetType(moduleName, ConvertNestedTypeFullName(type.FullName));
+        }
+
+        private string ConvertNestedTypeFullName(string fullName)
+        {
+            // Help a few special nested types simply convert to correctly full name.
+            // For example, SomeIteratorStateMachine<,>.SomeNestedIteratorStateMachine<,>
+            return fullName.Replace("+", "/");
         }
     }
 }

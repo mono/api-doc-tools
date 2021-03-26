@@ -134,7 +134,7 @@ namespace Mono.Documentation.Updater
             }
 
             var flagsEnumValues = enumConstants.Keys.ToList();
-            flagsEnumValues.Remove(0);  // Remove invalid value 0 of flags enum.
+            flagsEnumValues.Remove(0);  // The zero value is not a valid flags enum value.
 
             // The following example is an invalid and valid flags enum type.
             // None = 0, Read = 1, Write = 2, ReadWrite = 3 maybe is a flags enum type but sometimes it is not.
