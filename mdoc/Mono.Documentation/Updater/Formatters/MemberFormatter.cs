@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Mono.Cecil;
+using Mono.Documentation.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-
-using Mono.Documentation.Util;
-using Mono.Cecil;
 
 namespace Mono.Documentation.Updater
 {
@@ -348,7 +346,7 @@ namespace Mono.Documentation.Updater
                     var currentTypeArguments = genArgs.Skip(argIdx).Take(c);
                     if (IsTypeOfOperatorWithUnboundGenericType(decl, currentTypeArguments, isTypeofOperator))
                     {
-                        buf.Append(string.Join(string.Empty, Enumerable.Repeat(",", c - 1)));
+                        buf.Append(string.Join(string.Empty, Enumerable.Repeat(",", currentTypeArguments.Count() - 1)));
                     }
                     else
                     {
@@ -378,10 +376,12 @@ namespace Mono.Documentation.Updater
                 var argumentCount = genericArguments.Count() > 0 ? genericArguments.Count().ToString() : string.Empty;
                 var genericTypeSeparator = $"`{argumentCount}";
                 var genericTypeSeparatorIndex = type.FullName.LastIndexOf(genericTypeSeparator);
-                var leftAngleBracketIndex = type.FullName.IndexOf("<", genericTypeSeparatorIndex);
 
+                var leftAngleBracketIndex = type.FullName.IndexOf("<", genericTypeSeparatorIndex);
                 var validLeftAngleBracketIndex = genericTypeSeparatorIndex + genericTypeSeparator.Length + 1;
-                var notExistParameterType = genericTypeSeparatorIndex >= 0 && validLeftAngleBracketIndex != leftAngleBracketIndex;
+
+                // If the type is an unbound generic type that type hasn't angle brackets after its full name.
+                var notExistParameterType = genericTypeSeparatorIndex >= 0 && leftAngleBracketIndex != validLeftAngleBracketIndex;
                 var notPassParameterType = genericArguments.All(i => i is GenericParameter);
 
                 return notExistParameterType && notPassParameterType;

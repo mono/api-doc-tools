@@ -159,8 +159,7 @@ namespace mdoc.Test
 
         private string ConvertNestedTypeFullName(string fullName)
         {
-            // Help a few special nested types simply convert to correctly full name.
-            // For example, SomeIteratorStateMachine<,>.SomeNestedIteratorStateMachine<,>
+            // Simply of implementation for help nested class convert the full name from .NET style to mono.cecil style.
             return fullName.Replace("+", "/");
         }
     }
