@@ -236,15 +236,18 @@ namespace Mono.Documentation.Updater
             (var typeFullName, var enumConstants, var enumValue) = ExtractEnumTypeData(argumentType, argumentValue);
             if (enumConstants.ContainsKey(enumValue))
             {
-                return typeFullName + "." + enumConstants[enumValue];
+                // Not is a combinations of values.
+                return $"{typeFullName}.{enumConstants[enumValue]}";
             }
 
-            var flagsEnumNames =
-                (from i in enumConstants.Keys
-                 where (enumValue & i) == i && i != 0
-                 select typeFullName + "." + enumConstants[i])
-                .OrderBy(val => val) // to maintain a consistent list across frameworks/versions
-                .ToArray();
+            var flagsEnumValues = enumConstants.Keys.Where(i => (enumValue & i) == i && i != 0).ToList();
+            var duplicateEnumValues = flagsEnumValues.Where(i => flagsEnumValues.Any(a => (a & i) == i && a > i));
+
+            flagsEnumValues.RemoveAll(i => duplicateEnumValues.Contains(i));
+            var flagsEnumNames = flagsEnumValues
+                                 .Select(i => $"{typeFullName}.{enumConstants[i]}")
+                                 .OrderBy(val => val) // to maintain a consistent list across frameworks/versions
+                                 .ToArray();
 
             if (flagsEnumNames.Length > 0)
             {

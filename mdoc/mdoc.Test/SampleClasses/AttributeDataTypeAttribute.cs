@@ -44,6 +44,8 @@ namespace mdoc.Test.SampleClasses
 
         public SomeNestedTypes.NestedFlagsEnum NestedFlagsEnumType { get; set; }
 
+        public SomeFlagsEnum DuplicateFlagsEnumType { get; set; }
+
         public AttributeTargets FlagsEnumType { get; set; }
 
         public NotApplyAttributeValidFlagsEnum NotApplyAttributeFlagsEnumType { get; set; }

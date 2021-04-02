@@ -192,6 +192,11 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
+        [AttributeDataType(DuplicateFlagsEnumType = SomeFlagsEnum.Read | SomeFlagsEnum.Write | SomeFlagsEnum.Open)]
+        public void PropertyDuplicateFlagsEnumTypeWithCombinationValue()
+        {
+        }
+
         [AttributeDataType(NestedFlagsEnumType = SomeNestedTypes.NestedFlagsEnum.Class | SomeNestedTypes.NestedFlagsEnum.Enum)]
         public void PropertyNestedFlagsEnumType()
         {
@@ -399,6 +404,11 @@ namespace mdoc.Test.SampleClasses
 
         [AttributeDataType(ObjectType = (AttributeTargets)0)]
         public void PropertyObjectWithFlagsEnumTypeAndUndefineValueZero()
+        {
+        }
+
+        [AttributeDataType(ObjectType = SomeFlagsEnum.Read | SomeFlagsEnum.Write | SomeFlagsEnum.Open)]
+        public void PropertyObjectWithDuplicateFlagsEnumTypeAndCombinationValue()
         {
         }
 
