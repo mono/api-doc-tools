@@ -27,7 +27,7 @@ namespace Mono.Documentation.Updater
                     continue;
                 if (seen != null && seen.Contains (type.FullName))
                     continue;
-                yield return type;
+                yield return DocUtils.FixUnnamedParameters (type);
             }
         }
 

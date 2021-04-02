@@ -1,5 +1,5 @@
 <Type Name="Delegates+Delegate5" FullName="Delegates+Delegate5">
-  <TypeSignature Language="C#" Value="public delegate Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.FSharpFunc&lt;char,string&gt;&gt; Delegates.Delegate5(int );" />
+  <TypeSignature Language="C#" Value="public delegate Microsoft.FSharp.Core.FSharpFunc&lt;int,Microsoft.FSharp.Core.FSharpFunc&lt;char,string&gt;&gt; Delegates.Delegate5(int unnamedParam1);" />
   <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable sealed Delegates/Delegate5 extends System.MulticastDelegate" />
   <TypeSignature Language="F#" Value="type Delegates.Delegate5 = delegate of int -&gt; (int -&gt; char -&gt; string)" />
   <AssemblyInfo>
@@ -20,13 +20,13 @@
     </Attribute>
   </Attributes>
   <Parameters>
-    <Parameter Name="" Type="System.Int32" />
+    <Parameter Name="unnamedParam1" Type="System.Int32" />
   </Parameters>
   <ReturnValue>
     <ReturnType>Microsoft.FSharp.Core.FSharpFunc&lt;System.Int32,Microsoft.FSharp.Core.FSharpFunc&lt;System.Char,System.String&gt;&gt;</ReturnType>
   </ReturnValue>
   <Docs>
-    <param name="">To be added.</param>
+    <param name="unnamedParam1">To be added.</param>
     <summary>To be added.</summary>
     <returns>To be added.</returns>
     <remarks>To be added.</remarks>

@@ -162,7 +162,7 @@ namespace Mono.Documentation.Updater
             return typeToCompare == type.FullName ? null : typeToCompare;
         }
 
-        protected override StringBuilder AppendTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             if (type == null) return buf;
 
@@ -308,7 +308,7 @@ namespace Mono.Documentation.Updater
             return "class";
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                    type is GenericInstanceType ? type.GetElementType() : type);
@@ -613,7 +613,7 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             ByReferenceType reftype = type as ByReferenceType;
             return AppendTypeName(buf, reftype?.ElementType, context);
@@ -656,7 +656,7 @@ namespace Mono.Documentation.Updater
             
             if (property.PropertyType.FullName != "System.Object")
             {
-                var typeName = GetTypeName(property.PropertyType, new DynamicParserContext(property));
+                var typeName = GetTypeName(property.PropertyType, AttributeParserContext.Create(property));
                 if (hasParameterName)
                     buf.Append(" : ");
                 buf.Append(typeName);
@@ -698,7 +698,7 @@ namespace Mono.Documentation.Updater
             bool isFSharpFunction = IsFSharpFunction(parameter.ParameterType);
             if (isFSharpFunction)
                 buf.Append("(");
-            var typeName = GetTypeName(parameter.ParameterType, new DynamicParserContext(parameter));
+            var typeName = GetTypeName(parameter.ParameterType, AttributeParserContext.Create(parameter));
             buf.Append(typeName);
             if (isFSharpFunction)
                 buf.Append(")");
@@ -784,7 +784,7 @@ namespace Mono.Documentation.Updater
             buf.Append(" ");
             buf.Append(field.Name);
             buf.Append(" : ");
-            buf.Append(GetTypeName(field.FieldType, new DynamicParserContext(field)));
+            buf.Append(GetTypeName(field.FieldType, AttributeParserContext.Create(field)));
 
             return buf.ToString();
         }
@@ -802,7 +802,7 @@ namespace Mono.Documentation.Updater
             if (visibilityBuf.Length > 0)
                 buf.Append(visibilityBuf).Append(' ');
             buf.Append(e.Name).Append(" : ");
-            buf.Append(GetTypeName(e.EventType, new DynamicParserContext(e.AddMethod.Parameters[0]))).Append(' ');
+            buf.Append(GetTypeName(e.EventType, AttributeParserContext.Create(e.AddMethod.Parameters[0]))).Append(' ');
 
             return buf.ToString();
         }
@@ -906,7 +906,7 @@ namespace Mono.Documentation.Updater
             return false;
         }
         
-        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendPointerTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             TypeSpecification spec = type as TypeSpecification;
             buf.Append("nativeptr<");

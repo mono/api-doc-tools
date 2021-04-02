@@ -67,7 +67,7 @@ namespace Mono.Documentation.Updater
             return typeToCompare == t ? null : typeToCompare;
         }
 
-        protected override StringBuilder AppendTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             if (type is GenericParameter)
                 return AppendGenericParameterConstraints(buf, (GenericParameter)type, context).Append(type.Name);
@@ -80,15 +80,14 @@ namespace Mono.Documentation.Updater
             string s = GetVBType(t);
             if (s != null)
             {
-                if (context != null)
-                    context.TransformIndex++;
+                context.NextDynamicFlag();
                 return buf.Append(s);
             }
 
             return base.AppendTypeName(buf, type, context);
         }
 
-        private StringBuilder AppendGenericParameterConstraints(StringBuilder buf, GenericParameter type, DynamicParserContext context)
+        private StringBuilder AppendGenericParameterConstraints(StringBuilder buf, GenericParameter type, IAttributeParserContext context)
         {
             if (MemberFormatterState != MemberFormatterState.WithinGenericTypeParameters)
                 return buf;
@@ -128,7 +127,7 @@ namespace Mono.Documentation.Updater
                 if (isFunction)
                 {
                     buf.Append(" As ");
-                    buf.Append(full.GetName(invoke.ReturnType, new DynamicParserContext(invoke.MethodReturnType))).Append(" ");
+                    buf.Append(full.GetName(invoke.ReturnType, AttributeParserContext.Create(invoke.MethodReturnType))).Append(" ");
                 }
 
                 return buf.ToString();
@@ -210,7 +209,7 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, DynamicParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                     type is GenericInstanceType ? type.GetElementType() : type);
@@ -377,7 +376,7 @@ namespace Mono.Documentation.Updater
             AppendParameters(buf, method, method.Parameters);
             AppendGenericMethodConstraints(buf, method);
             if (isFunction)
-                buf.Append(" As ").Append(GetTypeName(method.ReturnType, new DynamicParserContext(method.MethodReturnType)));
+                buf.Append(" As ").Append(GetTypeName(method.ReturnType, AttributeParserContext.Create(method.MethodReturnType)));
 
             if (DocUtils.IsExplicitlyImplemented(method))
             {
@@ -581,7 +580,7 @@ namespace Mono.Documentation.Updater
             }
             buf.Append(parameter.Name);
             buf.Append(" As ");
-            buf.Append(GetTypeName(parameter.ParameterType, new DynamicParserContext(parameter)));
+            buf.Append(GetTypeName(parameter.ParameterType, AttributeParserContext.Create(parameter)));
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
                 var parameterValue = new AttributeFormatter().MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
@@ -658,7 +657,7 @@ namespace Mono.Documentation.Updater
                 AppendParameters(buf, method, property.Parameters, '(', ')');
             }
             buf.Append(" As ");
-            buf.Append(GetTypeName(property.PropertyType, new DynamicParserContext(property)));
+            buf.Append(GetTypeName(property.PropertyType, AttributeParserContext.Create(property)));
             if (DocUtils.IsExplicitlyImplemented(property.GetMethod))
             {
                 TypeReference iface;
@@ -694,7 +693,7 @@ namespace Mono.Documentation.Updater
                 buf.Append(" Const");
 
             buf.Append(' ').Append(field.Name);
-            buf.Append(" As ").Append(GetTypeName(field.FieldType, new DynamicParserContext(field))).Append(' ');
+            buf.Append(" As ").Append(GetTypeName(field.FieldType, AttributeParserContext.Create(field))).Append(' ');
             DocUtils.AppendFieldValue(buf, field);
 
             return buf.ToString();
@@ -747,7 +746,7 @@ namespace Mono.Documentation.Updater
                 buf.Append(e.Name.Split('.').Last());
             else
                 buf.Append(e.Name);
-            buf.Append(" As ").Append(GetTypeName(e.EventType, new DynamicParserContext(e.AddMethod.Parameters[0]))).Append(' ');
+            buf.Append(" As ").Append(GetTypeName(e.EventType, AttributeParserContext.Create(e.AddMethod.Parameters[0]))).Append(' ');
             if (isPublicEII) {
                 var dotIndex = e.Name.LastIndexOf ('.');
                 dotIndex = dotIndex > -1 ? dotIndex : e.Name.Length;
