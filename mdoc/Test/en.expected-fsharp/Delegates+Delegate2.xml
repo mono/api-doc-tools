@@ -1,5 +1,5 @@
 <Type Name="Delegates+Delegate2" FullName="Delegates+Delegate2">
-  <TypeSignature Language="C#" Value="public delegate int Delegates.Delegate2(int , int );" />
+  <TypeSignature Language="C#" Value="public delegate int Delegates.Delegate2(int unnamedParam1, int unnamedParam2);" />
   <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable sealed Delegates/Delegate2 extends System.MulticastDelegate" />
   <TypeSignature Language="F#" Value="type Delegates.Delegate2 = delegate of int * int -&gt; int" />
   <AssemblyInfo>
@@ -20,15 +20,15 @@
     </Attribute>
   </Attributes>
   <Parameters>
-    <Parameter Name="" Type="System.Int32" />
-    <Parameter Name="" Type="System.Int32" />
+    <Parameter Name="unnamedParam1" Type="System.Int32" />
+    <Parameter Name="unnamedParam2" Type="System.Int32" />
   </Parameters>
   <ReturnValue>
     <ReturnType>System.Int32</ReturnType>
   </ReturnValue>
   <Docs>
-    <param name="">To be added.</param>
-    <param name="">To be added.</param>
+    <param name="unnamedParam1">To be added.</param>
+    <param name="unnamedParam2">To be added.</param>
     <summary>To be added.</summary>
     <returns>To be added.</returns>
     <remarks>To be added.</remarks>

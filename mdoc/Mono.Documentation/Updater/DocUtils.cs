@@ -928,5 +928,22 @@ namespace Mono.Documentation.Updater
 
             return false;
         }
+
+        public static TypeDefinition FixUnnamedParameters(TypeDefinition type)
+        {
+            foreach (var method in type.Methods)
+            {
+                var unnamedParameterIndex = 1;
+                foreach (var item in method.Parameters)
+                {
+                    if (string.IsNullOrEmpty(item.Name))
+                    {
+                        item.Name = $"unnamedParam{unnamedParameterIndex++}";
+                    }
+                }
+            }
+
+            return type;
+        }
     }
 }

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Mono.Cecil;
-using Mono.Documentation.Framework;
 using Mono.Documentation.Updater;
 
 namespace mdoc.Test
@@ -23,7 +22,7 @@ namespace mdoc.Test
             if (!moduleCash.ContainsKey(filepath))
             {
                 var fullpath = Path.Combine (Path.GetDirectoryName (this.GetType ().Module.Assembly.Location), filepath);
-                var resolver = new DefaultAssemblyResolver ();
+                var resolver = new DotnetCoreAssemblyResolver ();
                 var testAssemblyPath = Path.GetDirectoryName (this.GetType ().Module.Assembly.Location);
                 resolver.AddSearchDirectory (testAssemblyPath);
 
@@ -46,7 +45,7 @@ namespace mdoc.Test
                 throw new Exception($"Test was unable to find type {classname}");
             }
 
-            var typeDef = testclass.Resolve();
+            var typeDef = DocUtils.FixUnnamedParameters(testclass.Resolve());
             typesCash.Add(classname, typeDef);
             return typeDef;
         }

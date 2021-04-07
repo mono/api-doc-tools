@@ -7,7 +7,7 @@ namespace Mono.Documentation.Updater
     {
         public MsxdocSlashDocMemberFormatter(TypeMap map) : base(map) { }
 
-        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, DynamicParserContext context)
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
         {
             TypeSpecification spec = type as TypeSpecification;
             return _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context).Append(RefTypeModifier);
