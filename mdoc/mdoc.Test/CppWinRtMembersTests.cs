@@ -44,7 +44,7 @@ namespace mdoc.Test
         public void Method_DefaultParameters()
         {
             TestMethodSignature(CSharpTestLib, "Mono.DocTest.Widget", "Default",
-                @"void Default(int a = 1, int b = 2);");
+                @"void Default(int const & a = 1, int const & b = 2);");
         }
 
         [Test]
