@@ -62,6 +62,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             "System.String",
             "System.ValueType",
             "System.Enum",
+            "System.Guid",
         };
 
         protected virtual IList<string> GetAllowedTypes()
