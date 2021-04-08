@@ -99,7 +99,15 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             }
 
             buf.Append(GetTypeName(parameter.ParameterType, EmptyAttributeParserContext.Empty()));
-            buf.Append(parameter.IsIn ? HatModifier : RefTypeModifier).Append(" ");
+            if (parameter.IsIn)
+            {
+                buf.Append(HatModifier);
+            }
+            else if (parameter.IsOut)
+            {
+                buf.Append(RefTypeModifier);
+            }
+            buf.Append(" ");
             buf.Append(parameter.Name);
 
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)

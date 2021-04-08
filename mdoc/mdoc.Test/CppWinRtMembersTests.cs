@@ -19,7 +19,7 @@ namespace mdoc.Test
         public void Method_ComputeResult()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "ComputeResult",
-                @"winrt::Windows::Foundation::Collections::IVector<double> ComputeResult(double input);");
+                @"winrt::Windows::Foundation::Collections::IVector<double> ComputeResult(double const & input);");
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace mdoc.Test
         public void Method_GetPrimesOrdered()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "GetPrimesOrdered",
-                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<winrt::Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int first, int last);");
+                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<winrt::Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int const & first, int const & last);");
 
         }
 
@@ -36,7 +36,7 @@ namespace mdoc.Test
         public void Method_GetPrimesUnordered()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "GetPrimesUnordered",
-                @"winrt::Windows::Foundation::IAsyncActionWithProgress<double> GetPrimesUnordered(int first, int last);");
+                @"winrt::Windows::Foundation::IAsyncActionWithProgress<double> GetPrimesUnordered(int const & first, int const & last);");
         }
 
         [Test]
