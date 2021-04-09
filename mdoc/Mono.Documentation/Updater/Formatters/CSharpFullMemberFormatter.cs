@@ -317,6 +317,10 @@ namespace Mono.Documentation.Updater.Formatters
                         buf.Append (", ").Append (GetTypeName (constraints[i]));
 #endif
                 }
+                if (isnew)
+                {
+                    comma = true;
+                }
                 if (isnew && !isvt)
                 {
                     if (comma)
