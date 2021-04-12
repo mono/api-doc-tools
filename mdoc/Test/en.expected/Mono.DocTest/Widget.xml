@@ -718,7 +718,7 @@
       <MemberSignature Language="F#" Value="member this.M4 : nativeptr&lt;char&gt; * nativeptr&lt;nativeptr&lt;Mono.DocTest.Color&gt;&gt; -&gt; unit" Usage="widget.M4 (pc, ppf)" />
       <MemberSignature Language="JavaScript" Value="function m4(pc, ppf)" Usage="widget.m4(pc, ppf)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void M4(char* pc, Mono::DocTest::Color** ppf);" />
-      <MemberSignature Language="C++ WINRT" Value="void M4(char* const &amp; pc, Mono::DocTest::Color** const &amp; ppf);" />
+      <MemberSignature Language="C++ WINRT" Value="void M4(char* pc, Mono::DocTest::Color** ppf);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -744,7 +744,7 @@
       <MemberSignature Language="F#" Value="member this.M5 : nativeptr&lt;unit&gt; * nativeptr&lt;double&gt;[,][] -&gt; unit" Usage="widget.M5 (pv, pd)" />
       <MemberSignature Language="JavaScript" Value="function m5(pv, pd)" Usage="widget.m5(pv, pd)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void M5(void* pv, cli::array &lt;cli::array &lt;double*, 2&gt; ^&gt; ^ pd);" />
-      <MemberSignature Language="C++ WINRT" Value="void M5(void* const &amp; pv, std::Array &lt;std::Array &lt;double*, 2&gt; const &amp;&gt; const &amp; pd);" />
+      <MemberSignature Language="C++ WINRT" Value="void M5(void* pv, std::Array &lt;std::Array &lt;double*, 2&gt; const &amp;&gt; const &amp; pd);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
