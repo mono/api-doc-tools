@@ -49,7 +49,7 @@
       <MemberSignature Language="F#" Value="member this.BaseMethod : 'S -&gt; 'U" Usage="genericBase.BaseMethod genericParameter" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename S&gt;&#xA; U BaseMethod(S genericParameter);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename S&gt;&#xA; U BaseMethod(S genericParameter);" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename S&gt;&#xA; U BaseMethod(S genericParameter);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename S&gt;&#xA; U BaseMethod(S const &amp; genericParameter);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
