@@ -163,7 +163,7 @@
     <Member MemberName="Default">
       <MemberSignature Language="C#" Value="public void Default (int a = 1, int b = 2);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Default(int32 a, int32 b) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(int a = 1, int b = 2);" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(int const &amp; a = 1, int const &amp; b = 2);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -185,7 +185,7 @@
     <Member MemberName="Default">
       <MemberSignature Language="C#" Value="public void Default (string a = &quot;a&quot;, char b = '\0');" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Default(string a, char b) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const &amp; a = &quot;a&quot;, char b = '\0');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const &amp; a = &quot;a&quot;, char const &amp; b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -470,7 +470,7 @@
     <Member MemberName="M1">
       <MemberSignature Language="C#" Value="public void M1 (char c, out float f, ref Mono.DocTest.DocValueType v);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void M1(char c, [out] float32&amp; f, valuetype Mono.DocTest.DocValueType&amp; v) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M1(char c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
+      <MemberSignature Language="C++ WINRT" Value="void M1(char const &amp; c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
