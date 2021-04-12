@@ -142,7 +142,7 @@
     <Member MemberName="UseHelper&lt;T,U,V&gt;">
       <MemberSignature Language="C#" Value="public void UseHelper&lt;T,U,V&gt; (Mono.DocTest.Generic.MyList&lt;T&gt;.Helper&lt;U,V&gt; helper);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void UseHelper&lt;T, U, V&gt;(class Mono.DocTest.Generic.MyList`1/Helper`2&lt;!!T, !!U, !!V&gt; helper) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename T, typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; const &amp; helper);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename T, typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; const&amp; helper);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

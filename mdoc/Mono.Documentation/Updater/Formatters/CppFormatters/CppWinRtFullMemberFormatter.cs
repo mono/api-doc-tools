@@ -10,7 +10,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
     public class CppWinRtFullMemberFormatter : CppCxFullMemberFormatter
     {
         protected override bool AppendHatOnReturn => false;
-        protected override string HatModifier => $" const{RefTypeModifier}";
+        protected override string HatModifier => $" const&";
         public override string Language => Consts.CppWinRt;
         protected override string RefTypeModifier => " &";
 
