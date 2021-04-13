@@ -3873,7 +3873,7 @@ namespace Mono.Documentation
 
         public void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
         {
-            if (typeEntry.TimesProcessed > 1)
+            if (typeEntry.TimesProcessed > 1 && this.assemblies.Where(a => a.Name == typeEntry.Framework.Name && a.IsTypeForwardingTo(typeEntry)).Any())
                 return;
 
             XmlElement e = WriteElement (root, "Parameters");
