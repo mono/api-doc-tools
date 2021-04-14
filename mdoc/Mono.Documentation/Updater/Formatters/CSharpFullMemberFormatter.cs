@@ -316,14 +316,11 @@ namespace Mono.Documentation.Updater.Formatters
                     for (int i = 1; i < constraints.Count; ++i)
                         buf.Append (", ").Append (GetTypeName (constraints[i]));
 #endif
-                }
-                if (isnew)
-                {
-                    comma = true;
+                    
                 }
                 if (isnew && !isvt)
                 {
-                    if (comma)
+                    if (comma || constraints.Count > 0)
                         buf.Append (", ");
                     buf.Append ("new()");
                 }
