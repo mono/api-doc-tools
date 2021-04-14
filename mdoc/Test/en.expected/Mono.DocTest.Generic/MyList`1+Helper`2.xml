@@ -52,7 +52,7 @@
       <MemberSignature Language="F#" Value="member this.UseT : 'T * 'U * 'V -&gt; unit" Usage="helper.UseT (a, b, c)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void UseT(T a, U b, V c);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; void UseT(T a, U b, V c);" />
-      <MemberSignature Language="C++ WINRT" Value="void UseT(T a, U b, V c);" />
+      <MemberSignature Language="C++ WINRT" Value="void UseT(T const&amp; a, U const&amp; b, V const&amp; c);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

@@ -97,7 +97,7 @@
                <MemberSignature Language="JavaScript" Value="function main(cmdArgs)" Usage="CustomNamespace.ClassEnumerator.main(cmdArgs)" />
                <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Main(cli::array &lt;System::String ^&gt; ^ cmdArgs);" />
                <MemberSignature Language="C++ CX" Value="public:&#xA; static void Main(Platform::Array &lt;Platform::String ^&gt; ^ cmdArgs);" />
-               <MemberSignature Language="C++ WINRT" Value=" static void Main(std::Array &lt;winrt::hstring const &amp;&gt; const &amp; cmdArgs);" />
+               <MemberSignature Language="C++ WINRT" Value=" static void Main(std::Array &lt;winrt::hstring const&amp;&gt; const&amp; cmdArgs);" />
                <MemberType>Method</MemberType>
                <AssemblyInfo>
                   <AssemblyVersion>0.0.65535.65535</AssemblyVersion>

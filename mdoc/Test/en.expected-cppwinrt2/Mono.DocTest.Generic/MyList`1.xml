@@ -96,7 +96,7 @@
     <Member MemberName="Method&lt;U&gt;">
       <MemberSignature Language="C#" Value="public void Method&lt;U&gt; (T t, U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Method&lt;U&gt;(!T t, !!U u) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; void Method(T t, U u);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; void Method(T const&amp; t, U const&amp; u);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -168,7 +168,7 @@
     <Member MemberName="Test">
       <MemberSignature Language="C#" Value="public void Test (T t);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Test(!T t) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void Test(T t);" />
+      <MemberSignature Language="C++ WINRT" Value="void Test(T const&amp; t);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -188,7 +188,7 @@
     <Member MemberName="UseHelper&lt;U,V&gt;">
       <MemberSignature Language="C#" Value="public void UseHelper&lt;U,V&gt; (Mono.DocTest.Generic.MyList&lt;T&gt;.Helper&lt;U,V&gt; helper);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void UseHelper&lt;U, V&gt;(class Mono.DocTest.Generic.MyList`1/Helper`2&lt;!T, !!U, !!V&gt; helper) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; const &amp; helper);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; const&amp; helper);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

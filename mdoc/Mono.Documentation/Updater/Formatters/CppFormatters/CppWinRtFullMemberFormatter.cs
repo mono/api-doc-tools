@@ -10,7 +10,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
     public class CppWinRtFullMemberFormatter : CppCxFullMemberFormatter
     {
         protected override bool AppendHatOnReturn => false;
-        protected override string HatModifier => $" const{RefTypeModifier}";
+        protected override string HatModifier => $" const&";
         public override string Language => Consts.CppWinRt;
         protected override string RefTypeModifier => " &";
 
@@ -98,7 +98,12 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     buf.AppendFormat("... ");
             }
 
-            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, !AppendHatOnReturn)).Append(" ");
+            buf.Append(GetTypeName(parameter.ParameterType, EmptyAttributeParserContext.Empty()));
+            if (!parameter.ParameterType.IsByReference && !parameter.ParameterType.IsPointer)
+            {
+                buf.Append(parameter.IsOut ? RefTypeModifier : HatModifier);
+            }
+            buf.Append(" ");
             buf.Append(parameter.Name);
 
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
