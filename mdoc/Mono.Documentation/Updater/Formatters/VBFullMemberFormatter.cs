@@ -209,7 +209,7 @@ namespace Mono.Documentation.Updater
             }
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false, bool isTypeofOperator = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                     type is GenericInstanceType ? type.GetElementType() : type);
