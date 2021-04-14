@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Mono.Cecil;
+using Mono.Documentation.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-
-using Mono.Documentation.Util;
-using Mono.Cecil;
 
 namespace Mono.Documentation.Updater
 {
@@ -25,16 +23,16 @@ namespace Mono.Documentation.Updater
             get { return "//"; }
         }
 
-        public string GetName (MemberReference member, bool appendGeneric = true, bool useTypeProjection = true)
+        public string GetName (MemberReference member, bool appendGeneric = true, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
-            return GetName (member, EmptyAttributeParserContext.Empty(), appendGeneric, useTypeProjection: useTypeProjection);
+            return GetName (member, EmptyAttributeParserContext.Empty(), appendGeneric, useTypeProjection, isTypeofOperator);
         }
 
-        public virtual string GetName (MemberReference member, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        public virtual string GetName (MemberReference member, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
             TypeReference type = member as TypeReference;
             if (type != null)
-                return GetTypeName (type, context, appendGeneric, useTypeProjection: useTypeProjection);
+                return GetTypeName (type, context, appendGeneric, useTypeProjection, isTypeofOperator);
             MethodReference method = member as MethodReference;
             if (method != null && method.Name == ".ctor") // method.IsConstructor
                 return GetConstructorName (method);
@@ -58,12 +56,12 @@ namespace Mono.Documentation.Updater
             return GetTypeName (type, EmptyAttributeParserContext.Empty(), appendGeneric, useTypeProjection: useTypeProjection);
         }
 
-        protected virtual string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric=true, bool useTypeProjection = true)
+        protected virtual string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
             if (type == null)
                 throw new ArgumentNullException (nameof (type));
 
-            var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context, appendGeneric, useTypeProjection: useTypeProjection).ToString ();
+            var typeName = _AppendTypeName (new StringBuilder (type.Name.Length), type, context, appendGeneric, useTypeProjection, isTypeofOperator).ToString ();
 
             return RemoveMod (typeName);
         }
@@ -138,7 +136,7 @@ namespace Mono.Documentation.Updater
             get => true;
         }
 
-        protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection =false)
+        protected StringBuilder _AppendTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false, bool isTypeofOperator = false)
         {
             if (type == null)
                 return buf;
@@ -206,7 +204,7 @@ namespace Mono.Documentation.Updater
                 AppendFullTypeName (interimBuilder, type, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            AppendGenericType (interimBuilder, type, context, appendGeneric, useTypeProjection: useTypeProjection);
+            AppendGenericType (interimBuilder, type, context, appendGeneric, useTypeProjection, isTypeofOperator);
             return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
         }
 
@@ -320,7 +318,7 @@ namespace Mono.Documentation.Updater
             get { return "."; }
         }
 
-        protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        protected virtual StringBuilder AppendGenericType (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
             int argIdx = 0;
             int prev = 0;
@@ -344,20 +342,52 @@ namespace Mono.Documentation.Updater
                 if (appendGeneric && c > 0)
                 {
                     buf.Append (GenericTypeContainer[0]);
-                    var origState = MemberFormatterState;
-                    MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
-                    AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
-                    for (int i = 1; i < c; ++i)
+
+                    var currentTypeArguments = genArgs.Skip(argIdx).Take(c);
+                    if (IsTypeOfOperatorWithUnboundGenericType(decl, currentTypeArguments, isTypeofOperator))
                     {
-                        buf.Append (",");
+                        buf.Append(string.Join(string.Empty, Enumerable.Repeat(",", currentTypeArguments.Count() - 1)));
+                    }
+                    else
+                    {
+                        var origState = MemberFormatterState;
+                        MemberFormatterState = MemberFormatterState.WithinGenericTypeParameters;
                         AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
+                        for (int i = 1; i < c; ++i)
+                        {
+                            buf.Append (",");
+                            AppendGenericTypeParameter (buf, genArgs[argIdx++], context, useTypeProjection);
+                        }
+
+                        MemberFormatterState = origState;
                     }
 
-                    MemberFormatterState = origState;
                     buf.Append (GenericTypeContainer[1]);
                 }
             }
+
             return buf;
+        }
+
+        private bool IsTypeOfOperatorWithUnboundGenericType(TypeReference type, IEnumerable<TypeReference> genericArguments, bool isTypeofOperator)
+        {
+            if (isTypeofOperator)
+            {
+                var argumentCount = genericArguments.Count() > 0 ? genericArguments.Count().ToString() : string.Empty;
+                var genericTypeSeparator = $"`{argumentCount}";
+                var genericTypeSeparatorIndex = type.FullName.LastIndexOf(genericTypeSeparator);
+
+                var leftAngleBracketIndex = type.FullName.IndexOf("<", genericTypeSeparatorIndex);
+                var validLeftAngleBracketIndex = genericTypeSeparatorIndex + genericTypeSeparator.Length + 1;
+
+                // If the type is an unbound generic type that type hasn't angle brackets after its full name.
+                var notExistParameterType = genericTypeSeparatorIndex >= 0 && leftAngleBracketIndex != validLeftAngleBracketIndex;
+                var notPassParameterType = genericArguments.All(i => i is GenericParameter);
+
+                return notExistParameterType && notPassParameterType;
+            }
+
+            return false;
         }
 
         private void AppendGenericTypeParameter (StringBuilder buf, TypeReference type, IAttributeParserContext context, bool useTypeProjection = true)

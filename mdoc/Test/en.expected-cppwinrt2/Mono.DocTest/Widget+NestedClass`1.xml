@@ -35,7 +35,7 @@
     <Member MemberName="M">
       <MemberSignature Language="C#" Value="public void M (int i);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void M(int32 i) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M(int i);" />
+      <MemberSignature Language="C++ WINRT" Value="void M(int const&amp; i);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

@@ -52,7 +52,7 @@
     <Member MemberName=".ctor">
       <MemberSignature Language="C#" Value="public Widget (string s);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string s) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value=" Widget(winrt::hstring const &amp; s);" />
+      <MemberSignature Language="C++ WINRT" Value=" Widget(winrt::hstring const&amp; s);" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -131,7 +131,7 @@
     <Member MemberName="array2">
       <MemberSignature Language="C#" Value="public Mono.DocTest.Widget[,] array2;" />
       <MemberSignature Language="ILAsm" Value=".field public class Mono.DocTest.Widget[,] array2" />
-      <MemberSignature Language="C++ WINRT" Value="std::Array &lt;Mono::DocTest::Widget const &amp;, 2&gt; array2;" />
+      <MemberSignature Language="C++ WINRT" Value="std::Array &lt;Mono::DocTest::Widget const&amp;, 2&gt; array2;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -147,7 +147,7 @@
     <Member MemberName="classCtorError">
       <MemberSignature Language="C#" Value="public static readonly string[] classCtorError;" />
       <MemberSignature Language="ILAsm" Value=".field public static initonly string[] classCtorError" />
-      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const &amp;&gt; classCtorError;" />
+      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const&amp;&gt; classCtorError;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -163,7 +163,7 @@
     <Member MemberName="Default">
       <MemberSignature Language="C#" Value="public void Default (int a = 1, int b = 2);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Default(int32 a, int32 b) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(int a = 1, int b = 2);" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(int const&amp; a = 1, int const&amp; b = 2);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -185,7 +185,7 @@
     <Member MemberName="Default">
       <MemberSignature Language="C#" Value="public void Default (string a = &quot;a&quot;, char b = '\0');" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Default(string a, char b) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const &amp; a = &quot;a&quot;, char b = '\0');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const&amp; a = &quot;a&quot;, char const&amp; b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -223,7 +223,7 @@
     <Member MemberName="Dynamic0">
       <MemberSignature Language="C#" Value="public dynamic Dynamic0 (dynamic a, dynamic b);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object Dynamic0(object a, object b) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IInspectable Dynamic0(winrt::Windows::Foundation::IInspectable const &amp; a, winrt::Windows::Foundation::IInspectable const &amp; b);" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IInspectable Dynamic0(winrt::Windows::Foundation::IInspectable const&amp; a, winrt::Windows::Foundation::IInspectable const&amp; b);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -359,7 +359,7 @@
     <Member MemberName="DynamicP">
       <MemberSignature Language="C#" Value="public Func&lt;Func&lt;string,dynamic,string&gt;,Func&lt;dynamic,Func&lt;dynamic&gt;,string&gt;&gt; DynamicP { get; }" />
       <MemberSignature Language="ILAsm" Value=".property instance class System.Func`2&lt;class System.Func`3&lt;string, object, string&gt;, class System.Func`3&lt;object, class System.Func`1&lt;object&gt;, string&gt;&gt; DynamicP" />
-      <MemberSignature Language="C++ WINRT" Value="Func&lt;Func&lt;winrt::hstring, winrt::Windows::Foundation::IInspectable const &amp;, winrt::hstring const &amp;&gt;, Func&lt;winrt::Windows::Foundation::IInspectable, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const &amp;, winrt::hstring const &amp;&gt; const &amp;&gt; DynamicP();" />
+      <MemberSignature Language="C++ WINRT" Value="Func&lt;Func&lt;winrt::hstring, winrt::Windows::Foundation::IInspectable const&amp;, winrt::hstring const&amp;&gt;, Func&lt;winrt::Windows::Foundation::IInspectable, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp;, winrt::hstring const&amp;&gt; const&amp;&gt; DynamicP();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -470,7 +470,7 @@
     <Member MemberName="M1">
       <MemberSignature Language="C#" Value="public void M1 (char c, out float f, ref Mono.DocTest.DocValueType v);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void M1(char c, [out] float32&amp; f, valuetype Mono.DocTest.DocValueType&amp; v) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M1(char c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
+      <MemberSignature Language="C++ WINRT" Value="void M1(char const&amp; c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -527,7 +527,7 @@
     <Member MemberName="M2">
       <MemberSignature Language="C#" Value="public void M2 (short[] x1, int[,] x2, long[][] x3);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void M2(int16[] x1, int32[,] x2, int64[][] x3) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M2(std::Array &lt;short&gt; const &amp; x1, std::Array &lt;int, 2&gt; const &amp; x2, std::Array &lt;std::Array &lt;long&gt; const &amp;&gt; const &amp; x3);" />
+      <MemberSignature Language="C++ WINRT" Value="void M2(std::Array &lt;short&gt; const&amp; x1, std::Array &lt;int, 2&gt; const&amp; x2, std::Array &lt;std::Array &lt;long&gt; const&amp;&gt; const&amp; x3);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -551,7 +551,7 @@
     <Member MemberName="M3">
       <MemberSignature Language="C#" Value="protected void M3 (long[][] x3, Mono.DocTest.Widget[,,][] x4);" />
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void M3(int64[][] x3, class Mono.DocTest.Widget[,,][] x4) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M3(std::Array &lt;std::Array &lt;long&gt; const &amp;&gt; const &amp; x3, std::Array &lt;std::Array &lt;Mono::DocTest::Widget const &amp;, 3&gt; const &amp;&gt; const &amp; x4);" />
+      <MemberSignature Language="C++ WINRT" Value="void M3(std::Array &lt;std::Array &lt;long&gt; const&amp;&gt; const&amp; x3, std::Array &lt;std::Array &lt;Mono::DocTest::Widget const&amp;, 3&gt; const&amp;&gt; const&amp; x4);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -595,7 +595,7 @@
     <Member MemberName="M5">
       <MemberSignature Language="C#" Value="protected void M5 (void* pv, double*[,][] pd);" />
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void M5(void* pv, float64*[,][] pd) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M5(void* pv, std::Array &lt;std::Array &lt;double*, 2&gt; const &amp;&gt; const &amp; pd);" />
+      <MemberSignature Language="C++ WINRT" Value="void M5(void* pv, std::Array &lt;std::Array &lt;double*, 2&gt; const&amp;&gt; const&amp; pd);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -645,7 +645,7 @@
     <Member MemberName="M7">
       <MemberSignature Language="C#" Value="public void M7 (Mono.DocTest.Widget.NestedClass.Double.Triple.Quadruple a);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void M7(class Mono.DocTest.Widget/NestedClass/Double/Triple/Quadruple a) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M7(Mono::DocTest::Widget::NestedClass::Double::Triple::Quadruple const &amp; a);" />
+      <MemberSignature Language="C++ WINRT" Value="void M7(Mono::DocTest::Widget::NestedClass::Double::Triple::Quadruple const&amp; a);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -697,7 +697,7 @@
     <Member MemberName="op_Addition">
       <MemberSignature Language="C#" Value="public static Mono.DocTest.Widget operator + (Mono.DocTest.Widget x1, Mono.DocTest.Widget x2);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class Mono.DocTest.Widget op_Addition(class Mono.DocTest.Widget x1, class Mono.DocTest.Widget x2) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value=" static Mono::DocTest::Widget operator +(Mono::DocTest::Widget const &amp; x1, Mono::DocTest::Widget const &amp; x2);" />
+      <MemberSignature Language="C++ WINRT" Value=" static Mono::DocTest::Widget operator +(Mono::DocTest::Widget const&amp; x1, Mono::DocTest::Widget const&amp; x2);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -736,7 +736,7 @@
     <Member MemberName="op_Explicit">
       <MemberSignature Language="C#" Value="public static explicit operator int (Mono.DocTest.Widget x);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname int32 op_Explicit(class Mono.DocTest.Widget x) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value=" static explicit operator int(Mono::DocTest::Widget const &amp; x);" />
+      <MemberSignature Language="C++ WINRT" Value=" static explicit operator int(Mono::DocTest::Widget const&amp; x);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -757,7 +757,7 @@
     <Member MemberName="op_Implicit">
       <MemberSignature Language="C#" Value="public static implicit operator long (Mono.DocTest.Widget x);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname int64 op_Implicit(class Mono.DocTest.Widget x) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value=" static operator long(Mono::DocTest::Widget const &amp; x);" />
+      <MemberSignature Language="C++ WINRT" Value=" static operator long(Mono::DocTest::Widget const&amp; x);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -778,7 +778,7 @@
     <Member MemberName="op_UnaryPlus">
       <MemberSignature Language="C#" Value="public static Mono.DocTest.Widget operator + (Mono.DocTest.Widget x);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig specialname class Mono.DocTest.Widget op_UnaryPlus(class Mono.DocTest.Widget x) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value=" static Mono::DocTest::Widget operator +(Mono::DocTest::Widget const &amp; x);" />
+      <MemberSignature Language="C++ WINRT" Value=" static Mono::DocTest::Widget operator +(Mono::DocTest::Widget const&amp; x);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

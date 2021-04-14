@@ -7,7 +7,7 @@
     <authors>Microsoft</authors>
     <owners>Microsoft</owners>
     <projectUrl>https://github.com/mono/api-doc-tools</projectUrl>
-    <licenseUrl>https://github.com/mono/api-doc-tools/blob/master/LICENSE.md</licenseUrl>
+    <licenseUrl>https://github.com/mono/api-doc-tools/blob/main/LICENSE.md</licenseUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>.NET API Documentation toolchain</description>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>

@@ -56,7 +56,7 @@
     <Member MemberName="ComputeResult">
       <MemberSignature Language="C#" Value="public Windows.Foundation.Collections.IVector&lt;double&gt; ComputeResult (double input);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class Windows.Foundation.Collections.IVector`1&lt;float64&gt; ComputeResult([in]float64 input) runtime managed" />
-      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::Collections::IVector&lt;double&gt; ComputeResult(double input);" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::Collections::IVector&lt;double&gt; ComputeResult(double const&amp; input);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
@@ -77,7 +77,7 @@
     <Member MemberName="GetPrimesOrdered">
       <MemberSignature Language="C#" Value="public Windows.Foundation.IAsyncOperationWithProgress&lt;Windows.Foundation.Collections.IVector&lt;int&gt;,double&gt; GetPrimesOrdered (int first, int last);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class Windows.Foundation.IAsyncOperationWithProgress`2&lt;class Windows.Foundation.Collections.IVector`1&lt;int32&gt;, float64&gt; GetPrimesOrdered([in]int32 first, [in]int32 last) runtime managed" />
-      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IAsyncOperationWithProgress&lt;winrt::Windows::Foundation::Collections::IVector&lt;int&gt;, double&gt; GetPrimesOrdered(int first, int last);" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IAsyncOperationWithProgress&lt;winrt::Windows::Foundation::Collections::IVector&lt;int&gt;, double&gt; GetPrimesOrdered(int const&amp; first, int const&amp; last);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
@@ -100,7 +100,7 @@
     <Member MemberName="GetPrimesUnordered">
       <MemberSignature Language="C#" Value="public Windows.Foundation.IAsyncActionWithProgress&lt;double&gt; GetPrimesUnordered (int first, int last);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class Windows.Foundation.IAsyncActionWithProgress`1&lt;float64&gt; GetPrimesUnordered([in]int32 first, [in]int32 last) runtime managed" />
-      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IAsyncActionWithProgress&lt;double&gt; GetPrimesUnordered(int first, int last);" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IAsyncActionWithProgress&lt;double&gt; GetPrimesUnordered(int const&amp; first, int const&amp; last);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>

@@ -37,7 +37,7 @@ If you are working in an area of the code that has transitioned to the new codin
 
 This project tries to avoid chatty in-progress commits that are common during development. Once you’ve completed your development and are ready to move to the next stage of the contribution workflow, collapse your changes into as few feature-scoped commits as possible. Ideally if possible, every commit should pass all unit tests and be standalone.
 
-You can do so either by using an interactive rebase of your branch if you need multiple commits, or simply doing a soft reset `git reset origin/master —soft` … which will stage all of your changes and let you create a new single commit that contains all changes.
+You can do so either by using an interactive rebase of your branch if you need multiple commits, or simply doing a soft reset `git reset origin/main —soft` … which will stage all of your changes and let you create a new single commit that contains all changes.
 
 The commit message should be verbose enough to explain what behavior is changing, bug is being fixed, or feature being added. It should also contain a reference to the github issue being resolved, as [described here](https://github.com/blog/1386-closing-issues-via-commit-messages).
 

@@ -39,7 +39,7 @@
     <Member MemberName="UseT">
       <MemberSignature Language="C#" Value="public void UseT (T a, U b, V c);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void UseT(!T a, !U b, !V c) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void UseT(T a, U b, V c);" />
+      <MemberSignature Language="C++ WINRT" Value="void UseT(T const&amp; a, U const&amp; b, V const&amp; c);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

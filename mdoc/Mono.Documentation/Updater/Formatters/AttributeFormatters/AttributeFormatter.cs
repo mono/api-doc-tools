@@ -2,13 +2,14 @@
 using Mono.Documentation.Util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace Mono.Documentation.Updater.Formatters
 {
     public class AttributeFormatter
     {
+        private AttributeValueFormatter valueFormatter = new AttributeValueFormatter();
+
         public virtual string PrefixBrackets { get; } = "";
         public virtual string SurfixBrackets { get; } = "";
         public virtual string Language { get; } = "";
@@ -119,37 +120,9 @@ namespace Mono.Documentation.Updater.Formatters
             return $"{name}={value}";
         }
 
-        public virtual string MakeAttributesValueString(object v, TypeReference valueType)
+        public virtual string MakeAttributesValueString(object argumentValue, TypeReference argumentType)
         {
-            var formatters = new[] {
-                new AttributeValueFormatter (),
-                new ApplePlatformEnumFormatter (),
-                new StandardFlagsEnumFormatter (),
-                new DefaultAttributeValueFormatter (),
-            };
-
-            ResolvedTypeInfo type = new ResolvedTypeInfo(valueType);
-
-            if (valueType is ArrayType && v is CustomAttributeArgument[])
-            {
-                ArrayType atype = valueType as ArrayType;
-                CustomAttributeArgument[] args = v as CustomAttributeArgument[];
-                var returnvalue = $"new {atype.FullName}{(atype.FullName.EndsWith("[]") ? "" : "[]")} {{ { string.Join(", ", args.Select(a => MakeAttributesValueString(a.Value, a.Type)).ToArray()) } }}";
-                return returnvalue;
-            }
-
-            foreach (var formatter in formatters)
-            {
-                string formattedValue;
-                if (formatter.TryFormatValue(v, type, out formattedValue))
-                {
-                    return formattedValue;
-                }
-            }
-
-            // this should never occur because the DefaultAttributeValueFormatter will always
-            // successfully format the value ... but this is needed to satisfy the compiler :)
-            throw new InvalidDataException(string.Format("Unable to format attribute value ({0})", v.ToString()));
+            return valueFormatter.Format(argumentType, argumentValue);
         }
 
         private bool IsIgnoredAttribute(CustomAttribute customAttribute)
