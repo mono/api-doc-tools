@@ -733,7 +733,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (IsParamsParameter(parameter))
                 buf.AppendFormat ("... ");
             
-            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, AppendHatOnReturn)).Append(" ");
+            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, AppendHatOnReturn));
+            if (!buf.ToString().EndsWith(" "))
+                buf.Append(" ");
+
             buf.Append(parameter.Name);
             
             return buf;
