@@ -164,9 +164,3 @@ IAsyncActionWithProgress<double>^ Class1::GetPrimesUnordered(int first, int last
 		reporter.report(100.0);
 	});
 }
-
-// Creates a new, unique Guid.
-Platform::Guid Class1::CreateNewGuid()
-{
-	return GuidHelper.CreateNewGuid();
-}

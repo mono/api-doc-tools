@@ -43,7 +43,7 @@ namespace mdoc.Test
         [Test]
         public void CreateNewGuid()
         {
-            var member = GetMethod(typeof(TestClass), m => m.Name == "CreateNewGuid");
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual(@" static winrt::guid CreateNewGuid();", sig);
         }
@@ -51,7 +51,7 @@ namespace mdoc.Test
         [Test]
         public void ObjectIndentical()
         {
-            var member = GetMethod(typeof(TestClass), m => m.Name == "ObjectIndentical");
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual(@"bool ObjectIndentical(winrt::guid const& objGuid1, winrt::guid const& objGuid2);", sig);
         }

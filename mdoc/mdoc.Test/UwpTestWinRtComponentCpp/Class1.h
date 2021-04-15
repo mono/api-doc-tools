@@ -24,8 +24,6 @@ namespace UwpTestWinRtComponentCpp
 			GetPrimesOrdered(int first, int last);
 		Windows::Foundation::IAsyncActionWithProgress<double>^ GetPrimesUnordered(int first, int last);
 
-		Platform::Guid^ CreateNewGuid();
-
 		// Event whose type is a delegate "class"
 		event PrimeFoundHandler^ primeFoundEvent;
 

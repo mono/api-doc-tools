@@ -54,7 +54,7 @@ namespace mdoc.Test
         [Test]
         public void CreateNewGuid()
         {
-            var member = GetMethod(typeof(TestClass), m => m.Name == "CreateNewGuid");
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual(@"public:
  static Platform::Guid CreateNewGuid();", sig);
@@ -63,7 +63,7 @@ namespace mdoc.Test
         [Test]
         public void ObjectIndentical()
         {
-            var member = GetMethod(typeof(TestClass), m => m.Name == "ObjectIndentical");
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
             var sig = formatter.GetDeclaration(member);
             Assert.AreEqual(@"public:
  bool ObjectIndentical(Platform::Guid objGuid1, Platform::Guid objGuid2);", sig);
