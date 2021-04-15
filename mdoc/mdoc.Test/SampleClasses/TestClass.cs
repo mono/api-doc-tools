@@ -45,5 +45,7 @@ namespace mdoc.Test.SampleClasses
 
         public void DoSomethingWithParams (params int[] values) { }
         public void RefAndOut (ref int a, out int b) { b = 1; }
+        public static Guid CreateNewGuid () { return new Guid(); }
+        public bool ObjectIndentical (Guid objGuid1, Guid objGuid2) { return true; }
 	}
 }
