@@ -1,0 +1,102 @@
+<Type Name="GuidClass" FullName="mdoc.Test.SampleClasses.GuidClass">
+  <TypeSignature Language="C#" Value="public class GuidClass" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit GuidClass extends System.Object" />
+  <TypeSignature Language="C++ WINRT" Value="[Windows::Foundation::Metadata::WebHostHidden]&#xA;class GuidClass" />
+  <AssemblyInfo>
+    <AssemblyName>GuidClass</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public GuidClass (Guid guid);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(valuetype System.Guid guid) cil managed" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; GuidClass(Platform::Guid guid);" />
+      <MemberSignature Language="C++ WINRT" Value=" GuidClass(winrt::guid const&amp; guid);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="guid" Type="System.Guid" />
+      </Parameters>
+      <Docs>
+        <param name="guid">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateNewGuid">
+      <MemberSignature Language="C#" Value="public static Guid CreateNewGuid ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig valuetype System.Guid CreateNewGuid() cil managed" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; static Platform::Guid CreateNewGuid();" />
+      <MemberSignature Language="C++ WINRT" Value=" static winrt::guid CreateNewGuid();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Guid</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsUnique">
+      <MemberSignature Language="C#" Value="public bool IsUnique (Guid guid);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool IsUnique(valuetype System.Guid guid) cil managed" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; bool IsUnique(Platform::Guid guid);" />
+      <MemberSignature Language="C++ WINRT" Value="bool IsUnique(winrt::guid const&amp; guid);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="guid" Type="System.Guid" />
+      </Parameters>
+      <Docs>
+        <param name="guid">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ObjectIndentical">
+      <MemberSignature Language="C#" Value="public bool ObjectIndentical (Guid objGuid1, Guid objGuid2);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool ObjectIndentical(valuetype System.Guid objGuid1, valuetype System.Guid objGuid2) cil managed" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; bool ObjectIndentical(Platform::Guid objGuid1, Platform::Guid objGuid2);" />
+      <MemberSignature Language="C++ WINRT" Value="bool ObjectIndentical(winrt::guid const&amp; objGuid1, winrt::guid const&amp; objGuid2);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="objGuid1" Type="System.Guid" />
+        <Parameter Name="objGuid2" Type="System.Guid" />
+      </Parameters>
+      <Docs>
+        <param name="objGuid1">To be added.</param>
+        <param name="objGuid2">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
