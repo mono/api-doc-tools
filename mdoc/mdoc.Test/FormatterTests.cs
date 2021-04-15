@@ -226,6 +226,23 @@ namespace mdoc.Test
             var sig = formatter.GetDeclaration (member);
             Assert.AreEqual (".method public hidebysig instance void RefAndOut(int32& a, [out] int32& b) cil managed", sig);
         }
+
+        [Test]
+        public void CreateNewGuid()
+        {
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public static Guid CreateNewGuid ();", sig);
+        }
+
+        [Test]
+        public void ObjectIndentical()
+        {
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public bool ObjectIndentical (Guid objGuid1, Guid objGuid2);", sig);
+        }
+
         [Test]
         public void MethodSignature_Finalize() =>
             TestMethodSignature(typeof(SomeGenericClass<>),

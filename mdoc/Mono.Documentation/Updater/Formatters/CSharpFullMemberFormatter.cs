@@ -107,7 +107,7 @@ namespace Mono.Documentation.Updater.Formatters
             return buf;
         }
 
-        protected override string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        protected override string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
             GenericInstanceType genType = type as GenericInstanceType;
             if (IsSpecialGenericNullableValueType (genType))

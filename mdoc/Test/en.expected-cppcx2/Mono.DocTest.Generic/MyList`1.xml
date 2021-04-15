@@ -120,7 +120,7 @@
     <Member MemberName="RefMethod&lt;U&gt;">
       <MemberSignature Language="C#" Value="public void RefMethod&lt;U&gt; (ref T t, ref U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void RefMethod&lt;U&gt;(!T&amp; t, !!U&amp; u) cil managed" />
-      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T &amp;  t, U &amp;  u);" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T &amp; t, U &amp; u);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

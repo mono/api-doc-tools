@@ -19,7 +19,7 @@
     <Member MemberName="Method&lt;U&gt;">
       <MemberSignature Language="C#" Value="public T Method&lt;U&gt; (T t, U u);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance !T Method&lt;U&gt;(!T t, !!U u) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; T Method(T t, U u);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; T Method(T const&amp; t, U const&amp; u);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

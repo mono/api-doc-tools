@@ -62,6 +62,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             "System.String",
             "System.ValueType",
             "System.Enum",
+            "System.Guid",
         };
 
         protected virtual IList<string> GetAllowedTypes()
@@ -106,7 +107,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (t.Contains(' '))
             {
                 splitType = t.Split(' ');
-                typeToCompare = splitType[0];
+                typeToCompare = splitType[0].Trim('&');
             }
 
             switch (typeToCompare)
@@ -125,6 +126,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Boolean": typeToCompare = "bool"; break;
                 case "System.Char": typeToCompare = "char16"; break;
                 case "System.Void": typeToCompare = "void"; break;
+                case "System.Guid": typeToCompare = "Platform::Guid"; break;
                 case "System.String": typeToCompare = "Platform::String"; break;
                 case "System.Object": typeToCompare = "Platform::Object"; break;
                 case "System.Type": typeToCompare = "Platform::Type"; break;
@@ -330,7 +332,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 }
             }
 
-            if (allowedTypes.Contains(tref.FullName.Split(' ')[0]) || CppCxSpecificNamespases.Contains(tref.Namespace))
+            if (allowedTypes.Contains(tref.FullName.Split(' ')[0].Trim('&')) || CppCxSpecificNamespases.Contains(tref.Namespace))
             {
                 return true;
             }

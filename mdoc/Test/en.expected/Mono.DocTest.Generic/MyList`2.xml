@@ -89,7 +89,7 @@
       <MemberSignature Language="F#" Value="abstract member CopyTo : 'A[] * int -&gt; unit&#xA;override this.CopyTo : 'A[] * int -&gt; unit" Usage="myList.CopyTo (array, arrayIndex)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void CopyTo(cli::array &lt;A&gt; ^ array, int arrayIndex);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; void CopyTo(Platform::Array &lt;A&gt; ^ array, int arrayIndex);" />
-      <MemberSignature Language="C++ WINRT" Value="void CopyTo(std::Array &lt;A&gt; const &amp; array, int arrayIndex);" />
+      <MemberSignature Language="C++ WINRT" Value="void CopyTo(std::Array &lt;A&gt; const&amp; array, int const&amp; arrayIndex);" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)</InterfaceMember>
@@ -236,7 +236,7 @@
       <MemberSignature Language="F#" Value="abstract member Mono.DocTest.Generic.IFoo&lt;A&gt;.Method : 'A * 'U -&gt; 'A&#xA;override this.Mono.DocTest.Generic.IFoo&lt;A&gt;.Method : 'A * 'U -&gt; 'A" Usage="myList.Mono.DocTest.Generic.IFoo&lt;A&gt;.Method (a, u)" />
       <MemberSignature Language="C++ CLI" Value="generic &lt;typename U&gt;&#xA; virtual A Mono.DocTest.Generic.IFoo&lt;A&gt;.Method(A a, U u) = Mono::DocTest::Generic::IFoo&lt;A&gt;::Method;" />
       <MemberSignature Language="C++ CX" Value="generic &lt;typename U&gt;&#xA; virtual A Mono.DocTest.Generic.IFoo&lt;A&gt;.Method(A a, U u) = Mono::DocTest::Generic::IFoo&lt;A&gt;::Method;" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; A Mono.DocTest.Generic.IFoo&lt;A&gt;.Method(A a, U u);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; A Mono.DocTest.Generic.IFoo&lt;A&gt;.Method(A const&amp; a, U const&amp; u);" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:Mono.DocTest.Generic.IFoo`1.Method``1(`0,``0)</InterfaceMember>
@@ -322,7 +322,7 @@
       <MemberSignature Language="F#" Value="abstract member System.Collections.Generic.ICollection&lt;A&gt;.Add : 'A -&gt; unit&#xA;override this.System.Collections.Generic.ICollection&lt;A&gt;.Add : 'A -&gt; unit" Usage="myList.System.Collections.Generic.ICollection&lt;A&gt;.Add item" />
       <MemberSignature Language="C++ CLI" Value=" virtual void System.Collections.Generic.ICollection&lt;A&gt;.Add(A item) = System::Collections::Generic::ICollection&lt;A&gt;::Add;" />
       <MemberSignature Language="C++ CX" Value=" virtual void System.Collections.Generic.ICollection&lt;A&gt;.Add(A item) = System::Collections::Generic::ICollection&lt;A&gt;::Add;" />
-      <MemberSignature Language="C++ WINRT" Value="void System.Collections.Generic.ICollection&lt;A&gt;.Add(A item);" />
+      <MemberSignature Language="C++ WINRT" Value="void System.Collections.Generic.ICollection&lt;A&gt;.Add(A const&amp; item);" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.Collections.Generic.ICollection`1.Add(`0)</InterfaceMember>
@@ -375,7 +375,7 @@
       <MemberSignature Language="F#" Value="abstract member System.Collections.Generic.ICollection&lt;A&gt;.Contains : 'A -&gt; bool&#xA;override this.System.Collections.Generic.ICollection&lt;A&gt;.Contains : 'A -&gt; bool" Usage="myList.System.Collections.Generic.ICollection&lt;A&gt;.Contains item" />
       <MemberSignature Language="C++ CLI" Value=" virtual bool System.Collections.Generic.ICollection&lt;A&gt;.Contains(A item) = System::Collections::Generic::ICollection&lt;A&gt;::Contains;" />
       <MemberSignature Language="C++ CX" Value=" virtual bool System.Collections.Generic.ICollection&lt;A&gt;.Contains(A item) = System::Collections::Generic::ICollection&lt;A&gt;::Contains;" />
-      <MemberSignature Language="C++ WINRT" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.Contains(A item);" />
+      <MemberSignature Language="C++ WINRT" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.Contains(A const&amp; item);" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.Collections.Generic.ICollection`1.Contains(`0)</InterfaceMember>
@@ -429,7 +429,7 @@
       <MemberSignature Language="F#" Value="abstract member System.Collections.Generic.ICollection&lt;A&gt;.Remove : 'A -&gt; bool&#xA;override this.System.Collections.Generic.ICollection&lt;A&gt;.Remove : 'A -&gt; bool" Usage="myList.System.Collections.Generic.ICollection&lt;A&gt;.Remove item" />
       <MemberSignature Language="C++ CLI" Value=" virtual bool System.Collections.Generic.ICollection&lt;A&gt;.Remove(A item) = System::Collections::Generic::ICollection&lt;A&gt;::Remove;" />
       <MemberSignature Language="C++ CX" Value=" virtual bool System.Collections.Generic.ICollection&lt;A&gt;.Remove(A item) = System::Collections::Generic::ICollection&lt;A&gt;::Remove;" />
-      <MemberSignature Language="C++ WINRT" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.Remove(A item);" />
+      <MemberSignature Language="C++ WINRT" Value="bool System.Collections.Generic.ICollection&lt;A&gt;.Remove(A const&amp; item);" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.Collections.Generic.ICollection`1.Remove(`0)</InterfaceMember>
