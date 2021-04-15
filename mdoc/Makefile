@@ -887,5 +887,5 @@ check-doc-tools-update: check-monodocer-since-update \
 	check-mdoc-export-msxdoc-update \
 	check-mdoc-validate-update 
 
-check: nunit check-doc-tools 
+check: check-doc-tools 
 	@echo "mdoc Tests Complete!"
