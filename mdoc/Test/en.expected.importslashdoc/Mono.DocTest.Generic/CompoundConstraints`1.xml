@@ -4,7 +4,6 @@
   <AssemblyInfo>
     <AssemblyName>DocTest</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <TypeParameters>
     <TypeParameter Name="NGparam">
@@ -19,9 +18,10 @@
   </Base>
   <Interfaces />
   <Docs>
-    <typeparam name="NGparam">To be added.</typeparam>
+    <typeparam name="NGparam">Non-generic param</typeparam>
     <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <remarks>
+      <c>T:Mono.DocTest.CompoundConstraints</c>.</remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -30,7 +30,6 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
-        <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
       <Docs>
