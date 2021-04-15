@@ -97,6 +97,7 @@
     <Compile Include="NullableReferenceTypesTests.cs" />
     <Compile Include="SampleClasses\ApplePlatformEnum.cs" />
     <Compile Include="SampleClasses\EiiImplementclass.cs" />
+    <Compile Include="SampleClasses\GuidClass.cs" />
     <Compile Include="SampleClasses\Interface_A.cs" />
     <Compile Include="SampleClasses\Interface_B.cs" />
     <Compile Include="SampleClasses\InternalEIICalss.cs" />

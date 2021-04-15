@@ -41,7 +41,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (t.Contains(' '))
             {
                 splitType = t.Split(' ');
-                typeToCompare = splitType[0];
+                typeToCompare = splitType[0].Trim('&');
 
                 foreach (var str in splitType)
                 {
@@ -71,6 +71,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Void": typeToCompare = "void"; break;
                 //API specific type is "winrt::hstring"; but c++ in built type is better variant
                 case "System.String": typeToCompare = "winrt::hstring"; break;
+                case "System.Guid": typeToCompare = "winrt::guid"; break;
                 case "System.Object": typeToCompare = "winrt::Windows::Foundation::IInspectable"; break;
             }
 

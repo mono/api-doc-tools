@@ -726,6 +726,9 @@ check-monodocer-attached-entities:
 Test/TestClass.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/Test*.cs
 
+Test/GuidClass.dll:
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/GuidClass.cs
+
 .PHONY: check-monodocer-operators-work
 check-monodocer-operators-work: Test/TestClass.dll
 	rm -Rf Test/en.actual
@@ -741,6 +744,11 @@ check-monodocer-operators: check-monodocer-operators-work
 check-monodocer-operators-update: check-monodocer-operators-work
 	rm -Rf Test/en.expected-operators
 	mv Test/en.actual Test/en.expected-operators
+
+check-monodocer-guid: Test/GuidClass.dll
+	rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/GuidClass.dll -lang c++/cx -lang c++/winrt
+	$(DIFF) Test/en.expected-guid Test/en.actual
 
 check-mdoc-export-html-update: 
 	find Test/html.expected -name \*.html -exec rm "{}" \;
@@ -856,6 +864,7 @@ check-doc-tools:  \
 	check-monodocer-frameworks-inheritance \
 	check-monodocer-docid \
 	check-monodocer-operators \
+	check-monodocer-guid \
 	check-monodocer-fx-statistics-remove \
 	check-overwrite-attribute \
 	check-monodocer-vbnet \
@@ -887,5 +896,5 @@ check-doc-tools-update: check-monodocer-since-update \
 	check-mdoc-export-msxdoc-update \
 	check-mdoc-validate-update 
 
-check: nunit check-doc-tools 
+check: nunit check-doc-tools
 	@echo "mdoc Tests Complete!"

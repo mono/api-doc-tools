@@ -1,4 +1,5 @@
-﻿using Mono.Documentation.Updater.Formatters.CppFormatters;
+﻿using mdoc.Test.SampleClasses;
+using Mono.Documentation.Updater.Formatters.CppFormatters;
 using Mono_DocTest;
 using NUnit.Framework;
 using Cpp = Mono_DocTest_Generic;
@@ -37,6 +38,22 @@ namespace mdoc.Test
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "GetPrimesUnordered",
                 @"winrt::Windows::Foundation::IAsyncActionWithProgress<double> GetPrimesUnordered(int const& first, int const& last);");
+        }
+
+        [Test]
+        public void CreateNewGuid()
+        {
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(@" static winrt::guid CreateNewGuid();", sig);
+        }
+
+        [Test]
+        public void ObjectIndentical()
+        {
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(@"bool ObjectIndentical(winrt::guid const& objGuid1, winrt::guid const& objGuid2);", sig);
         }
 
         [Test]

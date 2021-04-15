@@ -148,7 +148,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub RefMethod(Of U) (ByRef t As T, ByRef u As U)" />
       <MemberSignature Language="F#" Value="member this.RefMethod : 'T * 'U -&gt; unit" Usage="myList.RefMethod (t, u)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T % t, U % u);" />
-      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T &amp;  t, U &amp;  u);" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T &amp; t, U &amp; u);" />
       <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; void RefMethod(T &amp; t, U &amp; u);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>

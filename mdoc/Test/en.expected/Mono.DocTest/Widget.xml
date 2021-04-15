@@ -596,6 +596,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub M1 (c As Char, ByRef f As Single, ByRef v As DocValueType)" />
       <MemberSignature Language="F#" Value="member this.M1 : char * single * DocValueType -&gt; unit" Usage="widget.M1 (c, f, v)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void M1(char c, [Runtime::InteropServices::Out] float % f, Mono::DocTest::DocValueType % v);" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; void M1(char16 c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
       <MemberSignature Language="C++ WINRT" Value="void M1(char const&amp; c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
