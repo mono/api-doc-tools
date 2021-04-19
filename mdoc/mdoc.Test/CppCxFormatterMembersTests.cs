@@ -43,16 +43,9 @@ namespace mdoc.Test
  Windows::Foundation::IAsyncActionWithProgress<double> ^ GetPrimesUnordered(int first, int last);");
         }
 
-        //[Test]
-        //[Category("Method")]
-        //public void Method_CreateNewGuid()
-        //{
-        //    TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "CreateNewGuid",
-        //        @"public: Platform::Guid ^ CreateNewGuid();");
-        //}
-
         [Test]
-        public void CreateNewGuid()
+        [Category("Method")]
+        public void Method_CreateNewGuid()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
             var sig = formatter.GetDeclaration(member);
@@ -61,7 +54,8 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void ObjectIndentical()
+        [Category("Method")]
+        public void Method_ObjectIndentical()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
             var sig = formatter.GetDeclaration(member);

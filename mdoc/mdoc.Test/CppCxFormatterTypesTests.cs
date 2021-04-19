@@ -85,6 +85,22 @@ namespace mdoc.Test
             TestTypeSignature(_cppCxTestLibName, "Namespace2.Class4", "public value class Class4");
         }
 
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_ValueGuid()
+        {
+            TestTypeSignature(typeof(Guid), 
+                "public value class Platform::Guid : IComparable, IComparable<Platform::Guid>, IEquatable<Platform::Guid>, IFormattable");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_ValueSingle()
+        {
+            TestTypeSignature(typeof(Single), 
+                "public value class float : IComparable, IComparable<float>, IConvertible, IEquatable<float>, IFormattable");
+        }
+
         #region NoSupport
 
         [Test]

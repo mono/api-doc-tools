@@ -87,6 +87,22 @@ class Widget : Mono_DocTest::IProcess");
         }
 
         [Test]
+        [Category("Type")]
+        public void TypeSignature_ValueGuid()
+        {
+            TestTypeSignature(typeof(Guid), 
+                "struct winrt::guid : IComparable, IComparable<winrt::guid>, IEquatable<winrt::guid>, IFormattable");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_ValueSingle()
+        {
+            TestTypeSignature(typeof(Single), 
+                "struct float : IComparable, IComparable<float>, IConvertible, IEquatable<float>, IFormattable");
+        }
+
+        [Test]
         [Category("NoSupport")]
         public void NoSupport_Delegate()
         {
