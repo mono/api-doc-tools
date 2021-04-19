@@ -21,8 +21,7 @@
     <typeparam name="NGparam">Non-generic param</typeparam>
     <summary>To be added.</summary>
     <remarks>
-      <c>T:Mono.DocTest.CompoundConstraints</c>.
-    </remarks>
+      <c>T:Mono.DocTest.CompoundConstraints</c>.</remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
