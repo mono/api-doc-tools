@@ -48,6 +48,7 @@
       <Type Name="MyList`2" DisplayName="MyList&lt;A,B&gt;" Kind="Class" />
     </Namespace>
     <Namespace Name="System">
+	  <Type Name="CompoundConstraints`1" DisplayName="CompoundConstraints&lt;NGparam&gt;" Kind="Class" />
       <Type Name="Action`1" DisplayName="Action&lt;T&gt;" Kind="Delegate" />
       <Type Name="Array" Kind="Class" />
       <Type Name="AsyncCallback" Kind="Delegate" />
