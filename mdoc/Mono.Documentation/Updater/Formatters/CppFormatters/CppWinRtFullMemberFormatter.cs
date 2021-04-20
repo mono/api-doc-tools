@@ -59,16 +59,15 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Int16": typeToCompare = "short"; break;
                 case "System.Int32": typeToCompare = "int"; break;
                 case "System.Int64": typeToCompare = "long"; break;
-                case "System.UInt16": typeToCompare = "unsigned short"; break;
+                case "System.UInt16": typeToCompare = "uint16_t"; break;
                 case "System.UInt32": typeToCompare = "uint32_t"; break;
                 case "System.UInt64": typeToCompare = "uint64_t"; break;
-
                 case "System.Single": typeToCompare = "float"; break;
                 case "System.Double": typeToCompare = "double"; break;
-
                 case "System.Boolean": typeToCompare = "bool"; break;
                 case "System.Char": typeToCompare = "char"; break;
                 case "System.Void": typeToCompare = "void"; break;
+
                 //API specific type is "winrt::hstring"; but c++ in built type is better variant
                 case "System.String": typeToCompare = "winrt::hstring"; break;
                 case "System.Guid": typeToCompare = "winrt::guid"; break;

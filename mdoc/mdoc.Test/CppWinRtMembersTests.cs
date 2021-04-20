@@ -12,6 +12,7 @@ namespace mdoc.Test
         private static readonly CppWinRtFullMemberFormatter CppWinRtFullMemberFormatter = new CppWinRtFullMemberFormatter();
         protected override CppWinRtFullMemberFormatter formatter => CppWinRtFullMemberFormatter;
 
+        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
         private string CppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
         private const string CSharpTestLib = "../../../../external/Test/CSharpExample.dll";
 
@@ -41,7 +42,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void CreateNewGuid()
+        public void Method_CreateNewGuid()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
             var sig = formatter.GetDeclaration(member);
@@ -49,7 +50,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void ObjectIndentical()
+        public void Method_ObjectIndentical()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
             var sig = formatter.GetDeclaration(member);
@@ -78,6 +79,28 @@ namespace mdoc.Test
         {
             TestMethodSignature(CppCxTestLibName, "Namespace222.App", "SetWindow",
                 @"void SetWindow(winrt::Windows::UI::Core::CoreWindow const& window);");
+        }
+
+        [Test]
+        [Category("Properties")]
+        public void Property_WinRtNumericsActualSize()
+        {
+            TestPropertySignature(_cppWinRtTestLibName, "Windows.UI.Xaml.UIElement", "ActualSize", "float2 ActualSize();");
+        }
+
+        [Test]
+        [Category("Properties")]
+        public void Property_WinRtNumericsTransformMatrix()
+        {
+            TestPropertySignature(_cppWinRtTestLibName, "Windows.UI.Xaml.UIElement", "TransformMatrix",
+                "float4x4 TransformMatrix();\n\nvoid TransformMatrix(float4x4 value);");
+        }
+
+        [Test]
+        [Category("Fields")]
+        public void Field_WinRtNumericsPlaneNormal()
+        {
+            TestFieldSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Plane", "Normal", "float3 Normal;");
         }
 
         [Test]
