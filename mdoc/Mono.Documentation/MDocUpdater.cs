@@ -1,3 +1,4 @@
+#define NEW_CECIL
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -3043,7 +3044,7 @@ namespace Mono.Documentation
 #if NEW_CECIL
                foreach (GenericParameterConstraint c in constraints)
                    AppendElementAttributeText(targets, "Target", "Type",
-                       slashdocFormatter.GetDeclaration (c.ConstraintType));
+                       FormatterManager.SlashdocFormatter.GetDeclaration (c.ConstraintType));
 #else
                     foreach (TypeReference c in constraints)
                         AppendElementAttributeText (targets, "Target", "Type",

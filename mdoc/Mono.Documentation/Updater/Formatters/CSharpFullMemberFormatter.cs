@@ -1,4 +1,5 @@
-﻿using Mono.Cecil;
+﻿#define NEW_CECIL
+using Mono.Cecil;
 using Mono.Documentation.Util;
 using System;
 using System.Collections.Generic;
