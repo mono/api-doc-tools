@@ -45,5 +45,36 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
+    <Member MemberName="CompoundConstraintClass&lt;param&gt;">
+      <MemberSignature Language="C#" Value="public static void CompoundConstraintClass&lt;param&gt; () where param : class, new();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void CompoundConstraintClass&lt;class .ctor param&gt;() cil managed" />
+      <MemberSignature Language="DocId" Value="M:Mono.DocTest.Generic.CompoundConstraints`1.CompoundConstraintClass``1" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub CompoundConstraintClass(Of param As {Class, New}) ()" />
+      <MemberSignature Language="F#" Value="static member CompoundConstraintClass : unit -&gt; unit (requires 'param : null and 'param : (new : unit -&gt; 'param))" Usage="Mono.DocTest.Generic.CompoundConstraints&lt;'NGparam (requires 'NGparam : null and 'NGparam : (new : unit -&gt; 'NGparam))&gt;.CompoundConstraintClass " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename param&gt;&#xA; where param : class, gcnew() static void CompoundConstraintClass();" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename param&gt;&#xA; where param : class, gcnew() static void CompoundConstraintClass();" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename param&gt;&#xA; where param : class, gcnew() static void CompoundConstraintClass();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="param">
+          <Constraints>
+            <ParameterAttribute>DefaultConstructorConstraint</ParameterAttribute>
+            <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters />
+      <Docs>
+        <typeparam name="param">To be added.</typeparam>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
   </Members>
 </Type>

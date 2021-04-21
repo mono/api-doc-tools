@@ -653,7 +653,7 @@ namespace Mono.DocTest.Generic {
 	/// <remarks><c>T:Mono.DocTest.CompoundConstraints</c>.</remarks>
 	public class CompoundConstraints<NGparam> where NGparam : class, new()
     {
-
+		public static void CompoundConstraintClass<param> () where param : class, new() { }
     }
 
 	/// <typeparam name="A">Ako generic param</typeparam>

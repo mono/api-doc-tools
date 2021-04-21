@@ -601,6 +601,11 @@ class Example {
             <summary>To be added.</summary>
             <remarks>To be added.</remarks>
         </member>
+        <member name="M:Mono.DocTest.Generic.CompoundConstraints`1.CompoundConstraintClass``1">
+            <typeparam name="param">To be added.</typeparam>
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
         <member name="T:Mono.DocTest.Generic.Extensions">
             <summary>extension methods!</summary>
             <remarks>
