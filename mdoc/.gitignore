@@ -1,6 +1,5 @@
-#/Test/en.*/
-/Test/en.actual/
-#/Test/html.*/
+/Test/en.*/
+/Test/html.*/
 /Test/DocTest.*
 /Test/*.dll*
 /Test/FrameworkTestData*
