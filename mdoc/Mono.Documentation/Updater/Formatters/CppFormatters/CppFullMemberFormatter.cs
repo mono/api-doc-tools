@@ -553,7 +553,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return AppendConstraints (buf, method.GenericParameters);
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false, bool isTypeofOperator = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                 type is GenericInstanceType ? type.GetElementType() : type);
@@ -733,7 +733,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (IsParamsParameter(parameter))
                 buf.AppendFormat ("... ");
             
-            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, AppendHatOnReturn)).Append(" ");
+            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, AppendHatOnReturn));
+            if (!buf.ToString().EndsWith(" "))
+                buf.Append(" ");
+
             buf.Append(parameter.Name);
             
             return buf;

@@ -179,7 +179,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub UseHelper(Of T, U, V) (helper As MyList(Of T).Helper(Of U, V))" />
       <MemberSignature Language="F#" Value="member this.UseHelper : Mono.DocTest.Generic.MyList&lt;'T&gt;.Helper&lt;'U, 'V&gt; -&gt; unit" Usage="useLists.UseHelper helper" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T, typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; ^ helper);" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename T, typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; const &amp; helper);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename T, typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; const&amp; helper);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

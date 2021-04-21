@@ -151,7 +151,7 @@ namespace Mono.Documentation.Updater.Formatters
             return CamelCase(method.Name);
         }
 
-        protected override string GetTypeName(TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override string GetTypeName(TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false, bool isTypeofOperator = false)
         {
             int n = type.Name.IndexOf("`");
             if (n >= 0)

@@ -83,7 +83,7 @@
     <Member MemberName="Resize&lt;T&gt;">
       <MemberSignature Language="C#" Value="public static void Resize&lt;T&gt; (ref T[] array, int newSize);" />
       <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Resize&lt;T&gt;(!!T[]&amp; array, int32 newSize) cil managed" />
-      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename T&gt;&#xA; static void Resize(Platform::Array &lt;T&gt; ^ &amp;  array, int newSize);" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename T&gt;&#xA; static void Resize(Platform::Array &lt;T&gt; ^ &amp; array, int newSize);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

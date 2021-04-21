@@ -49,7 +49,7 @@
       <MemberSignature Language="F#" Value="member this.BaseMethod : 'S -&gt; 'U" Usage="genericBase.BaseMethod genericParameter" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename S&gt;&#xA; U BaseMethod(S genericParameter);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename S&gt;&#xA; U BaseMethod(S genericParameter);" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename S&gt;&#xA; U BaseMethod(S genericParameter);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename S&gt;&#xA; U BaseMethod(S const&amp; genericParameter);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -107,7 +107,7 @@
       <MemberSignature Language="VB.NET" Value="Public Custom Event ItemChanged As Action(Of MyList(Of U), MyList(Of U).Helper(Of U, U)) " />
       <MemberSignature Language="F#" Value="member this.ItemChanged : Action&lt;Mono.DocTest.Generic.MyList&lt;'U&gt;, Mono.DocTest.Generic.MyList&lt;'U&gt;.Helper&lt;'U, 'U&gt;&gt; " Usage="member this.ItemChanged : System.Action&lt;Mono.DocTest.Generic.MyList&lt;'U&gt;, Mono.DocTest.Generic.MyList&lt;'U&gt;.Helper&lt;'U, 'U&gt;&gt; " />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; event Action&lt;Mono::DocTest::Generic::MyList&lt;U&gt; ^, Mono::DocTest::Generic::MyList&lt;U&gt;::Helper&lt;U, U&gt; ^&gt; ^ ItemChanged;" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token ItemChanged(Action&lt;Mono::DocTest::Generic::MyList&lt;U&gt;, Mono::DocTest::Generic::MyList&lt;U&gt;::Helper&lt;U, U&gt; const &amp;&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void ItemChanged(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;ItemChanged_revoker ItemChanged(auto_revoke_t, Action&lt;Mono::DocTest::Generic::MyList&lt;U&gt;, Mono::DocTest::Generic::MyList&lt;U&gt;::Helper&lt;U, U&gt; const &amp;&gt; const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token ItemChanged(Action&lt;Mono::DocTest::Generic::MyList&lt;U&gt;, Mono::DocTest::Generic::MyList&lt;U&gt;::Helper&lt;U, U&gt; const&amp;&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void ItemChanged(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;ItemChanged_revoker ItemChanged(auto_revoke_t, Action&lt;Mono::DocTest::Generic::MyList&lt;U&gt;, Mono::DocTest::Generic::MyList&lt;U&gt;::Helper&lt;U, U&gt; const&amp;&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -147,7 +147,7 @@
       <MemberSignature Language="VB.NET" Value="Public Shared Narrowing Operator CType (list As GenericBase(Of U)) As U" />
       <MemberSignature Language="F#" Value="static member op_Explicit : Mono.DocTest.Generic.GenericBase&lt;'U&gt; -&gt; 'U" Usage="Mono.DocTest.Generic.GenericBase&lt;'U&gt;.op_Explicit list" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static explicit operator U(Mono::DocTest::Generic::GenericBase&lt;U&gt; ^ list);" />
-      <MemberSignature Language="C++ WINRT" Value=" static explicit operator U(Mono::DocTest::Generic::GenericBase&lt;U&gt; const &amp; list);" />
+      <MemberSignature Language="C++ WINRT" Value=" static explicit operator U(Mono::DocTest::Generic::GenericBase&lt;U&gt; const&amp; list);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
