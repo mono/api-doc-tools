@@ -326,11 +326,6 @@ check-monodocer-cppwinrtUwp:
 	-rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update -lib ../external/Windows --lang c++/winrt -o Test/en.actual Test/UwpTestWinRtComponentCpp.winmd
 	$(DIFF) Test/ex.expected-cppwinrtuwp Test/en.actual
-
-check-monodocer-numerics: 
-	-rm -Rf Test/en.actual
-	$(MONO) $(PROGRAM) update -lib ../external/Windows --lang c++/winrt --lang c++/cx -o Test/en.actual Test/Windows.Foundation.UniversalApiContract.winmd
-	$(DIFF) Test/ex.expected-cppwinrtuwp Test/en.actual
 	
 check-monodocer-cppcx: Test/FrameworkTestData
 	-rm -Rf Test/en.actual
@@ -870,7 +865,6 @@ check-doc-tools:  \
 	check-monodocer-docid \
 	check-monodocer-operators \
 	check-monodocer-guid \
-	check-monodocer-numerics \
 	check-monodocer-fx-statistics-remove \
 	check-overwrite-attribute \
 	check-monodocer-vbnet \

@@ -113,6 +113,11 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (string.IsNullOrWhiteSpace (typeFullName))
                 return buf;
             
+            if (!typeFullName.StartsWith ("System."))
+            {
+                return base.AppendTypeName(buf, type, context);
+            }
+
             string cppType = GetCppType(typeFullName);
             if (cppType != null)
             {
