@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="Four">
+  <Assemblies>
+    <Assembly Name="DocTest-typeForwards-Fourth" Version="0.0.0.0" />
+  </Assemblies>
+  <Namespace Name="TheNamespace">
+    <Type Name="TheNamespace.TheClass" Id="T:TheNamespace.TheClass">
+      <Member Id="M:TheNamespace.TheClass.#ctor(System.String)" />
+    </Type>
+  </Namespace>
+</Framework>
