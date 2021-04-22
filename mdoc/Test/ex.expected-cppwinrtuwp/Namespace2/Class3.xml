@@ -36,7 +36,7 @@
     <Member MemberName="ArrayOfTypeProperty">
       <MemberSignature Language="C#" Value="public Type[] ArrayOfTypeProperty { get; set; }" />
       <MemberSignature Language="ILAsm" Value=".property instance class System.Type[] ArrayOfTypeProperty" />
-      <MemberSignature Language="C++ WINRT" Value="std::Array &lt;Type const&amp;&gt; ArrayOfTypeProperty();&#xA;&#xA;void ArrayOfTypeProperty(std::Array &lt;Type const&amp;&gt; __set_formal);" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::array_view &lt;Type const&amp;&gt; ArrayOfTypeProperty();&#xA;&#xA;void ArrayOfTypeProperty(winrt::array_view &lt;Type const&amp;&gt; __set_formal);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>
