@@ -72,7 +72,7 @@
       <MemberSignature Language="JavaScript" Value="function Widget(s)" Usage="var widget = new Widget(s);" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; Widget(System::String ^ s);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; Widget(Platform::String ^ s);" />
-      <MemberSignature Language="C++ WINRT" Value=" Widget(winrt::hstring const &amp; s);" />
+      <MemberSignature Language="C++ WINRT" Value=" Widget(winrt::hstring const&amp; s);" />
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -173,7 +173,7 @@
       <MemberSignature Language="VB.NET" Value="Public array2 As Widget(,) " />
       <MemberSignature Language="F#" Value="val mutable array2 : Mono.DocTest.Widget[,]" Usage="Mono.DocTest.Widget.array2" />
       <MemberSignature Language="C++ CLI" Value="public: cli::array &lt;Mono::DocTest::Widget ^, 2&gt; ^ array2;" />
-      <MemberSignature Language="C++ WINRT" Value="std::Array &lt;Mono::DocTest::Widget const &amp;, 2&gt; array2;" />
+      <MemberSignature Language="C++ WINRT" Value="std::Array &lt;Mono::DocTest::Widget const&amp;, 2&gt; array2;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -193,7 +193,7 @@
       <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly classCtorError As String() " />
       <MemberSignature Language="F#" Value=" staticval mutable classCtorError : string[]" Usage="Mono.DocTest.Widget.classCtorError" />
       <MemberSignature Language="C++ CLI" Value="public: static initonly cli::array &lt;System::String ^&gt; ^ classCtorError;" />
-      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const &amp;&gt; classCtorError;" />
+      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const&amp;&gt; classCtorError;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -213,7 +213,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub Default (Optional a As Integer = 1, Optional b As Integer = 2)" />
       <MemberSignature Language="F#" Value="member this.Default : int * int -&gt; unit" Usage="widget.Default (a, b)" />
       <MemberSignature Language="JavaScript" Value="function default(a, b)" Usage="widget.default(a, b)" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(int a = 1, int b = 2);" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(int const&amp; a = 1, int const&amp; b = 2);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -239,7 +239,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub Default (Optional a As String = &quot;a&quot;, Optional b As Char = '\0')" />
       <MemberSignature Language="F#" Value="member this.Default : string * char -&gt; unit" Usage="widget.Default (a, b)" />
       <MemberSignature Language="JavaScript" Value="function default(a, b)" Usage="widget.default(a, b)" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const &amp; a = &quot;a&quot;, char b = '\0');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const&amp; a = &quot;a&quot;, char const&amp; b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -288,7 +288,7 @@
       <MemberSignature Language="JavaScript" Value="function dynamic0(a, b)" Usage="var object = widget.dynamic0(a, b)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ Dynamic0(System::Object ^ a, System::Object ^ b);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; Platform::Object ^ Dynamic0(Platform::Object ^ a, Platform::Object ^ b);" />
-      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IInspectable Dynamic0(winrt::Windows::Foundation::IInspectable const &amp; a, winrt::Windows::Foundation::IInspectable const &amp; b);" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::Windows::Foundation::IInspectable Dynamic0(winrt::Windows::Foundation::IInspectable const&amp; a, winrt::Windows::Foundation::IInspectable const&amp; b);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -459,7 +459,7 @@
       <MemberSignature Language="F#" Value="member this.DynamicP : Func&lt;Func&lt;string, obj, string&gt;, Func&lt;obj, Func&lt;obj&gt;, string&gt;&gt;" Usage="Mono.DocTest.Widget.DynamicP" />
       <MemberSignature Language="JavaScript" Usage="var func = widget.dynamicP;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property Func&lt;Func&lt;System::String ^, System::Object ^, System::String ^&gt; ^, Func&lt;System::Object ^, Func&lt;System::Object ^&gt; ^, System::String ^&gt; ^&gt; ^ DynamicP { Func&lt;Func&lt;System::String ^, System::Object ^, System::String ^&gt; ^, Func&lt;System::Object ^, Func&lt;System::Object ^&gt; ^, System::String ^&gt; ^&gt; ^ get(); };" />
-      <MemberSignature Language="C++ WINRT" Value="Func&lt;Func&lt;winrt::hstring, winrt::Windows::Foundation::IInspectable const &amp;, winrt::hstring const &amp;&gt;, Func&lt;winrt::Windows::Foundation::IInspectable, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const &amp;, winrt::hstring const &amp;&gt; const &amp;&gt; DynamicP();" />
+      <MemberSignature Language="C++ WINRT" Value="Func&lt;Func&lt;winrt::hstring, winrt::Windows::Foundation::IInspectable const&amp;, winrt::hstring const&amp;&gt;, Func&lt;winrt::Windows::Foundation::IInspectable, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp;, winrt::hstring const&amp;&gt; const&amp;&gt; DynamicP();" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -596,7 +596,8 @@
       <MemberSignature Language="VB.NET" Value="Public Sub M1 (c As Char, ByRef f As Single, ByRef v As DocValueType)" />
       <MemberSignature Language="F#" Value="member this.M1 : char * single * DocValueType -&gt; unit" Usage="widget.M1 (c, f, v)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void M1(char c, [Runtime::InteropServices::Out] float % f, Mono::DocTest::DocValueType % v);" />
-      <MemberSignature Language="C++ WINRT" Value="void M1(char c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA; void M1(char16 c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
+      <MemberSignature Language="C++ WINRT" Value="void M1(char const&amp; c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -663,7 +664,7 @@
       <MemberSignature Language="F#" Value="member this.M2 : int16[] * int[,] * int64[][] -&gt; unit" Usage="widget.M2 (x1, x2, x3)" />
       <MemberSignature Language="JavaScript" Value="function m2(x1, x2, x3)" Usage="widget.m2(x1, x2, x3)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void M2(cli::array &lt;short&gt; ^ x1, cli::array &lt;int, 2&gt; ^ x2, cli::array &lt;cli::array &lt;long&gt; ^&gt; ^ x3);" />
-      <MemberSignature Language="C++ WINRT" Value="void M2(std::Array &lt;short&gt; const &amp; x1, std::Array &lt;int, 2&gt; const &amp; x2, std::Array &lt;std::Array &lt;long&gt; const &amp;&gt; const &amp; x3);" />
+      <MemberSignature Language="C++ WINRT" Value="void M2(std::Array &lt;short&gt; const&amp; x1, std::Array &lt;int, 2&gt; const&amp; x2, std::Array &lt;std::Array &lt;long&gt; const&amp;&gt; const&amp; x3);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -692,7 +693,7 @@
       <MemberSignature Language="F#" Value="member this.M3 : int64[][] * Mono.DocTest.Widget[,,][] -&gt; unit" Usage="widget.M3 (x3, x4)" />
       <MemberSignature Language="JavaScript" Value="function m3(x3, x4)" Usage="widget.m3(x3, x4)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void M3(cli::array &lt;cli::array &lt;long&gt; ^&gt; ^ x3, cli::array &lt;cli::array &lt;Mono::DocTest::Widget ^, 3&gt; ^&gt; ^ x4);" />
-      <MemberSignature Language="C++ WINRT" Value="void M3(std::Array &lt;std::Array &lt;long&gt; const &amp;&gt; const &amp; x3, std::Array &lt;std::Array &lt;Mono::DocTest::Widget const &amp;, 3&gt; const &amp;&gt; const &amp; x4);" />
+      <MemberSignature Language="C++ WINRT" Value="void M3(std::Array &lt;std::Array &lt;long&gt; const&amp;&gt; const&amp; x3, std::Array &lt;std::Array &lt;Mono::DocTest::Widget const&amp;, 3&gt; const&amp;&gt; const&amp; x4);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -744,7 +745,7 @@
       <MemberSignature Language="F#" Value="member this.M5 : nativeptr&lt;unit&gt; * nativeptr&lt;double&gt;[,][] -&gt; unit" Usage="widget.M5 (pv, pd)" />
       <MemberSignature Language="JavaScript" Value="function m5(pv, pd)" Usage="widget.m5(pv, pd)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void M5(void* pv, cli::array &lt;cli::array &lt;double*, 2&gt; ^&gt; ^ pd);" />
-      <MemberSignature Language="C++ WINRT" Value="void M5(void* pv, std::Array &lt;std::Array &lt;double*, 2&gt; const &amp;&gt; const &amp; pd);" />
+      <MemberSignature Language="C++ WINRT" Value="void M5(void* pv, std::Array &lt;std::Array &lt;double*, 2&gt; const&amp;&gt; const&amp; pd);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -805,7 +806,7 @@
       <MemberSignature Language="F#" Value="member this.M7 : Mono.DocTest.Widget.NestedClass.Double.Triple.Quadruple -&gt; unit" Usage="widget.M7 a" />
       <MemberSignature Language="JavaScript" Value="function m7(a)" Usage="widget.m7(a)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void M7(Mono::DocTest::Widget::NestedClass::Double::Triple::Quadruple ^ a);" />
-      <MemberSignature Language="C++ WINRT" Value="void M7(Mono::DocTest::Widget::NestedClass::Double::Triple::Quadruple const &amp; a);" />
+      <MemberSignature Language="C++ WINRT" Value="void M7(Mono::DocTest::Widget::NestedClass::Double::Triple::Quadruple const&amp; a);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -870,7 +871,7 @@
       <MemberSignature Language="VB.NET" Value="Public Shared Operator + (x1 As Widget, x2 As Widget) As Widget" />
       <MemberSignature Language="F#" Value="static member ( + ) : Mono.DocTest.Widget * Mono.DocTest.Widget -&gt; Mono.DocTest.Widget" Usage="x1 + x2" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static Mono::DocTest::Widget ^ operator +(Mono::DocTest::Widget ^ x1, Mono::DocTest::Widget ^ x2);" />
-      <MemberSignature Language="C++ WINRT" Value=" static Mono::DocTest::Widget operator +(Mono::DocTest::Widget const &amp; x1, Mono::DocTest::Widget const &amp; x2);" />
+      <MemberSignature Language="C++ WINRT" Value=" static Mono::DocTest::Widget operator +(Mono::DocTest::Widget const&amp; x1, Mono::DocTest::Widget const&amp; x2);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -917,7 +918,7 @@
       <MemberSignature Language="VB.NET" Value="Public Shared Narrowing Operator CType (x As Widget) As Integer" />
       <MemberSignature Language="F#" Value="static member op_Explicit : Mono.DocTest.Widget -&gt; int" Usage="Mono.DocTest.Widget.op_Explicit x" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static explicit operator int(Mono::DocTest::Widget ^ x);" />
-      <MemberSignature Language="C++ WINRT" Value=" static explicit operator int(Mono::DocTest::Widget const &amp; x);" />
+      <MemberSignature Language="C++ WINRT" Value=" static explicit operator int(Mono::DocTest::Widget const&amp; x);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -942,7 +943,7 @@
       <MemberSignature Language="VB.NET" Value="Public Shared Widening Operator CType (x As Widget) As Long" />
       <MemberSignature Language="F#" Value="static member op_Implicit : Mono.DocTest.Widget -&gt; int64" Usage="Mono.DocTest.Widget.op_Implicit x" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static operator long(Mono::DocTest::Widget ^ x);" />
-      <MemberSignature Language="C++ WINRT" Value=" static operator long(Mono::DocTest::Widget const &amp; x);" />
+      <MemberSignature Language="C++ WINRT" Value=" static operator long(Mono::DocTest::Widget const&amp; x);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -967,7 +968,7 @@
       <MemberSignature Language="VB.NET" Value="Public Shared Operator + (x As Widget) As Widget" />
       <MemberSignature Language="F#" Value="static member ( ~+ ) : Mono.DocTest.Widget -&gt; Mono.DocTest.Widget" Usage="+ x" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static Mono::DocTest::Widget ^ operator +(Mono::DocTest::Widget ^ x);" />
-      <MemberSignature Language="C++ WINRT" Value=" static Mono::DocTest::Widget operator +(Mono::DocTest::Widget const &amp; x);" />
+      <MemberSignature Language="C++ WINRT" Value=" static Mono::DocTest::Widget operator +(Mono::DocTest::Widget const&amp; x);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

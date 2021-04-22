@@ -320,6 +320,8 @@ namespace Mono.Documentation
                 if (File.Exists(typeMapPath))
                 {
                     Console.WriteLine($"Loading typemap file at {typeMapPath}");
+                    if (!Directory.Exists(srcPath))
+                        Directory.CreateDirectory(srcPath);
                     File.Copy(typeMapPath, Path.Combine(srcPath, "TypeMap.xml"), true);
                     TypeMap map = TypeMap.FromXml(typeMapPath);
                     this.TypeMap = map;
@@ -4421,9 +4423,9 @@ namespace Mono.Documentation
             return docTypeFormatter.GetName (type, useTypeProjection: useTypeProjection);
         }
 
-        internal static string GetDocTypeFullName (TypeReference type, bool useTypeProjection = true)
+        internal static string GetDocTypeFullName (TypeReference type, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
-            return DocTypeFullMemberFormatter.Default.GetName (type, useTypeProjection: useTypeProjection);
+            return DocTypeFullMemberFormatter.Default.GetName (type, useTypeProjection: useTypeProjection, isTypeofOperator: isTypeofOperator);
         }
 
         internal static string GetXPathForMember (DocumentationMember member)
