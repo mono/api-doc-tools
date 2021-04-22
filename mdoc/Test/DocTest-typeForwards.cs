@@ -5,8 +5,13 @@ using System.Runtime.CompilerServices;
 
 namespace TheNamespace
 {
-    #if FIRST
+    #if FIRST || FOURTH
     public class TheClass
-    {}
+    {
+        #if FOURTH
+        public TheClass(string arg)
+        {}
+        #endif
+    }
     #endif
 }
