@@ -1,5 +1,15 @@
 <Overview>
   <Assemblies>
+    <Assembly Name="DocTest-typeForwards-Fourth" Version="0.0.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
     <Assembly Name="DocTest-typeForwards-First" Version="0.0.0.0">
       <Attributes>
         <Attribute>
