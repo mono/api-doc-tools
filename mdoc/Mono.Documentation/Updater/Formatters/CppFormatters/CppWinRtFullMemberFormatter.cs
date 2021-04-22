@@ -131,7 +131,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type,
             IAttributeParserContext context)
         {
-            buf.Append("std::Array <");
+            buf.Append("winrt::array_view <");
 
             var item = type is TypeSpecification spec ? spec.ElementType : type.GetElementType();
             _AppendTypeName(buf, item, context);
