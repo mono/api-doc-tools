@@ -10,7 +10,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
     public class CppWinRtFullMemberFormatter : CppCxFullMemberFormatter
     {
         protected override bool AppendHatOnReturn => false;
-        protected override string HatModifier => $" const{RefTypeModifier}";
+        protected override string HatModifier => $" const&";
         public override string Language => Consts.CppWinRt;
         protected override string RefTypeModifier => " &";
 
@@ -41,7 +41,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (t.Contains(' '))
             {
                 splitType = t.Split(' ');
-                typeToCompare = splitType[0];
+                typeToCompare = splitType[0].Trim('&');
 
                 foreach (var str in splitType)
                 {
@@ -71,6 +71,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Void": typeToCompare = "void"; break;
                 //API specific type is "winrt::hstring"; but c++ in built type is better variant
                 case "System.String": typeToCompare = "winrt::hstring"; break;
+                case "System.Guid": typeToCompare = "winrt::guid"; break;
                 case "System.Object": typeToCompare = "winrt::Windows::Foundation::IInspectable"; break;
             }
 
@@ -98,7 +99,12 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     buf.AppendFormat("... ");
             }
 
-            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, !AppendHatOnReturn)).Append(" ");
+            buf.Append(GetTypeName(parameter.ParameterType, EmptyAttributeParserContext.Empty()));
+            if (!parameter.ParameterType.IsByReference && !parameter.ParameterType.IsPointer)
+            {
+                buf.Append(parameter.IsOut ? RefTypeModifier : HatModifier);
+            }
+            buf.Append(" ");
             buf.Append(parameter.Name);
 
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
