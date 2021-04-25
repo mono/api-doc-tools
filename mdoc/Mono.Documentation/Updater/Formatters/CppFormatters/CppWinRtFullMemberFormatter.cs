@@ -180,7 +180,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override string GetEventDeclaration(EventDefinition e)
         {
             string apiName = e.Name, typeName = GetTypeNameWithOptions(e.EventType, AppendHatOnReturn);
-            var rtnAutoEventRevoker = GetTypeNameWithOptions(e.DeclaringType, AppendHatOnReturn) + NestedTypeSeparator + apiName;
+            var rtnAutoEventRevoker = e.DeclaringType.Name + NestedTypeSeparator + apiName;
 
             StringBuilder buf = new StringBuilder();
             //if (AppendVisibility(buf, e.AddMethod).Length == 0)
