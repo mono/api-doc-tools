@@ -107,7 +107,7 @@ event_token primeFoundEvent(UwpTestWinRtComponentCpp::PrimeFoundHandler const& h
 void primeFoundEvent(event_token const* cookie) const;
 
 // Revoke with event_revoker
-primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;";
+Class1::primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;";
             TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", expectedSig);
         }
 
