@@ -139,6 +139,14 @@ Test/DocTest-enumerations.dll:
 Test/DocTest-embedded-type.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-embedded-type.cs
 
+Test/DocTest-differentTypeDefinitions-First.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-differentTypeDefinitions.cs /define:FIRST
+
+Test/DocTest-differentTypeDefinitions-Second.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-differentTypeDefinitions.cs /define:SECOND
+
 Test/DocTest-typeForwards-First.dll:
 	rm -f $@
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
@@ -156,11 +164,6 @@ Test/DocTest-typeForwards-Third.dll:
 	rm -f Test/DocTest-typeForwards-Third-First.dll
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Third-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:THIRD
-
-.PHONY: Test/DocTest-typeForwards-Fourth.dll
-Test/DocTest-typeForwards-Fourth.dll:
-	rm -f $@
-	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FOURTH
 
 # build test dll to test forwardings nested type
 Test/DocTest-nestedType-typeForwards-First.dll:
@@ -204,8 +207,22 @@ Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dl
 	cp Test/DocTest-framework-inheritance-three.dll Test/FrameworkTestData-fx-inheritance/Three/
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-inheritance
 
+.PHONY: check-monodocer-differentTypeDefinitions
+check-monodocer-differentTypeDefinitions : Test/DocTest-differentTypeDefinitions-First.dll Test/DocTest-differentTypeDefinitions-Second.dll
+	-rm -Rf Test/en.actual
+
+	-rm -Rf Test/FrameworkTestData-fx-differentTypeDefinitions
+	mkdir Test/FrameworkTestData-fx-differentTypeDefinitions
+	mkdir Test/FrameworkTestData-fx-differentTypeDefinitions/One
+	cp Test/DocTest-differentTypeDefinitions-First.dll Test/FrameworkTestData-fx-differentTypeDefinitions/One
+	cp Test/DocTest-differentTypeDefinitions-Second.dll Test/FrameworkTestData-fx-differentTypeDefinitions/One
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-differentTypeDefinitions
+
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeDefinitions
+	$(DIFF) Test/en.expected.differentTypeDefinitions Test/en.actual
+
 .PHONY: check-monodocer-typeForwards
-check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll Test/DocTest-typeForwards-Third.dll Test/DocTest-typeForwards-Fourth.dll
+check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll Test/DocTest-typeForwards-Third.dll
 	-rm -Rf Test/en.actual
 
 	# set up the fx test data
@@ -218,7 +235,6 @@ check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-
 	mkdir Test/FrameworkTestData-fx-typeForwards/One
 	mkdir Test/FrameworkTestData-fx-typeForwards/Two
 	mkdir Test/FrameworkTestData-fx-typeForwards/Three
-	mkdir Test/FrameworkTestData-fx-typeForwards/Four
 	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies
 	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/One
 	mkdir Test/FrameworkTestData-fx-typeForwards/dependencies/Two
@@ -234,7 +250,6 @@ check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-
 	cp Test/DocTest-typeForwards-Third-First.dll Test/FrameworkTestData-fx-typeForwards/Three
 	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
 	cp Test/DocTest-typeForwards-Third.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
-	cp Test/DocTest-typeForwards-Fourth.dll Test/FrameworkTestData-fx-typeForwards/Four
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-typeForwards
 
 	# now run mdoc update
@@ -842,6 +857,7 @@ run-test-local: check-doc-tools
 run-test-update : check-doc-tools-update
 
 check-doc-tools:  \
+	check-monodocer-differentTypeDefinitions \
 	check-monodocer-typeForwards \
 	check-monodocer-nestedType-typeForwards \
 	check-monodocer-Eii-importslashdoc \
