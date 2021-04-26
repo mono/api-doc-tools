@@ -228,5 +228,10 @@ namespace Mono.Documentation.Updater.Frameworks
             else
                 return new HashSet<MDocResolver.TypeForwardEventArgs>();
         }
+
+        public bool IsTypeForwardingTo(FrameworkTypeEntry typeEntry)
+        {
+            return forwardedTypesTo.ContainsKey(typeEntry.Name);
+        }
     }
 }
