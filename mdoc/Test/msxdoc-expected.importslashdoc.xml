@@ -591,6 +591,21 @@ class Example {
             <summary>To be added.</summary>
             <remarks>To be added.</remarks>
         </member>
+        <member name="T:Mono.DocTest.Generic.CompoundConstraints`1">
+            <typeparam name="NGparam">Non-generic param</typeparam>
+            <summary>To be added.</summary>
+            <remarks>
+                <c>T:Mono.DocTest.CompoundConstraints</c>.</remarks>
+        </member>
+        <member name="C:Mono.DocTest.Generic.CompoundConstraints`1">
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
+        <member name="M:Mono.DocTest.Generic.CompoundConstraints`1.CompoundConstraintClass``1">
+            <typeparam name="param">To be added.</typeparam>
+            <summary>To be added.</summary>
+            <remarks>To be added.</remarks>
+        </member>
         <member name="T:Mono.DocTest.Generic.Extensions">
             <summary>extension methods!</summary>
             <remarks>

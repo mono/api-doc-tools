@@ -36,6 +36,7 @@
       <Type Name="Widget+NestedClass+Double+Triple+Quadruple" Kind="Class" />
     </Namespace>
     <Namespace Name="Mono.DocTest.Generic">
+      <Type Name="CompoundConstraints`1" DisplayName="CompoundConstraints&lt;NGparam&gt;" Kind="Class" />
       <Type Name="Extensions" Kind="Class" />
       <Type Name="Func`2" DisplayName="Func&lt;TArg,TRet&gt;" Kind="Delegate" />
       <Type Name="GenericBase`1" DisplayName="GenericBase&lt;U&gt;" Kind="Class" />
