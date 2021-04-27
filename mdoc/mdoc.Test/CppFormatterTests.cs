@@ -16,7 +16,7 @@ namespace mdoc.Test
         [Test]
         [Category("Types")]
         public void TypeSignature_Extensions() =>
-            TestTypeSignature(typeof(Extensions), @"public ref class Extensions abstract sealed");
+            TestTypeSignature(typeof(Extensions), @"public ref class Extensions sealed");
 
         [Test]
         [Category("Types")]
@@ -59,7 +59,7 @@ public ref class MyList1 : Mono_DocTest_Generic::GenericBase<System::Collections
         [Test]
         [Category("Types")]
         public void TypeSignature_Environment1() =>
-            TestTypeSignature(typeof(Environment1), @"public ref class Environment1 abstract sealed");
+            TestTypeSignature(typeof(Environment1), @"public ref class Environment1 sealed");
 
         [Test]
         [Category("Types")]
