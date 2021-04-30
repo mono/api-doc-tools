@@ -6,7 +6,7 @@
   <TypeSignature Language="F#" Value="type AttachedPropertyExample = class" />
   <TypeSignature Language="C++ CLI" Value="public ref class AttachedPropertyExample abstract sealed" />
   <TypeSignature Language="C++ CX" Value="public ref class AttachedPropertyExample abstract sealed" />
-  <TypeSignature Language="C++ WINRT" Value="class AttachedPropertyExample abstract final" />
+  <TypeSignature Language="C++ WINRT" Value="class AttachedPropertyExample final" />
   <AssemblyInfo>
     <AssemblyName>AttachedEventsAndProperties</AssemblyName>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>

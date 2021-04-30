@@ -217,8 +217,6 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     ? GetNameWithOptions(type, false, false)
                     : cppType);
 
-            if (type.IsAbstract && !type.IsInterface)
-                buf.Append(" abstract");
             if (type.IsSealed && !DocUtils.IsDelegate(type) && !type.IsValueType)
                 buf.Append(" final");
 
