@@ -41,7 +41,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void CreateNewGuid()
+        public void Method_CreateNewGuid()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
             var sig = formatter.GetDeclaration(member);
@@ -49,7 +49,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void ObjectIndentical()
+        public void Method_ObjectIndentical()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
             var sig = formatter.GetDeclaration(member);

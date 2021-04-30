@@ -240,7 +240,6 @@ generic <typename T>
                 typeof(MyList1<,>), @"public:
  virtual System::Collections::Generic::IEnumerator<A> ^ GetEnumerator() = System::Collections::Generic::IEnumerable<A>::GetEnumerator;",
                 nameof(MyList1<int, int>.GetEnumerator));
-
         }
 
         [Test]
@@ -249,7 +248,6 @@ generic <typename T>
             TestMethodSignature(typeof(Widget), @"public:
  static Mono_DocTest::Widget ^ operator +(Mono_DocTest::Widget ^ x1, Mono_DocTest::Widget ^ x2);",
                 "op_Addition");
-
 
         [Test]
         [Category("Methods")]
@@ -263,6 +261,30 @@ generic <typename T>
         public void NoSupport_Exception_NestedClassWithSameName()
         {
             TestTypeSignature(CSharpTestLib, "Mono.DocTest.Widget/NestedClass", null);
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_Widget()
+        {
+            TestTypeSignature(CSharpTestLib, 
+                "Mono.DocTest.DocValueType", "public value class Mono::DocTest::DocValueType : Mono::DocTest::IProcess");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_Single()
+        {
+            TestTypeSignature(typeof(Single), 
+                "public value class float : IComparable, IComparable<float>, IConvertible, IEquatable<float>, IFormattable");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_Int32()
+        {
+            TestTypeSignature(typeof(Int32), 
+                "public value class int : IComparable, IComparable<int>, IConvertible, IEquatable<int>, IFormattable");
         }
 
         [Test]

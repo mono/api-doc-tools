@@ -59,20 +59,26 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Int16": typeToCompare = "short"; break;
                 case "System.Int32": typeToCompare = "int"; break;
                 case "System.Int64": typeToCompare = "long"; break;
-                case "System.UInt16": typeToCompare = "unsigned short"; break;
+                case "System.UInt16": typeToCompare = "uint16_t"; break;
                 case "System.UInt32": typeToCompare = "uint32_t"; break;
                 case "System.UInt64": typeToCompare = "uint64_t"; break;
-
                 case "System.Single": typeToCompare = "float"; break;
                 case "System.Double": typeToCompare = "double"; break;
-
                 case "System.Boolean": typeToCompare = "bool"; break;
                 case "System.Char": typeToCompare = "char"; break;
                 case "System.Void": typeToCompare = "void"; break;
+
                 //API specific type is "winrt::hstring"; but c++ in built type is better variant
                 case "System.String": typeToCompare = "winrt::hstring"; break;
                 case "System.Guid": typeToCompare = "winrt::guid"; break;
                 case "System.Object": typeToCompare = "winrt::Windows::Foundation::IInspectable"; break;
+                case "Windows.Foundation.Numerics.Matrix3x2": typeToCompare = "float3x2"; break;
+                case "Windows.Foundation.Numerics.Matrix4x4": typeToCompare = "float4x4"; break;
+                case "Windows.Foundation.Numerics.Plane": typeToCompare = "plane"; break;
+                case "Windows.Foundation.Numerics.Quaternion": typeToCompare = "quaternion"; break;
+                case "Windows.Foundation.Numerics.Vector2": typeToCompare = "float2"; break;
+                case "Windows.Foundation.Numerics.Vector3": typeToCompare = "float3"; break;
+                case "Windows.Foundation.Numerics.Vector4": typeToCompare = "float4"; break;
             }
 
             if (splitType != null)
@@ -205,9 +211,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
             buf.Append(GetTypeKind(type));
             buf.Append(" ");
-            buf.Append(GetCppType(type.FullName) == null
+            var cppType = GetCppType(type.FullName);
+            buf.Append(cppType == null
                     ? GetNameWithOptions(type, false, false)
-                    : type.Name);
+                    : cppType);
 
             if (type.IsAbstract && !type.IsInterface)
                 buf.Append(" abstract");
