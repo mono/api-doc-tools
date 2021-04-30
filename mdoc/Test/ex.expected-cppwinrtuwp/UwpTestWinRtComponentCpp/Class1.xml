@@ -123,7 +123,7 @@
     <Member MemberName="primeFoundEvent">
       <MemberSignature Language="C#" Value="public event UwpTestWinRtComponentCpp.PrimeFoundHandler primeFoundEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class UwpTestWinRtComponentCpp.PrimeFoundHandler primeFoundEvent" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token primeFoundEvent(UwpTestWinRtComponentCpp::PrimeFoundHandler const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void primeFoundEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token primeFoundEvent(UwpTestWinRtComponentCpp::PrimeFoundHandler const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void primeFoundEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Class1::primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>255.255.255.255</AssemblyVersion>

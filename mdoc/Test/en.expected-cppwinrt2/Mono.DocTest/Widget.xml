@@ -69,7 +69,7 @@
     <Member MemberName="AnEvent">
       <MemberSignature Language="C#" Value="public event Mono.DocTest.Widget.Del AnEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class Mono.DocTest.Widget/Del AnEvent" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnEvent_revoker AnEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Widget::AnEvent_revoker AnEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -99,7 +99,7 @@
     <Member MemberName="AnotherEvent">
       <MemberSignature Language="C#" Value="protected event Mono.DocTest.Widget.Del AnotherEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class Mono.DocTest.Widget/Del AnotherEvent" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnotherEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnotherEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnotherEvent_revoker AnotherEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnotherEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnotherEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Widget::AnotherEvent_revoker AnotherEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -306,7 +306,7 @@
     <Member MemberName="DynamicE1">
       <MemberSignature Language="C#" Value="public event Func&lt;dynamic&gt; DynamicE1;" />
       <MemberSignature Language="ILAsm" Value=".event class System.Func`1&lt;object&gt; DynamicE1" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE1(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE1(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE1_revoker DynamicE1(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE1(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE1(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Widget::DynamicE1_revoker DynamicE1(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -328,7 +328,7 @@
     <Member MemberName="DynamicE2">
       <MemberSignature Language="C#" Value="public event Func&lt;dynamic&gt; DynamicE2;" />
       <MemberSignature Language="ILAsm" Value=".event class System.Func`1&lt;object&gt; DynamicE2" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE2(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE2(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE2_revoker DynamicE2(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE2(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE2(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Widget::DynamicE2_revoker DynamicE2(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

@@ -186,6 +186,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override string GetEventDeclaration(EventDefinition e)
         {
             string apiName = e.Name, typeName = GetTypeNameWithOptions(e.EventType, AppendHatOnReturn);
+            var rtnAutoEventRevoker = e.DeclaringType.Name + NestedTypeSeparator + apiName;
 
             StringBuilder buf = new StringBuilder();
             //if (AppendVisibility(buf, e.AddMethod).Length == 0)
@@ -194,7 +195,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             buf.AppendLine().AppendLine("// Revoke with event_token");
             buf.AppendLine($"void {apiName}(event_token const* cookie) const;");
             buf.AppendLine().AppendLine("// Revoke with event_revoker");
-            buf.Append($"{apiName}_revoker {apiName}(auto_revoke_t, {typeName} const& handler) const;");
+            buf.Append($"{rtnAutoEventRevoker}_revoker {apiName}(auto_revoke_t, {typeName} const& handler) const;");
 
             return buf.ToString().Replace("\r\n", "\n");
         }
