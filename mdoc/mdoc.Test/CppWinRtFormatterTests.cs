@@ -13,6 +13,7 @@ namespace mdoc.Test
         private static readonly CppWinRtMemberFormatter CppWinRtMemberFormatter = new CppWinRtMemberFormatter();
         protected override CppWinRtMemberFormatter formatter => CppWinRtMemberFormatter;
 
+        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
         private string _cppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
         private const string CSharpTestLib = "../../../../external/Test/CSharpExample.dll";
 
@@ -55,6 +56,55 @@ namespace mdoc.Test
 
         [Test]
         [Category("Type")]
+        public void TypeSignature_NumericsMatrix3x2()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Matrix3x2", "struct float3x2");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsMatrix4x4()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Matrix4x4", "struct float4x4");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsPlane()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Plane", "struct plane");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsQuaternion()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Quaternion", "struct quaternion");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsVector2()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Vector2", "struct float2");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsVector3()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Vector3", "struct float3");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsVector4()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Vector4", "struct float4");
+        }
+
+        [Test]
+        [Category("Type")]
         public void TypeSignature_GenericInterface()
         {
             TestTypeSignature(typeof(IFoo<>), @"template <typename T>
@@ -84,6 +134,22 @@ class Widget::NestedClass::Double");
         {
             TestTypeSignature(typeof(Widget), @"[Windows::Foundation::Metadata::WebHostHidden]
 class Widget : Mono_DocTest::IProcess");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_ValueGuid()
+        {
+            TestTypeSignature(typeof(Guid), 
+                "struct winrt::guid : IComparable, IComparable<winrt::guid>, IEquatable<winrt::guid>, IFormattable");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_ValueSingle()
+        {
+            TestTypeSignature(typeof(Single), 
+                "struct float : IComparable, IComparable<float>, IConvertible, IEquatable<float>, IFormattable");
         }
 
         [Test]

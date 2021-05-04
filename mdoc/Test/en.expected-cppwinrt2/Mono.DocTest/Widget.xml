@@ -69,7 +69,7 @@
     <Member MemberName="AnEvent">
       <MemberSignature Language="C#" Value="public event Mono.DocTest.Widget.Del AnEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class Mono.DocTest.Widget/Del AnEvent" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnEvent_revoker AnEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Widget::AnEvent_revoker AnEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -99,7 +99,7 @@
     <Member MemberName="AnotherEvent">
       <MemberSignature Language="C#" Value="protected event Mono.DocTest.Widget.Del AnotherEvent;" />
       <MemberSignature Language="ILAsm" Value=".event class Mono.DocTest.Widget/Del AnotherEvent" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnotherEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnotherEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;AnotherEvent_revoker AnotherEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token AnotherEvent(Mono::DocTest::Widget::Del const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void AnotherEvent(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Widget::AnotherEvent_revoker AnotherEvent(auto_revoke_t, Mono::DocTest::Widget::Del const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -115,7 +115,7 @@
     <Member MemberName="array1">
       <MemberSignature Language="C#" Value="public long[] array1;" />
       <MemberSignature Language="ILAsm" Value=".field public int64[] array1" />
-      <MemberSignature Language="C++ WINRT" Value="std::Array &lt;long&gt; array1;" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::array_view &lt;long&gt; array1;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -131,7 +131,7 @@
     <Member MemberName="array2">
       <MemberSignature Language="C#" Value="public Mono.DocTest.Widget[,] array2;" />
       <MemberSignature Language="ILAsm" Value=".field public class Mono.DocTest.Widget[,] array2" />
-      <MemberSignature Language="C++ WINRT" Value="std::Array &lt;Mono::DocTest::Widget const&amp;, 2&gt; array2;" />
+      <MemberSignature Language="C++ WINRT" Value="winrt::array_view &lt;Mono::DocTest::Widget const&amp;, 2&gt; array2;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -147,7 +147,7 @@
     <Member MemberName="classCtorError">
       <MemberSignature Language="C#" Value="public static readonly string[] classCtorError;" />
       <MemberSignature Language="ILAsm" Value=".field public static initonly string[] classCtorError" />
-      <MemberSignature Language="C++ WINRT" Value="static initonly std::Array &lt;winrt::hstring const&amp;&gt; classCtorError;" />
+      <MemberSignature Language="C++ WINRT" Value="static initonly winrt::array_view &lt;winrt::hstring const&amp;&gt; classCtorError;" />
       <MemberType>Field</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -306,7 +306,7 @@
     <Member MemberName="DynamicE1">
       <MemberSignature Language="C#" Value="public event Func&lt;dynamic&gt; DynamicE1;" />
       <MemberSignature Language="ILAsm" Value=".event class System.Func`1&lt;object&gt; DynamicE1" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE1(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE1(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE1_revoker DynamicE1(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE1(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE1(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Widget::DynamicE1_revoker DynamicE1(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -328,7 +328,7 @@
     <Member MemberName="DynamicE2">
       <MemberSignature Language="C#" Value="public event Func&lt;dynamic&gt; DynamicE2;" />
       <MemberSignature Language="ILAsm" Value=".event class System.Func`1&lt;object&gt; DynamicE2" />
-      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE2(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE2(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;DynamicE2_revoker DynamicE2(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
+      <MemberSignature Language="C++ WINRT" Value="// Register&#xA;event_token DynamicE2(Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;&#xA;&#xA;// Revoke with event_token&#xA;void DynamicE2(event_token const* cookie) const;&#xA;&#xA;// Revoke with event_revoker&#xA;Widget::DynamicE2_revoker DynamicE2(auto_revoke_t, Func&lt;winrt::Windows::Foundation::IInspectable&gt; const&amp; handler) const;" />
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -527,7 +527,7 @@
     <Member MemberName="M2">
       <MemberSignature Language="C#" Value="public void M2 (short[] x1, int[,] x2, long[][] x3);" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void M2(int16[] x1, int32[,] x2, int64[][] x3) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M2(std::Array &lt;short&gt; const&amp; x1, std::Array &lt;int, 2&gt; const&amp; x2, std::Array &lt;std::Array &lt;long&gt; const&amp;&gt; const&amp; x3);" />
+      <MemberSignature Language="C++ WINRT" Value="void M2(winrt::array_view &lt;short&gt; const&amp; x1, winrt::array_view &lt;int, 2&gt; const&amp; x2, winrt::array_view &lt;winrt::array_view &lt;long&gt; const&amp;&gt; const&amp; x3);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -551,7 +551,7 @@
     <Member MemberName="M3">
       <MemberSignature Language="C#" Value="protected void M3 (long[][] x3, Mono.DocTest.Widget[,,][] x4);" />
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void M3(int64[][] x3, class Mono.DocTest.Widget[,,][] x4) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M3(std::Array &lt;std::Array &lt;long&gt; const&amp;&gt; const&amp; x3, std::Array &lt;std::Array &lt;Mono::DocTest::Widget const&amp;, 3&gt; const&amp;&gt; const&amp; x4);" />
+      <MemberSignature Language="C++ WINRT" Value="void M3(winrt::array_view &lt;winrt::array_view &lt;long&gt; const&amp;&gt; const&amp; x3, winrt::array_view &lt;winrt::array_view &lt;Mono::DocTest::Widget const&amp;, 3&gt; const&amp;&gt; const&amp; x4);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -595,7 +595,7 @@
     <Member MemberName="M5">
       <MemberSignature Language="C#" Value="protected void M5 (void* pv, double*[,][] pd);" />
       <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance void M5(void* pv, float64*[,][] pd) cil managed" />
-      <MemberSignature Language="C++ WINRT" Value="void M5(void* pv, std::Array &lt;std::Array &lt;double*, 2&gt; const&amp;&gt; const&amp; pd);" />
+      <MemberSignature Language="C++ WINRT" Value="void M5(void* pv, winrt::array_view &lt;winrt::array_view &lt;double*, 2&gt; const&amp;&gt; const&amp; pd);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

@@ -1,7 +1,7 @@
 <Type Name="Extensions" FullName="Mono.DocTest.Generic.Extensions">
   <TypeSignature Language="C#" Value="public static class Extensions" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Extensions extends System.Object" />
-  <TypeSignature Language="C++ WINRT" Value="class Extensions abstract final" />
+  <TypeSignature Language="C++ WINRT" Value="class Extensions final" />
   <AssemblyInfo>
     <AssemblyName>DocTest</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>

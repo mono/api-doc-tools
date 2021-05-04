@@ -109,6 +109,10 @@
     </Type>
   </Namespace>
   <Namespace Name="Mono.DocTest.Generic">
+    <Type Name="Mono.DocTest.Generic.CompoundConstraints`1" Id="T:Mono.DocTest.Generic.CompoundConstraints`1">
+      <Member Id="M:Mono.DocTest.Generic.CompoundConstraints`1.#ctor" />
+      <Member Id="M:Mono.DocTest.Generic.CompoundConstraints`1.CompoundConstraintClass``1" />
+    </Type>
     <Type Name="Mono.DocTest.Generic.Extensions" Id="T:Mono.DocTest.Generic.Extensions">
       <Member Id="M:Mono.DocTest.Generic.Extensions.Bar``1(Mono.DocTest.Generic.IFoo{``0},System.String)" />
       <Member Id="M:Mono.DocTest.Generic.Extensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})" />

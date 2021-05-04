@@ -1,16 +1,16 @@
 Framework: one
 --------
-Types Added: 32
+Types Added: 33
 Types Removed: 0
-Types Total: 32
+Types Total: 33
 
 Namespaces Added: 4
 Namespaces Removed: 0
 Namespaces Total: 4
 
-Members Added: 127
+Members Added: 129
 Members Removed: 0
-Members Total: 127
+Members Total: 129
 
 Framework: two
 --------
