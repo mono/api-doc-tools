@@ -12,6 +12,7 @@ namespace mdoc.Test
     {
         protected override CppCxFullMemberFormatter formatter { get; } = new CppCxFullMemberFormatter();
 
+        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
         private const string CppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
         private const string CSharpTestLib = "../../../../external/Test/CSharpExample.dll";
 
@@ -94,6 +95,13 @@ namespace mdoc.Test
 
         [Test]
         [Category("Field")]
+        public void Field_WinRtNumericsPlaneNormal()
+        {
+            TestFieldSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Plane", "Normal", "public: float3 Normal;");
+        }
+
+        [Test]
+        [Category("Field")]
         public void Field_ValueType_String()
         {
             TestFieldSignature(CppCxTestLibName, "Namespace2.Class4", "StringField", "public: Platform::String ^ StringField;");
@@ -105,6 +113,21 @@ namespace mdoc.Test
         {
             TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", @"public:
  event UwpTestWinRtComponentCpp::PrimeFoundHandler ^ primeFoundEvent;");
+        }
+
+        [Test]
+        [Category("Properties")]
+        public void Property_WinRtNumericsActualSize()
+        {
+            TestPropertySignature(_cppWinRtTestLibName, "Windows.UI.Xaml.UIElement", "ActualSize", "public:\n property float2 ActualSize { float2 get(); };");
+        }
+
+        [Test]
+        [Category("Properties")]
+        public void Property_WinRtNumericsTransformMatrix()
+        {
+            TestPropertySignature(_cppWinRtTestLibName, "Windows.UI.Xaml.UIElement", "TransformMatrix",
+                "public:\n property float4x4 TransformMatrix { float4x4 get(); void set(float4x4 value); };");
         }
 
         [Test]
