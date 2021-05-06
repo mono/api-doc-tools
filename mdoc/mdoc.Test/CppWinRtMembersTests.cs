@@ -41,7 +41,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void CreateNewGuid()
+        public void Method_CreateNewGuid()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
             var sig = formatter.GetDeclaration(member);
@@ -49,7 +49,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void ObjectIndentical()
+        public void Method_ObjectIndentical()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
             var sig = formatter.GetDeclaration(member);
@@ -107,7 +107,7 @@ event_token primeFoundEvent(UwpTestWinRtComponentCpp::PrimeFoundHandler const& h
 void primeFoundEvent(event_token const* cookie) const;
 
 // Revoke with event_revoker
-primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;";
+Class1::primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;";
             TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", expectedSig);
         }
 

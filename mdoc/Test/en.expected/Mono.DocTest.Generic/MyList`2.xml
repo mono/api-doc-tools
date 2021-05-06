@@ -89,7 +89,7 @@
       <MemberSignature Language="F#" Value="abstract member CopyTo : 'A[] * int -&gt; unit&#xA;override this.CopyTo : 'A[] * int -&gt; unit" Usage="myList.CopyTo (array, arrayIndex)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void CopyTo(cli::array &lt;A&gt; ^ array, int arrayIndex);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; void CopyTo(Platform::Array &lt;A&gt; ^ array, int arrayIndex);" />
-      <MemberSignature Language="C++ WINRT" Value="void CopyTo(std::Array &lt;A&gt; const&amp; array, int const&amp; arrayIndex);" />
+      <MemberSignature Language="C++ WINRT" Value="void CopyTo(winrt::array_view &lt;A&gt; const&amp; array, int const&amp; arrayIndex);" />
       <MemberType>Method</MemberType>
       <Implements>
         <InterfaceMember>M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)</InterfaceMember>

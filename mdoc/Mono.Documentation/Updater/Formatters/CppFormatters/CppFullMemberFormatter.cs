@@ -181,9 +181,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             
             buf.Append(GetTypeKind (type));
             buf.Append(" ");
-            buf.Append(GetCppType(type.FullName) == null
+            var cppType = GetCppType(type.FullName);
+            buf.Append(cppType == null
                     ? GetNameWithOptions(type, false, false)
-                    : type.Name);
+                    : cppType);
 
             if (type.IsAbstract && !type.IsInterface)
                 buf.Append(" abstract");
