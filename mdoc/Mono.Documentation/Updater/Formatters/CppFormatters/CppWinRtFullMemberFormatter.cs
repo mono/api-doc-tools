@@ -171,14 +171,27 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             StringBuilder buf = new StringBuilder();
 
             if (property.GetMethod != null)
-                buf.AppendLine($"{returnType} {apiName}();").AppendLine();
+            {
+                if (property.GetMethod.IsStatic)
+                    buf.AppendLine($"static {returnType} {apiName}();").AppendLine();
+                else
+                    buf.AppendLine($"{returnType} {apiName}();").AppendLine();
+            }
 
             if (property.SetMethod != null) {
                 string paramName = property.SetMethod.Parameters.First().Name;
+                if (property.SetMethod.IsStatic)
+                {
+                    buf.Append("static ");
+                }
                 if (string.IsNullOrWhiteSpace(paramName))
+                {
                     buf.AppendLine($"void {apiName}({returnType});");
+                }
                 else
+                {
                     buf.AppendLine($"void {apiName}({returnType} {paramName});");
+                }
             }
             return buf.ToString().Replace("\r\n", "\n").Trim();
         }
@@ -190,12 +203,16 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
             StringBuilder buf = new StringBuilder();
             //if (AppendVisibility(buf, e.AddMethod).Length == 0)
+            var method = e.AddMethod;
+            string modifiers = string.Empty;
+            if (method.IsStatic)
+                modifiers += "static ";
             buf.AppendLine("// Register");
-            buf.AppendLine($"event_token {apiName}({typeName} const& handler) const;");
+            buf.AppendLine($"{modifiers}event_token {apiName}({typeName} const& handler) const;");
             buf.AppendLine().AppendLine("// Revoke with event_token");
-            buf.AppendLine($"void {apiName}(event_token const* cookie) const;");
+            buf.AppendLine($"{modifiers}void {apiName}(event_token const* cookie) const;");
             buf.AppendLine().AppendLine("// Revoke with event_revoker");
-            buf.Append($"{rtnAutoEventRevoker}_revoker {apiName}(auto_revoke_t, {typeName} const& handler) const;");
+            buf.Append($"{modifiers}{rtnAutoEventRevoker}_revoker {apiName}(auto_revoke_t, {typeName} const& handler) const;");
 
             return buf.ToString().Replace("\r\n", "\n");
         }

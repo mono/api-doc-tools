@@ -174,7 +174,7 @@
       <MemberSignature Language="JavaScript" Usage="var boolean = AttachedPropertyExample.isDuplicated;&#xA;AttachedPropertyExample.isDuplicated = boolean;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static property bool IsDuplicated { bool get(); void set(bool value); };" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; static property bool IsDuplicated { bool get(); void set(bool value); };" />
-      <MemberSignature Language="C++ WINRT" Value="bool IsDuplicated();&#xA;&#xA;void IsDuplicated(bool value);" />
+      <MemberSignature Language="C++ WINRT" Value="static bool IsDuplicated();&#xA;&#xA;static void IsDuplicated(bool value);" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
