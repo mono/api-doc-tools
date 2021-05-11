@@ -46,7 +46,12 @@ namespace mdoc.Test.SampleClasses
 
         public void SomeMethodWithParameters(SomeClass someClass, int i)
         {
-            
+
+        }
+
+        public void SomeMethodWithInParameterModifier(in string s1, string s2, in string s3)
+        {
+
         }
 
         public void SomeMethod()
