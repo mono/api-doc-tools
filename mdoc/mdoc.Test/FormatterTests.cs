@@ -263,7 +263,7 @@ namespace mdoc.Test
             var member = GetMethod(typeof(SomeClass), m => m.Name == "SomeMethodWithInParameterModifier");
             var formatter = new CSharpFullMemberFormatter();
             var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public void SomeMethodWithInParameterModifier (in string s1, string s2, in string s3);", sig);
+            Assert.AreEqual("public void SomeMethodWithInParameterModifier (in string s);", sig);
         }
 
         [Test]
