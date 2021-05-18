@@ -4221,7 +4221,7 @@ namespace Mono.Documentation
         private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, TypeReference type, MemberReference member, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)
         {
             XmlElement e = WriteElement (root, "ReturnValue");
-            var valueToUse = GetDocTypeFullName (type);
+            var valueToUse = GetDocTypeFullName (type, false);
             if ((type.IsRequiredModifier && ((RequiredModifierType)type).ElementType.IsByReference)
                     || type.IsByReference)
                 e.SetAttribute("RefType", "Ref");
