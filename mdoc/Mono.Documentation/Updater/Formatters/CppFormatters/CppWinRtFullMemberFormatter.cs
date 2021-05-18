@@ -10,7 +10,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
     public class CppWinRtFullMemberFormatter : CppCxFullMemberFormatter
     {
         protected override bool AppendHatOnReturn => false;
-        protected override string HatModifier => $" const{RefTypeModifier}";
+        protected override string HatModifier => $" const&";
         public override string Language => Consts.CppWinRt;
         protected override string RefTypeModifier => " &";
 
@@ -41,7 +41,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (t.Contains(' '))
             {
                 splitType = t.Split(' ');
-                typeToCompare = splitType[0];
+                typeToCompare = splitType[0].Trim('&');
 
                 foreach (var str in splitType)
                 {
@@ -59,19 +59,26 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Int16": typeToCompare = "short"; break;
                 case "System.Int32": typeToCompare = "int"; break;
                 case "System.Int64": typeToCompare = "long"; break;
-                case "System.UInt16": typeToCompare = "unsigned short"; break;
+                case "System.UInt16": typeToCompare = "uint16_t"; break;
                 case "System.UInt32": typeToCompare = "uint32_t"; break;
                 case "System.UInt64": typeToCompare = "uint64_t"; break;
-
                 case "System.Single": typeToCompare = "float"; break;
                 case "System.Double": typeToCompare = "double"; break;
-
                 case "System.Boolean": typeToCompare = "bool"; break;
                 case "System.Char": typeToCompare = "char"; break;
                 case "System.Void": typeToCompare = "void"; break;
+
                 //API specific type is "winrt::hstring"; but c++ in built type is better variant
                 case "System.String": typeToCompare = "winrt::hstring"; break;
+                case "System.Guid": typeToCompare = "winrt::guid"; break;
                 case "System.Object": typeToCompare = "winrt::Windows::Foundation::IInspectable"; break;
+                case "Windows.Foundation.Numerics.Matrix3x2": typeToCompare = "float3x2"; break;
+                case "Windows.Foundation.Numerics.Matrix4x4": typeToCompare = "float4x4"; break;
+                case "Windows.Foundation.Numerics.Plane": typeToCompare = "plane"; break;
+                case "Windows.Foundation.Numerics.Quaternion": typeToCompare = "quaternion"; break;
+                case "Windows.Foundation.Numerics.Vector2": typeToCompare = "float2"; break;
+                case "Windows.Foundation.Numerics.Vector3": typeToCompare = "float3"; break;
+                case "Windows.Foundation.Numerics.Vector4": typeToCompare = "float4"; break;
             }
 
             if (splitType != null)
@@ -98,7 +105,12 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                     buf.AppendFormat("... ");
             }
 
-            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, !AppendHatOnReturn)).Append(" ");
+            buf.Append(GetTypeName(parameter.ParameterType, EmptyAttributeParserContext.Empty()));
+            if (!parameter.ParameterType.IsByReference && !parameter.ParameterType.IsPointer)
+            {
+                buf.Append(parameter.IsOut ? RefTypeModifier : HatModifier);
+            }
+            buf.Append(" ");
             buf.Append(parameter.Name);
 
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
@@ -125,7 +137,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override StringBuilder AppendArrayTypeName(StringBuilder buf, TypeReference type,
             IAttributeParserContext context)
         {
-            buf.Append("std::Array <");
+            buf.Append("winrt::array_view <");
 
             var item = type is TypeSpecification spec ? spec.ElementType : type.GetElementType();
             _AppendTypeName(buf, item, context);
@@ -159,14 +171,27 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             StringBuilder buf = new StringBuilder();
 
             if (property.GetMethod != null)
-                buf.AppendLine($"{returnType} {apiName}();").AppendLine();
+            {
+                if (property.GetMethod.IsStatic)
+                    buf.AppendLine($"static {returnType} {apiName}();").AppendLine();
+                else
+                    buf.AppendLine($"{returnType} {apiName}();").AppendLine();
+            }
 
             if (property.SetMethod != null) {
                 string paramName = property.SetMethod.Parameters.First().Name;
+                if (property.SetMethod.IsStatic)
+                {
+                    buf.Append("static ");
+                }
                 if (string.IsNullOrWhiteSpace(paramName))
+                {
                     buf.AppendLine($"void {apiName}({returnType});");
+                }
                 else
+                {
                     buf.AppendLine($"void {apiName}({returnType} {paramName});");
+                }
             }
             return buf.ToString().Replace("\r\n", "\n").Trim();
         }
@@ -174,15 +199,20 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override string GetEventDeclaration(EventDefinition e)
         {
             string apiName = e.Name, typeName = GetTypeNameWithOptions(e.EventType, AppendHatOnReturn);
+            var rtnAutoEventRevoker = e.DeclaringType.Name + NestedTypeSeparator + apiName;
 
             StringBuilder buf = new StringBuilder();
             //if (AppendVisibility(buf, e.AddMethod).Length == 0)
+            var method = e.AddMethod;
+            string modifiers = string.Empty;
+            if (method.IsStatic)
+                modifiers += "static ";
             buf.AppendLine("// Register");
-            buf.AppendLine($"event_token {apiName}({typeName} const& handler) const;");
+            buf.AppendLine($"{modifiers}event_token {apiName}({typeName} const& handler) const;");
             buf.AppendLine().AppendLine("// Revoke with event_token");
-            buf.AppendLine($"void {apiName}(event_token const* cookie) const;");
+            buf.AppendLine($"{modifiers}void {apiName}(event_token const* cookie) const;");
             buf.AppendLine().AppendLine("// Revoke with event_revoker");
-            buf.Append($"{apiName}_revoker {apiName}(auto_revoke_t, {typeName} const& handler) const;");
+            buf.Append($"{modifiers}{rtnAutoEventRevoker}_revoker {apiName}(auto_revoke_t, {typeName} const& handler) const;");
 
             return buf.ToString().Replace("\r\n", "\n");
         }
@@ -199,12 +229,11 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
             buf.Append(GetTypeKind(type));
             buf.Append(" ");
-            buf.Append(GetCppType(type.FullName) == null
+            var cppType = GetCppType(type.FullName);
+            buf.Append(cppType == null
                     ? GetNameWithOptions(type, false, false)
-                    : type.Name);
+                    : cppType);
 
-            if (type.IsAbstract && !type.IsInterface)
-                buf.Append(" abstract");
             if (type.IsSealed && !DocUtils.IsDelegate(type) && !type.IsValueType)
                 buf.Append(" final");
 

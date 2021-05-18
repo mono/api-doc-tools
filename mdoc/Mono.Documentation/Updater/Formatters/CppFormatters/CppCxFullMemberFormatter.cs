@@ -62,6 +62,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             "System.String",
             "System.ValueType",
             "System.Enum",
+            "System.Guid",
         };
 
         protected virtual IList<string> GetAllowedTypes()
@@ -106,7 +107,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (t.Contains(' '))
             {
                 splitType = t.Split(' ');
-                typeToCompare = splitType[0];
+                typeToCompare = splitType[0].Trim('&');
             }
 
             switch (typeToCompare)
@@ -125,10 +126,18 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "System.Boolean": typeToCompare = "bool"; break;
                 case "System.Char": typeToCompare = "char16"; break;
                 case "System.Void": typeToCompare = "void"; break;
+                case "System.Guid": typeToCompare = "Platform::Guid"; break;
                 case "System.String": typeToCompare = "Platform::String"; break;
                 case "System.Object": typeToCompare = "Platform::Object"; break;
                 case "System.Type": typeToCompare = "Platform::Type"; break;
                 case "System.Attribute": typeToCompare = "Platform::Metadata::Attribute"; break;
+                case "Windows.Foundation.Numerics.Matrix3x2": typeToCompare = "float3x2"; break;
+                case "Windows.Foundation.Numerics.Matrix4x4": typeToCompare = "float4x4"; break;
+                case "Windows.Foundation.Numerics.Plane": typeToCompare = "plane"; break;
+                case "Windows.Foundation.Numerics.Quaternion": typeToCompare = "quaternion"; break;
+                case "Windows.Foundation.Numerics.Vector2": typeToCompare = "float2"; break;
+                case "Windows.Foundation.Numerics.Vector3": typeToCompare = "float3"; break;
+                case "Windows.Foundation.Numerics.Vector4": typeToCompare = "float4"; break;
             }
 
             if (splitType != null)
@@ -200,9 +209,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
             buf.Append(GetTypeKind(type));
             buf.Append(" ");
-            buf.Append(GetCppType(type.FullName) == null
+            var cppType = GetCppType(type.FullName);
+            buf.Append(cppType == null
                     ? GetNameWithOptions(type, false, false)
-                    : type.Name);
+                    : cppType);
 
             if (type.IsAbstract && !type.IsInterface)
                 buf.Append(" abstract");
@@ -330,7 +340,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 }
             }
 
-            if (allowedTypes.Contains(tref.FullName.Split(' ')[0]) || CppCxSpecificNamespases.Contains(tref.Namespace))
+            if (allowedTypes.Contains(tref.FullName.Split(' ')[0].Trim('&')) || CppCxSpecificNamespases.Contains(tref.Namespace))
             {
                 return true;
             }

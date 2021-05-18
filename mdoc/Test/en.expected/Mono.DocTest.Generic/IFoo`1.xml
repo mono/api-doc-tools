@@ -29,7 +29,7 @@
       <MemberSignature Language="F#" Value="abstract member Method : 'T * 'U -&gt; 'T" Usage="iFoo.Method (t, u)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U&gt;&#xA; T Method(T t, U u);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; T Method(T t, U u);" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; T Method(T t, U u);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; T Method(T const&amp; t, U const&amp; u);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

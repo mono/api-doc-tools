@@ -13,6 +13,7 @@ namespace mdoc.Test
     {
         protected override CppCxMemberFormatter formatter => new CppCxMemberFormatter();
 
+        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
         private string _cppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
 
         protected override TypeDefinition GetType(Type type)
@@ -85,7 +86,72 @@ namespace mdoc.Test
             TestTypeSignature(_cppCxTestLibName, "Namespace2.Class4", "public value class Class4");
         }
 
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsMatrix3x2()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Matrix3x2", "public value class float3x2");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsMatrix4x4()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Matrix4x4", "public value class float4x4");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsQuaternion()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Quaternion", "public value class quaternion");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsVector2()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Vector2", "public value class float2");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsVector3()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Vector3", "public value class float3");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsVector4()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Vector4", "public value class float4");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_ValueGuid()
+        {
+            TestTypeSignature(typeof(Guid), 
+                "public value class Platform::Guid : IComparable, IComparable<Platform::Guid>, IEquatable<Platform::Guid>, IFormattable");
+        }
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_ValueSingle()
+        {
+            TestTypeSignature(typeof(Single), 
+                "public value class float : IComparable, IComparable<float>, IConvertible, IEquatable<float>, IFormattable");
+        }
+
         #region NoSupport
+
+        [Test]
+        [Category("Type")]
+        public void TypeSignature_NumericsPlane()
+        {
+            TestTypeSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Plane", null);
+        }
 
         [Test]
         [Category("NoSupport")]

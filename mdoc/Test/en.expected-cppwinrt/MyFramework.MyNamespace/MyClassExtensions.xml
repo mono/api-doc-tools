@@ -1,7 +1,7 @@
 <Type Name="MyClassExtensions" FullName="MyFramework.MyNamespace.MyClassExtensions">
   <TypeSignature Language="C#" Value="public static class MyClassExtensions" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit MyClassExtensions extends System.Object" />
-  <TypeSignature Language="C++ WINRT" Value="class MyClassExtensions abstract final" />
+  <TypeSignature Language="C++ WINRT" Value="class MyClassExtensions final" />
   <AssemblyInfo>
     <AssemblyName>DocTest-DropNS-classic</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>

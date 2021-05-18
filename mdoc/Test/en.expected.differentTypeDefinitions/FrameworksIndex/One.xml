@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="One">
+  <Assemblies>
+    <Assembly Name="DocTest-differentTypeDefinitions-First" Version="0.0.0.0" />
+    <Assembly Name="DocTest-differentTypeDefinitions-Second" Version="0.0.0.0" />
+  </Assemblies>
+  <Namespace Name="TheNamespace">
+    <Type Name="TheNamespace.TheClass" Id="T:TheNamespace.TheClass">
+      <Member Id="M:TheNamespace.TheClass.#ctor(System.Int32)" />
+      <Member Id="M:TheNamespace.TheClass.#ctor(System.String)" />
+    </Type>
+  </Namespace>
+</Framework>

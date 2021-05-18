@@ -34,7 +34,7 @@
       <MemberSignature Language="JavaScript" Value="function m(i)" Usage="docValueType.m(i)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void M(int i);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; void M(int i);" />
-      <MemberSignature Language="C++ WINRT" Value="void M(int i);" />
+      <MemberSignature Language="C++ WINRT" Value="void M(int const&amp; i);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

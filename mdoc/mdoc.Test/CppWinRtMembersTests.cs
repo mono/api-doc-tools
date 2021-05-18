@@ -1,4 +1,5 @@
-﻿using Mono.Documentation.Updater.Formatters.CppFormatters;
+﻿using mdoc.Test.SampleClasses;
+using Mono.Documentation.Updater.Formatters.CppFormatters;
 using Mono_DocTest;
 using NUnit.Framework;
 using Cpp = Mono_DocTest_Generic;
@@ -11,6 +12,7 @@ namespace mdoc.Test
         private static readonly CppWinRtFullMemberFormatter CppWinRtFullMemberFormatter = new CppWinRtFullMemberFormatter();
         protected override CppWinRtFullMemberFormatter formatter => CppWinRtFullMemberFormatter;
 
+        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
         private string CppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
         private const string CSharpTestLib = "../../../../external/Test/CSharpExample.dll";
 
@@ -19,7 +21,7 @@ namespace mdoc.Test
         public void Method_ComputeResult()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "ComputeResult",
-                @"winrt::Windows::Foundation::Collections::IVector<double> ComputeResult(double input);");
+                @"winrt::Windows::Foundation::Collections::IVector<double> ComputeResult(double const& input);");
         }
 
         [Test]
@@ -27,7 +29,7 @@ namespace mdoc.Test
         public void Method_GetPrimesOrdered()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "GetPrimesOrdered",
-                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<winrt::Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int first, int last);");
+                @"winrt::Windows::Foundation::IAsyncOperationWithProgress<winrt::Windows::Foundation::Collections::IVector<int>, double> GetPrimesOrdered(int const& first, int const& last);");
 
         }
 
@@ -36,7 +38,23 @@ namespace mdoc.Test
         public void Method_GetPrimesUnordered()
         {
             TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "GetPrimesUnordered",
-                @"winrt::Windows::Foundation::IAsyncActionWithProgress<double> GetPrimesUnordered(int first, int last);");
+                @"winrt::Windows::Foundation::IAsyncActionWithProgress<double> GetPrimesUnordered(int const& first, int const& last);");
+        }
+
+        [Test]
+        public void Method_CreateNewGuid()
+        {
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(@" static winrt::guid CreateNewGuid();", sig);
+        }
+
+        [Test]
+        public void Method_ObjectIndentical()
+        {
+            var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(@"bool ObjectIndentical(winrt::guid const& objGuid1, winrt::guid const& objGuid2);", sig);
         }
 
         [Test]
@@ -44,7 +62,7 @@ namespace mdoc.Test
         public void Method_DefaultParameters()
         {
             TestMethodSignature(CSharpTestLib, "Mono.DocTest.Widget", "Default",
-                @"void Default(int a = 1, int b = 2);");
+                @"void Default(int const& a = 1, int const& b = 2);");
         }
 
         [Test]
@@ -52,7 +70,7 @@ namespace mdoc.Test
         public void Method_RefType()
         {
             TestMethodSignature(CppCxTestLibName, "Namespace222.App", "SetWindow1",
-                @"void SetWindow1(winrt::Windows::UI::Core::CoreWindow const & window);");
+                @"void SetWindow1(winrt::Windows::UI::Core::CoreWindow const& window);");
         }
 
         [Test]
@@ -60,7 +78,29 @@ namespace mdoc.Test
         public void Method_WinRtTypeInterfaceImplementation()
         {
             TestMethodSignature(CppCxTestLibName, "Namespace222.App", "SetWindow",
-                @"void SetWindow(winrt::Windows::UI::Core::CoreWindow const & window);");
+                @"void SetWindow(winrt::Windows::UI::Core::CoreWindow const& window);");
+        }
+
+        [Test]
+        [Category("Properties")]
+        public void Property_WinRtNumericsActualSize()
+        {
+            TestPropertySignature(_cppWinRtTestLibName, "Windows.UI.Xaml.UIElement", "ActualSize", "float2 ActualSize();");
+        }
+
+        [Test]
+        [Category("Properties")]
+        public void Property_WinRtNumericsTransformMatrix()
+        {
+            TestPropertySignature(_cppWinRtTestLibName, "Windows.UI.Xaml.UIElement", "TransformMatrix",
+                "float4x4 TransformMatrix();\n\nvoid TransformMatrix(float4x4 value);");
+        }
+
+        [Test]
+        [Category("Fields")]
+        public void Field_WinRtNumericsPlaneNormal()
+        {
+            TestFieldSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Plane", "Normal", "float3 Normal;");
         }
 
         [Test]
@@ -90,7 +130,7 @@ event_token primeFoundEvent(UwpTestWinRtComponentCpp::PrimeFoundHandler const& h
 void primeFoundEvent(event_token const* cookie) const;
 
 // Revoke with event_revoker
-primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;";
+Class1::primeFoundEvent_revoker primeFoundEvent(auto_revoke_t, UwpTestWinRtComponentCpp::PrimeFoundHandler const& handler) const;";
             TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", expectedSig);
         }
 

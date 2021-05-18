@@ -1,0 +1,66 @@
+<Type Name="CompoundConstraints&lt;NGparam&gt;" FullName="Mono.DocTest.Generic.CompoundConstraints&lt;NGparam&gt;">
+  <TypeSignature Language="C#" Value="public class CompoundConstraints&lt;NGparam&gt; where NGparam : class, new()" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit CompoundConstraints`1&lt;class .ctor NGparam&gt; extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="NGparam">
+      <Constraints>
+        <ParameterAttribute>DefaultConstructorConstraint</ParameterAttribute>
+        <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+      </Constraints>
+    </TypeParameter>
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <typeparam name="NGparam">Non-generic param</typeparam>
+    <summary>To be added.</summary>
+    <remarks>
+      <c>T:Mono.DocTest.CompoundConstraints</c>.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public CompoundConstraints ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CompoundConstraintClass&lt;param&gt;">
+      <MemberSignature Language="C#" Value="public static void CompoundConstraintClass&lt;param&gt; () where param : class, new();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void CompoundConstraintClass&lt;class .ctor param&gt;() cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="param">
+          <Constraints>
+            <ParameterAttribute>DefaultConstructorConstraint</ParameterAttribute>
+            <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters />
+      <Docs>
+        <typeparam name="param">To be added.</typeparam>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

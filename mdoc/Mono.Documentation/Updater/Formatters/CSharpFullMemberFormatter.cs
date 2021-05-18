@@ -107,7 +107,7 @@ namespace Mono.Documentation.Updater.Formatters
             return buf;
         }
 
-        protected override string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
+        protected override string GetTypeName (TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
             GenericInstanceType genType = type as GenericInstanceType;
             if (IsSpecialGenericNullableValueType (genType))
@@ -316,10 +316,11 @@ namespace Mono.Documentation.Updater.Formatters
                     for (int i = 1; i < constraints.Count; ++i)
                         buf.Append (", ").Append (GetTypeName (constraints[i]));
 #endif
+                    
                 }
                 if (isnew && !isvt)
                 {
-                    if (comma)
+                    if (comma || constraints.Count > 0)
                         buf.Append (", ");
                     buf.Append ("new()");
                 }

@@ -649,6 +649,13 @@ namespace Mono.DocTest.Generic {
 		T Method <U> (T t, U u);
 	}
 
+	/// <typeparam name="NGparam">Non-generic param</typeparam>
+	/// <remarks><c>T:Mono.DocTest.CompoundConstraints</c>.</remarks>
+	public class CompoundConstraints<NGparam> where NGparam : class, new()
+    {
+		public static void CompoundConstraintClass<param> () where param : class, new() { }
+    }
+
 	/// <typeparam name="A">Ako generic param</typeparam>
 	/// <typeparam name="B">Bko generic param</typeparam>
 	/// <remarks><c>T:Mono.DocTest.MyList`2</c>.</remarks>

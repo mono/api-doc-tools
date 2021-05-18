@@ -139,6 +139,14 @@ Test/DocTest-enumerations.dll:
 Test/DocTest-embedded-type.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-embedded-type.cs
 
+Test/DocTest-differentTypeDefinitions-First.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-differentTypeDefinitions.cs /define:FIRST
+
+Test/DocTest-differentTypeDefinitions-Second.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-differentTypeDefinitions.cs /define:SECOND
+
 Test/DocTest-typeForwards-First.dll:
 	rm -f $@
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
@@ -198,6 +206,20 @@ Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dl
 	cp Test/DocTest-framework-inheritance-two.dll Test/FrameworkTestData-fx-inheritance/Two/
 	cp Test/DocTest-framework-inheritance-three.dll Test/FrameworkTestData-fx-inheritance/Three/
 	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-inheritance
+
+.PHONY: check-monodocer-differentTypeDefinitions
+check-monodocer-differentTypeDefinitions : Test/DocTest-differentTypeDefinitions-First.dll Test/DocTest-differentTypeDefinitions-Second.dll
+	-rm -Rf Test/en.actual
+
+	-rm -Rf Test/FrameworkTestData-fx-differentTypeDefinitions
+	mkdir Test/FrameworkTestData-fx-differentTypeDefinitions
+	mkdir Test/FrameworkTestData-fx-differentTypeDefinitions/One
+	cp Test/DocTest-differentTypeDefinitions-First.dll Test/FrameworkTestData-fx-differentTypeDefinitions/One
+	cp Test/DocTest-differentTypeDefinitions-Second.dll Test/FrameworkTestData-fx-differentTypeDefinitions/One
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-differentTypeDefinitions
+
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeDefinitions
+	$(DIFF) Test/en.expected.differentTypeDefinitions Test/en.actual
 
 .PHONY: check-monodocer-typeForwards
 check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll Test/DocTest-typeForwards-Third.dll
@@ -726,6 +748,9 @@ check-monodocer-attached-entities:
 Test/TestClass.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/Test*.cs
 
+Test/GuidClass.dll:
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/GuidClass.cs
+
 .PHONY: check-monodocer-operators-work
 check-monodocer-operators-work: Test/TestClass.dll
 	rm -Rf Test/en.actual
@@ -741,6 +766,11 @@ check-monodocer-operators: check-monodocer-operators-work
 check-monodocer-operators-update: check-monodocer-operators-work
 	rm -Rf Test/en.expected-operators
 	mv Test/en.actual Test/en.expected-operators
+
+check-monodocer-guid: Test/GuidClass.dll
+	rm -Rf Test/en.actual
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/GuidClass.dll -lang c++/cx -lang c++/winrt
+	$(DIFF) Test/en.expected-guid Test/en.actual
 
 check-mdoc-export-html-update: 
 	find Test/html.expected -name \*.html -exec rm "{}" \;
@@ -827,6 +857,7 @@ run-test-local: check-doc-tools
 run-test-update : check-doc-tools-update
 
 check-doc-tools:  \
+	check-monodocer-differentTypeDefinitions \
 	check-monodocer-typeForwards \
 	check-monodocer-nestedType-typeForwards \
 	check-monodocer-Eii-importslashdoc \
@@ -856,6 +887,7 @@ check-doc-tools:  \
 	check-monodocer-frameworks-inheritance \
 	check-monodocer-docid \
 	check-monodocer-operators \
+	check-monodocer-guid \
 	check-monodocer-fx-statistics-remove \
 	check-overwrite-attribute \
 	check-monodocer-vbnet \
@@ -887,5 +919,5 @@ check-doc-tools-update: check-monodocer-since-update \
 	check-mdoc-export-msxdoc-update \
 	check-mdoc-validate-update 
 
-check: nunit check-doc-tools 
+check: nunit check-doc-tools
 	@echo "mdoc Tests Complete!"

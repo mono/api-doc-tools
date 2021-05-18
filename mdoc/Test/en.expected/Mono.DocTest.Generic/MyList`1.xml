@@ -118,7 +118,7 @@
       <MemberSignature Language="F#" Value="member this.Method : 'T * 'U -&gt; unit" Usage="myList.Method (t, u)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void Method(T t, U u);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void Method(T t, U u);" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; void Method(T t, U u);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; void Method(T const&amp; t, U const&amp; u);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -148,7 +148,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub RefMethod(Of U) (ByRef t As T, ByRef u As U)" />
       <MemberSignature Language="F#" Value="member this.RefMethod : 'T * 'U -&gt; unit" Usage="myList.RefMethod (t, u)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T % t, U % u);" />
-      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T &amp;  t, U &amp;  u);" />
+      <MemberSignature Language="C++ CX" Value="public:&#xA;generic &lt;typename U&gt;&#xA; void RefMethod(T &amp; t, U &amp; u);" />
       <MemberSignature Language="C++ WINRT" Value="template &lt;typename U&gt;&#xA; void RefMethod(T &amp; t, U &amp; u);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
@@ -204,7 +204,7 @@
       <MemberSignature Language="F#" Value="member this.Test : 'T -&gt; unit" Usage="myList.Test t" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void Test(T t);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; void Test(T t);" />
-      <MemberSignature Language="C++ WINRT" Value="void Test(T t);" />
+      <MemberSignature Language="C++ WINRT" Value="void Test(T const&amp; t);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -228,7 +228,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub UseHelper(Of U, V) (helper As MyList(Of T).Helper(Of U, V))" />
       <MemberSignature Language="F#" Value="member this.UseHelper : Mono.DocTest.Generic.MyList&lt;'T&gt;.Helper&lt;'U, 'V&gt; -&gt; unit" Usage="myList.UseHelper helper" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; ^ helper);" />
-      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; const &amp; helper);" />
+      <MemberSignature Language="C++ WINRT" Value="template &lt;typename U, typename V&gt;&#xA; void UseHelper(Mono::DocTest::Generic::MyList&lt;T&gt;::Helper&lt;U, V&gt; const&amp; helper);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>

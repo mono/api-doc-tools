@@ -112,11 +112,6 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             string typeFullName = type.FullName;
             if (string.IsNullOrWhiteSpace (typeFullName))
                 return buf;
-            
-            if (!typeFullName.StartsWith ("System."))
-            {
-                return base.AppendTypeName(buf, type, context);
-            }
 
             string cppType = GetCppType(typeFullName);
             if (cppType != null)
@@ -181,9 +176,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             
             buf.Append(GetTypeKind (type));
             buf.Append(" ");
-            buf.Append(GetCppType(type.FullName) == null
+            var cppType = GetCppType(type.FullName);
+            buf.Append(cppType == null
                     ? GetNameWithOptions(type, false, false)
-                    : type.Name);
+                    : cppType);
 
             if (type.IsAbstract && !type.IsInterface)
                 buf.Append(" abstract");
@@ -553,7 +549,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return AppendConstraints (buf, method.GenericParameters);
         }
 
-        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false)
+        protected override StringBuilder AppendGenericType(StringBuilder buf, TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false, bool isTypeofOperator = false)
         {
             List<TypeReference> decls = DocUtils.GetDeclaringTypes(
                 type is GenericInstanceType ? type.GetElementType() : type);
@@ -733,7 +729,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             if (IsParamsParameter(parameter))
                 buf.AppendFormat ("... ");
             
-            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, AppendHatOnReturn)).Append(" ");
+            buf.Append(GetTypeNameWithOptions(parameter.ParameterType, AppendHatOnReturn));
+            if (!buf.ToString().EndsWith(" "))
+                buf.Append(" ");
+
             buf.Append(parameter.Name);
             
             return buf;
