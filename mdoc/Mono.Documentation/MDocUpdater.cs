@@ -3947,7 +3947,7 @@ namespace Mono.Documentation
                 return new
                 {
                     Name = p.Name,
-                    Type = GetDocParameterType(p.ParameterType),
+                    Type = GetDocParameterType(p.ParameterType, false),
                     Index = i,
                     IsOut = p.IsOut,
                     IsIn = p.IsIn,
@@ -4209,9 +4209,9 @@ namespace Mono.Documentation
             else throw new ArgumentException ();
         }
 
-        public static string GetDocParameterType (TypeReference type)
+        public static string GetDocParameterType (TypeReference type, bool useTypeProjection = true)
         {
-            var typename = GetDocTypeFullName (type).Replace ("@", "&");
+            var typename = GetDocTypeFullName (type, useTypeProjection).Replace ("@", "&");
 
             typename = MDocUpdater.Instance.TypeMap?.GetTypeName("C#", typename) ?? typename;
 
