@@ -2454,7 +2454,6 @@ namespace Mono.Documentation
 
             info.Node = WriteElement (me, "Docs");
             MakeDocNode (info, typeEntry.Framework.Importers, typeEntry);
-
             
             foreach (MemberFormatter f in FormatterManager.MemberFormatters)
             {

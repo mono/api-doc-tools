@@ -12,6 +12,7 @@ namespace mdoc.Test
     {
         protected override CppCxFullMemberFormatter formatter { get; } = new CppCxFullMemberFormatter();
 
+        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
         private const string CppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
         private const string CSharpTestLib = "../../../../external/Test/CSharpExample.dll";
 
@@ -43,30 +44,22 @@ namespace mdoc.Test
  Windows::Foundation::IAsyncActionWithProgress<double> ^ GetPrimesUnordered(int first, int last);");
         }
 
-        //[Test]
-        //[Category("Method")]
-        //public void Method_CreateNewGuid()
-        //{
-        //    TestMethodSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "CreateNewGuid",
-        //        @"public: Platform::Guid ^ CreateNewGuid();");
-        //}
-
         [Test]
-        public void CreateNewGuid()
+        [Category("Method")]
+        public void Method_CreateNewGuid()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "CreateNewGuid");
             var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual(@"public:
- static Platform::Guid CreateNewGuid();", sig);
+            Assert.AreEqual("public:\n static Platform::Guid CreateNewGuid();", sig);
         }
 
         [Test]
-        public void ObjectIndentical()
+        [Category("Method")]
+        public void Method_ObjectIndentical()
         {
             var member = GetMethod(typeof(GuidClass), m => m.Name == "ObjectIndentical");
             var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual(@"public:
- bool ObjectIndentical(Platform::Guid objGuid1, Platform::Guid objGuid2);", sig);
+            Assert.AreEqual("public:\n bool ObjectIndentical(Platform::Guid objGuid1, Platform::Guid objGuid2);", sig);
         }
 
         [Test]
@@ -102,6 +95,13 @@ namespace mdoc.Test
 
         [Test]
         [Category("Field")]
+        public void Field_WinRtNumericsPlaneNormal()
+        {
+            TestFieldSignature(_cppWinRtTestLibName, "Windows.Foundation.Numerics.Plane", "Normal", "public: float3 Normal;");
+        }
+
+        [Test]
+        [Category("Field")]
         public void Field_ValueType_String()
         {
             TestFieldSignature(CppCxTestLibName, "Namespace2.Class4", "StringField", "public: Platform::String ^ StringField;");
@@ -113,6 +113,21 @@ namespace mdoc.Test
         {
             TestEventSignature(CppCxTestLibName, "UwpTestWinRtComponentCpp.Class1", "primeFoundEvent", @"public:
  event UwpTestWinRtComponentCpp::PrimeFoundHandler ^ primeFoundEvent;");
+        }
+
+        [Test]
+        [Category("Properties")]
+        public void Property_WinRtNumericsActualSize()
+        {
+            TestPropertySignature(_cppWinRtTestLibName, "Windows.UI.Xaml.UIElement", "ActualSize", "public:\n property float2 ActualSize { float2 get(); };");
+        }
+
+        [Test]
+        [Category("Properties")]
+        public void Property_WinRtNumericsTransformMatrix()
+        {
+            TestPropertySignature(_cppWinRtTestLibName, "Windows.UI.Xaml.UIElement", "TransformMatrix",
+                "public:\n property float4x4 TransformMatrix { float4x4 get(); void set(float4x4 value); };");
         }
 
         [Test]

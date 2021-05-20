@@ -3,7 +3,7 @@ namespace Mono.Documentation
 {
 	public static class Consts
 	{
-		public static string MonoVersion = "5.8.2";
+		public static string MonoVersion = "5.8.3";
 		public const string DocId = "DocId";
 		public const string CppCli = "C++ CLI";
 	    public const string CppCx = "C++ CX";

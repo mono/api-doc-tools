@@ -112,11 +112,6 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             string typeFullName = type.FullName;
             if (string.IsNullOrWhiteSpace (typeFullName))
                 return buf;
-            
-            if (!typeFullName.StartsWith ("System."))
-            {
-                return base.AppendTypeName(buf, type, context);
-            }
 
             string cppType = GetCppType(typeFullName);
             if (cppType != null)
@@ -181,9 +176,10 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             
             buf.Append(GetTypeKind (type));
             buf.Append(" ");
-            buf.Append(GetCppType(type.FullName) == null
+            var cppType = GetCppType(type.FullName);
+            buf.Append(cppType == null
                     ? GetNameWithOptions(type, false, false)
-                    : type.Name);
+                    : cppType);
 
             if (type.IsAbstract && !type.IsInterface)
                 buf.Append(" abstract");
