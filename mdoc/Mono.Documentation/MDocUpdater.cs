@@ -4208,7 +4208,7 @@ namespace Mono.Documentation
             else throw new ArgumentException ();
         }
 
-        public static string GetDocParameterType (TypeReference type, bool useTypeProjection = true)
+        public static string GetDocParameterType (TypeReference type, bool useTypeProjection = false)
         {
             var typename = GetDocTypeFullName (type, useTypeProjection).Replace ("@", "&");
 
