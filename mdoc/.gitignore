@@ -1,4 +1,4 @@
-/Test/en.*/
+# /Test/en.*/
 /Test/html.*/
 /Test/DocTest.*
 /Test/*.dll*
@@ -8,3 +8,4 @@ Test/DocTest-DropNS-classic.xml
 /.v2.txt
 /.v0.txt
 /Test/test-nuget-information
+/Test/test-type-projection

@@ -1,0 +1,4 @@
+<TypeMap>
+  <TypeReplace From="System.Int32" To="System.string" Langs="C#" />
+  <TypeReplace From="Mono.DocTest.ITypeA" To="System.Collections.IList" Langs="C#"/>
+</TypeMap>
