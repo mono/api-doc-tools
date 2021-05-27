@@ -646,7 +646,11 @@ check-monodocer-fsharp:
 	msbuild ../mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
 	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 
+ifeq ($(ENVIRONMENT), wsl)
+	$(DIFF) Test/en.expected-fsharp-wsl Test/en.actual
+else
 	$(DIFF) Test/en.expected-fsharp Test/en.actual
+endif
 
 
 check-monodocer-members-implementation:

@@ -16,8 +16,8 @@
       <AttributeName Language="F#">[&lt;System.Diagnostics.DebuggerDisplay("{__DebugDisplay(),nq}")&gt;]</AttributeName>
     </Attribute>
     <Attribute>
-      <AttributeName Language="C#">[System.Diagnostics.DebuggerTypeProxy(typeof(PatternMatching.PatternMatchingExamples/PersonName/FirstOnly@DebugTypeProxy))]</AttributeName>
-      <AttributeName Language="F#">[&lt;System.Diagnostics.DebuggerTypeProxy(typeof(PatternMatching.PatternMatchingExamples/PersonName/FirstOnly@DebugTypeProxy))&gt;]</AttributeName>
+      <AttributeName Language="C#">[System.Diagnostics.DebuggerTypeProxy(typeof(PatternMatching.PatternMatchingExamples+PersonName+FirstOnly@DebugTypeProxy))]</AttributeName>
+      <AttributeName Language="F#">[&lt;System.Diagnostics.DebuggerTypeProxy(typeof(PatternMatching.PatternMatchingExamples+PersonName+FirstOnly@DebugTypeProxy))&gt;]</AttributeName>
     </Attribute>
     <Attribute>
       <AttributeName Language="C#">[System.Serializable]</AttributeName>
