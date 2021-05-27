@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="DocTest-TypeProjection">
+  <Assemblies>
+    <Assembly Name="DocTest-TypeProjection" Version="0.0.0.0" />
+  </Assemblies>
+  <Namespace Name="Mono.DocTest">
+    <Type Name="Mono.DocTest.IVector" Id="T:Mono.DocTest.IVector">
+      <Member Id="M:Mono.DocTest.IVector.Method(Mono.DocTest.IVector,Mono.DocTest.IVector)" />
+    </Type>
+  </Namespace>
+</Framework>

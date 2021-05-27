@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace Mono.DocTest
 {
-    public interface ITypeA
+    public interface IVector
     {
-        ITypeA Method(ITypeA A, int B);
+        IVector Method(IVector A, IVector B);
     }
 
 }

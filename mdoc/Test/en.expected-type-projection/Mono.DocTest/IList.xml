@@ -1,0 +1,38 @@
+<Type Name="IVector" FullName="Mono.DocTest.IVector">
+  <TypeSignature Language="C#" Value="public interface IList" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IVector" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest-TypeProjection</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Method">
+      <MemberSignature Language="C#" Value="public System.Collections.IList Method (System.Collections.IList A, System.Collections.IList B);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class Mono.DocTest.IVector Method(class Mono.DocTest.IVector A, class Mono.DocTest.IVector B) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-TypeProjection</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Mono.DocTest.IVector</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="A" Type="System.Collections.IList" />
+        <Parameter Name="B" Type="System.Collections.IList" />
+      </Parameters>
+      <Docs>
+        <param name="A">To be added.</param>
+        <param name="B">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
