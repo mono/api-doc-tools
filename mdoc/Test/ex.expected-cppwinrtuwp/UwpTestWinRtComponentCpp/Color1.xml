@@ -1,7 +1,7 @@
 <Type Name="Color1" FullName="UwpTestWinRtComponentCpp.Color1">
   <TypeSignature Language="C#" Value="public enum Color1" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed Color1 extends System.Enum" />
-  <TypeSignature Language="C++ WINRT" Value="enum Color1" />
+  <TypeSignature Language="C++ WINRT" Value="enum class Color1" />
   <AssemblyInfo>
     <AssemblyName>UwpTestWinRtComponentCpp</AssemblyName>
     <AssemblyVersion>255.255.255.255</AssemblyVersion>
