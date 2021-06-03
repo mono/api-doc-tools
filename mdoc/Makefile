@@ -867,7 +867,8 @@ check-type-projection: Test/DocTest-TypeProjection.dll
 	mkdir Test/en.actual
 
 	cp Test/DocTest-TypeProjection.dll Test/test-type-projection/DocTest-TypeProjection
-	cp Test/TypeMap.xml Test/test-type-projection/
+	cp Test/TestTypeMap.xml Test/test-type-projection/
+	mv Test/test-type-projection/TestTypeMap.xml Test/test-type-projection/TypeMap.xml
 
 	$(MONO) $(PROGRAM) fx-bootstrap Test/test-type-projection
 	$(MONO) $(PROGRAM) update -fx Test/test-type-projection/ -o Test/en.actual/

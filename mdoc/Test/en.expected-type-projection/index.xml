@@ -15,7 +15,8 @@
   <Copyright>To be added.</Copyright>
   <Types>
     <Namespace Name="Mono.DocTest">
-      <Type Name="IList" Kind="Interface" />
+      <Type Name="GenericType`1" DisplayName="IList;&lt;T&gt;" Kind="Class" />
+      <Type Name="NonGenericType" DisplayName="IList" Kind="Class" />
     </Namespace>
   </Types>
   <Title>DocTest-TypeProjection</Title>

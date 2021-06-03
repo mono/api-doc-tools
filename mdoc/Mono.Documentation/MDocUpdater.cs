@@ -932,7 +932,7 @@ namespace Mono.Documentation
 
         private static string GetTypeFileName (TypeReference type)
         {
-            return filenameFormatter.GetName (type);
+            return filenameFormatter.GetName (type, useTypeProjection: false);
         }
 
         public static string GetTypeFileName (string typename)
@@ -3946,7 +3946,7 @@ namespace Mono.Documentation
                 return new
                 {
                     Name = p.Name,
-                    Type = GetDocParameterType(p.ParameterType, false),
+                    Type = GetDocParameterType(p.ParameterType),
                     Index = i,
                     IsOut = p.IsOut,
                     IsIn = p.IsIn,
@@ -4212,8 +4212,11 @@ namespace Mono.Documentation
         {
             var typename = GetDocTypeFullName (type, useTypeProjection).Replace ("@", "&");
 
-            typename = MDocUpdater.Instance.TypeMap?.GetTypeName("C#", typename) ?? typename;
-
+            if (useTypeProjection || string.IsNullOrEmpty(typename))
+            {
+                typename = MDocUpdater.Instance.TypeMap?.GetTypeName("C#", typename) ?? typename;
+            }
+            
             return typename;
         }
 

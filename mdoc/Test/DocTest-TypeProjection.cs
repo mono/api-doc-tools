@@ -5,9 +5,21 @@ using System.Linq;
 
 namespace Mono.DocTest
 {
-    public interface IVector
+
+    public class GenericType<T>
     {
-        IVector Method(IVector A, IVector B);
+        public GenericType<T> TestMethodA(GenericType<T> A)
+        {
+            return A;
+        }
+    }
+
+    public class NonGenericType
+    {
+        public NonGenericType TestMethodB(NonGenericType B)
+        {
+            return B;
+        }
     }
 
 }

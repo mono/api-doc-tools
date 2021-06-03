@@ -1,6 +1,0 @@
-<TypeMap>
-  <InterfaceReplace From="Mono.DocTest.IVector" To="System.Collections.IList" Langs="C#;VB.NET;F#">
-        <Members>
-        </Members>
-    </InterfaceReplace>
-</TypeMap>
