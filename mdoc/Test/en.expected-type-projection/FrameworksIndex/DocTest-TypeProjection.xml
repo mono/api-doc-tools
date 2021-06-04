@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="DocTest-TypeProjection">
+  <Assemblies>
+    <Assembly Name="DocTest-TypeProjection" Version="0.0.0.0" />
+  </Assemblies>
+  <Namespace Name="Mono.DocTest">
+    <Type Name="Mono.DocTest.GenericType`1" Id="T:Mono.DocTest.GenericType`1">
+      <Member Id="M:Mono.DocTest.GenericType`1.#ctor" />
+      <Member Id="M:Mono.DocTest.GenericType`1.TestMethodA(Mono.DocTest.GenericType{`0})" />
+    </Type>
+    <Type Name="Mono.DocTest.NonGenericType" Id="T:Mono.DocTest.NonGenericType">
+      <Member Id="M:Mono.DocTest.NonGenericType.#ctor" />
+      <Member Id="M:Mono.DocTest.NonGenericType.TestMethodB(Mono.DocTest.NonGenericType)" />
+    </Type>
+  </Namespace>
+</Framework>

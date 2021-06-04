@@ -1,0 +1,4 @@
+<TypeMap>
+  <TypeReplace From="Mono.DocTest.GenericType`1;" To="System.Collections.IList;" Langs="C#;VB.NET;F#" />
+  <TypeReplace From="Mono.DocTest.NonGenericType" To="System.Collections.IList" Langs="C#;VB.NET;F#" />
+</TypeMap>

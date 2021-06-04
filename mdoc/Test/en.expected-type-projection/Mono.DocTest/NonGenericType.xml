@@ -1,0 +1,53 @@
+<Type Name="NonGenericType" FullName="Mono.DocTest.NonGenericType">
+  <TypeSignature Language="C#" Value="public class IList" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit NonGenericType extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest-TypeProjection</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public NonGenericType ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-TypeProjection</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestMethodB">
+      <MemberSignature Language="C#" Value="public System.Collections.IList TestMethodB (System.Collections.IList B);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Mono.DocTest.NonGenericType TestMethodB(class Mono.DocTest.NonGenericType B) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-TypeProjection</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Mono.DocTest.NonGenericType</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="B" Type="Mono.DocTest.NonGenericType" />
+      </Parameters>
+      <Docs>
+        <param name="B">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

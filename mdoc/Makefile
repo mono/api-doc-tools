@@ -165,6 +165,10 @@ Test/DocTest-typeForwards-Third.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Third-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:THIRD
 
+Test/DocTest-TypeProjection.dll:
+	rm -f DocTest-TypeProjection.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-TypeProjection.cs
+
 # build test dll to test forwardings nested type
 Test/DocTest-nestedType-typeForwards-First.dll:
 	rm -f $@
@@ -648,6 +652,7 @@ else
 	$(DIFF) Test/en.expected-fsharp Test/en.actual
 endif
 
+
 check-monodocer-members-implementation:
 	-rm -Rf Test/en.actual
 	msbuild ../mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj -property:Configuration=Release
@@ -852,6 +857,23 @@ check-ignored-namespace-generic:
 	$(MONO) $(PROGRAM) update Test/test-generic-ignored-namespace/ReadOnlySpan.dll -o Test/en.actual/
 
 	$(DIFF) Test/test-generic-ignored-namespace/en.expected-generic-ignored-namespace Test/en.actual/
+
+check-type-projection: Test/DocTest-TypeProjection.dll
+	rm -Rf Test/en.actual
+	rm -Rf Test/test-type-projection
+
+	mkdir Test/test-type-projection
+	mkdir Test/test-type-projection/DocTest-TypeProjection
+	mkdir Test/en.actual
+
+	cp Test/DocTest-TypeProjection.dll Test/test-type-projection/DocTest-TypeProjection
+	cp Test/TestTypeMap.xml Test/test-type-projection/
+	mv Test/test-type-projection/TestTypeMap.xml Test/test-type-projection/TypeMap.xml
+
+	$(MONO) $(PROGRAM) fx-bootstrap Test/test-type-projection
+	$(MONO) $(PROGRAM) update -fx Test/test-type-projection/ -o Test/en.actual/
+	$(DIFF) Test/en.expected-type-projection Test/en.actual/
+
 run-test-local: check-doc-tools
 
 run-test-update : check-doc-tools-update
@@ -908,6 +930,7 @@ check-doc-tools:  \
 	check-monodocer-embedded-type \
 	check-ignored-namespace-generic \
 	check-multiple-mdoc \
+	check-type-projection
 
 #check-monodocer-dropns-delete 
 check-doc-tools-update: check-monodocer-since-update \

@@ -23,9 +23,9 @@
   </Docs>
   <Members>
     <Member MemberName="Scale">
-      <MemberSignature Language="C#" Value="public SomeNamespace.SomeModule.IVector Scale (double );" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class SomeNamespace.SomeModule/IVector Scale(float64 ) cil managed" />
-      <MemberSignature Language="F#" Value="abstract member Scale : double -&gt; SomeNamespace.SomeModule.IVector" Usage="iVector.Scale " />
+      <MemberSignature Language="C#" Value="public SomeNamespace.SomeModule.IVector Scale (double unnamedParam1);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class SomeNamespace.SomeModule/IVector Scale(float64 unnamedParam1) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Scale : double -&gt; SomeNamespace.SomeModule.IVector" Usage="iVector.Scale unnamedParam1" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -34,10 +34,10 @@
         <ReturnType>SomeNamespace.SomeModule+IVector</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="" Type="System.Double" />
+        <Parameter Name="unnamedParam1" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="">To be added.</param>
+        <param name="unnamedParam1">To be added.</param>
         <summary>To be added.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>

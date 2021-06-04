@@ -1,0 +1,57 @@
+<Type Name="GenericType&lt;T&gt;" FullName="Mono.DocTest.GenericType&lt;T&gt;">
+  <TypeSignature Language="C#" Value="public class IList;&lt;T&gt;" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit GenericType`1&lt;T&gt; extends System.Object" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest-TypeProjection</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="T" />
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <typeparam name="T">To be added.</typeparam>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public GenericType ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-TypeProjection</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TestMethodA">
+      <MemberSignature Language="C#" Value="public System.Collections.IList;&lt;T&gt; TestMethodA (System.Collections.IList;&lt;T&gt; A);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class Mono.DocTest.GenericType`1&lt;!T&gt; TestMethodA(class Mono.DocTest.GenericType`1&lt;!T&gt; A) cil managed" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>DocTest-TypeProjection</AssemblyName>
+        <AssemblyVersion>0.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Mono.DocTest.GenericType&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="A" Type="Mono.DocTest.GenericType&lt;T&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="A">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
