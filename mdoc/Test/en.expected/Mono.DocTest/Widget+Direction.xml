@@ -5,7 +5,7 @@
   <TypeSignature Language="VB.NET" Value="Protected Friend Enum Widget.Direction" />
   <TypeSignature Language="C++ CLI" Value="public protected enum class Widget::Direction" />
   <TypeSignature Language="C++ CX" Value="public protected enum class Widget::Direction" />
-  <TypeSignature Language="C++ WINRT" Value="enum Widget::Direction" />
+  <TypeSignature Language="C++ WINRT" Value="enum class Widget::Direction" />
   <AssemblyInfo>
     <AssemblyName>DocTest</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>

@@ -124,7 +124,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override string GetTypeKind(TypeDefinition t)
         {
             if (t.IsEnum || t.FullName == "System.Enum")
-                return "enum";
+                return "enum class";
             if (t.IsValueType)
                 return "struct";
             if (t.IsClass)

@@ -131,9 +131,9 @@
       </Docs>
     </Member>
     <Member MemberName="Rotate2">
-      <MemberSignature Language="C#" Value="public abstract void Rotate2 (double );" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rotate2(float64 ) cil managed" />
-      <MemberSignature Language="F#" Value="abstract member Rotate2 : double -&gt; unit" Usage="shape2D.Rotate2 " />
+      <MemberSignature Language="C#" Value="public abstract void Rotate2 (double unnamedParam1);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Rotate2(float64 unnamedParam1) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Rotate2 : double -&gt; unit" Usage="shape2D.Rotate2 unnamedParam1" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -142,10 +142,10 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="" Type="System.Double" />
+        <Parameter Name="unnamedParam1" Type="System.Double" />
       </Parameters>
       <Docs>
-        <param name="">To be added.</param>
+        <param name="unnamedParam1">To be added.</param>
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>

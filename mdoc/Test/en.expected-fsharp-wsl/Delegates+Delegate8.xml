@@ -1,5 +1,5 @@
 <Type Name="Delegates+Delegate8" FullName="Delegates+Delegate8">
-  <TypeSignature Language="C#" Value="public delegate char Delegates.Delegate8(int );" />
+  <TypeSignature Language="C#" Value="public delegate char Delegates.Delegate8(int unnamedParam1);" />
   <TypeSignature Language="ILAsm" Value=".class nested public auto ansi serializable sealed Delegates/Delegate8 extends System.MulticastDelegate" />
   <TypeSignature Language="F#" Value="type Delegates.Delegate8 = delegate of int -&gt; char" />
   <AssemblyInfo>
@@ -20,13 +20,13 @@
     </Attribute>
   </Attributes>
   <Parameters>
-    <Parameter Name="" Type="System.Int32" />
+    <Parameter Name="unnamedParam1" Type="System.Int32" />
   </Parameters>
   <ReturnValue>
     <ReturnType>System.Char</ReturnType>
   </ReturnValue>
   <Docs>
-    <param name="">To be added.</param>
+    <param name="unnamedParam1">To be added.</param>
     <summary>To be added.</summary>
     <returns>To be added.</returns>
     <remarks>To be added.</remarks>
