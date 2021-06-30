@@ -111,6 +111,8 @@ namespace Monodoc.Ecma
 				return Token.OUT_ARG;
 			case '$':
 				return Token.EXPLICIT_IMPL_SEP;
+            case '?':
+                return Token.QUESTION_MARK;
 			default:
 				return TokenizeIdentifierOrNumber (next);
 			}

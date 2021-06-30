@@ -69,6 +69,7 @@ namespace Monodoc.Ecma
 %token REF_ARG
 %token OUT_ARG
 %token EXPLICIT_IMPL_SEP
+%token QUESTION_MARK
 
 %start expression
 
@@ -205,6 +206,7 @@ opt_arg_type_suffix
         | STAR { $$ = EcmaDesc.Mod.Pointer; }
         | REF_ARG { $$ = EcmaDesc.Mod.Ref; }
         | OUT_ARG { $$ = EcmaDesc.Mod.Out; }
+        | QUESTION_MARK { $$ = EcmaDesc.Mod.Nullable; }
 
 type_expression_list
         : /* empty */ { $$ = null; }
