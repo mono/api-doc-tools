@@ -165,7 +165,7 @@ namespace Mono.Documentation.Util
 
             return !hasExistingProperty.IsTrue() && !hasExistingField.IsTrue() &&
                 // Class X has a static field of type DependencyProperty [Name]Property
-                (property.PropertyType.Name == Consts.DependencyPropertyFullName || property.PropertyType.FullName == Consts.DependencyPropertyFullNameWindowsXaml
+                (property.PropertyType.FullName == Consts.DependencyPropertyFullName || property.PropertyType.FullName == Consts.DependencyPropertyFullNameWindowsXaml
                 || property.PropertyType.FullName == Consts.DependencyPropertyFullNameMicrosoftXaml)
 
 
