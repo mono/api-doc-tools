@@ -28,7 +28,7 @@ namespace Monodoc.Ecma
 			Pointer,
 			Ref,
 			Out,
-            Nullable
+			Nullable
 		}
 
 		public enum Format
