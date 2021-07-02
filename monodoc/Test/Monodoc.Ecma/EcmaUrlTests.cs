@@ -220,6 +220,32 @@ namespace MonoTests.Monodoc.Ecma
 		}
 
 		[Test]
+		public void NullableTypeStringSimpleTest()
+		{
+			string stringCref = "T:System.String?";
+			var desc = parser.Parse(stringCref);
+			Assert.AreEqual(EcmaDesc.Mod.Nullable, desc.DescModifier);
+			string generatedEcmaCref = desc.ToEcmaCref();
+			Assert.AreEqual(stringCref, generatedEcmaCref);
+		}
+
+		[Test]
+		public void NullableTypeStringArrayTest()
+		{
+			string stringCref = "T:System.String?[]";
+			var desc = parser.Parse(stringCref);
+			Assert.AreEqual(EcmaDesc.Mod.Nullable, desc.DescModifier);
+			string generatedEcmaCref = desc.ToEcmaCref();
+			Assert.AreEqual(stringCref, generatedEcmaCref);
+
+			stringCref = "T:System.String[]?";
+			desc = parser.Parse(stringCref);
+			Assert.AreEqual(EcmaDesc.Mod.Nullable, desc.ArrayModifier);
+			generatedEcmaCref = desc.ToEcmaCref();
+			Assert.AreEqual(stringCref, generatedEcmaCref);
+		}
+
+		[Test]
 		public void MetaEtcNodeTest ()
 		{
 			var ast = new EcmaDesc () { DescKind = EcmaDesc.Kind.Type,

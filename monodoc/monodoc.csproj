@@ -710,5 +710,8 @@
       <Name>ICSharpCode.SharpZipLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Monodoc.Ecma\EcmaUrlParser.jay" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -47,6 +47,11 @@ namespace Monodoc.Ecma
 			set;
 		}
 
+		public Mod ArrayModifier {
+			get;
+			set;
+        }
+
 		public string Namespace {
 			get;
 			set;
@@ -246,6 +251,10 @@ namespace Monodoc.Ecma
 				sb.Append ('+');
 				NestedType.ConstructCRef (sb, skipLeadingDot: true);
 			}
+			if (DescModifier != Mod.Normal)
+			{
+				sb.Append(ModToString(DescModifier));
+			}
 			if (ArrayDimensions != null && ArrayDimensions.Count > 0) {
 				for (int i = 0; i < ArrayDimensions.Count; i++) {
 					sb.Append ('[');
@@ -253,6 +262,10 @@ namespace Monodoc.Ecma
 					sb.Append (']');
 				}
 			}
+			if (ArrayModifier != Mod.Normal)
+            {
+				sb.Append(ModToString(ArrayModifier));
+            }
 			if (DescKind == Kind.Type)
 				return;
 
@@ -399,15 +412,23 @@ namespace Monodoc.Ecma
 
 		string ModToString (EcmaDesc desc)
 		{
-			switch (desc.DescModifier) {
-			case Mod.Pointer:
-				return "*";
-			case Mod.Ref:
-				return "&";
-			case Mod.Out:
-				return "@";
-			default:
-				return string.Empty;
+			return ModToString(desc.DescModifier);
+		}
+
+		string ModToString(EcmaDesc.Mod mod)
+		{
+			switch (mod)
+			{
+				case Mod.Pointer:
+					return "*";
+				case Mod.Ref:
+					return "&";
+				case Mod.Out:
+					return "@";
+				case Mod.Nullable:
+					return "?";
+				default:
+					return string.Empty;
 			}
 		}
 
