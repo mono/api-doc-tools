@@ -201,7 +201,7 @@ reduced_member_expression
                 }
 
 arg_type_expression
-        : type_expression opt_arg_type_suffix { var desc = (EcmaDesc)$1; desc.DescModifier = (EcmaDesc.Mod)$2; $$ = desc; }
+        : type_expression { var desc = (EcmaDesc)$1; $$ = desc; }
 
 opt_arg_type_suffix
         : /* empty */ { $$ = EcmaDesc.Mod.Normal; }
