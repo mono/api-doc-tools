@@ -1,4 +1,10 @@
 %{
+
+// To Generate this file: 
+// 1. Download and install mono-jay via https://packages.ubuntu.com/bionic/mono-jay
+// 2. Run command: 
+//    jay -ct Monodoc.Ecma/EcmaUrlParser.jay < Monodoc.Ecma/jay/skeleton.cs > Monodoc.Ecma/prebuilt/EcmaUrlParser.cs
+
 using System.Text;
 using System.IO;
 using System;

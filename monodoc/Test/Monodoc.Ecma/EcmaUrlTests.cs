@@ -246,6 +246,34 @@ namespace MonoTests.Monodoc.Ecma
 		}
 
 		[Test]
+		public void NullableMethodParameterTest()
+		{
+			string stringCref = "M:Foo.Bar.FooBar(int,System.Drawing.Imaging?)";
+			var desc = parser.Parse(stringCref);
+			Assert.IsTrue(desc.MemberArguments[1].DescIsNullable);
+			string generatedEcmaCref = desc.ToEcmaCref();
+			Assert.AreEqual(stringCref, generatedEcmaCref);
+
+			stringCref = "M:Foo.Bar.FooBar(int?,System.Drawing.Imaging)";
+			desc = parser.Parse(stringCref);
+			Assert.IsTrue(desc.MemberArguments[0].DescIsNullable);
+			generatedEcmaCref = desc.ToEcmaCref();
+			Assert.AreEqual(stringCref, generatedEcmaCref);
+
+			stringCref = "M:Foo.Bar.FooBar(int[]?,System.Drawing.Imaging)";
+			desc = parser.Parse(stringCref);
+			Assert.IsTrue(desc.MemberArguments[0].ArrayIsNullable);
+			generatedEcmaCref = desc.ToEcmaCref();
+			Assert.AreEqual(stringCref, generatedEcmaCref);
+
+			stringCref = "M:Foo.Bar.FooBar(int,System.Drawing.Imaging?[])";
+			desc = parser.Parse(stringCref);
+			Assert.IsTrue(desc.MemberArguments[1].DescIsNullable);
+			generatedEcmaCref = desc.ToEcmaCref();
+			Assert.AreEqual(stringCref, generatedEcmaCref);
+		}
+
+		[Test]
 		public void MetaEtcNodeTest ()
 		{
 			var ast = new EcmaDesc () { DescKind = EcmaDesc.Kind.Type,

@@ -2,6 +2,12 @@
 
 #line 1 "Monodoc.Ecma/EcmaUrlParser.jay"
 
+
+// To Generate this file: 
+// 1. Download and install mono-jay via https://packages.ubuntu.com/bionic/mono-jay
+// 2. Run command: 
+//    jay -ct Monodoc.Ecma/EcmaUrlParser.jay < Monodoc.Ecma/jay/skeleton.cs > Monodoc.Ecma/prebuilt/EcmaUrlParser.cs
+
 using System.Text;
 using System.IO;
 using System;
@@ -367,47 +373,47 @@ namespace Monodoc.Ecma
         yyVal = yyV > yyTop ? null : yyVals[yyV]; // yyVal = yyDefault(yyV > yyTop ? null : yyVals[yyV]);
         switch (yyN) {
 case 1:
-#line 79 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 85 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = SetEcmaDescType (yyVals[0+yyTop], EcmaDesc.Kind.Type); }
   break;
 case 2:
-#line 80 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 86 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = SetEcmaDescType (yyVals[0+yyTop], EcmaDesc.Kind.Namespace); }
   break;
 case 3:
-#line 81 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 87 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = SetEcmaDescType (yyVals[0+yyTop], EcmaDesc.Kind.Method); }
   break;
 case 4:
-#line 82 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 88 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = SetEcmaDescType (yyVals[0+yyTop], EcmaDesc.Kind.Field); }
   break;
 case 5:
-#line 83 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 89 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = SetEcmaDescType (yyVals[0+yyTop], EcmaDesc.Kind.Constructor); }
   break;
 case 6:
-#line 84 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 90 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = SetEcmaDescType (yyVals[0+yyTop], EcmaDesc.Kind.Property); }
   break;
 case 7:
-#line 85 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 91 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = SetEcmaDescType (yyVals[0+yyTop], EcmaDesc.Kind.Event); }
   break;
 case 8:
-#line 86 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 92 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = SetEcmaDescType (yyVals[0+yyTop], EcmaDesc.Kind.Operator); }
   break;
 case 9:
-#line 90 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 96 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = new List<string> { (string)yyVals[0+yyTop] }; }
   break;
 case 10:
-#line 91 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 97 "Monodoc.Ecma/EcmaUrlParser.jay"
   { ((ICollection<string>)yyVals[0+yyTop]).Add ((string)yyVals[-2+yyTop]); yyVal = yyVals[0+yyTop]; }
   break;
 case 11:
-#line 94 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 100 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = new EcmaDesc { Namespace = string.Join (".", ((IEnumerable<string>)yyVals[0+yyTop]).Reverse ()) }; }
   break;
 case 12:
@@ -420,74 +426,74 @@ case 14:
   case_14();
   break;
 case 15:
-#line 136 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 142 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = null; }
   break;
 case 16:
-#line 137 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 143 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = yyVals[0+yyTop]; }
   break;
 case 17:
-#line 140 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 146 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = null; }
   break;
 case 18:
-#line 141 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 147 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = Enumerable.Repeat<EcmaDesc> (null, (int)yyVals[0+yyTop]).ToList (); }
   break;
 case 19:
-#line 142 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 148 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = yyVals[-1+yyTop]; }
   break;
 case 20:
-#line 145 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 151 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = new List<EcmaDesc> () { (EcmaDesc)yyVals[0+yyTop] }; }
   break;
 case 21:
-#line 146 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 152 "Monodoc.Ecma/EcmaUrlParser.jay"
   { ((List<EcmaDesc>)yyVals[-2+yyTop]).Add ((EcmaDesc)yyVals[0+yyTop]); yyVal = yyVals[-2+yyTop]; }
   break;
 case 22:
-#line 149 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 155 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = null; }
   break;
 case 23:
-#line 150 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 156 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = "?"; }
   break;
 case 24:
-#line 153 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 159 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = null; }
   break;
 case 25:
   case_25();
   break;
 case 26:
-#line 161 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 167 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = 1; }
   break;
 case 27:
-#line 162 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 168 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = ((int)yyVals[0+yyTop]) + 1; }
   break;
 case 28:
-#line 165 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 171 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = null; }
   break;
 case 29:
-#line 166 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 172 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = Tuple.Create<char, string> (((string)yyVals[0+yyTop])[0], null); }
   break;
 case 30:
-#line 167 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 173 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = Tuple.Create<char, string> (((string)yyVals[-2+yyTop])[0], (string)yyVals[0+yyTop]); }
   break;
 case 31:
-#line 171 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 177 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = "*"; }
   break;
 case 32:
-#line 172 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 178 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = yyVals[0+yyTop]; }
   break;
 case 33:
@@ -500,42 +506,42 @@ case 35:
   case_35();
   break;
 case 36:
-#line 200 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 206 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = (string)yyVals[-1+yyTop] + (yyVals[0+yyTop] == null ? string.Empty : "<" + string.Join (",", ((IEnumerable<EcmaDesc>)yyVals[0+yyTop]).Select (t => t.ToCompleteTypeName ())) + ">"); }
   break;
 case 37:
   case_37();
   break;
 case 38:
-#line 208 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 214 "Monodoc.Ecma/EcmaUrlParser.jay"
   { var desc = (EcmaDesc)yyVals[-1+yyTop]; desc.DescModifier = (EcmaDesc.Mod)yyVals[0+yyTop]; yyVal = desc; }
   break;
 case 39:
-#line 211 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 217 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = EcmaDesc.Mod.Normal; }
   break;
 case 40:
-#line 212 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 218 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = EcmaDesc.Mod.Pointer; }
   break;
 case 41:
-#line 213 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 219 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = EcmaDesc.Mod.Ref; }
   break;
 case 42:
-#line 214 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 220 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = EcmaDesc.Mod.Out; }
   break;
 case 43:
-#line 217 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 223 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = null; }
   break;
 case 44:
-#line 218 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 224 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = new List<EcmaDesc> () { (EcmaDesc)yyVals[0+yyTop] }; }
   break;
 case 45:
-#line 219 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 225 "Monodoc.Ecma/EcmaUrlParser.jay"
   { ((List<EcmaDesc>)yyVals[0+yyTop]).Add ((EcmaDesc)yyVals[-2+yyTop]); yyVal = yyVals[0+yyTop]; }
   break;
 case 46:
@@ -548,26 +554,26 @@ case 48:
   case_48();
   break;
 case 49:
-#line 244 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 250 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = yyVals[0+yyTop]; }
   break;
 case 50:
-#line 247 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 253 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = yyVals[0+yyTop]; }
   break;
 case 51:
   case_51();
   break;
 case 52:
-#line 257 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 263 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = yyVals[0+yyTop]; }
   break;
 case 53:
-#line 265 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 271 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = null; }
   break;
 case 54:
-#line 266 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 272 "Monodoc.Ecma/EcmaUrlParser.jay"
   { yyVal = yyVals[-1+yyTop]; }
   break;
 #line default
@@ -606,7 +612,7 @@ case 54:
  All more than 3 lines long rules are wrapped into a method
 */
 void case_12()
-#line 97 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 103 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                          var dotExpr = ((List<string>)yyVals[-1+yyTop]);
                          dotExpr.Reverse ();
@@ -618,7 +624,7 @@ void case_12()
                      }
 
 void case_13()
-#line 109 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 115 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                          var desc = yyVals[0+yyTop] as EcmaDesc;
                          desc.DescKind = EcmaDesc.Kind.Type;
@@ -627,7 +633,7 @@ void case_13()
                      }
 
 void case_14()
-#line 117 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 123 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                          bool nestedDescHasEtc = yyVals[-4+yyTop] != null && ((EcmaDesc)yyVals[-4+yyTop]).IsEtc;
                          EcmaDesc nestedType = (EcmaDesc)yyVals[-4+yyTop];
@@ -647,7 +653,7 @@ void case_14()
                      }
 
 void case_25()
-#line 154 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 160 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                       var dims = ((IList<int>)yyVals[0+yyTop]) ?? new List<int> (2);
                       dims.Add ((int)yyVals[-2+yyTop]);
@@ -655,7 +661,7 @@ void case_25()
                 }
 
 void case_33()
-#line 175 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 181 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                       var desc = yyVals[-4+yyTop] as EcmaDesc;
                       desc.MemberName = yyVals[-2+yyTop] as string;
@@ -665,7 +671,7 @@ void case_33()
                 }
 
 void case_34()
-#line 182 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 188 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                       var dotExpr = ((List<string>)yyVals[-2+yyTop]);
                       yyVal = new EcmaDesc {
@@ -678,7 +684,7 @@ void case_34()
                 }
 
 void case_35()
-#line 192 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 198 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                       var desc = yyVals[-2+yyTop] as EcmaDesc;
                       desc.ExplicitImplMember = yyVals[0+yyTop] as EcmaDesc;
@@ -686,7 +692,7 @@ void case_35()
                 }
 
 void case_37()
-#line 201 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 207 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                       var existing = yyVals[0+yyTop] as string;
                       var expr = (string)yyVals[-3+yyTop] + (yyVals[-2+yyTop] == null ? string.Empty : "<" + string.Join (",", ((IEnumerable<EcmaDesc>)yyVals[-2+yyTop]).Select (t => t.ToCompleteTypeName ())) + ">");
@@ -694,7 +700,7 @@ void case_37()
                 }
 
 void case_46()
-#line 222 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 228 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                  var dotExpr = ((List<string>)yyVals[0+yyTop]);
                  dotExpr.Reverse ();
@@ -707,7 +713,7 @@ void case_46()
              }
 
 void case_47()
-#line 232 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 238 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                  var desc = yyVals[-2+yyTop] as EcmaDesc;
                  desc.MemberName = yyVals[0+yyTop] as string;
@@ -715,7 +721,7 @@ void case_47()
              }
 
 void case_48()
-#line 237 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 243 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                  var desc = yyVals[-2+yyTop] as EcmaDesc;
                  desc.ExplicitImplMember = yyVals[0+yyTop] as EcmaDesc;
@@ -723,7 +729,7 @@ void case_48()
              }
 
 void case_51()
-#line 250 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 256 "Monodoc.Ecma/EcmaUrlParser.jay"
 {
                  var desc = yyVals[-1+yyTop] as EcmaDesc;
                  (desc.ExplicitImplMember ?? desc).MemberArguments = SafeReverse (yyVals[0+yyTop] as List<EcmaDesc>);
@@ -890,7 +896,7 @@ void case_51()
   269,   -1,  271,  272,  273,  274,  275,
   };
 
-#line 268 "Monodoc.Ecma/EcmaUrlParser.jay"
+#line 274 "Monodoc.Ecma/EcmaUrlParser.jay"
 
 
 }
