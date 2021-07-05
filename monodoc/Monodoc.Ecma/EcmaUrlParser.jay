@@ -147,7 +147,7 @@ generic_type_arg_list
 
 opt_nullable
         : /* empty */ { $$ = null; }
-        | QUESTION_MARK { $$ = $1; }
+        | QUESTION_MARK { $$ = "?"; }
 
 opt_array_definition
         : /* empty */ { $$ = null; }

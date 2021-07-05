@@ -453,7 +453,7 @@ case 22:
   break;
 case 23:
 #line 150 "Monodoc.Ecma/EcmaUrlParser.jay"
-  { yyVal = yyVals[0+yyTop]; }
+  { yyVal = "?"; }
   break;
 case 24:
 #line 153 "Monodoc.Ecma/EcmaUrlParser.jay"
