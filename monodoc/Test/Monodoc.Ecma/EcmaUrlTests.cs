@@ -224,7 +224,7 @@ namespace MonoTests.Monodoc.Ecma
 		{
 			string stringCref = "T:System.String?";
 			var desc = parser.Parse(stringCref);
-			Assert.AreEqual(EcmaDesc.Mod.Nullable, desc.DescModifier);
+			Assert.IsTrue(desc.DescIsNullable);
 			string generatedEcmaCref = desc.ToEcmaCref();
 			Assert.AreEqual(stringCref, generatedEcmaCref);
 		}
@@ -234,13 +234,19 @@ namespace MonoTests.Monodoc.Ecma
 		{
 			string stringCref = "T:System.String?[]";
 			var desc = parser.Parse(stringCref);
-			Assert.AreEqual(EcmaDesc.Mod.Nullable, desc.DescModifier);
+			Assert.IsTrue(desc.DescIsNullable);
 			string generatedEcmaCref = desc.ToEcmaCref();
 			Assert.AreEqual(stringCref, generatedEcmaCref);
 
 			stringCref = "T:System.String[]?";
 			desc = parser.Parse(stringCref);
-			Assert.AreEqual(EcmaDesc.Mod.Nullable, desc.ArrayModifier);
+			Assert.IsTrue(desc.ArrayIsNullable);
+			generatedEcmaCref = desc.ToEcmaCref();
+			Assert.AreEqual(stringCref, generatedEcmaCref);
+			
+			stringCref = "M:System.Net.Sockets.Socket.EndAccept(System.Byte[]&,System.IAsyncResult)";
+			desc = parser.Parse(stringCref);
+			//Assert.AreEqual(EcmaDesc.Mod.Nullable, desc.ArrayModifier);
 			generatedEcmaCref = desc.ToEcmaCref();
 			Assert.AreEqual(stringCref, generatedEcmaCref);
 		}

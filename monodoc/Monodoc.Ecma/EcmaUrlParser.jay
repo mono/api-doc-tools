@@ -114,15 +114,15 @@ reduced_type_expression
                      }
 
 type_expression_suffix
-        : opt_generic_type_suffix opt_inner_type_description opt_arg_type_suffix opt_array_definition opt_arg_type_suffix opt_etc {
+        : opt_generic_type_suffix opt_inner_type_description opt_nullable opt_array_definition opt_nullable opt_etc {
                          bool nestedDescHasEtc = $2 != null && ((EcmaDesc)$2).IsEtc;
                          EcmaDesc nestedType = (EcmaDesc)$2;
                          $$ = new EcmaDesc {
                             GenericTypeArguments = $1 as List<EcmaDesc>,
                             NestedType = nestedType,
-                            DescModifier = (EcmaDesc.Mod)$3,
+                            DescIsNullable = $3 != null,
                             ArrayDimensions = SafeReverse ($4 as List<int>),
-                            ArrayModifier = (EcmaDesc.Mod)$5,
+                            ArrayIsNullable = $5 != null,
                             Etc = $6 != null ? ((Tuple<char, string>)$6).Item1 : nestedDescHasEtc ? nestedType.Etc : (char)0,
                             EtcFilter = $6 != null ? ((Tuple<char, string>)$6).Item2 : nestedDescHasEtc ? nestedType.EtcFilter : null
                          };
@@ -144,6 +144,10 @@ opt_generic_type_suffix
 generic_type_arg_list
         : type_expression { $$ = new List<EcmaDesc> () { (EcmaDesc)$1 }; }
         | generic_type_arg_list COMMA type_expression { ((List<EcmaDesc>)$1).Add ((EcmaDesc)$3); $$ = $1; }
+
+opt_nullable
+        : /* empty */ { $$ = null; }
+        | QUESTION_MARK { $$ = $1; }
 
 opt_array_definition
         : /* empty */ { $$ = null; }
@@ -201,14 +205,13 @@ reduced_member_expression
                 }
 
 arg_type_expression
-        : type_expression { var desc = (EcmaDesc)$1; $$ = desc; }
+        : type_expression opt_arg_type_suffix { var desc = (EcmaDesc)$1; desc.DescModifier = (EcmaDesc.Mod)$2; $$ = desc; }
 
 opt_arg_type_suffix
         : /* empty */ { $$ = EcmaDesc.Mod.Normal; }
         | STAR { $$ = EcmaDesc.Mod.Pointer; }
         | REF_ARG { $$ = EcmaDesc.Mod.Ref; }
         | OUT_ARG { $$ = EcmaDesc.Mod.Out; }
-        | QUESTION_MARK { $$ = EcmaDesc.Mod.Nullable; }
 
 type_expression_list
         : /* empty */ { $$ = null; }

@@ -27,8 +27,7 @@ namespace Monodoc.Ecma
 			Normal,
 			Pointer,
 			Ref,
-			Out,
-			Nullable
+			Out
 		}
 
 		public enum Format
@@ -47,10 +46,16 @@ namespace Monodoc.Ecma
 			set;
 		}
 
-		public Mod ArrayModifier {
+		public bool ArrayIsNullable {
 			get;
 			set;
         }
+
+		public bool DescIsNullable
+		{
+			get;
+			set;
+		}
 
 		public string Namespace {
 			get;
@@ -251,9 +256,9 @@ namespace Monodoc.Ecma
 				sb.Append ('+');
 				NestedType.ConstructCRef (sb, skipLeadingDot: true);
 			}
-			if (DescModifier != Mod.Normal)
+			if (DescIsNullable)
 			{
-				sb.Append(ModToString(DescModifier));
+				sb.Append('?');
 			}
 			if (ArrayDimensions != null && ArrayDimensions.Count > 0) {
 				for (int i = 0; i < ArrayDimensions.Count; i++) {
@@ -262,10 +267,10 @@ namespace Monodoc.Ecma
 					sb.Append (']');
 				}
 			}
-			if (ArrayModifier != Mod.Normal)
-            {
-				sb.Append(ModToString(ArrayModifier));
-            }
+			if (ArrayIsNullable)
+			{
+				sb.Append('?');
+			}
 			if (DescKind == Kind.Type)
 				return;
 
@@ -410,14 +415,9 @@ namespace Monodoc.Ecma
 			return genericArgs != null ? "<" + string.Join (",", genericArgs.Select (t => t.ToString ())) + ">" : string.Empty;
 		}
 
-		string ModToString (EcmaDesc desc)
+		string ModToString(EcmaDesc desc)
 		{
-			return ModToString(desc.DescModifier);
-		}
-
-		string ModToString(EcmaDesc.Mod mod)
-		{
-			switch (mod)
+			switch (desc.DescModifier)
 			{
 				case Mod.Pointer:
 					return "*";
@@ -425,8 +425,6 @@ namespace Monodoc.Ecma
 					return "&";
 				case Mod.Out:
 					return "@";
-				case Mod.Nullable:
-					return "?";
 				default:
 					return string.Empty;
 			}
