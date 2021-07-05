@@ -73,6 +73,14 @@ namespace Mono.Documentation.Updater
             return false;
         }
 
+        public bool HasNullableValue
+        {
+            get
+            {
+                return nullableAttributeFlags.Contains(true);
+            }
+        }
+
         private void ReadDynamicAttribute()
         {
             DynamicTypeProvider dynamicTypeProvider = new DynamicTypeProvider(provider);
