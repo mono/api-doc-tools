@@ -49,7 +49,7 @@ namespace Monodoc.Ecma
 		public bool ArrayIsNullable {
 			get;
 			set;
-        }
+		}
 
 		public bool DescIsNullable
 		{
