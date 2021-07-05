@@ -3885,6 +3885,67 @@ namespace Mono.Documentation
             }
         }
 
+        private string AddNamespace(string t)
+        {
+            if (t.Contains("sbyte")) t = t.Replace("sbyte", "System.SByte");
+            if (t.Contains("byte")) t = t.Replace("byte", "System.Byte");
+
+            if (t.Contains("ushort")) t = t.Replace("ushort", "System.UInt16");
+            if (t.Contains("uint")) t = t.Replace("uint", "System.UInt32");
+            if (t.Contains("ulong")) t = t.Replace("ulong", "System.UInt64");
+
+            if (t.Contains("short")) t = t.Replace("short", "System.Int16");
+            if (t.Contains("int")) t = t.Replace("int", "System.Int32");
+            if (t.Contains("long")) t = t.Replace("long", "System.Int64");
+
+            if (t.Contains("float")) t = t.Replace("float", "System.Single");
+            if (t.Contains("double")) t = t.Replace("double", "System.Double");
+            if (t.Contains("decimal")) t = t.Replace("decimal", "System.Decimal");
+            if (t.Contains("bool")) t = t.Replace("bool", "System.Boolean");
+            if (t.Contains("char")) t = t.Replace("char", "System.Char");
+            if (t.Contains("void")) t = t.Replace("void", "System.Void");
+            if (t.Contains("string")) t = t.Replace("string", "System.String");
+            if (t.Contains("object")) t = t.Replace("object", "System.Object");
+
+            return t;
+        }
+
+        private bool IsValueTypeOrDefineByReference(TypeReference type)
+        {
+            if (type.IsValueType)
+            {
+                return true;
+            }
+
+            if (type is ByReferenceType byRefType)
+            {
+                return byRefType.ElementType.IsValueType;
+            }
+
+            return false;
+        }
+
+        // Fix Bug 388663: [mdoc]Nullable in Nested Generics not Rendering
+        private string GetNullableTypeName(ParameterDefinition param)
+        {
+            string paraTypeName = "";
+            var context = AttributeParserContext.Create(param) as AttributeParserContext;
+            if (context != null && context.HasNullableValue)
+            {
+                var isNullableType = context.IsNullable();
+
+                paraTypeName = FormatterManager.MemberFormatters[0].GetName(param.ParameterType, context);
+                paraTypeName = AddNamespace(paraTypeName);
+
+                if (isNullableType == true && !IsValueTypeOrDefineByReference(param.ParameterType) && !param.ParameterType.FullName.Equals("System.Void"))
+                {
+                    paraTypeName += "?";
+                }
+            }
+
+            return paraTypeName;
+        }
+
         public void MakeParameters (XmlElement root, MemberReference member, IList<ParameterDefinition> parameters, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew = false)
         {
             if (ProcessedMoreThanOnce(typeEntry))
@@ -3908,8 +3969,13 @@ namespace Mono.Documentation
                 else
                     e.InsertAfter (pe, nextTo);
 
-                pe.SetAttribute ("Name", param.Name);
-                pe.SetAttribute ("Type", paramType);
+                pe.SetAttribute("Name", param.Name);
+
+                string nullableParaTypeName = GetNullableTypeName(param);
+                if (!string.IsNullOrEmpty(nullableParaTypeName))
+                    paramType = nullableParaTypeName;
+
+                pe.SetAttribute("Type", paramType);
                 if (param.ParameterType is ByReferenceType)
                 {
                     if (param.IsOut)
