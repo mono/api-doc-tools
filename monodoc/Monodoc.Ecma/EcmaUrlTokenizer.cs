@@ -111,6 +111,8 @@ namespace Monodoc.Ecma
 				return Token.OUT_ARG;
 			case '$':
 				return Token.EXPLICIT_IMPL_SEP;
+			case '?':
+				return Token.QUESTION_MARK;
 			default:
 				return TokenizeIdentifierOrNumber (next);
 			}
@@ -154,8 +156,8 @@ namespace Monodoc.Ecma
 		{
 			try {
 				if (input == null || real_current_pos >= input.Length)
-                    return EndOfStream;
-                
+					return EndOfStream;
+				
 				return input[real_current_pos++];
 			} catch {
 				return EndOfStream;
@@ -166,8 +168,8 @@ namespace Monodoc.Ecma
 		{
 			try {
 				if (input == null || real_current_pos >= input.Length)
-                    return EndOfStream;
-                
+					return EndOfStream;
+				
 				return input[real_current_pos];
 			} catch {
 				return EndOfStream;
