@@ -12,6 +12,8 @@ namespace mdoc.Test
 
         [TestCase("System.Int32", "ValueType")]
         [TestCase("System.Nullable<System.Int32>", "NullableValueType")]
+        [TestCase("System.ValueTuple<System.Int32,System.Int32>", "ValueTupleOfValueType")]
+        [TestCase("System.Nullable<System.ValueTuple<System.Int32,System.Int32>>", "NullableValueTupleOfValueType")]
         [TestCase("System.Collections.Generic.Dictionary<System.String,System.Collections.Generic.Dictionary<System.String,System.String>>", "DictionaryOfReferenceTypeKeyAndDictionaryOfReferenceTypeValue")]
         [TestCase("System.Collections.Generic.Dictionary<System.String?,System.Collections.Generic.Dictionary<System.String?,System.String?>?>?", "NullableDictionaryOfNullableReferenceTypeKeyAndNullableDictionaryOfNullableReferenceTypeValue")]
         public void DocTypeReturnType(string returnType, string methodName)
