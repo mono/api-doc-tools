@@ -1,6 +1,8 @@
-﻿namespace Mono.Documentation.Updater
+﻿using Mono.Cecil;
+
+namespace Mono.Documentation.Updater
 {
-    class DocTypeFullMemberFormatter : MemberFormatter
+    public class DocTypeFullMemberFormatter : MemberFormatter
     {
         private static MemberFormatter defaultFormatter;
         public static MemberFormatter Default
@@ -19,6 +21,11 @@
         protected override string NestedTypeSeparator
         {
             get { return "+"; }
+        }
+
+        protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
+        {
+            return DocUtils.GetTypeNullableSymbol(type, isNullableType);
         }
     }
 }
