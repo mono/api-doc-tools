@@ -945,5 +945,30 @@ namespace Mono.Documentation.Updater
 
             return type;
         }
+
+        public static string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
+        {
+            if (isNullableType.IsTrue() && !IsValueTypeOrDefineByReference(type) && !type.FullName.Equals("System.Void"))
+            {
+                return "?";
+            }
+
+            return string.Empty;
+        }
+
+        private static bool IsValueTypeOrDefineByReference(TypeReference type)
+        {
+            if (type.IsValueType)
+            {
+                return true;
+            }
+
+            if (type is ByReferenceType byRefType)
+            {
+                return byRefType.ElementType.IsValueType;
+            }
+
+            return false;
+        }
     }
 }

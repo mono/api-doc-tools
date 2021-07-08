@@ -3946,7 +3946,7 @@ namespace Mono.Documentation
                 return new
                 {
                     Name = p.Name,
-                    Type = GetDocParameterType(p.ParameterType),
+                    Type = GetDocParameterType(p.ParameterType, AttributeParserContext.Create(p)),
                     Index = i,
                     IsOut = p.IsOut,
                     IsIn = p.IsIn,
@@ -4210,20 +4210,31 @@ namespace Mono.Documentation
 
         public static string GetDocParameterType (TypeReference type, bool useTypeProjection = false)
         {
-            var typename = GetDocTypeFullName (type, useTypeProjection).Replace ("@", "&");
+            return GetDocParameterType (type, EmptyAttributeParserContext.Empty (), useTypeProjection);
+        }
+
+        public static string GetDocParameterType (TypeReference type, IAttributeParserContext context, bool useTypeProjection = false)
+        {
+            var isNullable = context.IsNullable ();
+            var typename = GetDocTypeFullName (type, context, useTypeProjection).Replace ("@", "&");
 
             if (useTypeProjection || string.IsNullOrEmpty(typename))
             {
                 typename = MDocUpdater.Instance.TypeMap?.GetTypeName("C#", typename) ?? typename;
             }
-            
+
+            if (isNullable)
+                typename += DocUtils.GetTypeNullableSymbol (type, isNullable);
+
             return typename;
         }
 
         private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, TypeReference type, MemberReference member, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)
         {
             XmlElement e = WriteElement (root, "ReturnValue");
-            var valueToUse = GetDocTypeFullName (type, false);
+            var context = AttributeParserContext.Create ((ICustomAttributeProvider)member);
+            var isNullable = context.IsNullable ();
+            var valueToUse = GetDocTypeFullName (type, context, false);
             if ((type.IsRequiredModifier && ((RequiredModifierType)type).ElementType.IsByReference)
                     || type.IsByReference)
                 e.SetAttribute("RefType", "Ref");
@@ -4235,6 +4246,8 @@ namespace Mono.Documentation
                     valueToUse = valueToUse.Remove(valueToUse.Length - 1);
             }
 
+            if (isNullable)
+                valueToUse += DocUtils.GetTypeNullableSymbol (type, isNullable);
 
             DocUtils.AddElementWithFx(
                     typeEntry,
@@ -4422,12 +4435,22 @@ namespace Mono.Documentation
 
         private static string GetDocTypeName (TypeReference type, bool useTypeProjection = true)
         {
-            return docTypeFormatter.GetName (type, useTypeProjection: useTypeProjection);
+            return GetDocTypeName (type, EmptyAttributeParserContext.Empty (), useTypeProjection);
+        }
+
+        private static string GetDocTypeName (TypeReference type, IAttributeParserContext context, bool useTypeProjection = true)
+        {
+            return docTypeFormatter.GetName (type, context, useTypeProjection: useTypeProjection);
         }
 
         internal static string GetDocTypeFullName (TypeReference type, bool useTypeProjection = true, bool isTypeofOperator = false)
         {
-            return DocTypeFullMemberFormatter.Default.GetName (type, useTypeProjection: useTypeProjection, isTypeofOperator: isTypeofOperator);
+            return GetDocTypeFullName (type, EmptyAttributeParserContext.Empty (), useTypeProjection, isTypeofOperator);
+        }
+
+        internal static string GetDocTypeFullName (TypeReference type, IAttributeParserContext context, bool useTypeProjection = true, bool isTypeofOperator = false)
+        {
+            return DocTypeFullMemberFormatter.Default.GetName (type, context, useTypeProjection: useTypeProjection, isTypeofOperator: isTypeofOperator);
         }
 
         internal static string GetXPathForMember (DocumentationMember member)
