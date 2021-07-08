@@ -275,6 +275,15 @@ namespace mdoc.Test
         }
 
         [Test]
+        public void CSharpInModifier()
+        {
+            var member = GetMethod(typeof(SomeClass), m => m.Name == "SomeMethodWithInParameterModifier");
+            var formatter = new CSharpFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public void SomeMethodWithInParameterModifier (in string s);", sig);
+        }
+
+        [Test]
         public void CSharpTuple()
         {
             var member = GetMethod(typeof(NullablesAndTuples), m => m.Name == "TupleReturn");
