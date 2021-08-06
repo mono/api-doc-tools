@@ -3,6 +3,8 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
+pr: none
+trigger: none
 schedules:
 - cron: "0 0 * * *"
   displayName: Daily midnight build
@@ -11,19 +13,21 @@ schedules:
     - main
 
 pool:
-  vmImage: 'macos-latest'
+  vmImage: 'windows-latest'
   
 steps:
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
-- task: Semmle@1
+- task: Semmle@0
   displayName: Security - LGTM
   inputs:
+    toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    buildCommandsString: 'make build CONFIGURATION=$(buildConfiguration)'
-    querySuite: 'Recommended'
+    cleanupBuildCommands: 'make clean CONFIGURATION=$(buildConfiguration)'
+    buildCommands: 'make build CONFIGURATION=$(buildConfiguration)'
+    querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
     addProjectDirToScanningExclusionList: true
