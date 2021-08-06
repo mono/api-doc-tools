@@ -1,0 +1,31 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+schedules:
+- cron: "0 0 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+    - main
+
+pool:
+  vmImage: 'macos-latest'
+  
+steps:
+- task: NuGetToolInstaller@1
+  displayName: Install NuGet Tool
+
+- task: Semmle@0
+  displayName: Security - LGTM
+  inputs:
+    toolVersion: 'LatestPreRelease'
+    sourceCodeDirectory: '$(Build.SourcesDirectory)'
+    language: 'csharp'
+    cleanupBuildCommands: 'make clean CONFIGURATION=$(buildConfiguration)'
+    buildCommands: 'make build CONFIGURATION=$(buildConfiguration)'
+    querySuite: 'Required'
+    timeout: '7200'
+    ram: '16384'
+    addProjectDirToScanningExclusionList: true
