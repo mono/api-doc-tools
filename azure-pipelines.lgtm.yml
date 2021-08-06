@@ -38,7 +38,7 @@ steps:
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
     cleanupBuildCommands: 'make clean CONFIGURATION=$(buildConfiguration)'
-    buildCommands: 'make build CONFIGURATION=$(buildConfiguration)'
+    buildCommands: 'make prepare build CONFIGURATION=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
