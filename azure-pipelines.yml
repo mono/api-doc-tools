@@ -188,12 +188,3 @@ steps:
              }
       ]
     SessionTimeout: 20
-
-- task: NuGetCommand@2
-  displayName: 'Publishing mdoc package to nuget.org'
-  condition: eq(variables['mdocVersion.NeedUpdate'], true)
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'modc_nuget_org'
