@@ -28,11 +28,15 @@ stages:
     - task: NuGetToolInstaller@1
       displayName: Install NuGet Tool
 
-    - task: Bash@3
-      displayName: Run Unit and Integration Tests
+    - task: NuGetCommand@2
       inputs:
-        targetType: 'inline'
-        script: 'make prepare all CONFIGURATION=$(buildConfiguration)'
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'select'
+
+    - task: MSBuild@1
+      inputs:
+        solution: '**/*.sln'
 
     - task: BinSkim@3
       displayName: Security - BinSkim
