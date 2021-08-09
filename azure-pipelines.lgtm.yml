@@ -39,12 +39,20 @@ steps:
     restoreSolution: '**/*.sln'
     feedsToUse: 'config'
 
-- task: Semmle@1
+- task: Semmle@0
   displayName: Security - LGTM
+  env: 
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
   inputs:
+    toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    buildCommandsString: 'dotnet build mdoc/mdoc.csproj --configuration $(buildConfiguration) # dotnet build monodoc/monodoc.csproj --configuration $(buildConfiguration)'
+    cleanupBuildCommands: |
+      dotnet clean mdoc/mdoc.csproj --configuration $(buildConfiguration)
+      dotnet clean monodoc/monodoc.csproj --configuration $(buildConfiguration)
+    buildCommands: |
+      dotnet build mdoc/mdoc.csproj --configuration $(buildConfiguration)
+      dotnet build monodoc/monodoc.csproj --configuration $(buildConfiguration)
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
