@@ -44,7 +44,7 @@ steps:
   inputs:
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    buildCommandsString: 'msbuild apidoctools.sln'
+    buildCommandsString: 'dotnet build mdoc/mdoc.csproj --configuration $(buildConfiguration) # dotnet build monodoc/monodoc.csproj --configuration $(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
