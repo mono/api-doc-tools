@@ -13,7 +13,7 @@ schedules:
     - main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'macos-latest'
 
 variables:
 - name: LGTM.SnapshotIdentifiers
@@ -31,14 +31,12 @@ steps:
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
-- task: Semmle@0
+- task: Semmle@1
   displayName: Security - LGTM
   inputs:
-    toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    cleanupBuildCommands: 'make clean CONFIGURATION=$(buildConfiguration)'
-    buildCommands: 'make prepare build CONFIGURATION=$(buildConfiguration)'
+    buildCommandsString: 'make clean prepare build CONFIGURATION=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
