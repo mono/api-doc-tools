@@ -13,7 +13,7 @@ schedules:
     - main
 
 pool:
-  vmImage: 'macos-latest'
+  vmImage: 'windows-latest'
 
 variables:
 - name: LGTM.SnapshotIdentifiers
@@ -36,7 +36,7 @@ steps:
   inputs:
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    buildCommandsString: 'echo 123'
+    buildCommandsString: 'make clean prepare build CONFIGURATION=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
