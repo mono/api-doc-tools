@@ -31,6 +31,14 @@ steps:
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.sln'
+
+- task: CmdLine@2
+  inputs:
+    script: 'msbuild apidoctools.sln'
+
 - task: Semmle@1
   displayName: Security - LGTM
   inputs:
