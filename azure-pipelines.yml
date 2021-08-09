@@ -15,13 +15,6 @@ variables:
   mdocPath: 'bin/$(buildConfiguration)'
   
 steps:
-# Run CredScan
-- task: CredScan@2
-  displayName: Security - CredScan
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  inputs:
-    toolMajorVersion: 'V2'
-
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
