@@ -24,8 +24,6 @@ variables:
   value: true
 - name: Semmle.SkipAnalysis
   value: true
-- name: solution
-  value: apidoctools.sln
 - name: buildConfiguration
   value: Release
   
