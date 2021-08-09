@@ -33,6 +33,16 @@ steps:
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.sln'
+
 - task: Semmle@0
   displayName: Security - LGTM
   env: 
