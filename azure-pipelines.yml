@@ -13,9 +13,9 @@ variables:
   mdocPath: 'bin/$(buildConfiguration)'
 
 stages:
-- stage: SDL Check
+- stage: SDLCheck
   jobs:
-  - job: SDL Check
+  - job: SDLCheck
     pool:
       vmImage: 'windows-latest'
 
@@ -75,10 +75,10 @@ stages:
         BinSkim: true
         ToolLogsNotFoundAction: 'Standard'  
 
-- stage: Build and Publish
-  dependsOn: SDL Check
+- stage: Build
+  dependsOn: SDLCheck
   jobs:
-  - job: Build and Publish
+  - job: Build
     pool:
       vmImage: 'macos-latest'
 
