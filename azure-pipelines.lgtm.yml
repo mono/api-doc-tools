@@ -33,18 +33,6 @@ steps:
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'select'
-
-- task: MSBuild@1
-  continueOnError: true
-  inputs:
-    solution: '**/*.sln'
-    restoreNugetPackages: true
-
 - task: Semmle@0
   displayName: Security - LGTM
   env: 
@@ -53,8 +41,8 @@ steps:
     toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    cleanupBuildCommands: 'make clean CONFIGURATION=$(buildConfiguration)'
-    buildCommands: 'make build CONFIGURATION=$(buildConfiguration)'
+    cleanupBuildCommands: 'MSBUILD apidoctools.sln /t:$(buildConfiguration)'
+    buildCommands: 'MSBUILD apidoctools.sln /p:Configuration=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
