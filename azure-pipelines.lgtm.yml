@@ -40,7 +40,7 @@ steps:
   inputs:
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    buildCommandsString: 'MSBUILD apidoctools.sln /p:Configuration=$(buildConfiguration)'
+    buildCommandsString: 'dotnet build apidoctools.sln'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
