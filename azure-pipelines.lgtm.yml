@@ -40,8 +40,10 @@ steps:
     feedsToUse: 'select'
 
 - task: MSBuild@1
+  continueOnError: true
   inputs:
     solution: '**/*.sln'
+    restoreNugetPackages: true
 
 - task: Semmle@0
   displayName: Security - LGTM
