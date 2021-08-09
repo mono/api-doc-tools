@@ -41,8 +41,6 @@ steps:
 
 - task: Semmle@1
   displayName: Security - LGTM
-  env: 
-    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
   inputs:
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
