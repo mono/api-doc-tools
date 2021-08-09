@@ -24,6 +24,8 @@ variables:
   value: true
 - name: Semmle.SkipAnalysis
   value: true
+- name: solution
+  value: apidoctools.sln
 - name: buildConfiguration
   value: Release
   
@@ -31,20 +33,16 @@ steps:
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
-- task: MSBuild@1
-  inputs:
-    solution: '**/*.sln'
-
-- task: CmdLine@2
-  inputs:
-    script: 'msbuild apidoctools.sln'
-
-- task: Semmle@1
+- task: Semmle@0
   displayName: Security - LGTM
+  env: 
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
   inputs:
+    toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    buildCommandsString: 'make clean prepare build CONFIGURATION=$(buildConfiguration)'
+    cleanupBuildCommands: 'dotnet clean ${{ variables.solution }}'
+    buildCommands: 'dotnet build ${{ variables.solution }}'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
