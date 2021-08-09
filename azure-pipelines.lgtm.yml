@@ -33,16 +33,14 @@ steps:
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
-- task: Semmle@0
+- task: Semmle@1
   displayName: Security - LGTM
   env: 
     SYSTEM_ACCESSTOKEN: $(System.AccessToken)
   inputs:
-    toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    cleanupBuildCommands: 'MSBUILD apidoctools.sln /t:$(buildConfiguration)'
-    buildCommands: 'MSBUILD apidoctools.sln /p:Configuration=$(buildConfiguration)'
+    buildCommandsString: 'MSBUILD apidoctools.sln /p:Configuration=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
