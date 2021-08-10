@@ -35,12 +35,11 @@ stages:
       displayName: MSBuild
       inputs:
         solution: '$(solution)'
-        configuration: 'Debug'
-        msbuildArguments: '/property:OutDir=$(Build.ArtifactStagingDirectory)'
+        configuration: '$(buildConfiguration)'
 
     - task: CmdLine@2
       inputs:
-        script: 'tree $(Build.ArtifactStagingDirectory)'
+        script: 'tree $(mdocPath)'
 
     - task: BinSkim@4
       displayName: Security - BinSkim
@@ -48,7 +47,7 @@ stages:
         InputType: 'Basic'
         Function: 'analyze'
         TargetPattern: 'guardianGlob'
-        AnalyzeTargetGlob: '$(Build.ArtifactStagingDirectory)\**.dll;$(Build.ArtifactStagingDirectory)\**.exe;'
+        AnalyzeTargetGlob: '$(mdocPath)\**.dll;$(mdocPath)\**.exe;'
 
     - task: SdtReport@1
       displayName: Security - SdtReport
