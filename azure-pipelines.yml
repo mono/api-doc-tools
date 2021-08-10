@@ -9,6 +9,7 @@ trigger:
 name: $(SourceBranchName)-$(Date:yyyyMMdd)$(Rev:.r)
 
 variables:
+  solution: 'apidoctools.sln'
   buildConfiguration: 'Release'
   mdocPath: 'bin/$(buildConfiguration)'
 
@@ -26,32 +27,18 @@ stages:
         toolMajorVersion: 'V2'
 
     - task: CmdLine@2
+      displayName: make prepare
       inputs:
         script: 'make prepare'
 
-    - task: PublishBuildArtifacts@1
+    - task: MSBuild@1
+      displayName: MSBuild
       inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+        solution: '$(solution)'
 
     - task: CmdLine@2
       inputs:
-        script: 'make build'
-
-    - task: NuGetToolInstaller@1
-      displayName: Install NuGet Tool
-
-    - task: NuGetCommand@2
-      inputs:
-        command: 'restore'
-        restoreSolution: '**/*.sln'
-        feedsToUse: 'select'
-
-    - task: MSBuild@1
-      inputs:
-        solution: '**/*.sln'
-        msbuildArguments: '/p:WarningLevel=0'
+        script: 'tree'
 
     - task: BinSkim@3
       displayName: Security - BinSkim
@@ -104,6 +91,10 @@ stages:
     steps:
     - task: NuGetToolInstaller@1
       displayName: Install NuGet Tool
+
+    - task: CmdLine@2
+      inputs:
+        script: 'tree'
 
     # - task: Bash@3
     #   displayName: Run Unit and Integration Tests
