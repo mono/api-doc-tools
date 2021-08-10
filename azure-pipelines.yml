@@ -226,4 +226,4 @@ stages:
         command: 'push'
         packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
         nuGetFeedType: 'external'
-        publishFeedCredentials: 'modc_nuget_org'
+        publishFeedCredentials: 'mdoc_nuget_org'
