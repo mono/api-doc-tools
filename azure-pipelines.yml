@@ -35,6 +35,8 @@ stages:
       displayName: MSBuild
       inputs:
         solution: '$(solution)'
+        configuration: '$(buildConfiguration)'
+        msbuildArguments: '/property:OutDir=$(Build.ArtifactStagingDirectory)'
 
     - task: CmdLine@2
       inputs:
