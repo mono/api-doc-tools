@@ -25,6 +25,10 @@ stages:
       inputs:
         toolMajorVersion: 'V2'
 
+    - task: CmdLine@2
+      inputs:
+        script: 'make prepare'
+
     - task: NuGetToolInstaller@1
       displayName: Install NuGet Tool
 
