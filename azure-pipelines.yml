@@ -35,12 +35,12 @@ stages:
       displayName: MSBuild
       inputs:
         solution: '$(solution)'
-        configuration: '$(buildConfiguration)'
+        configuration: 'Debug'
         msbuildArguments: '/property:OutDir=$(Build.ArtifactStagingDirectory)'
 
     - task: CmdLine@2
       inputs:
-        script: 'tree'
+        script: 'tree $(Build.ArtifactStagingDirectory)'
 
     - task: BinSkim@3
       displayName: Security - BinSkim
@@ -96,7 +96,7 @@ stages:
 
     - task: CmdLine@2
       inputs:
-        script: 'tree'
+        script: 'tree $(Build.ArtifactStagingDirectory)'
 
     # - task: Bash@3
     #   displayName: Run Unit and Integration Tests
