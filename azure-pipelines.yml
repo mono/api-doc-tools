@@ -37,6 +37,7 @@ stages:
     - task: MSBuild@1
       inputs:
         solution: '**/*.sln'
+        msbuildArguments: '/p:WarningLevel=0'
 
     - task: BinSkim@3
       displayName: Security - BinSkim
