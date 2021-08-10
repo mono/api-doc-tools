@@ -29,6 +29,16 @@ stages:
       inputs:
         script: 'make prepare'
 
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+    - task: CmdLine@2
+      inputs:
+        script: 'make build'
+
     - task: NuGetToolInstaller@1
       displayName: Install NuGet Tool
 
