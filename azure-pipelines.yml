@@ -37,13 +37,12 @@ stages:
         solution: '$(solution)'
         configuration: '$(buildConfiguration)'
 
-    - task: BinSkim@4
+    - task: BinSkim@3
       displayName: Security - BinSkim
       inputs:
         InputType: 'Basic'
         Function: 'analyze'
-        TargetPattern: 'guardianGlob'
-        AnalyzeTargetGlob: '$(mdocPath)\**.dll;$(mdocPath)\**.exe;'
+        AnalyzeTarget: '$(mdocPath)\**.dll;$(mdocPath)\**.exe;'
 
     - task: SdtReport@1
       displayName: Security - SdtReport
