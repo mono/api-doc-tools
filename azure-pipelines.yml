@@ -42,9 +42,7 @@ stages:
       inputs:
         InputType: 'Basic'
         Function: 'analyze'
-        AnalyzeTarget: >
-          bin\Release\*.dll;
-          bin\Release\*.exe;
+        AnalyzeTarget: '$(mdocPath)\*.dll;$(mdocPath)\*.exe;'
 
     - task: SdtReport@1
       displayName: Security - SdtReport
