@@ -43,8 +43,8 @@ stages:
         InputType: 'Basic'
         Function: 'analyze'
         AnalyzeTarget: >
-          bin\Release\**.dll;
-          bin\Release\**.exe;
+          bin\Release\*.dll;
+          bin\Release\*.exe;
 
     - task: SdtReport@1
       displayName: Security - SdtReport
