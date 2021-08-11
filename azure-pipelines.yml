@@ -42,7 +42,9 @@ stages:
       inputs:
         InputType: 'Basic'
         Function: 'analyze'
-        AnalyzeTarget: '$(mdocPath)\**.dll;$(mdocPath)\**.exe;'
+        AnalyzeTarget: >
+          $(mdocPath)\**.dll;
+          $(mdocPath)\**.exe;
 
     - task: SdtReport@1
       displayName: Security - SdtReport
