@@ -78,6 +78,12 @@ stages:
         BinSkim: true
         ToolLogsNotFoundAction: 'Standard'  
 
+    - task: ComponentGovernanceComponentDetection@0
+      inputs:
+        scanType: 'Register'
+        verbosity: 'Verbose'
+        alertWarningLevel: 'High'
+
 - stage: Build
   dependsOn: SDLCheck
   jobs:
