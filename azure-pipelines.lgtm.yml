@@ -1,0 +1,57 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+pr: none
+trigger: none
+schedules:
+- cron: "0 0 * * *"
+  displayName: Daily midnight build
+  branches:
+    include:
+    - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+- name: LGTM.SnapshotIdentifiers
+  value: Build=Full
+- name: LGTM.SnapshotMetadata
+  value: Owner=MDoc
+- name: LGTM.UploadSnapshot
+  value: true
+- name: Semmle.SkipAnalysis
+  value: true
+- name: buildConfiguration
+  value: Release
+  
+steps:
+- task: NuGetToolInstaller@1
+  displayName: Install NuGet Tool
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'config'
+
+- task: Semmle@0
+  displayName: Security - LGTM
+  env: 
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+  inputs:
+    toolVersion: 'LatestPreRelease'
+    sourceCodeDirectory: '$(Build.SourcesDirectory)'
+    language: 'csharp'
+    cleanupBuildCommands: |
+      dotnet clean mdoc/mdoc.csproj --configuration $(buildConfiguration)
+      dotnet clean monodoc/monodoc.csproj --configuration $(buildConfiguration)
+    buildCommands: |
+      dotnet build mdoc/mdoc.csproj --configuration $(buildConfiguration)
+      dotnet build monodoc/monodoc.csproj --configuration $(buildConfiguration)
+    querySuite: 'Required'
+    timeout: '7200'
+    ram: '16384'
+    addProjectDirToScanningExclusionList: true
