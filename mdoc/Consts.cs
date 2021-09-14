@@ -22,7 +22,8 @@ namespace Mono.Documentation
 		public const string JavascriptLowCase = "javascript";
 
 		public const string DependencyPropertyFullName = "System.Windows.DependencyProperty";
-        public const string DependencyPropertyFullNameXaml = "Windows.UI.Xaml.DependencyProperty";
+        public const string DependencyPropertyFullNameWindowsXaml = "Windows.UI.Xaml.DependencyProperty";
+        public const string DependencyPropertyFullNameMicrosoftXaml = "Microsoft.UI.Xaml.DependencyProperty";
 
         public const string DependencyObjectFullName = "System.Windows.DependencyObject";
         public const string DependencyObjectFullNameXaml = "Windows.UI.Xaml.DependencyObject";

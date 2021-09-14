@@ -116,7 +116,8 @@ namespace Mono.Documentation.Util
             }
 
             foreach (var property in type.Properties.Where(t => t.PropertyType.FullName == Consts.DependencyPropertyFullName
-            || t.PropertyType.FullName == Consts.DependencyPropertyFullNameXaml))
+            || t.PropertyType.FullName == Consts.DependencyPropertyFullNameWindowsXaml
+            || t.PropertyType.FullName == Consts.DependencyPropertyFullNameMicrosoftXaml))
             {
                 if (IsAttachedProperty(property, methods))
                     yield return new AttachedPropertyReference(property);
@@ -138,7 +139,8 @@ namespace Mono.Documentation.Util
 
             return !hasExistingProperty.IsTrue () && !hasExistingField.IsTrue () &&
                 // Class X has a static field of type DependencyProperty [Name]Property
-                (field.FieldType.FullName == Consts.DependencyPropertyFullName || field.FieldType.FullName == Consts.DependencyPropertyFullNameXaml)
+                (field.FieldType.FullName == Consts.DependencyPropertyFullName || field.FieldType.FullName == Consts.DependencyPropertyFullNameWindowsXaml
+                || field.FieldType.FullName == Consts.DependencyPropertyFullNameMicrosoftXaml)
                 && field.IsPublic
                 && field.IsStatic
                 && field.IsInitOnly
@@ -163,7 +165,8 @@ namespace Mono.Documentation.Util
 
             return !hasExistingProperty.IsTrue() && !hasExistingField.IsTrue() &&
                 // Class X has a static field of type DependencyProperty [Name]Property
-                (property.PropertyType.Name == Consts.DependencyPropertyFullName || property.PropertyType.FullName == Consts.DependencyPropertyFullNameXaml)
+                (property.PropertyType.FullName == Consts.DependencyPropertyFullName || property.PropertyType.FullName == Consts.DependencyPropertyFullNameWindowsXaml
+                || property.PropertyType.FullName == Consts.DependencyPropertyFullNameMicrosoftXaml)
 
 
                 // Class X also has static methods with the following names: Get[Name] and Set[Name]
