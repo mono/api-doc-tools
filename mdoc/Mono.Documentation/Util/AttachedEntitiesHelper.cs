@@ -130,12 +130,14 @@ namespace Mono.Documentation.Util
             // https://github.com/mono/api-doc-tools/issues/63#issuecomment-328995418
             if (!field.Name.EndsWith(PropertyConst, StringComparison.Ordinal))
                 return false;
-            var propertyName = GetPropertyName(field.Name); 
+            var propertyName = GetPropertyName(field.Name);
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
 
-            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
-            var hasExistingField = field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, System.StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
+            var hasDualPropertyConst = propertyName.EndsWith(PropertyConst, StringComparison.Ordinal);
+            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
+            var hasExistingField = hasDualPropertyConst ? false : 
+                field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
 
             return !hasExistingProperty.IsTrue () && !hasExistingField.IsTrue () &&
                 // Class X has a static field of type DependencyProperty [Name]Property
@@ -160,8 +162,8 @@ namespace Mono.Documentation.Util
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
 
-            var hasExistingProperty = property?.DeclaringType?.Properties.Any(p => p.Name.Equals(propertyName, System.StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
-            var hasExistingField = property?.DeclaringType?.Fields.Any(f => f.Name.Equals(propertyName, System.StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
+            var hasExistingProperty = property?.DeclaringType?.Properties.Any(p => p.Name.Equals(propertyName, StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
+            var hasExistingField = property?.DeclaringType?.Fields.Any(f => f.Name.Equals(propertyName, StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
 
             return !hasExistingProperty.IsTrue() && !hasExistingField.IsTrue() &&
                 // Class X has a static field of type DependencyProperty [Name]Property
