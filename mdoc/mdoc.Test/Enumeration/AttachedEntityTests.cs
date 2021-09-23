@@ -1,13 +1,8 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Mono.Cecil;
 using Mono.Documentation.Util;
-//using Windows.UI.Xaml;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters;
 
@@ -142,7 +137,6 @@ namespace mdoc.Test.Enumeration
             public static void SetTarget(DependencyObject obj, bool val) { }
 
             public delegate void EventHandler(object sender, EventArgs e);
-            //public static readonly RoutedEvent MouseMoveEvent = EventManager.RegisterRoutedEvent("MouseMove", RoutingStrategy.Bubble, typeof(MouseEventHandler), typeof(Mouse));
             public static readonly RoutedEvent TestingEvent;
             public static void AddTestingHandler(DependencyObject element, EventHandler handler) { }
             public static void RemoveTestingHandler(DependencyObject element, EventHandler handler) { }

@@ -411,7 +411,6 @@ namespace Mono.Documentation
                                 foreach (var type in assembly.GetTypes().Where(t => DocUtils.IsPublic(t)))
                                 {
                                     var t = a.ProcessType(type, assembly);
-                                    var m = type.GetMembers();
                                     foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i) && IsMemberNotPrivateEII(i)))
                                         t.ProcessMember(member);
                                 }
