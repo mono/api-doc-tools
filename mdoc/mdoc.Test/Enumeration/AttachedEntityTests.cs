@@ -86,7 +86,7 @@ namespace mdoc.Test.Enumeration
         }
 
         [TestCase]
-        public void Test_AttachedProperty_Framework()
+        public void Test_AttachedEntities_Framework()
         {
             var type = GetTypeDef<System.Windows.Media.Animation.Storyboard>();
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
