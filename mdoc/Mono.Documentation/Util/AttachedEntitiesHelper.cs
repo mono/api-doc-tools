@@ -32,9 +32,9 @@ namespace Mono.Documentation.Util
             {
                 yield return attachedEventReference;
             }
-            foreach (var attachedEventProperty in GetAttachedProperties(type, methodsLookUpTable))
+            foreach (var attachedPropertyReference in GetAttachedProperties(type, methodsLookUpTable))
             {
-                yield return attachedEventProperty;
+                yield return attachedPropertyReference;
             }
         }
 
@@ -147,7 +147,7 @@ namespace Mono.Documentation.Util
                 && field.IsStatic
                 && field.IsInitOnly
 
-                // Class X also has static methods with the following names: Get[Name] and Set[Name]
+                // Class X also has static methods with the following names: Get[Name] or Set[Name]
                 && ((methods.ContainsKey(getMethodName) && methods[getMethodName].Any(IsAttachedPropertyGetMethod))
                     || (methods.ContainsKey(setMethodName) && methods[setMethodName].Any(IsAttachedPropertySetMethod)));
 
@@ -171,7 +171,7 @@ namespace Mono.Documentation.Util
                 || property.PropertyType.FullName == Consts.DependencyPropertyFullNameMicrosoftXaml)
 
 
-                // Class X also has static methods with the following names: Get[Name] and Set[Name]
+                // Class X also has static methods with the following names: Get[Name] or Set[Name]
                 && ((methods.ContainsKey(getMethodName) && methods[getMethodName].Any(IsAttachedPropertyGetMethod))
                     || (methods.ContainsKey(setMethodName) && methods[setMethodName].Any(IsAttachedPropertySetMethod)));
 

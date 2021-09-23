@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Mono.Cecil;
 using Mono.Documentation.Util;
-using Windows.UI.Xaml;
+//using Windows.UI.Xaml;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters;
 
@@ -26,7 +28,7 @@ namespace mdoc.Test.Enumeration
         [TestCase]
         public void Test_AttachedProperty()
         {
-            var type = GetTypeDef<AttachedTestClass>();
+            var type = GetTypeDef<AttachedPropertyTestClass>();
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
 
             Assert.AreEqual(3, list.Count());
@@ -37,7 +39,7 @@ namespace mdoc.Test.Enumeration
         {
             string expected = "see GetSome, and SetSome";
 
-            var type = GetTypeDef<AttachedTestClass>();
+            var type = GetTypeDef<AttachedPropertyTestClass>();
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
 
             MemberFormatter formatter = new CSharpMemberFormatter();
@@ -50,7 +52,7 @@ namespace mdoc.Test.Enumeration
         {
             string expected = "see GetSomeGet";
 
-            var type = GetTypeDef<AttachedTestClass>();
+            var type = GetTypeDef<AttachedPropertyTestClass>();
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
 
             MemberFormatter formatter = new CSharpMemberFormatter();
@@ -63,7 +65,7 @@ namespace mdoc.Test.Enumeration
         {
             string expected = "see SetSomeSet";
 
-            var type = GetTypeDef<AttachedTestClass>();
+            var type = GetTypeDef<AttachedPropertyTestClass>();
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
 
             MemberFormatter formatter = new CSharpMemberFormatter();
@@ -72,17 +74,44 @@ namespace mdoc.Test.Enumeration
         }
 
         [TestCase]
-        public void Test_AttachedProperty_Property()
+        public void Test_AttachedEntities()
         {
-            var type = GetTypeDef<AttachedPropertyTestClass>();
-            Assert.AreEqual(1, type.Properties.Count(t => t.Name == "AttributeAttachProperty"));
+            var type = GetTypeDef<AttachedEntitiesTestClass>();
+            Assert.IsTrue(type.Fields.Any(t => t.Name == "TestingEvent"));
+            Assert.IsTrue(type.Fields.Any(t => t.Name == "TargetProperty"));
+            Assert.IsTrue(type.Fields.Any(t => t.Name == "TargetPropertyProperty"));
+            Assert.IsTrue(type.Properties.Any(t => t.Name == "AttributeAttachProperty"));
+
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
-            Assert.AreEqual("AttributeAttach", list.FirstOrDefault(t => t.Name == "AttributeAttach").Name);
+            Assert.AreEqual(4, list.Count());
+            Assert.IsTrue(list.Any(t => t.Name == "Target" && t is AttachedPropertyReference));
+            Assert.IsTrue(list.Any(t => t.Name == "Testing" && t is AttachedEventReference));
+            Assert.IsTrue(list.Any(t => t.Name == "TargetProperty" && t is AttachedPropertyReference));
+            Assert.IsTrue(list.Any(t => t.Name == "AttributeAttach" && t is AttachedPropertyReference));
+        }
+
+        [TestCase]
+        public void Test_AttachedProperty_Framework()
+        {
+            var type = GetTypeDef<System.Windows.Media.Animation.Storyboard>();
+            var list = AttachedEntitiesHelper.GetAttachedEntities(type);
+            Assert.AreEqual(3, list.Count());
+            Assert.IsTrue(list.Any(t => t.Name == "Target" && t is AttachedPropertyReference));
+            Assert.IsTrue(list.Any(t => t.Name == "TargetName" && t is AttachedPropertyReference));
+            Assert.IsTrue(list.Any(t => t.Name == "TargetProperty" && t is AttachedPropertyReference));
+
+            type = GetTypeDef<System.Windows.Controls.Primitives.Selector>();
+            list = AttachedEntitiesHelper.GetAttachedEntities(type);
+            Assert.AreEqual(4, list.Count());
+            Assert.IsTrue(list.Any(t => t.Name == "IsSelected" && t is AttachedPropertyReference));
+            Assert.IsTrue(list.Any(t => t.Name == "IsSelectionActive" && t is AttachedPropertyReference));
+            Assert.IsTrue(list.Any(t => t.Name == "Selected" && t is AttachedEventReference));
+            Assert.IsTrue(list.Any(t => t.Name == "Unselected" && t is AttachedEventReference));
         }
 
         public class AttachedTestClassNoAttachedEntities { }
 
-        public class AttachedTestClass
+        public class AttachedPropertyTestClass
         {
             public static readonly DependencyProperty SomeProperty;
             public static bool GetSome(DependencyObject obj) { return false;  }
@@ -102,11 +131,34 @@ namespace mdoc.Test.Enumeration
             public static void SetSomeNotReadOnly(DependencyObject obj, bool val) { }
         }
 
-        public class AttachedPropertyTestClass
+        public class AttachedEntitiesTestClass
         {
             public DependencyProperty AttributeAttachProperty { get; set; }
             public static bool GetAttributeAttach(DependencyObject obj) { return false; }
             public static void SetAttributeAttach(DependencyObject obj, bool val) { }
+
+            public static readonly DependencyProperty TargetProperty;
+            public static bool GetTarget(DependencyObject obj) { return false; }
+            public static void SetTarget(DependencyObject obj, bool val) { }
+
+            public delegate void EventHandler(object sender, EventArgs e);
+            //public static readonly RoutedEvent MouseMoveEvent = EventManager.RegisterRoutedEvent("MouseMove", RoutingStrategy.Bubble, typeof(MouseEventHandler), typeof(Mouse));
+            public static readonly RoutedEvent TestingEvent;
+            public static void AddTestingHandler(DependencyObject element, EventHandler handler) { }
+            public static void RemoveTestingHandler(DependencyObject element, EventHandler handler) { }
+
+            public static readonly DependencyProperty TargetPropertyProperty = 
+                DependencyProperty.RegisterAttached("TargetProperty", typeof(string), typeof(AttachedPropertyTestClass));
+            public static string GetTargetProperty(DependencyObject obj)
+            {
+                if (obj == null) { throw new ArgumentNullException("obj"); }
+                return (string)obj.GetValue(TargetPropertyProperty);
+            }
+            public static void SetTargetProperty(DependencyObject obj, string val)
+            {
+                if (obj == null) { throw new ArgumentNullException("obj"); }
+                obj.SetValue(TargetPropertyProperty, val);
+            }
         }
     }
 }
