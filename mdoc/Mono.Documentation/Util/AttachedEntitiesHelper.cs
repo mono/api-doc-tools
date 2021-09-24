@@ -62,7 +62,9 @@ namespace Mono.Documentation.Util
             var removeMethodName = $"Remove{GetEventName(field.Name)}Handler";
             return
                 // WPF implements attached events as routed events; the identifier to use for an event (RoutedEvent) is already defined by the WPF event system
-                IsAssignableTo(field.FieldType, "System.Windows.RoutedEvent")
+                (IsAssignableTo(field.FieldType, Consts.RoutedEventFullName) || 
+                IsAssignableTo(field.FieldType, Consts.RoutedEventFullNameWinRT) || 
+                IsAssignableTo(field.FieldType, Consts.RoutedEventFullNameWinUI))
                 && field.IsPublic
                 && field.IsStatic
                 && field.IsInitOnly
@@ -90,8 +92,10 @@ namespace Mono.Documentation.Util
                 return false;
             return
                 // The first parameter is DependencyObject
-                IsAssignableTo(parameters[0].ParameterType, "System.Windows.DependencyObject")
-                
+                (IsAssignableTo(parameters[0].ParameterType, Consts.DependencyObjectFullName) || 
+                IsAssignableTo(parameters[0].ParameterType, Consts.DependencyObjectFullNameWinRT) ||
+                IsAssignableTo(parameters[0].ParameterType, Consts.DependencyObjectFullNameWinUI))
+
                 // The second parameter is the handler to add/remove
                 && IsAttachedEventHandler(parameters[1].ParameterType);
         }
@@ -185,7 +189,9 @@ namespace Mono.Documentation.Util
                    // && IsAssignableTo(method.ReturnType, "");
 
                    // The Get method takes one argument of type DependencyObject(or something IsAssignableTo(DependencyObject), 
-                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml));
+                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || 
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameWinRT) ||
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameWinUI));
         }
 
         private static bool IsAttachedPropertySetMethod(MethodDefinition method)
@@ -193,8 +199,11 @@ namespace Mono.Documentation.Util
             return method.Parameters.Count == 2// The Set method takes two arguments.
                    
                    // The first has type DependencyObject(or IsAssignableTo…), 
-                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml)
-                    || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameIInputElement) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameObject))
+                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || 
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameWinRT) ||
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameWinUI) ||
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameIInputElement) || 
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameObject))
 
                    // the second has type dp.PropertyType (or IsAssignableTo…).
                    // && IsAssignableTo(method.Parameters[1].ParameterType, "")

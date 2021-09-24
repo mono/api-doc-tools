@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
-using System.Windows;
+using Windows.UI.Xaml;
 using Mono.Documentation.Util;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters;
@@ -88,20 +88,17 @@ namespace mdoc.Test.Enumeration
         [TestCase]
         public void Test_AttachedEntities_Framework()
         {
-            var type = GetTypeDef<System.Windows.Media.Animation.Storyboard>();
+            var type = GetTypeDef<Windows.UI.Xaml.Media.Animation.Storyboard>();
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
-            Assert.AreEqual(3, list.Count());
-            Assert.IsTrue(list.Any(t => t.Name == "Target" && t is AttachedPropertyReference));
+            Assert.AreEqual(2, list.Count());
+            Assert.IsTrue(type.Properties.Any(t => t.Name == "TargetNameProperty"));
+            Assert.IsTrue(type.Properties.Any(t => t.Name == "TargetPropertyProperty"));
             Assert.IsTrue(list.Any(t => t.Name == "TargetName" && t is AttachedPropertyReference));
             Assert.IsTrue(list.Any(t => t.Name == "TargetProperty" && t is AttachedPropertyReference));
 
-            type = GetTypeDef<System.Windows.Controls.Primitives.Selector>();
+            type = GetTypeDef<Windows.UI.Xaml.Controls.Primitives.Selector>();
             list = AttachedEntitiesHelper.GetAttachedEntities(type);
-            Assert.AreEqual(4, list.Count());
-            Assert.IsTrue(list.Any(t => t.Name == "IsSelected" && t is AttachedPropertyReference));
-            Assert.IsTrue(list.Any(t => t.Name == "IsSelectionActive" && t is AttachedPropertyReference));
-            Assert.IsTrue(list.Any(t => t.Name == "Selected" && t is AttachedEventReference));
-            Assert.IsTrue(list.Any(t => t.Name == "Unselected" && t is AttachedEventReference));
+            Assert.AreEqual(0, list.Count());
         }
 
         public class AttachedTestClassNoAttachedEntities { }
@@ -141,8 +138,7 @@ namespace mdoc.Test.Enumeration
             public static void AddTestingHandler(DependencyObject element, EventHandler handler) { }
             public static void RemoveTestingHandler(DependencyObject element, EventHandler handler) { }
 
-            public static readonly DependencyProperty TargetPropertyProperty = 
-                DependencyProperty.RegisterAttached("TargetProperty", typeof(string), typeof(AttachedPropertyTestClass));
+            public static readonly DependencyProperty TargetPropertyProperty;
             public static string GetTargetProperty(DependencyObject obj)
             {
                 if (obj == null) { throw new ArgumentNullException("obj"); }

@@ -26,8 +26,14 @@ namespace Mono.Documentation
         public const string DependencyPropertyFullNameMicrosoftXaml = "Microsoft.UI.Xaml.DependencyProperty";
 
         public const string DependencyObjectFullName = "System.Windows.DependencyObject";
-        public const string DependencyObjectFullNameXaml = "Windows.UI.Xaml.DependencyObject";
-        public const string DependencyPropertyFullNameIInputElement = "System.Windows.IInputElement";
+        public const string DependencyObjectFullNameWinRT = "Windows.UI.Xaml.DependencyObject";
+        public const string DependencyObjectFullNameWinUI = "Microsoft.UI.Xaml.DependencyObject";
+
+		public const string RoutedEventFullName = "System.Windows.RoutedEvent";
+		public const string RoutedEventFullNameWinRT = "Windows.UI.Xaml.RoutedEvent";
+		public const string RoutedEventFullNameWinUI = "Microsoft.UI.Xaml.RoutedEvent";
+
+		public const string DependencyPropertyFullNameIInputElement = "System.Windows.IInputElement";
         public const string DependencyPropertyFullNameObject = "System.Object";
         public const string VoidFullName = "System.Void";
 		public const string RefTypeObsoleteString = "Types with embedded references are not supported in this version of your compiler.";
