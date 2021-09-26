@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
+//using System.Windows;
 using Windows.UI.Xaml;
 using Mono.Documentation.Util;
 using Mono.Documentation.Updater;
@@ -79,26 +80,40 @@ namespace mdoc.Test.Enumeration
 
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
             Assert.AreEqual(4, list.Count());
-            Assert.IsTrue(list.Any(t => t.Name == "Target" && t is AttachedPropertyReference));
             Assert.IsTrue(list.Any(t => t.Name == "Testing" && t is AttachedEventReference));
+            Assert.IsTrue(list.Any(t => t.Name == "Target" && t is AttachedPropertyReference));
             Assert.IsTrue(list.Any(t => t.Name == "TargetProperty" && t is AttachedPropertyReference));
             Assert.IsTrue(list.Any(t => t.Name == "AttributeAttach" && t is AttachedPropertyReference));
         }
 
-        [TestCase]
+        [TestCase(IncludePlatform = "Win32NT")]
+        //[Ignore("Skipped on non-windows platform")]
         public void Test_AttachedEntities_Framework()
         {
-            var type = GetTypeDef<Windows.UI.Xaml.Media.Animation.Storyboard>();
+            var os = Environment.OSVersion;
+            Console.WriteLine("OS platform is: {0}", os.Platform.ToString());
+
+            var type = GetTypeDef<System.Windows.Media.Animation.Storyboard>();
+            //var type = GetTypeDef<Windows.UI.Xaml.Media.Animation.Storyboard>();
             var list = AttachedEntitiesHelper.GetAttachedEntities(type);
-            Assert.AreEqual(2, list.Count());
-            Assert.IsTrue(type.Properties.Any(t => t.Name == "TargetNameProperty"));
-            Assert.IsTrue(type.Properties.Any(t => t.Name == "TargetPropertyProperty"));
-            Assert.IsTrue(list.Any(t => t.Name == "TargetName" && t is AttachedPropertyReference));
+            Assert.AreEqual(3, list.Count());
+            //Assert.AreEqual(2, list.Count());
+            //Assert.IsTrue(type.Properties.Any(t => t.Name == "TargetNameProperty"));
+            //Assert.IsTrue(type.Properties.Any(t => t.Name == "TargetPropertyProperty"));
+            Assert.IsTrue(type.Fields.Any(t => t.Name == "TargetProperty"));
+            Assert.IsTrue(type.Fields.Any(t => t.Name == "TargetPropertyProperty"));
+            Assert.IsTrue(list.Any(t => t.Name == "Target" && t is AttachedPropertyReference));
             Assert.IsTrue(list.Any(t => t.Name == "TargetProperty" && t is AttachedPropertyReference));
 
-            type = GetTypeDef<Windows.UI.Xaml.Controls.Primitives.Selector>();
+            type = GetTypeDef<System.Windows.Controls.Primitives.Selector>();
+            //type = GetTypeDef<Windows.UI.Xaml.Controls.Primitives.Selector>();
             list = AttachedEntitiesHelper.GetAttachedEntities(type);
-            Assert.AreEqual(0, list.Count());
+            //Assert.AreEqual(0, list.Count());
+            Assert.AreEqual(4, list.Count());
+            Assert.IsTrue(list.Any(t => t.Name == "IsSelected" && t is AttachedPropertyReference));
+            Assert.IsTrue(list.Any(t => t.Name == "IsSelectionActive" && t is AttachedPropertyReference));
+            Assert.IsTrue(list.Any(t => t.Name == "Selected" && t is AttachedEventReference));
+            Assert.IsTrue(list.Any(t => t.Name == "Unselected" && t is AttachedEventReference));
         }
 
         public class AttachedTestClassNoAttachedEntities { }
