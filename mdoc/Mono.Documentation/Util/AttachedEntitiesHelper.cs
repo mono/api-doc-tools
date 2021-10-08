@@ -32,9 +32,9 @@ namespace Mono.Documentation.Util
             {
                 yield return attachedEventReference;
             }
-            foreach (var attachedEventProperty in GetAttachedProperties(type, methodsLookUpTable))
+            foreach (var attachedPropertyReference in GetAttachedProperties(type, methodsLookUpTable))
             {
-                yield return attachedEventProperty;
+                yield return attachedPropertyReference;
             }
         }
 
@@ -62,7 +62,9 @@ namespace Mono.Documentation.Util
             var removeMethodName = $"Remove{GetEventName(field.Name)}Handler";
             return
                 // WPF implements attached events as routed events; the identifier to use for an event (RoutedEvent) is already defined by the WPF event system
-                IsAssignableTo(field.FieldType, "System.Windows.RoutedEvent")
+                (IsAssignableTo(field.FieldType, Consts.RoutedEventFullName) || 
+                IsAssignableTo(field.FieldType, Consts.RoutedEventFullNameWinRT) || 
+                IsAssignableTo(field.FieldType, Consts.RoutedEventFullNameWinUI))
                 && field.IsPublic
                 && field.IsStatic
                 && field.IsInitOnly
@@ -90,8 +92,10 @@ namespace Mono.Documentation.Util
                 return false;
             return
                 // The first parameter is DependencyObject
-                IsAssignableTo(parameters[0].ParameterType, "System.Windows.DependencyObject")
-                
+                (IsAssignableTo(parameters[0].ParameterType, Consts.DependencyObjectFullName) || 
+                IsAssignableTo(parameters[0].ParameterType, Consts.DependencyObjectFullNameWinRT) ||
+                IsAssignableTo(parameters[0].ParameterType, Consts.DependencyObjectFullNameWinUI))
+
                 // The second parameter is the handler to add/remove
                 && IsAttachedEventHandler(parameters[1].ParameterType);
         }
@@ -130,12 +134,14 @@ namespace Mono.Documentation.Util
             // https://github.com/mono/api-doc-tools/issues/63#issuecomment-328995418
             if (!field.Name.EndsWith(PropertyConst, StringComparison.Ordinal))
                 return false;
-            var propertyName = GetPropertyName(field.Name); 
+            var propertyName = GetPropertyName(field.Name);
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
 
-            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, System.StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
-            var hasExistingField = field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, System.StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
+            var hasDualPropertyConst = propertyName.EndsWith(PropertyConst, StringComparison.Ordinal);
+            var hasExistingProperty = field?.DeclaringType?.Properties.Any (p => p.Name.Equals (propertyName, StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
+            var hasExistingField = hasDualPropertyConst ? false : 
+                field?.DeclaringType?.Fields.Any (f => f.Name.Equals (propertyName, StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
 
             return !hasExistingProperty.IsTrue () && !hasExistingField.IsTrue () &&
                 // Class X has a static field of type DependencyProperty [Name]Property
@@ -145,7 +151,7 @@ namespace Mono.Documentation.Util
                 && field.IsStatic
                 && field.IsInitOnly
 
-                // Class X also has static methods with the following names: Get[Name] and Set[Name]
+                // Class X also has static methods with the following names: Get[Name] or Set[Name]
                 && ((methods.ContainsKey(getMethodName) && methods[getMethodName].Any(IsAttachedPropertyGetMethod))
                     || (methods.ContainsKey(setMethodName) && methods[setMethodName].Any(IsAttachedPropertySetMethod)));
 
@@ -160,8 +166,8 @@ namespace Mono.Documentation.Util
             var getMethodName = $"Get{propertyName}";
             var setMethodName = $"Set{propertyName}";
 
-            var hasExistingProperty = property?.DeclaringType?.Properties.Any(p => p.Name.Equals(propertyName, System.StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
-            var hasExistingField = property?.DeclaringType?.Fields.Any(f => f.Name.Equals(propertyName, System.StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
+            var hasExistingProperty = property?.DeclaringType?.Properties.Any(p => p.Name.Equals(propertyName, StringComparison.Ordinal) && GetCheckVisible(p.Resolve()));
+            var hasExistingField = property?.DeclaringType?.Fields.Any(f => f.Name.Equals(propertyName, StringComparison.Ordinal) && GetCheckVisible(f.Resolve()));
 
             return !hasExistingProperty.IsTrue() && !hasExistingField.IsTrue() &&
                 // Class X has a static field of type DependencyProperty [Name]Property
@@ -169,7 +175,7 @@ namespace Mono.Documentation.Util
                 || property.PropertyType.FullName == Consts.DependencyPropertyFullNameMicrosoftXaml)
 
 
-                // Class X also has static methods with the following names: Get[Name] and Set[Name]
+                // Class X also has static methods with the following names: Get[Name] or Set[Name]
                 && ((methods.ContainsKey(getMethodName) && methods[getMethodName].Any(IsAttachedPropertyGetMethod))
                     || (methods.ContainsKey(setMethodName) && methods[setMethodName].Any(IsAttachedPropertySetMethod)));
 
@@ -183,7 +189,9 @@ namespace Mono.Documentation.Util
                    // && IsAssignableTo(method.ReturnType, "");
 
                    // The Get method takes one argument of type DependencyObject(or something IsAssignableTo(DependencyObject), 
-                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml));
+                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || 
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameWinRT) ||
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameWinUI));
         }
 
         private static bool IsAttachedPropertySetMethod(MethodDefinition method)
@@ -191,8 +199,11 @@ namespace Mono.Documentation.Util
             return method.Parameters.Count == 2// The Set method takes two arguments.
                    
                    // The first has type DependencyObject(or IsAssignableTo…), 
-                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameXaml)
-                    || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameIInputElement) || IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameObject))
+                   && (IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullName) || 
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameWinRT) ||
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyObjectFullNameWinUI) ||
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameIInputElement) || 
+                   IsAssignableTo(method.Parameters[0].ParameterType, Consts.DependencyPropertyFullNameObject))
 
                    // the second has type dp.PropertyType (or IsAssignableTo…).
                    // && IsAssignableTo(method.Parameters[1].ParameterType, "")
