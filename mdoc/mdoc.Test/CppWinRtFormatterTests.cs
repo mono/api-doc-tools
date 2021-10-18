@@ -29,7 +29,7 @@ namespace mdoc.Test
         [Category("Type")]
         public void TypeSignature_enum()
         {
-            TestTypeSignature(_cppCxTestLibName, "UwpTestWinRtComponentCpp.Color1", "enum Color1");
+            TestTypeSignature(_cppCxTestLibName, "UwpTestWinRtComponentCpp.Color1", "enum class Color1");
         }
 
         [Test]

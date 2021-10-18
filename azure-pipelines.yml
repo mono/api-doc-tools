@@ -8,149 +8,227 @@ trigger:
 
 name: $(SourceBranchName)-$(Date:yyyyMMdd)$(Rev:.r)
 
-pool:
-  vmImage: 'macos-latest'
-
 variables:
+  solution: 'apidoctools.sln'
+  buildConfiguration: 'Release'
   mdocPath: 'bin/$(buildConfiguration)'
-  
-steps:
-- task: NuGetToolInstaller@1
-  displayName: Install NuGet Tool
 
-- task: Bash@3
-  displayName: Run Unit and Integration Tests
-  inputs:
-    targetType: 'inline'
-    script: 'make prepare all check CONFIGURATION=$(buildConfiguration)'
+stages:
+- stage: SDLCheck
+  jobs:
+  - job: SDLCheck
+    pool:
+      vmImage: 'windows-latest'
 
-- task: EsrpCodeSigning@1
-  displayName: Sign executable and dll files
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  inputs:
-    ConnectedServiceName: 'CodeSigning-APEX'
-    FolderPath: '$(mdocPath)'
-    UseMinimatch: true
-    signConfigType: inlineSignParams
-    SessionTimeout: '60'
-    MaxConcurrency: '100'
-    MaxRetryAttempts: '5'
-    Pattern: |
-        *.dll
-        *.exe
-    inlineOperation: |
-      [
-        {
-          "KeyCode": "CP-230012",
-          "OperationSetCode": "SigntoolSign",
-          "parameters": [
+    steps:
+    - task: CredScan@2
+      displayName: Security - CredScan
+      inputs:
+        toolMajorVersion: 'V2'
+
+    - task: CmdLine@2
+      displayName: make prepare
+      inputs:
+        script: 'make prepare'
+
+    - task: MSBuild@1
+      displayName: MSBuild
+      inputs:
+        solution: '$(solution)'
+        configuration: '$(buildConfiguration)'
+
+    - task: BinSkim@3
+      displayName: Security - BinSkim
+      inputs:
+        InputType: 'Basic'
+        Function: 'analyze'
+        AnalyzeTarget: '$(mdocPath)\*.dll;$(mdocPath)\*.exe;'
+
+    - task: SdtReport@1
+      displayName: Security - SdtReport
+      inputs:
+        AllTools: false
+        CredScan: true
+        BinSkim: true
+        ToolLogsNotFoundAction: 'Standard'
+
+    - task: PublishSecurityAnalysisLogs@2
+      displayName: Security - Publish Scan Results
+      inputs:
+        ArtifactName: 'CodeAnalysisLogs'
+        ArtifactType: 'Container'
+        AllTools: true
+        ToolLogsNotFoundAction: 'Standard'
+
+    - task: TSAUpload@1
+      inputs:
+        tsaVersion: 'TsaV2'
+        codebase: 'Existing'
+        tsaEnvironment: 'PROD'
+        codeBaseName: 'Docs_default'
+        uploadBinSkim: true
+        uploadCredScan: true
+        uploadAsync: true
+
+    - task: PostAnalysis@1
+      displayName: Security - PostAnalysis
+      inputs:
+        AllTools: false
+        CredScan: true
+        BinSkim: true
+        ToolLogsNotFoundAction: 'Standard'  
+
+    - task: ComponentGovernanceComponentDetection@0
+      inputs:
+        scanType: 'Register'
+        verbosity: 'Verbose'
+        alertWarningLevel: 'High'
+
+- stage: Build
+  dependsOn: SDLCheck
+  jobs:
+  - job: Build
+    pool:
+      vmImage: 'macos-latest'
+
+    steps:
+    - task: NuGetToolInstaller@1
+      displayName: Install NuGet Tool
+
+    - task: Bash@3
+      displayName: Run Unit and Integration Tests
+      inputs:
+        targetType: 'inline'
+        script: 'make prepare all check CONFIGURATION=$(buildConfiguration)'
+
+    - task: EsrpCodeSigning@1
+      displayName: Sign executable and dll files
+      condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+      inputs:
+        ConnectedServiceName: 'CodeSigning-APEX'
+        FolderPath: '$(mdocPath)'
+        UseMinimatch: true
+        signConfigType: inlineSignParams
+        SessionTimeout: '60'
+        MaxConcurrency: '100'
+        MaxRetryAttempts: '5'
+        Pattern: |
+            *.dll
+            *.exe
+        inlineOperation: |
+          [
             {
-              "parameterName": "OpusName",
-              "parameterValue": "Microsoft"
+              "KeyCode": "CP-230012",
+              "OperationSetCode": "SigntoolSign",
+              "parameters": [
+                {
+                  "parameterName": "OpusName",
+                  "parameterValue": "Microsoft"
+                },
+                {
+                  "parameterName": "OpusInfo",
+                  "parameterValue": "http://www.microsoft.com"
+                },
+                {
+                  "parameterName": "PageHash",
+                  "parameterValue": "/NPH"
+                },
+                {
+                  "parameterName": "TimeStamp",
+                  "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                },
+                {
+                  "parameterName": "FileDigest",
+                  "parameterValue": "/fd \"SHA256\""
+                }
+              ],
+              "ToolName": "sign",
+              "ToolVersion": "1.0"
             },
             {
-              "parameterName": "OpusInfo",
-              "parameterValue": "http://www.microsoft.com"
-            },
-            {
-              "parameterName": "PageHash",
-              "parameterValue": "/NPH"
-            },
-            {
-              "parameterName": "TimeStamp",
-              "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
-            },
-            {
-              "parameterName": "FileDigest",
-              "parameterValue": "/fd \"SHA256\""
+              "KeyCode": "CP-230012",
+              "OperationSetCode": "SigntoolVerify",
+              "Parameters": [
+                {
+                  "parameterName": "VerifyAll",
+                  "parameterValue": "/all"
+                }
+              ],
+              "ToolName": "sign",
+              "ToolVersion": "1.0"
             }
-          ],
-          "ToolName": "sign",
-          "ToolVersion": "1.0"
-        },
-        {
-          "KeyCode": "CP-230012",
-          "OperationSetCode": "SigntoolVerify",
-          "Parameters": [
-            {
-              "parameterName": "VerifyAll",
-              "parameterValue": "/all"
-            }
-          ],
-          "ToolName": "sign",
-          "ToolVersion": "1.0"
-        }
-      ]
+          ]
 
-- task: ArchiveFiles@2
-  displayName: Archive mdoc Files
-  inputs:
-    rootFolderOrFile: '$(mdocPath)'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/zips/mdoc-$(Build.BuildNumber).zip'
-    replaceExistingArchive: true
+    - task: ArchiveFiles@2
+      displayName: Archive mdoc Files
+      inputs:
+        rootFolderOrFile: '$(mdocPath)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/zips/mdoc-$(Build.BuildNumber).zip'
+        replaceExistingArchive: true
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish mdoc Artifact'
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/zips'
-    ArtifactName: 'mdoc.Artifact'
-- task: PowerShell@2
-  name: 'mdocVersion'
-  displayName: 'Checking remote and local version of mdoc'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-  inputs:
-    filePath: 'mdoc/CheckNugetPublish.ps1'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish mdoc Artifact'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/zips'
+        ArtifactName: 'mdoc.Artifact'
 
-- task: NuGetCommand@2
-  displayName: 'Create a NuGet package for mdoc'
-  condition: eq(variables['mdocVersion.NeedUpdate'], true)
-  inputs:
-    command: 'pack'
-    packagesToPack: 'mdoc/mdoc.nuspec'
+    - task: PowerShell@2
+      name: 'mdocVersion'
+      displayName: 'Checking remote and local version of mdoc'
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+      inputs:
+        filePath: 'mdoc/CheckNugetPublish.ps1'
 
-- task: EsrpCodeSigning@1
-  displayName: 'Sign NuGet packages'
-  condition: eq(variables['mdocVersion.NeedUpdate'], true)
-  inputs:
-    ConnectedServiceName: 'CodeSigning-APEX'
-    FolderPath: '$(Build.ArtifactStagingDirectory)'
-    Pattern: '*.nupkg'
-    signConfigType: inlineSignParams
-    inlineOperation: |
-     [
-             {
-                 "KeyCode" : "CP-401405",
-                 "OperationSetCode" : "NuGetSign",
-                 "Parameters" : [
-                    {
-                      "parameterName": "TimeStamp",
-                      "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
-                    },
-                    {
-                      "parameterName": "FileDigest",
-                      "parameterValue": "/fd \"SHA256\""
-                    }
-                 ],
-                 "ToolName" : "sign",
-                 "ToolVersion" : "1.0"
-             },
-             {
-                 "KeyCode" : "CP-401405",
-                 "OperationSetCode" : "NuGetVerify",
-                 "Parameters" : [],
-                 "ToolName" : "sign",
-                 "ToolVersion" : "1.0"
-             }
-      ]
-    SessionTimeout: 20
+    - task: NuGetCommand@2
+      displayName: 'Create a NuGet package for mdoc'
+      condition: eq(variables['mdocVersion.NeedUpdate'], true)
+      inputs:
+        command: 'pack'
+        packagesToPack: 'mdoc/mdoc.nuspec'
 
-- task: NuGetCommand@2
-  displayName: 'Publishing mdoc package to nuget.org'
-  condition: eq(variables['mdocVersion.NeedUpdate'], true)
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'modc_nuget_org'
+    - task: EsrpCodeSigning@1
+      displayName: 'Sign NuGet packages'
+      condition: eq(variables['mdocVersion.NeedUpdate'], true)
+      inputs:
+        ConnectedServiceName: 'CodeSigning-APEX'
+        FolderPath: '$(Build.ArtifactStagingDirectory)'
+        Pattern: '*.nupkg'
+        signConfigType: inlineSignParams
+        inlineOperation: |
+          [
+                {
+                    "KeyCode" : "CP-401405",
+                    "OperationSetCode" : "NuGetSign",
+                    "Parameters" : [
+                        {
+                          "parameterName": "TimeStamp",
+                          "parameterValue": "/tr \"http://rfc3161.gtm.corp.microsoft.com/TSS/HttpTspServer\" /td sha256"
+                        },
+                        {
+                          "parameterName": "FileDigest",
+                          "parameterValue": "/fd \"SHA256\""
+                        }
+                    ],
+                    "ToolName" : "sign",
+                    "ToolVersion" : "1.0"
+                },
+                {
+                    "KeyCode" : "CP-401405",
+                    "OperationSetCode" : "NuGetVerify",
+                    "Parameters" : [],
+                    "ToolName" : "sign",
+                    "ToolVersion" : "1.0"
+                }
+          ]
+        SessionTimeout: 20
+
+    - task: NuGetCommand@2
+      displayName: 'Publishing mdoc package to nuget.org'
+      condition: eq(variables['mdocVersion.NeedUpdate'], true)
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+        nuGetFeedType: 'external'
+        publishFeedCredentials: 'mdoc_nuget_org'

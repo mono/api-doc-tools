@@ -7,7 +7,7 @@
   <TypeSignature Language="JavaScript" Usage="var value = Mono.DocTest.Color.red" />
   <TypeSignature Language="C++ CLI" Value="public enum class Color" />
   <TypeSignature Language="C++ CX" Value="public enum class Color" />
-  <TypeSignature Language="C++ WINRT" Value="enum Color" />
+  <TypeSignature Language="C++ WINRT" Value="enum class Color" />
   <AssemblyInfo>
     <AssemblyName>DocTest</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>

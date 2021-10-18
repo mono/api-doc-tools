@@ -34,17 +34,50 @@ namespace Mono.Documentation
                                 .OrderBy(d => d.Name)
                                 .ToArray();
 
+			var frameworks = new List<XElement>();
+			var assemblyVersionMappings = new Dictionary<string, Dictionary<string, string>>();
 			foreach (var d in data)
-				Console.WriteLine (d.Name);
+			{
+				Console.WriteLine(d.Name);
+				var assemblyVersionMapping = new Dictionary<string, string>();
+				assemblyVersionMappings.Add(d.Name, assemblyVersionMapping);
+				string sourcePath = Path.Combine(frameworkPath, d.Path);
+				foreach (var xmlPath in Directory.GetFiles(sourcePath, "*.xml"))
+				{
+					string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(xmlPath);
+					string dllPath = Path.Combine(sourcePath, fileNameWithoutExtension + ".dll");
+					if (File.Exists(dllPath))
+					{
+						var version = FileVersionInfo.GetVersionInfo(dllPath).FileVersion;
+						if (!string.IsNullOrEmpty(version))
+						{
+							assemblyVersionMapping.Add(Path.GetFileName(xmlPath), version);
+						}
+					}
+				}
+				frameworks.Add(new XElement(
+								 "Framework",
+								 new XAttribute("Name", d.Name),
+								 new XAttribute("Source", d.Path),
+								 new XElement("assemblySearchPath", Path.Combine("dependencies", d.Name))));
+			}
 
-			var doc = new XDocument (
-				new XElement("Frameworks", 
-				             data.Select(d => new XElement(
-					             "Framework",
-					             new XAttribute("Name", d.Name),
-					             new XAttribute("Source", d.Path),
-					             new XElement("assemblySearchPath", Path.Combine("dependencies", d.Name)))))
-			);
+			var maxVersions = assemblyVersionMappings.SelectMany(f => f.Value)
+						.GroupBy(m => m.Key)
+						.ToDictionary(g => g.Key, g => g.Max(m => m.Value));
+
+			foreach (var framework in frameworks)
+			{
+				foreach (var assembly in assemblyVersionMappings[framework.Attribute("Name").ToString().Split('"')[1]])
+				{
+					if (maxVersions.ContainsKey(assembly.Key) && assembly.Value == maxVersions[assembly.Key])
+					{
+						framework.Add(new XElement("import", string.Format("{0}\\{1}", framework.Attribute("Source").ToString().Split('"')[1], assembly.Key)));
+					}
+				}
+			}
+
+			var doc = new XDocument(new XElement("Frameworks", frameworks));
 
 			var configPath = Path.Combine (frameworkPath, "frameworks.xml");
 			var settings = new XmlWriterSettings { Indent = true };

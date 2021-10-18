@@ -932,7 +932,7 @@ namespace Mono.Documentation
 
         private static string GetTypeFileName (TypeReference type)
         {
-            return filenameFormatter.GetName (type);
+            return filenameFormatter.GetName (type, useTypeProjection: false);
         }
 
         public static string GetTypeFileName (string typename)
@@ -4208,19 +4208,22 @@ namespace Mono.Documentation
             else throw new ArgumentException ();
         }
 
-        public static string GetDocParameterType (TypeReference type)
+        public static string GetDocParameterType (TypeReference type, bool useTypeProjection = false)
         {
-            var typename = GetDocTypeFullName (type).Replace ("@", "&");
+            var typename = GetDocTypeFullName (type, useTypeProjection).Replace ("@", "&");
 
-            typename = MDocUpdater.Instance.TypeMap?.GetTypeName("C#", typename) ?? typename;
-
+            if (useTypeProjection || string.IsNullOrEmpty(typename))
+            {
+                typename = MDocUpdater.Instance.TypeMap?.GetTypeName("C#", typename) ?? typename;
+            }
+            
             return typename;
         }
 
         private void MakeReturnValue (FrameworkTypeEntry typeEntry, XmlElement root, TypeReference type, MemberReference member, IList<CustomAttribute> attributes, bool shouldDuplicateWithNew = false)
         {
             XmlElement e = WriteElement (root, "ReturnValue");
-            var valueToUse = GetDocTypeFullName (type);
+            var valueToUse = GetDocTypeFullName (type, false);
             if ((type.IsRequiredModifier && ((RequiredModifierType)type).ElementType.IsByReference)
                     || type.IsByReference)
                 e.SetAttribute("RefType", "Ref");

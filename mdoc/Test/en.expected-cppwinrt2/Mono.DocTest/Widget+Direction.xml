@@ -1,7 +1,7 @@
 <Type Name="Widget+Direction" FullName="Mono.DocTest.Widget+Direction">
   <TypeSignature Language="C#" Value="protected internal enum Widget.Direction" />
   <TypeSignature Language="ILAsm" Value=".class nested protected auto ansi sealed Widget/Direction extends System.Enum" />
-  <TypeSignature Language="C++ WINRT" Value="enum Widget::Direction" />
+  <TypeSignature Language="C++ WINRT" Value="enum class Widget::Direction" />
   <AssemblyInfo>
     <AssemblyName>DocTest</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>

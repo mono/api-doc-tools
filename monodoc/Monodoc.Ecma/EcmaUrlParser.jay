@@ -1,4 +1,10 @@
 %{
+
+// To Generate this file: 
+// 1. Download and install mono-jay via https://packages.ubuntu.com/bionic/mono-jay
+// 2. Run command: 
+//    jay -ct Monodoc.Ecma/EcmaUrlParser.jay < Monodoc.Ecma/jay/skeleton.cs > Monodoc.Ecma/prebuilt/EcmaUrlParser.cs
+
 using System.Text;
 using System.IO;
 using System;
@@ -69,6 +75,7 @@ namespace Monodoc.Ecma
 %token REF_ARG
 %token OUT_ARG
 %token EXPLICIT_IMPL_SEP
+%token QUESTION_MARK
 
 %start expression
 
@@ -113,15 +120,17 @@ reduced_type_expression
                      }
 
 type_expression_suffix
-        : opt_generic_type_suffix opt_inner_type_description opt_array_definition opt_etc {
+        : opt_generic_type_suffix opt_inner_type_description opt_nullable opt_array_definition opt_nullable opt_etc {
                          bool nestedDescHasEtc = $2 != null && ((EcmaDesc)$2).IsEtc;
                          EcmaDesc nestedType = (EcmaDesc)$2;
                          $$ = new EcmaDesc {
                             GenericTypeArguments = $1 as List<EcmaDesc>,
                             NestedType = nestedType,
-                            ArrayDimensions = SafeReverse ($3 as List<int>),
-                            Etc = $4 != null ? ((Tuple<char, string>)$4).Item1 : nestedDescHasEtc ? nestedType.Etc : (char)0,
-                            EtcFilter = $4 != null ? ((Tuple<char, string>)$4).Item2 : nestedDescHasEtc ? nestedType.EtcFilter : null
+                            DescIsNullable = $3 != null,
+                            ArrayDimensions = SafeReverse ($4 as List<int>),
+                            ArrayIsNullable = $5 != null,
+                            Etc = $6 != null ? ((Tuple<char, string>)$6).Item1 : nestedDescHasEtc ? nestedType.Etc : (char)0,
+                            EtcFilter = $6 != null ? ((Tuple<char, string>)$6).Item2 : nestedDescHasEtc ? nestedType.EtcFilter : null
                          };
                          if (nestedDescHasEtc) {
                             nestedType.Etc = (char)0;
@@ -141,6 +150,10 @@ opt_generic_type_suffix
 generic_type_arg_list
         : type_expression { $$ = new List<EcmaDesc> () { (EcmaDesc)$1 }; }
         | generic_type_arg_list COMMA type_expression { ((List<EcmaDesc>)$1).Add ((EcmaDesc)$3); $$ = $1; }
+
+opt_nullable
+        : /* empty */ { $$ = null; }
+        | QUESTION_MARK { $$ = "?"; }
 
 opt_array_definition
         : /* empty */ { $$ = null; }
