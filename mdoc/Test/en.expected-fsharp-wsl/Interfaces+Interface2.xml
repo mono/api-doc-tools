@@ -23,9 +23,9 @@
   </Docs>
   <Members>
     <Member MemberName="Method2">
-      <MemberSignature Language="C#" Value="public int Method2 (int );" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 Method2(int32 ) cil managed" />
-      <MemberSignature Language="F#" Value="abstract member Method2 : int -&gt; int" Usage="interface2.Method2 " />
+      <MemberSignature Language="C#" Value="public int Method2 (int unnamedParam1);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 Method2(int32 unnamedParam1) cil managed" />
+      <MemberSignature Language="F#" Value="abstract member Method2 : int -&gt; int" Usage="interface2.Method2 unnamedParam1" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -34,10 +34,10 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="" Type="System.Int32" />
+        <Parameter Name="unnamedParam1" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="">To be added.</param>
+        <param name="unnamedParam1">To be added.</param>
         <summary>To be added.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>

@@ -1,0 +1,23 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="DocTest-TypeProjection" Version="0.0.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="Mono.DocTest">
+      <Type Name="GenericType`1" DisplayName="IList;&lt;T&gt;" Kind="Class" />
+      <Type Name="NonGenericType" DisplayName="IList" Kind="Class" />
+    </Namespace>
+  </Types>
+  <Title>DocTest-TypeProjection</Title>
+</Overview>

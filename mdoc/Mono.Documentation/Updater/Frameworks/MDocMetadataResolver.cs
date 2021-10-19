@@ -88,6 +88,8 @@ namespace Mono.Documentation.Updater.Frameworks
                 return exported_type.Resolve ();
             }
 
+            Console.WriteLine(string.Format("Unable to get type {0} in module {1}({2}) from assembly {3}({4})",
+                reference.FullName, reference.Module.Name, reference.Module.FileName, module.Assembly.FullName, module.Assembly.MainModule.FileName));
             return null;
         }
 
