@@ -116,24 +116,28 @@ namespace Mono.Documentation.Updater.Frameworks
                                     ));
                 }
 
-				frameworkElement.Add(fx.Types.GroupBy(t => t.Namespace)
-					.Select(g => new XElement("Namespace",
-						new XAttribute("Name", g.Key),
-						g.Select(t => new XElement("Type",
-							new XAttribute("Name", t.Name),
-							new XAttribute("Id", t.Id),
-							t.Members.Select(m =>
-								new XElement("Member",
-									new XAttribute("Id", m))))))));
-				// now save the document
-				string filePath = Path.Combine (outputPath, fx.Name + ".xml");
+                frameworkElement.Add(fx.Types
+                    .Where(p => !p.IsExternalAssembly)
+                    //.Where(p => !p.AssembliesMemberOf.Values.Contains(false))
+                    .GroupBy(t => t.Namespace)
+                    .Select(g => new XElement("Namespace",
+                        new XAttribute("Name", g.Key),
+                        g.Select(t => new XElement("Type",
+                            new XAttribute("Name", t.Name),
+                            new XAttribute("Id", t.Id),
+                            t.Members.Select(m =>
+                                new XElement("Member",
+                                    new XAttribute("Id", m))))))));
 
-				MdocFile.DeleteFile (filePath);
+                // now save the document
+                string filePath = Path.Combine (outputPath, fx.Name + ".xml");
+                MdocFile.DeleteFile(filePath);
 
-				var settings = new XmlWriterSettings { Indent = true };
-				using (var writer = XmlWriter.Create (filePath, settings)) {
-					doc.WriteTo (writer);
-				}
+                var settings = new XmlWriterSettings { Indent = true };
+                using (var writer = XmlWriter.Create(filePath, settings))
+                {
+                    doc.WriteTo(writer);
+                }
 			}
 		}
 	}

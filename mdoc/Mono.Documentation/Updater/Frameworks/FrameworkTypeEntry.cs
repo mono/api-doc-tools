@@ -27,6 +27,8 @@ namespace Mono.Documentation.Updater.Frameworks
 
         Lazy<FrameworkTypeEntry[]> previouslyProcessedFXTypes;
 
+        public bool IsExternalAssembly { get; set; }
+
         public int TimesProcessed { get; set; }
 
         public Dictionary<string, bool> AssembliesMemberOf = new Dictionary<string, bool>();
@@ -41,6 +43,19 @@ namespace Mono.Documentation.Updater.Frameworks
             {
                 AssembliesMemberOf.Add(noting.Name.Name, isForward);
             }
+        }
+
+        public void NoteExternalAssembly(TypeDefinition type, AssemblyDefinition source)
+        {
+            if (type == null || source == null)
+                return;
+
+            var assembly = type.Module.FileName.Split('\\').LastOrDefault();
+            var length = source.Modules[0].FileName.LastIndexOf('\\');
+            var path = source.Modules[0].FileName.Substring(0, length);
+            var fileName = path + "\\" + assembly;
+
+            IsExternalAssembly = !System.IO.File.Exists(fileName);
         }
 
         /// <summary>
