@@ -117,7 +117,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 }
 
                 frameworkElement.Add(fx.Types
-                    .Where(p => !p.IsExternalAssembly)
+                    .Where(p => !(p.IsExternalAssembly && p.AssembliesMemberOf.Values.Contains(false)))
                     //.Where(p => !p.AssembliesMemberOf.Values.Contains(false))
                     .GroupBy(t => t.Namespace)
                     .Select(g => new XElement("Namespace",

@@ -27,7 +27,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
         Lazy<FrameworkTypeEntry[]> previouslyProcessedFXTypes;
 
-        public bool IsExternalAssembly { get; set; }
+        public bool IsExternalAssembly { get; set; } = default;
 
         public int TimesProcessed { get; set; }
 
