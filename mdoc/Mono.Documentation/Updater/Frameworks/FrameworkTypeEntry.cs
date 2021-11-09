@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Mono.Cecil;
 using Mono.Documentation.Updater.Formatters;
 
@@ -50,10 +51,16 @@ namespace Mono.Documentation.Updater.Frameworks
             if (type == null || source == null)
                 return;
 
-            var assembly = type.Module.FileName.Split('\\').LastOrDefault();
-            var length = source.Modules[0].FileName.LastIndexOf('\\');
+            char delimiter;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                delimiter = '\\';
+            else
+                delimiter = '/';
+
+            var assembly = type.Module.FileName.Split(delimiter).LastOrDefault();
+            var length = source.Modules[0].FileName.LastIndexOf(delimiter);
             var path = source.Modules[0].FileName.Substring(0, length);
-            var fileName = path + "\\" + assembly;
+            var fileName = path + delimiter + assembly;
 
             IsExternalAssembly = !System.IO.File.Exists(fileName);
         }
