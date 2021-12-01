@@ -390,7 +390,7 @@ namespace Mono.Documentation.Updater
             return false;
         }
 
-        private bool IsGenericWithValueTypeArg(GenericInstanceType type)
+        private bool IsNullableValueType(GenericInstanceType type)
         {
             if (type.Name == "Nullable`1" && type.HasGenericArguments && type.GenericArguments[0].IsValueType)
             {
@@ -406,16 +406,8 @@ namespace Mono.Documentation.Updater
             if (type is GenericInstanceType)
             {
                 // Fix bug https://dev.azure.com/ceapex/Engineering/_workitems/edit/514755?src=WorkItemMention&src-action=artifact_link
-                if (IsGenericWithValueTypeArg(type as GenericInstanceType))
-                {
-                    isNullableType = true;
-                    _AppendTypeName(buf, type, context, useTypeProjection: useTypeProjection);
-                }
-                else
-                {
-                    isNullableType = context.IsNullable();
-                    buf.Append(GetTypeName(type, context));
-                }
+                isNullableType = IsNullableValueType(type as GenericInstanceType) ? true : context.IsNullable();
+                buf.Append(GetTypeName(type, context));
             }
             else
             {
