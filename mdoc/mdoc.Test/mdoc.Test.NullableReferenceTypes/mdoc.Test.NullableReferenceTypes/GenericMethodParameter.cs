@@ -63,5 +63,29 @@ namespace mdoc.Test.NullableReferenceTypes
         public void GenericNonNullableAndNullableValueType<T1, T2>(T1 t1, T2? t2) where T2 : struct
         {
         }
+
+        public void GenericTypeWithNullableParameters1(GenericType<string?, int?, bool?> p)
+        {
+        }
+
+        public void GenericTypeWithNullableParameters2(GenericType<string?, int, bool> p)
+        {
+        }
+
+        public void GenericTypeWithNullableParameters3(GenericType<string, int, bool> p)
+        {
+        }
+
+        public void GenericTypeWithNullableParameters4(GenericType<string?, string> p)
+        {
+        }
+
+        public void GenericTypeWithNullableParameters5(GenericType<int?, int> p)
+        {
+        }
+
+        public void GenericTypeWithNullableParameters6(GenericType<bool?, bool> p)
+        {
+        }
     }
 }
