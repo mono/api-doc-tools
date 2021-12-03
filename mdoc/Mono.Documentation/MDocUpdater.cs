@@ -4176,6 +4176,19 @@ namespace Mono.Documentation
                     }
                 }
             }
+
+            nodes = e.SelectNodes("TypeParameter").Cast<XmlElement>().ToArray();
+            if (nodes.Length != typeParams.Count)
+            {
+                foreach (var node in nodes)
+                {
+                    var existing = typeParams.FirstOrDefault(x => x.Name == node.GetAttribute("Name"));
+                    if (existing == null)
+                    {
+                        node.ParentNode.RemoveChild(node);
+                    }
+                }
+            }
         }
 
         private void MakeParameters (XmlElement root, MemberReference mi, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew)
