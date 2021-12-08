@@ -16,7 +16,7 @@ using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Updater.Statistics;
 using Mono.Documentation.Util;
 using Mono.Options;
-
+using SchwabenCode.QuickIO;
 using MyXmlNodeList = System.Collections.Generic.List<System.Xml.XmlNode>;
 using StringList = System.Collections.Generic.List<string>;
 using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.Xml.XmlNode>;
@@ -1418,7 +1418,7 @@ namespace Mono.Documentation
         private static TextWriter OpenWrite (string path, FileMode mode)
         {
             var w = new StreamWriter (
-                new FileStream (path, mode),
+                QuickIOFile.Open (path, mode),
                 new UTF8Encoding (false)
             );
             w.NewLine = "\n";
