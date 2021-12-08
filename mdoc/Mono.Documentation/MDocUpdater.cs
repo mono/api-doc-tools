@@ -692,8 +692,8 @@ namespace Mono.Documentation
             index_remarks.InnerText = "To be added.";
             index_docs.AppendChild (index_remarks);
 
-            WriteFile (outdir + "/ns-" + ns + ".xml", FileMode.CreateNew,
-                    writer => WriteXml (index.DocumentElement, writer));
+            var nsDocPath = DocUtils.PathCombine(outdir, $"ns-{ns}.xml");
+            WriteFile (nsDocPath, FileMode.CreateNew, writer => WriteXml (index.DocumentElement, writer));
         }
 
         public void DoUpdateTypes (string basepath, List<string> typenames, string dest)
