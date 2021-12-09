@@ -1420,8 +1420,10 @@ namespace Mono.Documentation
         private static TextWriter OpenWrite (string path, FileMode mode)
         {
             Console.WriteLine("Path:" + path);
+            var fullPath = Path.GetFullPath(path);
+            Console.WriteLine("FullPath:" + fullPath);
             var w = new StreamWriter (
-                QuickIOFile.Open (path, mode),
+                QuickIOFile.Open (fullPath, mode),
                 new UTF8Encoding (false)
             );
             w.NewLine = "\n";
