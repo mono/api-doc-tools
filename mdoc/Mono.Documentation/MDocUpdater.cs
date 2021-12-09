@@ -1039,7 +1039,7 @@ namespace Mono.Documentation
 
         private void DoUpdateAssemblies (string source, string dest)
         {
-            string indexfile = dest + "/index.xml";
+            string indexfile = DocUtils.PathCombine(dest, "index.xml");
             XmlDocument index;
             if (System.IO.File.Exists (indexfile))
             {
