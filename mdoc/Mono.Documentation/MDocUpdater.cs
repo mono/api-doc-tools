@@ -1082,8 +1082,6 @@ namespace Mono.Documentation
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(ex.Message);
-                                Console.WriteLine(ex.StackTrace);
                                 throw new MDocAssemblyException(assm.FullName, $"Error processing {assm.FullName} from {assm.MainModule.FileName}", ex);
                             }
                         }
@@ -1420,9 +1418,6 @@ namespace Mono.Documentation
 
         private static TextWriter OpenWrite (string path, FileMode mode)
         {
-            Console.WriteLine("Path:" + path);
-            var fullPath = Path.GetFullPath(path);
-            Console.WriteLine("FullPath:" + fullPath);
             var fs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? QuickIOFile.Open(Path.GetFullPath(path), mode) : new FileStream(path, mode);
             var w = new StreamWriter (fs, new UTF8Encoding (false));
             w.NewLine = "\n";
