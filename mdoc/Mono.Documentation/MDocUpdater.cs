@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -1422,10 +1423,8 @@ namespace Mono.Documentation
             Console.WriteLine("Path:" + path);
             var fullPath = Path.GetFullPath(path);
             Console.WriteLine("FullPath:" + fullPath);
-            var w = new StreamWriter (
-                QuickIOFile.Open (fullPath, mode),
-                new UTF8Encoding (false)
-            );
+            var fs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? QuickIOFile.Open(Path.GetFullPath(path), mode) : new FileStream(path, mode);
+            var w = new StreamWriter (fs, new UTF8Encoding (false));
             w.NewLine = "\n";
             return w;
         }
