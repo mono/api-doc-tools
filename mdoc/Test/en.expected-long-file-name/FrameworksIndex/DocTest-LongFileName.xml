@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="DocTest-LongFileName">
+  <Assemblies>
+    <Assembly Name="DocTest-LongFileName" Version="0.0.0.0" />
+  </Assemblies>
+  <Namespace Name="Mono.DocTest.LooooooooooooooooooooooooooooooooooooooooooooooooooooogNamespace">
+    <Type Name="Mono.DocTest.LooooooooooooooooooooooooooooooooooooooooooooooooooooogNamespace.LoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooogNameClass" Id="T:Mono.DocTest.LooooooooooooooooooooooooooooooooooooooooooooooooooooogNamespace.LoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooogNameClass">
+      <Member Id="M:Mono.DocTest.LooooooooooooooooooooooooooooooooooooooooooooooooooooogNamespace.LoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooogNameClass.#ctor" />
+      <Member Id="M:Mono.DocTest.LooooooooooooooooooooooooooooooooooooooooooooooooooooogNamespace.LoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooogNameClass.Test(System.Int32)" />
+    </Type>
+  </Namespace>
+</Framework>
