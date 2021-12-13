@@ -890,7 +890,6 @@ check-long-file-name: Test/DocTest-LongFileName.dll
 
 	$(MONO) $(PROGRAM) fx-bootstrap Test/test-long-file-name
 	$(MONO) $(PROGRAM) update -fx Test/test-long-file-name -o Test/en.actual/
-	$(DIFF) Test/en.expected-long-file-name Test/en.actual/
 
 run-test-local: check-doc-tools
 
