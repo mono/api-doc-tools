@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -16,7 +17,7 @@ using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Updater.Statistics;
 using Mono.Documentation.Util;
 using Mono.Options;
-
+using SchwabenCode.QuickIO;
 using MyXmlNodeList = System.Collections.Generic.List<System.Xml.XmlNode>;
 using StringList = System.Collections.Generic.List<string>;
 using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.Xml.XmlNode>;
@@ -692,8 +693,8 @@ namespace Mono.Documentation
             index_remarks.InnerText = "To be added.";
             index_docs.AppendChild (index_remarks);
 
-            WriteFile (outdir + "/ns-" + ns + ".xml", FileMode.CreateNew,
-                    writer => WriteXml (index.DocumentElement, writer));
+            var nsDocPath = DocUtils.PathCombine(outdir, $"ns-{ns}.xml");
+            WriteFile (nsDocPath, FileMode.CreateNew, writer => WriteXml (index.DocumentElement, writer));
         }
 
         public void DoUpdateTypes (string basepath, List<string> typenames, string dest)
@@ -1039,7 +1040,7 @@ namespace Mono.Documentation
 
         private void DoUpdateAssemblies (string source, string dest)
         {
-            string indexfile = dest + "/index.xml";
+            string indexfile = DocUtils.PathCombine(dest, "index.xml");
             XmlDocument index;
             if (System.IO.File.Exists (indexfile))
             {
@@ -1417,10 +1418,8 @@ namespace Mono.Documentation
 
         private static TextWriter OpenWrite (string path, FileMode mode)
         {
-            var w = new StreamWriter (
-                new FileStream (path, mode),
-                new UTF8Encoding (false)
-            );
+            var fs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? QuickIOFile.Open(Path.GetFullPath(path), mode) : new FileStream(path, mode);
+            var w = new StreamWriter (fs, new UTF8Encoding (false));
             w.NewLine = "\n";
             return w;
         }
