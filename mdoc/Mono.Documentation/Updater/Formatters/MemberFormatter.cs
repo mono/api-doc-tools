@@ -51,7 +51,7 @@ namespace Mono.Documentation.Updater
                         (member == null ? "null" : member.GetType ().ToString ()));
         }
 
-        protected virtual string GetTypeName (TypeReference type, bool appendGeneric = true, bool useTypeProjection = true)
+        protected string GetTypeName (TypeReference type, bool appendGeneric = true, bool useTypeProjection = true)
         {
             return GetTypeName (type, EmptyAttributeParserContext.Empty(), appendGeneric, useTypeProjection: useTypeProjection);
         }
@@ -210,13 +210,13 @@ namespace Mono.Documentation.Updater
 
         protected virtual bool IsSpecialGenericNullableValueType(GenericInstanceType genInst)
         {
-            // For special C# nullable value type only, the CSharpFullMemberFormatter subclass will override the method.
+            // For special C# nullable value type only, the subclass CSharpFullMemberFormatter, and DocTypeFullMemberFormatter will override the method.
             return false;
         }
 
         protected virtual StringBuilder AppendSpecialGenericNullableValueTypeName(StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
         {
-            // For special C# nullable value type only, the CSharpFullMemberFormatter subclass will override the method.
+            // For special C# nullable value type only, the subclass CSharpFullMemberFormatter, and DocTypeFullMemberFormatter will override the method.
             return buf;
         }
 

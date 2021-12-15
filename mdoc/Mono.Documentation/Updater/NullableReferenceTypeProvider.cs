@@ -117,6 +117,16 @@ namespace Mono.Documentation.Updater
                 return GetTypeNullableAttributes(fieldDefinition);
             }
 
+            if (provider is MethodDefinition methodDefinition)
+            {
+                return GetTypeNullableAttributes(methodDefinition);
+            }
+
+            if (provider is EventDefinition eventDefinition)
+            {
+                return GetTypeNullableAttributes(eventDefinition);
+            }
+
             throw new ArgumentException("We don't support this custom attribute provider type now.", nameof(provider));
         }
 
@@ -144,6 +154,11 @@ namespace Mono.Documentation.Updater
             };
         }
 
+        private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(EventDefinition eventDefinition)
+        {
+            return GetTypeNullableAttributes(eventDefinition.AddMethod.Parameters[0]);
+        }
+
         private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(ICustomAttributeProvider customAttributeProvider, MethodDefinition methodDefinition)
         {
             var resultList = new List<ICustomAttributeProvider> 
@@ -151,6 +166,14 @@ namespace Mono.Documentation.Updater
                 customAttributeProvider
             };
 
+            resultList.AddRange(GetTypeNullableAttributes(methodDefinition));
+
+            return resultList;
+        }
+
+        private ICollection<ICustomAttributeProvider> GetTypeNullableAttributes(MethodDefinition methodDefinition)
+        {
+            var resultList = new List<ICustomAttributeProvider>();
             if (methodDefinition != null)
             {
                 resultList.Add(methodDefinition);

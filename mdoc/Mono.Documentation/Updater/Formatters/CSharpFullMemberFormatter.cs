@@ -115,13 +115,12 @@ namespace Mono.Documentation.Updater.Formatters
                 return AppendSpecialGenericNullableValueTypeName (new StringBuilder (), genType, context, appendGeneric, useTypeProjection).ToString ();
             }
 
-            return base.GetTypeName (type, context, appendGeneric, useTypeProjection);
+            return base.GetTypeName (type, context, appendGeneric, useTypeProjection, isTypeofOperator);
         }
 
         protected override bool IsSpecialGenericNullableValueType (GenericInstanceType genInst)
         {
-            return genInst != null && (genInst.Name.StartsWith("ValueTuple`") ||
-                                      (genInst.Name.StartsWith("Nullable`") && genInst.HasGenericArguments));
+            return genInst != null && genInst.HasGenericArguments && (genInst.Name.StartsWith("ValueTuple`") || genInst.Name.StartsWith("Nullable`"));
         }
 
         protected override StringBuilder AppendSpecialGenericNullableValueTypeName (StringBuilder buf, GenericInstanceType genInst, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = true)
@@ -431,27 +430,7 @@ namespace Mono.Documentation.Updater.Formatters
 
         protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
         {
-            if (isNullableType.IsTrue() && !IsValueTypeOrDefineByReference(type) && !type.FullName.Equals("System.Void"))
-            {
-                return "?";
-            }
-
-            return string.Empty;
-        }
-
-        private bool IsValueTypeOrDefineByReference(TypeReference type)
-        {
-            if (type.IsValueType)
-            {
-                return true;
-            }
-
-            if (type is ByReferenceType byRefType)
-            {
-                return byRefType.ElementType.IsValueType;
-            }
-
-            return false;
+            return DocUtils.GetTypeNullableSymbol(type, isNullableType);
         }
 
         protected override StringBuilder AppendGenericMethodConstraints (StringBuilder buf, MethodDefinition method)
