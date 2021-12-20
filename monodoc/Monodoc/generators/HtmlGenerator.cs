@@ -24,20 +24,20 @@ namespace Monodoc.Generators
 		static string css_code;
 
 		IDocCache defaultCache;
-		static Dictionary<DocumentType, IHtmlExporter> converters;
+		static Dictionary<DocumentType, Lazy<IHtmlExporter>> converters;
 
 		static HtmlGenerator ()
 		{
-			converters = new Dictionary<DocumentType, IHtmlExporter> {
-				{ DocumentType.EcmaXml, new Ecma2Html () },
-				{ DocumentType.Man, new Man2Html () },
-				{ DocumentType.TocXml, new Toc2Html () },
-				{ DocumentType.EcmaSpecXml, new Ecmaspec2Html () },
-				{ DocumentType.ErrorXml, new Error2Html () },
-				{ DocumentType.Html, new Idem () },
-				{ DocumentType.MonoBook, new MonoBook2Html () },
-				{ DocumentType.AddinXml, new Addin2Html () },
-				{ DocumentType.PlainText, new Idem () },
+			converters = new Dictionary<DocumentType, Lazy<IHtmlExporter>> {
+				{ DocumentType.EcmaXml, new Lazy<IHtmlExporter> (() => new Ecma2Html ()) },
+				{ DocumentType.Man, new Lazy<IHtmlExporter> (() => new Man2Html ()) },
+				{ DocumentType.TocXml, new Lazy<IHtmlExporter> (() => new Toc2Html ()) },
+				{ DocumentType.EcmaSpecXml, new Lazy<IHtmlExporter> (() => new Ecmaspec2Html ()) },
+				{ DocumentType.ErrorXml, new Lazy<IHtmlExporter> (() => new Error2Html ()) },
+				{ DocumentType.Html, new Lazy<IHtmlExporter> (() => new Idem ()) },
+				{ DocumentType.MonoBook, new Lazy<IHtmlExporter> (() => new MonoBook2Html ()) },
+				{ DocumentType.AddinXml, new Lazy<IHtmlExporter> (() => new Addin2Html ()) },
+				{ DocumentType.PlainText, new Lazy<IHtmlExporter> (() => new Idem ()) },
 			};
 		}
 
@@ -74,10 +74,10 @@ namespace Monodoc.Generators
 			if (cache != null && context != null && cache.IsCached (MakeCacheKey (hs, id, context)))
 				return cache.GetCachedString (MakeCacheKey (hs, id, context));
 
-			IHtmlExporter exporter;
-			if (!converters.TryGetValue (type, out exporter))
+			if (!converters.TryGetValue (type, out var exporterFactory))
 				return MakeHtmlError (string.Format ("Input type '{0}' not supported",
 				                                     type.ToString ()));
+			var exporter = exporterFactory.Value;
 			var result = hs.IsGeneratedContent (id) ? 
 				exporter.Export (hs.GetCachedText (id), context) :
 				exporter.Export (hs.GetCachedHelpStream (id), context);
@@ -122,7 +122,7 @@ namespace Monodoc.Generators
 				sb.Replace ("@@FONT_FAMILY@@", "Sans Serif");
 				sb.Replace ("@@FONT_SIZE@@", "100%");
 				css_code = sb.ToString () + converters.Values
-					.Select (c => c.CssCode)
+					.Select (c => c.Value.CssCode)
 					.Where (css => !string.IsNullOrEmpty (css))
 					.DefaultIfEmpty (string.Empty)
 					.Aggregate (string.Concat);
