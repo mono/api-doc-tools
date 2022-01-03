@@ -51,7 +51,7 @@ namespace Monodoc.Generators.Html
 				stream = assembly.GetManifestResourceStream ("ecmaspec-html-css.xsl");
 
 				XmlReader xml_reader = new XmlTextReader (stream);
-				ecma_transform.Load (xml_reader, null, null);
+				ecma_transform.Load (xml_reader, null);
 				args.AddExtensionObject ("monodoc:///extensions", new ExtObj ()); 
 			}
 		
