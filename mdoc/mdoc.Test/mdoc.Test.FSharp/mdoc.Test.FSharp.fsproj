@@ -50,6 +50,6 @@
     <Compile Include="Library1.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="$(NuGetVersionFSharpCore)" />
+    <PackageReference Update="FSharp.Core" Version="$(NuGetVersionFSharpCore)" />
   </ItemGroup>
 </Project>
