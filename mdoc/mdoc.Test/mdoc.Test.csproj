@@ -3,8 +3,6 @@
     <TargetFramework>net471</TargetFramework>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWPF>true</UseWPF>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug</OutputPath>
@@ -22,6 +20,10 @@
     <Reference Include="mdoc.Test.Cplusplus, Version=1.0.6709.28740, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\external\Test\mdoc.Test.Cplusplus.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <Private>True</Private>
+      <HintPath>..\..\external\Windows\PresentationFramework.dll</HintPath>
     </Reference>
     <Reference Include="Windows">
       <HintPath>..\..\external\Windows\Windows.WinMD</HintPath>
