@@ -6,7 +6,7 @@
           <AttributeName>Microsoft.FSharp.Core.FSharpInterfaceDataVersion(2, 0, 0)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.None)</AttributeName>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.Default | System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName>System.Reflection.AssemblyCompany("EPAM Systems")</AttributeName>
@@ -45,7 +45,7 @@
           <AttributeName>System.Runtime.InteropServices.Guid("979f9f80-12fe-4236-9e93-6d554ab13701")</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.6.1", FrameworkDisplayName=".NET Framework 4.6.1")</AttributeName>
+          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.7.1", FrameworkDisplayName=".NET Framework 4.7.1")</AttributeName>
         </Attribute>
       </Attributes>
     </Assembly>

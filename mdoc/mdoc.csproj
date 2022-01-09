@@ -34,21 +34,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="SchwabenCode.QuickIO, Version=2.6.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\QuickIO.NET.2.6.2.0\lib\net45\SchwabenCode.QuickIO.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -184,13 +169,13 @@
     <None Include="..\monodoc\Resources\mono-ecma-css.xsl">
       <Link>Resources\mono-ecma-css.xsl</Link>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\external\SharpZipLib\ICSharpCode.SharpZipLib.NET45\ICSharpCode.SharpZipLib.csproj">
-      <Project>{0e7413ff-eb9e-4714-acf2-be3a6a7b2ffd}</Project>
-      <Name>ICSharpCode.SharpZipLib</Name>
-    </ProjectReference>
+    <PackageReference Include="Mono.Cecil" Version="$(NuGetVersionMonoCecil)" />
+    <PackageReference Include="SharpZipLib" Version="$(NuGetVersionSharpZipLib)" />
+    <PackageReference Include="QuickIO.NET" Version="$(NuGetVersionQuickIONET)" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\monodoc\monodoc.csproj">
       <Project>{6e644802-b579-4037-9809-9cf4c7172c9d}</Project>
       <Name>monodoc</Name>
