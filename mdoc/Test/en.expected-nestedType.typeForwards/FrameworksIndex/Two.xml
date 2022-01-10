@@ -4,15 +4,4 @@
     <Assembly Name="DocTest-nestedType-typeForwards-Second-First" Version="0.0.0.0" />
     <Assembly Name="DocTest-nestedType-typeForwards-Third-First" Version="0.0.0.0" />
   </Assemblies>
-  <Namespace Name="TheNamespace">
-    <Type Name="TheNamespace.TheClass" Id="T:TheNamespace.TheClass">
-      <Member Id="M:TheNamespace.TheClass.#ctor" />
-    </Type>
-    <Type Name="TheNamespace.TheClass/InnerClass" Id="T:TheNamespace.TheClass.InnerClass">
-      <Member Id="M:TheNamespace.TheClass.InnerClass.#ctor" />
-    </Type>
-    <Type Name="TheNamespace.TheClass/InnerClass/Enumerator" Id="T:TheNamespace.TheClass.InnerClass.Enumerator">
-      <Member Id="M:TheNamespace.TheClass.InnerClass.Enumerator.#ctor" />
-    </Type>
-  </Namespace>
 </Framework>
