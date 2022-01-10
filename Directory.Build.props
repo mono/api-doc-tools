@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <NuGetVersionFSharpCore>4.3.4</NuGetVersionFSharpCore>
+    <NuGetVersionMonoCecil>0.10.0-beta5</NuGetVersionMonoCecil>
+    <NuGetVersionNUnit>3.10.1</NuGetVersionNUnit>
+    <NuGetVersionNUnit3TestAdapter>3.13.0</NuGetVersionNUnit3TestAdapter>
+    <NuGetVersionQuickIONET>2.6.2.0</NuGetVersionQuickIONET>
+    <NuGetVersionSharpZipLib>1.3.3</NuGetVersionSharpZipLib>
+    <NuGetVersionSystemConfigurationConfigurationManager>6.0.0</NuGetVersionSystemConfigurationConfigurationManager>
+  </PropertyGroup>
+</Project>

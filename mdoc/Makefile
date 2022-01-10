@@ -174,6 +174,10 @@ Test/DocTest-nestedType-typeForwards-First.dll:
 	rm -f $@
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-nestedType-typeForwards.cs /define:FIRST
 
+Test/DocTest-LongFileName.dll:
+	rm -f DocTest-LongFileName.dll
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-LongFileName.cs
+
 .PHONY: Test/DocTest-nestedType-typeForwards-Second.dll
 Test/DocTest-nestedType-typeForwards-Second.dll:
 	rm -f $@
@@ -874,6 +878,19 @@ check-type-projection: Test/DocTest-TypeProjection.dll
 	$(MONO) $(PROGRAM) update -fx Test/test-type-projection/ -o Test/en.actual/
 	$(DIFF) Test/en.expected-type-projection Test/en.actual/
 
+check-long-file-name: Test/DocTest-LongFileName.dll
+	rm -Rf Test/en.actual
+	rm -Rf Test/test-long-file-name
+
+	mkdir Test/test-long-file-name
+	mkdir Test/test-long-file-name/DocTest-LongFileName
+	mkdir Test/en.actual
+
+	cp Test/DocTest-LongFileName.dll Test/test-long-file-name/DocTest-LongFileName
+
+	$(MONO) $(PROGRAM) fx-bootstrap Test/test-long-file-name
+	$(MONO) $(PROGRAM) update -fx Test/test-long-file-name -o Test/en.actual/
+
 run-test-local: check-doc-tools
 
 run-test-update : check-doc-tools-update
@@ -930,7 +947,8 @@ check-doc-tools:  \
 	check-monodocer-embedded-type \
 	check-ignored-namespace-generic \
 	check-multiple-mdoc \
-	check-type-projection
+	check-type-projection \
+	check-long-file-name
 
 #check-monodocer-dropns-delete 
 check-doc-tools-update: check-monodocer-since-update \

@@ -154,6 +154,12 @@ namespace mdoc.Test
         [TestCase("FuncGenericNullableValueType", "<T> ({0}) where T : struct", "Func<T?> func")]
         [TestCase("NullableFuncGenericNullableValueType", "<T> ({0}) where T : struct", "Func<T?>? func")]
         [TestCase("GenericNonNullableAndNullableValueType", "<T1,T2> ({0}) where T2 : struct", "T1 t1, T2? t2")]
+        [TestCase("GenericTypeWithNullableParameters1", " ({0})", "GenericType<string?,int?,bool?> p")]
+        [TestCase("GenericTypeWithNullableParameters2", " ({0})", "GenericType<string?,int,bool> p")]
+        [TestCase("GenericTypeWithNullableParameters3", " ({0})", "GenericType<string,int,bool> p")]
+        [TestCase("GenericTypeWithNullableParameters4", " ({0})", "GenericType<string?,string> p")]
+        [TestCase("GenericTypeWithNullableParameters5", " ({0})", "GenericType<int?,int> p")]
+        [TestCase("GenericTypeWithNullableParameters6", " ({0})", "GenericType<bool?,bool> p")]
         public void GenericMethodParameter(string methodName, string otherPartOfMethodSignature, string genericParameter)
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.GenericMethodParameter",
@@ -165,6 +171,12 @@ namespace mdoc.Test
         [TestCase("T?", "GenericNullableReferenceType", "<T> () where T : class")]
         [TestCase("T", "GenericValueType", "<T> () where T : struct")]
         [TestCase("T?", "GenericNullableValueType", "<T> () where T : struct")]
+        [TestCase("GenericType<string?,int?,bool?>", "GenericReturnValueWithNullableParameters1", " ()")]
+        [TestCase("GenericType<string?,int,bool>", "GenericReturnValueWithNullableParameters2", " ()")]
+        [TestCase("GenericType<string,int,bool>", "GenericReturnValueWithNullableParameters3", " ()")]
+        [TestCase("GenericType<string?,string>", "GenericReturnValueWithNullableParameters4", " ()")]
+        [TestCase("GenericType<int?,int>", "GenericReturnValueWithNullableParameters5", " ()")]
+        [TestCase("GenericType<bool?,bool>", "GenericReturnValueWithNullableParameters6", " ()")]
         public void GenericMethodReturnType(string returnType, string methodName, string otherPartOfMethodSignature)
         {
             TestMethodSignature(NullableReferenceTypesAssemblyPath, "mdoc.Test.NullableReferenceTypes.GenericMethodReturnType",

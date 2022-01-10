@@ -573,10 +573,18 @@ namespace Mono.Documentation.Updater.Formatters
             if (parameter.ParameterType is ByReferenceType)
             {
                 if (parameter.IsOut)
+                {
                     buf.Append ("out ");
+                }
                 else
-                    buf.Append ("ref ");
+                {
+                    if (parameter.HasCustomAttributes && parameter.CustomAttributes.Any (ca => ca.AttributeType.Name == "IsReadOnlyAttribute"))
+                        buf.Append ("in ");
+                    else
+                        buf.Append ("ref ");
+                }
             }
+
             if (parameter.HasCustomAttributes)
             {
                 var isParams = parameter.CustomAttributes.Any (ca => ca.AttributeType.Name == "ParamArrayAttribute");
@@ -596,6 +604,7 @@ namespace Mono.Documentation.Updater.Formatters
                 var ReturnVal = new AttributeFormatter().MakeAttributesValueString(parameter.Constant, parameter.ParameterType);
                 buf.AppendFormat (" = {0}", ReturnVal == "null" ? "default" : ReturnVal);
             }
+
             return buf;
         }
 
