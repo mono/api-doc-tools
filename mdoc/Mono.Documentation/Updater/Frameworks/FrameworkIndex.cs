@@ -119,7 +119,7 @@ namespace Mono.Documentation.Updater.Frameworks
                 var assemblyNameVersionSet = new HashSet<Tuple<string, string>>(fx.AssemblyNames);
                 
 				frameworkElement.Add(fx.Types
-                    .Where(t => t.AssemblyNameAndVersion == null || assemblyNameVersionSet.Contains(t.AssemblyNameAndVersion))
+                    .Where(t => assemblyNameVersionSet.Contains(t.AssemblyNameAndVersion))
                     .GroupBy(t => t.Namespace)
 					.Select(g => new XElement("Namespace",
 						new XAttribute("Name", g.Key),
