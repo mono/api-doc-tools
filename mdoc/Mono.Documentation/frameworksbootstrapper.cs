@@ -35,11 +35,11 @@ namespace Mono.Documentation
                                 .ToArray();
 
 			var frameworks = new List<XElement>();
-			var assemblyVersionMappings = new Dictionary<string, Dictionary<string, string>>();
+			var assemblyVersionMappings = new Dictionary<string, Dictionary<string, Version>>();
 			foreach (var d in data)
 			{
 				Console.WriteLine(d.Name);
-				var assemblyVersionMapping = new Dictionary<string, string>();
+				var assemblyVersionMapping = new Dictionary<string, Version>();
 				assemblyVersionMappings.Add(d.Name, assemblyVersionMapping);
 				string sourcePath = Path.Combine(frameworkPath, d.Path);
 				foreach (var xmlPath in Directory.GetFiles(sourcePath, "*.xml"))
@@ -51,7 +51,7 @@ namespace Mono.Documentation
 						var version = FileVersionInfo.GetVersionInfo(dllPath).FileVersion;
 						if (!string.IsNullOrEmpty(version))
 						{
-							assemblyVersionMapping.Add(Path.GetFileName(xmlPath), version);
+							assemblyVersionMapping.Add(Path.GetFileName(xmlPath), new Version(version));
 						}
 					}
 				}
