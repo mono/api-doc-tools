@@ -26,5 +26,35 @@
         {
             return default;
         }
+
+        public GenericType<string?, int?, bool?> GenericReturnValueWithNullableParameters1()
+        {
+            return new GenericType<string?, int?, bool?>();
+        }
+
+        public GenericType<string?, int, bool> GenericReturnValueWithNullableParameters2()
+        {
+            return new GenericType<string?, int, bool>();
+        }
+
+        public GenericType<string, int, bool> GenericReturnValueWithNullableParameters3()
+        {
+            return new GenericType<string, int, bool>();
+        }
+
+        public GenericType<string?, string> GenericReturnValueWithNullableParameters4()
+        {
+            return new GenericType<string?, string>();
+        }
+
+        public GenericType<int?,int> GenericReturnValueWithNullableParameters5()
+        {
+            return new GenericType<int?,int>();
+        }
+
+        public GenericType<bool?, bool> GenericReturnValueWithNullableParameters6()
+        {
+            return new GenericType<bool?, bool>();
+        }
     }
 }

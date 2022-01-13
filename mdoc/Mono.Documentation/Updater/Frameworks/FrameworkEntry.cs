@@ -247,8 +247,7 @@ namespace Mono.Documentation.Updater.Frameworks
 
                 typeMap.Add (Str (entry.Name), entry);
             }
-            entry.NoteAssembly(type.Module.Assembly, source);
-            entry.NoteAssembly(source, source);
+            entry.NoteAssembly(type.Module.Assembly);
             entry.TimesProcessed++;
             return entry;
         }

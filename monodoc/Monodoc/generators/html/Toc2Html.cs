@@ -18,7 +18,7 @@ namespace Monodoc.Generators.Html
 			var assembly = Assembly.GetAssembly (typeof (Toc2Html));
 			var stream = assembly.GetManifestResourceStream ("toc-html.xsl");
 			XmlReader xml_reader = new XmlTextReader (stream);
-			transform.Load (xml_reader, null, null);
+			transform.Load (xml_reader, null);
 		}
 
 		public string Export (Stream input, Dictionary<string, string> extraArgs)

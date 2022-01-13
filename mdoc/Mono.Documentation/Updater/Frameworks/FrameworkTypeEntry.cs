@@ -29,17 +29,13 @@ namespace Mono.Documentation.Updater.Frameworks
 
         public int TimesProcessed { get; set; }
 
-        public Dictionary<string, bool> AssembliesMemberOf = new Dictionary<string, bool>();
+        public Tuple<string, string> AssemblyNameAndVersion;
 
-        public void NoteAssembly(AssemblyDefinition noting, AssemblyDefinition source)
+        public void NoteAssembly(AssemblyDefinition assembly)
         {
-            if (noting == null || source == null)
-                return;
-
-            bool isForward = noting.Name.Name == source.Name.Name;
-            if (!AssembliesMemberOf.ContainsKey(noting.Name.Name))
+            if (assembly != null && AssemblyNameAndVersion == null)
             {
-                AssembliesMemberOf.Add(noting.Name.Name, isForward);
+                AssemblyNameAndVersion = Tuple.Create(assembly.Name.Name, assembly.Name.Version.ToString());
             }
         }
 
