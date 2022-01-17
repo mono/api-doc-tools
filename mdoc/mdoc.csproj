@@ -1,143 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>mdoc</RootNamespace>
-    <AssemblyName>mdoc</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>  
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
     <OutputPath>..\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;NET_4_5</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <Externalconsole>True</Externalconsole>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
     <OutputPath>..\bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <Externalconsole>True</Externalconsole>
-    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Compile Include="Mono.Documentation\Updater\DynamicTypeProvider.cs" />
-    <Compile Include="Mono.Documentation\Updater\EmptyAttributeParserContext.cs" />
-    <Compile Include="Mono.Documentation\Framework\FrameworkIndexHelper.cs" />
-    <Compile Include="Mono.Documentation\Framework\FrameworkTypeModel.cs" />
-    <Compile Include="Mono.Documentation\Framework\FrameworkNamespaceModel.cs" />
-    <Compile Include="Mono.Documentation\Updater\IAttributeParserContext.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\AttributeFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\CppWinRtAttributeFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\FSharpAttributeFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\CSharpAttributeFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\NullableReferenceTypeProvider.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\FormatterManager.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\JsFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\JsMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\JsUsageFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\FSharpFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\FSharpMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\FSharpUsageFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppWinRtFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppCxFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppCxMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\SlashDocCSharpMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\MsxdocSlashDocMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\AttributeFormatters\AttributeValueFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\VBFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\VBMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\FileNameMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\SlashDocMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\DocTypeMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\DocTypeFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CppFormatters\CppMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\CSharpNativeTypeMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\ILNativeTypeMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\ILMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\ILFullMemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\DocIdFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Formatters\MemberFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\MemberFormatterState.cs" />
-    <Compile Include="Mono.Documentation\Updater\AttributeParserContext.cs" />
-    <Compile Include="Mono.Documentation\Updater\DocumentationMember.cs" />
-    <Compile Include="Mono.Documentation\Updater\EcmaDocumentationImporter.cs" />
-    <Compile Include="Mono.Documentation\Updater\MsxdocDocumentationImporter.cs" />
-    <Compile Include="Mono.Documentation\Updater\DocumentationImporter.cs" />
-    <Compile Include="Mono.Documentation\Updater\EcmaDocumentationEnumerator.cs" />
-    <Compile Include="Mono.Documentation\Updater\DocumentationEnumerator.cs" />
-    <Compile Include="Mono.Documentation\Updater\DocsNodeInfo.cs" />
-    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsCollector.cs" />
-    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsFormatter.cs" />
-    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsItem.cs" />
-    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsMetrics.cs" />
-    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsSaver.cs" />
-    <Compile Include="Mono.Documentation\Updater\Statistics\StatisticsStorage.cs" />
-    <Compile Include="Mono.Documentation\Updater\TypeMap.cs" />
-    <Compile Include="Mono.Documentation\Util\ApiStyle.cs" />
-    <Compile Include="Mono.Documentation\Updater\DocUtils.cs" />
-    <Compile Include="Mono.Documentation\Util\AttachedEventDefinition.cs" />
-    <Compile Include="Mono.Documentation\Util\AttachedEntitiesHelper.cs" />
-    <Compile Include="Mono.Documentation\Util\AttachedEventReference.cs" />
-    <Compile Include="Mono.Documentation\Util\AttachedPropertyDefinition.cs" />
-    <Compile Include="Mono.Documentation\Util\AttachedPropertyReference.cs" />
-    <Compile Include="Mono.Documentation\Util\CecilExtensions.cs" />
-    <Compile Include="Mono.Documentation\Util\DataModel.cs" />
-    <Compile Include="Mono.Documentation\Util\NativeTypeManager.cs" />
-    <Compile Include="Mono.Rocks\ObjectRocks.cs" />
-    <Compile Include="Mono.Rocks\StreamRocks.cs" />
-    <Compile Include="Mono.Documentation\assembler.cs" />
-    <Compile Include="Mono.Documentation\dump.cs" />
-    <Compile Include="Mono.Documentation\ecmadoc.cs" />
-    <Compile Include="Mono.Documentation\mdoc.cs" />
-    <Compile Include="Mono.Documentation\MdocFile.cs" />
-    <Compile Include="Mono.Documentation\monodocs2html.cs" />
-    <Compile Include="Mono.Documentation\monodocs2slashdoc.cs" />
-    <Compile Include="Mono.Documentation\msitomsx.cs" />
-    <Compile Include="Mono.Documentation\normalize.cs" />
-    <Compile Include="Mono.Documentation\MDocValidator.cs" />
-    <Compile Include="Mono.Documentation\webdoc.cs" />
-    <Compile Include="Mono.Documentation\XhtmlWriter.cs" />
-    <Compile Include="Mono.Documentation\exceptions.cs" />
-    <Compile Include="Mono.Documentation\index.cs" />
-    <Compile Include="Mono.Documentation\frameworksbootstrapper.cs" />
-    <Compile Include="Consts.cs" />
-    <Compile Include="Options.cs" />
-    <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkIndex.cs" />
-    <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkEntry.cs" />
-    <Compile Include="Mono.Documentation\Updater\Frameworks\FrameworkTypeEntry.cs" />
-    <Compile Include="Mono.Documentation\Updater\Frameworks\AssemblySet.cs" />
-    <Compile Include="Mono.Documentation\Updater\Frameworks\MDocResolver.cs" />
-    <Compile Include="Mono.Documentation\MDocUpdater.cs" />
-    <Compile Include="Mono.Documentation\Updater\Frameworks\FXUtils.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Mono.Documentation\Updater\Frameworks\MDocMetadataResolver.cs" />
-    <Compile Include="Mono.Documentation\MDocException.cs" />
+    <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\defaulttemplate.xsl">
@@ -171,15 +64,140 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Mono.Cecil" Version="$(NuGetVersionMonoCecil)" />
     <PackageReference Include="SharpZipLib" Version="$(NuGetVersionSharpZipLib)" />
-    <PackageReference Include="QuickIO.NET" Version="$(NuGetVersionQuickIONET)" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\monodoc\monodoc.csproj">
-      <Project>{6e644802-b579-4037-9809-9cf4c7172c9d}</Project>
-      <Name>monodoc</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\monodoc\monodoc.csproj" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Remove="mdoc.Test\AttributeValueFormatterTest.cs" />
+    <Compile Remove="mdoc.Test\BasicFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\BasicTests.cs" />
+    <Compile Remove="mdoc.Test\CppCxFormatterMembersTests.cs" />
+    <Compile Remove="mdoc.Test\CppCxFormatterTypesTests.cs" />
+    <Compile Remove="mdoc.Test\CppFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\CppFullFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\CppWinRtFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\CppWinRtMembersTests.cs" />
+    <Compile Remove="mdoc.Test\DocUtilsFSharpTests.cs" />
+    <Compile Remove="mdoc.Test\DocUtilsTests.cs" />
+    <Compile Remove="mdoc.Test\DotnetCoreAssemblyResolver.cs" />
+    <Compile Remove="mdoc.Test\Enumeration\AttachedEntityTests.cs" />
+    <Compile Remove="mdoc.Test\Enumeration\CecilBaseTest.cs" />
+    <Compile Remove="mdoc.Test\Enumeration\EnumeratorTests.cs" />
+    <Compile Remove="mdoc.Test\Enumeration\ExceptionTests.cs" />
+    <Compile Remove="mdoc.Test\Enumeration\InterfaceTests.cs" />
+    <Compile Remove="mdoc.Test\FormatterTests.cs" />
+    <Compile Remove="mdoc.Test\FrameworkAlternateTests.cs" />
+    <Compile Remove="mdoc.Test\FrameworkIndexHelperTests.cs" />
+    <Compile Remove="mdoc.Test\FSharp\BasicFSharpFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\FSharp\FSharpFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\FSharp\FSharpUsageFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\JsMemberFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\JsUsageFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\CommonType.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\Constructor.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\Delegate.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\Event.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\ExtensionMethod.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\GenericFieldReturnType.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\GenericMethodParameter.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\GenericMethodReturnType.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\GenericPropertyReturnType.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\GenericType.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\MethodParameter.cs" />
+    <Compile Remove="mdoc.Test\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes\OperatorOverloading.cs" />
+    <Compile Remove="mdoc.Test\MDocFileSourceTests.cs" />
+    <Compile Remove="mdoc.Test\MDocUpdaterTests.cs" />
+    <Compile Remove="mdoc.Test\NullableReferenceTypesTests.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\ApplePlatformEnum.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\AttributeDataTypeAttribute.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\EiiImplementclass.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\GuidClass.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\Interface_A.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\Interface_B.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\InternalEIICalss.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\NotApplyAttributeInvalidFlagsEnum.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\NotApplyAttributeValidFlagsEnum.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\NullablesAndTuples.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\ReadonlyRefClass.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\ReadOnlySpan.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeAttribute.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeClass.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeClassWithManyConstructors.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeDelegate.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeEmptyEnum.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeEnum.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeFlagsEnum.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeGenericClass.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeInterface.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeIteratorStateMachine.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeNestedTypes.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\SomeStruct.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\Span.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\StaticClass.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\TestClass.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\TestClassThree.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\TestClassTwo.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\TestPrivateClass.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\WebHostHiddenAttribute.cs" />
+    <Compile Remove="mdoc.Test\SampleClasses\WebHostHiddenTestClass.cs" />
+    <Compile Remove="mdoc.Test\SpanSpecial.cs" />
+    <Compile Remove="mdoc.Test\StatisticsTests.cs" />
+    <Compile Remove="mdoc.Test\TypeMapTests.cs" />
+    <Compile Remove="mdoc.Test\UWPDocUtilsTests.cs" />
+    <Compile Remove="mdoc.Test\UWPTestComponentCSharp\Properties\AssemblyInfo.cs" />
+    <Compile Remove="mdoc.Test\UWPTestComponentCSharp\TestClasses\UwpClassWithProperties.cs" />
+    <Compile Remove="mdoc.Test\ValidationTests.cs" />
+    <Compile Remove="mdoc.Test\VBFormatterTests.cs" />
+    <Compile Remove="mdoc.Test\XmlConsts.cs" />
+    <Compile Remove="mdoc.Test\XmlUpdateTests.cs" />
+    <Compile Remove="Mono.Documentation\Updater\XmlSyncer.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\AquariumFilter.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\AquariumObject.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\AttachedEventExample.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\AttachedPropertyExample.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\RoutedEvent.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\System.Windows\DragEventArgs.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\System.Windows\DragEventHandler.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\System.Windows\RoutedEventArgs.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\System.Windows\RoutedEventHandler.cs" />
+    <Compile Remove="Test\AttachedEventsAndProperties\System.Windows\UIElement.cs" />
+    <Compile Remove="Test\DocTest-addNonGeneric.cs" />
+    <Compile Remove="Test\DocTest-differentTypeDefinitions.cs" />
+    <Compile Remove="Test\DocTest-DropNS-classic-secondary.cs" />
+    <Compile Remove="Test\DocTest-DropNS-classic.cs" />
+    <Compile Remove="Test\DocTest-DropNS-unified.cs" />
+    <Compile Remove="Test\DocTest-embedded-type.cs" />
+    <Compile Remove="Test\DocTest-enumerations.cs" />
+    <Compile Remove="Test\DocTest-framework-inheritance.cs" />
+    <Compile Remove="Test\DocTest-frameworkalternate.cs" />
+    <Compile Remove="Test\DocTest-InternalInterface.cs" />
+    <Compile Remove="Test\DocTest-LongFileName.cs" />
+    <Compile Remove="Test\DocTest-nestedType-typeForwards.cs" />
+    <Compile Remove="Test\DocTest-typeForwards.cs" />
+    <Compile Remove="Test\DocTest-TypeProjection.cs" />
+    <Compile Remove="Test\DocTest-v1.cs" />
+    <Compile Remove="Test\test-generic-ignored-namespace\ReadOnlySpan.cs" />
+    <Compile Remove="Test\test-overwrite-attribute\SomeClass.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Class1.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Class2.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Class2_1.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Class3.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Class4.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Class5.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Class6.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Interface1.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Interface2.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Interface3.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Interface3_1.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Interface4.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Interface5.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Interface6.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Interface7.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\IScorable.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\Properties\AssemblyInfo.cs" />
+    <Compile Remove="Test\TestInterfaceImplementation\ScorableBase.cs" />
+  </ItemGroup>
 </Project>
