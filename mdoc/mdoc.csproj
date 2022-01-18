@@ -17,19 +17,19 @@
     <TargetFramework>net6.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <ItemGroup>
+   <ItemGroup>
     <Reference Include="System.Web" />
     <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.dll</HintPath>
+      <HintPath>$(PkgMono_Cecil)\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil.Mdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
+      <HintPath>$(PkgMono_Cecil)\lib\net40\Mono.Cecil.Mdb.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil.Pdb, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
+      <HintPath>$(PkgMono_Cecil)\lib\net40\Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil.Rocks, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Cecil.0.10.0-beta5\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
+      <HintPath>$(PkgMono_Cecil)\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +64,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta5" GeneratePathProperty="true">
+      <ExcludeAssets>all</ExcludeAssets>
+    </PackageReference>
     <PackageReference Include="SharpZipLib" Version="$(NuGetVersionSharpZipLib)" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
-using Windows.UI.Xaml;
+using System.Windows;
 using Mono.Documentation.Util;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters;
