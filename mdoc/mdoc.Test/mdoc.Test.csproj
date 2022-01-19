@@ -23,23 +23,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\external\Test\mdoc.Test.Cplusplus.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationFramework">
-      <Private>True</Private>
-      <HintPath>..\..\external\Windows\PresentationFramework.dll</HintPath>
-    </Reference>
 	<Reference Include="PresentationFramework">
 	  <Private>True</Private>
-	  <HintPath>..\..\external\Windows\WindowsBase.dll</HintPath>
+	  <HintPath>..\..\external\Windows\PresentationFramework.dll</HintPath>
 	</Reference>
-	<!-- <Reference Include="Windows">
-		<HintPath>..\..\external\Windows\Windows.WinMD</HintPath>
-	</Reference>
-	<Reference Include="Windows.Foundation.FoundationContract">
-		<HintPath>..\..\external\Windows\Windows.Foundation.FoundationContract.winmd</HintPath>
-	</Reference>
-	<Reference Include="Windows.Foundation.UniversalApiContract">
-		<HintPath>..\..\external\Windows\Windows.Foundation.UniversalApiContract.winmd</HintPath>
-	</Reference> -->
     <Reference Include="Mono.Cecil, Version=0.10.0.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>$(PkgMono_Cecil)\lib\net40\Mono.Cecil.dll</HintPath>
     </Reference>
@@ -54,7 +41,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta5" GeneratePathProperty="true">
+    <PackageReference Include="Mono.Cecil" Version="$(NuGetVersionMonoCecil)" GeneratePathProperty="true">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="FSharp.Core" Version="$(NuGetVersionFSharpCore)" />

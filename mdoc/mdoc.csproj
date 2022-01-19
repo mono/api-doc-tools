@@ -64,7 +64,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta5" GeneratePathProperty="true">
+    <PackageReference Include="Mono.Cecil" Version="$(NuGetVersionMonoCecil)" GeneratePathProperty="true">
       <ExcludeAssets>all</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="SharpZipLib" Version="$(NuGetVersionSharpZipLib)" />
