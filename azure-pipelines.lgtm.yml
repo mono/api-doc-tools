@@ -32,10 +32,19 @@ steps:
   displayName: Install NuGet Tool
 
 - task: NuGetCommand@2
+  displayName: NuGet restore
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
     feedsToUse: 'config'
+
+- task: DotNetCoreCLI@2
+  displayName: dotnet restore
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: config
+    nugetConfigPath: NuGet.config
 
 - task: Semmle@0
   displayName: Security - LGTM
@@ -45,12 +54,8 @@ steps:
     toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    cleanupBuildCommands: |
-      dotnet clean mdoc/mdoc.csproj --configuration $(buildConfiguration)
-      dotnet clean monodoc/monodoc.csproj --configuration $(buildConfiguration)
-    buildCommands: |
-      dotnet build mdoc/mdoc.csproj --configuration $(buildConfiguration)
-      dotnet build monodoc/monodoc.csproj --configuration $(buildConfiguration)
+    cleanupBuildCommands: 'dotnet clean apidoctools.sln --configuration $(buildConfiguration)'
+    buildCommands: 'dotnet build apidoctools.sln --configuration $(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
