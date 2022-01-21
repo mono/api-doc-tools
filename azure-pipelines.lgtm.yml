@@ -28,6 +28,12 @@ variables:
   value: Release
   
 steps:
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.sln'
+    configuration: 'Release'
+    clean: true
+
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
