@@ -38,14 +38,6 @@ steps:
     restoreSolution: '**/*.sln'
     feedsToUse: 'config'
 
-- task: DotNetCoreCLI@2
-  displayName: dotnet restore
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-    feedsToUse: config
-    nugetConfigPath: NuGet.config
-
 - task: Semmle@0
   displayName: Security - LGTM
   env: 
@@ -54,8 +46,10 @@ steps:
     toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    cleanupBuildCommands: 'dotnet clean apidoctools.sln --configuration $(buildConfiguration)'
-    buildCommands: 'dotnet build apidoctools.sln --configuration $(buildConfiguration)'
+    cleanupBuildCommands: 
+      'dotnet clean apidoctools.sln --configuration $(buildConfiguration)'
+      'rm -rf bin/$(buildConfiguration)'
+    buildCommands: 'msbuild apidoctools.sln /p:Configuration=(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
