@@ -26,11 +26,13 @@ variables:
   value: true
 - name: buildConfiguration
   value: Release
+- name: msbuild
+  value: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe
   
 steps:
 - task: MSBuild@1
   inputs:
-    solution: '**/*.sln'
+    solution: 'apidoctools.sln'
     configuration: 'Release'
     clean: true
 
