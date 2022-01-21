@@ -51,7 +51,7 @@ steps:
     cleanupBuildCommands: |
       dotnet clean apidoctools.sln --configuration $(buildConfiguration)
       rm -rf bin/$(buildConfiguration)
-    buildCommands: '$(msbuild) apidoctools.sln /p:Configuration=$(buildConfiguration)'
+    buildCommands: '"$(msbuild)" apidoctools.sln /p:Configuration=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
