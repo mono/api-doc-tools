@@ -2,6 +2,7 @@
   <PropertyGroup>
     <NuGetVersionMonoCecil>0.10.0-beta5</NuGetVersionMonoCecil>
     <NuGetVersionFSharpCore>6.0.1</NuGetVersionFSharpCore>
+    <NuGetVersionDotnetTestSDK>17.0.0</NuGetVersionDotnetTestSDK>
     <NuGetVersionNUnit>3.13.2</NuGetVersionNUnit>
     <NuGetVersionNUnit3TestAdapter>4.2.1</NuGetVersionNUnit3TestAdapter>
     <NuGetVersionSharpZipLib>1.3.3</NuGetVersionSharpZipLib>
