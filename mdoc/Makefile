@@ -59,7 +59,7 @@ cleanup:
 	-rm -Rf Test/en.actual Test/html.actual
 
 nunit: 
-	mono ../packages/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe mdoc.Test/bin/$(CONFIGURATION)/mdoc.Test.dll
+	mono ../packages/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe --trace=Debug mdoc.Test/bin/$(CONFIGURATION)/mdoc.Test.dll
 
 Test/DocTest-VB-Eii.dll:
 	$(VBCOMPILE) -out:Test/DocTest-VB-Eii.dll  Test/ClassEnumerator.vb
