@@ -26,6 +26,12 @@ stages:
       inputs:
         toolMajorVersion: 'V2'
 
+    - task: UseDotNet@2
+      displayName: Use .NET 6.0
+      inputs:
+        packageType: 'sdk'
+        version: '6.0.x'
+
     - task: CmdLine@2
       displayName: make prepare
       inputs:
