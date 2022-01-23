@@ -101,6 +101,12 @@ stages:
     - task: NuGetToolInstaller@1
       displayName: Install NuGet Tool
 
+    - task: UseDotNet@2
+      displayName: Use .NET 6.0
+      inputs:
+        packageType: 'sdk'
+        version: '6.0.x'
+
     - task: Bash@3
       displayName: Run Unit and Integration Tests
       inputs:
