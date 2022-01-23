@@ -3,7 +3,7 @@
     <NuGetVersionMonoCecil>0.10.0-beta5</NuGetVersionMonoCecil>
     <NuGetVersionFSharpCore>6.0.1</NuGetVersionFSharpCore>
     <NuGetVersionNUnit>3.13.2</NuGetVersionNUnit>
-    <NuGetVersionNUnit3TestAdapter>3.13.0</NuGetVersionNUnit3TestAdapter>
+    <NuGetVersionNUnit3TestAdapter>4.2.1</NuGetVersionNUnit3TestAdapter>
     <NuGetVersionSharpZipLib>1.3.3</NuGetVersionSharpZipLib>
     <NuGetVersionSystemConfigurationConfigurationManager>6.0.0</NuGetVersionSystemConfigurationConfigurationManager>
   </PropertyGroup>

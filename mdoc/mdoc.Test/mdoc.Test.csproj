@@ -47,6 +47,7 @@
     </PackageReference>
     <PackageReference Include="FSharp.Core" Version="$(NuGetVersionFSharpCore)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
+    <PackageReference Include="NUnit3TestAdapter" Version="$(NuGetVersionNUnit3TestAdapter)" />
   </ItemGroup>
   <ItemGroup>
     <None Update="cppcli\cppcli\cppcli.h">
