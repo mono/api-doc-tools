@@ -48,9 +48,7 @@ steps:
     toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    cleanupBuildCommands: |
-      dotnet clean apidoctools.sln --configuration $(buildConfiguration)
-      rm -rf bin/$(buildConfiguration)
+    cleanupBuildCommands: 'dotnet clean apidoctools.sln --configuration $(buildConfiguration)'
     buildCommands: '"$(msbuild)" apidoctools.sln /p:Configuration=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
