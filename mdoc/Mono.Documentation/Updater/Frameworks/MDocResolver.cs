@@ -271,11 +271,6 @@ namespace Mono.Documentation.Updater.Frameworks
             return Resolve(name, new ReaderParameters() { AssemblyResolver = this });
         }
 
-        float lastAverageStackLength = 0;
-        int stackTraceIncrease = 0;
-        Dictionary<string, int> dict = new Dictionary<string, int>();
-        Queue<float> traces = new Queue<float>(10);
-
         public AssemblyDefinition Resolve(AssemblyNameReference name, ReaderParameters parameters)
         {
             return ResolveCore(name, parameters, null);

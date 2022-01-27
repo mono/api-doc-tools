@@ -1,0 +1,2 @@
+queries:
+- exclude: cs/do-not-use-xsltransform
