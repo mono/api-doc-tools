@@ -62,7 +62,7 @@ namespace Monodoc.Ecma
 			int token = xtoken ();
 			//Console.WriteLine ("Current token {0} with value {1}", token, val == null ? "(none)" : val.ToString ());
 			if (token == Token.ERROR) {
-				throw new Exception (string.Format ("Error at position {0} parsing url '{0}'",  current_pos, input));
+				throw new Exception (string.Format ("Error at position {0} parsing url '{1}'",  current_pos, input));
 			}
 			current_token = token;
 			return token;

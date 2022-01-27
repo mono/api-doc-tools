@@ -315,8 +315,11 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
         protected override string AppendSealedModifiers(string modifiersString, MethodDefinition method)
         {
-            if (method.IsFinal || (method.IsVirtual & method.IsFamily & IsEII(method))) modifiersString += " sealed";
-            if (modifiersString == " virtual sealed") modifiersString = "";
+            if (method.IsFinal || (method.IsVirtual && method.IsFamily && IsEII(method)))
+                modifiersString += " sealed";
+
+            if (modifiersString == " virtual sealed")
+                modifiersString = "";
             
             return modifiersString;
         }
