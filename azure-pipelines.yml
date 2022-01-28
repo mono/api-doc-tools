@@ -63,11 +63,7 @@ stages:
     - task: TSAUpload@1
       inputs:
         tsaVersion: 'TsaV2'
-        instanceUrlForTsaV2: 'MSAZURE'
-        projectNameMSAZURE: 'One'
-        areaPath: 'One\\DeveloperRelations'
-        iterationPath: 'One\\Custom\\_Default'
-        codebase: 'NewOrUpdate'
+        codebase: 'Existing'
         tsaEnvironment: 'PROD'
         codeBaseName: 'Docs_Mdoc'
         uploadBinSkim: true
