@@ -13,7 +13,7 @@ schedules:
     - main
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2019'
 
 variables:
 - name: LGTM.SnapshotIdentifiers
@@ -26,12 +26,15 @@ variables:
   value: true
 - name: buildConfiguration
   value: Release
+- name: msbuild
+  value: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe'
   
 steps:
 - task: NuGetToolInstaller@1
   displayName: Install NuGet Tool
 
 - task: NuGetCommand@2
+  displayName: NuGet restore
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
@@ -45,12 +48,8 @@ steps:
     toolVersion: 'LatestPreRelease'
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
-    cleanupBuildCommands: |
-      dotnet clean mdoc/mdoc.csproj --configuration $(buildConfiguration)
-      dotnet clean monodoc/monodoc.csproj --configuration $(buildConfiguration)
-    buildCommands: |
-      dotnet build mdoc/mdoc.csproj --configuration $(buildConfiguration)
-      dotnet build monodoc/monodoc.csproj --configuration $(buildConfiguration)
+    cleanupBuildCommands: 'dotnet clean apidoctools.sln --configuration $(buildConfiguration)'
+    buildCommands: '"$(msbuild)" apidoctools.sln /p:Configuration=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'

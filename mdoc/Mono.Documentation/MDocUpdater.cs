@@ -1418,7 +1418,7 @@ namespace Mono.Documentation
 
         private static TextWriter OpenWrite (string path, FileMode mode)
         {
-            var fs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? QuickIOFile.Open(Path.GetFullPath(path), mode) : new FileStream(path, mode);
+            var fs = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && Path.GetFullPath(path).Length>=260 ? QuickIOFile.Open(Path.GetFullPath(path), mode) : new FileStream(path, mode);
             var w = new StreamWriter (fs, new UTF8Encoding (false));
             w.NewLine = "\n";
             return w;
