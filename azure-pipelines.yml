@@ -65,6 +65,8 @@ stages:
         tsaVersion: 'TsaV2'
         instanceUrlForTsaV2: 'MSAZURE'
         projectNameMSAZURE: 'One'
+        areaPath: 'One\\DeveloperRelations'
+        iterationPath: 'One\\Custom\\_Default',
         codebase: 'NewOrUpdate'
         tsaEnvironment: 'PROD'
         codeBaseName: 'Docs_Mdoc'
