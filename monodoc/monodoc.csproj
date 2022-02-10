@@ -28,7 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\external\Lucene.Net.Light\**\*.cs" />
-    <Compile Remove="..\external\Lucene.Net.Light\**\Cryptography.cs" />
+    <Compile Remove="..\external\Lucene.Net.Light\src\core\Support\Cryptography.cs" />
     <!-- TODO: Consider moving this generation stuff -->
     <Compile Remove="Monodoc.Ecma\EcmaUrlParserDriver.cs" />
     <Compile Remove="Monodoc.Ecma\jay\**\*.cs" />
