@@ -27,8 +27,12 @@
     <Folder Include="Assembly\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\external\Lucene.Net.Light\**\*.cs" />
-    <Compile Remove="..\external\Lucene.Net.Light\src\core\Support\Cryptography.cs" />
+    <!-- Compiled from https://github.com/mono/Lucene.Net.Light -->
+    <Reference Include="Lucene.Net.Light">
+      <HintPath>..\external\libs\Lucene.Net.Light.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <!-- TODO: Consider moving this generation stuff -->
     <Compile Remove="Monodoc.Ecma\EcmaUrlParserDriver.cs" />
     <Compile Remove="Monodoc.Ecma\jay\**\*.cs" />
