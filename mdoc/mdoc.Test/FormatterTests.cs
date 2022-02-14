@@ -391,18 +391,16 @@ namespace mdoc.Test
         public void CSharpRefStructTest()
         {
             var type = GetType(typeof(SampleClasses.RefStruct));
-            var formatter = new CSharpFullMemberFormatter();
             var typeSignature = formatter.GetDeclaration(type);
-            Assert.AreEqual("public ref struct RefStruct;", typeSignature);
+            Assert.AreEqual("public ref struct RefStruct", typeSignature);
         }
 
         [Test]
         public void CSharpReadOnlyRefStructTest()
         {
             var type = GetType(typeof(SampleClasses.ReadOnlyRefStruct));
-            var formatter = new CSharpFullMemberFormatter();
             var typeSignature = formatter.GetDeclaration(type);
-            Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct;", typeSignature);
+            Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
         }
 
         #region Helper Methods
