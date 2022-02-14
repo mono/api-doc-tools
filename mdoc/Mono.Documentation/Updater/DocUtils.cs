@@ -945,5 +945,18 @@ namespace Mono.Documentation.Updater
 
             return type;
         }
+
+        public static bool HasReadOnlyAttribute(ICustomAttributeProvider customAttrProvider)
+        {
+            if (customAttrProvider == null)
+            {
+                return false;
+            }
+            else
+            {
+                return customAttrProvider.HasCustomAttributes
+                    && customAttrProvider.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute");
+            }
+        }
     }
 }

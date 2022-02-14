@@ -144,5 +144,17 @@ random text
             var result = DocUtils.IsEiiIgnoredMethod(member, member.Overrides[0]);
             Assert.IsTrue(result);
         }
+
+        [Test]
+        public void HasReadOnlyAttribute()
+        {
+            Assert.IsFalse(DocUtils.HasReadOnlyAttribute(null));
+
+            var type = GetType(typeof(SampleClasses.RefStruct));
+            Assert.IsFalse(DocUtils.HasReadOnlyAttribute(type));
+
+            type = GetType(typeof(SampleClasses.ReadOnlyRefStruct));
+            Assert.IsTrue(DocUtils.HasReadOnlyAttribute(type));
+        }
     }
 }
