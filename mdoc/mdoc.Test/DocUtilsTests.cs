@@ -146,7 +146,7 @@ random text
         }
 
         [Test]
-        public void HasReadOnlyAttribute()
+        public void HasCustomAttributeTest()
         {
             Assert.IsFalse(DocUtils.HasCustomAttribute(null, ""));
 
