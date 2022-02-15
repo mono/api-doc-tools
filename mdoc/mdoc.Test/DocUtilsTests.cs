@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using mdoc.Test.SampleClasses;
+using Mono.Documentation;
 using Mono.Documentation.Updater;
-using Mono.Documentation.Updater.Frameworks;
 using NUnit.Framework;
 using System.Xml;
 
@@ -148,13 +148,15 @@ random text
         [Test]
         public void HasReadOnlyAttribute()
         {
-            Assert.IsFalse(DocUtils.HasReadOnlyAttribute(null));
+            Assert.IsFalse(DocUtils.HasCustomAttribute(null, ""));
 
             var type = GetType(typeof(SampleClasses.RefStruct));
-            Assert.IsFalse(DocUtils.HasReadOnlyAttribute(type));
+            Assert.IsFalse(DocUtils.HasCustomAttribute(type, Consts.IsReadOnlyAttribute));
+            Assert.IsTrue(DocUtils.HasCustomAttribute(type, Consts.IsByRefLikeAttribute));
 
             type = GetType(typeof(SampleClasses.ReadOnlyRefStruct));
-            Assert.IsTrue(DocUtils.HasReadOnlyAttribute(type));
+            Assert.IsTrue(DocUtils.HasCustomAttribute(type, Consts.IsReadOnlyAttribute));
+            Assert.IsTrue(DocUtils.HasCustomAttribute(type, Consts.IsByRefLikeAttribute));
         }
     }
 }

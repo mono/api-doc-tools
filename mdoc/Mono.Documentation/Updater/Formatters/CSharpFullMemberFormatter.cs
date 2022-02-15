@@ -240,11 +240,11 @@ namespace Mono.Documentation.Updater.Formatters
             if (t.IsValueType)
             {
                 StringBuilder buf = new StringBuilder();
-                if (DocUtils.HasReadOnlyAttribute(t))
+                if (DocUtils.HasCustomAttribute(t, Consts.IsReadOnlyAttribute))
                 {
                     buf.Append("readonly ");
                 }
-                if (t.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsByRefLikeAttribute"))
+                if (DocUtils.HasCustomAttribute(t, Consts.IsByRefLikeAttribute))
                 {
                     buf.Append("ref ");
                 }
@@ -520,7 +520,7 @@ namespace Mono.Documentation.Updater.Formatters
                 modifiers += " ref";
             }
 
-            if (method.ReturnType.IsRequiredModifier && DocUtils.HasReadOnlyAttribute(method.MethodReturnType))
+            if (method.ReturnType.IsRequiredModifier && DocUtils.HasCustomAttribute(method.MethodReturnType, Consts.IsReadOnlyAttribute))
             {
                 modifiers += " readonly";
             }

@@ -946,7 +946,7 @@ namespace Mono.Documentation.Updater
             return type;
         }
 
-        public static bool HasReadOnlyAttribute(ICustomAttributeProvider customAttrProvider)
+        public static bool HasCustomAttribute(ICustomAttributeProvider customAttrProvider, string attributeName)
         {
             if (customAttrProvider == null)
             {
@@ -955,7 +955,7 @@ namespace Mono.Documentation.Updater
             else
             {
                 return customAttrProvider.HasCustomAttributes
-                    && customAttrProvider.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute");
+                    && customAttrProvider.CustomAttributes.Any(attr => attr.AttributeType.FullName == attributeName);
             }
         }
     }
