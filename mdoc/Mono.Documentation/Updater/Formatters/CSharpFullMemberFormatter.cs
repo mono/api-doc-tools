@@ -238,7 +238,19 @@ namespace Mono.Documentation.Updater.Formatters
             if (t.IsEnum)
                 return "enum";
             if (t.IsValueType)
-                return "struct";
+            {
+                StringBuilder buf = new StringBuilder();
+                if (DocUtils.HasCustomAttribute(t, Consts.IsReadOnlyAttribute))
+                {
+                    buf.Append("readonly ");
+                }
+                if (DocUtils.HasCustomAttribute(t, Consts.IsByRefLikeAttribute))
+                {
+                    buf.Append("ref ");
+                }
+                buf.Append("struct");
+                return buf.ToString();
+            }
             if (t.IsClass || t.FullName == "System.Enum")
                 return "class";
             if (t.IsInterface)
@@ -508,8 +520,7 @@ namespace Mono.Documentation.Updater.Formatters
                 modifiers += " ref";
             }
 
-            if (method.ReturnType.IsRequiredModifier
-                && method.MethodReturnType.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute"))
+            if (method.ReturnType.IsRequiredModifier && DocUtils.HasCustomAttribute(method.MethodReturnType, Consts.IsReadOnlyAttribute))
             {
                 modifiers += " readonly";
             }

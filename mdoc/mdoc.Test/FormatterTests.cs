@@ -387,6 +387,22 @@ namespace mdoc.Test
             Assert.AreEqual(true, flag);
         }
 
+        [Test]
+        public void CSharpRefStructTest()
+        {
+            var type = GetType(typeof(SampleClasses.RefStruct));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public ref struct RefStruct", typeSignature);
+        }
+
+        [Test]
+        public void CSharpReadOnlyRefStructTest()
+        {
+            var type = GetType(typeof(SampleClasses.ReadOnlyRefStruct));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
