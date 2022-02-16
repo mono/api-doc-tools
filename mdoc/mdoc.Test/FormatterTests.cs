@@ -408,7 +408,7 @@ namespace mdoc.Test
         {
             var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name == "Sum");
             var methodSignature = formatter.GetDeclaration(method);
-            Assert.AreEqual("public readonly double Sum();", methodSignature);
+            Assert.AreEqual("public readonly double Sum ();", methodSignature);
         }
 
         #region Helper Methods
