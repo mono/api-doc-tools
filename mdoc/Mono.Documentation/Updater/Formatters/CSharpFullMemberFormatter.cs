@@ -503,12 +503,16 @@ namespace Mono.Documentation.Updater.Formatters
         {
             string modifiers = String.Empty;
             if (method.IsStatic) modifiers += " static";
+            TypeDefinition declType = (TypeDefinition)method.DeclaringType;
+            if (declType.IsValueType && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
+            {
+                modifiers += " readonly";
+            }
             if (method.IsVirtual && !method.IsAbstract)
             {
                 if ((method.Attributes & MethodAttributes.NewSlot) != 0) modifiers += " virtual";
                 else modifiers += " override";
             }
-            TypeDefinition declType = (TypeDefinition)method.DeclaringType;
             if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
