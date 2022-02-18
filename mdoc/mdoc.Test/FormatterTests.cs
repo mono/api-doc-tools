@@ -403,6 +403,14 @@ namespace mdoc.Test
             Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
         }
 
+        [Test]
+        public void CSharpReadOnlyMemberStructTest()
+        {
+            var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name == "Sum");
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual("public readonly double Sum ();", methodSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
