@@ -271,7 +271,7 @@ namespace mdoc.Test
 
         [TestCase(typeof(ReadonlyRefClass), "RefProperty", "public ref int RefProperty { get; }")]
         [TestCase(typeof(ReadonlyRefClass), "Item", "public ref readonly int this[int index] { get; }")]
-        [TestCase(typeof(GenericRefClass<>), "RefProperty", "public ref int RefProperty { get; }")]
+        [TestCase(typeof(GenericRefClass<>), "RefProperty", "public ref T RefProperty { get; }")]
         [TestCase(typeof(GenericRefClass<>), "Item", "public ref readonly T this[int index] { get; }")]
         public void CSharpRefReturnPropertyTest(Type type, string propertyName, string expectedSignature)
         {
