@@ -82,7 +82,7 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
+        protected override StringBuilder AppendRefTypeName (StringBuilder buf, ByReferenceType type, IAttributeParserContext context)
         {
             return base.AppendRefTypeName (buf, type, context).Append (RefTypeModifier);
         }

@@ -143,14 +143,14 @@ namespace Mono.Documentation.Updater
 
             StringBuilder interimBuilder = new StringBuilder();
 
-            if (ShouldStripModFromTypeName && type is RequiredModifierType)
+            if (ShouldStripModFromTypeName && type is RequiredModifierType requiredModifierType)
             {
-                AppendRequiredModifierTypeName(interimBuilder, type as RequiredModifierType, context);
+                AppendRequiredModifierTypeName(interimBuilder, requiredModifierType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            if (ShouldStripModFromTypeName && type is OptionalModifierType)
+            if (ShouldStripModFromTypeName && type is OptionalModifierType optionalModifierType)
             {
-                AppendOptionalModifierTypeName(interimBuilder, type as OptionalModifierType, context);
+                AppendOptionalModifierTypeName(interimBuilder, optionalModifierType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (type is ArrayType)
@@ -158,9 +158,9 @@ namespace Mono.Documentation.Updater
                 AppendArrayTypeName(interimBuilder, type, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
-            if (type is ByReferenceType)
+            if (type is ByReferenceType byReferenceType)
             {
-                AppendRefTypeName (interimBuilder, type, context);
+                AppendRefTypeName (interimBuilder, byReferenceType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (type is PointerType)
@@ -290,10 +290,9 @@ namespace Mono.Documentation.Updater
             get { return "@"; }
         }
 
-        protected virtual StringBuilder AppendRefTypeName (StringBuilder buf, TypeReference type, IAttributeParserContext context)
+        protected virtual StringBuilder AppendRefTypeName (StringBuilder buf, ByReferenceType type, IAttributeParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            return _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+            return _AppendTypeName(buf, type.ElementType, context);
         }
 
         protected virtual string PointerModifier

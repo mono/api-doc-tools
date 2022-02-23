@@ -613,10 +613,9 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, IAttributeParserContext context)
         {
-            ByReferenceType reftype = type as ByReferenceType;
-            return AppendTypeName(buf, reftype?.ElementType, context);
+            return AppendTypeName(buf, type.ElementType, context);
         }
 
         protected override StringBuilder AppendModifiers(StringBuilder buf, MethodDefinition method)
