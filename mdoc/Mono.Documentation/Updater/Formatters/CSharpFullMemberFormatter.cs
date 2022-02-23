@@ -599,7 +599,7 @@ namespace Mono.Documentation.Updater.Formatters
                 {
                     buf.Append ("out ");
                 }
-                else if(parameter.IsIn)
+                else if(parameter.IsIn && DocUtils.HasCustomAttribute(parameter, Consts.IsReadOnlyAttribute))
                 {
                     buf.Append("in ");
                 }
