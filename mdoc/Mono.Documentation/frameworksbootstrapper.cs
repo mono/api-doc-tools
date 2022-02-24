@@ -48,9 +48,11 @@ namespace Mono.Documentation
 					string dllPath = Path.Combine(sourcePath, fileNameWithoutExtension + ".dll");
 					if (File.Exists(dllPath))
 					{
-						var version = FileVersionInfo.GetVersionInfo(dllPath).FileVersion;
-						if (!string.IsNullOrEmpty(version))
+						var fileVersionInfo = FileVersionInfo.GetVersionInfo(dllPath);
+						
+						if (fileVersionInfo != null)
 						{
+							var version = $"{fileVersionInfo.FileMajorPart}.{fileVersionInfo.FileMinorPart}.{fileVersionInfo.FileBuildPart}.{fileVersionInfo.FilePrivatePart}";
 							assemblyVersionMapping.Add(Path.GetFileName(xmlPath), new Version(version));
 						}
 					}
