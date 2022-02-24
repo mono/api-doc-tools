@@ -50,7 +50,7 @@ namespace Mono.Documentation
 					{
 						var fileVersionInfo = FileVersionInfo.GetVersionInfo(dllPath);
 						
-						if (fileVersionInfo!=null)
+						if (fileVersionInfo != null)
 						{
 							var version = $"{fileVersionInfo.FileMajorPart}.{fileVersionInfo.FileMinorPart}.{fileVersionInfo.FileBuildPart}.{fileVersionInfo.FilePrivatePart}";
 							assemblyVersionMapping.Add(Path.GetFileName(xmlPath), new Version(version));
