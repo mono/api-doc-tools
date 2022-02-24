@@ -412,7 +412,7 @@ namespace mdoc.Test
         }
 
         [TestCase("Sum", "public readonly double Sum ();")]
-        [TestCase("GetNum()", "readonly int Struct_Interface_A.GetNum ();")]
+        [TestCase("Struct_Interface_A.GetNum", "readonly int Struct_Interface_A.GetNum ();")]
         public void CSharpReadOnlyMemberStructTest(string methodName, string expectedSignature)
         {
             var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name == methodName);
