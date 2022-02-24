@@ -514,7 +514,7 @@ namespace Mono.Documentation.Updater.Formatters
             if (modifiers == " virtual sealed") modifiers = "";
             if (declType.IsValueType && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
             {
-                modifiers += modifiers == String.Empty ? "readonly" : " readonly";
+                modifiers += buf.Length == 0 ? "readonly" : " readonly";
             }
 
             switch (method.Name)
