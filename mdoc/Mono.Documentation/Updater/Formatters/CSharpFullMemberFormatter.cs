@@ -593,6 +593,11 @@ namespace Mono.Documentation.Updater.Formatters
         {
             TypeReference parameterType = parameter.ParameterType;
 
+            if (parameterType is RequiredModifierType requiredModifierType)
+            {
+                parameterType = requiredModifierType.ElementType;
+            }
+
             if (parameterType is ByReferenceType byReferenceType)
             {
                 if (parameter.IsOut)
