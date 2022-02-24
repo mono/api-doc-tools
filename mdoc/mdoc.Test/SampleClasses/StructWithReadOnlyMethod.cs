@@ -9,5 +9,10 @@
         {
             return X + Y;
         }
+
+        readonly double Multiply()
+        {
+            return X * Y;
+        }
     }
 }

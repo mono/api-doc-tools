@@ -409,12 +409,13 @@ namespace mdoc.Test
             Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
         }
 
-        [Test]
-        public void CSharpReadOnlyMemberStructTest()
+        [TestCase("Sum", "public readonly double Sum ();")]
+        [TestCase("Multiply", "readonly double Multiply ();")]
+        public void CSharpReadOnlyMemberStructTest(string methodName, string expectedSignature)
         {
-            var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name == "Sum");
+            var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name == methodName);
             var methodSignature = formatter.GetDeclaration(method);
-            Assert.AreEqual("public readonly double Sum ();", methodSignature);
+            Assert.AreEqual(expectedSignature, methodSignature);
         }
 
         #region Helper Methods
