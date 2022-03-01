@@ -1,6 +1,6 @@
 ﻿namespace mdoc.Test.SampleClasses
 {
-    public struct StructWithReadOnlyMethod
+    public struct StructWithReadOnlyMethod : Struct_Interface_A
     {
         public double X { get; set; }
         public double Y { get; set; }
@@ -9,5 +9,7 @@
         {
             return X + Y;
         }
+
+        readonly int Struct_Interface_A.GetNum() => 1;
     }
 }

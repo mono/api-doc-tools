@@ -259,9 +259,11 @@ namespace mdoc.Test
         [TestCase(typeof(ReadonlyRefClass), "Ref", "public ref int Ref ();")]
         [TestCase(typeof(ReadonlyRefClass), "ReadonlyRef", "public ref readonly int ReadonlyRef ();")]
         [TestCase(typeof(ReadonlyRefClass), "RefInAndOutMethod", "public void RefInAndOutMethod (ref int a, in int b, out int c);")]
+        [TestCase(typeof(ReadonlyRefClass), "InAttributeMethod", "public void InAttributeMethod (ref int a, in int b, out int c);")]
         [TestCase(typeof(GenericRefClass<>), "Ref", "public ref T Ref ();")]
         [TestCase(typeof(GenericRefClass<>), "ReadonlyRef", "public ref readonly T ReadonlyRef ();")]
         [TestCase(typeof(GenericRefClass<>), "RefInAndOutMethod", "public void RefInAndOutMethod (ref T a, in T b, out T c);")]
+        [TestCase(typeof(GenericRefClass<>), "InAttributeMethod", "public void InAttributeMethod (ref T a, in T b, out T c);")]
         public void CSharpRefReturnMethodTest(Type type, string methodName, string expectedSignature)
         {
             var member = GetMethod(type, m => m.Name == methodName);
@@ -409,12 +411,13 @@ namespace mdoc.Test
             Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
         }
 
-        [Test]
-        public void CSharpReadOnlyMemberStructTest()
+        [TestCase("Sum", "public readonly double Sum ();")]
+        [TestCase("GetNum", "readonly int Struct_Interface_A.GetNum ();")]
+        public void CSharpReadOnlyMemberStructTest(string methodName, string expectedSignature)
         {
-            var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name == "Sum");
+            var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name.Contains(methodName));
             var methodSignature = formatter.GetDeclaration(method);
-            Assert.AreEqual("public readonly double Sum ();", methodSignature);
+            Assert.AreEqual(expectedSignature, methodSignature);
         }
 
         #region Helper Methods
