@@ -137,7 +137,9 @@ namespace Mono.Documentation.Updater.Formatters
             if (genInst.Name.StartsWith ("ValueTuple`"))
             {
                 buf.Append ("(");
-                var genArgList = new List<string> ();
+                var genArgTypeList = new List<string> ();
+                // tuple element names should be traversed before recursion.
+                var genArgNameList = genInst.GenericArguments.Select(arg => context.GetTupleElementName()).ToList();
                 foreach (var item in genInst.GenericArguments)
                 {
                     var isNullableType = false;
@@ -147,11 +149,11 @@ namespace Mono.Documentation.Updater.Formatters
                     }
 
                     var underlyingTypeName = GetTypeName (item, context, appendGeneric, useTypeProjection) + GetTypeNullableSymbol (item, isNullableType);
-                    genArgList.Add (underlyingTypeName);
+                    genArgTypeList.Add (underlyingTypeName);
                 }
+                var genArgList = genInst.GenericArguments.Select((_, index) => string.Format("{0}{1}", genArgTypeList[index], genArgNameList[index] == null ? String.Empty : (" " + genArgNameList[index])));
                 buf.Append (string.Join (",", genArgList));
                 buf.Append (")");
-
                 return buf;
             }
 

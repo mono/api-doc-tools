@@ -5,5 +5,6 @@
         void NextDynamicFlag();
         bool IsDynamic();
         bool IsNullable();
+        string GetTupleElementName();
     }
 }
