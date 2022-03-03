@@ -101,6 +101,13 @@ stages:
         targetType: 'inline'
         script: 'make prepare all check CONFIGURATION=$(buildConfiguration)'
 
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: 2.1.x
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
     - task: EsrpCodeSigning@1
       displayName: Sign executable and dll files
       condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))

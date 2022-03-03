@@ -256,22 +256,30 @@ namespace mdoc.Test
             Assert.AreEqual("public void SomeMethod4 (out string a, T t, object b = default);", sig);
         }
 
-        [Test]
-        public void CSharpReadonlyRefReturn()
+        [TestCase(typeof(ReadonlyRefClass), "Ref", "public ref int Ref ();")]
+        [TestCase(typeof(ReadonlyRefClass), "ReadonlyRef", "public ref readonly int ReadonlyRef ();")]
+        [TestCase(typeof(ReadonlyRefClass), "RefInAndOutMethod", "public void RefInAndOutMethod (ref int a, in int b, out int c);")]
+        [TestCase(typeof(ReadonlyRefClass), "InAttributeMethod", "public void InAttributeMethod (ref int a, in int b, out int c);")]
+        [TestCase(typeof(GenericRefClass<>), "Ref", "public ref T Ref ();")]
+        [TestCase(typeof(GenericRefClass<>), "ReadonlyRef", "public ref readonly T ReadonlyRef ();")]
+        [TestCase(typeof(GenericRefClass<>), "RefInAndOutMethod", "public void RefInAndOutMethod (ref T a, in T b, out T c);")]
+        [TestCase(typeof(GenericRefClass<>), "InAttributeMethod", "public void InAttributeMethod (ref T a, in T b, out T c);")]
+        public void CSharpRefReturnMethodTest(Type type, string methodName, string expectedSignature)
         {
-            var member = GetMethod(typeof(ReadonlyRefClass), m => m.Name == "ReadonlyRef");
-            var formatter = new CSharpFullMemberFormatter();
-            var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public ref readonly int ReadonlyRef ();", sig);
+            var member = GetMethod(type, m => m.Name == methodName);
+            var actualSignature = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSignature, actualSignature);
         }
 
-        [Test]
-        public void CSharpRefReturn()
+        [TestCase(typeof(ReadonlyRefClass), "RefProperty", "public ref int RefProperty { get; }")]
+        [TestCase(typeof(ReadonlyRefClass), "Item", "public ref readonly int this[int index] { get; }")]
+        [TestCase(typeof(GenericRefClass<>), "RefProperty", "public ref T RefProperty { get; }")]
+        [TestCase(typeof(GenericRefClass<>), "Item", "public ref readonly T this[int index] { get; }")]
+        public void CSharpRefReturnPropertyTest(Type type, string propertyName, string expectedSignature)
         {
-            var member = GetMethod(typeof(ReadonlyRefClass), m => m.Name == "Ref");
-            var formatter = new CSharpFullMemberFormatter();
-            var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public ref int Ref ();", sig);
+            var member = GetProperty(type, p => p.Name == propertyName);
+            var actualSignature = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSignature, actualSignature);
         }
 
         [Test]
@@ -385,6 +393,31 @@ namespace mdoc.Test
             var interFaceMembers = GetClassInterface(type);
             bool flag = interFaceMembers.ContainsKey(sig);
             Assert.AreEqual(true, flag);
+        }
+
+        [Test]
+        public void CSharpRefStructTest()
+        {
+            var type = GetType(typeof(SampleClasses.RefStruct));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public ref struct RefStruct", typeSignature);
+        }
+
+        [Test]
+        public void CSharpReadOnlyRefStructTest()
+        {
+            var type = GetType(typeof(SampleClasses.ReadOnlyRefStruct));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
+        }
+
+        [TestCase("Sum", "public readonly double Sum ();")]
+        [TestCase("GetNum", "readonly int Struct_Interface_A.GetNum ();")]
+        public void CSharpReadOnlyMemberStructTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name.Contains(methodName));
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
         }
 
         #region Helper Methods

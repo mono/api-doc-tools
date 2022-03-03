@@ -238,7 +238,19 @@ namespace Mono.Documentation.Updater.Formatters
             if (t.IsEnum)
                 return "enum";
             if (t.IsValueType)
-                return "struct";
+            {
+                StringBuilder buf = new StringBuilder();
+                if (DocUtils.HasCustomAttribute(t, Consts.IsReadOnlyAttribute))
+                {
+                    buf.Append("readonly ");
+                }
+                if (DocUtils.HasCustomAttribute(t, Consts.IsByRefLikeAttribute))
+                {
+                    buf.Append("ref ");
+                }
+                buf.Append("struct");
+                return buf.ToString();
+            }
             if (t.IsClass || t.FullName == "System.Enum")
                 return "class";
             if (t.IsInterface)
@@ -500,18 +512,9 @@ namespace Mono.Documentation.Updater.Formatters
             if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
-
-            if ((method.ReturnType.IsRequiredModifier
-                  && ((RequiredModifierType)method.ReturnType).ElementType.IsByReference)
-                || method.ReturnType.IsByReference)
+            if (declType.IsValueType && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
             {
-                modifiers += " ref";
-            }
-
-            if (method.ReturnType.IsRequiredModifier
-                && method.MethodReturnType.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute"))
-            {
-                modifiers += " readonly";
+                modifiers += buf.Length == 0 ? "readonly" : " readonly";
             }
 
             switch (method.Name)
@@ -525,6 +528,24 @@ namespace Mono.Documentation.Updater.Formatters
             }
 
             return buf.Append (modifiers);
+        }
+
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, IAttributeParserContext context)
+        {
+            buf.Append("ref ");
+            return base.AppendRefTypeName(buf, type, context);
+        }
+
+        protected override StringBuilder AppendRequiredModifierTypeName(
+            StringBuilder buf, RequiredModifierType type, IAttributeParserContext context)
+        {
+            if (type.ModifierType.FullName == Consts.InAttribute && type.ElementType is ByReferenceType refType)
+            {
+                buf.Append("ref readonly ");
+                return _AppendTypeName(buf, refType.ElementType, context);
+            }
+
+            return base.AppendRequiredModifierTypeName(buf, type, context);
         }
 
         protected override StringBuilder AppendGenericMethod (StringBuilder buf, MethodDefinition method)
@@ -570,19 +591,28 @@ namespace Mono.Documentation.Updater.Formatters
 
         private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
-            if (parameter.ParameterType is ByReferenceType)
+            TypeReference parameterType = parameter.ParameterType;
+
+            if (parameterType is RequiredModifierType requiredModifierType)
+            {
+                parameterType = requiredModifierType.ElementType;
+            }
+
+            if (parameterType is ByReferenceType byReferenceType)
             {
                 if (parameter.IsOut)
                 {
                     buf.Append ("out ");
                 }
+                else if(parameter.IsIn && DocUtils.HasCustomAttribute(parameter, Consts.IsReadOnlyAttribute))
+                {
+                    buf.Append("in ");
+                }
                 else
                 {
-                    if (parameter.HasCustomAttributes && parameter.CustomAttributes.Any (ca => ca.AttributeType.Name == "IsReadOnlyAttribute"))
-                        buf.Append ("in ");
-                    else
-                        buf.Append ("ref ");
+                    buf.Append("ref ");
                 }
+                parameterType = byReferenceType.ElementType;
             }
 
             if (parameter.HasCustomAttributes)
@@ -594,7 +624,7 @@ namespace Mono.Documentation.Updater.Formatters
 
             var context = AttributeParserContext.Create (parameter);
             var isNullableType = context.IsNullable ();
-            buf.Append (GetTypeName (parameter.ParameterType, context));
+            buf.Append (GetTypeName (parameterType, context));
             buf.Append (GetTypeNullableSymbol (parameter.ParameterType, isNullableType));
             buf.Append (" ");
             buf.Append (parameter.Name);
@@ -657,9 +687,6 @@ namespace Mono.Documentation.Updater.Formatters
             if (modifiers == " virtual sealed")
                 modifiers = "";
             buf.Append (modifiers).Append (' ');
-
-            if (property.PropertyType.IsByReference)
-                buf.Append("ref ");
 
             var context = AttributeParserContext.Create (property);
             var isNullableType = context.IsNullable ();

@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>mdoc</id>
-    <version>5.8.6.1</version>
+    <version>5.8.7</version>
     <title>mdoc</title>
     <authors>Microsoft</authors>
     <owners>Microsoft</owners>
     <projectUrl>https://github.com/mono/api-doc-tools</projectUrl>
-    <licenseUrl>https://github.com/mono/api-doc-tools/blob/main/LICENSE.md</licenseUrl>
+    <license type="expression">MIT</license>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>.NET API Documentation toolchain</description>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
