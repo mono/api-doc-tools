@@ -106,10 +106,7 @@ namespace Mono.Documentation.Updater
                 if (tupleNamesAttr != null)
                 {
                     var constructorArgs = tupleNamesAttr.ConstructorArguments.FirstOrDefault().Value as CustomAttributeArgument[];
-                    if (constructorArgs != null)
-                    {
-                        tupleElementNames = constructorArgs.Select(arg => arg.Value as string).ToArray();
-                    }
+                    tupleElementNames = constructorArgs?.Select(arg => arg.Value as string).ToArray();
                 }
             }
         }
