@@ -10,7 +10,7 @@ namespace mdoc.Test.SampleClasses
 
         public (int a, int, int b) TupleMethod((int, int) t1, (int b, int c, int d) t2, ValueTuple<int, int> t3) => (t1.Item1, t2.b, t3.Item2);
 
-        public ((int a, int b) c, int d) RecursiveTupleMethod((((int a, int) b, int c) d, (int e, (int f, int g) h) i, int j) t) => (t.d.b, t.j);
+        public ((int a, long b) c, int d) RecursiveTupleMethod((((int a, long) b, string c) d, (int e, (float f, float g) h) i, int j) t) => (t.d.b, t.j);
 
         public int CompareTo((T1, T2) other)
         {
