@@ -29,7 +29,7 @@
 
         public string GetTupleElementName()
         {
-            return string.Empty;
+            return null;
         }
     }
 }
