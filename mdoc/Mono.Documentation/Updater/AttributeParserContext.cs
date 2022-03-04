@@ -105,6 +105,7 @@ namespace Mono.Documentation.Updater
                 var tupleNamesAttr = provider.CustomAttributes.Where(attr => attr.AttributeType.FullName == Consts.TupleElementNamesAttribute).FirstOrDefault();
                 if (tupleNamesAttr != null)
                 {
+                    Console.WriteLine($"Length of ConstructorArguments: {tupleNamesAttr.ConstructorArguments}");
                     var constructorArgs = tupleNamesAttr.ConstructorArguments.FirstOrDefault().Value as CustomAttributeArgument[];
                     tupleElementNames = constructorArgs?.Select(arg => arg.Value as string).ToArray();
                 }
