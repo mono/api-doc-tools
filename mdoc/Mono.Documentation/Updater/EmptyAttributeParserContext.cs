@@ -26,5 +26,10 @@
         {
             return false;
         }
+
+        public string GetTupleElementName()
+        {
+            return null;
+        }
     }
 }

@@ -3,6 +3,7 @@ using Mono.Cecil;
 using Mono.Documentation.Util;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Mono.Documentation.Updater
 {
@@ -10,9 +11,11 @@ namespace Mono.Documentation.Updater
     {
         private int nullableAttributeIndex;
         private int dynamicAttributeIndex;
+        private int tupleNameAttributeIndex;
         private ICustomAttributeProvider provider;
         private ReadOnlyCollection<bool?> nullableAttributeFlags;
         private ReadOnlyCollection<bool> dynamicAttributeFlags;
+        private string[] tupleElementNames;
 
         private AttributeParserContext(ICustomAttributeProvider provider)
         {
@@ -20,6 +23,7 @@ namespace Mono.Documentation.Updater
 
             ReadDynamicAttribute();
             ReadNullableAttribute();
+            ReadTupleElementNames();
         }
 
         private bool ExistsNullableAttribute
@@ -73,6 +77,11 @@ namespace Mono.Documentation.Updater
             return false;
         }
 
+        public string GetTupleElementName()
+        {
+            return (tupleElementNames == null || tupleNameAttributeIndex >= tupleElementNames.Length) ? null : tupleElementNames[tupleNameAttributeIndex++];
+        }
+
         private void ReadDynamicAttribute()
         {
             DynamicTypeProvider dynamicTypeProvider = new DynamicTypeProvider(provider);
@@ -87,6 +96,19 @@ namespace Mono.Documentation.Updater
         {
             NullableReferenceTypeProvider nullableReferenceTypeProvider = new NullableReferenceTypeProvider(provider);
             nullableAttributeFlags = new ReadOnlyCollection<bool?>(nullableReferenceTypeProvider.GetNullableReferenceTypeFlags());
+        }
+
+        private void ReadTupleElementNames()
+        {
+            if (provider != null && provider.HasCustomAttributes)
+            {
+                var tupleNamesAttr = provider.CustomAttributes.Where(attr => attr.AttributeType.FullName == Consts.TupleElementNamesAttribute).FirstOrDefault();
+                if (tupleNamesAttr != null)
+                {
+                    var constructorArgs = tupleNamesAttr.ConstructorArguments.FirstOrDefault().Value as CustomAttributeArgument[];
+                    tupleElementNames = constructorArgs?.Select(arg => arg.Value as string).ToArray();
+                }
+            }
         }
     }
 }

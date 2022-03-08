@@ -420,6 +420,39 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, methodSignature);
         }
 
+        [Test]
+        public void CSharpTupleNamesTypeTest()
+        {
+            var type = GetType(typeof(SampleClasses.TupleNamesTestClass<,>));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public class TupleNamesTestClass<T1,T2> : IComparable<(T1,T2)>", typeSignature);
+        }
+
+        [Test]
+        public void CSharpTupleNamesPropertyTest()
+        {
+            var property = GetProperty(typeof(SampleClasses.TupleNamesTestClass<,>), m => m.Name == "TuplePropertyType");
+            var propertySignature = formatter.GetDeclaration(property);
+            Assert.AreEqual("public (int a,int b) TuplePropertyType { get; }", propertySignature);
+        }
+
+        [Test]
+        public void CSharpTupleNamesFieldTest()
+        {
+            var field = GetField(GetType(typeof(SampleClasses.TupleNamesTestClass<,>)), "TupleField");
+            var fieldSignature = formatter.GetDeclaration(field);
+            Assert.AreEqual("public (int a,int b,int c) TupleField;", fieldSignature);
+        }
+
+        [TestCase("TupleMethod", "public (int a,int,int b) TupleMethod ((int,int) t1, (int b,int c,int d) t2, (int,int) t3);")]
+        [TestCase("RecursiveTupleMethod", "public ((int a,long b) c,int d) RecursiveTupleMethod ((((int a,long) b,string c) d,(int e,(float f,float g) h) i,int j) t);")]
+        public void CSharpTupleNamesMethodTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.TupleNamesTestClass<,>), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
