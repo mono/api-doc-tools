@@ -725,7 +725,14 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (set_visible != visibility)
                     buf.Append (' ').Append (set_visible);
-                buf.Append (" set;");
+                if (property.SetMethod.ReturnType is RequiredModifierType returnType && returnType.ModifierType.FullName == Consts.IsExternalInit)
+                {
+                    buf.Append(" init;");
+                }
+                else
+                {
+                    buf.Append(" set;");
+                }
             }
             buf.Append (" }");
 
