@@ -453,6 +453,17 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, methodSignature);
         }
 
+        [TestCase("Property1", "public int Property1 { get; set; }")]
+        [TestCase("Property2", "public int Property2 { get; init; }")]
+        [TestCase("Property3", "public int Property3 { get; protected init; }")]
+        [TestCase("Item", "public int this[int index] { get; init; }")]
+        public void CSharpInitOnlySetterTest(string propertyName, string expectedSignature)
+        {
+            var property = GetProperty(typeof(SampleClasses.InitOnlySetter), p => p.Name == propertyName);
+            var propertySignature = formatter.GetDeclaration(property);
+            Assert.AreEqual(expectedSignature, propertySignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
