@@ -464,6 +464,25 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, propertySignature);
         }
 
+        [Test]
+        public void CSharpNativeIntGenericTypeTest()
+        {
+            var type = GetType(typeof(SampleClasses.GenericNativeIntClass<>));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public class GenericNativeIntClass<nint>", typeSignature);
+        }
+
+        [TestCase("Method1", "public (nint,nuint) Method1 (nint a, nuint b, IntPtr c, UIntPtr d);")]
+        [TestCase("Method2", "public (nint,nuint) Method2 (List<nint> a, Dictionary<int,nuint> b);")]
+        [TestCase("Method3", "public (nint,nuint) Method3 ((nint,nuint) a, (nuint,IntPtr) b, (UIntPtr,string) c);")]
+        [TestCase("Method4", "public (((nint a,IntPtr) b,UIntPtr c) d,(nint e,(nuint f,IntPtr g) h) i) Method4 ();")]
+        public void CSharpNativeIntMethodTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.NativeIntClass), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {

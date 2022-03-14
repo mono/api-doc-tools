@@ -4,7 +4,7 @@
     {
         public CSharpNativeTypeMemberFormatter(TypeMap map) : base(map) { }
 
-        protected override string GetCSharpType (string t)
+        protected override string GetCSharpType (string t, IAttributeParserContext attributeParserContext = null)
         {
             string moddedType = base.GetCSharpType (t);
 

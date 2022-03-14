@@ -12,10 +12,12 @@ namespace Mono.Documentation.Updater
         private int nullableAttributeIndex;
         private int dynamicAttributeIndex;
         private int tupleNameAttributeIndex;
+        private int nativeIntegerAttributeIndex;
         private ICustomAttributeProvider provider;
         private ReadOnlyCollection<bool?> nullableAttributeFlags;
         private ReadOnlyCollection<bool> dynamicAttributeFlags;
         private string[] tupleElementNames;
+        private bool[] nativeIntegerFlags;
 
         private AttributeParserContext(ICustomAttributeProvider provider)
         {
@@ -24,6 +26,7 @@ namespace Mono.Documentation.Updater
             ReadDynamicAttribute();
             ReadNullableAttribute();
             ReadTupleElementNames();
+            ReadNativeIntegerAttribute();
         }
 
         private bool ExistsNullableAttribute
@@ -82,6 +85,11 @@ namespace Mono.Documentation.Updater
             return (tupleElementNames == null || tupleNameAttributeIndex >= tupleElementNames.Length) ? null : tupleElementNames[tupleNameAttributeIndex++];
         }
 
+        public bool IsNativeInteger()
+        {
+            return (nativeIntegerFlags == null || nativeIntegerAttributeIndex >= nativeIntegerFlags.Length) ? false : nativeIntegerFlags[nativeIntegerAttributeIndex++];
+        }
+
         private void ReadDynamicAttribute()
         {
             DynamicTypeProvider dynamicTypeProvider = new DynamicTypeProvider(provider);
@@ -100,15 +108,35 @@ namespace Mono.Documentation.Updater
 
         private void ReadTupleElementNames()
         {
+            tupleElementNames = ReadCustomAttributeValue<string>(
+                () => null,
+                Consts.TupleElementNamesAttribute);
+        }
+
+        private void ReadNativeIntegerAttribute()
+        {
+            nativeIntegerFlags = ReadCustomAttributeValue<bool>(
+                () => new bool[] { true },
+                Consts.NativeIntegerAttribute);
+        }
+
+        private T[] ReadCustomAttributeValue<T>(Func<T[]> init, string attributeName)
+        {
             if (provider != null && provider.HasCustomAttributes)
             {
-                var tupleNamesAttr = provider.CustomAttributes.Where(attr => attr.AttributeType.FullName == Consts.TupleElementNamesAttribute).FirstOrDefault();
-                if (tupleNamesAttr != null)
+                var customAttribute = provider.CustomAttributes.Where(attr => attr.AttributeType.FullName == attributeName).FirstOrDefault();
+                if (customAttribute != null)
                 {
-                    var constructorArgs = tupleNamesAttr.ConstructorArguments.FirstOrDefault().Value as CustomAttributeArgument[];
-                    tupleElementNames = constructorArgs?.Select(arg => arg.Value as string).ToArray();
+                    T[] result = init();
+                    if (customAttribute.HasConstructorArguments)
+                    {
+                        var constructorArgs = customAttribute.ConstructorArguments[0].Value as CustomAttributeArgument[];
+                        result = constructorArgs?.Select(arg => (T)arg.Value).ToArray();
+                    }
+                    return result;
                 }
             }
+            return null;
         }
     }
 }

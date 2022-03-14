@@ -51,5 +51,6 @@ namespace Mono.Documentation
         public const string InAttribute = "System.Runtime.InteropServices.InAttribute";
         public const string TupleElementNamesAttribute = "System.Runtime.CompilerServices.TupleElementNamesAttribute";
         public const string IsExternalInit = "System.Runtime.CompilerServices.IsExternalInit";
+        public const string NativeIntegerAttribute = "System.Runtime.CompilerServices.NativeIntegerAttribute";
     }
 }
