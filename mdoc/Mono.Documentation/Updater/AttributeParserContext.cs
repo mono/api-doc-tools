@@ -87,7 +87,7 @@ namespace Mono.Documentation.Updater
 
         public bool IsNativeInteger()
         {
-            return (nativeIntegerFlags == null || nativeIntegerAttributeIndex >= nativeIntegerFlags.Length) ? false : nativeIntegerFlags[nativeIntegerAttributeIndex++];
+            return nativeIntegerFlags != null && nativeIntegerAttributeIndex < nativeIntegerFlags.Length && nativeIntegerFlags[nativeIntegerAttributeIndex++];
         }
 
         private void ReadDynamicAttribute()
