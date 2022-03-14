@@ -12,6 +12,12 @@ namespace Mono.Documentation.Updater.Formatters
         public CSharpFullMemberFormatter() : this(null) {}
         public CSharpFullMemberFormatter(TypeMap map) : base(map) { }
 
+        private static readonly Dictionary<string, string> nativeIntTypeMap = new Dictionary<string, string>()
+        {
+            { "System.IntPtr", "nint" },
+            { "System.UIntPtr", "nuint" },
+        };
+
         public override string Language
         {
             get { return "C#"; }
@@ -25,7 +31,7 @@ namespace Mono.Documentation.Updater.Formatters
             return buf;
         }
 
-        protected virtual string GetCSharpType(string t, IAttributeParserContext context = null)
+        protected virtual string GetCSharpType(string t)
         {
             // make sure there are no modifiers in the type string (add them back before returning)
             string typeToCompare = t;
@@ -56,18 +62,6 @@ namespace Mono.Documentation.Updater.Formatters
                 case "System.Void": typeToCompare = "void"; break;
                 case "System.String": typeToCompare = "string"; break;
                 case "System.Object": typeToCompare = "object"; break;
-                case "System.IntPtr":
-                    if (context != null && context.IsNativeInteger())
-                    {
-                        typeToCompare = "nint";
-                    }
-                    break;
-                case "System.UIntPtr":
-                    if (context != null && context.IsNativeInteger())
-                    {
-                        typeToCompare = "nuint";
-                    }
-                    break;
             }
 
             if (splitType != null)
@@ -95,7 +89,13 @@ namespace Mono.Documentation.Updater.Formatters
                 return base.AppendTypeName (buf, type, context);
             }
 
-            string s = GetCSharpType (t, context);
+            if (nativeIntTypeMap.TryGetValue(t, out string typeName) && context.IsNativeInteger())
+            {
+                return buf.Append(typeName);
+            }
+            
+            string s = GetCSharpType (t);
+
             if (s != null)
             {
                 context.NextDynamicFlag();
