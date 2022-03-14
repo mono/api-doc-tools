@@ -122,21 +122,16 @@ namespace Mono.Documentation.Updater
 
         private T[] ReadCustomAttributeValue<T>(Func<T[]> init, string attributeName)
         {
-            if (provider != null && provider.HasCustomAttributes)
-            {
-                var customAttribute = provider.CustomAttributes.Where(attr => attr.AttributeType.FullName == attributeName).FirstOrDefault();
-                if (customAttribute != null)
-                {
-                    T[] result = init?.Invoke();
-                    if (customAttribute.HasConstructorArguments)
-                    {
-                        var constructorArgs = customAttribute.ConstructorArguments[0].Value as CustomAttributeArgument[];
-                        result = constructorArgs?.Select(arg => (T)arg.Value).ToArray();
-                    }
-                    return result;
-                }
-            }
-            return null;
+            if (provider == null || !provider.HasCustomAttributes) return null;
+
+            var customAttribute = provider.CustomAttributes.Where(attr => attr.AttributeType.FullName == attributeName).FirstOrDefault();
+
+            if (customAttribute == null) return null;
+
+            if (!customAttribute.HasConstructorArguments) return init?.Invoke();
+
+            var constructorArgs = customAttribute.ConstructorArguments[0].Value as CustomAttributeArgument[];
+            return constructorArgs?.Select(arg => (T)arg.Value).ToArray();
         }
     }
 }
