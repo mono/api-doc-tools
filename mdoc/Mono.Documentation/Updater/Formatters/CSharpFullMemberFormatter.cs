@@ -95,7 +95,6 @@ namespace Mono.Documentation.Updater.Formatters
             }
             
             string s = GetCSharpType (t);
-
             if (s != null)
             {
                 context.NextDynamicFlag();
