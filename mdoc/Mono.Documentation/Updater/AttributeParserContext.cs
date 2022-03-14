@@ -109,7 +109,7 @@ namespace Mono.Documentation.Updater
         private void ReadTupleElementNames()
         {
             tupleElementNames = ReadCustomAttributeValue<string>(
-                () => null,
+                null,
                 Consts.TupleElementNamesAttribute);
         }
 
@@ -127,7 +127,7 @@ namespace Mono.Documentation.Updater
                 var customAttribute = provider.CustomAttributes.Where(attr => attr.AttributeType.FullName == attributeName).FirstOrDefault();
                 if (customAttribute != null)
                 {
-                    T[] result = init();
+                    T[] result = init?.Invoke();
                     if (customAttribute.HasConstructorArguments)
                     {
                         var constructorArgs = customAttribute.ConstructorArguments[0].Value as CustomAttributeArgument[];
