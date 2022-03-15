@@ -108,19 +108,17 @@ namespace Mono.Documentation.Updater
 
         private void ReadTupleElementNames()
         {
-            tupleElementNames = ReadCustomAttributeValue<string>(
-                null,
-                Consts.TupleElementNamesAttribute);
+            tupleElementNames = ReadCustomAttributeValue<string>(Consts.TupleElementNamesAttribute);
         }
 
         private void ReadNativeIntegerAttribute()
         {
             nativeIntegerFlags = ReadCustomAttributeValue<bool>(
-                () => new bool[] { true },
-                Consts.NativeIntegerAttribute);
+                Consts.NativeIntegerAttribute,
+                () => new bool[] { true });
         }
 
-        private T[] ReadCustomAttributeValue<T>(Func<T[]> init, string attributeName)
+        private T[] ReadCustomAttributeValue<T>(string attributeName, Func<T[]> init = null)
         {
             if (provider == null || !provider.HasCustomAttributes) return null;
 
