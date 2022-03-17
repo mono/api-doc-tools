@@ -445,7 +445,7 @@ namespace mdoc.Test
         }
 
         [TestCase("TupleMethod", "public (int a, int, int b) TupleMethod ((int, int) t1, (int b, int c, int d) t2, (int, int) t3);")]
-        [TestCase("RecursiveTupleMethod", "public ((int a, long b) c,int d) RecursiveTupleMethod ((((int a, long) b, string c) d,(int e, (float f, float g) h) i, int j) t);")]
+        [TestCase("RecursiveTupleMethod", "public ((int a, long b) c, int d) RecursiveTupleMethod ((((int a, long) b, string c) d, (int e, (float f, float g) h) i, int j) t);")]
         public void CSharpTupleNamesMethodTest(string methodName, string expectedSignature)
         {
             var method = GetMethod(typeof(SampleClasses.TupleNamesTestClass<,>), m => m.Name == methodName);
