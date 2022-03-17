@@ -163,7 +163,7 @@ namespace Mono.Documentation.Updater.Formatters
                     genArgTypeList.Add (underlyingTypeName);
                 }
                 var genArgList = genInst.GenericArguments.Select((_, index) => string.Format("{0}{1}", genArgTypeList[index], genArgNameList[index] == null ? String.Empty : (" " + genArgNameList[index])));
-                buf.Append (string.Join (",", genArgList));
+                buf.Append (string.Join (", ", genArgList));
                 buf.Append (")");
                 return buf;
             }
