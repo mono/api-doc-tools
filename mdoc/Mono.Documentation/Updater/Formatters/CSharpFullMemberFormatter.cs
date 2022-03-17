@@ -12,7 +12,7 @@ namespace Mono.Documentation.Updater.Formatters
         public CSharpFullMemberFormatter() : this(null) {}
         public CSharpFullMemberFormatter(TypeMap map) : base(map) { }
 
-        private static readonly Dictionary<string, string> nativeIntTypeMap = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> NativeIntTypeMap = new Dictionary<string, string>()
         {
             { "System.IntPtr", "nint" },
             { "System.UIntPtr", "nuint" },
@@ -89,7 +89,7 @@ namespace Mono.Documentation.Updater.Formatters
                 return base.AppendTypeName (buf, type, context);
             }
 
-            if (nativeIntTypeMap.TryGetValue(t, out string typeName) && context.IsNativeInteger())
+            if (NativeIntTypeMap.TryGetValue(t, out string typeName) && context.IsNativeInteger())
             {
                 return buf.Append(typeName);
             }
