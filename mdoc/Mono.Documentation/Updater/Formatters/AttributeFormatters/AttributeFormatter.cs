@@ -118,7 +118,7 @@ namespace Mono.Documentation.Updater.Formatters
 
         private bool IsIgnoredAttribute(CustomAttribute customAttribute)
         {
-            TypeDefinition attrType = customAttribute.AttributeType as TypeDefinition;
+            var attrType = customAttribute.AttributeType;
 
             if (attrType == null) return true;
 
@@ -138,8 +138,9 @@ namespace Mono.Documentation.Updater.Formatters
                 return false;
             }
 
-            if (!DocUtils.IsPublic(attrType) || (FormatterManager.SlashdocFormatter.GetName(customAttribute.AttributeType) == null)
-                || Array.IndexOf(IgnorableAttributes, customAttribute.AttributeType.FullName) >= 0)
+            var attrTypeDef = attrType as TypeDefinition;
+            if (attrTypeDef != null && !DocUtils.IsPublic(attrTypeDef) || (FormatterManager.SlashdocFormatter.GetName(attrType) == null)
+                || Array.IndexOf(IgnorableAttributes, attrType.FullName) >= 0)
             {
                 return true;
             }
