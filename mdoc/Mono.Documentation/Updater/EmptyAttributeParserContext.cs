@@ -31,5 +31,10 @@
         {
             return null;
         }
+
+        public bool IsNativeInteger()
+        {
+            return false;
+        }
     }
 }

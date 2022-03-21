@@ -12,6 +12,12 @@ namespace Mono.Documentation.Updater.Formatters
         public CSharpFullMemberFormatter() : this(null) {}
         public CSharpFullMemberFormatter(TypeMap map) : base(map) { }
 
+        private static readonly Dictionary<string, string> NativeIntTypeMap = new Dictionary<string, string>()
+        {
+            { "System.IntPtr", "nint" },
+            { "System.UIntPtr", "nuint" },
+        };
+
         public override string Language
         {
             get { return "C#"; }
@@ -25,7 +31,7 @@ namespace Mono.Documentation.Updater.Formatters
             return buf;
         }
 
-        protected virtual string GetCSharpType (string t)
+        protected virtual string GetCSharpType(string t)
         {
             // make sure there are no modifiers in the type string (add them back before returning)
             string typeToCompare = t;
@@ -83,6 +89,11 @@ namespace Mono.Documentation.Updater.Formatters
                 return base.AppendTypeName (buf, type, context);
             }
 
+            if (NativeIntTypeMap.TryGetValue(t, out string typeName) && context.IsNativeInteger())
+            {
+                return buf.Append(typeName);
+            }
+            
             string s = GetCSharpType (t);
             if (s != null)
             {
@@ -152,7 +163,7 @@ namespace Mono.Documentation.Updater.Formatters
                     genArgTypeList.Add (underlyingTypeName);
                 }
                 var genArgList = genInst.GenericArguments.Select((_, index) => string.Format("{0}{1}", genArgTypeList[index], genArgNameList[index] == null ? String.Empty : (" " + genArgNameList[index])));
-                buf.Append (string.Join (",", genArgList));
+                buf.Append (string.Join (", ", genArgList));
                 buf.Append (")");
                 return buf;
             }

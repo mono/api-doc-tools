@@ -77,15 +77,6 @@ namespace Mono.Documentation.Updater.Formatters
                 return false;
             }
 
-            TypeDefinition attrType = attribute.AttributeType as TypeDefinition;
-            if (attrType != null && !DocUtils.IsPublic(attrType)
-                || (FormatterManager.SlashdocFormatter.GetName(attribute.AttributeType) == null)
-                || Array.IndexOf(IgnorableAttributes, attribute.AttributeType.FullName) >= 0)
-            {
-                rval = null;
-                return false;
-            }
-
             var fields = new List<string>();
 
             for (int i = 0; i < attribute.ConstructorArguments.Count; ++i)
@@ -127,11 +118,34 @@ namespace Mono.Documentation.Updater.Formatters
 
         private bool IsIgnoredAttribute(CustomAttribute customAttribute)
         {
+            var attrType = customAttribute.AttributeType;
+
+            if (attrType == null) return true;
+
             // An Obsolete attribute with a known string is added to all ref-like structs
             // https://github.com/dotnet/csharplang/blob/master/proposals/csharp-7.2/span-safety.md#metadata-representation-or-ref-like-structs
-            return customAttribute.AttributeType.FullName == typeof(ObsoleteAttribute).FullName
+            if (attrType.FullName == typeof(ObsoleteAttribute).FullName
                 && customAttribute.HasConstructorArguments
-                && customAttribute.ConstructorArguments.First().Value.ToString() == Consts.RefTypeObsoleteString;
+                && customAttribute.ConstructorArguments.First().Value.ToString() == Consts.RefTypeObsoleteString)
+            {
+                return true;
+            }
+
+            // Expose this attribute in ECMAXML to let ECMA2YML pick up
+            // https://ceapex.visualstudio.com/Engineering/_workitems/edit/550401
+            if (attrType.FullName == Consts.NativeIntegerAttribute)
+            {
+                return false;
+            }
+
+            var attrTypeDef = attrType as TypeDefinition;
+            if (attrTypeDef != null && !DocUtils.IsPublic(attrTypeDef) || (FormatterManager.SlashdocFormatter.GetName(attrType) == null)
+                || Array.IndexOf(IgnorableAttributes, attrType.FullName) >= 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         // FIXME: get TypeReferences instead of string comparison?

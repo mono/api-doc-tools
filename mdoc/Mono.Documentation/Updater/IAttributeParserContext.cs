@@ -6,5 +6,6 @@
         bool IsDynamic();
         bool IsNullable();
         string GetTupleElementName();
+        bool IsNativeInteger();
     }
 }
