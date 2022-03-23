@@ -3997,7 +3997,7 @@ namespace Mono.Documentation
                     xelement.RemoveAttribute(Consts.Index);
                     xelement.SetAttribute(Consts.Index, i.ToString());
                     xelement.SetAttribute (Consts.FrameworkAlternate, fxaValue);
-                    
+                    MakeParamsAttributes(xelement, AttributeFormatter.PreProcessCustomAttributes(p.Definition.CustomAttributes), typeEntry, member);
                     continue;
                 }
                 else {
