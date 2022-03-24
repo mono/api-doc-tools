@@ -26,5 +26,15 @@
         {
             return false;
         }
+
+        public string GetTupleElementName()
+        {
+            return null;
+        }
+
+        public bool IsNativeInteger()
+        {
+            return false;
+        }
     }
 }

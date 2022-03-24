@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using mdoc.Test.SampleClasses;
 using Mono.Cecil;
-using Mono.Cecil.Rocks;
 using Mono.Collections.Generic;
 using Mono.Documentation;
 using Mono.Documentation.Updater;
@@ -29,6 +27,16 @@ namespace mdoc.Test
             Assert.AreEqual(1, attributes.Count);
 
             Assert.IsFalse(formatter.TryGetAttributeString(attributes.First(), out string rval));
+        }
+
+        [Test]
+        public void Test_GetCustomAttributes_EmitNativeIntegerAttribute()
+        {
+            var method = GetMethod(typeof(SampleClasses.NativeIntClass), "Method1");
+            static CustomAttribute GetNativeIntegerAttr(ParameterDefinition p) => p?.CustomAttributes.Where(attr => attr.AttributeType.FullName == Consts.NativeIntegerAttribute).FirstOrDefault();
+            Assert.IsNotNull(GetNativeIntegerAttr(method.Parameters[0]));
+            Assert.IsTrue(formatter.TryGetAttributeString(GetNativeIntegerAttr(method.Parameters[0]), out string rval));
+            Assert.IsNull(GetNativeIntegerAttr(method.Parameters[2]));
         }
 
         [Test]

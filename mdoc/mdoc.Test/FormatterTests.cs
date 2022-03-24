@@ -297,7 +297,7 @@ namespace mdoc.Test
             var member = GetMethod(typeof(NullablesAndTuples), m => m.Name == "TupleReturn");
             var formatter = new CSharpFullMemberFormatter();
             var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public (int,string) TupleReturn ();", sig);
+            Assert.AreEqual("public (int, string) TupleReturn ();", sig);
         }
 
         [Test]
@@ -416,6 +416,69 @@ namespace mdoc.Test
         public void CSharpReadOnlyMemberStructTest(string methodName, string expectedSignature)
         {
             var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name.Contains(methodName));
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
+        [Test]
+        public void CSharpTupleNamesTypeTest()
+        {
+            var type = GetType(typeof(SampleClasses.TupleNamesTestClass<,>));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public class TupleNamesTestClass<T1,T2> : IComparable<(T1, T2)>", typeSignature);
+        }
+
+        [Test]
+        public void CSharpTupleNamesPropertyTest()
+        {
+            var property = GetProperty(typeof(SampleClasses.TupleNamesTestClass<,>), m => m.Name == "TuplePropertyType");
+            var propertySignature = formatter.GetDeclaration(property);
+            Assert.AreEqual("public (int a, int b) TuplePropertyType { get; }", propertySignature);
+        }
+
+        [Test]
+        public void CSharpTupleNamesFieldTest()
+        {
+            var field = GetField(GetType(typeof(SampleClasses.TupleNamesTestClass<,>)), "TupleField");
+            var fieldSignature = formatter.GetDeclaration(field);
+            Assert.AreEqual("public (int a, int b, int c) TupleField;", fieldSignature);
+        }
+
+        [TestCase("TupleMethod", "public (int a, int, int b) TupleMethod ((int, int) t1, (int b, int c, int d) t2, (int, int) t3);")]
+        [TestCase("RecursiveTupleMethod", "public ((int a, long b) c, int d) RecursiveTupleMethod ((((int a, long) b, string c) d, (int e, (float f, float g) h) i, int j) t);")]
+        public void CSharpTupleNamesMethodTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.TupleNamesTestClass<,>), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
+        [TestCase("Property1", "public int Property1 { get; set; }")]
+        [TestCase("Property2", "public int Property2 { get; init; }")]
+        [TestCase("Property3", "public int Property3 { get; protected init; }")]
+        [TestCase("Item", "public int this[int index] { get; init; }")]
+        public void CSharpInitOnlySetterTest(string propertyName, string expectedSignature)
+        {
+            var property = GetProperty(typeof(SampleClasses.InitOnlySetter), p => p.Name == propertyName);
+            var propertySignature = formatter.GetDeclaration(property);
+            Assert.AreEqual(expectedSignature, propertySignature);
+        }
+
+        [Test]
+        public void CSharpNativeIntGenericTypeTest()
+        {
+            var type = GetType(typeof(SampleClasses.GenericNativeIntClass<>));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public class GenericNativeIntClass<nint>", typeSignature);
+        }
+
+        [TestCase("Method1", "public (nint, nuint) Method1 (nint a, nuint b, IntPtr c, UIntPtr d);")]
+        [TestCase("Method2", "public (nint, nuint) Method2 (List<nint> a, Dictionary<int,nuint> b);")]
+        [TestCase("Method3", "public (nint, nuint) Method3 ((nint, nuint) a, (nuint, IntPtr) b, (UIntPtr, string) c);")]
+        [TestCase("Method4", "public (((nint a, IntPtr) b, UIntPtr c) d, (nint e, (nuint f, IntPtr g) h) i) Method4 ();")]
+        public void CSharpNativeIntMethodTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.NativeIntClass), m => m.Name == methodName);
             var methodSignature = formatter.GetDeclaration(method);
             Assert.AreEqual(expectedSignature, methodSignature);
         }

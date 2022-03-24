@@ -3,6 +3,7 @@ using Mono.Cecil;
 using Mono.Documentation.Util;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Mono.Documentation.Updater
 {
@@ -10,9 +11,13 @@ namespace Mono.Documentation.Updater
     {
         private int nullableAttributeIndex;
         private int dynamicAttributeIndex;
+        private int tupleNameAttributeIndex;
+        private int nativeIntegerAttributeIndex;
         private ICustomAttributeProvider provider;
         private ReadOnlyCollection<bool?> nullableAttributeFlags;
         private ReadOnlyCollection<bool> dynamicAttributeFlags;
+        private string[] tupleElementNames;
+        private bool[] nativeIntegerFlags;
 
         private AttributeParserContext(ICustomAttributeProvider provider)
         {
@@ -20,6 +25,8 @@ namespace Mono.Documentation.Updater
 
             ReadDynamicAttribute();
             ReadNullableAttribute();
+            ReadTupleElementNames();
+            ReadNativeIntegerAttribute();
         }
 
         private bool ExistsNullableAttribute
@@ -73,6 +80,16 @@ namespace Mono.Documentation.Updater
             return false;
         }
 
+        public string GetTupleElementName()
+        {
+            return (tupleElementNames == null || tupleNameAttributeIndex >= tupleElementNames.Length) ? null : tupleElementNames[tupleNameAttributeIndex++];
+        }
+
+        public bool IsNativeInteger()
+        {
+            return nativeIntegerFlags != null && nativeIntegerAttributeIndex < nativeIntegerFlags.Length && nativeIntegerFlags[nativeIntegerAttributeIndex++];
+        }
+
         private void ReadDynamicAttribute()
         {
             DynamicTypeProvider dynamicTypeProvider = new DynamicTypeProvider(provider);
@@ -87,6 +104,32 @@ namespace Mono.Documentation.Updater
         {
             NullableReferenceTypeProvider nullableReferenceTypeProvider = new NullableReferenceTypeProvider(provider);
             nullableAttributeFlags = new ReadOnlyCollection<bool?>(nullableReferenceTypeProvider.GetNullableReferenceTypeFlags());
+        }
+
+        private void ReadTupleElementNames()
+        {
+            tupleElementNames = ReadCustomAttributeValue<string>(Consts.TupleElementNamesAttribute);
+        }
+
+        private void ReadNativeIntegerAttribute()
+        {
+            nativeIntegerFlags = ReadCustomAttributeValue<bool>(
+                Consts.NativeIntegerAttribute,
+                () => new bool[] { true });
+        }
+
+        private T[] ReadCustomAttributeValue<T>(string attributeName, Func<T[]> init = null)
+        {
+            if (provider == null || !provider.HasCustomAttributes) return null;
+
+            var customAttribute = provider.CustomAttributes.Where(attr => attr.AttributeType.FullName == attributeName).FirstOrDefault();
+
+            if (customAttribute == null) return null;
+
+            if (!customAttribute.HasConstructorArguments) return init?.Invoke();
+
+            var constructorArgs = customAttribute.ConstructorArguments[0].Value as CustomAttributeArgument[];
+            return constructorArgs?.Select(arg => (T)arg.Value).ToArray();
         }
     }
 }
