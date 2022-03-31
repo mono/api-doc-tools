@@ -677,8 +677,7 @@ namespace Mono.Documentation.Updater.Formatters
 
             if (parameterType is RequiredModifierType requiredModifierType)
             {
-                var modifier = requiredModifierType.ModifierType.FullName;
-                switch(modifier)
+                switch(requiredModifierType.ModifierType.FullName)
                 {
                     case Consts.InAttribute: isIn = true; break;
                     case Consts.OutAttribute: isOut = true; break;

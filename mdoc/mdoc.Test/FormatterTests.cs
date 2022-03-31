@@ -486,6 +486,8 @@ namespace mdoc.Test
         [TestCase("UnsafeCombine", "public static R UnsafeCombine<T1,T2,R> (delegate*<T1, T2, R> combinator, T1 left, T2 right);")]
         [TestCase("UnsafeCombine1", "public static R UnsafeCombine1<T1,T2,R> (delegate* unmanaged[Cdecl]<T1, T2, R> combinator, T1 left, T2 right);")]
         [TestCase("UnsafeCombine2", "public static R UnsafeCombine2<T1,T2,T3,R> (delegate* unmanaged[Stdcall]<ref T1, in T2, out T3, R> combinator, T1 left, T2 right, T3 outVar);")]
+        [TestCase("UnsafeCombine3", "public static R UnsafeCombine3<T1,T2,R> (delegate* unmanaged[Fastcall]<T1, T2, ref R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine4", "public static R UnsafeCombine4<T1,T2,R> (delegate* unmanaged[Thiscall]<T1, T2, ref readonly R> combinator, T1 left, T2 right);")]
         public void CSharpFuctionPointersTest(string methodName, string expectedSignature)
         {
             var method = GetMethod(typeof(SampleClasses.FunctionPointers), m => m.Name == methodName);
