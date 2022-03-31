@@ -561,6 +561,66 @@ namespace Mono.Documentation.Updater.Formatters
             return base.AppendRequiredModifierTypeName(buf, type, context);
         }
 
+        protected override void AppendFunctionPointerTypeName(
+            StringBuilder buf, FunctionPointerType type, IAttributeParserContext context)
+        {
+            buf.Append("delegate*");
+
+            var callingConvention = GetCallingConvention(type);
+            if (callingConvention != MethodCallingConvention.Default.ToString())
+            {
+                buf.Append(" unmanaged");
+                if (!string.IsNullOrEmpty(callingConvention))
+                {
+                    buf.Append("[").Append(callingConvention).Append("]");
+                }
+            }
+
+            buf.Append("<");
+            if (type.Parameters?.Count > 0)
+            {
+                AppendParameters(buf, type.Parameters);
+                buf.Append(", ");
+            }
+            AppendReturnTypeName(buf, type, true);
+            buf.Append(">");
+        }
+
+        private string GetCallingConvention(FunctionPointerType type)
+        {
+            var callingConvention = type.CallingConvention.ToString("D");
+            if (callingConvention != "9")
+            {
+                return NormalizeCallingConvention(type.CallingConvention);
+            }
+            else
+            {
+                StringBuilder buf = new StringBuilder();
+                AssembleCallingConvention(type.ReturnType, buf);
+                return buf.ToString();
+            }
+        }
+
+        private string NormalizeCallingConvention(MethodCallingConvention callingConvention)
+        {
+            if (callingConvention == MethodCallingConvention.C) return "Cdecl";
+            var callConv = callingConvention.ToString().ToLower();
+            return char.ToUpper(callConv[0]) + callConv.Substring(1);
+        }
+
+        private void AssembleCallingConvention(TypeReference type, StringBuilder buf)
+        {
+            if (!(type is OptionalModifierType optionalModifierType)) return;
+
+            var modifier = optionalModifierType.ModifierType.FullName;
+            if (modifier.StartsWith(Consts.CallConvPrefix))
+            {
+                if (!string.IsNullOrEmpty(buf.ToString())) buf.Append(", ");
+                buf.Append(modifier.Substring(Consts.CallConvPrefix.Length));
+                AssembleCallingConvention(optionalModifierType.ElementType, buf);
+            }           
+        }
+
         protected override StringBuilder AppendGenericMethod (StringBuilder buf, MethodDefinition method)
         {
             if (method.IsGenericMethod ())
@@ -591,42 +651,59 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (DocUtils.IsExtensionMethod (method))
                     buf.Append ("this ");
-                AppendParameter (buf, parameters[0]);
-                for (int i = 1; i < parameters.Count; ++i)
-                {
-                    buf.Append (", ");
-                    AppendParameter (buf, parameters[i]);
-                }
+                AppendParameters(buf, parameters);
             }
 
             return buf.Append (end);
         }
 
+        private void AppendParameters(StringBuilder buf, IList<ParameterDefinition> parameters)
+        {
+            if (parameters == null || parameters.Count == 0) return; 
+            AppendParameter(buf, parameters[0]);
+            for (int i = 1; i < parameters.Count; ++i)
+            {
+                buf.Append(", ");
+                AppendParameter(buf, parameters[i]);
+            }
+        }
+
         private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
             TypeReference parameterType = parameter.ParameterType;
+            bool isIn = false;
+            bool isOut = false;
+            bool isRef = false;
 
             if (parameterType is RequiredModifierType requiredModifierType)
             {
+                var modifier = requiredModifierType.ModifierType.FullName;
+                switch(modifier)
+                {
+                    case Consts.InAttribute: isIn = true; break;
+                    case Consts.OutAttribute: isOut = true; break;
+                }
                 parameterType = requiredModifierType.ElementType;
             }
-
             if (parameterType is ByReferenceType byReferenceType)
             {
                 if (parameter.IsOut)
                 {
-                    buf.Append ("out ");
+                    isOut = true;
                 }
                 else if(parameter.IsIn && DocUtils.HasCustomAttribute(parameter, Consts.IsReadOnlyAttribute))
                 {
-                    buf.Append("in ");
+                    isIn = true;
                 }
                 else
                 {
-                    buf.Append("ref ");
+                    isRef = true;
                 }
                 parameterType = byReferenceType.ElementType;
             }
+
+            buf.Append(isIn ? "in " : (isOut ? "out " : (isRef ? "ref ": "")));
+
 
             if (parameter.HasCustomAttributes)
             {
@@ -639,8 +716,7 @@ namespace Mono.Documentation.Updater.Formatters
             var isNullableType = context.IsNullable ();
             buf.Append (GetTypeName (parameterType, context));
             buf.Append (GetTypeNullableSymbol (parameter.ParameterType, isNullableType));
-            buf.Append (" ");
-            buf.Append (parameter.Name);
+            buf.Append (string.IsNullOrEmpty(parameter.Name) ? "" : " " + parameter.Name);
 
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {

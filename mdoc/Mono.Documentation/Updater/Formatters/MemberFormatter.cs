@@ -131,6 +131,11 @@ namespace Mono.Documentation.Updater
             return AppendArrayModifiers (buf, (ArrayType)type);
         }
 
+        protected virtual void AppendFunctionPointerTypeName(StringBuilder buf, FunctionPointerType type, IAttributeParserContext context)
+        {
+            buf.Append("method");
+        }
+
         protected virtual bool ShouldStripModFromTypeName
         {
             get => true;
@@ -166,6 +171,11 @@ namespace Mono.Documentation.Updater
             if (type is PointerType)
             {
                 AppendPointerTypeName (interimBuilder, type, context);
+                return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
+            }
+            if (type is FunctionPointerType functionPointerType)
+            {
+                AppendFunctionPointerTypeName(interimBuilder, functionPointerType, context);
                 return SetBuffer(buf, interimBuilder, useTypeProjection: useTypeProjection);
             }
             if (type is GenericParameter)
@@ -562,15 +572,14 @@ namespace Mono.Documentation.Updater
         }
 
 
-        private StringBuilder AppendReturnTypeName (StringBuilder buf, MethodDefinition method)
+        protected StringBuilder AppendReturnTypeName (StringBuilder buf, IMethodSignature method, bool noTrailingSpace = false)
         {
             var context = AttributeParserContext.Create (method.MethodReturnType);
             var isNullableType = context.IsNullable ();
             var returnTypeName = GetTypeName (method.ReturnType, context);
             buf.Append (returnTypeName);
             buf.Append (GetTypeNullableSymbol (method.ReturnType, isNullableType));
-            buf.Append (" ");
-
+            buf.Append (noTrailingSpace ? "" : " ");
             return buf;
         }
 

@@ -483,6 +483,16 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, methodSignature);
         }
 
+        [TestCase("UnsafeCombine", "public static R UnsafeCombine<T1,T2,R> (delegate*<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine1", "public static R UnsafeCombine1<T1,T2,R> (delegate* unmanaged[Cdecl]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine2", "public static R UnsafeCombine2<T1,T2,T3,R> (delegate* unmanaged[Stdcall]<ref T1, in T2, out T3, R> combinator, T1 left, T2 right, T3 outVar);")]
+        public void CSharpFuctionPointersTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.FunctionPointers), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
