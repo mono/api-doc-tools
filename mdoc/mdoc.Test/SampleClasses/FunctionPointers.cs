@@ -1,4 +1,6 @@
-﻿namespace mdoc.Test.SampleClasses
+﻿using System.Collections.Generic;
+
+namespace mdoc.Test.SampleClasses
 {
     public class FunctionPointers
     {
@@ -16,5 +18,11 @@
 
         public unsafe static R UnsafeCombine4<T1, T2, R>(delegate* unmanaged[Thiscall]<T1, T2, ref readonly R> combinator, T1 left, T2 right) =>
 combinator(left, right);
+
+        public unsafe static void UnsafeCombine5(delegate* unmanaged[Cdecl]<void> combinator) => combinator();
+
+        public unsafe static void UnsafeCombine6(delegate*<delegate* unmanaged[Fastcall]<string, int>, delegate*<string, int>> combinator) => combinator(null);
+
+        public unsafe static delegate*<delegate* unmanaged[Thiscall]<string, int>, delegate*<string, int>> UnsafeCombine7() => throw null;
     }
 }
