@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace mdoc.Test.SampleClasses
+﻿namespace mdoc.Test.SampleClasses
 {
     public class FunctionPointers
     {

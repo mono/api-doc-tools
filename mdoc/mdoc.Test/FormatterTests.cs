@@ -498,6 +498,20 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, methodSignature);
         }
 
+        [TestCase("UnsafeCombine1", "public static R UnsafeCombine1<T1,T2,R> (delegate* unmanaged<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine2", "public static R UnsafeCombine2<T1,T2,R> (delegate* unmanaged[Cdecl, SuppressGCTransition]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine3", "public static R UnsafeCombine3<T1,T2,R> (delegate* unmanaged[Stdcall, MemberFunction]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine4", "public static void UnsafeCombine4 (delegate*<delegate* unmanaged[Cdecl, Fastcall]<string, int>, delegate*<string, int>> combinator);")]
+        [TestCase("UnsafeCombine5", "public static delegate* unmanaged[Cdecl, Fastcall]<delegate* unmanaged[Thiscall, MemberFunction]<string, int>, delegate*<string, int>> UnsafeCombine5 ();")]
+        public void CSharpFuctionPointersUnmanagedExtTest(string methodName, string expectedSignature)
+        {
+            var functionPointersDllPath = "../../../../external/Test/FunctionPointersTest.dll";
+            var type = GetType(functionPointersDllPath, "FunctionPointersTest.FunctionPointers");
+            var method = GetMethod(type, m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
