@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil;
 using Mono.Documentation.Util;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -589,6 +590,7 @@ namespace Mono.Documentation.Updater.Formatters
         private string GetCallingConvention(FunctionPointerType type)
         {
             var callingConvention = type.CallingConvention.ToString("D");
+            // Cecil lib uses "9" to stands for "Unmanaged Ext"
             if (callingConvention != "9")
             {
                 return NormalizeCallingConvention(type.CallingConvention);
@@ -671,16 +673,15 @@ namespace Mono.Documentation.Updater.Formatters
         private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
             TypeReference parameterType = parameter.ParameterType;
-            bool isIn = false;
-            bool isOut = false;
-            bool isRef = false;
+            var refType = new BitArray(3);
 
             if (parameterType is RequiredModifierType requiredModifierType)
             {
                 switch(requiredModifierType.ModifierType.FullName)
                 {
-                    case Consts.InAttribute: isIn = true; break;
-                    case Consts.OutAttribute: isOut = true; break;
+                    case Consts.InAttribute: refType.Set(0, true); break;
+                    case Consts.OutAttribute: refType.Set(1, true); break;
+                    default: break;
                 }
                 parameterType = requiredModifierType.ElementType;
             }
@@ -688,21 +689,20 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (parameter.IsOut)
                 {
-                    isOut = true;
+                    refType.Set(1, true);
                 }
                 else if(parameter.IsIn && DocUtils.HasCustomAttribute(parameter, Consts.IsReadOnlyAttribute))
                 {
-                    isIn = true;
+                    refType.Set(0, true);
                 }
                 else
                 {
-                    isRef = true;
+                    refType.Set(2, true);
                 }
                 parameterType = byReferenceType.ElementType;
             }
 
-            buf.Append(isIn ? "in " : (isOut ? "out " : (isRef ? "ref ": "")));
-
+            buf.Append(refType.Get(0) ? "in " : (refType.Get(1) ? "out " : (refType.Get(2) ? "ref ": "")));
 
             if (parameter.HasCustomAttributes)
             {
