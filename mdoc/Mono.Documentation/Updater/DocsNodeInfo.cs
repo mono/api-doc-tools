@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.Web;
 
 using Mono.Cecil;
 
@@ -13,6 +14,8 @@ namespace Mono.Documentation.Updater
         public DocsNodeInfo (XmlElement node)
         {
             this.Node = node;
+            //if (node != null && node.InnerText != null)
+            //    this.Node.InnerText = HttpUtility.HtmlDecode(node.InnerText);
         }
 
         public DocsNodeInfo (XmlElement node, TypeDefinition type)

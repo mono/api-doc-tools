@@ -573,14 +573,36 @@ namespace Mono.Documentation
             return assembly;
         }
 
-        private static void WriteXml (XmlElement element, System.IO.TextWriter output)
+        private static void WriteXml(XmlElement element, System.IO.TextWriter output)
         {
-            OrderTypeAttributes (element);
-            XmlTextWriter writer = new XmlTextWriter (output);
+            OrderTypeAttributes(element);
+            XmlTextWriter writer = new XmlTextWriter(output);
             writer.Formatting = Formatting.Indented;
             writer.Indentation = 2;
             writer.IndentChar = ' ';
-            element.WriteTo (writer);
+            writer.WriteRaw(System.Web.HttpUtility.HtmlDecode(System.Web.HttpUtility.HtmlDecode(element.OuterXml)));
+            //element.InnerXml = System.Web.HttpUtility.HtmlDecode(System.Web.HttpUtility.HtmlDecode(element.InnerXml));
+            //element.WriteTo(writer);
+            output.WriteLine();
+        }
+
+        private static void WriteXmlDraft(XmlElement element, System.IO.TextWriter output)
+        {
+            OrderTypeAttributes (element);
+
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                Indent = true,
+                IndentChars = " ",
+                //Indentation = 2,
+                NewLineChars = Environment.NewLine,
+                NewLineHandling = NewLineHandling.Replace
+            };
+            XmlWriter writer = XmlWriter.Create(output, settings);
+
+            writer.WriteRaw(System.Web.HttpUtility.HtmlDecode(System.Web.HttpUtility.HtmlDecode(element.OuterXml)));
+            //writer.WriteRaw(System.Web.HttpUtility.HtmlDecode(System.Web.HttpUtility.HtmlDecode(element.OuterXml)).Replace(System.Environment.NewLine, "<br />"));
+            //writer.WriteRaw(element.OuterXml.Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">"));
             output.WriteLine ();
         }
 
@@ -3337,6 +3359,11 @@ namespace Mono.Documentation
             bool returnisreturn = info.ReturnIsReturn;
             XmlElement e = info.Node;
             bool addremarks = info.AddRemarks;
+
+            //e.InnerXml = System.Web.HttpUtility.HtmlDecode(e.InnerXml);
+
+            //foreach (XmlElement node in e.ChildNodes)
+            //    node.InnerXml = System.Web.HttpUtility.HtmlDecode(node.InnerXml);
 
             WriteElementInitialText (e, "summary", "To be added.");
 
