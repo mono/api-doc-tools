@@ -1,4 +1,5 @@
 ﻿using Mono.Cecil;
+using Mono.Documentation.Updater.Formatters;
 using Mono.Documentation.Util;
 using System;
 using System.Collections.Generic;
@@ -133,7 +134,65 @@ namespace Mono.Documentation.Updater
 
         protected virtual void AppendFunctionPointerTypeName(StringBuilder buf, FunctionPointerType type, IAttributeParserContext context)
         {
-            buf.Append("method");
+            buf.Append("delegate*");
+
+            var callingConvention = GetCallingConvention(type);
+            if (callingConvention != MethodCallingConvention.Default.ToString())
+            {
+                buf.Append(" unmanaged");
+                if (!string.IsNullOrEmpty(callingConvention))
+                {
+                    buf.Append("[").Append(callingConvention).Append("]");
+                }
+            }
+
+            buf.Append("<");
+            if (type.Parameters?.Count > 0)
+            {
+                for (int i = 0; i < type.Parameters.Count; i++)
+                {
+                    AppendParameter(buf, type.Parameters[i]);
+                    buf.Append(", ");
+                }
+            }
+            AppendReturnTypeName(buf, type, true);
+            buf.Append(">");
+        }
+
+        private string GetCallingConvention(FunctionPointerType type)
+        {
+            var callingConvention = type.CallingConvention.ToString("D");
+            // Cecil lib uses "9" to stands for "Unmanaged Ext"
+            if (callingConvention != "9")
+            {
+                return NormalizeCallingConvention(type.CallingConvention);
+            }
+            else
+            {
+                StringBuilder buf = new StringBuilder();
+                AssembleCallingConvention(type.ReturnType, buf);
+                return buf.ToString();
+            }
+        }
+
+        private string NormalizeCallingConvention(MethodCallingConvention callingConvention)
+        {
+            if (callingConvention == MethodCallingConvention.C) return "Cdecl";
+            var callConv = callingConvention.ToString().ToLower();
+            return char.ToUpper(callConv[0]) + callConv.Substring(1);
+        }
+
+        private void AssembleCallingConvention(TypeReference type, StringBuilder buf)
+        {
+            if (!(type is OptionalModifierType optionalModifierType)) return;
+
+            var modifier = optionalModifierType.ModifierType.FullName;
+            if (modifier.StartsWith(Consts.CallConvPrefix))
+            {
+                if (!string.IsNullOrEmpty(buf.ToString())) buf.Append(", ");
+                buf.Append(modifier.Substring(Consts.CallConvPrefix.Length));
+                AssembleCallingConvention(optionalModifierType.ElementType, buf);
+            }
         }
 
         protected virtual bool ShouldStripModFromTypeName
@@ -609,6 +668,11 @@ namespace Mono.Documentation.Updater
         }
 
         protected virtual StringBuilder AppendParameters (StringBuilder buf, MethodDefinition method, IList<ParameterDefinition> parameters)
+        {
+            return buf;
+        }
+
+        protected virtual StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameterDef)
         {
             return buf;
         }

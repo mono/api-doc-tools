@@ -440,7 +440,7 @@ namespace Mono.Documentation.Updater.Formatters
             return buf.Append (end);
         }
 
-        private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
             if (parameter.ParameterType is ByReferenceType)
             {
@@ -598,6 +598,11 @@ namespace Mono.Documentation.Updater.Formatters
                 .Append (e.Name);
 
             return buf.ToString ();
+        }
+
+        protected override void AppendFunctionPointerTypeName(StringBuilder buf, FunctionPointerType type, IAttributeParserContext context)
+        {
+            buf.Append("method");
         }
     }
 }

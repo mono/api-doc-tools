@@ -715,7 +715,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return buf.Append (end);
         }
 
-        protected virtual StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
            if (parameter.ParameterType is ByReferenceType)
             {

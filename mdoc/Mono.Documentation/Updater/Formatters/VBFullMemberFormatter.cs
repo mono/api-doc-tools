@@ -562,7 +562,7 @@ namespace Mono.Documentation.Updater
             return buf.Append(end);
         }
 
-        private StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
         {
             if (parameter.IsOptional)
             {

@@ -48,6 +48,18 @@ namespace mdoc.Test
 
             Assert.AreEqual("Mono_DocTest_Generic.GenericBase<U>", parameterType);
         }
+
+        [TestCase("UnsafeCombine", "delegate*<T1, T2, R>")]
+        [TestCase("UnsafeCombineOverload", "delegate*<IntPtr, UIntPtr, R>")]
+        public void Test_GetDocParameterType_CSharpFunctionPointer(string methodName, string expected)
+        {
+            var method = GetMethod(typeof(SampleClasses.FunctionPointers), methodName);
+
+            string parameterType = MDocUpdater.GetDocParameterType(method.Parameters[0].ParameterType);
+
+            Assert.AreEqual(expected, parameterType);
+        }
+
         [Test]
         public void Test_GetNamespace_IgnoredNamespaceGeneric()
         {
