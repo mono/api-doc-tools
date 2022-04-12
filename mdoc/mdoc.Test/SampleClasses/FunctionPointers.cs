@@ -1,11 +1,13 @@
-﻿namespace mdoc.Test.SampleClasses
+﻿using System;
+
+namespace mdoc.Test.SampleClasses
 {
     public class FunctionPointers
     {
         public unsafe static R UnsafeCombine<T1, T2, R>(delegate*<T1, T2, R> combinator, T1 left, T2 right) =>
     combinator(left, right);
 
-        public unsafe static R UnsafeCombineOverload<IntPtr, UIntPtr, R>(delegate*<IntPtr, UIntPtr, R> combinator, IntPtr left, UIntPtr right) =>
+        public unsafe static R UnsafeCombineOverload<R>(delegate*<IntPtr, UIntPtr, R> combinator, IntPtr left, UIntPtr right) =>
 combinator(left, right);
 
         public unsafe static R UnsafeCombine1<T1, T2, R>(delegate* unmanaged[Cdecl]<T1, T2, R> combinator, T1 left, T2 right) =>

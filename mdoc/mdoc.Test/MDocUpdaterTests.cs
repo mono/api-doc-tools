@@ -50,7 +50,7 @@ namespace mdoc.Test
         }
 
         [TestCase("UnsafeCombine", "delegate*<T1, T2, R>")]
-        [TestCase("UnsafeCombineOverload", "delegate*<IntPtr, UIntPtr, R>")]
+        [TestCase("UnsafeCombineOverload", "delegate*<System.IntPtr, System.UIntPtr, R>")]
         public void Test_GetDocParameterType_CSharpFunctionPointer(string methodName, string expected)
         {
             var method = GetMethod(typeof(SampleClasses.FunctionPointers), methodName);
