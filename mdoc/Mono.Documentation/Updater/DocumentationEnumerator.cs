@@ -141,8 +141,7 @@ namespace Mono.Documentation.Updater
                         isRefType = true; // this will be the case for generic parameter types
 
                     string paramType = GetReplacedString (
-                        // we need convert function pointer type back to "method" otherwise there will be a new member added.
-                        pis[i].ParameterType is FunctionPointerType ? "method" : MDocUpdater.GetDocParameterType (pis[i].ParameterType),
+                        MDocUpdater.GetDocParameterType (pis[i].ParameterType),
                         typeParams, docTypeParams);
 
                     // if magictypes, replace paramType to "classic value" ... so the comparison works
@@ -153,6 +152,9 @@ namespace Mono.Documentation.Updater
                     }
 
                     string xmlMemberType = member.Parameters[i];
+
+                    // After we support function pointers, "method" as type should be skipped and not be compared with current function pointer type.
+                    if (xmlMemberType == "method") continue;
 
                     // TODO: take into account extension method reftype
                     bool xmlIsRefType = xmlMemberType.Contains ('&');
