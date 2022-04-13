@@ -141,7 +141,8 @@ namespace Mono.Documentation.Updater
                         isRefType = true; // this will be the case for generic parameter types
 
                     string paramType = GetReplacedString (
-                        MDocUpdater.GetDocParameterType (pis[i].ParameterType),
+                        // we need convert function pointer type back to "method" otherwise there will be a new member added.
+                        pis[i].ParameterType is FunctionPointerType ? "method" : MDocUpdater.GetDocParameterType (pis[i].ParameterType),
                         typeParams, docTypeParams);
 
                     // if magictypes, replace paramType to "classic value" ... so the comparison works
