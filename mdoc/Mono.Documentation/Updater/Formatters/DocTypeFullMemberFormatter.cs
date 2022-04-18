@@ -1,4 +1,7 @@
-﻿namespace Mono.Documentation.Updater
+﻿using Mono.Cecil;
+using System.Text;
+
+namespace Mono.Documentation.Updater
 {
     class DocTypeFullMemberFormatter : MemberFormatter
     {
@@ -19,6 +22,11 @@
         protected override string NestedTypeSeparator
         {
             get { return "+"; }
+        }
+
+        protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameterDef)
+        {
+            return buf.Append(GetName(parameterDef.ParameterType, useTypeProjection: false, isTypeofOperator: false));
         }
     }
 }

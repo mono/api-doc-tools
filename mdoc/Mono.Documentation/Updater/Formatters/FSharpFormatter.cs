@@ -692,7 +692,7 @@ namespace Mono.Documentation.Updater
             return buf;
         }
 
-        private void AppendParameter(StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
         {
             bool isFSharpFunction = IsFSharpFunction(parameter.ParameterType);
             if (isFSharpFunction)
@@ -701,6 +701,7 @@ namespace Mono.Documentation.Updater
             buf.Append(typeName);
             if (isFSharpFunction)
                 buf.Append(")");
+            return buf;
         }
 
         protected override string GetPropertyDeclaration(PropertyDefinition property)

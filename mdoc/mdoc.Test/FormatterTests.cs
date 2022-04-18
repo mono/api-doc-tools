@@ -483,6 +483,35 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, methodSignature);
         }
 
+        [TestCase("UnsafeCombine", "public static R UnsafeCombine<T1,T2,R> (delegate*<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine1", "public static R UnsafeCombine1<T1,T2,R> (delegate* unmanaged[Cdecl]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine2", "public static R UnsafeCombine2<T1,T2,T3,R> (delegate* unmanaged[Stdcall]<ref T1, in T2, out T3, R> combinator, T1 left, T2 right, T3 outVar);")]
+        [TestCase("UnsafeCombine3", "public static R UnsafeCombine3<T1,T2,R> (delegate* unmanaged[Fastcall]<T1, T2, ref R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine4", "public static R UnsafeCombine4<T1,T2,R> (delegate* unmanaged[Thiscall]<T1, T2, ref readonly R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine5", "public static void UnsafeCombine5 (delegate* unmanaged[Cdecl]<void> combinator);")]
+        [TestCase("UnsafeCombine6", "public static void UnsafeCombine6 (delegate*<delegate* unmanaged[Fastcall]<string, int>, delegate*<string, int>> combinator);")]
+        [TestCase("UnsafeCombine7", "public static delegate*<delegate* unmanaged[Thiscall]<string, int>, delegate*<string, int>> UnsafeCombine7 ();")]
+        public void CSharpFuctionPointersTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.FunctionPointers), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
+        [TestCase("UnsafeCombine1", "public static R UnsafeCombine1<T1,T2,R> (delegate* unmanaged<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine2", "public static R UnsafeCombine2<T1,T2,R> (delegate* unmanaged[Cdecl, SuppressGCTransition]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine3", "public static R UnsafeCombine3<T1,T2,R> (delegate* unmanaged[Stdcall, MemberFunction]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine4", "public static void UnsafeCombine4 (delegate*<delegate* unmanaged[Cdecl, Fastcall]<string, int>, delegate*<string, int>> combinator);")]
+        [TestCase("UnsafeCombine5", "public static delegate* unmanaged[Cdecl, Fastcall]<delegate* unmanaged[Thiscall, MemberFunction]<string, int>, delegate*<string, int>> UnsafeCombine5 ();")]
+        public void CSharpFuctionPointersUnmanagedExtTest(string methodName, string expectedSignature)
+        {
+            var functionPointersDllPath = "../../../../external/Test/FunctionPointersTest.dll";
+            var type = GetType(functionPointersDllPath, "FunctionPointersTest.FunctionPointers");
+            var method = GetMethod(type, m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
