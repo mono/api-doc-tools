@@ -17,31 +17,20 @@ function Git-Init([string]$githubAccountName, [string]$githubAccountEmail)
     & git config --global user.email $githubAccountEmail
 }
 
-function Git-Clone([string]$repoUrl, [string]$xmlRepoPath, [string] $token, [string]$branch = "main") 
+function Git-Clone([string]$repoUrl, [string]$repoPath, [string] $token, [string]$branch = "main") 
 {
-	Write-Host 'git -c http.extraHeader="Authorization: Basic '$token'" clone '$repoUrl' '$xmlRepoPath' --depth 1 --shallow-submodules'
-	& git -c http.extraHeader="Authorization: Basic $token" clone -b $branch $repoUrl $xmlRepoPath --depth 1 --shallow-submodules
-	$branchList = & git branch
-	Write-Host $branchList
-	if(-not $branchList.contains("* $branch"))
-	{
-	    if($branchList.contains(" $branch"))
-		{
-			Write-Host "git checkout $branch"
-			& git checkout $branch
-		}
-		else
-		{
-			Write-Host "git checkout -b $branch"
-			& git checkout -b $branch
-		}
-	}
-}  
+	Write-Host 'git -c http.extraHeader="Authorization: Basic '$token'" clone -b '$branch' '$repoUrl' '$repoPath' --depth 1 --shallow-submodules'
+	& git -c http.extraHeader="Authorization: Basic $token" clone -b $branch $repoUrl $repoPath --depth 1 --shallow-submodules
+
+	Push-Location $xmlRepoPath
+	Write-Host | & git branch
+	Pop-Location
+}
 
 function Git-Push([string]$rootPath, [string] $token, [string] $commitMessage, [string]$branch = "main") 
 {
 	Push-Location $rootPath
-	
+
 	$result = & git status
 	if($result.Contains("nothing to commit"))
 	{
@@ -124,7 +113,7 @@ function Run($source_repo,$target_repo)
 	{
 		exit $lastexitcode
 	}
-
+	
 	Write-Host "==================== First to commit xml files"
 	$message = "CI Update 1 with build number " + $env:BUILD_BUILDNUMBER
 	Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
@@ -137,21 +126,21 @@ function Run($source_repo,$target_repo)
 		Remove-Item -Recurse -Force $xmlPath\*
 		Write-Host "Delete files done."
 	}
-
+	
 	Write-Host "==================== Run Mdoc(pr version) tool to generated xml files."
 	Run-Mdoc $prMdocPath $frameworksPath $xmlPath
 	if ($lastexitcode -ne 0)
 	{
 		exit $lastexitcode
 	}
-
+	
 	Write-Host "==================== Sencond to commit xml files"
 	$message = "CI Update 2 with build number " + $env:BUILD_BUILDNUMBER
 	Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
 	$commitid2 = & git rev-parse HEAD
 	Write-Host "Commit Id2: $commitid2"
 	Pop-Location
-
+	
 	Write-Host "==================== Compare two version xml files."
 	$shortCommitId1 = $commitid1.Substring(0, 7)
 	$shortCommitId2 = $commitid2.Substring(0, 7)
@@ -163,10 +152,10 @@ function Run($source_repo,$target_repo)
 	{
 		$compareUrl = $targetRepoUrl
 	}
-
+	
 	$compareUrl = $compareUrl + "/compare/"
 	$compareUrl = $compareUrl + "$shortCommitId1...$shortCommitId2/"
-
+	
 	Write-Host "Compare Url: $compareUrl"
 }
 
@@ -183,8 +172,10 @@ if([String]::IsNullOrEmpty($vstsTokenBase64))
 # Set download Paths
 $repoRoot = $($MyInvocation.MyCommand.Definition) | Split-Path | Split-Path
 $prMdocPath = "$repoRoot\bin\Release\mdoc.exe"
-$binPath = Join-Path "$repoRoot\TestCI" "\_bin"
-New-Item "TestCI\_bin" -Type Directory -Force
+
+$parentRoot = $repoRoot | Split-Path
+$binPath = Join-Path "$parentRoot\TestCI" "\_bin"
+New-Item $binPath -Type Directory -Force
 
 # Download Mdoc tool
 Write-Host "==================== Download Mdoc tool"
@@ -204,6 +195,6 @@ Expand-Archive -Path $mdocOutput -DestinationPath $binPath -Force
 Git-Init $githubOptionsAccountName $githubOptionsAccountEmail
 
 # Generate ecma xml files
-$params.source_repo.repo_root = Join-Path "$repoRoot\TestCI" $params.source_repo.repo_root
-$params.target_repo.repo_root = Join-Path "$repoRoot\TestCI" $params.target_repo.repo_root
+$params.source_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.source_repo.repo_root
+$params.target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.target_repo.repo_root
 Run $params.source_repo $params.target_repo
