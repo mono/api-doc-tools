@@ -22,7 +22,7 @@ function Git-Clone([string]$repoUrl, [string]$repoPath, [string] $token, [string
 	Write-Host 'git -c http.extraHeader="Authorization: Basic '$token'" clone -b '$branch' '$repoUrl' '$repoPath' --depth 1 --shallow-submodules'
 	& git -c http.extraHeader="Authorization: Basic $token" clone -b $branch $repoUrl $repoPath --depth 1 --shallow-submodules
 
-	Push-Location $xmlRepoPath
+	Push-Location $repoPath
 	Write-Host | & git branch
 	Pop-Location
 }
