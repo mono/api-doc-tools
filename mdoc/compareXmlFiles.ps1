@@ -49,8 +49,8 @@ function Run-Mdoc([string] $mdocPath, [string] $fwPath, [string] $xmlPath)
 	Write-Host "$mdocPath fx-bootstrap $fwPath"
 	& $mdocPath fx-bootstrap $fwPath
 
-	Write-Host "$mdocPath update -o $xmlPath -fx $fwPath -lang docid -index false --debug --delete -L 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\PublicAssemblies'  -L 'C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies' -L 'C:\Program Files\WindowsPowerShell\Modules\PackageManagement\1.0.0.1' -L 'C:\Program Files\dotnet' -lang VB.NET -lang F# -lang C++/CLI"
-	& $mdocPath update -o $xmlPath -fx $fwPath -lang docid -index false --debug --delete -L 'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\PublicAssemblies'  -L 'C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies' -L 'C:\Program Files\WindowsPowerShell\Modules\PackageManagement\1.0.0.1' -L 'C:\Program Files\dotnet' -lang VB.NET -lang F# -lang C++/CLI
+	Write-Host "$mdocPath update -o $xmlPath -fx $fwPath -lang docid -index false --debug --delete -L "'C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\PublicAssemblies'" -L \"C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies\" -L "C:\Program Files\WindowsPowerShell\Modules\PackageManagement\1.0.0.1" -L "C:\Program Files\dotnet" -lang VB.NET -lang F# -lang C++/CLI"
+	& $mdocPath update -o $xmlPath -fx $fwPath -lang docid -index false --debug --delete -L "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\PublicAssemblies" -L "C:\Program Files (x86)\Microsoft.NET\Primary Interop Assemblies" -L "C:\Program Files\WindowsPowerShell\Modules\PackageManagement\1.0.0.1" -L "C:\Program Files\dotnet" -lang VB.NET -lang F# -lang C++/CLI
 }
 
 # Clone binary repo, xml repo
