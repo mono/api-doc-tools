@@ -1,9 +1,9 @@
-﻿param (
+param (
     [string]$paramsJson,
     [string]$githubTokenBase64,
-	[string]$githubOptionsAccountName,
+    [string]$githubOptionsAccountName,
     [string]$githubOptionsAccountEmail,
-	[string]$vstsTokenBase64
+    [string]$vstsTokenBase64
 )
 
 function Git-Init([string]$githubAccountName, [string]$githubAccountEmail)
@@ -175,6 +175,7 @@ function Run($source_repo,$target_repo)
 	$compareUrl = $compareUrl + "/compare/"
 	$compareUrl = $compareUrl + "$shortCommitId1...$shortCommitId2/"
 	
+	Write-Host ("##vso[task.setvariable variable=CompareUrl;]$compareUrl")
 	Write-Host "Compare Url: $compareUrl"
 }
 
@@ -196,18 +197,41 @@ $parentRoot = $repoRoot | Split-Path
 $binPath = Join-Path "$parentRoot\TestCI" "\_bin"
 New-Item $binPath -Type Directory -Force
 
-# Download Mdoc tool
-Write-Host "==================== Download Mdoc tool"
-$mdocSource = "https://github.com/mono/api-doc-tools/releases/download/mdoc-5.8/mdoc-5.8.zip"
-$releaseMdocPath = Join-Path $binPath "mdoc.exe"
-if(-not [String]::IsNullOrEmpty($params.mdoc_Version))
-{
-	$mdocSource = "https://github.com/mono/api-doc-tools/releases/download/mdoc-" + $params.mdoc_Version + "/mdoc-" + $params.mdoc_Version + ".zip"
-}
+# Download nuget tool
+$nugetUrl = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
+$mdocPackageSource = "https://api.nuget.org/v3/index.json"
+$nugetPath = Join-Path $binPath "\nuget.exe"
+Invoke-WebRequest -Uri $nugetUrl -OutFile $nugetPath -Verbose
 
-$mdocOutput = Join-Path $binPath "mdoc.zip"
-Invoke-WebRequest -Uri $mdocSource -OutFile $mdocOutput -Verbose
-Expand-Archive -Path $mdocOutput -DestinationPath $binPath -Force
+# Download mdoc package
+Write-Host "==================== Download Mdoc tool"
+$mdocPackageId = "mdoc"
+
+if([String]::IsNullOrEmpty($params.mdoc_Version))
+{
+	$versionStr = & $nugetPath list $mdocPackageId -Source $mdocPackageSource
+	if($versionStr -is [array])
+	{
+		$lastVersionStr = $versionStr[$versionStr.Count-1]
+	}
+	else
+	{
+		$lastVersionStr = $versionStr
+	}
+	Write-Host "$mdocPackageId last version string: $lastVersionStr"
+	$lastVersion = $lastVersionStr.Split(" ")[1]
+}
+else
+{
+	$lastVersion = $params.mdoc_Version
+}
+Write-Host "$nugetPath install $mdocPackageId -Version $lastVersion -Source $mdocPackageSource -OutputDirectory $binPath"
+& $nugetPath install $mdocPackageId -Version $lastVersion -Source $mdocPackageSource -OutputDirectory $binPath
+
+$releaseMdocPath = Join-Path $binPath "mdoc.$lastVersion"
+dir $releaseMdocPath
+$releaseMdocPath = Join-Path $releaseMdocPath "tools\mdoc.exe"
+Write-Host "Download $mdocPackageId to path: $releasemdocPath"
 
 
 # Init git configure
