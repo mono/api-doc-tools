@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil;
 using Mono.Documentation.Util;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -591,42 +592,50 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (DocUtils.IsExtensionMethod (method))
                     buf.Append ("this ");
-                AppendParameter (buf, parameters[0]);
+                AppendParameter(buf, parameters[0]);
                 for (int i = 1; i < parameters.Count; ++i)
                 {
-                    buf.Append (", ");
-                    AppendParameter (buf, parameters[i]);
+                    buf.Append(", ");
+                    AppendParameter(buf, parameters[i]);
                 }
             }
 
             return buf.Append (end);
         }
 
-        private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
         {
             TypeReference parameterType = parameter.ParameterType;
+            var refType = new BitArray(3);
 
             if (parameterType is RequiredModifierType requiredModifierType)
             {
+                switch(requiredModifierType.ModifierType.FullName)
+                {
+                    case Consts.InAttribute: refType.Set(0, true); break;
+                    case Consts.OutAttribute: refType.Set(1, true); break;
+                    default: break;
+                }
                 parameterType = requiredModifierType.ElementType;
             }
-
             if (parameterType is ByReferenceType byReferenceType)
             {
                 if (parameter.IsOut)
                 {
-                    buf.Append ("out ");
+                    refType.Set(1, true);
                 }
                 else if(parameter.IsIn && DocUtils.HasCustomAttribute(parameter, Consts.IsReadOnlyAttribute))
                 {
-                    buf.Append("in ");
+                    refType.Set(0, true);
                 }
                 else
                 {
-                    buf.Append("ref ");
+                    refType.Set(2, true);
                 }
                 parameterType = byReferenceType.ElementType;
             }
+
+            buf.Append(refType.Get(0) ? "in " : (refType.Get(1) ? "out " : (refType.Get(2) ? "ref ": "")));
 
             if (parameter.HasCustomAttributes)
             {
@@ -639,8 +648,7 @@ namespace Mono.Documentation.Updater.Formatters
             var isNullableType = context.IsNullable ();
             buf.Append (GetTypeName (parameterType, context));
             buf.Append (GetTypeNullableSymbol (parameter.ParameterType, isNullableType));
-            buf.Append (" ");
-            buf.Append (parameter.Name);
+            buf.Append (string.IsNullOrEmpty(parameter.Name) ? "" : " " + parameter.Name);
 
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {

@@ -3,7 +3,7 @@ namespace Mono.Documentation
 {
     public static class Consts
     {
-        public static string MonoVersion = "5.8.8";
+        public static string MonoVersion = "5.8.9";
         public const string DocId = "DocId";
         public const string CppCli = "C++ CLI";
         public const string CppCx = "C++ CX";
@@ -49,8 +49,10 @@ namespace Mono.Documentation
         public const string IsByRefLikeAttribute = "System.Runtime.CompilerServices.IsByRefLikeAttribute";
         public const string IsReadOnlyAttribute = "System.Runtime.CompilerServices.IsReadOnlyAttribute";
         public const string InAttribute = "System.Runtime.InteropServices.InAttribute";
+        public const string OutAttribute = "System.Runtime.InteropServices.OutAttribute";
         public const string TupleElementNamesAttribute = "System.Runtime.CompilerServices.TupleElementNamesAttribute";
         public const string IsExternalInit = "System.Runtime.CompilerServices.IsExternalInit";
         public const string NativeIntegerAttribute = "System.Runtime.CompilerServices.NativeIntegerAttribute";
+        public const string CallConvPrefix = "System.Runtime.CompilerServices.CallConv";
     }
 }
