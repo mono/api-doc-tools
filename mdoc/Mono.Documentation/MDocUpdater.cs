@@ -1941,7 +1941,7 @@ namespace Mono.Documentation
             // Identify all of the different states that could affect our decision to delete the member
             bool shouldPreserve = !string.IsNullOrWhiteSpace (PreserveTag);
             bool hasContent = MemberDocsHaveUserContent (member);
-            bool shouldDelete = !shouldPreserve && (delete || !hasContent);
+            bool shouldDelete = !shouldPreserve && (delete && !hasContent);
 
             bool unifiedRun = HasDroppedNamespace (type);
 
