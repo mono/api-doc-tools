@@ -76,7 +76,7 @@ function Run-Mdoc([string] $mdocPath, [string] $fwPath, [string] $xmlPath)
 # Generate xml file, push and log commit id
 # Again to generate xml file, push and log commit id
 # Compare two commits
-function Run($source_repo,$target_repo)
+function Run($source_repo,$target_repo,$origin_target_repo)
 {
 	if([String]::IsNullOrEmpty($source_repo.url)){
 		Write-Host "source repo url is null or empty!"
@@ -96,6 +96,16 @@ function Run($source_repo,$target_repo)
 	if([String]::IsNullOrEmpty($target_repo.folder)){
 		Write-Host "target repo folder is null or empty!"
 	}
+	if([String]::IsNullOrEmpty($origin_target_repo.url)){
+		Write-Host "origin target repo url is null or empty!"
+	}
+	if([String]::IsNullOrEmpty($origin_target_repo.branch)){
+		Write-Host "origin target repo branch is null or empty!"
+	}
+	if([String]::IsNullOrEmpty($origin_target_repo.folder)){
+		Write-Host "origin target repo folder is null or empty!"
+	}
+
 
 	$sourceRepoUrl = $source_repo.url
 	$sourceRepoBranch = $source_repo.branch
@@ -105,8 +115,13 @@ function Run($source_repo,$target_repo)
 	$targetRepoBranch = $target_repo.branch
 	$targetfolder = $target_repo.folder
 	$targetRepoPath= $target_repo.repo_root
+	$originTargetRepoUrl = $origin_target_repo.url
+	$originTargetRepoBranch = $origin_target_repo.branch
+	$originTargetfolder = $origin_target_repo.folder
+	$originTargetRepoPath= $origin_target_repo.repo_root
 
 	$frameworksPath = Join-Path $sourceRepoPath $sourceFolder
+	$originRepoXmlPath = Join-Path $originTargetRepoPath $originTargetfolder
 	$xmlPath = Join-Path $targetRepoPath $targetfolder
 
 	Write-Host "==================== Clone source repo: $sourceRepoUrl"
@@ -117,6 +132,9 @@ function Run($source_repo,$target_repo)
 		Git-Clone $sourceRepoUrl $sourceRepoPath $vstsTokenBase64 $sourceRepoBranch
 	}
 	
+	Write-Host "==================== Clone origin target repo: $originTargetRepoUrl"
+	Git-Clone $originTargetRepoUrl $originTargetRepoPath $githubTokenBase64 $targetRepoBranch
+	
 	Write-Host "==================== Clone target repo: $targetRepoUrl"
 	Git-Clone $targetRepoUrl $targetRepoPath $githubTokenBase64 $targetRepoBranch
 	if (Test-Path $xmlPath) 
@@ -125,6 +143,7 @@ function Run($source_repo,$target_repo)
 		Remove-Item -Recurse -Force $xmlPath\*
 		Write-Host "Delete files done."
 	}
+	Copy-Item "$originRepoXmlPath\*" -Destination "$xmlPath\" -Recurse -Force -Container
 
 	Write-Host "==================== Run Mdoc(release version) tool to generated xml files."
 	Run-Mdoc $releaseMdocPath $frameworksPath $xmlPath
@@ -145,6 +164,7 @@ function Run($source_repo,$target_repo)
 		Remove-Item -Recurse -Force $xmlPath\*
 		Write-Host "Delete files done."
 	}
+	Copy-Item "$originRepoXmlPath\*" -Destination "$xmlPath\" -Recurse -Force -Container
 	
 	Write-Host "==================== Run Mdoc(pr version) tool to generated xml files."
 	Run-Mdoc $prMdocPath $frameworksPath $xmlPath
@@ -240,4 +260,5 @@ Git-Init $githubOptionsAccountName $githubOptionsAccountEmail
 # Generate ecma xml files
 $params.source_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.source_repo.repo_root
 $params.target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.target_repo.repo_root
-Run $params.source_repo $params.target_repo
+$params.origin_target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.origin_target_repo.repo_root
+Run $params.source_repo $params.target_repo $params.origin_target_repo
