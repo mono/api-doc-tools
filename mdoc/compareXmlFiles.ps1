@@ -262,4 +262,5 @@ Git-Init $githubOptionsAccountName $githubOptionsAccountEmail
 # Generate ecma xml files
 $params.source_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.source_repo.repo_root
 $params.target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.target_repo.repo_root
-Run $params.source_repo $params.target_repo
+$params.origin_target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.origin_target_repo.repo_root
+Run $params.source_repo $params.target_repo $params.origin_target_repo
