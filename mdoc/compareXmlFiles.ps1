@@ -143,57 +143,54 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 		Remove-Item -Recurse -Force $xmlPath\*
 		Write-Host "Delete files done."
 	}
-	
-	dir $xmlPath
-	Write-Host "###############################################################"
 	Copy-Item "$originRepoXmlPath\*" -Destination "$xmlPath\" -Recurse -Force -Container
-	dir $xmlPath
 
-	#Write-Host "==================== Run Mdoc(release version) tool to generated xml files."
-	#Run-Mdoc $releaseMdocPath $frameworksPath $xmlPath
-	#if ($lastexitcode -ne 0)
-	#{
-	#	exit $lastexitcode
-	#}
-	#
-	#Write-Host "==================== First to commit xml files"
-	#$message = "CI Update 1 with build number " + $env:BUILD_BUILDNUMBER
-	#Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
-	#$commitid1 = & git rev-parse HEAD
-	#Write-Host "Commit Id1: $commitid1"
-	#Pop-Location
-	#if (Test-Path $xmlPath) 
-	#{
-	#	Write-Host "Delete files under path: $xmlPath"
-	#	Remove-Item -Recurse -Force $xmlPath\*
-	#	Write-Host "Delete files done."
-	#}
-	#
-	#Write-Host "==================== Run Mdoc(pr version) tool to generated xml files."
-	#Run-Mdoc $prMdocPath $frameworksPath $xmlPath
-	#if ($lastexitcode -ne 0)
-	#{
-	#	exit $lastexitcode
-	#}
-	#
-	#Write-Host "==================== Sencond to commit xml files"
-	#$message = "CI Update 2 with build number " + $env:BUILD_BUILDNUMBER
-	#Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
-	#$commitid2 = & git rev-parse HEAD
-	#Write-Host "Commit Id2: $commitid2"
-	#Pop-Location
-	#
-	#Write-Host "==================== Compare two version xml files."
-	#$shortCommitId1 = $commitid1.Substring(0, 7)
-	#$shortCommitId2 = $commitid2.Substring(0, 7)
-	#if($targetRepoUrl.EndsWith(".git"))
-	#{
-	#	$compareUrl = $targetRepoUrl.Substring(0, $ymlRepoUrl.Length - 4)
-	#}
-	#else
-	#{
-	#	$compareUrl = $targetRepoUrl
-	#}
+	Write-Host "==================== Run Mdoc(release version) tool to generated xml files."
+	Run-Mdoc $releaseMdocPath $frameworksPath $xmlPath
+	if ($lastexitcode -ne 0)
+	{
+		exit $lastexitcode
+	}
+	
+	Write-Host "==================== First to commit xml files"
+	$message = "CI Update 1 with build number " + $env:BUILD_BUILDNUMBER
+	Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
+	$commitid1 = & git rev-parse HEAD
+	Write-Host "Commit Id1: $commitid1"
+	Pop-Location
+	if (Test-Path $xmlPath) 
+	{
+		Write-Host "Delete files under path: $xmlPath"
+		Remove-Item -Recurse -Force $xmlPath\*
+		Write-Host "Delete files done."
+	}
+	Copy-Item "$originRepoXmlPath\*" -Destination "$xmlPath\" -Recurse -Force -Container
+	
+	Write-Host "==================== Run Mdoc(pr version) tool to generated xml files."
+	Run-Mdoc $prMdocPath $frameworksPath $xmlPath
+	if ($lastexitcode -ne 0)
+	{
+		exit $lastexitcode
+	}
+	
+	Write-Host "==================== Sencond to commit xml files"
+	$message = "CI Update 2 with build number " + $env:BUILD_BUILDNUMBER
+	Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
+	$commitid2 = & git rev-parse HEAD
+	Write-Host "Commit Id2: $commitid2"
+	Pop-Location
+	
+	Write-Host "==================== Compare two version xml files."
+	$shortCommitId1 = $commitid1.Substring(0, 7)
+	$shortCommitId2 = $commitid2.Substring(0, 7)
+	if($targetRepoUrl.EndsWith(".git"))
+	{
+		$compareUrl = $targetRepoUrl.Substring(0, $ymlRepoUrl.Length - 4)
+	}
+	else
+	{
+		$compareUrl = $targetRepoUrl
+	}
 	
 	$compareUrl = $compareUrl + "/compare/"
 	$compareUrl = $compareUrl + "$shortCommitId1...$shortCommitId2/"
