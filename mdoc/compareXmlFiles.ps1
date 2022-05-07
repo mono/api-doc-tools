@@ -132,7 +132,7 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 		Git-Clone $sourceRepoUrl $sourceRepoPath $vstsTokenBase64 $sourceRepoBranch
 	}
 	
-	Write-Host "==================== Clone origin target repo: $targetRepoUrl"
+	Write-Host "==================== Clone origin target repo: $originTargetRepoUrl"
 	Git-Clone $originTargetRepoUrl $originTargetRepoPath $githubTokenBase64 $targetRepoBranch
 	
 	Write-Host "==================== Clone target repo: $targetRepoUrl"
@@ -145,6 +145,7 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 	}
 	
 	dir $xmlPath
+	Write-Host "###############################################################"
 	Copy-Item "$originRepoXmlPath\*" -Destination "$xmlPath\" -Recurse -Force -Container
 	dir $xmlPath
 
