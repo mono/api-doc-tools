@@ -1939,9 +1939,11 @@ namespace Mono.Documentation
                     signature);
 
             // Identify all of the different states that could affect our decision to delete the member
+            bool duplicated = reason.Contains("Duplicate Member");
             bool shouldPreserve = !string.IsNullOrWhiteSpace (PreserveTag);
             bool hasContent = MemberDocsHaveUserContent (member);
-            bool shouldDelete = !shouldPreserve && (delete && !hasContent);
+            //When the member is NOT PRESERVED, the member has NO CONTENT or  is DUPLICATED, then it should be deleted
+            bool shouldDelete = !shouldPreserve && (delete && (!hasContent || duplicated));
 
             bool unifiedRun = HasDroppedNamespace (type);
 
