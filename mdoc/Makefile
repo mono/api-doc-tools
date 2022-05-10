@@ -765,7 +765,7 @@ check-monodocer-operators-work: Test/TestClass.dll
 	rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
 	cp mdoc.Test/SampleClasses/TestClass-OldOpSig.xml Test/en.actual/mdoc.Test.SampleClasses/TestClass.xml
-	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
+	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual --delete
 
 .PHONY: check-monodocer-operators
 check-monodocer-operators: check-monodocer-operators-work 
