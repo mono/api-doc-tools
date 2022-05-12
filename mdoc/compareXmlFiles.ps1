@@ -4,7 +4,7 @@ param (
     [string]$githubOptionsAccountName,
     [string]$githubOptionsAccountEmail,
     [string]$vstsTokenBase64,
-	[bool]needRunReleaseMdoc
+    [bool]needRunReleaseMdoc
 )
 
 function Git-Init([string]$githubAccountName, [string]$githubAccountEmail)
