@@ -3,7 +3,8 @@ param (
     [string]$githubTokenBase64,
     [string]$githubOptionsAccountName,
     [string]$githubOptionsAccountEmail,
-    [string]$vstsTokenBase64
+    [string]$vstsTokenBase64,
+	[bool]needRunReleaseMdoc
 )
 
 function Git-Init([string]$githubAccountName, [string]$githubAccountEmail)
@@ -145,11 +146,14 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 	}
 	Copy-Item "$originRepoXmlPath\*" -Destination "$xmlPath\" -Recurse -Force -Container
 
-	Write-Host "==================== Run Mdoc(release version) tool to generated xml files."
-	Run-Mdoc $releaseMdocPath $frameworksPath $xmlPath
-	if ($lastexitcode -ne 0)
+	if($needRunReleaseMdoc -eq $true)
 	{
-		exit $lastexitcode
+		Write-Host "==================== Run Mdoc(release version) tool to generated xml files."
+		Run-Mdoc $releaseMdocPath $frameworksPath $xmlPath
+		if ($lastexitcode -ne 0)
+		{
+			exit $lastexitcode
+		}
 	}
 	
 	Write-Host "==================== First to commit xml files"
