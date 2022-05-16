@@ -16,6 +16,7 @@ jobs:
   timeoutInMinutes: 600
   pool:
     name: Azure Pipelines
+    vmImage: windows-2022
   steps:
   - checkout: self
     clean: true
@@ -76,6 +77,7 @@ jobs:
       commit1: $[ dependencies.Job_1.outputs['job1output.commit1'] ]
   pool:
     name: Azure Pipelines
+    vmImage: windows-2022
   steps:
   - checkout: self
     clean: true
