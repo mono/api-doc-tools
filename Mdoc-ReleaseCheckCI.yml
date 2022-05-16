@@ -85,6 +85,12 @@ jobs:
   steps:
   - checkout: self
     clean: true
+  - task: AzureKeyVault@2
+    displayName: 'Azure Key Vault: ReferenceAutomation-Prod'
+    inputs:
+      ConnectedServiceName: 886728b9-fc93-486c-ba21-26777bea99af
+      KeyVaultName: ReferenceAutomation-Prod
+    enabled: true
   - task: PowerShell@2
     displayName: Compare xml files
     timeoutInMinutes: 600
