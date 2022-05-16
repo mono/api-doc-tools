@@ -30,39 +30,6 @@ jobs:
       ConnectedServiceName: 886728b9-fc93-486c-ba21-26777bea99af
       KeyVaultName: ReferenceAutomation-Prod
     enabled: true
-  - task: NuGetToolInstaller@0
-    displayName: Use NuGet 4.4.1
-    inputs:
-      versionSpec: 4.4.1
-    enabled: true
-  - task: NuGetCommand@2
-    displayName: NuGet restore
-    inputs:
-      solution: $(BuildParameters.solution)
-    enabled: true
-  - task: CmdLine@2
-    displayName: Command Line Script
-    inputs:
-      script: make prepare
-    enabled: true
-  - task: VSBuild@1
-    displayName: Build solution
-    inputs:
-      solution: $(BuildParameters.solution)
-      msbuildArgs: /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"
-      platform: $(BuildPlatform)
-      configuration: $(BuildConfiguration)
-    enabled: true
-  - task: VSTest@2
-    displayName: Test Assemblies
-    inputs:
-      testAssemblyVer2: >-
-        **\$(BuildConfiguration)\*test*.dll
-
-        !**\obj\**
-      platform: $(BuildPlatform)
-      configuration: $(BuildConfiguration)
-    enabled: true
   - task: NuGetAuthenticate@0
     displayName: NuGet Authenticate
   - task: PowerShell@2
@@ -91,6 +58,31 @@ jobs:
       ConnectedServiceName: 886728b9-fc93-486c-ba21-26777bea99af
       KeyVaultName: ReferenceAutomation-Prod
     enabled: true
+  - task: NuGetToolInstaller@0
+    displayName: Use NuGet 4.4.1
+    inputs:
+      versionSpec: 4.4.1
+    enabled: true
+  - task: NuGetCommand@2
+    displayName: NuGet restore
+    inputs:
+      solution: $(BuildParameters.solution)
+    enabled: true
+  - task: CmdLine@2
+    displayName: Command Line Script
+    inputs:
+      script: make prepare
+    enabled: true
+  - task: VSBuild@1
+    displayName: Build solution
+    inputs:
+      solution: $(BuildParameters.solution)
+      msbuildArgs: /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+    enabled: true
+  - task: NuGetAuthenticate@0
+    displayName: NuGet Authenticate
   - task: PowerShell@2
     displayName: Compare xml files
     timeoutInMinutes: 600
