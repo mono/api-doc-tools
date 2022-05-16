@@ -29,7 +29,7 @@ function Git-Clone([string]$repoUrl, [string]$repoPath, [string] $token, [string
 	Pop-Location
 }
 
-function Git-Push([string]$rootPath, [string] $token, [string] $commitMessage, [string]$branch = "main", $currentCommitid = "") 
+function Git-Push([string]$rootPath, [string] $token, [string] $commitMessage, [string]$branch = "main") 
 {
 	Push-Location $rootPath
 
@@ -42,12 +42,10 @@ function Git-Push([string]$rootPath, [string] $token, [string] $commitMessage, [
 	{
 		& git add --all
 		& git commit -m $commitMessage
-		$commitid = & git rev-parse HEAD
-		Write-Host "before commitId:$currentCommitid, after commitId:$commitid"
-		if($commitid -ne $currentCommitid) {
-			& git config pull.rebase false
-			& git pull
-	    	}
+		
+		& git config pull.rebase false
+		& git -c http.extraHeader="Authorization: Basic $token" pull
+		
 		& git -c http.extraHeader="Authorization: Basic $token" push --set-upstream origin $branch --force-with-lease
 	}
 } 
@@ -144,7 +142,6 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 	
 	Write-Host "==================== Clone target repo: $targetRepoUrl"
 	Git-Clone $targetRepoUrl $targetRepoPath $githubTokenBase64 $targetRepoBranch
-	$currentCommitid = & git rev-parse HEAD
 	
 	if (Test-Path $xmlPath) 
 	{
@@ -168,7 +165,7 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 		
 		Write-Host "==================== First to commit xml files"
 		$message = "CI Update 1 with build number " + $env:BUILD_BUILDNUMBER
-		Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch $currentCommitid
+		Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
 		$commitid1 = & git rev-parse HEAD
 		Write-Host "Commit Id1: $commitid1"
 		Pop-Location
@@ -185,7 +182,7 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 		
 		Write-Host "==================== Sencond to commit xml files"
 		$message = "CI Update 2 with build number " + $env:BUILD_BUILDNUMBER
-		Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch $currentCommitid
+		Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
 		$commitid2 = & git rev-parse HEAD
 		Write-Host "Commit Id2: $commitid2"
 		Pop-Location
