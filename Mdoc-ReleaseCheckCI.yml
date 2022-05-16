@@ -1,0 +1,99 @@
+# Variable 'needRunReleaseMdoc' was defined in the Variables tab
+# Variable 'params' was defined in the Variables tab
+# Agent Queue 'Azure Pipelines' was used with unrecognized Agent Specification, vmImage property must be specified to determine image - https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#software
+variables:
+- name: BuildParameters.solution
+  value: '**\*.sln'
+name: $(date:yyyyMMdd)$(rev:.r)
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/develop
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  timeoutInMinutes: 600
+  pool:
+    name: Azure Pipelines
+  steps:
+  - checkout: self
+    clean: true
+  - task: AzureKeyVault@2
+    displayName: 'Azure Key Vault: ReferenceAutomation-Prod'
+    inputs:
+      ConnectedServiceName: 886728b9-fc93-486c-ba21-26777bea99af
+      KeyVaultName: ReferenceAutomation-Prod
+    enabled: true
+  - task: NuGetToolInstaller@0
+    displayName: Use NuGet 4.4.1
+    inputs:
+      versionSpec: 4.4.1
+    enabled: true
+  - task: NuGetCommand@2
+    displayName: NuGet restore
+    inputs:
+      solution: $(BuildParameters.solution)
+    enabled: true
+  - task: CmdLine@2
+    displayName: Command Line Script
+    inputs:
+      script: make prepare
+    enabled: true
+  - task: VSBuild@1
+    displayName: Build solution
+    inputs:
+      solution: $(BuildParameters.solution)
+      msbuildArgs: /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactstagingdirectory)\\"
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+    enabled: true
+  - task: VSTest@2
+    displayName: Test Assemblies
+    inputs:
+      testAssemblyVer2: >-
+        **\$(BuildConfiguration)\*test*.dll
+
+        !**\obj\**
+      platform: $(BuildPlatform)
+      configuration: $(BuildConfiguration)
+    enabled: true
+  - task: NuGetAuthenticate@0
+    displayName: NuGet Authenticate
+  - task: PowerShell@2
+    displayName: Compare xml files
+    timeoutInMinutes: 600
+    inputs:
+      filePath: mdoc/compareXmlFiles.ps1
+      arguments: -paramsJson '$(params)' -githubTokenBase64 '$(githubTokenBase64)' -githubOptionsAccountName $(githubOptionsAccountName) -githubOptionsAccountEmail $(githubOptionsAccountEmail) -vstsTokenBase64 '$(vstsTokenBase64)' -needRunReleaseMdoc $(needRunReleaseMdoc) -step '1'
+    enabled: true
+    name: job1output
+- job: Job_2
+  displayName: Agent job2
+  timeoutInMinutes: 600
+  dependsOn: Job_1
+  variables:
+      commit1: $[ dependencies.Job_1.outputs['job1output.commit1'] ]
+  pool:
+    name: Azure Pipelines
+  steps:
+  - checkout: self
+    clean: true
+  - task: PowerShell@2
+    displayName: Compare xml files
+    timeoutInMinutes: 600
+    inputs:
+      filePath: mdoc/compareXmlFiles.ps1
+      arguments: -paramsJson '$(params)' -githubTokenBase64 '$(githubTokenBase64)' -githubOptionsAccountName $(githubOptionsAccountName) -githubOptionsAccountEmail $(githubOptionsAccountEmail) -vstsTokenBase64 '$(vstsTokenBase64)' -needRunReleaseMdoc $(needRunReleaseMdoc)  -step '2'
+    enabled: true
+    name: job2output
+  - task: PowerShell@2
+    displayName: Print Compare Url
+    inputs:
+      targetType: inline
+      script: >-
+        # Write your PowerShell commands here.
+
+
+        Write-Host "Compare Url: $Env:CompareUrl"
+...
