@@ -45,8 +45,9 @@ function Git-Push([string]$rootPath, [string] $token, [string] $commitMessage, [
 		$commitid = & git rev-parse HEAD
 		Write-Host "before commitId:$currentCommitid, after commitId:$commitid"
 		if($commitid -ne $currentCommitid) {
+			& git config pull.rebase false
 			& git pull
-	    }
+	    	}
 		& git -c http.extraHeader="Authorization: Basic $token" push --set-upstream origin $branch --force-with-lease
 	}
 } 
