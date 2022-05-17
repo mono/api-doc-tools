@@ -36,7 +36,7 @@ jobs:
     timeoutInMinutes: 600
     inputs:
       filePath: mdoc/compareXmlFiles.ps1
-      arguments: -paramsJson '$(params)' -githubTokenBase64 '$(githubTokenBase64)' -githubOptionsAccountName $(githubOptionsAccountName) -githubOptionsAccountEmail $(githubOptionsAccountEmail) -vstsTokenBase64 '$(vstsTokenBase64)' -needRunReleaseMdoc $(needRunReleaseMdoc) -step '1'
+      arguments: -paramsJson '$(params)' -githubTokenBase64 '$(githubTokenBase64)' -githubOptionsAccountName $(githubOptionsAccountName) -githubOptionsAccountEmail $(githubOptionsAccountEmail) -vstsTokenBase64 '$(vstsTokenBase64)' -step '1' -commit1 ''
     enabled: true
     name: job1output
 - job: Job_2
@@ -96,7 +96,7 @@ jobs:
     timeoutInMinutes: 600
     inputs:
       filePath: mdoc/compareXmlFiles.ps1
-      arguments: -paramsJson '$(params)' -githubTokenBase64 '$(githubTokenBase64)' -githubOptionsAccountName $(githubOptionsAccountName) -githubOptionsAccountEmail $(githubOptionsAccountEmail) -vstsTokenBase64 '$(vstsTokenBase64)' -needRunReleaseMdoc $(needRunReleaseMdoc)  -step '2'
+      arguments: -paramsJson '$(params)' -githubTokenBase64 '$(githubTokenBase64)' -githubOptionsAccountName $(githubOptionsAccountName) -githubOptionsAccountEmail $(githubOptionsAccountEmail) -vstsTokenBase64 '$(vstsTokenBase64)' -step '2' -commit1 '$(commit1)'
     enabled: true
     name: job2output
   - task: PowerShell@2
