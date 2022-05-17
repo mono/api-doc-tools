@@ -4,8 +4,8 @@ param (
     [string]$githubOptionsAccountName,
     [string]$githubOptionsAccountEmail,
     [string]$vstsTokenBase64,
-    [bool]$needRunReleaseMdoc,
-    [string]$step
+    [string]$step,
+    [string]$commit1
 )
 
 function Git-Init([string]$githubAccountName, [string]$githubAccountEmail)
@@ -189,7 +189,7 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 		Pop-Location
 		
 		Write-Host "==================== Compare two version xml files."
-		$commitid1 = $(commit1)    # commit1 from job_1
+		$commitid1 = $commit1    # commit1 from job_1
 		$shortCommitId1 = $commitid1.Substring(0, 7)
 		$shortCommitId2 = $commitid2.Substring(0, 7)
 		if($targetRepoUrl.EndsWith(".git"))
