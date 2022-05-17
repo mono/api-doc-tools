@@ -280,7 +280,7 @@ if($step -eq "1"){
 	Write-Host "##vso[task.setvariable variable=commit1;isOutput=true]$commitid1"
 } else { # This part(else) run in Job_2
 	$commitid2 = "abcdefghigklmn"
-	$commitid1 = $(commit1)    # commit1 from job_1
+	$commitid1 = $('commit1')    # commit1 from job_1
 	$shortCommitId1 = $commitid1.Substring(0, 7)
 	$shortCommitId2 = $commitid2.Substring(0, 7)
 	if($targetRepoUrl.EndsWith(".git"))
