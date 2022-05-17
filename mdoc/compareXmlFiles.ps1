@@ -283,6 +283,7 @@ if($step -eq "1"){
 	$commitid1 = $('commit1')    # commit1 from job_1
 	$shortCommitId1 = $commitid1.Substring(0, 7)
 	$shortCommitId2 = $commitid2.Substring(0, 7)
+	$targetRepoUrl = $params.target_repo.url
 	if($targetRepoUrl.EndsWith(".git"))
 	{
 		$compareUrl = $targetRepoUrl.Substring(0, $ymlRepoUrl.Length - 4)
