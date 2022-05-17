@@ -271,4 +271,30 @@ Git-Init $githubOptionsAccountName $githubOptionsAccountEmail
 $params.source_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.source_repo.repo_root
 $params.target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.target_repo.repo_root
 $params.origin_target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.origin_target_repo.repo_root
-Run $params.source_repo $params.target_repo $params.origin_target_repo
+#Run $params.source_repo $params.target_repo $params.origin_target_repo
+
+if($step -eq "1"){
+        $commitid1 = "123456789"
+	Write-Host "Commit Id1: "
+
+	Write-Host "##vso[task.setvariable variable=commit1;isOutput=true]$commitid1"
+} else { # This part(else) run in Job_2
+	$commitid2 = "abcdefghigklmn"
+	$commitid1 = $(commit1)    # commit1 from job_1
+	$shortCommitId1 = $commitid1.Substring(0, 7)
+	$shortCommitId2 = $commitid2.Substring(0, 7)
+	if($targetRepoUrl.EndsWith(".git"))
+	{
+		$compareUrl = $targetRepoUrl.Substring(0, $ymlRepoUrl.Length - 4)
+	}
+	else
+	{
+		$compareUrl = $targetRepoUrl
+	}
+
+	$compareUrl = $compareUrl + "/compare/"
+	$compareUrl = $compareUrl + "$shortCommitId1...$shortCommitId2/"
+
+	Write-Host ("##vso[task.setvariable variable=CompareUrl;]$compareUrl")
+	Write-Host "Compare Url: $compareUrl"
+}
