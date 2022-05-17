@@ -154,14 +154,11 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 	
 	# This part(if) run in Job_1
 	if($step -eq "1"){
-		if ($needRunReleaseMdoc -eq $true)
+		Write-Host "==================== Run Mdoc(release version) tool to generated xml files."
+		Run-Mdoc $releaseMdocPath $frameworksPath $xmlPath
+		if ($lastexitcode -ne 0)
 		{
-			Write-Host "==================== Run Mdoc(release version) tool to generated xml files."
-			Run-Mdoc $releaseMdocPath $frameworksPath $xmlPath
-			if ($lastexitcode -ne 0)
-			{
-				exit $lastexitcode
-			}
+			exit $lastexitcode
 		}
 		
 		Write-Host "==================== First to commit xml files"
