@@ -44,6 +44,7 @@ function Git-Push([string]$rootPath, [string] $token, [string] $commitMessage, [
 		& git commit -m $commitMessage
 		
 		& git config pull.rebase false
+		Write-Host 'git -c http.extraHeader="Authorization: Basic '$token'" pull'
 		& git -c http.extraHeader="Authorization: Basic $token" pull
 		
 		& git -c http.extraHeader="Authorization: Basic $token" push --set-upstream origin $branch --force-with-lease
