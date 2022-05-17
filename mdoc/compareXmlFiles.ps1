@@ -275,12 +275,12 @@ $params.origin_target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.or
 
 if($step -eq "1"){
         $commitid1 = "123456789"
-	Write-Host "Commit Id1: "
+	Write-Host "Commit Id1: $commitid1"
 
 	Write-Host "##vso[task.setvariable variable=commit1;isOutput=true]$commitid1"
 } else { # This part(else) run in Job_2
 	$commitid2 = "abcdefghigklmn"
-	$commitid1 = $('commit1')    # commit1 from job_1
+	$commitid1 = '$(commit1)'    # commit1 from job_1
 	$shortCommitId1 = $commitid1.Substring(0, 7)
 	$shortCommitId2 = $commitid2.Substring(0, 7)
 	$targetRepoUrl = $params.target_repo.url
