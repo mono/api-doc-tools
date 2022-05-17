@@ -42,7 +42,7 @@ jobs:
 - job: Job_2
   displayName: Agent job2
   timeoutInMinutes: 600
-  dependsOn: Job_1
+  dependsOn: ['Job_1']
   variables:
       commit1: $[ dependencies.Job_1.outputs['job1output.commit1'] ]
   pool:
@@ -82,6 +82,15 @@ jobs:
     enabled: true
   - task: NuGetAuthenticate@0
     displayName: NuGet Authenticate
+  - task: PowerShell@2
+    displayName: Print variables
+    inputs:
+      targetType: inline
+      script: >-
+        # Write your PowerShell commands here.
+
+
+        Write-Host "Commit1: $(commit1)"
   - task: PowerShell@2
     displayName: Compare xml files
     timeoutInMinutes: 600
