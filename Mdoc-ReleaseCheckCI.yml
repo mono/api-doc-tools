@@ -14,7 +14,6 @@ variables:
   solution: 'apidoctools.sln'
   buildConfiguration: 'Release'
   buildPlatform: 'any cpu'
-  params: '{"target_repo":{"url":"https://github.com/MicrosoftDocs/dotnet-api-docs-xml-test","branch":"main","folder":"xml","repo_root":"target_repo"},"origin_target_repo":{"url":"https://github.com/dotnet/dotnet-api-docs","branch":"main","folder":"xml","repo_root":"target_repo_origin"},"source_repo":{"url":"https://apidrop.visualstudio.com/_git/binaries","branch":"master","folder":"dotnet","repo_root":"source_repo"},"mdoc_Version":""}'
 name: $(date:yyyyMMdd)$(rev:.r)
 resources:
   repositories:
