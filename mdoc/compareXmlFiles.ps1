@@ -4,7 +4,8 @@ param (
     [string]$githubOptionsAccountName,
     [string]$githubOptionsAccountEmail,
     [string]$vstsTokenBase64,
-    [bool]$needRunReleaseMdoc
+    [string]$step,
+    [string]$commit1
 )
 
 function Git-Init([string]$githubAccountName, [string]$githubAccountEmail)
@@ -41,6 +42,11 @@ function Git-Push([string]$rootPath, [string] $token, [string] $commitMessage, [
 	{
 		& git add --all
 		& git commit -m $commitMessage
+		
+		& git config pull.rebase false
+		Write-Host 'git -c http.extraHeader="Authorization: Basic '$token'" pull'
+		& git -c http.extraHeader="Authorization: Basic $token" pull
+		
 		& git -c http.extraHeader="Authorization: Basic $token" push --set-upstream origin $branch --force-with-lease
 	}
 } 
@@ -107,7 +113,6 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 		Write-Host "origin target repo folder is null or empty!"
 	}
 
-
 	$sourceRepoUrl = $source_repo.url
 	$sourceRepoBranch = $source_repo.branch
 	$sourceFolder = $source_repo.folder
@@ -138,6 +143,7 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 	
 	Write-Host "==================== Clone target repo: $targetRepoUrl"
 	Git-Clone $targetRepoUrl $targetRepoPath $githubTokenBase64 $targetRepoBranch
+	
 	if (Test-Path $xmlPath) 
 	{
 		Write-Host "Delete files under path: $xmlPath"
@@ -145,62 +151,59 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 		Write-Host "Delete files done."
 	}
 	Copy-Item "$originRepoXmlPath\*" -Destination "$xmlPath\" -Recurse -Force -Container
-
-	if ($needRunReleaseMdoc -eq $true)
-	{
+	
+	# This part(if) run in Job_1
+	if($step -eq "1"){
 		Write-Host "==================== Run Mdoc(release version) tool to generated xml files."
 		Run-Mdoc $releaseMdocPath $frameworksPath $xmlPath
 		if ($lastexitcode -ne 0)
 		{
 			exit $lastexitcode
 		}
+		
+		Write-Host "==================== First to commit xml files"
+		$message = "CI Update 1 with build number " + $env:BUILD_BUILDNUMBER
+		Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
+		$commitid1 = & git rev-parse HEAD
+		Write-Host "Commit Id1: $commitid1"
+		Pop-Location
+		
+		Write-Host "##vso[task.setvariable variable=commit1;isOutput=true]$commitid1"
+	} else { # This part(else) run in Job_2
+	
+		Write-Host "==================== Run Mdoc(pr version) tool to generated xml files."
+		Run-Mdoc $prMdocPath $frameworksPath $xmlPath
+		if ($lastexitcode -ne 0)
+		{
+			exit $lastexitcode
+		}
+		
+		Write-Host "==================== Sencond to commit xml files"
+		$message = "CI Update 2 with build number " + $env:BUILD_BUILDNUMBER
+		Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
+		$commitid2 = & git rev-parse HEAD
+		Write-Host "Commit Id2: $commitid2"
+		Pop-Location
+		
+		Write-Host "==================== Compare two version xml files."
+		$commitid1 = $commit1    # commit1 from job_1
+		$shortCommitId1 = $commitid1.Substring(0, 7)
+		$shortCommitId2 = $commitid2.Substring(0, 7)
+		if($targetRepoUrl.EndsWith(".git"))
+		{
+			$compareUrl = $targetRepoUrl.Substring(0, $ymlRepoUrl.Length - 4)
+		}
+		else
+		{
+			$compareUrl = $targetRepoUrl
+		}
+		
+		$compareUrl = $compareUrl + "/compare/"
+		$compareUrl = $compareUrl + "$shortCommitId1...$shortCommitId2/"
+		
+		Write-Host ("##vso[task.setvariable variable=CompareUrl;]$compareUrl")
+		Write-Host "Compare Url: $compareUrl"
 	}
-	
-	Write-Host "==================== First to commit xml files"
-	$message = "CI Update 1 with build number " + $env:BUILD_BUILDNUMBER
-	Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
-	$commitid1 = & git rev-parse HEAD
-	Write-Host "Commit Id1: $commitid1"
-	Pop-Location
-	if (Test-Path $xmlPath) 
-	{
-		Write-Host "Delete files under path: $xmlPath"
-		Remove-Item -Recurse -Force $xmlPath\*
-		Write-Host "Delete files done."
-	}
-	Copy-Item "$originRepoXmlPath\*" -Destination "$xmlPath\" -Recurse -Force -Container
-	
-	Write-Host "==================== Run Mdoc(pr version) tool to generated xml files."
-	Run-Mdoc $prMdocPath $frameworksPath $xmlPath
-	if ($lastexitcode -ne 0)
-	{
-		exit $lastexitcode
-	}
-	
-	Write-Host "==================== Sencond to commit xml files"
-	$message = "CI Update 2 with build number " + $env:BUILD_BUILDNUMBER
-	Git-Push $targetRepoPath $githubTokenBase64 $message $targetRepoBranch
-	$commitid2 = & git rev-parse HEAD
-	Write-Host "Commit Id2: $commitid2"
-	Pop-Location
-	
-	Write-Host "==================== Compare two version xml files."
-	$shortCommitId1 = $commitid1.Substring(0, 7)
-	$shortCommitId2 = $commitid2.Substring(0, 7)
-	if($targetRepoUrl.EndsWith(".git"))
-	{
-		$compareUrl = $targetRepoUrl.Substring(0, $ymlRepoUrl.Length - 4)
-	}
-	else
-	{
-		$compareUrl = $targetRepoUrl
-	}
-	
-	$compareUrl = $compareUrl + "/compare/"
-	$compareUrl = $compareUrl + "$shortCommitId1...$shortCommitId2/"
-	
-	Write-Host ("##vso[task.setvariable variable=CompareUrl;]$compareUrl")
-	Write-Host "Compare Url: $compareUrl"
 }
 
 $params = $paramsJson | ConvertFrom-Json
