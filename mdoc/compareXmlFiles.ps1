@@ -139,7 +139,7 @@ function Run($source_repo,$target_repo,$origin_target_repo)
 	}
 	
 	Write-Host "==================== Clone origin target repo: $originTargetRepoUrl"
-	Git-Clone $originTargetRepoUrl $originTargetRepoPath $githubTokenBase64 $targetRepoBranch
+	Git-Clone $originTargetRepoUrl $originTargetRepoPath $githubTokenBase64 $originTargetRepoBranch
 	
 	Write-Host "==================== Clone target repo: $targetRepoUrl"
 	Git-Clone $targetRepoUrl $targetRepoPath $githubTokenBase64 $targetRepoBranch
