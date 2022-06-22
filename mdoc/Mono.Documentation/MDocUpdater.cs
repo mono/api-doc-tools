@@ -34,6 +34,7 @@ namespace Mono.Documentation
         bool isClassicRun;
         bool verbose;
         bool delete;
+        bool retainEII;
         bool show_exceptions;
         bool no_assembly_versions, ignore_missing_types;
         ExceptionLocations? exceptions;
@@ -188,6 +189,9 @@ namespace Mono.Documentation
             { "delete",
                 "Delete removed members from the XML files.",
                 v => delete = v != null },
+            { "retain-eii",
+                "Retain non-empty explicit interface implementation docs in the XML files instead of regenerating them.",
+                v => retainEII = v != null },
             { "exceptions:",
               "Document potential exceptions that members can generate.  {SOURCES} " +
                 "is a comma-separated list of:\n" +
@@ -1592,6 +1596,10 @@ namespace Mono.Documentation
                     if (!no_assembly_versions && UpdateAssemblyVersions (oldmember, type.Module.Assembly, new string[] { GetAssemblyVersion (type.Module.Assembly) }, false))
                         continue;
 
+                    // If a private EII has existing docs we may not want to delete and regenerate them
+                    if (isprivateeii && retainEII && MemberDocsHaveUserContent (oldmember))
+                        continue;
+
                     DeleteMember ("Member Removed", output, oldmember, todelete, type);
                     statisticsCollector.AddMetric(typeEntry.Framework.Name, StatisticsItem.Members, StatisticsMetrics.Removed);
                     continue;
@@ -1939,11 +1947,10 @@ namespace Mono.Documentation
                     signature);
 
             // Identify all of the different states that could affect our decision to delete the member
-            bool duplicated = reason.Contains("Duplicate Member");
             bool shouldPreserve = !string.IsNullOrWhiteSpace (PreserveTag);
+            // For historical consistency, docs with no content will be removed even if the --delete param is not used.
             bool hasContent = MemberDocsHaveUserContent (member);
-            //When the member is NOT PRESERVED, the member has NO CONTENT or  is DUPLICATED, then it should be deleted
-            bool shouldDelete = !shouldPreserve && (delete && (!hasContent || duplicated));
+            bool shouldDelete = !shouldPreserve && (delete || !hasContent);
 
             bool unifiedRun = HasDroppedNamespace (type);
 
