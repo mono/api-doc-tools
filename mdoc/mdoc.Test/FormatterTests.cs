@@ -322,14 +322,20 @@ namespace mdoc.Test
             Object[] parametors1 = new Object[] { member, sig };
             mInfo1.Invoke(null, parametors1);
             sig = (string)parametors1[1];
-            Assert.AreEqual("3.1415926535897931", sig);
+            var piValue = "3.1415926535897931";
+
+#if NETCOREAPP
+            piValue = "3.141592653589793";
+#endif //NETCOREAPP
+
+            Assert.AreEqual(piValue, sig);
           
             Type type2 = typeof(ILFullMemberFormatter);
             sig = "";
             MethodInfo mInfo2 = type2.GetMethod("AppendFieldValue", flags);
             Object[] parametors2 = new Object[] { new StringBuilder(), member};
             sig = mInfo2.Invoke(null, parametors2).ToString();
-            Assert.AreEqual(" = (3.1415926535897931)", sig);
+            Assert.AreEqual($" = ({piValue})", sig);
  
             Type type3 = typeof(DocUtils);
             sig = "";                      
@@ -337,14 +343,14 @@ namespace mdoc.Test
             Object[] parametors3 = new Object[] { new StringBuilder(), member };
             mInfo3.Invoke(null, parametors3);
             sig = parametors3[0].ToString();
-            Assert.AreEqual(" = 3.1415926535897931", sig);
+            Assert.AreEqual($" = {piValue}", sig);
  
             Type type4 = typeof(CppFullMemberFormatter);
             sig = "";
             MethodInfo mInfo4 = type4.GetMethod("AppendFieldValue", flags);
             Object[] parametors4 = new Object[] { new StringBuilder(), member };
             sig = mInfo4.Invoke(null, parametors4).ToString();
-            Assert.AreEqual(" = 3.1415926535897931", sig);
+            Assert.AreEqual($" = {piValue}", sig);
         }
 
         [Test]
@@ -370,7 +376,13 @@ namespace mdoc.Test
         [Test]
         public void MissSignature()
         {
-            var member1 = GetMethod(typeof(System.IO.FileStream), m => m.FullName == "System.Void System.IO.FileStream::.ctor(System.String,System.IO.FileMode,System.Security.AccessControl.FileSystemRights,System.IO.FileShare,System.Int32,System.IO.FileOptions,System.Security.AccessControl.FileSecurity)"); ;
+            var fileStreamSig = "System.Void System.IO.FileStream::.ctor(System.String,System.IO.FileMode,System.Security.AccessControl.FileSystemRights,System.IO.FileShare,System.Int32,System.IO.FileOptions,System.Security.AccessControl.FileSecurity)";
+
+#if NETCOREAPP
+            fileStreamSig = "System.Void System.IO.FileStream::.ctor(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare,System.Int32,System.IO.FileOptions)";
+#endif //NETCOREAPP
+
+            var member1 = GetMethod(typeof(System.IO.FileStream), m => m.FullName == fileStreamSig);
             var fomatter1 = new VBMemberFormatter();
             // Original return null
             var sig1 = fomatter1.GetDeclaration(member1);
