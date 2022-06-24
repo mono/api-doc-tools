@@ -256,8 +256,8 @@ namespace Mono.Documentation.Updater
             //  1. "Normal" (non-generic) member names: GetEnumerator
             //    - Lookup as-is.
             //  2. Explicitly-implemented interface member names: System.Collections.IEnumerable.Current
-            //    - try as-is, and try type.member (due to "kludge" for property
-            //      support.
+            //    - try as-is, try global::namespace.type.member, and try
+            //      type.member (due to "kludge" for property support.
             //  3. "Normal" Generic member names: Sort<T> (CSC)
             //    - need to remove generic parameters --> "Sort"
             //  4. Explicitly-implemented interface members for generic interfaces: 
@@ -293,6 +293,13 @@ namespace Mono.Documentation.Updater
                         return meth != null && (member.Name.Equals (".ctor") || DocUtils.IsExplicitlyImplemented (meth));
                     };
 
+
+                    // An explicitly-implemented interface member may have been updated to use a global alias.
+                    foreach (MemberReference mi in type.GetMembers ($"global::{docName}"))
+                    {
+                        memberCount++;
+                        yield return mi;
+                    }
 
                     // might be a property; try only type.member instead of
                     // namespace.type.member.
