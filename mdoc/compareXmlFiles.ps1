@@ -8,6 +8,7 @@ param (
     [string]$commit1
 )
 
+
 function Git-Init([string]$githubAccountName, [string]$githubAccountEmail)
 {
 	& git config --global --unset-all include.path
@@ -265,6 +266,7 @@ Write-Host "Download $mdocPackageId to path: $releasemdocPath"
 Git-Init $githubOptionsAccountName $githubOptionsAccountEmail
 
 # Generate ecma xml files
+# Just testing
 $params.source_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.source_repo.repo_root
 $params.target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.target_repo.repo_root
 $params.origin_target_repo.repo_root = Join-Path "$parentRoot\TestCI" $params.origin_target_repo.repo_root
