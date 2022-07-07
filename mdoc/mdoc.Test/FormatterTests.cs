@@ -256,22 +256,30 @@ namespace mdoc.Test
             Assert.AreEqual("public void SomeMethod4 (out string a, T t, object b = default);", sig);
         }
 
-        [Test]
-        public void CSharpReadonlyRefReturn()
+        [TestCase(typeof(ReadonlyRefClass), "Ref", "public ref int Ref ();")]
+        [TestCase(typeof(ReadonlyRefClass), "ReadonlyRef", "public ref readonly int ReadonlyRef ();")]
+        [TestCase(typeof(ReadonlyRefClass), "RefInAndOutMethod", "public void RefInAndOutMethod (ref int a, in int b, out int c);")]
+        [TestCase(typeof(ReadonlyRefClass), "InAttributeMethod", "public void InAttributeMethod (ref int a, in int b, out int c);")]
+        [TestCase(typeof(GenericRefClass<>), "Ref", "public ref T Ref ();")]
+        [TestCase(typeof(GenericRefClass<>), "ReadonlyRef", "public ref readonly T ReadonlyRef ();")]
+        [TestCase(typeof(GenericRefClass<>), "RefInAndOutMethod", "public void RefInAndOutMethod (ref T a, in T b, out T c);")]
+        [TestCase(typeof(GenericRefClass<>), "InAttributeMethod", "public void InAttributeMethod (ref T a, in T b, out T c);")]
+        public void CSharpRefReturnMethodTest(Type type, string methodName, string expectedSignature)
         {
-            var member = GetMethod(typeof(ReadonlyRefClass), m => m.Name == "ReadonlyRef");
-            var formatter = new CSharpFullMemberFormatter();
-            var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public ref readonly int ReadonlyRef ();", sig);
+            var member = GetMethod(type, m => m.Name == methodName);
+            var actualSignature = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSignature, actualSignature);
         }
 
-        [Test]
-        public void CSharpRefReturn()
+        [TestCase(typeof(ReadonlyRefClass), "RefProperty", "public ref int RefProperty { get; }")]
+        [TestCase(typeof(ReadonlyRefClass), "Item", "public ref readonly int this[int index] { get; }")]
+        [TestCase(typeof(GenericRefClass<>), "RefProperty", "public ref T RefProperty { get; }")]
+        [TestCase(typeof(GenericRefClass<>), "Item", "public ref readonly T this[int index] { get; }")]
+        public void CSharpRefReturnPropertyTest(Type type, string propertyName, string expectedSignature)
         {
-            var member = GetMethod(typeof(ReadonlyRefClass), m => m.Name == "Ref");
-            var formatter = new CSharpFullMemberFormatter();
-            var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public ref int Ref ();", sig);
+            var member = GetProperty(type, p => p.Name == propertyName);
+            var actualSignature = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSignature, actualSignature);
         }
 
         [Test]
@@ -289,7 +297,7 @@ namespace mdoc.Test
             var member = GetMethod(typeof(NullablesAndTuples), m => m.Name == "TupleReturn");
             var formatter = new CSharpFullMemberFormatter();
             var sig = formatter.GetDeclaration(member);
-            Assert.AreEqual("public (int,string) TupleReturn ();", sig);
+            Assert.AreEqual("public (int, string) TupleReturn ();", sig);
         }
 
         [Test]
@@ -385,6 +393,123 @@ namespace mdoc.Test
             var interFaceMembers = GetClassInterface(type);
             bool flag = interFaceMembers.ContainsKey(sig);
             Assert.AreEqual(true, flag);
+        }
+
+        [Test]
+        public void CSharpRefStructTest()
+        {
+            var type = GetType(typeof(SampleClasses.RefStruct));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public ref struct RefStruct", typeSignature);
+        }
+
+        [Test]
+        public void CSharpReadOnlyRefStructTest()
+        {
+            var type = GetType(typeof(SampleClasses.ReadOnlyRefStruct));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
+        }
+
+        [TestCase("Sum", "public readonly double Sum ();")]
+        [TestCase("GetNum", "readonly int Struct_Interface_A.GetNum ();")]
+        public void CSharpReadOnlyMemberStructTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.StructWithReadOnlyMethod), m => m.Name.Contains(methodName));
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
+        [Test]
+        public void CSharpTupleNamesTypeTest()
+        {
+            var type = GetType(typeof(SampleClasses.TupleNamesTestClass<,>));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public class TupleNamesTestClass<T1,T2> : IComparable<(T1, T2)>", typeSignature);
+        }
+
+        [Test]
+        public void CSharpTupleNamesPropertyTest()
+        {
+            var property = GetProperty(typeof(SampleClasses.TupleNamesTestClass<,>), m => m.Name == "TuplePropertyType");
+            var propertySignature = formatter.GetDeclaration(property);
+            Assert.AreEqual("public (int a, int b) TuplePropertyType { get; }", propertySignature);
+        }
+
+        [Test]
+        public void CSharpTupleNamesFieldTest()
+        {
+            var field = GetField(GetType(typeof(SampleClasses.TupleNamesTestClass<,>)), "TupleField");
+            var fieldSignature = formatter.GetDeclaration(field);
+            Assert.AreEqual("public (int a, int b, int c) TupleField;", fieldSignature);
+        }
+
+        [TestCase("TupleMethod", "public (int a, int, int b) TupleMethod ((int, int) t1, (int b, int c, int d) t2, (int, int) t3);")]
+        [TestCase("RecursiveTupleMethod", "public ((int a, long b) c, int d) RecursiveTupleMethod ((((int a, long) b, string c) d, (int e, (float f, float g) h) i, int j) t);")]
+        public void CSharpTupleNamesMethodTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.TupleNamesTestClass<,>), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
+        [TestCase("Property1", "public int Property1 { get; set; }")]
+        [TestCase("Property2", "public int Property2 { get; init; }")]
+        [TestCase("Property3", "public int Property3 { get; protected init; }")]
+        [TestCase("Item", "public int this[int index] { get; init; }")]
+        public void CSharpInitOnlySetterTest(string propertyName, string expectedSignature)
+        {
+            var property = GetProperty(typeof(SampleClasses.InitOnlySetter), p => p.Name == propertyName);
+            var propertySignature = formatter.GetDeclaration(property);
+            Assert.AreEqual(expectedSignature, propertySignature);
+        }
+
+        [Test]
+        public void CSharpNativeIntGenericTypeTest()
+        {
+            var type = GetType(typeof(SampleClasses.GenericNativeIntClass<>));
+            var typeSignature = formatter.GetDeclaration(type);
+            Assert.AreEqual("public class GenericNativeIntClass<nint>", typeSignature);
+        }
+
+        [TestCase("Method1", "public (nint, nuint) Method1 (nint a, nuint b, IntPtr c, UIntPtr d);")]
+        [TestCase("Method2", "public (nint, nuint) Method2 (List<nint> a, Dictionary<int,nuint> b);")]
+        [TestCase("Method3", "public (nint, nuint) Method3 ((nint, nuint) a, (nuint, IntPtr) b, (UIntPtr, string) c);")]
+        [TestCase("Method4", "public (((nint a, IntPtr) b, UIntPtr c) d, (nint e, (nuint f, IntPtr g) h) i) Method4 ();")]
+        public void CSharpNativeIntMethodTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.NativeIntClass), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
+        [TestCase("UnsafeCombine", "public static R UnsafeCombine<T1,T2,R> (delegate*<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine1", "public static R UnsafeCombine1<T1,T2,R> (delegate* unmanaged[Cdecl]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine2", "public static R UnsafeCombine2<T1,T2,T3,R> (delegate* unmanaged[Stdcall]<ref T1, in T2, out T3, R> combinator, T1 left, T2 right, T3 outVar);")]
+        [TestCase("UnsafeCombine3", "public static R UnsafeCombine3<T1,T2,R> (delegate* unmanaged[Fastcall]<T1, T2, ref R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine4", "public static R UnsafeCombine4<T1,T2,R> (delegate* unmanaged[Thiscall]<T1, T2, ref readonly R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine5", "public static void UnsafeCombine5 (delegate* unmanaged[Cdecl]<void> combinator);")]
+        [TestCase("UnsafeCombine6", "public static void UnsafeCombine6 (delegate*<delegate* unmanaged[Fastcall]<string, int>, delegate*<string, int>> combinator);")]
+        [TestCase("UnsafeCombine7", "public static delegate*<delegate* unmanaged[Thiscall]<string, int>, delegate*<string, int>> UnsafeCombine7 ();")]
+        public void CSharpFuctionPointersTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.FunctionPointers), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
+        [TestCase("UnsafeCombine1", "public static R UnsafeCombine1<T1,T2,R> (delegate* unmanaged<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine2", "public static R UnsafeCombine2<T1,T2,R> (delegate* unmanaged[Cdecl, SuppressGCTransition]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine3", "public static R UnsafeCombine3<T1,T2,R> (delegate* unmanaged[Stdcall, MemberFunction]<T1, T2, R> combinator, T1 left, T2 right);")]
+        [TestCase("UnsafeCombine4", "public static void UnsafeCombine4 (delegate*<delegate* unmanaged[Cdecl, Fastcall]<string, int>, delegate*<string, int>> combinator);")]
+        [TestCase("UnsafeCombine5", "public static delegate* unmanaged[Cdecl, Fastcall]<delegate* unmanaged[Thiscall, MemberFunction]<string, int>, delegate*<string, int>> UnsafeCombine5 ();")]
+        public void CSharpFuctionPointersUnmanagedExtTest(string methodName, string expectedSignature)
+        {
+            var functionPointersDllPath = "../../../../external/Test/FunctionPointersTest.dll";
+            var type = GetType(functionPointersDllPath, "FunctionPointersTest.FunctionPointers");
+            var method = GetMethod(type, m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
         }
 
         #region Helper Methods

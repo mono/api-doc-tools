@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using mdoc.Test.SampleClasses;
+using Mono.Documentation;
 using Mono.Documentation.Updater;
-using Mono.Documentation.Updater.Frameworks;
 using NUnit.Framework;
 using System.Xml;
 
@@ -143,6 +143,20 @@ random text
             member.IsSpecialName = false;
             var result = DocUtils.IsEiiIgnoredMethod(member, member.Overrides[0]);
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void HasCustomAttributeTest()
+        {
+            Assert.IsFalse(DocUtils.HasCustomAttribute(null, ""));
+
+            var type = GetType(typeof(SampleClasses.RefStruct));
+            Assert.IsFalse(DocUtils.HasCustomAttribute(type, Consts.IsReadOnlyAttribute));
+            Assert.IsTrue(DocUtils.HasCustomAttribute(type, Consts.IsByRefLikeAttribute));
+
+            type = GetType(typeof(SampleClasses.ReadOnlyRefStruct));
+            Assert.IsTrue(DocUtils.HasCustomAttribute(type, Consts.IsReadOnlyAttribute));
+            Assert.IsTrue(DocUtils.HasCustomAttribute(type, Consts.IsByRefLikeAttribute));
         }
     }
 }

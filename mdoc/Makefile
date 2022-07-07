@@ -751,7 +751,7 @@ check-monodocer-attached-entities:
 
 	# now make sure it will delete a previously run/duplicated attachedproperty/property
 	cp Test/AttachedEventsAndProperties/AttachedPropertyExample.xml Test/en.actual/AttachedEventsAndProperties/
-	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll --delete -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected-attached-entities Test/en.actual
 	
 Test/TestClass.dll:
@@ -765,7 +765,7 @@ check-monodocer-operators-work: Test/TestClass.dll
 	rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
 	cp mdoc.Test/SampleClasses/TestClass-OldOpSig.xml Test/en.actual/mdoc.Test.SampleClasses/TestClass.xml
-	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
+	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual --delete
 
 .PHONY: check-monodocer-operators
 check-monodocer-operators: check-monodocer-operators-work 

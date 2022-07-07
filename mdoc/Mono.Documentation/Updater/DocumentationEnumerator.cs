@@ -153,6 +153,9 @@ namespace Mono.Documentation.Updater
 
                     string xmlMemberType = member.Parameters[i];
 
+                    // After we support function pointers, "method" as type should be skipped and not be compared with current function pointer type.
+                    if (xmlMemberType == "method") continue;
+
                     // TODO: take into account extension method reftype
                     bool xmlIsRefType = xmlMemberType.Contains ('&');
                     bool refTypesMatch = isRefType == xmlIsRefType;

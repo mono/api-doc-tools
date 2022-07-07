@@ -1,6 +1,7 @@
 ﻿using Mono.Cecil;
 using Mono.Documentation.Util;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,12 @@ namespace Mono.Documentation.Updater.Formatters
     {
         public CSharpFullMemberFormatter() : this(null) {}
         public CSharpFullMemberFormatter(TypeMap map) : base(map) { }
+
+        private static readonly Dictionary<string, string> NativeIntTypeMap = new Dictionary<string, string>()
+        {
+            { "System.IntPtr", "nint" },
+            { "System.UIntPtr", "nuint" },
+        };
 
         public override string Language
         {
@@ -25,7 +32,7 @@ namespace Mono.Documentation.Updater.Formatters
             return buf;
         }
 
-        protected virtual string GetCSharpType (string t)
+        protected virtual string GetCSharpType(string t)
         {
             // make sure there are no modifiers in the type string (add them back before returning)
             string typeToCompare = t;
@@ -83,6 +90,11 @@ namespace Mono.Documentation.Updater.Formatters
                 return base.AppendTypeName (buf, type, context);
             }
 
+            if (NativeIntTypeMap.TryGetValue(t, out string typeName) && context.IsNativeInteger())
+            {
+                return buf.Append(typeName);
+            }
+            
             string s = GetCSharpType (t);
             if (s != null)
             {
@@ -137,7 +149,9 @@ namespace Mono.Documentation.Updater.Formatters
             if (genInst.Name.StartsWith ("ValueTuple`"))
             {
                 buf.Append ("(");
-                var genArgList = new List<string> ();
+                var genArgTypeList = new List<string> ();
+                // tuple element names should be traversed before recursion.
+                var genArgNameList = genInst.GenericArguments.Select(arg => context.GetTupleElementName()).ToList();
                 foreach (var item in genInst.GenericArguments)
                 {
                     var isNullableType = false;
@@ -147,11 +161,11 @@ namespace Mono.Documentation.Updater.Formatters
                     }
 
                     var underlyingTypeName = GetTypeName (item, context, appendGeneric, useTypeProjection) + GetTypeNullableSymbol (item, isNullableType);
-                    genArgList.Add (underlyingTypeName);
+                    genArgTypeList.Add (underlyingTypeName);
                 }
-                buf.Append (string.Join (",", genArgList));
+                var genArgList = genInst.GenericArguments.Select((_, index) => string.Format("{0}{1}", genArgTypeList[index], genArgNameList[index] == null ? String.Empty : (" " + genArgNameList[index])));
+                buf.Append (string.Join (", ", genArgList));
                 buf.Append (")");
-
                 return buf;
             }
 
@@ -238,7 +252,19 @@ namespace Mono.Documentation.Updater.Formatters
             if (t.IsEnum)
                 return "enum";
             if (t.IsValueType)
-                return "struct";
+            {
+                StringBuilder buf = new StringBuilder();
+                if (DocUtils.HasCustomAttribute(t, Consts.IsReadOnlyAttribute))
+                {
+                    buf.Append("readonly ");
+                }
+                if (DocUtils.HasCustomAttribute(t, Consts.IsByRefLikeAttribute))
+                {
+                    buf.Append("ref ");
+                }
+                buf.Append("struct");
+                return buf.ToString();
+            }
             if (t.IsClass || t.FullName == "System.Enum")
                 return "class";
             if (t.IsInterface)
@@ -500,18 +526,9 @@ namespace Mono.Documentation.Updater.Formatters
             if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
-
-            if ((method.ReturnType.IsRequiredModifier
-                  && ((RequiredModifierType)method.ReturnType).ElementType.IsByReference)
-                || method.ReturnType.IsByReference)
+            if (declType.IsValueType && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
             {
-                modifiers += " ref";
-            }
-
-            if (method.ReturnType.IsRequiredModifier
-                && method.MethodReturnType.CustomAttributes.Any(attr => attr.AttributeType.FullName == "System.Runtime.CompilerServices.IsReadOnlyAttribute"))
-            {
-                modifiers += " readonly";
+                modifiers += buf.Length == 0 ? "readonly" : " readonly";
             }
 
             switch (method.Name)
@@ -525,6 +542,24 @@ namespace Mono.Documentation.Updater.Formatters
             }
 
             return buf.Append (modifiers);
+        }
+
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, IAttributeParserContext context)
+        {
+            buf.Append("ref ");
+            return base.AppendRefTypeName(buf, type, context);
+        }
+
+        protected override StringBuilder AppendRequiredModifierTypeName(
+            StringBuilder buf, RequiredModifierType type, IAttributeParserContext context)
+        {
+            if (type.ModifierType.FullName == Consts.InAttribute && type.ElementType is ByReferenceType refType)
+            {
+                buf.Append("ref readonly ");
+                return _AppendTypeName(buf, refType.ElementType, context);
+            }
+
+            return base.AppendRequiredModifierTypeName(buf, type, context);
         }
 
         protected override StringBuilder AppendGenericMethod (StringBuilder buf, MethodDefinition method)
@@ -557,33 +592,50 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (DocUtils.IsExtensionMethod (method))
                     buf.Append ("this ");
-                AppendParameter (buf, parameters[0]);
+                AppendParameter(buf, parameters[0]);
                 for (int i = 1; i < parameters.Count; ++i)
                 {
-                    buf.Append (", ");
-                    AppendParameter (buf, parameters[i]);
+                    buf.Append(", ");
+                    AppendParameter(buf, parameters[i]);
                 }
             }
 
             return buf.Append (end);
         }
 
-        private StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
         {
-            if (parameter.ParameterType is ByReferenceType)
+            TypeReference parameterType = parameter.ParameterType;
+            var refType = new BitArray(3);
+
+            if (parameterType is RequiredModifierType requiredModifierType)
+            {
+                switch(requiredModifierType.ModifierType.FullName)
+                {
+                    case Consts.InAttribute: refType.Set(0, true); break;
+                    case Consts.OutAttribute: refType.Set(1, true); break;
+                    default: break;
+                }
+                parameterType = requiredModifierType.ElementType;
+            }
+            if (parameterType is ByReferenceType byReferenceType)
             {
                 if (parameter.IsOut)
                 {
-                    buf.Append ("out ");
+                    refType.Set(1, true);
+                }
+                else if(parameter.IsIn && DocUtils.HasCustomAttribute(parameter, Consts.IsReadOnlyAttribute))
+                {
+                    refType.Set(0, true);
                 }
                 else
                 {
-                    if (parameter.HasCustomAttributes && parameter.CustomAttributes.Any (ca => ca.AttributeType.Name == "IsReadOnlyAttribute"))
-                        buf.Append ("in ");
-                    else
-                        buf.Append ("ref ");
+                    refType.Set(2, true);
                 }
+                parameterType = byReferenceType.ElementType;
             }
+
+            buf.Append(refType.Get(0) ? "in " : (refType.Get(1) ? "out " : (refType.Get(2) ? "ref ": "")));
 
             if (parameter.HasCustomAttributes)
             {
@@ -594,10 +646,9 @@ namespace Mono.Documentation.Updater.Formatters
 
             var context = AttributeParserContext.Create (parameter);
             var isNullableType = context.IsNullable ();
-            buf.Append (GetTypeName (parameter.ParameterType, context));
+            buf.Append (GetTypeName (parameterType, context));
             buf.Append (GetTypeNullableSymbol (parameter.ParameterType, isNullableType));
-            buf.Append (" ");
-            buf.Append (parameter.Name);
+            buf.Append (string.IsNullOrEmpty(parameter.Name) ? "" : " " + parameter.Name);
 
             if (parameter.HasDefault && parameter.IsOptional && parameter.HasConstant)
             {
@@ -658,9 +709,6 @@ namespace Mono.Documentation.Updater.Formatters
                 modifiers = "";
             buf.Append (modifiers).Append (' ');
 
-            if (property.PropertyType.IsByReference)
-                buf.Append("ref ");
-
             var context = AttributeParserContext.Create (property);
             var isNullableType = context.IsNullable ();
             var propertyReturnTypeName = GetTypeName (property.PropertyType, context);
@@ -696,7 +744,14 @@ namespace Mono.Documentation.Updater.Formatters
             {
                 if (set_visible != visibility)
                     buf.Append (' ').Append (set_visible);
-                buf.Append (" set;");
+                if (property.SetMethod.ReturnType is RequiredModifierType returnType && returnType.ModifierType.FullName == Consts.IsExternalInit)
+                {
+                    buf.Append(" init;");
+                }
+                else
+                {
+                    buf.Append(" set;");
+                }
             }
             buf.Append (" }");
 

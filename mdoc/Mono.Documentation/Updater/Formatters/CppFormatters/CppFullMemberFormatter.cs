@@ -715,7 +715,7 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return buf.Append (end);
         }
 
-        protected virtual StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
+        protected override StringBuilder AppendParameter (StringBuilder buf, ParameterDefinition parameter)
         {
            if (parameter.ParameterType is ByReferenceType)
             {
@@ -776,10 +776,9 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
             return buf;
         }
 
-        protected override StringBuilder AppendRefTypeName(StringBuilder buf, TypeReference type, IAttributeParserContext context)
+        protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, IAttributeParserContext context)
         {
-            TypeSpecification spec = type as TypeSpecification;
-            _AppendTypeName(buf, spec != null ? spec.ElementType : type.GetElementType(), context);
+            _AppendTypeName(buf, type.ElementType, context);
             AppendHat(buf, type);
             buf.Append(RefTypeModifier);
 

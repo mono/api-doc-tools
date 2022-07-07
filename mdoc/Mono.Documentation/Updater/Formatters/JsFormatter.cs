@@ -136,6 +136,11 @@ namespace Mono.Documentation.Updater.Formatters
             return buf.Append(string.Join(", ", parameters.Select(i => i.Name)));
         }
 
+        protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
+        {
+            return buf.Append(parameter.Name);
+        }
+
         protected MethodDefinition GetConstructor(TypeDefinition type)
         {
             return type.GetConstructors()

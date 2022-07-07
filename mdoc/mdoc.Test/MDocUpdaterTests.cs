@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Xml;
 using mdoc.Test.SampleClasses;
 using Mono.Cecil;
-using Mono.Cecil.Rocks;
 using Mono.Collections.Generic;
 using Mono.Documentation;
 using Mono.Documentation.Updater;
@@ -32,6 +30,16 @@ namespace mdoc.Test
         }
 
         [Test]
+        public void Test_GetCustomAttributes_EmitNativeIntegerAttribute()
+        {
+            var method = GetMethod(typeof(SampleClasses.NativeIntClass), "Method1");
+            static CustomAttribute GetNativeIntegerAttr(ParameterDefinition p) => p?.CustomAttributes.Where(attr => attr.AttributeType.FullName == Consts.NativeIntegerAttribute).FirstOrDefault();
+            Assert.IsNotNull(GetNativeIntegerAttr(method.Parameters[0]));
+            Assert.IsTrue(formatter.TryGetAttributeString(GetNativeIntegerAttr(method.Parameters[0]), out string rval));
+            Assert.IsNull(GetNativeIntegerAttr(method.Parameters[2]));
+        }
+
+        [Test]
         public void Test_GetDocParameterType_CppGenericParameterType_ReturnsTypeWithGenericParameters()
         {
             var method = GetMethod(typeof(Cpp.GenericBase<>), "BaseMethod2");
@@ -40,6 +48,18 @@ namespace mdoc.Test
 
             Assert.AreEqual("Mono_DocTest_Generic.GenericBase<U>", parameterType);
         }
+
+        [TestCase("UnsafeCombine", "delegate*<T1, T2, R>")]
+        [TestCase("UnsafeCombineOverload", "delegate*<System.IntPtr, System.UIntPtr, R>")]
+        public void Test_GetDocParameterType_CSharpFunctionPointer(string methodName, string expected)
+        {
+            var method = GetMethod(typeof(SampleClasses.FunctionPointers), methodName);
+
+            string parameterType = MDocUpdater.GetDocParameterType(method.Parameters[0].ParameterType);
+
+            Assert.AreEqual(expected, parameterType);
+        }
+
         [Test]
         public void Test_GetNamespace_IgnoredNamespaceGeneric()
         {
