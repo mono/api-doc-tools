@@ -27,12 +27,6 @@
     <Folder Include="Assembly\" />
   </ItemGroup>
   <ItemGroup>
-    <!-- Compiled from https://github.com/mono/Lucene.Net.Light -->
-    <Reference Include="Lucene.Net.Light">
-      <HintPath>..\external\libs\Lucene.Net.Light.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <!-- TODO: Consider moving this generation stuff -->
     <Compile Remove="Monodoc.Ecma\EcmaUrlParserDriver.cs" />
     <Compile Remove="Monodoc.Ecma\jay\**\*.cs" />
@@ -235,6 +229,7 @@
   <ItemGroup>
     <PackageReference Include="SharpZipLib" Version="$(NuGetVersionSharpZipLib)" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="$(NuGetVersionSystemConfigurationConfigurationManager)" />
+    <PackageReference Include="Lucene.Net" Version="$(NuGetVersionLuceneDotNet)" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Monodoc.Ecma\EcmaUrlParser.jay" />
