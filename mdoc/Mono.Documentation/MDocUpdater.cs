@@ -988,7 +988,7 @@ namespace Mono.Documentation
             AssemblyNameDefinition name = assembly.Name;
             if (name.HasPublicKey)
             {
-                XmlElement pubkey = parent.OwnerDocument.CreateElement ("AssemblyPublicKey");
+                XmlElement pubkey = WriteElement (index_assembly, "AssemblyPublicKey");
                 var key = new StringBuilder (name.PublicKey.Length * 3 + 2);
                 key.Append ("[");
                 foreach (byte b in name.PublicKey)
@@ -1000,7 +1000,7 @@ namespace Mono.Documentation
 
             if (!string.IsNullOrEmpty (name.Culture))
             {
-                XmlElement culture = parent.OwnerDocument.CreateElement ("AssemblyCulture");
+                XmlElement culture = WriteElement (index_assembly, "AssemblyCulture");
                 culture.InnerText = name.Culture;
                 index_assembly.AppendChild (culture);
             }
