@@ -1,11 +1,14 @@
 ﻿using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
-using Mono_DocTest;
 using NUnit.Framework;
+#if !NETCOREAPP
+using Mono_DocTest;
 using Cpp = Mono_DocTest_Generic;
+#endif //!NETCOREAPP
 
 namespace mdoc.Test
 {
+#if !NETCOREAPP
     [TestFixture]
     public class CppWinRtMembersTests: BasicFormatterTests<CppWinRtFullMemberFormatter>
     {
@@ -181,4 +184,6 @@ void LongProperty(long __set_formal);");
                 nameof(Cpp.GenericBase<int>.ConstDecimal));
 #endregion
     }
+#endif //!NETCOREAPP
+
 }

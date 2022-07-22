@@ -1,11 +1,14 @@
 ﻿using mdoc.Test.SampleClasses;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
-using Mono_DocTest;
 using NUnit.Framework;
+#if !NETCOREAPP
+using Mono_DocTest;
 using Cpp = Mono_DocTest_Generic;
+#endif // !NETCOREAPP
 
 namespace mdoc.Test
 {
+#if !NETCOREAPP
     [TestFixture]
     [Category("CppCx")]
     public class CppCxFormatterMembersTests : BasicFormatterTests<CppCxFullMemberFormatter>
@@ -194,6 +197,7 @@ namespace mdoc.Test
             TestMethodSignature(typeof(Cpp.GenericBase<>), null, "BaseMethod2");
         }
     }
+#endif //!NETCOREAPP
 
 }
 

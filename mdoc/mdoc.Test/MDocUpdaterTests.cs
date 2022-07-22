@@ -10,7 +10,9 @@ using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters;
 using Mono.Documentation.Updater.Frameworks;
 using NUnit.Framework;
+#if !NETCOREAPP
 using Cpp = Mono_DocTest_Generic;
+#endif //!NETCOREAPP
 
 namespace mdoc.Test
 {
@@ -39,6 +41,7 @@ namespace mdoc.Test
             Assert.IsNull(GetNativeIntegerAttr(method.Parameters[2]));
         }
 
+#if !NETCOREAPP
         [Test]
         public void Test_GetDocParameterType_CppGenericParameterType_ReturnsTypeWithGenericParameters()
         {
@@ -48,6 +51,7 @@ namespace mdoc.Test
 
             Assert.AreEqual("Mono_DocTest_Generic.GenericBase<U>", parameterType);
         }
+#endif //!NETCOREAPP
 
         [TestCase("UnsafeCombine", "delegate*<T1, T2, R>")]
         [TestCase("UnsafeCombineOverload", "delegate*<System.IntPtr, System.UIntPtr, R>")]

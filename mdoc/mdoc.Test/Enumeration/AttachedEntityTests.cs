@@ -1,11 +1,14 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Linq;
+#if !NETCOREAPP
 using Windows.UI.Xaml;
+#endif //!NETCOREAPP
 using Mono.Documentation.Util;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters;
 
+#if !NETCOREAPP
 namespace mdoc.Test.Enumeration
 {
     [TestFixture]
@@ -167,3 +170,4 @@ namespace mdoc.Test.Enumeration
         }
     }
 }
+#endif //!NETCOREAPP

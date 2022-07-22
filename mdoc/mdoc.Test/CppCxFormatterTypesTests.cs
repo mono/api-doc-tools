@@ -1,12 +1,16 @@
 ﻿using System;
 using Mono.Cecil;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
+#if !NETCOREAPP
 using Mono_DocTest;
 using Mono_DocTest_Generic;
+#endif //!NETCOREAPP
 using NUnit.Framework;
 
 namespace mdoc.Test
 {
+#if !NETCOREAPP
+
     [TestFixture]
     [Category("CppCx")]
     public class CppCxFormatterTypesTests : BasicFormatterTests<CppCxMemberFormatter>
@@ -259,5 +263,8 @@ namespace mdoc.Test
             moduleCash.Clear();
         }
     }
+
+#endif //!NETCOREAPP
+
 }
 

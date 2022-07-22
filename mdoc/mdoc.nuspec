@@ -14,6 +14,7 @@
     <tags>mdoc documentation ecmaxml dotnet .net C# F# VB.NET</tags>
   </metadata>
   <files>
-    <file src="..\bin\Release\*.*" target="tools" />
+    <file src="..\bin\Release\*.*" target="tools\net471\" />
+    <file src="..\bin\Release-net6.0\*.*" target="tools\net6.0\" />
   </files>
 </package>
