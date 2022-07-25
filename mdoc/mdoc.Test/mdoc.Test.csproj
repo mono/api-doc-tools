@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <PackageReference Include="Mono.Cecil" Version="$(NuGetVersionMonoCecil)" />
+    <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="NUnit3TestAdapter" Version="$(NuGetVersionNUnit3TestAdapter)" />
