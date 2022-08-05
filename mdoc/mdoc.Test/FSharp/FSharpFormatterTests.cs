@@ -135,7 +135,7 @@ namespace mdoc.Test
         public void TypeSignature_Union_5() =>
             TestPropertySignature(
                 typeof(DiscriminatedUnions.SizeUnion),
-                "member this.Small : DiscriminatedUnions.SizeUnion",
+                "static Small : DiscriminatedUnions.SizeUnion",
                 nameof(DiscriminatedUnions.SizeUnion.Small));
 
         [Test]
