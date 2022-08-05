@@ -568,6 +568,13 @@ override this.Rotate : double -> unit",
             TestPropertySignature(typeof(Methods.SomeType),
                 "member this.SomeOtherMethod3 : (int -> int) * int -> int * int",
                 nameof(Methods.SomeType.SomeOtherMethod3));
+
+        [Test]
+        [Category("Properties")]
+        public void PropertySignature_8() =>
+            TestPropertySignature(typeof(mdoc.Test.SampleClasses.SomeClass),
+                "static StaticProperty2 : TestClass with get, set",
+                nameof(mdoc.Test.SampleClasses.SomeClass.StaticProperty2));
         #endregion
 
         #region Fields

@@ -734,7 +734,16 @@ namespace Mono.Documentation.Updater
                 if (isField)
                     buf.Append("val ");
                 else
-                    buf.Append("member this.");
+                {
+                    if(property.GetMethod?.IsStatic == true)
+                    {
+                        buf.Append("static ");
+                    }
+                    else
+                    {
+                        buf.Append("member this.");
+                    }
+                } 
             }
             
             buf.Append(DocUtils.GetPropertyName(property, NestedTypeSeparator));
