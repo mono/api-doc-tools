@@ -735,9 +735,9 @@ namespace Mono.Documentation.Updater
                     buf.Append("val ");
                 else
                 {
-                    if(property.GetMethod?.IsStatic == true)
+                    if(property.GetMethod?.IsStatic ?? false)
                     {
-                        buf.Append("static ");
+                        buf.Append("static member ");
                     }
                     else
                     {
