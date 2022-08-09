@@ -113,7 +113,7 @@ stages:
       displayName: Run Unit and Integration Tests
       inputs:
         targetType: 'inline'
-        script: 'make prepare all check CONFIGURATION=$(buildConfiguration)'
+        script: 'make prepare clean all check CONFIGURATION=$(buildConfiguration)'
 
     - task: EsrpCodeSigning@1
       displayName: Sign executable and dll files
