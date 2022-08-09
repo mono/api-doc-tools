@@ -170,7 +170,7 @@
       <MemberSignature Language="ILAsm" Value=".property bool IsDuplicated" />
       <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicated" />
       <MemberSignature Language="VB.NET" Value="Public Shared Property IsDuplicated As Boolean" />
-      <MemberSignature Language="F#" Value="member this.IsDuplicated : bool with get, set" Usage="AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicated" />
+      <MemberSignature Language="F#" Value="static member IsDuplicated : bool with get, set" Usage="AttachedEventsAndProperties.AttachedPropertyExample.IsDuplicated" />
       <MemberSignature Language="JavaScript" Usage="var boolean = AttachedPropertyExample.isDuplicated;&#xA;AttachedPropertyExample.isDuplicated = boolean;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static property bool IsDuplicated { bool get(); void set(bool value); };" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; static property bool IsDuplicated { bool get(); void set(bool value); };" />

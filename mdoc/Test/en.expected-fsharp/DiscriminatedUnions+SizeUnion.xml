@@ -317,7 +317,7 @@
     <Member MemberName="Large">
       <MemberSignature Language="C#" Value="public static DiscriminatedUnions.SizeUnion Large { get; }" />
       <MemberSignature Language="ILAsm" Value=".property DiscriminatedUnions/SizeUnion Large" />
-      <MemberSignature Language="F#" Value="member this.Large : DiscriminatedUnions.SizeUnion" Usage="DiscriminatedUnions.SizeUnion.Large" />
+      <MemberSignature Language="F#" Value="static member Large : DiscriminatedUnions.SizeUnion" Usage="DiscriminatedUnions.SizeUnion.Large" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -348,7 +348,7 @@
     <Member MemberName="Medium">
       <MemberSignature Language="C#" Value="public static DiscriminatedUnions.SizeUnion Medium { get; }" />
       <MemberSignature Language="ILAsm" Value=".property DiscriminatedUnions/SizeUnion Medium" />
-      <MemberSignature Language="F#" Value="member this.Medium : DiscriminatedUnions.SizeUnion" Usage="DiscriminatedUnions.SizeUnion.Medium" />
+      <MemberSignature Language="F#" Value="static member Medium : DiscriminatedUnions.SizeUnion" Usage="DiscriminatedUnions.SizeUnion.Medium" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -379,7 +379,7 @@
     <Member MemberName="Small">
       <MemberSignature Language="C#" Value="public static DiscriminatedUnions.SizeUnion Small { get; }" />
       <MemberSignature Language="ILAsm" Value=".property DiscriminatedUnions/SizeUnion Small" />
-      <MemberSignature Language="F#" Value="member this.Small : DiscriminatedUnions.SizeUnion" Usage="DiscriminatedUnions.SizeUnion.Small" />
+      <MemberSignature Language="F#" Value="static member Small : DiscriminatedUnions.SizeUnion" Usage="DiscriminatedUnions.SizeUnion.Small" />
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
