@@ -1550,7 +1550,7 @@ namespace Mono.Documentation
                 bool isprivateeii = !IsMemberNotPrivateEII(oldmember2);
                 if (oldmember2 == null || isprivateeii)
                 {
-                    if (!string.IsNullOrWhiteSpace (FrameworksPath) && !isprivateeii) // only do this check if fx mode AND it's not a private EII. If it's a private EII, we just want to delete it
+                    if (!string.IsNullOrWhiteSpace (FrameworksPath)) // only do this check if fx mode
                     {
                         // verify that this member wasn't seen in another framework and is indeed valid
                         var sigFromXml = oldmember
@@ -1939,11 +1939,9 @@ namespace Mono.Documentation
                     signature);
 
             // Identify all of the different states that could affect our decision to delete the member
-            bool duplicated = reason.Contains("Duplicate Member");
             bool shouldPreserve = !string.IsNullOrWhiteSpace (PreserveTag);
             bool hasContent = MemberDocsHaveUserContent (member);
-            //When the member is NOT PRESERVED, the member has NO CONTENT or  is DUPLICATED, then it should be deleted
-            bool shouldDelete = !shouldPreserve && (delete && (!hasContent || duplicated));
+            bool shouldDelete = !shouldPreserve && (delete || !hasContent);
 
             bool unifiedRun = HasDroppedNamespace (type);
 
