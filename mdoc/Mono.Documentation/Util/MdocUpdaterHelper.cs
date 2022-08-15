@@ -43,13 +43,13 @@ namespace mdoc.Mono.Documentation.Util
                 AppendElementText(ce, "ParameterAttribute", "ReferenceTypeConstraint");
 
 #if NEW_CECIL
-                       foreach (GenericParameterConstraint c in constraints)
-                       {
-                           TypeDefinition cd = c.ConstraintType.Resolve ();
-                            AppendElementText (ce,
-                                    (cd != null && cd.IsInterface) ? "InterfaceName" : "BaseTypeName",
-                                    GetDocTypeFullName (c.ConstraintType));
-                        }
+            foreach (GenericParameterConstraint c in constraints)
+            {
+                TypeDefinition cd = c.ConstraintType.Resolve ();
+                AppendElementText (ce,
+                        (cd != null && cd.IsInterface) ? "InterfaceName" : "BaseTypeName",
+                        GetDocTypeFullName (c.ConstraintType));
+            }
 #else
             foreach (TypeReference c in constraints)
             {

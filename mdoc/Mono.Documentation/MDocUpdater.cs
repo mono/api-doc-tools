@@ -4068,7 +4068,7 @@ namespace Mono.Documentation
 
         private void MakeTypeParameters (FrameworkTypeEntry entry, XmlElement root, IList<GenericParameter> typeParams, MemberReference member, bool shouldDuplicateWithNew)
         {
-            if (ProcessedMoreThanOnce(entry))
+            if (typeParams == null || typeParams.Count == 0 || ProcessedMoreThanOnce(entry))
             {
                 return;
             }
