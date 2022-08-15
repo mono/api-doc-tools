@@ -2180,7 +2180,7 @@ namespace Mono.Documentation
                 NormalizeWhitespace (ass);
             }
 
-            if (type.IsGenericType ())
+            if (type.IsGenericType () && !DocUtils.IsDelegate(type))
             {
                 MakeTypeParameters (typeEntry, root, type.GenericParameters, type, MDocUpdater.HasDroppedNamespace (type));
             }
