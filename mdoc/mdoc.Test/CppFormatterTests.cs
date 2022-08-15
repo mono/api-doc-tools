@@ -2,11 +2,14 @@
 using Mono.Cecil;
 using NUnit.Framework;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
+#if !NETCOREAPP
 using Mono_DocTest_Generic;
 using Mono_DocTest;
+#endif //!NETCOREAPP
 
 namespace mdoc.Test
 {
+#if !NETCOREAPP
     public class CppFormatterTests : BasicFormatterTests<CppMemberFormatter>
     {
         #region Types
@@ -191,4 +194,6 @@ public ref class MyList1 : Mono_DocTest_Generic::GenericBase<System::Collections
         }
 
     }
+#endif //!NETCOREAPP
+
 }

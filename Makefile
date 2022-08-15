@@ -1,4 +1,3 @@
-MSBUILD = msbuild
 CONFIGURATION = Release
 BIN = bin/$(CONFIGURATION)
 MDOC = $(BIN)/mdoc.exe
@@ -9,15 +8,15 @@ all: build
 build: $(MDOC)
 
 $(MDOC):
-	$(MSBUILD) apidoctools.sln /p:Configuration=$(CONFIGURATION);
+	dotnet build -v:n apidoctools.sln /p:Configuration=$(CONFIGURATION)
 
 prepare:
 	git submodule update --init --recursive
-	nuget restore apidoctools.sln
+	dotnet restore apidoctools.sln
 	nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
 
 clean:
-	#$(MSBUILD) apidoctools.sln /t:clean
+	dotnet build -v:n apidoctools.sln /t:clean /p:Configuration=$(CONFIGURATION)
 	rm -rf bin/$(CONFIGURATION)
 
 check: build check-monodoc check-mdoc

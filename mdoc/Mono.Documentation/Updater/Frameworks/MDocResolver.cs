@@ -564,6 +564,10 @@ namespace Mono.Documentation.Updater.Frameworks
 
         internal AssemblyDefinition GetAssemblyInGac(AssemblyNameReference reference, ReaderParameters parameters)
         {
+#if NETCOREAPP
+            return null;
+#endif //NETCOREAPP
+
             if (reference.PublicKeyToken == null || reference.PublicKeyToken.Length == 0)
                 return null;
 

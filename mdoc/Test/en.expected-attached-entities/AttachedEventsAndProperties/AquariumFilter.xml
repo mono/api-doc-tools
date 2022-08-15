@@ -44,7 +44,7 @@
       <MemberSignature Language="ILAsm" Value=".property class System.Windows.RoutedEvent NeedsCleaningEvent" />
       <MemberSignature Language="DocId" Value="P:AttachedEventsAndProperties.AquariumFilter.NeedsCleaningEvent" />
       <MemberSignature Language="VB.NET" Value="Public Shared Property NeedsCleaningEvent As RoutedEvent" />
-      <MemberSignature Language="F#" Value="member this.NeedsCleaningEvent : System.Windows.RoutedEvent with get, set" Usage="AttachedEventsAndProperties.AquariumFilter.NeedsCleaningEvent" />
+      <MemberSignature Language="F#" Value="static member NeedsCleaningEvent : System.Windows.RoutedEvent with get, set" Usage="AttachedEventsAndProperties.AquariumFilter.NeedsCleaningEvent" />
       <MemberSignature Language="JavaScript" Usage="var routedEvent = AquariumFilter.needsCleaningEvent;&#xA;AquariumFilter.needsCleaningEvent = routedEvent;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Windows::RoutedEvent ^ NeedsCleaningEvent { System::Windows::RoutedEvent ^ get(); void set(System::Windows::RoutedEvent ^ value); };" />
       <MemberSignature Language="C++ WINRT" Value="static System::Windows::RoutedEvent NeedsCleaningEvent();&#xA;&#xA;static void NeedsCleaningEvent(System::Windows::RoutedEvent value);" />

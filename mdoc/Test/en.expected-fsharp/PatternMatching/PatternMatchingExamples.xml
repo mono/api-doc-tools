@@ -161,9 +161,9 @@
       </Docs>
     </Member>
     <Member MemberName="detectZeroTuple">
-      <MemberSignature Language="C#" Value="public static void detectZeroTuple (int point_0, int point_1);" />
-      <MemberSignature Language="ILAsm" Value=".method public static void detectZeroTuple(int32 point_0, int32 point_1) cil managed" />
-      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.detectZeroTuple : int * int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.detectZeroTuple (point_0, point_1)" />
+      <MemberSignature Language="C#" Value="public static void detectZeroTuple (int var1, int var2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void detectZeroTuple(int32 var1, int32 var2) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.detectZeroTuple : int * int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.detectZeroTuple (var1, var2)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -172,12 +172,12 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="point_0" Type="System.Int32" />
-        <Parameter Name="point_1" Type="System.Int32" />
+        <Parameter Name="var1" Type="System.Int32" />
+        <Parameter Name="var2" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="point_0">To be added.</param>
-        <param name="point_1">To be added.</param>
+        <param name="var1">To be added.</param>
+        <param name="var2">To be added.</param>
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -226,9 +226,9 @@
       </Docs>
     </Member>
     <Member MemberName="function1">
-      <MemberSignature Language="C#" Value="public static void function1 (int x_0, int x_1);" />
-      <MemberSignature Language="ILAsm" Value=".method public static void function1(int32 x_0, int32 x_1) cil managed" />
-      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.function1 : int * int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.function1 (x_0, x_1)" />
+      <MemberSignature Language="C#" Value="public static void function1 (int var1, int var2);" />
+      <MemberSignature Language="ILAsm" Value=".method public static void function1(int32 var1, int32 var2) cil managed" />
+      <MemberSignature Language="F#" Value="PatternMatching.PatternMatchingExamples.function1 : int * int -&gt; unit" Usage="PatternMatching.PatternMatchingExamples.function1 (var1, var2)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>1.0.0.0</AssemblyVersion>
@@ -237,12 +237,12 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="x_0" Type="System.Int32" />
-        <Parameter Name="x_1" Type="System.Int32" />
+        <Parameter Name="var1" Type="System.Int32" />
+        <Parameter Name="var2" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="x_0">To be added.</param>
-        <param name="x_1">To be added.</param>
+        <param name="var1">To be added.</param>
+        <param name="var2">To be added.</param>
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>

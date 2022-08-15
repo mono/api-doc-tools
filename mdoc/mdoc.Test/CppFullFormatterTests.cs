@@ -2,12 +2,15 @@
 using Mono.Cecil;
 using NUnit.Framework;
 using Mono.Documentation.Updater.Formatters.CppFormatters;
+#if !NETCOREAPP
 using Mono_DocTest_Generic;
 using Cpp=Mono_DocTest_Generic;
 using Mono_DocTest;
+#endif //!NETCOREAPP
 
 namespace mdoc.Test
 {
+#if !NETCOREAPP
     public class CppFullFormatterTests: BasicFormatterTests<CppFullMemberFormatter>
     {
         private static readonly CppFullMemberFormatter cppFullMemberFormatter = new CppFullMemberFormatter();
@@ -327,4 +330,6 @@ generic <typename T>
             return tref;
         }
     }
+#endif //!NETCOREAPP
+
 }

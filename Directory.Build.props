@@ -1,12 +1,14 @@
 <Project>
   <PropertyGroup>
     <NuGetVersionFSharpCore>4.3.4</NuGetVersionFSharpCore>
-    <NuGetVersionMonoCecil>0.10.0-beta5</NuGetVersionMonoCecil>
+    <NuGetVersionMonoCecil>0.10.0</NuGetVersionMonoCecil>
     <NuGetVersionNUnit>3.10.1</NuGetVersionNUnit>
-    <NuGetVersionNUnit3TestAdapter>3.13.0</NuGetVersionNUnit3TestAdapter>
+    <NuGetVersionNUnit3TestAdapter>3.17.0</NuGetVersionNUnit3TestAdapter>
+    <NuGetVersionMicrosoftNETTestSdk>16.11.0</NuGetVersionMicrosoftNETTestSdk>
     <NuGetVersionQuickIONET>2.6.2.0</NuGetVersionQuickIONET>
     <NuGetVersionSharpZipLib>1.3.3</NuGetVersionSharpZipLib>
     <NuGetVersionSystemConfigurationConfigurationManager>6.0.0</NuGetVersionSystemConfigurationConfigurationManager>
     <NuGetVersionLuceneDotNet>3.0.3</NuGetVersionLuceneDotNet>
+    <NuGetVersionNewtonsoftJson>13.0.1</NuGetVersionNewtonsoftJson>
   </PropertyGroup>
 </Project>

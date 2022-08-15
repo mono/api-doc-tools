@@ -61,6 +61,9 @@ cleanup:
 nunit: 
 	mono ../packages/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe mdoc.Test/bin/$(CONFIGURATION)/mdoc.Test.dll
 
+dotnet-test:
+	dotnet test mdoc.Test/bin/$(CONFIGURATION)-net6.0/mdoc.Test.dll
+
 Test/DocTest-VB-Eii.dll:
 	$(VBCOMPILE) -out:Test/DocTest-VB-Eii.dll  Test/ClassEnumerator.vb
 	
@@ -960,5 +963,5 @@ check-doc-tools-update: check-monodocer-since-update \
 	check-mdoc-export-msxdoc-update \
 	check-mdoc-validate-update 
 
-check: nunit check-doc-tools
+check: nunit dotnet-test check-doc-tools
 	@echo "mdoc Tests Complete!"
