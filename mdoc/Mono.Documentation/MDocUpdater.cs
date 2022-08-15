@@ -10,6 +10,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using mdoc.Mono.Documentation.Util;
 using Mono.Cecil;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters;
@@ -3279,14 +3280,6 @@ namespace Mono.Documentation
             return element;
         }
 
-        static XmlElement AppendElementText (XmlNode parent, string element, string value)
-        {
-            XmlElement n = parent.OwnerDocument.CreateElement (element);
-            parent.AppendChild (n);
-            n.InnerText = value;
-            return n;
-        }
-
         static XmlElement AppendElementAttributeText (XmlNode parent, string element, string attribute, string value)
         {
             XmlElement n = parent.OwnerDocument.CreateElement (element);
@@ -4070,47 +4063,44 @@ namespace Mono.Documentation
                 }
             }
 
-            if (typeEntry.Framework.IsLastFrameworkForType(typeEntry))
-            {
-                // Now clean up
-                var allFrameworks = typeEntry.Framework.AllFrameworksWithType(typeEntry);
-                var finalNodes = paramNodes
-                    .Cast<XmlElement> ().ToArray ();
-                foreach (var parameter in finalNodes)
-                {
-                    // if FXAlternate is entire list, just remove it
-                    if (parameter.HasAttribute (Consts.FrameworkAlternate) && parameter.GetAttribute (Consts.FrameworkAlternate) == allFrameworks)
-                    {
-                        parameter.RemoveAttribute (Consts.FrameworkAlternate);
-                    }
-                }
-
-                // if there are no fx attributes left, just remove the indices entirely
-                if (!finalNodes.Any (n => n.HasAttribute (Consts.FrameworkAlternate)))
-                {
-                    foreach (var parameter in finalNodes)
-                        parameter.RemoveAttribute (Consts.Index);
-                }
-            }
+            MdocUpdaterHelper.CheckFrameworkAlternateAttribute(typeEntry, e, "Parameter");
         }
 
         private void MakeTypeParameters (FrameworkTypeEntry entry, XmlElement root, IList<GenericParameter> typeParams, MemberReference member, bool shouldDuplicateWithNew)
         {
-            if (typeParams == null || typeParams.Count == 0)
+            if (ProcessedMoreThanOnce(entry))
             {
-                XmlElement f = (XmlElement)root.SelectSingleNode ("TypeParameters");
-                if (f != null)
-                    root.RemoveChild (f);
                 return;
             }
 
-            XmlElement e = WriteElement (root, "TypeParameters");
+            XmlElement e = WriteElement(root, "TypeParameters");
 
-            var nodes = e.SelectNodes ("TypeParameter").Cast<XmlElement> ().ToArray ();
-
-            foreach (GenericParameter t in typeParams)
+            if (entry.Framework.IsFirstFrameworkForType(entry))
             {
+                e.RemoveAll();
+            }
 
+            var nodes = e.SelectNodes("TypeParameter")
+                         .Cast<XmlElement>()
+                         .Select((n, i) =>
+                         {
+                             int index = i;
+                             if (n.HasAttribute(Consts.Index))
+                                 int.TryParse(n.GetAttribute(Consts.Index), out index);
+
+                             return new
+                             {
+                                 Element = n,
+                                 Name = n.GetAttribute("Name"),
+                                 Index = index,
+                                 FrameworkAlternates = n.GetAttribute(Consts.FrameworkAlternate)
+                             };
+                         })
+                         .ToArray();
+
+            for (int i = 0; i < typeParams.Count; i++)
+            {
+                var t = typeParams[i];
 #if NEW_CECIL
                 Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = t.Constraints;
 #else
@@ -4118,76 +4108,37 @@ namespace Mono.Documentation
 #endif
                 GenericParameterAttributes attrs = t.Attributes;
 
-                var existing = nodes.FirstOrDefault(x => x.GetAttribute("Name") == t.Name);
+                var existing = nodes.Where(node => node.Name == t.Name && node.Index == i).FirstOrDefault();
                 if (existing != null)
                 {
-                    MakeParamsAttributes(existing, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
+                    var xElement = existing.Element;
+                    var fxaValue = FXUtils.AddFXToList(existing.FrameworkAlternates, entry.Framework.Name);
+                    xElement.RemoveAttribute(Consts.FrameworkAlternate);
+                    xElement.SetAttribute(Consts.FrameworkAlternate, fxaValue);
+                    MakeParamsAttributes(existing.Element, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
                 }
                 else
                 {
                     XmlElement pe = root.OwnerDocument.CreateElement("TypeParameter");
-                    e.AppendChild(pe);
-                    pe.SetAttribute("Name", t.Name);
-                    MakeParamsAttributes(pe, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
-                    XmlElement ce = (XmlElement)e.SelectSingleNode("Constraints");
-                    if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
+                    var sameIndexElements = nodes.Where(node => node.Index == i).ToArray();
+                    if (sameIndexElements != null && sameIndexElements.Length > 0)
                     {
-                        if (ce != null)
-                            e.RemoveChild(ce);
+                        // order the type parameters by index
+                        e.InsertAfter(pe, sameIndexElements.Last().Element);
                     }
-                    if (ce != null)
-                        ce.RemoveAll();
                     else
                     {
-                        ce = root.OwnerDocument.CreateElement("Constraints");
+                        e.AppendChild(pe);
                     }
-                    if ((attrs & GenericParameterAttributes.Contravariant) != 0)
-                        AppendElementText(ce, "ParameterAttribute", "Contravariant");
-                    if ((attrs & GenericParameterAttributes.Covariant) != 0)
-                        AppendElementText(ce, "ParameterAttribute", "Covariant");
-                    if ((attrs & GenericParameterAttributes.DefaultConstructorConstraint) != 0)
-                        AppendElementText(ce, "ParameterAttribute", "DefaultConstructorConstraint");
-                    if ((attrs & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0)
-                        AppendElementText(ce, "ParameterAttribute", "NotNullableValueTypeConstraint");
-                    if ((attrs & GenericParameterAttributes.ReferenceTypeConstraint) != 0)
-                        AppendElementText(ce, "ParameterAttribute", "ReferenceTypeConstraint");
-
-#if NEW_CECIL
-                       foreach (GenericParameterConstraint c in constraints)
-                       {
-                           TypeDefinition cd = c.ConstraintType.Resolve ();
-                            AppendElementText (ce,
-                                    (cd != null && cd.IsInterface) ? "InterfaceName" : "BaseTypeName",
-                                    GetDocTypeFullName (c.ConstraintType));
-                        }
-#else
-                    foreach (TypeReference c in constraints)
-                    {
-                        TypeDefinition cd = c.Resolve();
-                        AppendElementText(ce,
-                                (cd != null && cd.IsInterface) ? "InterfaceName" : "BaseTypeName",
-                                GetDocTypeFullName(c));
-                    }
-#endif
-                    if (ce.HasChildNodes)
-                    {
-                        pe.AppendChild(ce);
-                    }
+                    pe.SetAttribute("Name", t.Name);
+                    pe.SetAttribute(Consts.Index, i.ToString());
+                    pe.SetAttribute(Consts.FrameworkAlternate, entry.Framework.Name);
+                    MakeParamsAttributes(pe, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
+                    MdocUpdaterHelper.MakeTypeParameterConstraints(root, e, pe, attrs, constraints);
                 }
             }
 
-            nodes = e.SelectNodes("TypeParameter").Cast<XmlElement>().ToArray();
-            if (nodes.Length != typeParams.Count)
-            {
-                foreach (var node in nodes)
-                {
-                    var existing = typeParams.FirstOrDefault(x => x.Name == node.GetAttribute("Name"));
-                    if (existing == null)
-                    {
-                        node.ParentNode.RemoveChild(node);
-                    }
-                }
-            }
+            MdocUpdaterHelper.CheckFrameworkAlternateAttribute(entry, e, "TypeParameter");
         }
 
         private void MakeParameters (XmlElement root, MemberReference mi, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew)
