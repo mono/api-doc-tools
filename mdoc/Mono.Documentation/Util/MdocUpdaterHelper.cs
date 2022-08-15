@@ -10,8 +10,15 @@ namespace mdoc.Mono.Documentation.Util
 {
     class MdocUpdaterHelper
     {
-        internal static void MakeTypeParameterConstraints(XmlElement root, XmlElement e, XmlElement pe, GenericParameterAttributes attrs, IList<TypeReference> constraints)
+        internal static void MakeTypeParameterConstraints(XmlElement root, XmlElement e, XmlElement pe, GenericParameter typeParameter)
         {
+#if NEW_CECIL
+            Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = typeParameter.Constraints;
+#else
+            IList<TypeReference> constraints = typeParameter.Constraints;
+#endif
+            GenericParameterAttributes attrs = typeParameter.Attributes;
+
             XmlElement ce = (XmlElement)e.SelectSingleNode("Constraints");
             if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
             {

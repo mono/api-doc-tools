@@ -4134,7 +4134,7 @@ namespace Mono.Documentation
                     pe.SetAttribute(Consts.Index, i.ToString());
                     pe.SetAttribute(Consts.FrameworkAlternate, entry.Framework.Name);
                     MakeParamsAttributes(pe, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
-                    MdocUpdaterHelper.MakeTypeParameterConstraints(root, e, pe, attrs, constraints);
+                    MdocUpdaterHelper.MakeTypeParameterConstraints(root, e, pe, t);
                 }
             }
 
