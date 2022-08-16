@@ -4065,7 +4065,10 @@ namespace Mono.Documentation
                 }
             }
 
-            CheckFrameworkAlternateAttribute(typeEntry, e, "Parameter");
+            if (typeEntry.Framework.IsLastFrameworkForType(typeEntry))
+            {
+                ClearFrameworkAlternateIfAll(e, "Parameter", typeEntry.Framework.AllFrameworksWithType(typeEntry));
+            }
         }
 
         private void MakeTypeParameters (FrameworkTypeEntry entry, XmlElement root, IList<GenericParameter> typeParams, MemberReference member, bool shouldDuplicateWithNew)
@@ -4077,7 +4080,7 @@ namespace Mono.Documentation
 
             XmlElement e = WriteElement(root, "TypeParameters");
 
-            if (entry.Framework.IsFirstFrameworkForType(entry))
+            if (DocUtils.IsMemberOnFirstFramework(entry, member))
             {
                 e.RemoveAll();
             }
@@ -4115,6 +4118,8 @@ namespace Mono.Documentation
                 {
                     var xElement = existing.Element;
                     var fxaValue = FXUtils.AddFXToList(existing.FrameworkAlternates, entry.Framework.Name);
+                    xElement.RemoveAttribute(Consts.Index);
+                    xElement.SetAttribute(Consts.Index, i.ToString());
                     xElement.RemoveAttribute(Consts.FrameworkAlternate);
                     xElement.SetAttribute(Consts.FrameworkAlternate, fxaValue);
                     MakeParamsAttributes(existing.Element, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
@@ -4140,7 +4145,10 @@ namespace Mono.Documentation
                 }
             }
 
-            CheckFrameworkAlternateAttribute(entry, e, "TypeParameter");
+            if (DocUtils.IsMemberOnLastFramework(entry, member))
+            {
+                ClearFrameworkAlternateIfAll(e, "TypeParameter", DocUtils.GetAllFrameworksString(entry, member));
+            }
         }
 
         private void MakeParameters (XmlElement root, MemberReference mi, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew)

@@ -68,33 +68,29 @@ namespace Mono.Documentation
             }
         }
 
-        internal static void CheckFrameworkAlternateAttribute(FrameworkTypeEntry entry, XmlElement element, string elementName)
+        internal static void ClearFrameworkAlternateIfAll(XmlElement element, string elementName, string allFrameworks)
         {
-            if (entry == null || element == null || string.IsNullOrEmpty(elementName))
+            if (element == null || string.IsNullOrEmpty(elementName) || string.IsNullOrEmpty(allFrameworks))
             {
                 return;
             }
 
-            if (entry.Framework.IsLastFrameworkForType(entry))
+            var finalNodes = element.GetElementsByTagName(elementName).Cast<XmlElement>().ToArray();
+            foreach (var node in finalNodes)
             {
-                var allFrameworks = entry.Framework.AllFrameworksWithType(entry);
-                var finalNodes = element.GetElementsByTagName(elementName).Cast<XmlElement>().ToArray();
+                // if FXAlternate is entire list, just remove it
+                if (node.HasAttribute(Consts.FrameworkAlternate) && node.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
+                {
+                    node.RemoveAttribute(Consts.FrameworkAlternate);
+                }
+            }
+
+            // if there are no fx attributes left, just remove the indices entirely
+            if (!finalNodes.Any(n => n.HasAttribute(Consts.FrameworkAlternate)))
+            {
                 foreach (var node in finalNodes)
                 {
-                    // if FXAlternate is entire list, just remove it
-                    if (node.HasAttribute(Consts.FrameworkAlternate) && node.GetAttribute(Consts.FrameworkAlternate) == allFrameworks)
-                    {
-                        node.RemoveAttribute(Consts.FrameworkAlternate);
-                    }
-                }
-
-                // if there are no fx attributes left, just remove the indices entirely
-                if (!finalNodes.Any(n => n.HasAttribute(Consts.FrameworkAlternate)))
-                {
-                    foreach (var node in finalNodes)
-                    {
-                        node.RemoveAttribute(Consts.Index);
-                    }
+                    node.RemoveAttribute(Consts.Index);
                 }
             }
         }

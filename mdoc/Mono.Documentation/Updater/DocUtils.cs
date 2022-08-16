@@ -958,5 +958,35 @@ namespace Mono.Documentation.Updater
                     && customAttrProvider.CustomAttributes.Any(attr => attr.AttributeType.FullName == attributeName);
             }
         }
+
+        public static bool IsMemberOnFirstFramework(FrameworkTypeEntry entry, MemberReference member)
+        {
+            if (entry == null || member == null)
+            {
+                return false;
+            }
+
+            return member is TypeDefinition ? entry.Framework.IsFirstFrameworkForType(entry) : entry.IsMemberOnFirstFramework(member);
+        }
+
+        public static bool IsMemberOnLastFramework(FrameworkTypeEntry entry, MemberReference member)
+        {
+            if (entry == null || member == null)
+            {
+                return false;
+            }
+
+            return member is TypeDefinition ? entry.Framework.IsLastFrameworkForType(entry) : entry.IsMemberOnLastFramework(member);
+        }
+
+        public static string GetAllFrameworksString(FrameworkTypeEntry entry, MemberReference member)
+        {
+            if (entry == null || member == null)
+            {
+                return null;
+            }
+
+            return member is TypeDefinition ? entry.Framework.AllFrameworksWithType(entry) : entry.AllFrameworkStringForMember(member);
+        }
     }
 }
