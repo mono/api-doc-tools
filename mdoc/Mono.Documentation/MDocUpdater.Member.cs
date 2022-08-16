@@ -10,6 +10,11 @@ namespace Mono.Documentation
     {
         internal static void MakeTypeParameterConstraints(XmlElement root, XmlElement e, XmlElement pe, GenericParameter typeParameter)
         {
+            if (typeParameter == null)
+            {
+                return;
+            }
+
 #if NEW_CECIL
             Mono.Collections.Generic.Collection<GenericParameterConstraint> constraints = typeParameter.Constraints;
 #else
@@ -63,12 +68,17 @@ namespace Mono.Documentation
             }
         }
 
-        internal static void CheckFrameworkAlternateAttribute(FrameworkTypeEntry entry, XmlElement e, string elementName)
+        internal static void CheckFrameworkAlternateAttribute(FrameworkTypeEntry entry, XmlElement element, string elementName)
         {
+            if (entry == null || element == null || string.IsNullOrEmpty(elementName))
+            {
+                return;
+            }
+
             if (entry.Framework.IsLastFrameworkForType(entry))
             {
                 var allFrameworks = entry.Framework.AllFrameworksWithType(entry);
-                var finalNodes = e.GetElementsByTagName(elementName).Cast<XmlElement>().ToArray();
+                var finalNodes = element.GetElementsByTagName(elementName).Cast<XmlElement>().ToArray();
                 foreach (var node in finalNodes)
                 {
                     // if FXAlternate is entire list, just remove it
