@@ -10,7 +10,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using mdoc.Mono.Documentation.Util;
 using Mono.Cecil;
 using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Formatters;
@@ -25,7 +24,7 @@ using StringToXmlNodeMap = System.Collections.Generic.Dictionary<string, System.
 
 namespace Mono.Documentation
 {
-    public class MDocUpdater : MDocCommand
+    public partial class MDocUpdater : MDocCommand
     {
         string srcPath;
         List<AssemblySet> assemblies = new List<AssemblySet> ();
@@ -4063,7 +4062,7 @@ namespace Mono.Documentation
                 }
             }
 
-            MdocUpdaterHelper.CheckFrameworkAlternateAttribute(typeEntry, e, "Parameter");
+            CheckFrameworkAlternateAttribute(typeEntry, e, "Parameter");
         }
 
         private void MakeTypeParameters (FrameworkTypeEntry entry, XmlElement root, IList<GenericParameter> typeParams, MemberReference member, bool shouldDuplicateWithNew)
@@ -4134,11 +4133,11 @@ namespace Mono.Documentation
                     pe.SetAttribute(Consts.Index, i.ToString());
                     pe.SetAttribute(Consts.FrameworkAlternate, entry.Framework.Name);
                     MakeParamsAttributes(pe, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
-                    MdocUpdaterHelper.MakeTypeParameterConstraints(root, e, pe, t);
+                    MakeTypeParameterConstraints(root, e, pe, t);
                 }
             }
 
-            MdocUpdaterHelper.CheckFrameworkAlternateAttribute(entry, e, "TypeParameter");
+            CheckFrameworkAlternateAttribute(entry, e, "TypeParameter");
         }
 
         private void MakeParameters (XmlElement root, MemberReference mi, FrameworkTypeEntry typeEntry, ref bool fxAlternateTriggered, bool shouldDuplicateWithNew)

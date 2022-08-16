@@ -1,14 +1,12 @@
 ﻿using Mono.Cecil;
-using Mono.Documentation;
-using Mono.Documentation.Updater;
 using Mono.Documentation.Updater.Frameworks;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
-namespace mdoc.Mono.Documentation.Util
+namespace Mono.Documentation
 {
-    class MdocUpdaterHelper
+    public partial class MDocUpdater
     {
         internal static void MakeTypeParameterConstraints(XmlElement root, XmlElement e, XmlElement pe, GenericParameter typeParameter)
         {
@@ -97,11 +95,6 @@ namespace mdoc.Mono.Documentation.Util
             parent.AppendChild(n);
             n.InnerText = value;
             return n;
-        }
-
-        internal static string GetDocTypeFullName(TypeReference type, bool useTypeProjection = true, bool isTypeofOperator = false)
-        {
-            return DocTypeFullMemberFormatter.Default.GetName(type, useTypeProjection: useTypeProjection, isTypeofOperator: isTypeofOperator);
         }
     }
 }
