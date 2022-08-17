@@ -167,12 +167,10 @@ namespace Mono.Documentation.Updater
                     Parameters = new StringList (ptypes);
                 }
             }
-            XmlNodeList tp = node.SelectNodes ("TypeParameters/TypeParameter[not(@apistyle) or @apistyle='classic']");
-            if (tp.Count > 0)
+            var tpElements = node.SelectNodes ("TypeParameters/TypeParameter[not(@apistyle) or @apistyle='classic']").Cast<XmlElement>().ToArray();
+            if (tpElements.Length > 0)
             {
-                TypeParameters = new StringList (tp.Count);
-                for (int i = 0; i < tp.Count; ++i)
-                    TypeParameters.Add (tp[i].Attributes["Name"].Value);
+                TypeParameters = DocUtils.GetTypeParametersFromXMLElements(tpElements);
             }
             else
             {
