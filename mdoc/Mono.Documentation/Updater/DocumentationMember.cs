@@ -204,7 +204,7 @@ namespace Mono.Documentation.Updater
 
         internal static StringList GetTypeParametersFromXMLElements(XmlElement[] tpElements)
         {
-            if (tpElements == null || tpElements.Length > 0)
+            if (tpElements == null || tpElements.Length == 0)
             {
                 return null;
             }
