@@ -988,25 +988,5 @@ namespace Mono.Documentation.Updater
 
             return member is TypeDefinition ? entry.Framework.AllFrameworksWithType(entry) : entry.AllFrameworkStringForMember(member);
         }
-
-        public static List<string> GetTypeParametersFromXMLElements(XmlElement[] tpElements)
-        {
-            if (tpElements != null && tpElements.Length > 0)
-            {
-                if (tpElements.Any(tp => tp.HasAttribute(Consts.Index)))
-                {
-                    return tpElements.Select(tp => new
-                    {
-                        Index = tp.GetAttribute(Consts.Index),
-                        Name = tp.GetAttribute(Consts.Name)
-                    }).GroupBy(tp => tp.Index).Select(tp => tp.First().Name).ToList();
-                }
-                else
-                {
-                    return tpElements.Select(tp => tp.GetAttribute(Consts.Name)).ToList();
-                }
-            }
-            return null;
-        }
     }
 }
