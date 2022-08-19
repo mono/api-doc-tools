@@ -5,6 +5,7 @@ using StringList = System.Collections.Generic.List<string>;
 using StringToStringMap = System.Collections.Generic.Dictionary<string, string>;
 using Mono.Documentation.Updater.Frameworks;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("mdoc.Test")]
 namespace Mono.Documentation.Updater
 {
     public class DocumentationMember
