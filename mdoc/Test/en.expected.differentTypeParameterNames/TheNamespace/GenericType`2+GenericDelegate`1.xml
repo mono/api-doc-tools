@@ -1,15 +1,8 @@
 <Type Name="GenericType&lt;K2,V2&gt;+GenericDelegate&lt;D2&gt;" FullName="TheNamespace.GenericType&lt;K2,V2&gt;+GenericDelegate&lt;D2&gt;">
   <TypeSignature Language="C#" Value="public delegate void GenericType&lt;K1,V1&gt;.GenericDelegate&lt;D1&gt;();" FrameworkAlternate="One" />
   <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed GenericType`2/GenericDelegate`1&lt;K1, V1, D1&gt; extends System.MulticastDelegate" FrameworkAlternate="One" />
-  <TypeSignature Language="DocId" Value="T:TheNamespace.GenericType`2.GenericDelegate`1" />
-  <TypeSignature Language="VB.NET" Value="Public Delegate Sub GenericType(Of K1, V1).GenericDelegate(Of D1)()" FrameworkAlternate="One" />
-  <TypeSignature Language="C++ CLI" Value="public: generic &lt;typename D1&gt;&#xA;delegate void GenericType&lt;K1, V1&gt;::GenericDelegate();" FrameworkAlternate="One" />
-  <TypeSignature Language="F#" Value="type GenericType&lt;'K1, 'V1&gt;.GenericDelegate&lt;'D1&gt; = delegate of unit -&gt; unit" FrameworkAlternate="One" />
   <TypeSignature Language="C#" Value="public delegate void GenericType&lt;K2,V2&gt;.GenericDelegate&lt;D2&gt;();" FrameworkAlternate="Two" />
   <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed GenericType`2/GenericDelegate`1&lt;K2, V2, D2&gt; extends System.MulticastDelegate" FrameworkAlternate="Two" />
-  <TypeSignature Language="VB.NET" Value="Public Delegate Sub GenericType(Of K2, V2).GenericDelegate(Of D2)()" FrameworkAlternate="Two" />
-  <TypeSignature Language="C++ CLI" Value="public: generic &lt;typename D2&gt;&#xA;delegate void GenericType&lt;K2, V2&gt;::GenericDelegate();" FrameworkAlternate="Two" />
-  <TypeSignature Language="F#" Value="type GenericType&lt;'K2, 'V2&gt;.GenericDelegate&lt;'D2&gt; = delegate of unit -&gt; unit" FrameworkAlternate="Two" />
   <AssemblyInfo>
     <AssemblyName>DocTest-differentTypeParameterNames-First</AssemblyName>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>

@@ -5,32 +5,7 @@
         <Attribute>
           <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.Default | System.Diagnostics.DebuggableAttribute+DebuggingModes.DisableOptimizations | System.Diagnostics.DebuggableAttribute+DebuggingModes.EnableEditAndContinue | System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
         </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyCompany("DocTest-differentTypeParameterNames-First")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyConfiguration("Debug")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyFileVersion("0.0.0.0")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyInformationalVersion("1.0.0")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyProduct("DocTest-differentTypeParameterNames-First")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyTitle("DocTest-differentTypeParameterNames-First")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Runtime.CompilerServices.CompilationRelaxations(8)</AttributeName>
-        </Attribute>
-        <Attribute>
           <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v6.0", FrameworkDisplayName="")</AttributeName>
         </Attribute>
       </Attributes>
     </Assembly>
@@ -39,32 +14,7 @@
         <Attribute>
           <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.Default | System.Diagnostics.DebuggableAttribute+DebuggingModes.DisableOptimizations | System.Diagnostics.DebuggableAttribute+DebuggingModes.EnableEditAndContinue | System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
         </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyCompany("DocTest-differentTypeParameterNames-Second")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyConfiguration("Debug")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyFileVersion("0.0.0.0")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyInformationalVersion("1.0.0")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyProduct("DocTest-differentTypeParameterNames-Second")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Reflection.AssemblyTitle("DocTest-differentTypeParameterNames-Second")</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Runtime.CompilerServices.CompilationRelaxations(8)</AttributeName>
-        </Attribute>
-        <Attribute>
           <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
-        </Attribute>
-        <Attribute>
-          <AttributeName>System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v6.0", FrameworkDisplayName="")</AttributeName>
         </Attribute>
       </Attributes>
     </Assembly>
