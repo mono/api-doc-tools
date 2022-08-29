@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="One">
+  <Assemblies>
+    <Assembly Name="DocTest-differentTypeParameterNames-First" Version="0.0.0.0" />
+  </Assemblies>
+  <Namespace Name="TheNamespace">
+    <Type Name="TheNamespace.GenericType`2" Id="T:TheNamespace.GenericType`2">
+      <Member Id="M:TheNamespace.GenericType`2.#ctor" />
+      <Member Id="M:TheNamespace.GenericType`2.GenericMethod``2" />
+    </Type>
+    <Type Name="TheNamespace.GenericType`2/GenericDelegate`1" Id="T:TheNamespace.GenericType`2.GenericDelegate`1" />
+  </Namespace>
+</Framework>
