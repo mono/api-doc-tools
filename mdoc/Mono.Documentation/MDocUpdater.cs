@@ -3954,9 +3954,10 @@ namespace Mono.Documentation
                          .Select ((n, i) =>
                          {
                              int actualIndex = i;
-                             if (n.HasAttribute (Consts.Index))
-                                 int.TryParse (n.GetAttribute (Consts.Index), out actualIndex);
-
+                             if (n.HasAttribute (Consts.Index) && int.TryParse(n.GetAttribute(Consts.Index), out int index))
+                             {
+                                 actualIndex = index;
+                             }
 
                              return new
                              {
@@ -4090,8 +4091,10 @@ namespace Mono.Documentation
                          .Select((n, i) =>
                          {
                              int index = i;
-                             if (n.HasAttribute(Consts.Index))
-                                 int.TryParse(n.GetAttribute(Consts.Index), out index);
+                             if (n.HasAttribute(Consts.Index) && int.TryParse(n.GetAttribute(Consts.Index), out int result))
+                             {
+                                 index = result;
+                             }
 
                              return new
                              {
