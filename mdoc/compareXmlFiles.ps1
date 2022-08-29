@@ -257,7 +257,7 @@ Write-Host "$nugetPath install $mdocPackageId -Version $lastVersion -Source $mdo
 
 $releaseMdocPath = Join-Path $binPath "mdoc.$lastVersion"
 dir $releaseMdocPath
-$releaseMdocPath = Join-Path $releaseMdocPath "tools\mdoc.exe"
+$releaseMdocPath = Join-Path $releaseMdocPath "tools\net471\mdoc.exe"
 Write-Host "Download $mdocPackageId to path: $releasemdocPath"
 
 

@@ -150,6 +150,14 @@ Test/DocTest-differentTypeDefinitions-Second.dll:
 	rm -f $@
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-differentTypeDefinitions.cs /define:SECOND
 
+Test/DocTest-differentTypeParameterNames-First.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-differentTypeParameterNames.cs /define:FIRST
+
+Test/DocTest-differentTypeParameterNames-Second.dll:
+	rm -f $@
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-differentTypeParameterNames.cs /define:SECOND
+
 Test/DocTest-typeForwards-First.dll:
 	rm -f $@
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-typeForwards.cs /define:FIRST
@@ -231,6 +239,21 @@ check-monodocer-differentTypeDefinitions : Test/DocTest-differentTypeDefinitions
 
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeDefinitions
 	$(DIFF) Test/en.expected.differentTypeDefinitions Test/en.actual
+
+.PHONY: check-monodocer-differentTypeParameterNames
+check-monodocer-differentTypeParameterNames : Test/DocTest-differentTypeParameterNames-First.dll Test/DocTest-differentTypeParameterNames-Second.dll
+	-rm -Rf Test/en.actual
+
+	-rm -Rf Test/FrameworkTestData-fx-differentTypeParameterNames
+	mkdir Test/FrameworkTestData-fx-differentTypeParameterNames
+	mkdir Test/FrameworkTestData-fx-differentTypeParameterNames/One
+	mkdir Test/FrameworkTestData-fx-differentTypeParameterNames/Two
+	cp Test/DocTest-differentTypeParameterNames-First.dll Test/FrameworkTestData-fx-differentTypeParameterNames/One
+	cp Test/DocTest-differentTypeParameterNames-Second.dll Test/FrameworkTestData-fx-differentTypeParameterNames/Two
+	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-differentTypeParameterNames
+
+	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeParameterNames
+	$(DIFF) Test/en.expected.differentTypeParameterNames Test/en.actual
 
 .PHONY: check-monodocer-typeForwards
 check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-typeForwards-Second.dll Test/DocTest-typeForwards-Third.dll
@@ -951,7 +974,8 @@ check-doc-tools:  \
 	check-ignored-namespace-generic \
 	check-multiple-mdoc \
 	check-type-projection \
-	check-long-file-name
+	check-long-file-name \
+	check-monodocer-differentTypeParameterNames
 
 #check-monodocer-dropns-delete 
 check-doc-tools-update: check-monodocer-since-update \

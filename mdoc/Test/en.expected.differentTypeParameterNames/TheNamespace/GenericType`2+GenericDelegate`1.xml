@@ -1,0 +1,31 @@
+<Type Name="GenericType&lt;K2,V2&gt;+GenericDelegate&lt;D2&gt;" FullName="TheNamespace.GenericType&lt;K2,V2&gt;+GenericDelegate&lt;D2&gt;">
+  <TypeSignature Language="C#" Value="public delegate void GenericType&lt;K1,V1&gt;.GenericDelegate&lt;D1&gt;();" FrameworkAlternate="One" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed GenericType`2/GenericDelegate`1&lt;K1, V1, D1&gt; extends System.MulticastDelegate" FrameworkAlternate="One" />
+  <TypeSignature Language="C#" Value="public delegate void GenericType&lt;K2,V2&gt;.GenericDelegate&lt;D2&gt;();" FrameworkAlternate="Two" />
+  <TypeSignature Language="ILAsm" Value=".class nested public auto ansi sealed GenericType`2/GenericDelegate`1&lt;K2, V2, D2&gt; extends System.MulticastDelegate" FrameworkAlternate="Two" />
+  <AssemblyInfo>
+    <AssemblyName>DocTest-differentTypeParameterNames-First</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>DocTest-differentTypeParameterNames-Second</AssemblyName>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="D1" Index="0" FrameworkAlternate="One" />
+    <TypeParameter Name="D2" Index="0" FrameworkAlternate="Two" />
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>System.Delegate</BaseTypeName>
+  </Base>
+  <Parameters />
+  <ReturnValue>
+    <ReturnType>System.Void</ReturnType>
+  </ReturnValue>
+  <Docs>
+    <typeparam name="D1">To be added.</typeparam>
+    <typeparam name="D2">To be added.</typeparam>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+</Type>
