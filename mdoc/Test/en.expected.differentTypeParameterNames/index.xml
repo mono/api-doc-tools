@@ -1,0 +1,33 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="DocTest-differentTypeParameterNames-First" Version="0.0.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+    <Assembly Name="DocTest-differentTypeParameterNames-Second" Version="0.0.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Diagnostics.Debuggable(System.Diagnostics.DebuggableAttribute+DebuggingModes.IgnoreSymbolStoreSequencePoints)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+  </Assemblies>
+  <Remarks>To be added.</Remarks>
+  <Copyright>To be added.</Copyright>
+  <Types>
+    <Namespace Name="TheNamespace">
+      <Type Name="GenericType`2" DisplayName="GenericType&lt;K2,V2&gt;" Kind="Class" />
+      <Type Name="GenericType`2+GenericDelegate`1" DisplayName="GenericType&lt;K2,V2&gt;+GenericDelegate&lt;D2&gt;" Kind="Delegate" />
+    </Namespace>
+  </Types>
+  <Title>Untitled</Title>
+</Overview>

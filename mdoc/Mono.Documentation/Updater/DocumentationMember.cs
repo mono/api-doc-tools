@@ -5,6 +5,7 @@ using StringList = System.Collections.Generic.List<string>;
 using StringToStringMap = System.Collections.Generic.Dictionary<string, string>;
 using Mono.Documentation.Updater.Frameworks;
 
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("mdoc.Test")]
 namespace Mono.Documentation.Updater
 {
     public class DocumentationMember
@@ -167,12 +168,11 @@ namespace Mono.Documentation.Updater
                     Parameters = new StringList (ptypes);
                 }
             }
-            XmlNodeList tp = node.SelectNodes ("TypeParameters/TypeParameter[not(@apistyle) or @apistyle='classic']");
-            if (tp.Count > 0)
+            var tpElements = node.SelectNodes ("TypeParameters/TypeParameter[not(@apistyle) or @apistyle='classic']").Cast<XmlElement>().ToArray();
+            if (tpElements.Length > 0)
             {
-                TypeParameters = new StringList (tp.Count);
-                for (int i = 0; i < tp.Count; ++i)
-                    TypeParameters.Add (tp[i].Attributes["Name"].Value);
+                // Type parameter names may vary with moniker so we should group them by their indexes.
+                TypeParameters = GetTypeParametersFromXMLElements(tpElements);
             }
             else
             {
@@ -201,6 +201,27 @@ namespace Mono.Documentation.Updater
                 return MemberSignatures.Values.First ();
             else
                 return $"{MemberType}{ReturnType} {MemberName}<{TypeParameters.Count}> ({Parameters.Count})";
+        }
+
+        internal static StringList GetTypeParametersFromXMLElements(XmlElement[] tpElements)
+        {
+            if (tpElements == null || tpElements.Length == 0)
+            {
+                return null;
+            }
+
+            if (tpElements.Any(tp => tp.HasAttribute(Consts.Index)))
+            {
+                return tpElements.Select(tp => new
+                {
+                    Index = tp.GetAttribute(Consts.Index),
+                    Name = tp.GetAttribute(Consts.Name)
+                }).GroupBy(tp => tp.Index).Select(tp => tp.First().Name).ToList();
+            }
+            else
+            {
+                return tpElements.Select(tp => tp.GetAttribute(Consts.Name)).ToList();
+            }
         }
     }
 }

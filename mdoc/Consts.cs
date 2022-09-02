@@ -3,7 +3,7 @@ namespace Mono.Documentation
 {
     public static class Consts
     {
-        public static string MonoVersion = "5.9.0";
+        public static string MonoVersion = "5.9.1";
         public const string DocId = "DocId";
         public const string CppCli = "C++ CLI";
         public const string CppCx = "C++ CX";
@@ -41,6 +41,7 @@ namespace Mono.Documentation
         public const string FrameworksIndex = "FrameworksIndex";
         public const string FrameworkAlternate = "FrameworkAlternate";
         public const string Index = "Index";
+        public const string Name = "Name";
 
         public static bool CollapseInheritedInterfaces = true;
 
