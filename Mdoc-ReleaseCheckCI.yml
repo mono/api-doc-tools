@@ -9,7 +9,7 @@ pr:
 
 # Variable 'needRunReleaseMdoc' was defined in the Variables tab
 # Variable 'params' was defined in the Variables tab
-# Agent Queue 'Azure Pipelines' was used with unrecognized Agent Specification, vmImage property must be specified to determine image - https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#software
+# Agent Queue 'Azure Pipelines' was used with unrecognized Agent Specification, vmImage property must be specified to determine image - https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#software
 variables:
   solution: 'apidoctools.sln'
   buildConfiguration: 'Release'
