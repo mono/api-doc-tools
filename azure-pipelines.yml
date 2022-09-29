@@ -11,7 +11,7 @@ name: $(SourceBranchName)-$(Date:yyyyMMdd)$(Rev:.r)
 variables:
   solution: 'apidoctools.sln'
   buildConfiguration: 'Release'
-  mdocPath: 'bin/$(buildConfiguration)-6.0'
+  mdocPath: 'bin/$(buildConfiguration)-net6.0'
 
 stages:
 - stage: SDLCheck
