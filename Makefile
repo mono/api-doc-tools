@@ -8,7 +8,7 @@ all: build
 build: $(MDOC)
 
 $(MDOC):
-	dotnet build -v:n apidoctools.sln /p:Configuration=$(CONFIGURATION)
+	dotnet build -v:n apidoctools.sln /p:Configuration=$(CONFIGURATION) -r win-x64 --no-self-contained
 
 prepare:
 	git submodule update --init --recursive
@@ -18,6 +18,7 @@ prepare:
 clean:
 	dotnet build -v:n apidoctools.sln /t:clean /p:Configuration=$(CONFIGURATION)
 	rm -rf bin/$(CONFIGURATION)
+	rm -rf bin/$(CONFIGURATION)-net6.0
 
 check: build check-monodoc check-mdoc
 
