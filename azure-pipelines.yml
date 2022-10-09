@@ -206,7 +206,7 @@ stages:
       displayName: 'Sign NuGet packages'
       condition: eq(variables['mdocVersion.NeedUpdate'], true)
       inputs:
-        ConnectedServiceName: 'Docs ESRP Code Signing'
+        ConnectedServiceName: 'CodeSigning-APEX'
         FolderPath: '$(Build.ArtifactStagingDirectory)'
         Pattern: '*.nupkg'
         signConfigType: inlineSignParams
