@@ -15,7 +15,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' != 'net471' ">
-    <OutputPath>bin\$(Configuration)-$(TargetFramework)</OutputPath>
+     <OutputPath>bin\$(Configuration)-$(TargetFramework)</OutputPath>
+	  <EnablePreviewFeatures>true</EnablePreviewFeatures>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net471' ">
