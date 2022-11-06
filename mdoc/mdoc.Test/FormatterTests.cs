@@ -524,6 +524,16 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, methodSignature);
         }
 
+        [TestCase("StaticVirtualMethod", "public static override int StaticVirtualMethod (int left, int right);")]
+        public void CSharpStaticVirtualMemberTest(string methodName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var type = GetType(staticVirtualMemberDllPath, "StaticVirtualMembers.StaticVirtualMemberInInterface`3");
+            var method = GetMethod(type, m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
