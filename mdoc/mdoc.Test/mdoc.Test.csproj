@@ -1,25 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net471;net6.0</TargetFrameworks>
+    <TargetFramework>net471</TargetFramework>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
     <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net471' ">
-    <OutputPath>bin\$(Configuration)</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' != 'net471' ">
-     <OutputPath>bin\$(Configuration)-$(TargetFramework)</OutputPath>
-	  <EnablePreviewFeatures>true</EnablePreviewFeatures>
-  </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net471' ">
+  <ItemGroup>
     <Reference Include="mdoc.Test.Cplusplus, Version=1.0.6709.28740, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\external\Test\mdoc.Test.Cplusplus.dll</HintPath>
@@ -38,15 +37,11 @@
       <HintPath>..\..\external\Windows\Windows.Foundation.UniversalApiContract.winmd</HintPath>
     </Reference>
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Mono.Cecil" Version="$(NuGetVersionMonoCecil)" />
-    <PackageReference Include="Newtonsoft.Json" Version="$(NuGetVersionNewtonsoftJson)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
-    <PackageReference Include="NUnit3TestAdapter" Version="$(NuGetVersionNUnit3TestAdapter)" />
+	<PackageReference Include="NUnit3TestAdapter" Version="$(NuGetVersionNUnit3TestAdapter)" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="cppcli\cppcli\cppcli.h">
       <Link>SampleClasses\cppcli.h</Link>
