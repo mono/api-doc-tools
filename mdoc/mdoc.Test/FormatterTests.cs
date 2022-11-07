@@ -524,14 +524,46 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, methodSignature);
         }
 
-        [TestCase("StaticVirtualMethod", "public static override int StaticVirtualMethod (int left, int right);")]
-        public void CSharpStaticVirtualMemberTest(string methodName, string expectedSignature)
+        [TestCase("StaticVirtualMembers.StaticVirtualMemberInInterface`3", "StaticVirtualMethod", "public static virtual int StaticVirtualMethod (int left, int right);")]
+        [TestCase("StaticVirtualMembers.StaticVirtualMemberInInterface`3", "op_Addition", "public static abstract TResult operator + (TSelf left, TOther right);")]
+        [TestCase("StaticVirtualMembers.StaticVirtualMemberInInterface`3", "op_CheckedAddition", "public static virtual TResult op_CheckedAddition (TSelf left, TOther right);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "M", "public static abstract void M ();")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "M1", "public static virtual void M1 ();")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Addition", "public static abstract T operator + (T l, T r);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Equality", "public static abstract bool operator == (T l, T r);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Inequality", "public static abstract bool operator != (T l, T r);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Implicit", "public static abstract implicit operator T (string s);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Explicit", "public static abstract explicit operator string (T t);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_CheckedAddition", "public static virtual T op_CheckedAddition (T l, T r);")]
+        public void CSharpStaticVirtualMethodTest(string typeFullName, string methodName, string expectedSignature)
         {
             var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
-            var type = GetType(staticVirtualMemberDllPath, "StaticVirtualMembers.StaticVirtualMemberInInterface`3");
+            var type = GetType(staticVirtualMemberDllPath, typeFullName);
             var method = GetMethod(type, m => m.Name == methodName);
             var methodSignature = formatter.GetDeclaration(method);
             Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "P", "public static abstract T P { get; set; }")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "P1", "public static virtual T P1 { get; set; }")]
+        public void CSharpStaticVirtualPropertyTest(string typeFullName, string propertyName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var type = GetType(staticVirtualMemberDllPath, typeFullName);
+            var property = GetProperty(type, propertyName);
+            var propertySignature = formatter.GetDeclaration(property);
+            Assert.AreEqual(expectedSignature, propertySignature);
+        }
+
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "E", "static abstract event Action E;")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "E1", "static virtual event Action E1;")]
+        public void CSharpStaticVirtualEventTest(string typeFullName, string eventName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var type = GetType(staticVirtualMemberDllPath, typeFullName);
+            var e = GetEvent(type, eventName);
+            var eventSignature = formatter.GetDeclaration(e);
+            Assert.AreEqual(expectedSignature, eventSignature);
         }
 
         #region Helper Methods

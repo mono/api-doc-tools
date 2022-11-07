@@ -519,11 +519,11 @@ namespace Mono.Documentation.Updater.Formatters
             if (method.IsStatic) modifiers += " static";
             if (method.IsVirtual && !method.IsAbstract)
             {
-                if ((method.Attributes & MethodAttributes.NewSlot) != 0) modifiers += " virtual";
+                if ((method.Attributes & MethodAttributes.NewSlot) != 0 || method.IsStatic) modifiers += " virtual";
                 else modifiers += " override";
             }
             TypeDefinition declType = (TypeDefinition)method.DeclaringType;
-            if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
+            if (method.IsAbstract && (!declType.IsInterface || method.IsStatic)) modifiers += " abstract";
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
             if (declType.IsValueType && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
@@ -541,7 +541,7 @@ namespace Mono.Documentation.Updater.Formatters
                     break;
             }
 
-            return buf.Append (modifiers);
+            return buf.Append (buf.Length == 0 ? modifiers.TrimStart() : modifiers);
         }
 
         protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, IAttributeParserContext context)
@@ -691,23 +691,8 @@ namespace Mono.Documentation.Updater.Formatters
             if (method == null)
                 method = property.GetMethod;
 
-            string modifiers = String.Empty;
-            if (method.IsStatic) modifiers += " static";
-            if (method.IsVirtual && !method.IsAbstract)
-            {
-                if ((method.Attributes & MethodAttributes.NewSlot) != 0)
-                    modifiers += " virtual";
-                else
-                    modifiers += " override";
-            }
-            TypeDefinition declDef = (TypeDefinition)method.DeclaringType;
-            if (method.IsAbstract && !declDef.IsInterface)
-                modifiers += " abstract";
-            if (method.IsFinal)
-                modifiers += " sealed";
-            if (modifiers == " virtual sealed")
-                modifiers = "";
-            buf.Append (modifiers).Append (' ');
+            AppendModifiers(buf, method);
+            buf.Append(' ');
 
             var context = AttributeParserContext.Create (property);
             var isNullableType = context.IsNullable ();
