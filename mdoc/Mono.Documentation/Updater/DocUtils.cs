@@ -161,7 +161,18 @@ namespace Mono.Documentation.Updater
 
         public static bool IsExplicitlyImplemented (MethodDefinition method)
         {
-            return method != null && method.IsPrivate && method.IsFinal && method.IsVirtual;
+            if (method == null || !method.IsPrivate)
+            {
+                return false;
+            }
+
+            if (method.IsFinal && method.IsVirtual)
+            {
+                return true;
+            }
+
+            // Support C# 11 EII for static abstract members in interface
+            return method.IsStatic && method.HasOverrides;
         }
 
         public static string GetTypeDotMember (string name)
