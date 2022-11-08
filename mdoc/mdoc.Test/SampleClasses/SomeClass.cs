@@ -99,7 +99,7 @@ namespace mdoc.Test.SampleClasses
         {
         }
 
-        public ref T TestScopedKeyword<T>(scoped in T p1, scoped out T p2, scoped ref T p3)
+        public ref T TestScopedParams<T>(scoped in T p1, scoped out T p2, scoped ref T p3)
         {
             throw new PlatformNotSupportedException();
         }
