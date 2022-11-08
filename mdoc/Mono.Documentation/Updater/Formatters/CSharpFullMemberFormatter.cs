@@ -387,15 +387,20 @@ namespace Mono.Documentation.Updater.Formatters
                 TypeReference iface;
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod (method, out iface, out ifaceMethod);
-                return buf.Append (new CSharpMemberFormatter (this.TypeMap).GetName (iface))
-                    .Append ('.')
-                    .Append (ifaceMethod.Name);
+                buf.Append(new CSharpMemberFormatter(this.TypeMap).GetName(iface))
+                   .Append('.');
+                return AppendOperatorName(buf, ifaceMethod.Name) == null ? buf.Append(ifaceMethod.Name) : buf;
             }
 
-            if (method.Name.StartsWith ("op_", StringComparison.Ordinal))
+            return AppendOperatorName(buf, method.Name) == null ? base.AppendMethodName(buf, method) : buf;
+        }
+
+        private StringBuilder AppendOperatorName(StringBuilder buf, string methodName)
+        {
+            if (methodName != null && methodName.StartsWith("op_", StringComparison.Ordinal))
             {
                 // this is an operator
-                switch (method.Name)
+                switch (methodName)
                 {
                     case "op_Implicit":
                     case "op_Explicit":
@@ -403,56 +408,55 @@ namespace Mono.Documentation.Updater.Formatters
                         return buf;
                     case "op_Addition":
                     case "op_UnaryPlus":
-                        return buf.Append ("operator +");
+                        return buf.Append("operator +");
                     case "op_Subtraction":
                     case "op_UnaryNegation":
-                        return buf.Append ("operator -");
+                        return buf.Append("operator -");
                     case "op_Division":
-                        return buf.Append ("operator /");
+                        return buf.Append("operator /");
                     case "op_Multiply":
-                        return buf.Append ("operator *");
+                        return buf.Append("operator *");
                     case "op_Modulus":
-                        return buf.Append ("operator %");
+                        return buf.Append("operator %");
                     case "op_BitwiseAnd":
-                        return buf.Append ("operator &");
+                        return buf.Append("operator &");
                     case "op_BitwiseOr":
-                        return buf.Append ("operator |");
+                        return buf.Append("operator |");
                     case "op_ExclusiveOr":
-                        return buf.Append ("operator ^");
+                        return buf.Append("operator ^");
                     case "op_LeftShift":
-                        return buf.Append ("operator <<");
+                        return buf.Append("operator <<");
                     case "op_RightShift":
-                        return buf.Append ("operator >>");
+                        return buf.Append("operator >>");
                     case "op_LogicalNot":
-                        return buf.Append ("operator !");
+                        return buf.Append("operator !");
                     case "op_OnesComplement":
-                        return buf.Append ("operator ~");
+                        return buf.Append("operator ~");
                     case "op_Decrement":
-                        return buf.Append ("operator --");
+                        return buf.Append("operator --");
                     case "op_Increment":
-                        return buf.Append ("operator ++");
+                        return buf.Append("operator ++");
                     case "op_True":
-                        return buf.Append ("operator true");
+                        return buf.Append("operator true");
                     case "op_False":
-                        return buf.Append ("operator false");
+                        return buf.Append("operator false");
                     case "op_Equality":
-                        return buf.Append ("operator ==");
+                        return buf.Append("operator ==");
                     case "op_Inequality":
-                        return buf.Append ("operator !=");
+                        return buf.Append("operator !=");
                     case "op_LessThan":
-                        return buf.Append ("operator <");
+                        return buf.Append("operator <");
                     case "op_LessThanOrEqual":
-                        return buf.Append ("operator <=");
+                        return buf.Append("operator <=");
                     case "op_GreaterThan":
-                        return buf.Append ("operator >");
+                        return buf.Append("operator >");
                     case "op_GreaterThanOrEqual":
-                        return buf.Append ("operator >=");
+                        return buf.Append("operator >=");
                     default:
-                        return base.AppendMethodName (buf, method);
+                        return null;
                 }
             }
-            else
-                return base.AppendMethodName (buf, method);
+            return null;
         }
 
         protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)

@@ -566,7 +566,7 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, eventSignature);
         }
 
-        [TestCase("StaticVirtualMembers.Derived","M", "public static void M ();")]
+        [TestCase("StaticVirtualMembers.Derived", "M", "public static void M ();")]
         [TestCase("StaticVirtualMembers.Derived",
             "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.M",
             "static void StaticVirtualMemberInInterface<Derived,Derived,int>.M ();")]
@@ -575,7 +575,7 @@ namespace mdoc.Test
             "void StaticVirtualMemberInInterface<Derived,Derived,int>.ToBeImplemented ();")]
         [TestCase("StaticVirtualMembers.Derived",
             "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.op_Addition",
-            "static int StaticVirtualMemberInInterface<Derived,Derived,int>.op_Addition (Derived left, Derived right);")]
+            "static int StaticVirtualMemberInInterface<Derived,Derived,int>.operator + (Derived left, Derived right);")]
         public void CSharpStaticMethodImplementation(string typeFullName, string methodName, string expectedSignature)
         {
             var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
