@@ -271,6 +271,15 @@ namespace mdoc.Test
             Assert.AreEqual(expectedSignature, actualSignature);
         }
 
+        [TestCase(typeof(SomeClass), "TestScopedParams", "public ref T TestScopedParams<T> (scoped in T p1, out T p2, scoped ref T p3);")]
+        public void CSharpScopedParamsTest(Type type, string methodName, string expectedSignature)
+        {
+            var member = GetMethod(type, m => m.Name == methodName);
+            var actualSignature = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSignature, actualSignature);
+        }
+
+
         [TestCase(typeof(ReadonlyRefClass), "RefProperty", "public ref int RefProperty { get; }")]
         [TestCase(typeof(ReadonlyRefClass), "Item", "public ref readonly int this[int index] { get; }")]
         [TestCase(typeof(GenericRefClass<>), "RefProperty", "public ref T RefProperty { get; }")]

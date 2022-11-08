@@ -612,6 +612,13 @@ namespace Mono.Documentation.Updater.Formatters
             TypeReference parameterType = parameter.ParameterType;
             var refType = new BitArray(3);
 
+            if (parameter.HasCustomAttributes)
+            {
+                var isScoped = parameter.CustomAttributes.Any(ca => ca.AttributeType.Name == "LifetimeAnnotationAttribute");
+                if (isScoped)
+                    buf.AppendFormat("scoped ");
+            }
+
             if (parameterType is RequiredModifierType requiredModifierType)
             {
                 switch(requiredModifierType.ModifierType.FullName)
