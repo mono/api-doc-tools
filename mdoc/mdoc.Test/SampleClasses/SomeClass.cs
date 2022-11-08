@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mono.Cecil.Cil;
+using System;
 using Windows.Foundation.Metadata;
 
 namespace mdoc.Test.SampleClasses
@@ -96,6 +97,11 @@ namespace mdoc.Test.SampleClasses
 
         public void get_Method()
         {
+        }
+
+        public ref T TestScopedKeyword<T>(scoped in T p1, scoped out T p2, scoped ref T p3)
+        {
+            throw new PlatformNotSupportedException();
         }
 
         public event EventHandler<object> AppMemoryUsageIncreased;
