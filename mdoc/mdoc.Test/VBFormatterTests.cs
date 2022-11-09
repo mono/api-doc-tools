@@ -132,6 +132,15 @@ namespace mdoc.Test
             Assert.AreEqual("Public Sub SomeMethod4 (ByRef a As String, t As T, Optional b As Object = Nothing)", sig);
         }
 
+        [TestCase("StaticVirtualMembers.Derived",
+            "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.op_Addition",
+            " Shared Operator + (left As Derived, right As Derived) As Integer Implements StaticVirtualMemberInInterface(Of Derived, Derived, Integer).op_Addition")]
+        public void VBStaticOperatorImplementation(string typeFullName, string methodName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name)
         {

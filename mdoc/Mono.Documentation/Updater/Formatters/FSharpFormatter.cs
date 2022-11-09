@@ -537,7 +537,7 @@ namespace Mono.Documentation.Updater
 
         private void AppendModuleMethod(StringBuilder buf, MethodDefinition method)
         {
-            if (!IsOperator(method))
+            if (!DocUtils.IsOperator(method))
             {
                 buf.Append($"{GetModuleName(method.DeclaringType)}.");
             }
@@ -591,7 +591,7 @@ namespace Mono.Documentation.Updater
 
         protected override StringBuilder AppendMethodName(StringBuilder buf, MethodDefinition method)
         {
-            if (IsOperator(method))
+            if (DocUtils.IsOperator(method))
             {
                 // this is an operator
                 if (TryAppendOperatorName(buf, method))
@@ -874,7 +874,7 @@ namespace Mono.Documentation.Updater
 
         protected bool TryAppendOperatorName(StringBuilder buf, MethodDefinition method)
         {
-            if (!IsOperator(method))
+            if (!DocUtils.IsOperator(method))
                 return false;
             var methodName = method.Name.Split('.').Last();
             if (operators.ContainsKey(methodName))
@@ -926,11 +926,6 @@ namespace Mono.Documentation.Updater
         }
 
         #region "Is" methods
-        private static bool IsOperator(MethodDefinition method)
-        {
-            return method.Name.Split('.').Last().StartsWith("op_", StringComparison.Ordinal);
-        }
-
         private static bool IsFSharpFunction(TypeReference type)
         {
             return type.FullName.StartsWith("Microsoft.FSharp.Core.FSharpFunc`");

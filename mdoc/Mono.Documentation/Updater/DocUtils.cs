@@ -843,7 +843,7 @@ namespace Mono.Documentation.Updater
 
         public static bool IsOperator(MethodReference method)
         {
-            return method.Name.StartsWith("op_", StringComparison.Ordinal);
+            return method.Name.Split('.').Last().StartsWith("op_", StringComparison.Ordinal);
         }
 
         public static bool DocIdCheck(XmlNode a, XmlElement b)
