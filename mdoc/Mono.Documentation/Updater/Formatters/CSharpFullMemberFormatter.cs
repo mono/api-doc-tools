@@ -380,24 +380,20 @@ namespace Mono.Documentation.Updater.Formatters
             return null;
         }
 
-        protected override StringBuilder AppendMethodName (StringBuilder buf, MethodDefinition method)
+        protected override StringBuilder AppendMethodName(StringBuilder buf, MethodDefinition method)
         {
-            if (DocUtils.IsExplicitlyImplemented (method))
+            var methodName = method.Name;
+            if (DocUtils.IsExplicitlyImplemented(method))
             {
                 TypeReference iface;
                 MethodReference ifaceMethod;
-                DocUtils.GetInfoForExplicitlyImplementedMethod (method, out iface, out ifaceMethod);
+                DocUtils.GetInfoForExplicitlyImplementedMethod(method, out iface, out ifaceMethod);
                 buf.Append(new CSharpMemberFormatter(this.TypeMap).GetName(iface))
-                   .Append('.');
-                return AppendOperatorName(buf, ifaceMethod.Name) == null ? buf.Append(ifaceMethod.Name) : buf;
+                    .Append('.');
+                methodName = ifaceMethod.Name;
             }
 
-            return AppendOperatorName(buf, method.Name) == null ? base.AppendMethodName(buf, method) : buf;
-        }
-
-        private StringBuilder AppendOperatorName(StringBuilder buf, string methodName)
-        {
-            if (methodName != null && methodName.StartsWith("op_", StringComparison.Ordinal))
+            if (methodName.StartsWith("op_", StringComparison.Ordinal))
             {
                 // this is an operator
                 switch (methodName)
@@ -453,10 +449,13 @@ namespace Mono.Documentation.Updater.Formatters
                     case "op_GreaterThanOrEqual":
                         return buf.Append("operator >=");
                     default:
-                        return null;
+                        return buf.Append(methodName);
                 }
             }
-            return null;
+            else
+            {
+                return buf.Append(methodName);
+            }
         }
 
         protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
