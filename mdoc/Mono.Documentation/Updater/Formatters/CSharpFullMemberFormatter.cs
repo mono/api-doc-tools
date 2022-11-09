@@ -388,8 +388,7 @@ namespace Mono.Documentation.Updater.Formatters
                 TypeReference iface;
                 MethodReference ifaceMethod;
                 DocUtils.GetInfoForExplicitlyImplementedMethod(method, out iface, out ifaceMethod);
-                buf.Append(new CSharpMemberFormatter(this.TypeMap).GetName(iface))
-                    .Append('.');
+                buf.Append(new CSharpMemberFormatter(this.TypeMap).GetName(iface)).Append('.');
                 methodName = ifaceMethod.Name;
             }
 
@@ -613,7 +612,7 @@ namespace Mono.Documentation.Updater.Formatters
 
             if (parameter.HasCustomAttributes)
             {
-                var isScoped = parameter.CustomAttributes.Any(ca => ca.AttributeType.Name == "LifetimeAnnotationAttribute");
+                var isScoped = parameter.CustomAttributes.Any(ca => ca.AttributeType.Name == "ScopedRefAttribute");
                 if (isScoped)
                     buf.AppendFormat("scoped ");
             }

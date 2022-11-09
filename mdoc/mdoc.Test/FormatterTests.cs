@@ -527,10 +527,7 @@ namespace mdoc.Test
         public void CSharpFuctionPointersUnmanagedExtTest(string methodName, string expectedSignature)
         {
             var functionPointersDllPath = "../../../../external/Test/FunctionPointersTest.dll";
-            var type = GetType(functionPointersDllPath, "FunctionPointersTest.FunctionPointers");
-            var method = GetMethod(type, m => m.Name == methodName);
-            var methodSignature = formatter.GetDeclaration(method);
-            Assert.AreEqual(expectedSignature, methodSignature);
+            TestMethodSignature(functionPointersDllPath, "FunctionPointersTest.FunctionPointers", methodName, expectedSignature);
         }
 
         [TestCase("StaticVirtualMembers.StaticVirtualMemberInInterface`3", "StaticVirtualMethod", "public static virtual int StaticVirtualMethod (int left, int right);")]
@@ -547,10 +544,7 @@ namespace mdoc.Test
         public void CSharpStaticVirtualMethodTest(string typeFullName, string methodName, string expectedSignature)
         {
             var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
-            var type = GetType(staticVirtualMemberDllPath, typeFullName);
-            var method = GetMethod(type, m => m.Name == methodName);
-            var methodSignature = formatter.GetDeclaration(method);
-            Assert.AreEqual(expectedSignature, methodSignature);
+            TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
         }
 
         [TestCase("StaticVirtualMembers.InterfaceI`1", "P", "public static abstract T P { get; set; }")]
@@ -558,10 +552,7 @@ namespace mdoc.Test
         public void CSharpStaticVirtualPropertyTest(string typeFullName, string propertyName, string expectedSignature)
         {
             var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
-            var type = GetType(staticVirtualMemberDllPath, typeFullName);
-            var property = GetProperty(type, propertyName);
-            var propertySignature = formatter.GetDeclaration(property);
-            Assert.AreEqual(expectedSignature, propertySignature);
+            TestPropertySignature(staticVirtualMemberDllPath, typeFullName, propertyName, expectedSignature);
         }
 
         [TestCase("StaticVirtualMembers.InterfaceI`1", "E", "static abstract event Action E;")]
@@ -569,10 +560,7 @@ namespace mdoc.Test
         public void CSharpStaticVirtualEventTest(string typeFullName, string eventName, string expectedSignature)
         {
             var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
-            var type = GetType(staticVirtualMemberDllPath, typeFullName);
-            var e = GetEvent(type, eventName);
-            var eventSignature = formatter.GetDeclaration(e);
-            Assert.AreEqual(expectedSignature, eventSignature);
+            TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
         [TestCase("StaticVirtualMembers.Derived", "M", "public static void M ();")]
@@ -588,10 +576,7 @@ namespace mdoc.Test
         public void CSharpStaticMethodImplementation(string typeFullName, string methodName, string expectedSignature)
         {
             var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
-            var type = GetType(staticVirtualMemberDllPath, typeFullName);
-            var method = GetMethod(type, m => m.Name == methodName);
-            var methodSignature = formatter.GetDeclaration(method);
-            Assert.AreEqual(expectedSignature, methodSignature);
+            TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
         }
 
         [TestCase("StaticVirtualMembers.ClassC", "StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.P",
@@ -599,21 +584,15 @@ namespace mdoc.Test
         public void CSharpStaticPropertyImplementation(string typeFullName, string propertyName, string expectedSignature)
         {
             var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
-            var type = GetType(staticVirtualMemberDllPath, typeFullName);
-            var property = GetProperty(type, propertyName);
-            var propertySignature = formatter.GetDeclaration(property);
-            Assert.AreEqual(expectedSignature, propertySignature);
+            TestPropertySignature(staticVirtualMemberDllPath, typeFullName, propertyName, expectedSignature);
         }
 
         [TestCase("StaticVirtualMembers.ClassC", "StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.E",
             "static event Action StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.E;")]
         public void CSharpStaticEventImplementation(string typeFullName, string eventName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll"; 
-            var type = GetType(staticVirtualMemberDllPath, typeFullName);
-            var e = GetEvent(type, eventName);
-            var eventSignature = formatter.GetDeclaration(e);
-            Assert.AreEqual(expectedSignature, eventSignature);
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
         #region Helper Methods

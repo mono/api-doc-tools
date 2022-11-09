@@ -165,8 +165,7 @@ namespace Mono.Documentation.Updater
             {
                 return false;
             }
-
-            // Support C# 11 EII for static abstract members in interface
+            // Support EII for static abstract members in interface
             return (method.IsFinal && method.IsVirtual) || (method.IsStatic && method.HasOverrides);
         }
 
