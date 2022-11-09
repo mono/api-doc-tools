@@ -448,12 +448,12 @@ namespace Mono.Documentation.Updater.Formatters
                     case "op_GreaterThanOrEqual":
                         return buf.Append("operator >=");
                     default:
-                        return base.AppendMethodName(buf, method);
+                        return buf.Append(methodName);
                 }
             }
             else
             {
-                return base.AppendMethodName(buf, method);
+                return buf.Append(methodName);
             }
         }
 
