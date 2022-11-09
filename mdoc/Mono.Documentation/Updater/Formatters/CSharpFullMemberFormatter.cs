@@ -612,7 +612,9 @@ namespace Mono.Documentation.Updater.Formatters
 
             if (parameter.HasCustomAttributes)
             {
-                var isScoped = parameter.CustomAttributes.Any(ca => ca.AttributeType.Name == "ScopedRefAttribute");
+                var isScoped = parameter.CustomAttributes.Any(
+                    ca => ca.AttributeType.Name == "ScopedRefAttribute" 
+                    || ca.AttributeType.Name == "LifetimeAnnotationAttribute"); // Workaround as complier in ci pipeline has delay for update.
                 if (isScoped)
                     buf.AppendFormat("scoped ");
             }
