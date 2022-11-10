@@ -481,12 +481,13 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
         protected override StringBuilder AppendMethodName(StringBuilder buf, MethodDefinition method)
         {
             var methodName = method.Name;
-            if (DocUtils.IsExplicitlyImplemented(method))
+            int dotIndex = methodName.LastIndexOf('.');
+            if (dotIndex != -1)
             {
-                var index = methodName.LastIndexOf('.');
-                buf.Append(methodName.Substring(0, index + 1));
-                methodName = methodName.Substring(index + 1);
+                buf.Append(methodName.Substring(0, dotIndex + 1));
+                methodName = methodName.Substring(dotIndex + 1);
             }
+
             if (!methodName.StartsWith("op_", StringComparison.Ordinal))
                 return buf.Append(methodName);
 
