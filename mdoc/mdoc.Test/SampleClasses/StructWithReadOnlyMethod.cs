@@ -11,5 +11,7 @@
         }
 
         readonly int Struct_Interface_A.GetNum() => 1;
+
+        public string Property { get; }
     }
 }

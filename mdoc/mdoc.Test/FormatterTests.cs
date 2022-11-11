@@ -435,7 +435,7 @@ namespace mdoc.Test
         [Test]
         public void CSharpReadOnlyPropertyTest()
         {
-            TestPropertySignature(typeof(SampleClasses.SomeStruct), "public string Property { get; }", "Property");
+            TestPropertySignature(typeof(SampleClasses.StructWithReadOnlyMethod), "public string Property { get; }", "Property");
         }
 
         [TestCase("Sum", "public readonly double Sum ();")]
