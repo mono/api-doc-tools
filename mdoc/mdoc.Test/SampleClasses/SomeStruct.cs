@@ -5,5 +5,6 @@
         public int IntMember;
         public static int StaticMember;
         public TestClass TestClassMember;
+        public string Property { get; }
     }
 }

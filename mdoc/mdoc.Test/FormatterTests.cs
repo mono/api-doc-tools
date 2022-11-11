@@ -432,6 +432,12 @@ namespace mdoc.Test
             Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
         }
 
+        [Test]
+        public void CSharpReadOnlyPropertyTest()
+        {
+            TestPropertySignature(typeof(SampleClasses.SomeStruct), "public string Property { get; }", "Property");
+        }
+
         [TestCase("Sum", "public readonly double Sum ();")]
         [TestCase("GetNum", "readonly int Struct_Interface_A.GetNum ();")]
         public void CSharpReadOnlyMemberStructTest(string methodName, string expectedSignature)

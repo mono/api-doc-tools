@@ -528,7 +528,9 @@ namespace Mono.Documentation.Updater.Formatters
             if (method.IsAbstract && (!declType.IsInterface || method.IsStatic)) modifiers += " abstract";
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
-            if (declType.IsValueType && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
+            if (declType.IsValueType 
+                && !(method.IsSpecialName && method.Name.StartsWith("get_")) // Property without set method is by defualt readonly.
+                && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
             {
                 modifiers += buf.Length == 0 ? "readonly" : " readonly";
             }
