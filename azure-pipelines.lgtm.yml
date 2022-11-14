@@ -13,44 +13,21 @@ schedules:
     - main
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'windows-latest'
 
 variables:
-- name: LGTM.SnapshotIdentifiers
-  value: Build=Full
-- name: LGTM.SnapshotMetadata
-  value: Owner=MDoc
-- name: LGTM.UploadSnapshot
-  value: true
-- name: Semmle.SkipAnalysis
-  value: true
-- name: buildConfiguration
-  value: Release
-- name: msbuild
-  value: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe'
-  
+  Codeql.Enabled: true
+  solution: 'apidoctools.sln'
+  buildConfiguration: 'Release'
+
 steps:
-- task: NuGetToolInstaller@1
-  displayName: Install NuGet Tool
-
-- task: NuGetCommand@2
-  displayName: NuGet restore
+- task: CmdLine@2
+  displayName: make prepare
   inputs:
-    command: 'restore'
-    restoreSolution: '**/*.sln'
-    feedsToUse: 'config'
+    script: 'make prepare'
 
-- task: Semmle@0
-  displayName: Security - LGTM
-  env: 
-    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+- task: MSBuild@1
+  displayName: MSBuild
   inputs:
-    toolVersion: 'LatestPreRelease'
-    sourceCodeDirectory: '$(Build.SourcesDirectory)'
-    language: 'csharp'
-    cleanupBuildCommands: 'dotnet clean apidoctools.sln --configuration $(buildConfiguration)'
-    buildCommands: '"$(msbuild)" apidoctools.sln /p:Configuration=$(buildConfiguration)'
-    querySuite: 'Required'
-    timeout: '7200'
-    ram: '16384'
-    addProjectDirToScanningExclusionList: true
+    solution: '$(solution)'
+    configuration: '$(buildConfiguration)'
