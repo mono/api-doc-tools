@@ -13,7 +13,7 @@ schedules:
     - main
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'windows-latest'
 
 variables:
 - name: LGTM.SnapshotIdentifiers
@@ -26,8 +26,8 @@ variables:
   value: true
 - name: buildConfiguration
   value: Release
-#- name: msbuild
-#  value: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\msbuild.exe'
+- name: msbuild
+  value: 'C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\msbuild.exe'
   
 steps:
 - task: NuGetToolInstaller@1
@@ -56,7 +56,7 @@ steps:
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
     cleanupBuildCommands: 'dotnet clean apidoctools.sln --configuration $(buildConfiguration)'
-    buildCommands: 'dotnet build apidoctools.sln /p:Configuration=$(buildConfiguration)'
+    buildCommands: '"$(msbuild)" build apidoctools.sln /p:Configuration=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
