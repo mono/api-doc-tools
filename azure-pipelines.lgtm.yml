@@ -56,7 +56,7 @@ steps:
     sourceCodeDirectory: '$(Build.SourcesDirectory)'
     language: 'csharp'
     cleanupBuildCommands: 'dotnet clean apidoctools.sln --configuration $(buildConfiguration)'
-    buildCommands: '"$(msbuild)" build apidoctools.sln /p:Configuration=$(buildConfiguration)'
+    buildCommands: '"$(msbuild)" apidoctools.sln /p:Configuration=$(buildConfiguration)'
     querySuite: 'Required'
     timeout: '7200'
     ram: '16384'
