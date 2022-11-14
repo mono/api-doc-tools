@@ -394,15 +394,14 @@ namespace Mono.Documentation.Updater
 
         protected override StringBuilder AppendMethodName(StringBuilder buf, MethodDefinition method)
         {
-            if (DocUtils.IsExplicitlyImplemented(method))
-            {
-                return buf.Append(method.Name.Split('.').Last());
-            }
+            var methodName = DocUtils.IsExplicitlyImplemented(method) 
+                ? method.Name.Split('.').Last() 
+                : method.Name;
 
             if (DocUtils.IsOperator(method))
             {
                 // this is an operator
-                switch (method.Name)
+                switch (methodName)
                 {
                     case "op_Implicit":
                     case "op_Explicit":
@@ -455,11 +454,13 @@ namespace Mono.Documentation.Updater
                     case "op_Like":
                         return buf.Append("Operator Like");
                     default:
-                        return base.AppendMethodName(buf, method);
+                        return buf.Append(methodName);
                 }
             }
             else
-                return base.AppendMethodName(buf, method);
+            {
+                return buf.Append(methodName);
+            }
         }
 
         protected override StringBuilder AppendGenericMethodConstraints(StringBuilder buf, MethodDefinition method)

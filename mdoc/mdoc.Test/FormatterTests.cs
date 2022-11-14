@@ -432,6 +432,12 @@ namespace mdoc.Test
             Assert.AreEqual("public readonly ref struct ReadOnlyRefStruct", typeSignature);
         }
 
+        [Test]
+        public void CSharpReadOnlyPropertyTest()
+        {
+            TestPropertySignature(typeof(SampleClasses.StructWithReadOnlyMethod), "public string Property { get; }", "Property");
+        }
+
         [TestCase("Sum", "public readonly double Sum ();")]
         [TestCase("GetNum", "readonly int Struct_Interface_A.GetNum ();")]
         public void CSharpReadOnlyMemberStructTest(string methodName, string expectedSignature)
@@ -527,10 +533,72 @@ namespace mdoc.Test
         public void CSharpFuctionPointersUnmanagedExtTest(string methodName, string expectedSignature)
         {
             var functionPointersDllPath = "../../../../external/Test/FunctionPointersTest.dll";
-            var type = GetType(functionPointersDllPath, "FunctionPointersTest.FunctionPointers");
-            var method = GetMethod(type, m => m.Name == methodName);
-            var methodSignature = formatter.GetDeclaration(method);
-            Assert.AreEqual(expectedSignature, methodSignature);
+            TestMethodSignature(functionPointersDllPath, "FunctionPointersTest.FunctionPointers", methodName, expectedSignature);
+        }
+
+        [TestCase("StaticVirtualMembers.StaticVirtualMemberInInterface`3", "StaticVirtualMethod", "public static virtual int StaticVirtualMethod (int left, int right);")]
+        [TestCase("StaticVirtualMembers.StaticVirtualMemberInInterface`3", "op_Addition", "public static abstract TResult operator + (TSelf left, TOther right);")]
+        [TestCase("StaticVirtualMembers.StaticVirtualMemberInInterface`3", "op_CheckedAddition", "public static virtual TResult op_CheckedAddition (TSelf left, TOther right);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "M", "public static abstract void M ();")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "M1", "public static virtual void M1 ();")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Addition", "public static abstract T operator + (T l, T r);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Equality", "public static abstract bool operator == (T l, T r);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Inequality", "public static abstract bool operator != (T l, T r);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Implicit", "public static abstract implicit operator T (string s);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_Explicit", "public static abstract explicit operator string (T t);")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "op_CheckedAddition", "public static virtual T op_CheckedAddition (T l, T r);")]
+        public void CSharpStaticVirtualMethodTest(string typeFullName, string methodName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
+        }
+
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "P", "public static abstract T P { get; set; }")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "P1", "public static virtual T P1 { get; set; }")]
+        public void CSharpStaticVirtualPropertyTest(string typeFullName, string propertyName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestPropertySignature(staticVirtualMemberDllPath, typeFullName, propertyName, expectedSignature);
+        }
+
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "E", "static abstract event Action E;")]
+        [TestCase("StaticVirtualMembers.InterfaceI`1", "E1", "static virtual event Action E1;")]
+        public void CSharpStaticVirtualEventTest(string typeFullName, string eventName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
+        }
+
+        [TestCase("StaticVirtualMembers.Derived", "M", "public static void M ();")]
+        [TestCase("StaticVirtualMembers.Derived",
+            "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.M",
+            "static void StaticVirtualMemberInInterface<Derived,Derived,int>.M ();")]
+        [TestCase("StaticVirtualMembers.Derived",
+            "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.ToBeImplemented",
+            "void StaticVirtualMemberInInterface<Derived,Derived,int>.ToBeImplemented ();")]
+        [TestCase("StaticVirtualMembers.Derived",
+            "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.op_Addition",
+            "static int StaticVirtualMemberInInterface<Derived,Derived,int>.operator + (Derived left, Derived right);")]
+        public void CSharpStaticMethodImplementation(string typeFullName, string methodName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
+        }
+
+        [TestCase("StaticVirtualMembers.ClassC", "StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.P",
+            "static ClassC StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.P { get; set; }")]
+        public void CSharpStaticPropertyImplementation(string typeFullName, string propertyName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestPropertySignature(staticVirtualMemberDllPath, typeFullName, propertyName, expectedSignature);
+        }
+
+        [TestCase("StaticVirtualMembers.ClassC", "StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.E",
+            "static event Action StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.E;")]
+        public void CSharpStaticEventImplementation(string typeFullName, string eventName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
         #region Helper Methods

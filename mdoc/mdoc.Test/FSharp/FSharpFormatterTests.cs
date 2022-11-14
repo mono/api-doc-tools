@@ -904,6 +904,16 @@ override this.Rotate : double -> unit",
 @"( +? ) : int -> int -> int",
 "op_PlusQmark");
 
+        [Category("Operators")]
+        [TestCase("StaticVirtualMembers.Derived",
+            "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.op_Addition",
+            "static member ( + ) : Derived * Derived -> int")]
+        public void FSharpStaticOperatorImplementation(string typeFullName, string methodName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
+        }
+
         #endregion
 
         #region UnitsOfMeasure

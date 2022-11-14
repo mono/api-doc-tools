@@ -480,11 +480,19 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
 
         protected override StringBuilder AppendMethodName(StringBuilder buf, MethodDefinition method)
         {
-            if (!method.Name.StartsWith("op_", StringComparison.Ordinal))
-                return base.AppendMethodName(buf, method);
+            var methodName = method.Name;
+            int dotIndex = methodName.LastIndexOf('.');
+            if (dotIndex != -1)
+            {
+                buf.Append(methodName.Substring(0, dotIndex + 1));
+                methodName = methodName.Substring(dotIndex + 1);
+            }
+
+            if (!methodName.StartsWith("op_", StringComparison.Ordinal))
+                return buf.Append(methodName);
 
             // this is an operator
-            switch (method.Name)
+            switch (methodName)
             {
                 case "op_Implicit":
                 case "op_Explicit":
@@ -537,9 +545,8 @@ namespace Mono.Documentation.Updater.Formatters.CppFormatters
                 case "op_GreaterThanOrEqual":
                     return buf.Append("operator >=");
                 default:
-                    return base.AppendMethodName(buf, method);
+                    return buf.Append(methodName);
             }
-
         }
 
         protected override StringBuilder AppendGenericMethodConstraints (StringBuilder buf, MethodDefinition method)

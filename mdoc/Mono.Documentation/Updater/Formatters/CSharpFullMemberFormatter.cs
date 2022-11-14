@@ -380,22 +380,22 @@ namespace Mono.Documentation.Updater.Formatters
             return null;
         }
 
-        protected override StringBuilder AppendMethodName (StringBuilder buf, MethodDefinition method)
+        protected override StringBuilder AppendMethodName(StringBuilder buf, MethodDefinition method)
         {
-            if (DocUtils.IsExplicitlyImplemented (method))
+            var methodName = method.Name;
+            if (DocUtils.IsExplicitlyImplemented(method))
             {
                 TypeReference iface;
                 MethodReference ifaceMethod;
-                DocUtils.GetInfoForExplicitlyImplementedMethod (method, out iface, out ifaceMethod);
-                return buf.Append (new CSharpMemberFormatter (this.TypeMap).GetName (iface))
-                    .Append ('.')
-                    .Append (ifaceMethod.Name);
+                DocUtils.GetInfoForExplicitlyImplementedMethod(method, out iface, out ifaceMethod);
+                buf.Append(new CSharpMemberFormatter(this.TypeMap).GetName(iface)).Append('.');
+                methodName = ifaceMethod.Name;
             }
 
-            if (method.Name.StartsWith ("op_", StringComparison.Ordinal))
+            if (methodName.StartsWith("op_", StringComparison.Ordinal))
             {
                 // this is an operator
-                switch (method.Name)
+                switch (methodName)
                 {
                     case "op_Implicit":
                     case "op_Explicit":
@@ -403,56 +403,58 @@ namespace Mono.Documentation.Updater.Formatters
                         return buf;
                     case "op_Addition":
                     case "op_UnaryPlus":
-                        return buf.Append ("operator +");
+                        return buf.Append("operator +");
                     case "op_Subtraction":
                     case "op_UnaryNegation":
-                        return buf.Append ("operator -");
+                        return buf.Append("operator -");
                     case "op_Division":
-                        return buf.Append ("operator /");
+                        return buf.Append("operator /");
                     case "op_Multiply":
-                        return buf.Append ("operator *");
+                        return buf.Append("operator *");
                     case "op_Modulus":
-                        return buf.Append ("operator %");
+                        return buf.Append("operator %");
                     case "op_BitwiseAnd":
-                        return buf.Append ("operator &");
+                        return buf.Append("operator &");
                     case "op_BitwiseOr":
-                        return buf.Append ("operator |");
+                        return buf.Append("operator |");
                     case "op_ExclusiveOr":
-                        return buf.Append ("operator ^");
+                        return buf.Append("operator ^");
                     case "op_LeftShift":
-                        return buf.Append ("operator <<");
+                        return buf.Append("operator <<");
                     case "op_RightShift":
-                        return buf.Append ("operator >>");
+                        return buf.Append("operator >>");
                     case "op_LogicalNot":
-                        return buf.Append ("operator !");
+                        return buf.Append("operator !");
                     case "op_OnesComplement":
-                        return buf.Append ("operator ~");
+                        return buf.Append("operator ~");
                     case "op_Decrement":
-                        return buf.Append ("operator --");
+                        return buf.Append("operator --");
                     case "op_Increment":
-                        return buf.Append ("operator ++");
+                        return buf.Append("operator ++");
                     case "op_True":
-                        return buf.Append ("operator true");
+                        return buf.Append("operator true");
                     case "op_False":
-                        return buf.Append ("operator false");
+                        return buf.Append("operator false");
                     case "op_Equality":
-                        return buf.Append ("operator ==");
+                        return buf.Append("operator ==");
                     case "op_Inequality":
-                        return buf.Append ("operator !=");
+                        return buf.Append("operator !=");
                     case "op_LessThan":
-                        return buf.Append ("operator <");
+                        return buf.Append("operator <");
                     case "op_LessThanOrEqual":
-                        return buf.Append ("operator <=");
+                        return buf.Append("operator <=");
                     case "op_GreaterThan":
-                        return buf.Append ("operator >");
+                        return buf.Append("operator >");
                     case "op_GreaterThanOrEqual":
-                        return buf.Append ("operator >=");
+                        return buf.Append("operator >=");
                     default:
-                        return base.AppendMethodName (buf, method);
+                        return buf.Append(methodName);
                 }
             }
             else
-                return base.AppendMethodName (buf, method);
+            {
+                return buf.Append(methodName);
+            }
         }
 
         protected override string GetTypeNullableSymbol(TypeReference type, bool? isNullableType)
@@ -519,14 +521,16 @@ namespace Mono.Documentation.Updater.Formatters
             if (method.IsStatic) modifiers += " static";
             if (method.IsVirtual && !method.IsAbstract)
             {
-                if ((method.Attributes & MethodAttributes.NewSlot) != 0) modifiers += " virtual";
+                if ((method.Attributes & MethodAttributes.NewSlot) != 0 || method.IsStatic) modifiers += " virtual";
                 else modifiers += " override";
             }
             TypeDefinition declType = (TypeDefinition)method.DeclaringType;
-            if (method.IsAbstract && !declType.IsInterface) modifiers += " abstract";
+            if (method.IsAbstract && (!declType.IsInterface || method.IsStatic)) modifiers += " abstract";
             if (method.IsFinal) modifiers += " sealed";
             if (modifiers == " virtual sealed") modifiers = "";
-            if (declType.IsValueType && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
+            if (declType.IsValueType 
+                && !(method.IsSpecialName && method.Name.StartsWith("get_")) // Property without set method is by defualt readonly.
+                && DocUtils.HasCustomAttribute(method, Consts.IsReadOnlyAttribute))
             {
                 modifiers += buf.Length == 0 ? "readonly" : " readonly";
             }
@@ -541,7 +545,7 @@ namespace Mono.Documentation.Updater.Formatters
                     break;
             }
 
-            return buf.Append (modifiers);
+            return buf.Append (buf.Length == 0 ? modifiers.TrimStart() : modifiers);
         }
 
         protected override StringBuilder AppendRefTypeName(StringBuilder buf, ByReferenceType type, IAttributeParserContext context)
@@ -610,7 +614,9 @@ namespace Mono.Documentation.Updater.Formatters
 
             if (parameter.HasCustomAttributes)
             {
-                var isScoped = parameter.CustomAttributes.Any(ca => ca.AttributeType.Name == "LifetimeAnnotationAttribute");
+                var isScoped = parameter.CustomAttributes.Any(
+                    ca => ca.AttributeType.FullName == Consts.ScopedRefAttribute
+                    || ca.AttributeType.FullName == Consts.LifetimeAnnotationAttribute); // Workaround as complier in ci pipeline has delay for update.
                 if (isScoped)
                     buf.AppendFormat("scoped ");
             }
@@ -698,23 +704,8 @@ namespace Mono.Documentation.Updater.Formatters
             if (method == null)
                 method = property.GetMethod;
 
-            string modifiers = String.Empty;
-            if (method.IsStatic) modifiers += " static";
-            if (method.IsVirtual && !method.IsAbstract)
-            {
-                if ((method.Attributes & MethodAttributes.NewSlot) != 0)
-                    modifiers += " virtual";
-                else
-                    modifiers += " override";
-            }
-            TypeDefinition declDef = (TypeDefinition)method.DeclaringType;
-            if (method.IsAbstract && !declDef.IsInterface)
-                modifiers += " abstract";
-            if (method.IsFinal)
-                modifiers += " sealed";
-            if (modifiers == " virtual sealed")
-                modifiers = "";
-            buf.Append (modifiers).Append (' ');
+            AppendModifiers(buf, method);
+            buf.Append(' ');
 
             var context = AttributeParserContext.Create (property);
             var isNullableType = context.IsNullable ();
