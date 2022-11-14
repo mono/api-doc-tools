@@ -127,6 +127,17 @@ nameof(Methods.SomeType.SomeOtherStaticMethod3));
 "func <||| (arg1, arg2, arg3)",
 "op_PipeLeft3");
 
+        [Category("Usage")]
+        [Category("Operators")]
+        [TestCase("StaticVirtualMembers.Derived",
+            "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.op_Addition",
+            "left + right")]
+        public void FSharpStaticOperatorImplementation(string typeFullName, string methodName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
+        }
+
         [Test]
         [Category("Usage")]
         [Category("Methods")]

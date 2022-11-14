@@ -321,7 +321,16 @@ generic <typename T>
  void M6(int i, ... cli::array <System::Object ^> ^ args);",
                 "M6");
         }
-        
+
+        [TestCase("StaticVirtualMembers.Derived",
+            "StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.op_Addition",
+            " static int StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.operator +(StaticVirtualMembers::Derived ^ left, StaticVirtualMembers::Derived ^ right) = StaticVirtualMembers::StaticVirtualMemberInInterface<StaticVirtualMembers::Derived ^, StaticVirtualMembers::Derived ^, int>::op_Addition;")]
+        public void CppCLIStaticOperatorImplementation(string typeFullName, string methodName, string expectedSignature)
+        {
+            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
+        }
+
         protected override TypeDefinition GetType(Type type)
         {
             var moduleName = type.Module.FullyQualifiedName;

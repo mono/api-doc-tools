@@ -161,7 +161,12 @@ namespace Mono.Documentation.Updater
 
         public static bool IsExplicitlyImplemented (MethodDefinition method)
         {
-            return method != null && method.IsPrivate && method.IsFinal && method.IsVirtual;
+            if (method == null || !method.IsPrivate)
+            {
+                return false;
+            }
+            // Support EII for static abstract members in interface
+            return (method.IsFinal && method.IsVirtual) || (method.IsStatic && method.HasOverrides);
         }
 
         public static string GetTypeDotMember (string name)
@@ -838,7 +843,7 @@ namespace Mono.Documentation.Updater
 
         public static bool IsOperator(MethodReference method)
         {
-            return method.Name.StartsWith("op_", StringComparison.Ordinal);
+            return method.Name.Split('.').Last().StartsWith("op_", StringComparison.Ordinal);
         }
 
         public static bool DocIdCheck(XmlNode a, XmlElement b)
