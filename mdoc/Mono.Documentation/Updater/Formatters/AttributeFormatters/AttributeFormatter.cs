@@ -141,7 +141,7 @@ namespace Mono.Documentation.Updater.Formatters
             try
             {
                 var attrTypeDef = attrType.Resolve();
-                return attrTypeDef != null && !DocUtils.IsPublic(attrTypeDef)
+                return attrTypeDef == null || !DocUtils.IsPublic(attrTypeDef)
                     || (FormatterManager.SlashdocFormatter.GetName(attrType) == null)
                     || Array.IndexOf(IgnorableAttributes, attrType.FullName) >= 0;
             }
