@@ -138,12 +138,16 @@ namespace Mono.Documentation.Updater.Formatters
                 return false;
             }
 
+            if (FormatterManager.SlashdocFormatter.GetName(attrType) == null
+                || Array.IndexOf(IgnorableAttributes, attrType.FullName) >= 0)
+            {
+                return true;
+            }
+
             try
             {
                 var attrTypeDef = attrType.Resolve();
-                return attrTypeDef == null || !DocUtils.IsPublic(attrTypeDef)
-                    || (FormatterManager.SlashdocFormatter.GetName(attrType) == null)
-                    || Array.IndexOf(IgnorableAttributes, attrType.FullName) >= 0;
+                return attrTypeDef == null || !DocUtils.IsPublic(attrTypeDef);
             }
             catch (Exception ex)
             {
