@@ -138,14 +138,18 @@ namespace Mono.Documentation.Updater.Formatters
                 return false;
             }
 
-            var attrTypeDef = attrType as TypeDefinition;
-            if (attrTypeDef != null && !DocUtils.IsPublic(attrTypeDef) || (FormatterManager.SlashdocFormatter.GetName(attrType) == null)
-                || Array.IndexOf(IgnorableAttributes, attrType.FullName) >= 0)
+            try
             {
+                var attrTypeDef = attrType.Resolve();
+                return attrTypeDef != null && !DocUtils.IsPublic(attrTypeDef)
+                    || (FormatterManager.SlashdocFormatter.GetName(attrType) == null)
+                    || Array.IndexOf(IgnorableAttributes, attrType.FullName) >= 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to resolve {attrType.FullName}", ex);
                 return true;
             }
-
-            return false;
         }
 
         // FIXME: get TypeReferences instead of string comparison?
