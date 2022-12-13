@@ -147,7 +147,8 @@ namespace Mono.Documentation.Updater.Formatters
             try
             {
                 var attrTypeDef = attrType.Resolve();
-                return attrTypeDef == null || !DocUtils.IsPublic(attrTypeDef);
+                // We probably should return true if attrTypeDef is null, but it would cause too many diffs in dotnet-api-docs repo.
+                return attrTypeDef != null && !DocUtils.IsPublic(attrTypeDef);
             }
             catch (Exception ex)
             {
