@@ -86,11 +86,6 @@ stages:
 
 - stage: Build
   dependsOn: SDLCheck
-  variables:
-    Codeql.Enabled: true
-    Codeql.TSAEnabled: true
-    Codeql.Cadence: 0
-
   jobs:
   - job: Build
     pool:
