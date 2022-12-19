@@ -3,8 +3,8 @@
   "projectName": "Engineering",
   "areaPath": "Engineering\\Reference",
   "iterationPath": "Engineering",
-  "notificationAliases": [ "huangmin@microsoft.com", "shujia@microsoft.com", "terryjin@microsoft.com" ],
+  "notificationAliases": [ "huangmin@microsoft.com", "terryjin@microsoft.com" ],
   "template": "TFSMSAzure",
   "repositoryName": "api-doc-tools",
-  "codebaseName": "api-doc-tools"
+  "codebaseName": "Docs_Mdoc"
 }
