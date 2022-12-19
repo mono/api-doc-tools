@@ -18,6 +18,7 @@ pool:
 variables:
   Codeql.Enabled: true
   Codeql.TSAEnabled: true
+  Codeql.Cadence: 0
   solution: 'apidoctools.sln'
   buildConfiguration: 'Release'
 
