@@ -92,10 +92,6 @@ stages:
       vmImage: 'macos-latest'
 
     steps:
-    - task: CodeQL3000Init@0
-      inputs:
-        Enabled: true
-
     - task: NuGetToolInstaller@1
       displayName: Install NuGet Tool
 
@@ -250,7 +246,3 @@ stages:
         packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
         nuGetFeedType: 'external'
         publishFeedCredentials: 'mdoc_nuget_org'
-
-    - task: CodeQL3000Finalize@0
-      inputs:
-        Enabled: true  
