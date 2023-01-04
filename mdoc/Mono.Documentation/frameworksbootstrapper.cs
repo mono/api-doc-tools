@@ -13,13 +13,23 @@ namespace Mono.Documentation
 {
 	public class MDocFrameworksBootstrapper : MDocCommand
 	{
+		private string frameworkPath;
+        private bool importContent = true;
+
 		public override void Run (IEnumerable<string> args)
 		{
-			args = args.Skip (1);
-			if (args.Count () != 1)
-				Error ("Need to supply a single directory, which contain folders that represent frameworks.");
+			var option = new OptionSet()
+			{
+				{ "fx|frameworks=", "Directories which contain libraries that span multiple frameworks.", v => frameworkPath = v },
+				{ "importContent=", "Import XML Comment files to frameworks.xml.", v => bool.TryParse(v, out importContent) }
+			};
 
-			string frameworkPath = args.Single ();
+            option.Parse(args);
+            if (string.IsNullOrWhiteSpace(frameworkPath))
+			{
+                Error("Framework Path should not be null or empty.");
+            }
+
 			int slashOffset = frameworkPath.EndsWith (Path.DirectorySeparatorChar.ToString (), StringComparison.InvariantCultureIgnoreCase) ? 0 : 1;
 
 			if (!Directory.Exists(frameworkPath)) 
@@ -64,20 +74,23 @@ namespace Mono.Documentation
 								 new XElement("assemblySearchPath", Path.Combine("dependencies", d.Name))));
 			}
 
-			var maxVersions = assemblyVersionMappings.SelectMany(f => f.Value)
-						.GroupBy(m => m.Key)
-						.ToDictionary(g => g.Key, g => g.Max(m => m.Value));
-
-			foreach (var framework in frameworks)
+			if (importContent)
 			{
-				foreach (var assembly in assemblyVersionMappings[framework.Attribute("Name").ToString().Split('"')[1]])
-				{
-					if (maxVersions.ContainsKey(assembly.Key) && assembly.Value == maxVersions[assembly.Key])
-					{
-						framework.Add(new XElement("import", string.Format("{0}\\{1}", framework.Attribute("Source").ToString().Split('"')[1], assembly.Key)));
-					}
-				}
-			}
+                var maxVersions = assemblyVersionMappings.SelectMany(f => f.Value)
+					.GroupBy(m => m.Key)
+					.ToDictionary(g => g.Key, g => g.Max(m => m.Value));
+
+                foreach (var framework in frameworks)
+                {
+                    foreach (var assembly in assemblyVersionMappings[framework.Attribute("Name").ToString().Split('"')[1]])
+                    {
+                        if (maxVersions.ContainsKey(assembly.Key) && assembly.Value == maxVersions[assembly.Key])
+                        {
+                            framework.Add(new XElement("import", string.Format("{0}\\{1}", framework.Attribute("Source").ToString().Split('"')[1], assembly.Key)));
+                        }
+                    }
+                }
+            }
 
 			var doc = new XDocument(new XElement("Frameworks", frameworks));
 
@@ -91,4 +104,3 @@ namespace Mono.Documentation
 		}
 	}
 }
-

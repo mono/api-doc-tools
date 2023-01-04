@@ -53,8 +53,8 @@ function Git-Push([string]$rootPath, [string] $token, [string] $commitMessage, [
 
 function Run-Mdoc([string] $mdocPath, [string] $fwPath, [string] $xmlPath)
 {
-	Write-Host "$mdocPath fx-bootstrap $fwPath"
-	& $mdocPath fx-bootstrap $fwPath
+	Write-Host "$mdocPath fx-bootstrap -fx $fwPath"
+	& $mdocPath fx-bootstrap -fx $fwPath
 
 	$dnpath = [System.IO.Path]::GetDirectoryName((get-command dotnet).Source)
 	$langs=@("VB.NET","F#","C++/CLI")

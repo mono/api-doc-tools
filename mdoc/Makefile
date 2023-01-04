@@ -210,7 +210,7 @@ Test/FrameworkTestData: Test/DocTest-addNonGeneric.dll Test/DocTest-DropNS-class
 	cp Test/DocTest-DropNS-classic.dll Test/FrameworkTestData/One/
 	cp Test/DocTest-addNonGeneric.dll Test/FrameworkTestData/Two/
 	cp Test/DocTest-DropNS-classic-secondary.dll Test/FrameworkTestData/Two/
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/FrameworkTestData
 
 Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dll Test/DocTest-framework-inheritance-two.dll Test/DocTest-framework-inheritance-three.dll
 	rm -rf Test/FrameworkTestData-fx-inheritance
@@ -221,7 +221,7 @@ Test/FrameworkTestData-fx-inheritance: Test/DocTest-framework-inheritance-one.dl
 	cp Test/DocTest-framework-inheritance-one.dll Test/FrameworkTestData-fx-inheritance/One/
 	cp Test/DocTest-framework-inheritance-two.dll Test/FrameworkTestData-fx-inheritance/Two/
 	cp Test/DocTest-framework-inheritance-three.dll Test/FrameworkTestData-fx-inheritance/Three/
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-inheritance
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/FrameworkTestData-fx-inheritance
 
 .PHONY: check-monodocer-differentTypeDefinitions
 check-monodocer-differentTypeDefinitions : Test/DocTest-differentTypeDefinitions-First.dll Test/DocTest-differentTypeDefinitions-Second.dll
@@ -232,7 +232,7 @@ check-monodocer-differentTypeDefinitions : Test/DocTest-differentTypeDefinitions
 	mkdir Test/FrameworkTestData-fx-differentTypeDefinitions/One
 	cp Test/DocTest-differentTypeDefinitions-First.dll Test/FrameworkTestData-fx-differentTypeDefinitions/One
 	cp Test/DocTest-differentTypeDefinitions-Second.dll Test/FrameworkTestData-fx-differentTypeDefinitions/One
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-differentTypeDefinitions
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/FrameworkTestData-fx-differentTypeDefinitions
 
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeDefinitions
 	$(DIFF) Test/en.expected.differentTypeDefinitions Test/en.actual
@@ -247,7 +247,7 @@ check-monodocer-differentTypeParameterNames : Test/DocTest-differentTypeParamete
 	mkdir Test/FrameworkTestData-fx-differentTypeParameterNames/Two
 	cp Test/DocTest-differentTypeParameterNames-First.dll Test/FrameworkTestData-fx-differentTypeParameterNames/One
 	cp Test/DocTest-differentTypeParameterNames-Second.dll Test/FrameworkTestData-fx-differentTypeParameterNames/Two
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-differentTypeParameterNames
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/FrameworkTestData-fx-differentTypeParameterNames
 
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeParameterNames
 	$(DIFF) Test/en.expected.differentTypeParameterNames Test/en.actual
@@ -281,7 +281,7 @@ check-monodocer-typeForwards : Test/DocTest-typeForwards-First.dll Test/DocTest-
 	cp Test/DocTest-typeForwards-Third-First.dll Test/FrameworkTestData-fx-typeForwards/Three
 	cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
 	cp Test/DocTest-typeForwards-Third.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-typeForwards
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/FrameworkTestData-fx-typeForwards
 
 	# now run mdoc update
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-typeForwards
@@ -312,7 +312,7 @@ check-monodocer-nestedType-typeForwards : Test/DocTest-nestedType-typeForwards-F
 	cp Test/DocTest-nestedType-typeForwards-Third-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Three
 	cp Test/DocTest-nestedType-typeForwards-Second.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
 	cp Test/DocTest-nestedType-typeForwards-Third.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-fx-nestedType-typeForwards
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/FrameworkTestData-fx-nestedType-typeForwards
 
 	# now run mdoc update
 	$(MONO) $(PROGRAM) update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-nestedType-typeForwards
@@ -697,7 +697,7 @@ Test/FrameworkTestData-frameworkalternate: Test/DocTest-frameworkalternate-one.d
 	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate/One/
 	cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate/Two/
 	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate/Three/
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-frameworkalternate
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/FrameworkTestData-frameworkalternate
 
 .PHONY: Test/FrameworkTestData-frameworkalternate-fromold
 Test/FrameworkTestData-frameworkalternate-fromold: Test/DocTest-frameworkalternate-one.dll Test/DocTest-frameworkalternate-two.dll
@@ -709,7 +709,7 @@ Test/FrameworkTestData-frameworkalternate-fromold: Test/DocTest-frameworkalterna
 	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate-fromold/One/
 	cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate-fromold/Two/
 	cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate-fromold/Three/
-	$(MONO) $(PROGRAM) fx-bootstrap Test/FrameworkTestData-frameworkalternate-fromold
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/FrameworkTestData-frameworkalternate-fromold
 
 Test/DocTest-frameworkalternate-one.dll: 
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -debug -target:library -out:$@ Test/DocTest-frameworkalternate.cs /define:FXONE
@@ -897,7 +897,7 @@ check-type-projection: Test/DocTest-TypeProjection.dll
 	cp Test/TestTypeMap.xml Test/test-type-projection/
 	mv Test/test-type-projection/TestTypeMap.xml Test/test-type-projection/TypeMap.xml
 
-	$(MONO) $(PROGRAM) fx-bootstrap Test/test-type-projection
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/test-type-projection
 	$(MONO) $(PROGRAM) update -fx Test/test-type-projection/ -o Test/en.actual/
 	$(DIFF) Test/en.expected-type-projection Test/en.actual/
 
@@ -911,7 +911,7 @@ check-long-file-name: Test/DocTest-LongFileName.dll
 
 	cp Test/DocTest-LongFileName.dll Test/test-long-file-name/DocTest-LongFileName
 
-	$(MONO) $(PROGRAM) fx-bootstrap Test/test-long-file-name
+	$(MONO) $(PROGRAM) fx-bootstrap -fx Test/test-long-file-name
 	$(MONO) $(PROGRAM) update -fx Test/test-long-file-name -o Test/en.actual/
 
 run-test-local: check-doc-tools
