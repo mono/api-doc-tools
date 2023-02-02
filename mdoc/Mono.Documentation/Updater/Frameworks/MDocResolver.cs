@@ -143,6 +143,15 @@ namespace Mono.Documentation.Updater.Frameworks
         {
             // look in all sub directies for assemblies
             var namedPaths = GetAssemblyPaths(name, directories, filesToIgnore, true).ToArray();
+            
+            if (name != null && name.Name.Contains("System.Security.AccessControl"))
+            {
+                Console.WriteLine("SearchPaths: ");
+                foreach (var path in namedPaths)
+                {
+                    Console.WriteLine(path);
+                }
+            }
 
             if (!namedPaths.Any()) return null;
 
