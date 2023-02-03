@@ -1999,8 +1999,10 @@ namespace Mono.Documentation
             public override int Compare (XmlNode x, XmlNode y)
             {
                 int r;
-                string xMemberName = x.Attributes["MemberName"].Value;
-                string yMemberName = y.Attributes["MemberName"].Value;
+                string xFullMemberName = x.Attributes["MemberName"].Value;
+                string yFullMemberName = y.Attributes["MemberName"].Value;
+                string xMemberName = xFullMemberName;
+                string yMemberName = yFullMemberName;
 
                 // generic methods *end* with '>'
                 // it's possible for explicitly implemented generic interfaces to
@@ -2075,7 +2077,7 @@ namespace Mono.Documentation
                         return r;
                 }
 
-                return 0;
+                return xFullMemberName.CompareTo(yFullMemberName);
             }
         }
 
