@@ -17,10 +17,15 @@ pool:
 
 variables:
   Codeql.Enabled: true
+  Codeql.TSAEnabled: true
   solution: 'apidoctools.sln'
   buildConfiguration: 'Release'
 
 steps:
+- task: CodeQL3000Init@0
+  inputs:
+    Enabled: true  
+
 - task: CmdLine@2
   displayName: make prepare
   inputs:
@@ -31,3 +36,7 @@ steps:
   inputs:
     solution: '$(solution)'
     configuration: '$(buildConfiguration)'
+
+- task: CodeQL3000Finalize@0
+  inputs:
+    Enabled: true

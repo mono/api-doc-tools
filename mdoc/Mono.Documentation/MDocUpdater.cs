@@ -990,10 +990,10 @@ namespace Mono.Documentation
             {
                 XmlElement pubkey = WriteElement (index_assembly, "AssemblyPublicKey");
                 var key = new StringBuilder (name.PublicKey.Length * 3 + 2);
-                key.Append ("[");
+                key.Append ('[');
                 foreach (byte b in name.PublicKey)
                     key.AppendFormat ("{0,2:x2} ", b);
-                key.Append ("]");
+                key.Append (']');
                 pubkey.InnerText = key.ToString ();
                 index_assembly.AppendChild (pubkey);
             }
@@ -1267,7 +1267,7 @@ namespace Mono.Documentation
 
             static string GetVersion (string v)
             {
-                int n = v.IndexOf ("x");
+                int n = v.IndexOf ('x');
                 if (n < 0)
                     return v;
                 return v.Substring (0, n - 1);
@@ -1999,20 +1999,22 @@ namespace Mono.Documentation
             public override int Compare (XmlNode x, XmlNode y)
             {
                 int r;
-                string xMemberName = x.Attributes["MemberName"].Value;
-                string yMemberName = y.Attributes["MemberName"].Value;
+                string xFullMemberName = x.Attributes["MemberName"].Value;
+                string yFullMemberName = y.Attributes["MemberName"].Value;
+                string xMemberName = xFullMemberName;
+                string yMemberName = yFullMemberName;
 
                 // generic methods *end* with '>'
                 // it's possible for explicitly implemented generic interfaces to
                 // contain <...> without being a generic method
-                if ((!xMemberName.EndsWith (">") || !yMemberName.EndsWith (">")) &&
+                if ((!xMemberName.EndsWith (">", StringComparison.Ordinal) || !yMemberName.EndsWith (">", StringComparison.Ordinal)) &&
                         (r = xMemberName.CompareTo (yMemberName)) != 0)
                     return r;
 
                 int lt;
-                if ((lt = xMemberName.IndexOf ("<")) >= 0)
+                if ((lt = xMemberName.IndexOf ('<')) >= 0)
                     xMemberName = xMemberName.Substring (0, lt);
-                if ((lt = yMemberName.IndexOf ("<")) >= 0)
+                if ((lt = yMemberName.IndexOf ('<')) >= 0)
                     yMemberName = yMemberName.Substring (0, lt);
                 if ((r = xMemberName.CompareTo (yMemberName)) != 0)
                     return r;
@@ -2075,7 +2077,7 @@ namespace Mono.Documentation
                         return r;
                 }
 
-                return 0;
+                return xFullMemberName.CompareTo(yFullMemberName);
             }
         }
 
@@ -4186,7 +4188,7 @@ namespace Mono.Documentation
 
         public static string GetDocParameterType (TypeReference type, bool useTypeProjection = false)
         {
-            var typename = GetDocTypeFullName (type, useTypeProjection).Replace ("@", "&");
+            var typename = GetDocTypeFullName (type, useTypeProjection).Replace ('@', '&');
 
             if (useTypeProjection || string.IsNullOrEmpty(typename))
             {
@@ -4337,11 +4339,11 @@ namespace Mono.Documentation
                 IList<GenericParameter> typeParams = mb.GenericParameters;
                 if (typeParams.Count > 0)
                 {
-                    sb.Append("<");
+                    sb.Append('<');
                     sb.Append(typeParams[0].Name);
                     for (int i = 1; i < typeParams.Count; ++i)
-                        sb.Append(",").Append(typeParams[i].Name);
-                    sb.Append(">");
+                        sb.Append(',').Append(typeParams[i].Name);
+                    sb.Append('>');
                 }
             }
         }
@@ -4420,7 +4422,7 @@ namespace Mono.Documentation
                 {
                     xpath.Append (" and Parameter [").Append (i + 1).Append ("]/@Type=\"");
                     xpath.Append (member.Parameters[i]);
-                    xpath.Append ("\"");
+                    xpath.Append ('"');
                 }
                 xpath.Append ("]/..");
             }
@@ -4447,7 +4449,7 @@ namespace Mono.Documentation
                     ++i;
                     xpath.Append (" and Parameter [").Append (i).Append ("]/@Type=\"");
                     xpath.Append (parameters.Current.Value);
-                    xpath.Append ("\"");
+                    xpath.Append ('"');
                 }
                 xpath.Append ("]/..");
             }
@@ -4479,7 +4481,7 @@ namespace Mono.Documentation
                 {
                     xpath.Append (" and Parameter [").Append (i + 1).Append ("]/@Type=\"");
                     xpath.Append (GetDocParameterType (parameters[i].ParameterType));
-                    xpath.Append ("\"");
+                    xpath.Append ('"');
                 }
                 xpath.Append ("]/..");
             }

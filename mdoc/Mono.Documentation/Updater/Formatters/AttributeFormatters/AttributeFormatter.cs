@@ -138,14 +138,23 @@ namespace Mono.Documentation.Updater.Formatters
                 return false;
             }
 
-            var attrTypeDef = attrType as TypeDefinition;
-            if (attrTypeDef != null && !DocUtils.IsPublic(attrTypeDef) || (FormatterManager.SlashdocFormatter.GetName(attrType) == null)
+            if (FormatterManager.SlashdocFormatter.GetName(attrType) == null
                 || Array.IndexOf(IgnorableAttributes, attrType.FullName) >= 0)
             {
                 return true;
             }
 
-            return false;
+            try
+            {
+                var attrTypeDef = attrType.Resolve();
+                // We probably should return true if attrTypeDef is null, but it would cause too many diffs in dotnet-api-docs repo.
+                return attrTypeDef != null && !DocUtils.IsPublic(attrTypeDef);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unable to resolve {attrType.FullName}", ex);
+                return true;
+            }
         }
 
         // FIXME: get TypeReferences instead of string comparison?
