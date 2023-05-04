@@ -239,7 +239,7 @@
       <MemberSignature Language="VB.NET" Value="Public Sub Default (Optional a As String = &quot;a&quot;, Optional b As Char = '\0')" />
       <MemberSignature Language="F#" Value="member this.Default : string * char -&gt; unit" Usage="widget.Default (a, b)" />
       <MemberSignature Language="JavaScript" Value="function default(a, b)" Usage="widget.default(a, b)" />
-      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const&amp; a = &quot;a&quot;, char const&amp; b = '\0');" />
+      <MemberSignature Language="C++ WINRT" Value="void Default(winrt::hstring const&amp; a = &quot;a&quot;, char16_t const&amp; b = '\0');" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -597,7 +597,7 @@
       <MemberSignature Language="F#" Value="member this.M1 : char * single * DocValueType -&gt; unit" Usage="widget.M1 (c, f, v)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void M1(char c, [Runtime::InteropServices::Out] float % f, Mono::DocTest::DocValueType % v);" />
       <MemberSignature Language="C++ CX" Value="public:&#xA; void M1(char16 c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
-      <MemberSignature Language="C++ WINRT" Value="void M1(char const&amp; c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
+      <MemberSignature Language="C++ WINRT" Value="void M1(char16_t const&amp; c, [Runtime::InteropServices::Out] float &amp; f, Mono::DocTest::DocValueType &amp; v);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
@@ -719,7 +719,7 @@
       <MemberSignature Language="F#" Value="member this.M4 : nativeptr&lt;char&gt; * nativeptr&lt;nativeptr&lt;Mono.DocTest.Color&gt;&gt; -&gt; unit" Usage="widget.M4 (pc, ppf)" />
       <MemberSignature Language="JavaScript" Value="function m4(pc, ppf)" Usage="widget.m4(pc, ppf)" />
       <MemberSignature Language="C++ CLI" Value="protected:&#xA; void M4(char* pc, Mono::DocTest::Color** ppf);" />
-      <MemberSignature Language="C++ WINRT" Value="void M4(char* pc, Mono::DocTest::Color** ppf);" />
+      <MemberSignature Language="C++ WINRT" Value="void M4(char16_t* pc, Mono::DocTest::Color** ppf);" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyVersion>0.0.0.0</AssemblyVersion>
