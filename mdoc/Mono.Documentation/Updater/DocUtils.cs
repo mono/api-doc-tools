@@ -323,7 +323,7 @@ namespace Mono.Documentation.Updater
                 {
                     if (nchild == null) continue;
 
-                    if (nchild is XmlComment || nchild is XmlText || nchild is XmlCDataSection)
+                    if (nchild is XmlComment || nchild is XmlText || nchild is XmlCDataSection || nchild.Name == "include")
                     {
                         nchild.ParentNode.RemoveChild(nchild);
                         removed = true;

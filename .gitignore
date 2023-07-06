@@ -27,3 +27,4 @@ Debug
 /mdoc/mdoc.Test/UwpTestWinRtComponentCpp/x64/Release
 /mdoc.Test.Cplusplus/x64/Release
 /x64/Release/UwpTestWinRtComponentCpp
+/mdoc/Properties/launchSettings.json
