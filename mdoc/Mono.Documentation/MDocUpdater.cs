@@ -2432,6 +2432,11 @@ namespace Mono.Documentation
                 {
                     var node = AddAssemblyNameToNode (me, mi.Module, mi.DeclaringType.Resolve());
 
+                    if (typeEntry.IsMemberOnFirstFramework(mi))
+                    {
+                        node.SelectNodes("AssemblyVersion").Cast<XmlNode>().ToList().ForEach(e => e.ParentNode.RemoveChild(e));
+                    }
+
                     UpdateAssemblyVersionForAssemblyInfo (node, me, new[] { GetAssemblyVersion (mi.Module.Assembly) }, add: true);
                 }
             }
