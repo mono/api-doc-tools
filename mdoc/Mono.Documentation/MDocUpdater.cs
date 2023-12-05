@@ -2424,6 +2424,8 @@ namespace Mono.Documentation
             WriteElementText (me, "MemberType", GetMemberType (mi));
             AddImplementedMembers(typeEntry, mi, implementedMembers, me, eiiMenbers);
 
+            AddSetMethodName(mi, me);
+
             if (!no_assembly_versions)
             {
                 if (!IsMultiAssembly)
@@ -2913,6 +2915,7 @@ namespace Mono.Documentation
         "Metadata",
         "MemberSignature",
         "MemberType",
+        "SetMethodName",
         "Implements",
         "AssemblyInfo",
         "Attributes",
@@ -4308,6 +4311,20 @@ namespace Mono.Documentation
             }
 
             return me;
+        }
+
+        public static void AddSetMethodName(MemberReference mi, XmlElement me)
+        {
+            PropertyDefinition pi = mi as PropertyDefinition;
+            if (pi != null)
+            {
+                var setMethodName = pi.SetMethod?.Name;
+                if (setMethodName != null && !setMethodName.StartsWith("set"))
+                {
+                    ClearElement(me, "SetMethodName");
+                    WriteElementText(me, "SetMethodName", setMethodName);
+                }
+            }
         }
 
         internal static string GetMemberName (MemberReference mi)
