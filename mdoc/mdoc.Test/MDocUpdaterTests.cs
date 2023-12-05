@@ -128,7 +128,7 @@ namespace mdoc.Test
         [Test]
         public void SetMethodName_Test()
         {
-            var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Properties.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::putSource()");
+            var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Properties.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::source()");
             member.SetMethod.Name = "put_Source";
 
             var doc = new XmlDocument();

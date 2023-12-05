@@ -31,7 +31,7 @@ namespace mdoc.Test2
             remove { }
         }
 
-        public string putSource { get; set;}
+        public string source { get; set;}
 
     }
 }
