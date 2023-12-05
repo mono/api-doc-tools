@@ -126,6 +126,21 @@ namespace mdoc.Test
         }
 
         [Test]
+        public void SetMethodName_Test()
+        {
+            var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Properties.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::putSource()");
+            member.SetMethod.Name = "put_Source";
+
+            var doc = new XmlDocument();
+            doc.LoadXml(XmlConsts.SetMethodName);
+
+            MDocUpdater.AddSetMethodName(member, doc.DocumentElement);
+            var node = doc.SelectSingleNode($"Member/SetMethodName");
+            Assert.IsNotNull(node);
+            Assert.AreEqual(node.InnerText, member.SetMethod.Name);
+        }
+
+        [Test]
         public void UpdateToRight_MethodInterface_Test()
         {
             var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Methods.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::GetNo()");
