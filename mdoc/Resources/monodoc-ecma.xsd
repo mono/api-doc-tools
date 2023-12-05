@@ -532,7 +532,7 @@ add masterdoc support?
         <xs:element ref="Metadata" minOccurs="0" maxOccurs="1" />
         <xs:element ref="MemberSignature" minOccurs="1" maxOccurs="unbounded" />
         <xs:element ref="MemberType" maxOccurs="1" />
-		<xs:element ref="SetMethodName" minOccurs="0" maxOccurs="1" />
+        <xs:element ref="SetMethodName" minOccurs="0" maxOccurs="1" />
         <xs:element ref="Implements" minOccurs="0" maxOccurs="1" />
         <xs:element ref="AssemblyInfo" minOccurs="0" maxOccurs="1" />
         <xs:element ref="Attributes" minOccurs="0" maxOccurs="1" />
