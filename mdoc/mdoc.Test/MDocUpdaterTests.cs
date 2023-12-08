@@ -126,7 +126,7 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void SetMethodName_Test()
+        public void MakeSetMethodName_Test()
         {
             List<FrameworkEntry> entries = new List<FrameworkEntry>();
             FrameworkEntry frameworkEntry = new FrameworkEntry(entries, entries);
@@ -138,8 +138,7 @@ namespace mdoc.Test
 
             var doc = new XmlDocument();
             doc.LoadXml(XmlConsts.SetMethodName);
-            var refNode = (XmlElement)doc.SelectSingleNode($"Member/MemberType"); 
-            MDocUpdater.AddSetMethodName(typeEntry, doc.DocumentElement, member, refNode);
+            MDocUpdater.MakeSetMethodName(typeEntry, doc.DocumentElement, member);
             var node = doc.SelectSingleNode($"Member/SetMethodName");
             Assert.IsNotNull(node);
             Assert.AreEqual(node.InnerText, member.SetMethod.Name);

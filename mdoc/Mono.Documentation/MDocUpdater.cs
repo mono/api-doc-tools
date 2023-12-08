@@ -2424,7 +2424,7 @@ namespace Mono.Documentation
             var refNode = WriteElementText(me, "MemberType", GetMemberType(mi));
             AddImplementedMembers(typeEntry, mi, implementedMembers, me, eiiMenbers);
 
-            AddSetMethodName(typeEntry, me, mi, refNode);
+            MakeSetMethodName(typeEntry, me, mi);
 
             if (!no_assembly_versions)
             {
@@ -2475,36 +2475,33 @@ namespace Mono.Documentation
             UpdateExtensionMethods(me, info);
         }
 
-        public static void AddSetMethodName(FrameworkTypeEntry typeEntry, XmlElement me, MemberReference mi, XmlElement refNode)
+        public static void MakeSetMethodName(FrameworkTypeEntry typeEntry, XmlElement me, MemberReference mi)
         {
-            XmlElement el = (XmlElement)me.SelectSingleNode("SetMethodName");
-            if (el == null)
+            if (mi is PropertyDefinition)
             {
-                el = me.OwnerDocument.CreateElement("SetMethodName");
-            }
-            
-            ClearElement(me, "SetMethodName");
-
-            PropertyDefinition pi = mi as PropertyDefinition;
-            if (pi != null)
-            {
-                var setMethodName = pi.SetMethod?.Name;
+                var setMethodName = ((PropertyDefinition)mi).SetMethod?.Name;
                 if (setMethodName != null && !setMethodName.StartsWith("set"))
                 {
-                    el.InnerText = setMethodName;
-
                     DocUtils.AddElementWithFx(
-                                typeEntry,
-                                parent: el,
-                                isFirst: typeEntry.IsOnFirstFramework,
-                                isLast: typeEntry.IsOnLastFramework,
-                                allfxstring: new Lazy<string>(() => typeEntry.Framework.AllFrameworksWithType(typeEntry)),
-                                clear: parent => { },
-                                findExisting: parent => { return parent; },
-                                addItem: parent =>
-                                { return parent; });
+                        typeEntry,
+                        parent: me,
+                        isFirst: typeEntry.IsMemberOnFirstFramework(mi),
+                        isLast: typeEntry.IsMemberOnLastFramework(mi),
+                        allfxstring: new Lazy<string>(() => typeEntry.AllFrameworkStringForMember(mi)),
+                        clear: parent =>
+                        {
+                            ClearElement(parent, "SetMethodName");
+                        },
+                        findExisting: parent =>
+                        {
+                            return parent.SelectSingleNode($"Member/SetMethodName") as XmlElement;
+                        },
+                        addItem: parent =>
+                        {
+                            var newNode = WriteElementText(parent, "SetMethodName", setMethodName, forceNewElement: false);
 
-                    me.InsertAfter(el, refNode);
+                            return newNode;
+                        });
                 }
             }
         }
