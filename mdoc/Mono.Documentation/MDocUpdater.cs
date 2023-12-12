@@ -2421,10 +2421,9 @@ namespace Mono.Documentation
             var memberName = GetMemberName(mi);
             me.SetAttribute("MemberName", memberName);
 
-            var refNode = WriteElementText(me, "MemberType", GetMemberType(mi));
-            AddImplementedMembers(typeEntry, mi, implementedMembers, me, eiiMenbers);
-
+            WriteElementText(me, "MemberType", GetMemberType(mi));
             MakeSetMethodName(typeEntry, me, mi);
+            AddImplementedMembers(typeEntry, mi, implementedMembers, me, eiiMenbers);
 
             if (!no_assembly_versions)
             {
