@@ -133,16 +133,23 @@ namespace mdoc.Test
             frameworkEntry.Name = "winui-2.8";
             FrameworkTypeEntry typeEntry = new FrameworkTypeEntry(frameworkEntry);
 
-            var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Properties.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::source()");
-            member.SetMethod.Name = "put_Source";
-
             var doc = new XmlDocument();
             doc.LoadXml(XmlConsts.SetMethodName);
+
+            var member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Properties.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::init()");
+            member.SetMethod.Name = "set_Init";
             MDocUpdater.MakeSetMethodName(typeEntry, doc.DocumentElement, member);
             var node = doc.SelectSingleNode($"Member/SetMethodName");
+            Assert.IsNull(node);
+
+            member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Properties.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::source()");
+            member.SetMethod.Name = "put_Source";
+            MDocUpdater.MakeSetMethodName(typeEntry, doc.DocumentElement, member);
+            node = doc.SelectSingleNode($"Member/SetMethodName");
             Assert.IsNotNull(node);
             Assert.AreEqual(node.InnerText, member.SetMethod.Name);
-            Assert.AreEqual(node.Attributes["FrameworkAlternate"].Value, frameworkEntry.Name);            
+            Assert.AreEqual(node.Attributes["FrameworkAlternate"].Value, frameworkEntry.Name);
+
         }
 
         [Test]

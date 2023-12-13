@@ -715,7 +715,6 @@
       <MemberSignature Language=""VB.NET"" Value=""Public Property Source As ImageSource"" />
       <MemberSignature Language=""F#"" Value=""member this.Source : Windows.UI.Xaml.Media.ImageSource with get, set"" Usage=""Source"" />
       <MemberType>Property</MemberType>
-      <SetMethodName>put_Source</SetMethodName>
     </Member>";
         #endregion
     }

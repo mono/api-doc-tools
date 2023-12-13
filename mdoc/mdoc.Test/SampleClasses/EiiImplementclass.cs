@@ -33,5 +33,7 @@ namespace mdoc.Test2
 
         public string source { get; set;}
 
+        public string init { get; init;}
+
     }
 }
