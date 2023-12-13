@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mdoc", "mdoc\mdoc.csproj", "{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mdoc", "mdoc\mdoc.csproj", "{7DA7CD97-614F-4BCD-A2FA-B379590CEA48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "monodoc", "monodoc\monodoc.csproj", "{6E644802-B579-4037-9809-9CF4C7172C9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "monodoc", "monodoc\monodoc.csproj", "{6E644802-B579-4037-9809-9CF4C7172C9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monodoc.Test", "monodoc\Test\Monodoc.Test.csproj", "{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monodoc.Test", "monodoc\Test\Monodoc.Test.csproj", "{1EE70E2C-A289-4C36-AD0A-3D0C6CE56615}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mdoc.Test", "mdoc\mdoc.Test\mdoc.Test.csproj", "{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mdoc.Test", "mdoc\mdoc.Test\mdoc.Test.csproj", "{5ADDEFB6-930C-46BC-8B2B-FDE5C7E3B5AD}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "mdoc.Test.FSharp", "mdoc\mdoc.Test\mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj", "{979F9F80-12FE-4236-9E93-6D554AB13701}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "mdoc.Test.FSharp", "mdoc\mdoc.Test\mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj", "{979F9F80-12FE-4236-9E93-6D554AB13701}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
