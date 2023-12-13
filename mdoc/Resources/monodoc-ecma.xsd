@@ -70,7 +70,6 @@ add masterdoc support?
   <xs:element name="li" type="xs:string" />
   <xs:element name="MemberOfLibrary" type="xs:string" />
   <xs:element name="MemberType" type="xs:string" />
-  <xs:element name="SetMethodName" type="xs:string" />
   <xs:element name="MemberValue" type="xs:string" />
   <xs:element name="onequarter" />
   <xs:element name="PRE" />
@@ -89,6 +88,16 @@ add masterdoc support?
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
+  </xs:element>
+
+  <xs:element name="SetMethodName">
+  	<xs:complexType>
+  		<xs:simpleContent>
+  			<xs:extension base="xs:string">
+  				<xs:attribute name="FrameworkAlternate" use="optional" />
+  			</xs:extension>
+  		</xs:simpleContent>
+  	</xs:complexType>
   </xs:element>
   
   <xs:element name="Meta">
