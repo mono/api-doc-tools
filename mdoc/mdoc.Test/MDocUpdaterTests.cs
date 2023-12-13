@@ -142,6 +142,7 @@ namespace mdoc.Test
             Assert.IsNull(node);
 
             member = GetType(typeof(mdoc.Test2.EiiImplementClass)).Properties.FirstOrDefault(t => t.FullName == "System.String mdoc.Test2.EiiImplementClass::source()");
+            member.SetMethod.Name = "put_Source";
             MDocUpdater.MakeSetMethodName(typeEntry, doc.DocumentElement, member);
             node = doc.SelectSingleNode($"Member/SetMethodName");
             Assert.IsNotNull(node);
