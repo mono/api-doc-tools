@@ -706,5 +706,16 @@
 </Type>
 ";
         #endregion
+
+        #region
+        public const string SetMethodName = @"<Member MemberName=""Source"">
+      <MemberSignature Language=""C#"" Value=""public Windows.UI.Xaml.Media.ImageSource Source { get; set; }"" />
+      <MemberSignature Language=""ILAsm"" Value="".property instance class Windows.UI.Xaml.Media.ImageSource Source"" />
+      <MemberSignature Language=""DocId"" Value=""P:Microsoft.UI.Xaml.Controls.ImageIcon.Source"" />
+      <MemberSignature Language=""VB.NET"" Value=""Public Property Source As ImageSource"" />
+      <MemberSignature Language=""F#"" Value=""member this.Source : Windows.UI.Xaml.Media.ImageSource with get, set"" Usage=""Source"" />
+      <MemberType>Property</MemberType>
+    </Member>";
+        #endregion
     }
 }

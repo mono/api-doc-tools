@@ -2411,66 +2411,98 @@ namespace Mono.Documentation
             return l;
         }
 
-        private void UpdateMember (DocsNodeInfo info, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers, IEnumerable<Eiimembers> eiiMenbers)
+        private void UpdateMember(DocsNodeInfo info, FrameworkTypeEntry typeEntry, Dictionary<string, List<MemberReference>> implementedMembers, IEnumerable<Eiimembers> eiiMenbers)
         {
             XmlElement me = (XmlElement)info.Node;
             MemberReference mi = info.Member;
-            typeEntry.ProcessMember (mi);
+            typeEntry.ProcessMember(mi);
 
 
-            var memberName = GetMemberName (mi);
-            me.SetAttribute ("MemberName", memberName);
+            var memberName = GetMemberName(mi);
+            me.SetAttribute("MemberName", memberName);
 
-            WriteElementText (me, "MemberType", GetMemberType (mi));
+            WriteElementText(me, "MemberType", GetMemberType(mi));
+            MakeSetMethodName(typeEntry, me, mi);
             AddImplementedMembers(typeEntry, mi, implementedMembers, me, eiiMenbers);
 
             if (!no_assembly_versions)
             {
                 if (!IsMultiAssembly)
-                    UpdateAssemblyVersions (me, mi, true);
+                    UpdateAssemblyVersions(me, mi, true);
                 else
                 {
-                    var node = AddAssemblyNameToNode (me, mi.Module, mi.DeclaringType.Resolve());
+                    var node = AddAssemblyNameToNode(me, mi.Module, mi.DeclaringType.Resolve());
 
                     if (typeEntry.IsMemberOnFirstFramework(mi))
                     {
                         node.SelectNodes("AssemblyVersion").Cast<XmlNode>().ToList().ForEach(e => e.ParentNode.RemoveChild(e));
                     }
 
-                    UpdateAssemblyVersionForAssemblyInfo (node, me, new[] { GetAssemblyVersion (mi.Module.Assembly) }, add: true);
+                    UpdateAssemblyVersionForAssemblyInfo(node, me, new[] { GetAssemblyVersion(mi.Module.Assembly) }, add: true);
                 }
             }
             else
             {
-                ClearElement (me, "AssemblyInfo");
+                ClearElement(me, "AssemblyInfo");
             }
 
-			MakeMemberAttributes (me, mi, typeEntry);
+            MakeMemberAttributes(me, mi, typeEntry);
 
-            MakeReturnValue (typeEntry, me, mi, MDocUpdater.HasDroppedNamespace (mi));
+            MakeReturnValue(typeEntry, me, mi, MDocUpdater.HasDroppedNamespace(mi));
             if (mi is MethodReference)
             {
                 MethodReference mb = (MethodReference)mi;
-                if (mb.IsGenericMethod ())
-                    MakeTypeParameters (typeEntry, me, mb.GenericParameters, mi, MDocUpdater.HasDroppedNamespace (mi));
+                if (mb.IsGenericMethod())
+                    MakeTypeParameters(typeEntry, me, mb.GenericParameters, mi, MDocUpdater.HasDroppedNamespace(mi));
             }
             bool fxAlternateTriggered = false;
-            MakeParameters (me, mi, typeEntry, ref fxAlternateTriggered, MDocUpdater.HasDroppedNamespace (mi));
+            MakeParameters(me, mi, typeEntry, ref fxAlternateTriggered, MDocUpdater.HasDroppedNamespace(mi));
 
             string fieldValue;
-            if (mi is FieldDefinition && GetFieldConstValue ((FieldDefinition)mi, out fieldValue))
-                WriteElementText (me, "MemberValue", fieldValue);
+            if (mi is FieldDefinition && GetFieldConstValue((FieldDefinition)mi, out fieldValue))
+                WriteElementText(me, "MemberValue", fieldValue);
 
-            info.Node = WriteElement (me, "Docs");
-            MakeDocNode (info, typeEntry.Framework.Importers, typeEntry);
-            
+            info.Node = WriteElement(me, "Docs");
+            MakeDocNode(info, typeEntry.Framework.Importers, typeEntry);
+
             foreach (MemberFormatter f in FormatterManager.MemberFormatters)
             {
-                UpdateSignature (f, mi, me, typeEntry, implementedMembers);
+                UpdateSignature(f, mi, me, typeEntry, implementedMembers);
             }
 
-            OrderMemberNodes (me, me.ChildNodes);
-            UpdateExtensionMethods (me, info);
+            OrderMemberNodes(me, me.ChildNodes);
+            UpdateExtensionMethods(me, info);
+        }
+
+        public static void MakeSetMethodName(FrameworkTypeEntry typeEntry, XmlElement me, MemberReference mi)
+        {
+            if (mi is PropertyDefinition)
+            {
+                var setMethodName = ((PropertyDefinition)mi).SetMethod?.Name;
+                if (setMethodName != null && !setMethodName.StartsWith("set"))
+                {
+                    DocUtils.AddElementWithFx(
+                        typeEntry,
+                        parent: me,
+                        isFirst: typeEntry.IsMemberOnFirstFramework(mi),
+                        isLast: typeEntry.IsMemberOnLastFramework(mi),
+                        allfxstring: new Lazy<string>(() => typeEntry.AllFrameworkStringForMember(mi)),
+                        clear: parent =>
+                        {
+                            ClearElement(parent, "SetMethodName");
+                        },
+                        findExisting: parent =>
+                        {
+                            return parent.SelectSingleNode($"Member/SetMethodName") as XmlElement;
+                        },
+                        addItem: parent =>
+                        {
+                            var newNode = WriteElementText(parent, "SetMethodName", setMethodName, forceNewElement: false);
+
+                            return newNode;
+                        });
+                }
+            }
         }
 
         private static void UpdateSignature(MemberFormatter formatter, TypeDefinition type, XmlElement xmlElement, FrameworkTypeEntry typeEntry)
@@ -2913,6 +2945,7 @@ namespace Mono.Documentation
         "Metadata",
         "MemberSignature",
         "MemberType",
+        "SetMethodName",
         "Implements",
         "AssemblyInfo",
         "Attributes",
