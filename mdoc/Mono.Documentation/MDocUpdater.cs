@@ -2478,7 +2478,7 @@ namespace Mono.Documentation
         {
             if (mi is PropertyDefinition)
             {
-                var setMethodName = ((PropertyDefinition)mi).SetMethod?.Name;
+                var setMethodName = ((PropertyDefinition)mi).SetMethod?.Name.Split('.').LastOrDefault();
                 if (setMethodName != null && !setMethodName.StartsWith("set"))
                 {
                     DocUtils.AddElementWithFx(
