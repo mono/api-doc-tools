@@ -15,7 +15,7 @@ namespace mdoc.Test2
 
         public int no { get; }
         int Interface_B.no { get;  }
-
+        
         public string GetNo() => "1";
         string Interface_A.GetNo() => "7";
 
@@ -30,6 +30,10 @@ namespace mdoc.Test2
             add { }
             remove { }
         }
+
+        public string source { get; set;}
+
+        public string init { get; init;}
 
     }
 }
