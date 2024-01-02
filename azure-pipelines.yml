@@ -242,7 +242,7 @@ stages:
     #   displayName: 'Publishing mdoc package to nuget.org'
     #   condition: eq(variables['mdocVersion.NeedUpdate'], true)
     #   inputs:
-    #    command: 'push'
-    #    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    #    nuGetFeedType: 'external'
-    #    publishFeedCredentials: 'mdoc_nuget_org'
+    #     command: 'push'
+    #     packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    #     nuGetFeedType: 'external'
+    #     publishFeedCredentials: 'mdoc_nuget_org'
