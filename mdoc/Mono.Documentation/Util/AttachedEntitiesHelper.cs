@@ -55,7 +55,7 @@ namespace Mono.Documentation.Util
 
         private static bool IsAttachedEvent(FieldDefinition field, Dictionary<string, IEnumerable<MethodDefinition>> methods)
         {
-            // https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/attached-events-overview
+            // https://learn.microsoft.com/en-us/dotnet/framework/wpf/advanced/attached-events-overview
             if (!field.Name.EndsWith(EventConst))
                 return false;
             var addMethodName = $"Add{GetEventName(field.Name)}Handler";
@@ -130,7 +130,7 @@ namespace Mono.Documentation.Util
 
         private static bool IsAttachedProperty(FieldDefinition field, Dictionary<string, IEnumerable<MethodDefinition>> methods)
         {
-            // https://docs.microsoft.com/en-us/dotnet/framework/wpf/advanced/attached-properties-overview
+            // https://learn.microsoft.com/en-us/dotnet/framework/wpf/advanced/attached-properties-overview
             // https://github.com/mono/api-doc-tools/issues/63#issuecomment-328995418
             if (!field.Name.EndsWith(PropertyConst, StringComparison.Ordinal))
                 return false;
