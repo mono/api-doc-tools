@@ -11,7 +11,7 @@ namespace Mono.Utilities
         //
         // Syntax coloring
         //
-        static IList<string> words = new List<string> { "abstract","event","new","struct","as","explicit","null","switch","base","extern",
+        static string[] words = { "abstract","event","new","struct","as","explicit","null","switch","base","extern",
                                                         "object","this","bool","false","operator","throw","break","finally","out","true",
                                                         "byte","fixed","override","try","case","float","params","typeof","catch","for",
                                                         "private","uint","char","foreach","protected","ulong","checked","goto","public",
@@ -19,8 +19,7 @@ namespace Mono.Utilities
                                                         "continue","in","return","using","decimal","int","sbyte","virtual","default",
                                                         "interface","sealed","volatile","delegate","internal","short","void","do","is",
                                                         "sizeof","while","double","lock","stackalloc","else","long","static","enum",
-                                                        "namespace","string"
-                                                       };
+                                                        "namespace","string" };
         static string boundary = @"\b";
         static string keywords_cs = "(" + string.Join("|", words.Select(word => $"{boundary}{word}{boundary}")) + ")";
 
