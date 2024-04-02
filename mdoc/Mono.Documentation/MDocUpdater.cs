@@ -2151,34 +2151,34 @@ namespace Mono.Documentation
 
             string assemblyInfoNodeFilter = MDocUpdater.HasDroppedNamespace (type) ? "[@apistyle='unified']" : "[not(@apistyle) or @apistyle='classic']";
             Func<XmlElement, bool> assemblyFilter = x => x.SelectSingleNode ("AssemblyName").InnerText == type.Module.Assembly.Name.Name;
-            foreach (var ass in root.SelectNodes ("AssemblyInfo" + assemblyInfoNodeFilter).Cast<XmlElement> ().Where (assemblyFilter))
+            foreach (var assembly in root.SelectNodes ("AssemblyInfo" + assemblyInfoNodeFilter).Cast<XmlElement> ().Where (assemblyFilter))
             {
-                WriteElementText (ass, "AssemblyName", type.Module.Assembly.Name.Name);
+                WriteElementText (assembly, "AssemblyName", type.Module.Assembly.Name.Name);
                 if (!no_assembly_versions)
                 {
-                    UpdateAssemblyVersions (ass, type, true);
+                    UpdateAssemblyVersions (assembly, type, true);
                 }
                 else
                 {
-                    var versions = ass.SelectNodes ("AssemblyVersion").Cast<XmlNode> ().ToList ();
+                    var versions = assembly.SelectNodes ("AssemblyVersion").Cast<XmlNode> ().ToList ();
                     foreach (var version in versions)
-                        ass.RemoveChild (version);
+                        assembly.RemoveChild (version);
                 }
                 if (!string.IsNullOrEmpty (type.Module.Assembly.Name.Culture))
-                    WriteElementText (ass, "AssemblyCulture", type.Module.Assembly.Name.Culture);
+                    WriteElementText (assembly, "AssemblyCulture", type.Module.Assembly.Name.Culture);
                 else
-                    ClearElement (ass, "AssemblyCulture");
+                    ClearElement (assembly, "AssemblyCulture");
 
 
                 // Why-oh-why do we put assembly attributes in each type file?
                 // Neither monodoc nor monodocs2html use them, so I'm deleting them
                 // since they're outdated in current docs, and a waste of space.
-                //MakeAttributes(ass, type.Assembly, true);
-                XmlNode assattrs = ass.SelectSingleNode ("Attributes");
+                //MakeAttributes(assembly, type.Assembly, true);
+                XmlNode assattrs = assembly.SelectSingleNode ("Attributes");
                 if (assattrs != null)
-                    ass.RemoveChild (assattrs);
+                    assembly.RemoveChild (assattrs);
 
-                NormalizeWhitespace (ass);
+                NormalizeWhitespace (assembly);
             }
 
             if (type.IsGenericType ())
@@ -2370,13 +2370,13 @@ namespace Mono.Documentation
                 assemblyFilter, x => WriteElementText (x, "AssemblyName", assembly.Name),
                 () =>
                 {
-                    XmlElement ass = WriteElement (root, "AssemblyInfo", forceNewElement: true);
+                    XmlElement assemblyNode = WriteElement (root, "AssemblyInfo", forceNewElement: true);
 
                     if (MDocUpdater.HasDroppedNamespace (assembly))
-                        ass.AddApiStyle (ApiStyle.Unified);
+                        assemblyNode.AddApiStyle (ApiStyle.Unified);
                     if (isClassicRun)
-                        ass.AddApiStyle (ApiStyle.Classic);
-                    return ass;
+                        assemblyNode.AddApiStyle (ApiStyle.Classic);
+                    return assemblyNode;
                 }, assembly);
         }
 
@@ -3524,7 +3524,7 @@ namespace Mono.Documentation
                 }
                 seen = null;
 
-                // on last, get a list of all parent elements, and then nuke `param` if name doesn't match one on the list
+                // on last, get a list of all parent elements, and then remove `param` if name doesn't match one on the list
                 if (typeEntry.IsOnLastFramework)
                 {
                     var mainRoots = e.ParentNode.SelectNodes($"{rootParentElement}/{parentElement}")
