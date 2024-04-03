@@ -108,7 +108,7 @@ namespace Mono.Documentation.Updater.Frameworks
         {
             var fxlist = this.allcachedframeworks
                 .Where(f => f.allAssemblies
-                   .Any(ass => ass.Assemblies
+                   .Any(item => item.Assemblies
                       .Any(a => a.Name.Name.Equals(assemblyName, StringComparison.OrdinalIgnoreCase))));
             return fxlist.ToArray();
         }
