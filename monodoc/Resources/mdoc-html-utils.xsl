@@ -2417,7 +2417,7 @@
 			</xsl:when>
 			<xsl:when test="$arglist = '' and $rest = ''">
 				<xsl:message terminate="yes">
-!WTF? arglist=<xsl:value-of select="$arglist" />; rest=<xsl:value-of select="$rest" />
+					arglist=<xsl:value-of select="$arglist" />; rest=<xsl:value-of select="$rest" />
 				</xsl:message>
 			</xsl:when>
 			<xsl:when test="starts-with ($rest, '>')">
@@ -2434,7 +2434,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:message terminate="yes">
-!WTF 2? arglist=<xsl:value-of select="$arglist" />; rest=<xsl:value-of select="$rest" />
+					arglist=<xsl:value-of select="$arglist" />; rest=<xsl:value-of select="$rest" />
 				</xsl:message>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -2483,7 +2483,7 @@ SkipTypeArgument: invalid type substring '<xsl:value-of select="$s" />'
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:message>
-! WTF3: s=<xsl:value-of select="$s" />; r=<xsl:value-of select="$r" />
+							s=<xsl:value-of select="$s" />; r=<xsl:value-of select="$r" />
 						</xsl:message>
 					</xsl:otherwise>
 				</xsl:choose>
