@@ -55,7 +55,7 @@ update -o {mdoc output folder} -fx {frameworks path} --debug -index false -lang 
 3. Located the impacted .NET content repo: [dotnet-api-docs](https://github.com/dotnet/dotnet-api-docs).
 4. Find the corresponding pipeline in the commit log. https://apidrop.visualstudio.com/Content%20CI/_build/results?buildId=422059&view=results
     ![Commit Log](./images/commit-log.png)
-5. Since the source is not NuGet source, we can use pull the source repo as our input.
+5. Since the source is not NuGet source, we can pull the source repo as our input.
 6. Go to `Run .NET CI Script` step and find the source repo in the `paramsJson`
 ```
 "https://apidrop.visualstudio.com/_git/binaries","branch":"master","folder":"dotnet"
@@ -65,13 +65,13 @@ update -o {mdoc output folder} -fx {frameworks path} --debug -index false -lang 
 ```dotnetcli
 fx-bootstrap -fx "{local path}\binaries\dotnet"
 ```
-9. The entry class of mdoc is [mdoc.cs](https://github.com/mono/api-doc-tools/blob/main/mdoc/Mono.Documentation/mdoc.cs) and the update command is [MDocUpdater.cs](https://github.com/mono/api-doc-tools/blob/main/mdoc/Mono.Documentation/MDocUpdater.cs).
-10. After analysis the bug, you may set a breakpoint at:
+9. The entry class of mdoc is [mdoc.cs](https://github.com/mono/api-doc-tools/blob/main/mdoc/Mono.Documentation/mdoc.cs) and the update command is in [MDocUpdater.cs](https://github.com/mono/api-doc-tools/blob/main/mdoc/Mono.Documentation/MDocUpdater.cs).
+10. After analyzing the bug, you may want to set a breakpoint at:
     ![breakpoint](./images/breakpoint.png)
-11. Select `update` lanuch profile and start to debug.
+11. Select `update` launch profile and start to debug.
 
 ## Tips
-1. If you want to debug against a specific .dll, you can modify the line of [MDocUpdater.cs](https://github.com/mono/api-doc-tools/blob/f0bee064c5e018b82a39ec36a4c59d474fb154f9/mdoc/Mono.Documentation/MDocUpdater.cs#L367) 
+1. If you want to debug against a specific .dll, you can modify the this line of [MDocUpdater.cs](https://github.com/mono/api-doc-tools/blob/f0bee064c5e018b82a39ec36a4c59d474fb154f9/mdoc/Mono.Documentation/MDocUpdater.cs#L367) 
 
     From
     ```
@@ -81,7 +81,6 @@ fx-bootstrap -fx "{local path}\binaries\dotnet"
     ```
     var assemblyFiles = filters.Split('|').SelectMany(v => Directory.GetFiles(path, v)).Where(x => x.Contains("name-of-dll"));
     ```
-   
 
 
 
