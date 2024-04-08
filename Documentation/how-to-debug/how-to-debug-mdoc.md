@@ -81,20 +81,3 @@ fx-bootstrap -fx "{local path}\binaries\dotnet"
     ```
     var assemblyFiles = filters.Split('|').SelectMany(v => Directory.GetFiles(path, v)).Where(x => x.Contains("name-of-dll"));
     ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
