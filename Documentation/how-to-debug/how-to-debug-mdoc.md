@@ -71,7 +71,7 @@ fx-bootstrap -fx "{local path}\binaries\dotnet"
 11. Select `update` launch profile and start to debug.
 
 ## Tips
-1. If you want to debug against a specific .dll, you can modify the this line of [MDocUpdater.cs](https://github.com/mono/api-doc-tools/blob/f0bee064c5e018b82a39ec36a4c59d474fb154f9/mdoc/Mono.Documentation/MDocUpdater.cs#L367) 
+1. If you want to debug against a specific .dll, you can modify this line of [MDocUpdater.cs](https://github.com/mono/api-doc-tools/blob/f0bee064c5e018b82a39ec36a4c59d474fb154f9/mdoc/Mono.Documentation/MDocUpdater.cs#L367) 
 
     From
     ```
