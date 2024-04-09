@@ -82,3 +82,6 @@ make prepare all check
 ```
 
 Please review [mono's installation guide](http://www.mono-project.com/download/#download-lin) if you are using a different flavor of linux.
+
+## How to debug
+[How to debug mdoc](./Documentation/how-to-debug/how-to-debug-mdoc.md)
