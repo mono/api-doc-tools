@@ -73,8 +73,10 @@ namespace Mono.Documentation.Updater
                 if (DocUtils.NeedsOverwrite(e["returns"]))
                     MDocUpdater.ClearElement(e, "returns");
             }
-            
-            
+            if (elem.SelectSingleNode("inheritdoc") != null)
+                MDocUpdater.ClearElement(e, "inheritdoc");
+
+
 
             foreach (XmlNode child in elem.ChildNodes)
             {
