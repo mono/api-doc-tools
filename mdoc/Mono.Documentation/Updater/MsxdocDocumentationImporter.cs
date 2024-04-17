@@ -76,8 +76,6 @@ namespace Mono.Documentation.Updater
             if (elem.SelectSingleNode("inheritdoc") != null)
                 MDocUpdater.ClearElement(e, "inheritdoc");
 
-
-
             foreach (XmlNode child in elem.ChildNodes)
             {
                 switch (child.Name)
