@@ -91,8 +91,6 @@ namespace Mono.Documentation.Updater.Frameworks
 			if (!Directory.Exists (outputPath))
 				Directory.CreateDirectory (outputPath);
 
-            CleanupFrameworksIndex(outputPath);
-
             foreach (var fx in this.frameworks)
 			{
 				XElement frameworkElement = new XElement("Framework", new XAttribute("Name", fx.Name));
@@ -141,15 +139,16 @@ namespace Mono.Documentation.Updater.Frameworks
 					doc.WriteTo (writer);
 				}
 			}
-		}
+            CleanupFrameworksIndex(outputPath);
+        }
 
         private void CleanupFrameworksIndex(string outputPath)
         {
             var files = Directory.GetFiles(outputPath); 
-            var assemblyNames = frameworks.ToDictionary(item => item.Name, item => item);
+            var frameworkNames = frameworks.ToDictionary(item => item.Name, item => item);
             foreach (var file in files)
             {
-                if (!assemblyNames.ContainsKey(Path.GetFileNameWithoutExtension(file)))
+                if (!frameworkNames.ContainsKey(Path.GetFileNameWithoutExtension(file)))
                 {
                     File.Delete(file);
                 }
