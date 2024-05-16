@@ -1421,15 +1421,16 @@ namespace Mono.Documentation
         {
             var assemblyNames = assemblies.ToDictionary(item => item.Name, item => item);
             var indexFolder = Path.Combine(dest, "FrameworksIndex");
-            if (Directory.Exists(indexFolder))
+            if (!Directory.Exists(indexFolder))
             {
-                var files = Directory.GetFiles(indexFolder);
-                foreach (var file in files)
+                return;
+            }
+            var files = Directory.GetFiles(indexFolder);
+            foreach (var file in files)
+            {
+                if (!assemblyNames.ContainsKey(Path.GetFileNameWithoutExtension(file)))
                 {
-                    if (!assemblyNames.ContainsKey(Path.GetFileNameWithoutExtension(file)))
-                    {
-                        File.Delete(file);
-                    }
+                    File.Delete(file);
                 }
             }
         }
