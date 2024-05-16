@@ -1102,7 +1102,8 @@ namespace Mono.Documentation
 
             SortIndexEntries (index_types);
 
-            CleanupFiles (dest, goodfiles);
+            CleanupFiles (dest, goodfiles); 
+            CleanupFrameworksIndex(dest, this.assemblies);
             CleanupIndexTypes (index_types, goodfiles);
             CleanupExtensions (index_types);
 
@@ -1412,6 +1413,19 @@ namespace Mono.Documentation
                             }
                         }
                     }
+                }
+            }
+        }
+
+        private static void CleanupFrameworksIndex(string dest, List<AssemblySet> assemblies)
+        {
+            var assemblyNames = assemblies.ToDictionary(item => item.Name, item => item);
+            var files = Directory.GetFiles(Path.Combine(dest, "FrameworksIndex"));
+            foreach (var file in files)
+            {
+                if (!assemblyNames.ContainsKey(Path.GetFileNameWithoutExtension(file)))
+                {
+                    File.Delete(file);
                 }
             }
         }
