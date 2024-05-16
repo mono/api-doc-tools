@@ -1420,12 +1420,16 @@ namespace Mono.Documentation
         private static void CleanupFrameworksIndex(string dest, List<AssemblySet> assemblies)
         {
             var assemblyNames = assemblies.ToDictionary(item => item.Name, item => item);
-            var files = Directory.GetFiles(Path.Combine(dest, "FrameworksIndex"));
-            foreach (var file in files)
+            var indoxFolder = Path.Combine(dest, "FrameworksIndex");
+            if (Directory.Exists(indoxFolder))
             {
-                if (!assemblyNames.ContainsKey(Path.GetFileNameWithoutExtension(file)))
+                var files = Directory.GetFiles(indoxFolder);
+                foreach (var file in files)
                 {
-                    File.Delete(file);
+                    if (!assemblyNames.ContainsKey(Path.GetFileNameWithoutExtension(file)))
+                    {
+                        File.Delete(file);
+                    }
                 }
             }
         }
