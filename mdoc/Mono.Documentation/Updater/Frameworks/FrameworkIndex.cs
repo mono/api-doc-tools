@@ -86,12 +86,12 @@ namespace Mono.Documentation.Updater.Frameworks
 			if (string.IsNullOrWhiteSpace (this.path))
 				return;
 			
-      string outputPath = Path.Combine (path, Consts.FrameworksIndex);
+            string outputPath = Path.Combine (path, Consts.FrameworksIndex);
 
 			if (!Directory.Exists (outputPath))
 				Directory.CreateDirectory (outputPath);
 
-			foreach (var fx in this.frameworks)
+            foreach (var fx in this.frameworks)
 			{
 				XElement frameworkElement = new XElement("Framework", new XAttribute("Name", fx.Name));
 				XDocument doc = new XDocument(
@@ -139,6 +139,20 @@ namespace Mono.Documentation.Updater.Frameworks
 					doc.WriteTo (writer);
 				}
 			}
-		}
-	}
+            CleanupFrameworksIndex(outputPath);
+        }
+
+        private void CleanupFrameworksIndex(string outputPath)
+        {
+            var files = Directory.GetFiles(outputPath); 
+            var frameworkNames = frameworks.ToDictionary(item => item.Name, item => item);
+            foreach (var file in files)
+            {
+                if (!frameworkNames.ContainsKey(Path.GetFileNameWithoutExtension(file)))
+                {
+                    File.Delete(file);
+                }
+            }
+        }
+    }
 }
