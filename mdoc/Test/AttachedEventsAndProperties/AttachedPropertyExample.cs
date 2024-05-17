@@ -5,7 +5,7 @@ namespace AttachedEventsAndProperties
 {
     public static class AttachedPropertyExample
     {
-        #region modified docs.microsoft.com example
+        #region modified learn.microsoft.com example
 
         public static readonly DependencyProperty IsBubbleSourceProperty = DependencyProperty.RegisterAttached(
   "IsBubbleSource",
