@@ -14,4 +14,4 @@ resources:
       ref: xdanni-test
 
 extends:
-  template: .pipelines\bootstrap\trigger-Buddy.yml@templates
+  template: .pipelines/bootstrap/trigger-Buddy.yml@templates
