@@ -1,0 +1,9 @@
+trigger:
+- develop
+
+pr:
+- main
+- develop
+
+steps:
+- bash: echo "Trigger OneBranch-Buddy after this run completed."
