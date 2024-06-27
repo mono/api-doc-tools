@@ -6,5 +6,12 @@ pr:
 - main
 - develop
 
-steps:
-- bash: echo "Trigger OneBranch-Buddy after this run completed."
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: Engineering/api-doc-tools
+      ref: xdanni-test
+
+extends:
+  template: .pipelines\bootstrap\trigger-Buddy.yml@templates
