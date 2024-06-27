@@ -1,8 +1,8 @@
-trigger: none
-
-pr:
+trigger:
 - main
 - develop
+
+pr: none
 
 resources:
   repositories:
@@ -12,4 +12,4 @@ resources:
       ref: xdanni-test
 
 extends:
-  template: .pipelines/bootstrap/trigger-Buddy.yml@templates
+  template: .pipelines/bootstrap/trigger-Official.yml@templates
