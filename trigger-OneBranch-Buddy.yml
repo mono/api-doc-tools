@@ -1,0 +1,15 @@
+trigger: none
+
+pr:
+- main
+- develop
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: Engineering/api-doc-tools
+      ref: main
+
+extends:
+  template: .pipelines/bootstrap/trigger-Buddy.yml@templates
