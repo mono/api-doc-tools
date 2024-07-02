@@ -9,7 +9,7 @@ resources:
     - repository: templates
       type: git
       name: Engineering/api-doc-tools
-      ref: xdanni-ado
+      ref: main
 
 extends:
   template: .pipelines/bootstrap/trigger-Official.yml@templates
