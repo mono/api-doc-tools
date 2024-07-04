@@ -12,4 +12,4 @@ resources:
       ref: main
 
 extends:
-  template: .pipelines/bootstrap/trigger-Official.yml@templates ### test
+  template: .pipelines/bootstrap/trigger-Official.yml@templates
