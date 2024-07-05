@@ -17,7 +17,7 @@ namespace AttachedEventsAndProperties
         }
         #endregion 
 
-        #region docs.microsoft.com example
+        #region learn.microsoft.com example
         public static readonly RoutedEvent NeedsCleaningEvent;
         public static void AddNeedsCleaningHandler(DependencyObject d, RoutedEventHandler handler)
         {
