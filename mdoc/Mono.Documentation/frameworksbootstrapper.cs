@@ -40,7 +40,8 @@ namespace Mono.Documentation
 									Path = d.Substring (frameworkPath.Length + slashOffset, d.Length - frameworkPath.Length - slashOffset),
 									Name = Path.GetFileName(d)
 								})
-                                .Where (d => !d.Name.Equals ("dependencies", StringComparison.OrdinalIgnoreCase))
+                                .Where (d => !d.Name.Equals ("dependencies", StringComparison.OrdinalIgnoreCase) &&
+                                             !d.Name.Equals("symbols", StringComparison.OrdinalIgnoreCase))
                                 .OrderBy(d => d.Name)
                                 .ToArray();
 
