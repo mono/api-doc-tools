@@ -2156,9 +2156,9 @@ namespace Mono.Documentation
             // Fix Bug 990897: [.NET] Exclude CollectionsExtensions class from Microsoft.Extensions.DependencyModel.dll in mdoc
             if (type.Name == "CollectionExtensions")
             {
-                var assemblyFromXml = root.SelectNodes("/Type/AssemblyInfo").Cast<XmlElement>();//.Where(item => item.GetElementsByTagName("AssemblyName").ToString() == "");
-                var MEDM = assemblyFromXml.Where(item => item.InnerText == "Microsoft.Extensions.DependencyModel9.0.0.0");
-                foreach (var delItem in MEDM)
+                var assemblyFromXml = root.SelectNodes("/Type/AssemblyInfo").Cast<XmlElement>()
+                    .Where(item => item.InnerText == "Microsoft.Extensions.DependencyModel9.0.0.0");
+                foreach (var delItem in assemblyFromXml)
                 {
                     delItem.ParentNode.RemoveChild(delItem);
                 }
