@@ -412,6 +412,12 @@ namespace Mono.Documentation
                                 foreach (var type in assembly.GetTypes().Where(t => DocUtils.IsPublic(t)))
                                 {
                                     var t = a.ProcessType(type, assembly);
+                                    if (t.Name == "System.Collections.Generic.CollectionExtensions" && assembly.MainModule.Name == "Microsoft.Extensions.DependencyModel.dll")
+                                    {
+                                        // Workaround:
+                                        // Fix Bug 990897: [.NET] Exclude CollectionsExtensions class from Microsoft.Extensions.DependencyModel.dll in mdoc
+                                        continue;
+                                    }
                                     foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i) && IsMemberNotPrivateEII(i)))
                                         t.ProcessMember(member);
                                 }
@@ -2144,6 +2150,18 @@ namespace Mono.Documentation
                 var delList = DocUtils.RemoveInvalidAssemblyInfo(root, no_assembly_versions, "Type");
                 foreach (var delitem in delList)
                     delitem.ParentNode.RemoveChild(delitem);
+            }
+
+            // Workaround:
+            // Fix Bug 990897: [.NET] Exclude CollectionsExtensions class from Microsoft.Extensions.DependencyModel.dll in mdoc
+            if (type.Name == "CollectionExtensions")
+            {
+                var assemblyFromXml = root.SelectNodes("/Type/AssemblyInfo").Cast<XmlElement>();//.Where(item => item.GetElementsByTagName("AssemblyName").ToString() == "");
+                var MEDM = assemblyFromXml.Where(item => item.InnerText == "Microsoft.Extensions.DependencyModel9.0.0.0");
+                foreach (var delItem in MEDM)
+                {
+                    delItem.ParentNode.RemoveChild(delItem);
+                }
             }
 
             AddAssemblyNameToNode (root, type);
