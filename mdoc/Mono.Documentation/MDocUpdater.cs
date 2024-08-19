@@ -412,6 +412,12 @@ namespace Mono.Documentation
                                 foreach (var type in assembly.GetTypes().Where(t => DocUtils.IsPublic(t)))
                                 {
                                     var t = a.ProcessType(type, assembly);
+                                    if (t.Name == "System.Collections.Generic.CollectionExtensions" && assembly.MainModule.Name == "Microsoft.Extensions.DependencyModel.dll")
+                                    {
+                                        // Workaround:
+                                        // Fix Bug 990897: [.NET] Exclude CollectionsExtensions class from Microsoft.Extensions.DependencyModel.dll in mdoc
+                                        continue;
+                                    }
                                     foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i) && IsMemberNotPrivateEII(i)))
                                         t.ProcessMember(member);
                                 }
@@ -1131,7 +1137,12 @@ namespace Mono.Documentation
                     continue;
 
                 var typeEntry = frameworkEntry.ProcessType (type, assembly);
-
+                if (typeEntry.Name == "System.Collections.Generic.CollectionExtensions" && assembly.MainModule.Name == "Microsoft.Extensions.DependencyModel.dll")
+                {
+                    // Workaround:
+                    // Fix Bug 990897: [.NET] Exclude CollectionsExtensions class from Microsoft.Extensions.DependencyModel.dll in mdoc
+                    continue;
+                }
                 string reltypepath = DoUpdateType (assemblySet, assembly, type, typeEntry, source, dest);
                 if (reltypepath == null)
                     continue;
