@@ -1,12 +1,8 @@
 trigger: none
 
 pr:
-  autoCancel: true
-  drafts: false
-  branches:
-    include:
-      - main
-      - develop
+- main
+- develop
 
 resources:
   repositories:
