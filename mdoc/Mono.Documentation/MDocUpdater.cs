@@ -1136,7 +1136,7 @@ namespace Mono.Documentation
                 if (!DocUtils.IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
                     continue;
 
-               var typeEntry = frameworkEntry.ProcessType (type, assembly);
+                var typeEntry = frameworkEntry.ProcessType (type, assembly);
                 if (typeEntry.Name == "System.Collections.Generic.CollectionExtensions" && assembly.MainModule.Name == "Microsoft.Extensions.DependencyModel.dll")
                 {
                     // Workaround:
