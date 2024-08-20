@@ -412,6 +412,7 @@ namespace Mono.Documentation
                                 foreach (var type in assembly.GetTypes().Where(t => DocUtils.IsPublic(t)))
                                 {
                                     var t = a.ProcessType(type, assembly);
+
                                     // Workaround for https://dev.azure.com/ceapex/Engineering/_workitems/edit/990897
                                     if (t.Name == "System.Collections.Generic.CollectionExtensions" && assembly.MainModule.Name == "Microsoft.Extensions.DependencyModel.dll")
                                     {
@@ -1136,6 +1137,7 @@ namespace Mono.Documentation
                     continue;
 
                 var typeEntry = frameworkEntry.ProcessType (type, assembly);
+
                 // Workaround for https://dev.azure.com/ceapex/Engineering/_workitems/edit/990897
                 if (typeEntry.Name == "System.Collections.Generic.CollectionExtensions" && assembly.MainModule.Name == "Microsoft.Extensions.DependencyModel.dll")
                 {
