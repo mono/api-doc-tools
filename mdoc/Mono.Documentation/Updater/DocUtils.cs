@@ -554,6 +554,12 @@ namespace Mono.Documentation.Updater
             return input;
         }
 
+        public static bool IsIgnored(TypeDefinition type)
+        {
+            // Workaround for https://dev.azure.com/ceapex/Engineering/_workitems/edit/990897
+            return type.FullName == "System.Collections.Generic.CollectionExtensions" && type.Module.Name == "Microsoft.Extensions.DependencyModel.dll";
+        }
+
         /// <summary>
         /// No documentation for property/event accessors.
         /// </summary>

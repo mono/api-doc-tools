@@ -409,15 +409,9 @@ namespace Mono.Documentation
                             {
                                 var a = cacheIndex.StartProcessingAssembly(assemblySet, assembly, assemblySet.Importers, assemblySet.Id, assemblySet.Version);
 
-                                foreach (var type in assembly.GetTypes().Where(t => DocUtils.IsPublic(t)))
+                                foreach (var type in assembly.GetTypes().Where(t => DocUtils.IsPublic(t) && !DocUtils.IsIgnored(t)))
                                 {
                                     var t = a.ProcessType(type, assembly);
-
-                                    // Workaround for https://dev.azure.com/ceapex/Engineering/_workitems/edit/990897
-                                    if (t.Name == "System.Collections.Generic.CollectionExtensions" && assembly.MainModule.Name == "Microsoft.Extensions.DependencyModel.dll")
-                                    {
-                                        continue;
-                                    }
                                     foreach (var member in type.GetMembers().Where(i => !DocUtils.IsIgnored(i) && IsMemberNotPrivateEII(i)))
                                         t.ProcessMember(member);
                                 }
@@ -838,7 +832,7 @@ namespace Mono.Documentation
             if (type.Namespace == null)
                 Warning ("warning: The type `{0}' is in the root namespace.  This may cause problems with display within monodoc.",
                         type.FullName);
-            if (!DocUtils.IsPublic (type))
+            if (!DocUtils.IsPublic (type) || DocUtils.IsIgnored(type))
                 return null;
 
             if (type.HasCustomAttributes && CustomAttributeNamesToSkip.All(x => type.CustomAttributes.Any(y => y.AttributeType.FullName == x)))
@@ -1133,16 +1127,11 @@ namespace Mono.Documentation
             foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null))
             {
                 string typename = GetTypeFileName (type);
-                if (!DocUtils.IsPublic (type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
+                if (!DocUtils.IsPublic (type) || DocUtils.IsIgnored(type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
                     continue;
 
                 var typeEntry = frameworkEntry.ProcessType (type, assembly);
 
-                // Workaround for https://dev.azure.com/ceapex/Engineering/_workitems/edit/990897
-                if (typeEntry.Name == "System.Collections.Generic.CollectionExtensions" && assembly.MainModule.Name == "Microsoft.Extensions.DependencyModel.dll")
-                {
-                    continue;
-                }
                 string reltypepath = DoUpdateType (assemblySet, assembly, type, typeEntry, source, dest);
                 if (reltypepath == null)
                     continue;
