@@ -601,6 +601,14 @@ namespace mdoc.Test
             TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
+        [TestCase("MethodWithRefReadonlyParam", "public void MethodWithRefReadonlyParam (ref readonly int i);")]
+        public void CSharpRefReadonlyTest(string methodName, string expectedSignature)
+        {
+            var method = GetMethod(typeof(SampleClasses.SomeClass), m => m.Name == methodName);
+            var methodSignature = formatter.GetDeclaration(method);
+            Assert.AreEqual(expectedSignature, methodSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
