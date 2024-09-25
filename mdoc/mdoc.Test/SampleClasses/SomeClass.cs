@@ -104,6 +104,10 @@ namespace mdoc.Test.SampleClasses
             throw new PlatformNotSupportedException();
         }
 
+        public void MethodWithRefReadonlyParam(ref readonly int i)
+        {
+        }
+
         public event EventHandler<object> AppMemoryUsageIncreased;
         public static event EventHandler<object> StaticEvent;
         private static event EventHandler<object> PrivateEvent;
