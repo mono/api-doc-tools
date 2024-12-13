@@ -154,6 +154,16 @@ namespace Mono.Documentation.Updater
             return GetMethodDefinitionName (method, name);
         }
 
+        protected override string GetTypeName(TypeReference type, IAttributeParserContext context, bool appendGeneric = true, bool useTypeProjection = false, bool isTypeofOperator = false)
+        {
+            if (type == null)
+                throw new ArgumentNullException(nameof(type));
+
+            var typeName = _AppendTypeName(new StringBuilder(type.Name.Length), type, context, appendGeneric, false, isTypeofOperator).ToString();
+
+            return RemoveMod(typeName);
+        }
+
         private string GetMethodDefinitionName (MethodReference method, string name)
         {
             StringBuilder buf = new StringBuilder ();
