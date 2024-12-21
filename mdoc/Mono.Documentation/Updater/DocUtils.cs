@@ -423,6 +423,31 @@ namespace Mono.Documentation.Updater
                 .Distinct (typeEqualityComparer);
         }
 
+        // TODO for https://ceapex.visualstudio.com/Engineering/_backlogs/backlog/Reference/Features?workitem=654486
+        // I think this is the source of the problem with the list shown under the "Implements"
+        // heading. Note how it's recursing through the interface inheritance tree, which creates
+        // the same problem as I've called out in the other spot.
+        //
+        // I think the fix here may be very simple though: I don't think the recursion is actually
+        // necessary at all, and I think the Interfaces list on the type being documented
+        // actually has exactly what we want in it already. If that's correct, this method could
+        // simply be removed and calls to it replaced with type.Interfaces.
+        //
+        // I found the origin of this recursive implementation (https://github.com/mono/api-doc-tools/pull/359/files)
+        // and I think it was based on a misunderstanding. The prior implementation used
+        // GetUserImplementedInterfaces, which has the logic for trimming the interface inheritance tree
+        // to only its leaves (which *is* what we want want to do for the signature in the syntax block,
+        // and where another bug is that I'm commenting on in this commit). That's not what's desired
+        // for this part: we want the Inheritance list on the page to show the entire inheritance tree.
+        // I think when they made the change, the author overcorrected and assumed they needed to
+        // actually do the recursion. The result is mostly correct, most of the time, but in the case
+        // of generics, the list ends up inappropriately including open (unbound) generic interfaces
+        // because of the problem mentioned in the other spot (Resolve()ing your way up
+        // the interface inheritance tree loses the bound types). See the comments in the bug for
+        // an example.
+        //
+        // Some more experimentation and testing needs to be done, but I'm fairly confident that
+        // type.Interfaces is all that's needed.
         private static IEnumerable<TypeReference> GetAllInterfacesFromType(TypeDefinition type)
         {
             if (type == null)
@@ -467,6 +492,59 @@ namespace Mono.Documentation.Updater
             return "[" + type.Scope.Name + "]" + type.FullName;
         }
 
+        // TODO for https://ceapex.visualstudio.com/Engineering/_backlogs/backlog/Reference/Features?workitem=654486
+        // I think this is where the bug is for the syntax-block part: this is where
+        // it figures out which of the interfaces in the list should be removed from the
+        // list shown for the type signature in the syntax block because they're
+        // inherited. We only want to show the minimal set for the signature - we have
+        // no way of knowing exactly what the signature looks like in source, but the
+        // practice is to minimize the list to only its leaves.
+        //
+        // As far as I can tell there are two problems with this implementation. Both of them
+        // are related to the use of Resolve(), which transforms a TypeReference into
+        // a TypeDefinition that has more detailed information about the type. For the purposes
+        // of GetInheritedInterfaces, the most critical information is the list of implemented
+        // interfaces: when you examine a TypeDefinition's Interfaces collection, the type of
+        // each interface is only a TypeReference, meaning you can't see which interfaces *it*
+        // implements. To "climb" the inheritance tree, we have to Resolve() it.
+        //
+        // The first problem is relatively trivial: GetInheritedInterfaces adds the FullName of
+        // an interface to the HashSet that it returns *before* calling Resolve() on it,
+        // but in the .Contains comparisons in GetUserImplementedInterfaces, the name being
+        // compared against is the FullName of an interface type *after* calling Resolve(). The
+        // difference is critical for generics: for a generic, the underlying
+        // type before calling Resolve() is GenericInstanceType, whose FullName property
+        // includes the generic type arguments in angle brackets in addition to the backtick notation
+        // (i.e. "System.Collections.Generic.ICollection`1<T>"). Once you've called Resolve()
+        // on it, it's a TypeDefinition, which doesn't exhibit that behavior, so the name
+        // comparisons always fail. This is why the documentation
+        // for List<T> includes ICollection<T>, IEnumerable<T> and IReadOnlyCollection<T>: those are
+        // all inherited from IList<T> or IReadOnlyList<T> but when the names are compared they don't
+        // match. I think the fix is just to stop Resolve()ing interfaces before the .Contains check.
+        //
+        // The second problem is more subtle, and only affects types that have any generic interfaces
+        // that have been closed over at least one type in their interface inheritance tree.
+        // When you Resolve() the TypeReference of
+        // a generic class or interface that has had any type arguments specified, they
+        // are not present in the resulting TypeDefinition, e.g. if you have a
+        // GenericInstanceType for "MyInterface<int>" and you Resolve() it, what you get back
+        // is the TypeDefinition for "MyInterface<T>". This loss of information then
+        // cascades up the inheritance tree: if the definition of MyInterface is
+        // "MyInterface<T> : SomeOtherInterface<T>", we fail to recognize that our type
+        // implements SomeOtherInterface<int>. That interface will be present in the root type's
+        // Interfaces list, but we'll fail to remove it because it won't be in the list
+        // produced by this method, it'll have SomeOtherInterface<T> instead.
+        //
+        // As far as I can tell, the fix is to take the TypeDefinitions for the types
+        // applied to the type arguments and *attach* them to the TypeDefinition you get
+        // after resolving. You have to do this at each level as you recurse up the
+        // inheritance tree. This idea is supported by the following resources, which
+        // describe solutions not to this exact problem but similar ones:
+        //
+        // https://groups.google.com/g/mono-cecil/c/yRqhqaaYZnA
+        // https://groups.google.com/g/mono-cecil/c/fIOqSZQvA1o
+        // https://groups.google.com/g/mono-cecil/c/vtt25K-8tFs
+        // https://stackoverflow.com/questions/54624220/resolve-generics-with-mono-cecil 
         private static HashSet<string> GetInheritedInterfaces (TypeDefinition type)
         {
 
