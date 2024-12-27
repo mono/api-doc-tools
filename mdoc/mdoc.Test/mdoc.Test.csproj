@@ -46,6 +46,18 @@
     <None Update="cppcli\cppcli\cppcli.h">
       <Link>SampleClasses\cppcli.h</Link>
     </None>
+    <None Update="Input\dotnet\frameworks.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Input\FrameworksIndex\frameworks.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Input\dotnet\net-5.0\System.Console.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Input\winrt-26100\windows.foundation.velocityintegration.velocityintegrationcontract.winmd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\monodoc\monodoc.csproj" />

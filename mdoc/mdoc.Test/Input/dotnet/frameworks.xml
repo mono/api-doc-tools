@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Frameworks>
+	<Framework Name="net-5.0" Source="net-5.0">
+		<assemblySearchPath>dependencies\net-5.0</assemblySearchPath>
+	</Framework>
+</Frameworks>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Framework Name="framework1">
+	<Namespace Name="Namespace1">
+		<Type Name="Type1" Id="T:Type1">
+			<Member Id="M:Type1.#ctor" />
+		</Type>
+		<Type Name="Type2" Id="T:Type2">
+			<Member Id="M:Type2.#ctor" />
+			<Member Id="P:Type2.Property0" />
+		</Type>
+	</Namespace>
+</Framework>
