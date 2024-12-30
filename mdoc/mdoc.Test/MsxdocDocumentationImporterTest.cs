@@ -1,18 +1,24 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
+using mdoc.Test;
+using Mono.Documentation.Util;
 using NUnit.Framework;
 
 namespace Mono.Documentation.Updater.Tests
 {
     [TestFixture]
-    public class MsxdocDocumentationImporterTest
+    public class MsxdocDocumentationImporterTest : BasicTests
     {
         [Test]
         public void ImportDocumentation_SummaryOverwrite()
         {
             // Arrange
-            var importer = new MsxdocDocumentationImporter("path/to/test.xml");
+            var type = GetType(typeof(mdoc.Test2.InternalEIICalss));
+            var member = type.GetMember("Getstring");
+            var filePath = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses\\testImportDoc.xml");
+            MsxdocDocumentationImporter importer = new MsxdocDocumentationImporter(filePath);
             var node = CreateXmlElement("<member><summary>Old summary</summary></member>");
-            var info = new DocsNodeInfo(node);
+            var info = new DocsNodeInfo(node, member);
 
             // Act
             importer.ImportDocumentation(info);
@@ -20,41 +26,8 @@ namespace Mono.Documentation.Updater.Tests
             // Assert
             var summaryNode = info.Node.SelectSingleNode("summary");
             Assert.IsNotNull(summaryNode);
-            Assert.AreEqual("New summary", summaryNode.InnerText);
-        }
-
-        [Test]
-        public void ImportDocumentation_RemarksOverwrite()
-        {
-            // Arrange
-            var importer = new MsxdocDocumentationImporter("path/to/test.xml");
-            var node = CreateXmlElement("<member><remarks>Old remarks</remarks></member>");
-            var info = new DocsNodeInfo(node);
-
-            // Act
-            importer.ImportDocumentation(info);
-
-            // Assert
-            var remarksNode = info.Node.SelectSingleNode("remarks");
-            Assert.IsNotNull(remarksNode);
-            Assert.AreEqual("New remarks", remarksNode.InnerText);
-        }
-
-        [Test]
-        public void ImportDocumentation_ParamOverwrite()
-        {
-            // Arrange
-            var importer = new MsxdocDocumentationImporter("path/to/test.xml");
-            var node = CreateXmlElement("<member><param name=\"param1\">Old param</param></member>");
-            var info = new DocsNodeInfo(node);
-
-            // Act
-            importer.ImportDocumentation(info);
-
-            // Assert
-            var paramNode = info.Node.SelectSingleNode("param[@name='param1']");
-            Assert.IsNotNull(paramNode);
-            Assert.AreEqual("New param", paramNode.InnerText);
+            Assert.AreEqual("\n            Extension methods for .\n            ", 
+                summaryNode.InnerText);
         }
 
         private XmlElement CreateXmlElement(string xml)

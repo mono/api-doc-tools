@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static Lucene.Net.Search.FieldValueHitQueue;
 
 namespace mdoc.Test
 {

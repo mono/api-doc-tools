@@ -233,18 +233,5 @@ namespace mdoc.Test
                 Assert.IsTrue(DocUtils.CheckRemoveByImporter(nodeMember, testKeys[i], importers, setimporters));
             }
         }
-
-        [Test]
-        public void ImportDocumentation_Test()
-        {
-            List<DocumentationImporter> setimporters = new List<DocumentationImporter>();
-            List<DocumentationImporter> importers = new List<DocumentationImporter>();
-            var filePath = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses\\testImportDoc.xml");
-            MsxdocDocumentationImporter importer = new MsxdocDocumentationImporter(
-                 filePath);
-            setimporters.Add(importer);
-            //TODO:Incomplete test, please ignore
-            importer.ImportDocumentation(null);
-        }
     }
 }
