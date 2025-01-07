@@ -6,6 +6,8 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Xml;
+using System.Diagnostics;
+using System.Runtime.Remoting.Contexts;
 
 namespace mdoc.Test
 {
@@ -138,6 +140,7 @@ namespace mdoc.Test
             List<Exception> errors = new List<Exception> ();
 
             MDocValidator validator = new MDocValidator ();
+            validator.TraceLevel = TraceLevel.Error;
             validator.InitializeSchema (
                 "ecma",
                 (a, b) => errors.Add (b.Exception)
@@ -149,6 +152,53 @@ namespace mdoc.Test
             };
             return context;
         }
+
+        [Test]
+        public void ValidationEmptyFile()
+        {
+            var context = InitializeTestContext();
+            string file = "test.txt";
+            File.WriteAllText(file, string.Empty);
+
+            using (StringWriter sw = new StringWriter())
+            {
+                Console.SetError(sw);
+                context.Validator.ValidateFile(file);
+                string consoleOutput = sw.ToString();
+
+                Assert.IsTrue(consoleOutput.Contains("mdoc: System.Xml.XmlException: Root element is missing."));
+            }
+
+            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+        }
+
+
+        [Test]
+        public void ValidationMultipleErrors()
+        {
+            var context = InitializeTestContext();
+
+            context.Validator.ValidateFile(new StringReader("<Type Name=\"AVKitError\" FullName=\"AVKit.AVKitError\"><Invalid></Invalid></Type>"));
+
+            Assert.AreEqual(1, context.Errors.Count);
+            Assert.IsTrue(context.Errors.Any(e => e.Message.Contains("Invalid")));
+        }
         #endregion
+
+        [Test]
+        public void Run_ValidFormat_NoErrors()
+        {
+            // Arrange
+            var context = InitializeTestContext();
+            var files = new List<string> { "test.xml" };
+            File.WriteAllText("test.xml", "<root></root>");
+
+            // Act
+            context.Validator.Run("ecma", files);
+
+            // Assert
+            Assert.AreEqual(0, context.Errors.Count);
+            File.Delete("test.xml");
+        }
     }
 }

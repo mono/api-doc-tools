@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 using Mono.Documentation;
 using Mono.Documentation.Framework;
+using Mono.Documentation.Updater.Frameworks;
 using Mono.Documentation.Util;
 using NUnit.Framework;
 
@@ -313,5 +316,115 @@ namespace mdoc.Test
 </Type>
 ";
         #endregion
+
+        [Test]
+        public void GetIndexReader_ShouldModifyDocumentCorrectly()
+        {
+            // Arrange
+            var testPath = "frameworks";
+            var testFrameworkPath = Path.Combine(testPath, "FrameworksIndex", "TestFramework.xml");
+            Directory.CreateDirectory(Path.GetDirectoryName(testFrameworkPath));
+            File.WriteAllText(testFrameworkPath, XmlConsts.FrameworkIndexXml);
+            var testTypePath = Path.Combine(testPath, "TestNamespace.TestNamespace", "TestType.xml");
+            Directory.CreateDirectory(Path.GetDirectoryName(testTypePath));
+            File.WriteAllText(testTypePath, XmlConsts.CheckDocidXml);
+            string xmlContent = @"<root>
+                <see cref='M:System.String.TestMethod(System.String)' />
+                <members>
+                    <Member MemberName='TestMethod'>
+                        <see cref='T:Namespace.Type'/>
+                        <Parameters>
+                            <Parameter Type='System.String' Name='param1' apistyle='classic'/>
+                        </Parameters>
+                    </Member>
+                </members>
+            </root>";
+            string stringXml = Path.Combine(testPath, "System", "String.xml");
+            string stringXmlContent = @"<Type Name=""System.String"" FullName=""System.String"">
+                  <TypeSignature Language=""DocId"" Value=""T:System.String"" /></Type>";
+            Directory.CreateDirectory(Path.GetDirectoryName(stringXml));
+            File.WriteAllText(stringXml, stringXmlContent);
+            string path = Path.Combine(testPath, "test.xml");
+            File.WriteAllText(path, xmlContent);
+
+            var fileSource = new MDocFileSource("TestNamespace", ApiStyle.Classic, "framework1");
+            fileSource.ReplaceNativeTypes = true;
+
+            // Act
+            using (var reader = fileSource.GetIndexReader(path))
+            {
+                var doc = XDocument.Load(reader);
+
+                // Assert
+                Assert.IsNull(doc.NextNode);
+            }
+
+            // Cleanup
+            Directory.Delete(testPath, true);
+        }
+
+        [Test]
+        public void GetNamespaceElement_ShouldReturnModifiedNamespaceElement()
+        {
+            // Arrange
+            string path = "test.xml";
+            string xmlContent = @"
+                <Namespace>
+                    <Type Name='TestNamespace.TestClass'>
+                        <Member MemberName='TestMethod'>
+                            <Parameters>
+                                <Parameter Type='TestNamespace.TestType' />
+                            </Parameters>
+                        </Member>
+                    </Type>
+                </Namespace>";
+            File.WriteAllText(path, xmlContent);
+
+            var fileSource = new MDocFileSource("TestNamespace", ApiStyle.Classic, null);
+
+            // Act
+            XElement result = fileSource.GetNamespaceElement(path);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.AreEqual("Namespace", result.Name.LocalName);
+
+            // Clean up
+            File.Delete(path);
+        }
+
+        [Test]
+        public void GetTypeXmlPath_ShouldReturnCorrectPath_WhenTypeIsDropped()
+        {
+            // Arrange
+            var fileSource = new MDocFileSource("DroppedNamespace", ApiStyle.Classic, "TestFramework");
+            string basePath = "basePath";
+            string nsName = "Namespace";
+            string typeName = "TypeName";
+
+            // Act
+            string result = fileSource.GetTypeXmlPath(basePath, nsName, typeName);
+
+            // Assert
+            string expectedResult = "basePath\\DroppedNamespace.Namespace\\TypeName.xml";
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
+        public void GetNamespaceXmlPath_ShouldReturnCorrectPath_WhenNamespaceIsDropped()
+        {
+            // Arrange
+            string basePath = "basePath";
+            string ns = "TestNamespace";
+            string droppedNamespace = "DroppedNamespace";
+            var fileSource = new MDocFileSource(droppedNamespace, ApiStyle.Classic, null);
+
+            // Act
+            string result = fileSource.GetNamespaceXmlPath(basePath, ns);
+
+            // Assert
+            string expectedPath = Path.Combine(basePath, $"ns-{droppedNamespace}.{ns}.xml");
+            Assert.AreEqual(expectedPath, result);
+        }
     }
 }
