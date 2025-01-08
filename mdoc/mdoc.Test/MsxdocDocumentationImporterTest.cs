@@ -15,7 +15,7 @@ namespace Mono.Documentation.Updater.Tests
             // Arrange
             var type = GetType(typeof(mdoc.Test2.InternalEIICalss));
             var member = type.GetMember("Getstring");
-            var filePath = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses\\testImportDoc.xml");
+            var filePath = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses\\testImportDoc2.xml");
             MsxdocDocumentationImporter importer = new MsxdocDocumentationImporter(filePath);
             var node = CreateXmlElement("<member><summary>Old summary</summary></member>");
             var info = new DocsNodeInfo(node, member);
@@ -26,8 +26,7 @@ namespace Mono.Documentation.Updater.Tests
             // Assert
             var summaryNode = info.Node.SelectSingleNode("summary");
             Assert.IsNotNull(summaryNode);
-            Assert.AreEqual("\n            Extension methods for .\n            ", 
-                summaryNode.InnerText);
+            Assert.AreEqual("Extension methods for .", summaryNode.InnerText.Trim());
         }
 
         private XmlElement CreateXmlElement(string xml)
