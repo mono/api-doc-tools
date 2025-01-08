@@ -406,7 +406,7 @@ namespace mdoc.Test
             string result = fileSource.GetTypeXmlPath(basePath, nsName, typeName);
 
             // Assert
-            string expectedResult = "basePath\\DroppedNamespace.Namespace\\TypeName.xml";
+            string expectedResult = "basePath/DroppedNamespace.Namespace/TypeName.xml";
             Assert.AreEqual(expectedResult, result);
         }
 

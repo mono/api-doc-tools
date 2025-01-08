@@ -140,7 +140,7 @@ namespace mdoc.Test
             List<Exception> errors = new List<Exception> ();
 
             MDocValidator validator = new MDocValidator ();
-            validator.TraceLevel = TraceLevel.Error;
+            
             validator.InitializeSchema (
                 "ecma",
                 (a, b) => errors.Add (b.Exception)
@@ -159,13 +159,13 @@ namespace mdoc.Test
             var context = InitializeTestContext();
             string file = "test.txt";
             File.WriteAllText(file, string.Empty);
-
+            context.Validator.TraceLevel = TraceLevel.Error;
             using (StringWriter sw = new StringWriter())
             {
                 Console.SetError(sw);
                 context.Validator.ValidateFile(file);
                 string consoleOutput = sw.ToString();
-
+                Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
                 Assert.IsTrue(consoleOutput.Contains("mdoc: System.Xml.XmlException: Root element is missing."));
             }
 
