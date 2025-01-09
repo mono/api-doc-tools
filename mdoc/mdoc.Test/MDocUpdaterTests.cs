@@ -233,5 +233,25 @@ namespace mdoc.Test
                 Assert.IsTrue(DocUtils.CheckRemoveByImporter(nodeMember, testKeys[i], importers, setimporters));
             }
         }
+
+        [Test]
+        public void Run_WithOptionsOAndFx_ShouldProcessFrameworks()
+        {
+            // Arrange
+            var baseDir = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses\\TestUpdate");
+            var outputDir = Path.Combine(baseDir, "outputDir");
+
+            var args = new List<string> {"update", "-o", outputDir, "-fx", Path.Combine(baseDir) };
+            var updater = new MDocUpdater();
+
+            // Act
+            updater.Run(args);
+
+            // Assert
+            Assert.IsTrue(File.Exists(Path.Combine(outputDir, "FrameworksIndex", "net-8.0.xml")));
+            Assert.IsTrue(File.Exists(Path.Combine(outputDir, "TestLibrary", "TestClass.xml")));
+            Assert.IsTrue(File.Exists(Path.Combine(outputDir, "index.xml")));
+            Assert.IsTrue(File.Exists(Path.Combine(outputDir, "ns-TestLibrary.xml")));
+        }
     }
 }
