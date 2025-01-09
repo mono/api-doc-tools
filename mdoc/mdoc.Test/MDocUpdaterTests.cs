@@ -238,7 +238,7 @@ namespace mdoc.Test
         public void Run_WithOptionsOAndFx_ShouldProcessFrameworks()
         {
             // Arrange
-            var baseDir = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses\\TestUpdate");
+            var baseDir = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses/TestUpdate");
             var outputDir = Path.Combine(baseDir, "outputDir");
 
             var args = new List<string> {"update", "-o", outputDir, "-fx", Path.Combine(baseDir) };
