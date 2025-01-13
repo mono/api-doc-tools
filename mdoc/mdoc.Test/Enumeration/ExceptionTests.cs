@@ -5,8 +5,8 @@ using System.Linq;
 
 namespace mdoc.Test.Enumeration
 {
-    [TestFixture ()]
-  public class ExceptionTests : CecilBaseTest
+    [TestFixture()]
+    public class ExceptionTests : CecilBaseTest
     {
         [Test()]
         public void TestExceptionEnumerations()
