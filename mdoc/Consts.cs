@@ -49,6 +49,7 @@ namespace Mono.Documentation
         public const string CompilerGeneratedAttribute = "System.Runtime.CompilerServices.CompilerGeneratedAttribute";
         public const string IsByRefLikeAttribute = "System.Runtime.CompilerServices.IsByRefLikeAttribute";
         public const string IsReadOnlyAttribute = "System.Runtime.CompilerServices.IsReadOnlyAttribute";
+        public const string RequiresLocationAttribute = "System.Runtime.CompilerServices.RequiresLocationAttribute";
         public const string InAttribute = "System.Runtime.InteropServices.InAttribute";
         public const string OutAttribute = "System.Runtime.InteropServices.OutAttribute";
         public const string TupleElementNamesAttribute = "System.Runtime.CompilerServices.TupleElementNamesAttribute";
