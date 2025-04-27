@@ -3,4 +3,7 @@
 	<Framework Name="net-8.0" Source="net-8.0">
 		<assemblySearchPath>dependencies\net-8.0</assemblySearchPath>
 	</Framework>
+	<Framework Name="net-9.0" Source="net-9.0">
+		<assemblySearchPath>dependencies\net-9.0</assemblySearchPath>
+	</Framework>
 </Frameworks>

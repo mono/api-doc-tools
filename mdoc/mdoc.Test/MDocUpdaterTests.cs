@@ -253,5 +253,41 @@ namespace mdoc.Test
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "index.xml")));
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "ns-TestLibrary.xml")));
         }
+
+        [Test]
+        public void Test_RunWithRefStructValidation()
+        {
+            // Arrange
+            var baseDir = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses/TestUpdate");
+            var outputDir = Path.Combine(baseDir, "outputDir");
+            Directory.CreateDirectory(outputDir);
+
+            var args = new List<string> { "update", "-o", outputDir, "-fx", Path.Combine(baseDir) };
+            var updater = new MDocUpdater();
+
+            // Act
+            updater.Run(args);
+
+            // Assert
+            var iRefStructProcessorPath = Path.Combine(outputDir, "RefStructDemo", "IRefStructProcessor`1.xml");
+            var refStructHandlerPath = Path.Combine(outputDir, "RefStructDemo", "RefStructHandler.xml");
+
+            Assert.IsTrue(File.Exists(iRefStructProcessorPath));
+            Assert.IsTrue(File.Exists(refStructHandlerPath));
+
+            var iRefStructProcessorDoc = new XmlDocument();
+            iRefStructProcessorDoc.Load(iRefStructProcessorPath);
+            var iRefStructProcessorNode = iRefStructProcessorDoc.SelectSingleNode("//TypeParameters/TypeParameter/Constraints/ParameterAttribute[text()='AllowsRefStruct']");
+            Assert.IsNotNull(iRefStructProcessorNode, "Missing <ParameterAttribute>AllowsRefStruct</ParameterAttribute> in IRefStructProcessor`1.xml");
+            var iRefStructProcessorTypeSignatureNode = iRefStructProcessorDoc.SelectSingleNode("//TypeSignature[@Language='C#' and contains(@Value, 'where T : allows ref struct')]");
+            Assert.IsNotNull(iRefStructProcessorTypeSignatureNode, "Missing TypeSignature with 'where T : allows ref struct' in IRefStructProcessor`1.xml");
+
+            var refStructHandlerDoc = new XmlDocument();
+            refStructHandlerDoc.Load(refStructHandlerPath);
+            var refStructHandlerNode = refStructHandlerDoc.SelectSingleNode("//Members/Member/TypeParameters/TypeParameter/Constraints/ParameterAttribute[text()='AllowsRefStruct']");
+            Assert.IsNotNull(refStructHandlerNode, "Missing <ParameterAttribute>AllowsRefStruct</ParameterAttribute> in RefStructHandler.xml");
+            var refStructHandlerMemberSignatureNode = refStructHandlerDoc.SelectSingleNode("//Members/Member/MemberSignature[@Language='C#' and contains(@Value, 'where T : allows ref struct')]");
+            Assert.IsNotNull(refStructHandlerMemberSignatureNode, "Missing MemberSignature with 'where T : allows ref struct' in RefStructHandler.xml");
+        }
     }
 }
