@@ -314,9 +314,10 @@ namespace Mono.Documentation.Updater.Formatters
                 bool isref = (attrs & GenericParameterAttributes.ReferenceTypeConstraint) != 0;
                 bool isvt = (attrs & GenericParameterAttributes.NotNullableValueTypeConstraint) != 0;
                 bool isnew = (attrs & GenericParameterAttributes.DefaultConstructorConstraint) != 0;
+                bool isAllowsRefStruct = (attrs & (GenericParameterAttributes)0x0020) != 0; // Assuming 0x0020 is the flag for 'allows ref struct'
                 bool comma = false;
 
-                if (!isref && !isvt && !isnew && constraints.Count == 0)
+                if (!isref && !isvt && !isAllowsRefStruct && !isnew && constraints.Count == 0)
                     continue;
                 buf.Append (" where ").Append (genArg.Name).Append (" : ");
                 if (isref)
@@ -349,6 +350,14 @@ namespace Mono.Documentation.Updater.Formatters
                     if (comma || constraints.Count > 0)
                         buf.Append (", ");
                     buf.Append ("new()");
+                }
+
+                // Handle 'allows ref struct' constraint
+                if (isAllowsRefStruct)
+                {
+                    if (comma || constraints.Count > 0 || isref || isvt || isnew)
+                        buf.Append(", ");
+                    buf.Append("allows ref struct");
                 }
             }
             return buf;
