@@ -46,7 +46,7 @@ namespace Mono.Documentation
                 AppendElementText(ce, "ParameterAttribute", "ReferenceTypeConstraint");
             // Check for 'allows ref struct' constraint
             if ((attrs & (GenericParameterAttributes)0x0020) != 0) // Assuming 0x1000 is the flag for 'allows ref struct'
-                AppendElementText(ce, "ParameterAttribute", "AllowsRefStruct");
+                AppendElementText(ce, "ParameterAttribute", "AllowByRefLike");
 
 #if NEW_CECIL
             foreach (GenericParameterConstraint c in constraints)
