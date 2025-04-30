@@ -68,12 +68,12 @@
 		  <Link>SampleClasses\testImportDoc2.xml</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="SampleClasses\TestUpdate\net-8.0\TestLibrary.dll">
-		  <Link>SampleClasses\TestUpdate\net-8.0\TestLibrary.dll</Link>
+	  <Content Include="SampleClasses\TestUpdate\net-8.0\AllowsRefStructDemo.dll">
+		  <Link>SampleClasses\TestUpdate\net-8.0\AllowsRefStructDemo.dll</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
-	  <Content Include="SampleClasses\TestUpdate\net-9.0\RefStructDemo.dll">
-		  <Link>SampleClasses\TestUpdate\net-9.0\RefStructDemo.dll</Link>
+	  <Content Include="SampleClasses\TestUpdate\net-9.0\AllowsRefStructDemo.dll">
+		  <Link>SampleClasses\TestUpdate\net-9.0\AllowsRefStructDemo.dll</Link>
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="SampleClasses\TestUpdate\frameworks.xml">

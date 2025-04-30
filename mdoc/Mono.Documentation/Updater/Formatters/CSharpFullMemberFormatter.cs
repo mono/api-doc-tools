@@ -355,7 +355,7 @@ namespace Mono.Documentation.Updater.Formatters
                 // Handle 'allows ref struct' constraint
                 if (isAllowsRefStruct)
                 {
-                    if (comma || constraints.Count > 0 || isref || isvt || isnew)
+                    if (comma || constraints.Count > 0 || isnew)
                         buf.Append(", ");
                     buf.Append("allows ref struct");
                 }
