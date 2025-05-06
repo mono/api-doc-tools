@@ -4166,7 +4166,10 @@ namespace Mono.Documentation
                     xElement.RemoveAttribute(Consts.FrameworkAlternate);
                     xElement.SetAttribute(Consts.FrameworkAlternate, fxaValue);
                     MakeParamsAttributes(existing.Element, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
-                    MakeTypeParameterConstraints(root, e, xElement, t);
+                    if (((attrs & (GenericParameterAttributes)0x0020) != 0) && !xElement.SelectNodes("Constraints/ParameterAttribute[@Value='AllowsRefStruct']").Cast<XmlElement>().Any())
+                    {
+                        MakeTypeParameterConstraints(root, e, xElement, t);
+                    }
                 }
                 else
                 {
