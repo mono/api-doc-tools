@@ -4166,9 +4166,18 @@ namespace Mono.Documentation
                     xElement.RemoveAttribute(Consts.FrameworkAlternate);
                     xElement.SetAttribute(Consts.FrameworkAlternate, fxaValue);
                     MakeParamsAttributes(existing.Element, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
-                    if (((attrs & (GenericParameterAttributes)0x0020) != 0) && !xElement.SelectNodes("Constraints/ParameterAttribute[@Value='AllowsRefStruct']").Cast<XmlElement>().Any())
+
+                    var constraintsElement = xElement.SelectSingleNode("Constraints") as XmlElement;
+                    if (constraintsElement == null && ((attrs & (GenericParameterAttributes)0x0020) != 0))
                     {
                         MakeTypeParameterConstraints(root, e, xElement, t);
+                    }
+                    else if (constraintsElement != null && ((attrs & (GenericParameterAttributes)0x0020) != 0)
+                        && !constraintsElement.SelectNodes("ParameterAttribute[@Value='AllowByRefLike']").Cast<XmlElement>().Any())
+                    {
+                        var parameterAttribute = constraintsElement.OwnerDocument.CreateElement("ParameterAttribute");
+                        parameterAttribute.SetAttribute("Value", "AllowByRefLike");
+                        constraintsElement.AppendChild(parameterAttribute);
                     }
                 }
                 else
