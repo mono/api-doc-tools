@@ -4173,10 +4173,10 @@ namespace Mono.Documentation
                         MakeTypeParameterConstraints(root, e, xElement, t);
                     }
                     else if (constraintsElement != null && ((attrs & (GenericParameterAttributes)0x0020) != 0)
-                        && !constraintsElement.SelectNodes("ParameterAttribute[@Value='AllowByRefLike']").Cast<XmlElement>().Any())
+                        && !constraintsElement.SelectNodes("ParameterAttribute").Cast<XmlElement>().Any(el => el.InnerText == "AllowByRefLike"))
                     {
                         var parameterAttribute = constraintsElement.OwnerDocument.CreateElement("ParameterAttribute");
-                        parameterAttribute.SetAttribute("Value", "AllowByRefLike");
+                        parameterAttribute.InnerText = "AllowByRefLike";
                         constraintsElement.AppendChild(parameterAttribute);
                     }
                 }
