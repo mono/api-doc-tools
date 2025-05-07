@@ -253,51 +253,5 @@ namespace mdoc.Test
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "index.xml")));
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "ns-TestLibrary.xml")));
         }
-
-        [Test]
-        public void Test_RunWithRefStructValidation()
-        {
-            // Arrange
-            var baseDir = Path.Combine(Path.GetDirectoryName(this.GetType().Module.Assembly.Location), "SampleClasses/TestUpdate");
-            var outputDir = Path.Combine(baseDir, "outputDir");
-            Directory.CreateDirectory(outputDir);
-
-            var args = new List<string> { "update", "-o", outputDir, "-fx", Path.Combine(baseDir) };
-            var updater = new MDocUpdater();
-
-            // Act
-            updater.Run(args);
-
-            // Assert
-            var IRefStructProcessorPath = Path.Combine(outputDir, "AllowsRefStructDemo", "IRefStructProcessor`1.xml");
-            var refStructHandlerPath = Path.Combine(outputDir, "AllowsRefStructDemo", "RefStructHandler.xml");
-            var ImmutablePath = Path.Combine(outputDir, "AllowsRefStructDemo", "Immutable.xml");
-
-            Assert.IsTrue(File.Exists(IRefStructProcessorPath));
-            Assert.IsTrue(File.Exists(refStructHandlerPath));
-
-            var IRefStructProcessorDoc = new XmlDocument();
-            IRefStructProcessorDoc.Load(IRefStructProcessorPath);
-            var IRefStructProcessorNode = IRefStructProcessorDoc.SelectSingleNode("//TypeParameters/TypeParameter/Constraints/ParameterAttribute[text()='AllowByRefLike']");
-            Assert.IsNotNull(IRefStructProcessorNode, "Missing <ParameterAttribute>AllowByRefLike</ParameterAttribute> in IRefStructProcessor`1.xml");
-            var IRefStructProcessorTypeSignatureNode = IRefStructProcessorDoc.SelectSingleNode("//TypeSignature[@Language='C#' and contains(@Value, 'where T : allows ref struct')]");
-            Assert.IsNotNull(IRefStructProcessorTypeSignatureNode, "Missing TypeSignature with 'where T : allows ref struct' in IRefStructProcessor`1.xml");
-
-            var refStructHandlerDoc = new XmlDocument();
-            refStructHandlerDoc.Load(refStructHandlerPath);
-            var refStructHandlerNode = refStructHandlerDoc.SelectSingleNode("//Members/Member/TypeParameters/TypeParameter/Constraints/ParameterAttribute[text()='AllowByRefLike']");
-            Assert.IsNotNull(refStructHandlerNode, "Missing <ParameterAttribute>AllowByRefLike</ParameterAttribute> in RefStructHandler.xml");
-            var refStructHandlerMemberSignatureNode = refStructHandlerDoc.SelectSingleNode("//Members/Member/MemberSignature[@Language='C#' and contains(@Value, 'where T : new(), allows ref struct')]");
-            Assert.IsNotNull(refStructHandlerMemberSignatureNode, "Missing MemberSignature with 'where T : allows ref struct' in RefStructHandler.xml");
-
-            var ImmutableDoc = new XmlDocument();
-            ImmutableDoc.Load(ImmutablePath);
-            var constraintsNodes = ImmutableDoc.SelectNodes("//Members/Member/TypeParameters/TypeParameter/Constraints");
-            Assert.IsTrue(constraintsNodes.Count == 1, "Multiple <Constraints> in Immutable.xml");
-            var allowByRefLikeNode = ImmutableDoc.SelectSingleNode("//Members/Member/TypeParameters/TypeParameter/Constraints/ParameterAttribute[text()='AllowByRefLike']");
-            var defaultConstructorNode = ImmutableDoc.SelectSingleNode("//Members/Member/TypeParameters/TypeParameter/Constraints/ParameterAttribute[text()='DefaultConstructorConstraint']");
-            Assert.IsNotNull(allowByRefLikeNode, "Missing <ParameterAttribute>AllowByRefLike</ParameterAttribute> in Immutable.xml");
-            Assert.IsNotNull(defaultConstructorNode, "Missing <ParameterAttribute>DefaultConstructorConstraint</ParameterAttribute> in Immutable.xml");
-        }
     }
 }

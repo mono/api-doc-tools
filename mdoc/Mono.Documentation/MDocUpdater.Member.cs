@@ -22,7 +22,12 @@ namespace Mono.Documentation
 #endif
             GenericParameterAttributes attrs = typeParameter.Attributes;
 
-            XmlElement ce = (XmlElement)e.SelectSingleNode("Constraints");
+            XmlElement ce = null;
+            var typeParameterNode = (XmlElement)e.SelectSingleNode($"TypeParameter[@Name='{typeParameter.Name}']");
+            if (typeParameterNode != null)
+            {
+                ce = (XmlElement)typeParameterNode.SelectSingleNode("Constraints");
+            }
             if (attrs == GenericParameterAttributes.NonVariant && constraints.Count == 0)
             {
                 if (ce != null)

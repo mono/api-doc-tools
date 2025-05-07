@@ -601,6 +601,14 @@ namespace mdoc.Test
             TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
+        [TestCase("AllowsRefStructDemo.Immutable", "Update",
+            "public bool Update<TArg> (TArg transformerArgument) where TArg : new(), allows ref struct;")]
+        public void CSharpAllowsRefStructTest(string typeFullName, string methodName, string expectedSignature)
+        {
+            var allowsRefStructDllPath = "../../../../external/Test/AllowsRefStructDemo.dll";
+            TestMethodSignature(allowsRefStructDllPath, typeFullName, methodName, expectedSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
