@@ -601,9 +601,19 @@ namespace mdoc.Test
             TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
+        [TestCase("AllowsRefStructDemo.IRefStructProcessor`1",
+            "public interface IRefStructProcessor<T> where T : allows ref struct")]
+        public void CSharpAllowsRefStructForTypeTest(string typeFullName, string expectedSignature)
+        {
+            var allowsRefStructDllPath = "../../../../external/Test/AllowsRefStructDemo.dll";
+            TestTypeSignature(allowsRefStructDllPath, typeFullName, expectedSignature);
+        }
+
         [TestCase("AllowsRefStructDemo.Immutable", "Update",
             "public bool Update<TArg> (TArg transformerArgument) where TArg : new(), allows ref struct;")]
-        public void CSharpAllowsRefStructTest(string typeFullName, string methodName, string expectedSignature)
+        [TestCase("AllowsRefStructDemo.RefStructHandler", "Handle",
+            "public void Handle<T> (ref T item) where T : new(), allows ref struct;")]
+        public void CSharpAllowsRefStructForMemberTest(string typeFullName, string methodName, string expectedSignature)
         {
             var allowsRefStructDllPath = "../../../../external/Test/AllowsRefStructDemo.dll";
             TestMethodSignature(allowsRefStructDllPath, typeFullName, methodName, expectedSignature);

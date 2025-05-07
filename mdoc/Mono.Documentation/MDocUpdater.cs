@@ -4166,7 +4166,6 @@ namespace Mono.Documentation
                     xElement.RemoveAttribute(Consts.FrameworkAlternate);
                     xElement.SetAttribute(Consts.FrameworkAlternate, fxaValue);
                     MakeParamsAttributes(existing.Element, AttributeFormatter.PreProcessCustomAttributes(t.CustomAttributes), entry, member);
-                    MakeTypeParameterConstraints(root, e, xElement, t);
                 }
                 else
                 {
