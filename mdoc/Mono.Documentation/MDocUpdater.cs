@@ -824,8 +824,8 @@ namespace Mono.Documentation
 
             result = new Tuple<string, string, FileInfo> (reltypefile, typefile, file);
 
-            return file.Exists;
-        }
+                return file.Exists;
+            }
 
         public string DoUpdateType (AssemblySet set, AssemblyDefinition assembly, TypeDefinition type, FrameworkTypeEntry typeEntry, string basepath, string dest)
         {
@@ -1113,7 +1113,7 @@ namespace Mono.Documentation
             }
         }
 
-        private static char[] InvalidFilenameChars = { '\\', '/', ':', '*', '?', '"', '|' };
+        private static char[] InvalidFilenameChars = { '\\', '/', ':', '*', '?', '"', '<', '>', '|' };
 
         private void DoUpdateAssembly (AssemblySet assemblySet, AssemblyDefinition assembly, XmlElement index_types, string source, string dest, HashSet<string> goodfiles)
         {
@@ -1127,7 +1127,7 @@ namespace Mono.Documentation
             foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null))
             {
                 string typename = GetTypeFileName (type);
-                if (!DocUtils.IsPublic (type) || DocUtils.IsIgnored(type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
+                if (!DocUtils.IsPublic (type) || DocUtils.IsIgnored(type) || (typename.IndexOfAny(InvalidFilenameChars) >= 0 && !typename.Contains("<>")))
                     continue;
 
                 var typeEntry = frameworkEntry.ProcessType (type, assembly);
