@@ -3448,15 +3448,16 @@ namespace Mono.Documentation
                     ClearElement(e, "related");
 
             var altMemberKeys = new string[] { "altmember", "seealso" };
-            foreach (var key in altMemberKeys)
+
+            var nodes = e.GetElementsByTagName("altmember").OfType<XmlElement>().ToList();
+            foreach (var node in nodes)
             {
-                var nodes = e.GetElementsByTagName(key).OfType<XmlElement>().ToList();
-                foreach (var node in nodes)
+                foreach (var key in altMemberKeys)
                 {
                     if (DocUtils.NeedsOverwrite(node) &&
                         DocUtils.CheckRemoveByImporter(info, key, importers, setimporters))
                     {
-                        ClearElement(node, key);
+                        e.RemoveChild(node);
                     }
                 }
             }
