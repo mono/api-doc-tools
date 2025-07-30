@@ -3456,7 +3456,7 @@ namespace Mono.Documentation
                     if (DocUtils.NeedsOverwrite(node) &&
                         DocUtils.CheckRemoveByImporter(info, key, importers, setimporters))
                     {
-                        e.RemoveChild(node);
+                        ClearElement(node, key);
                     }
                 }
             }
