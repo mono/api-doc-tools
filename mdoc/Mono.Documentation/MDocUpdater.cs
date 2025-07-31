@@ -3450,9 +3450,9 @@ namespace Mono.Documentation
             var altMemberKeys = new string[] { "altmember", "seealso" };
 
             var nodes = e.GetElementsByTagName("altmember").OfType<XmlElement>().ToList();
-            foreach (var node in nodes)
+            foreach (var key in altMemberKeys)
             {
-                foreach (var key in altMemberKeys)
+                foreach (var node in nodes)
                 {
                     if (DocUtils.NeedsOverwrite(node) &&
                         DocUtils.CheckRemoveByImporter(info, key, importers, setimporters))
