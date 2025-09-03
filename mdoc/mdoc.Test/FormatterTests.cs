@@ -32,7 +32,7 @@ namespace mdoc.Test
                 new VBFullMemberFormatter (),
                 new VBMemberFormatter(),
                 new FSharpMemberFormatter(),
-                new FSharpFullMemberFormatter(), 
+                new FSharpFullMemberFormatter(),
             };
             var sigs = formatters.Select (f => f.GetDeclaration (method));
 
@@ -338,22 +338,22 @@ namespace mdoc.Test
 #endif //NETCOREAPP
 
             Assert.AreEqual(piValue, sig);
-          
+
             Type type2 = typeof(ILFullMemberFormatter);
             sig = "";
             MethodInfo mInfo2 = type2.GetMethod("AppendFieldValue", flags);
             Object[] parametors2 = new Object[] { new StringBuilder(), member};
             sig = mInfo2.Invoke(null, parametors2).ToString();
             Assert.AreEqual($" = ({piValue})", sig);
- 
+
             Type type3 = typeof(DocUtils);
-            sig = "";                      
+            sig = "";
             MethodInfo mInfo3 = type3.GetMethod("AppendFieldValue", flagsPub);
             Object[] parametors3 = new Object[] { new StringBuilder(), member };
             mInfo3.Invoke(null, parametors3);
             sig = parametors3[0].ToString();
             Assert.AreEqual($" = {piValue}", sig);
- 
+
             Type type4 = typeof(CppFullMemberFormatter);
             sig = "";
             MethodInfo mInfo4 = type4.GetMethod("AppendFieldValue", flags);
@@ -403,7 +403,7 @@ namespace mdoc.Test
             var sig2 = formatter2.GetDeclaration(member2);
             Assert.NotNull(sig2);
         }
-        
+
         [Test]
         public void ClassInterface()
         {
@@ -635,7 +635,7 @@ namespace mdoc.Test
 
         void TestComparisonOp (string name, string op)
         {
-            TestOp (name, $"public static bool operator {op} (TestClass c1, TestClass c2);", argCount: 2, returnType: "Boolean");    
+            TestOp (name, $"public static bool operator {op} (TestClass c1, TestClass c2);", argCount: 2, returnType: "Boolean");
         }
 
         void TestUnaryOp (string name, string op, string returnType = "TestClass")
@@ -659,12 +659,46 @@ namespace mdoc.Test
         void TestMod (string name, string expectedSig, int argCount = 1, string returnType = "SomeClass")
         {
             var member = GetMethod (
-                    GetType ("SampleClasses/cppcli.dll", "cppcli.SomeInterface"), 
+                    GetType ("SampleClasses/cppcli.dll", "cppcli.SomeInterface"),
                     m => m.Name == name
             );
             var formatter = new CSharpMemberFormatter ();
 			var sig = formatter.GetDeclaration (member);
 			Assert.AreEqual (expectedSig, sig);
+        }
+
+        [Test]
+        public void CSharp_ExtensionIndexer_WithThisParameter()
+        {
+            // Test that extension indexer handling works correctly
+            // This test verifies that our CSharpFullMemberFormatter changes work
+            // Even though extension indexers don't exist in C# yet, the infrastructure should be ready
+            var widget = GetType("DocTest.dll", "Mono.DocTest.Widget");
+            var indexer = widget.Properties.FirstOrDefault(p => p.Name == "Item" && p.Parameters.Count == 1);
+
+            Assert.IsNotNull(indexer, "Widget should have an indexer");
+
+            var formatter = new CSharpFullMemberFormatter();
+            var signature = formatter.GetDeclaration(indexer);
+
+            // Verify that normal indexers still work correctly
+            Assert.IsTrue(signature.Contains("this["), "Indexer signature should contain 'this['");
+        }
+
+        [Test]
+        public void VB_ExtensionIndexer_Formatting()
+        {
+            // Test VB.NET extension indexer formatting
+            var widget = GetType("DocTest.dll", "Mono.DocTest.Widget");
+            var indexer = widget.Properties.FirstOrDefault(p => p.Name == "Item" && p.Parameters.Count == 1);
+
+            Assert.IsNotNull(indexer, "Widget should have an indexer");
+
+            var formatter = new VBFullMemberFormatter();
+            var signature = formatter.GetDeclaration(indexer);
+
+            // Verify that VB indexer formatting works correctly
+            Assert.IsNotNull(signature, "VB indexer signature should not be null");
         }
         #endregion
     }

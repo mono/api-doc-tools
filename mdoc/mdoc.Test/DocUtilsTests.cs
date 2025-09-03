@@ -158,5 +158,85 @@ random text
             Assert.IsTrue(DocUtils.HasCustomAttribute(type, Consts.IsReadOnlyAttribute));
             Assert.IsTrue(DocUtils.HasCustomAttribute(type, Consts.IsByRefLikeAttribute));
         }
+
+        [Test]
+        public void IsExtensionMethod_WithExtensionAttribute_ReturnsTrue()
+        {
+            // Use existing extension method from test assembly
+            var type = GetType("DocTest.dll", "Mono.DocTest.Generic.Extensions");
+            var method = type.Methods.FirstOrDefault(m => m.Name == "ToEnumerable");
+
+            Assert.NotNull(method, "ToEnumerable extension method should exist");
+            Assert.IsTrue(DocUtils.IsExtensionMethod(method));
+        }
+
+        [Test]
+        public void IsExtensionMethod_WithoutExtensionAttribute_ReturnsFalse()
+        {
+            var method = GetMethod(typeof(SomeClass), nameof(SomeClass.get_Method));
+
+            Assert.IsFalse(DocUtils.IsExtensionMethod(method));
+        }
+
+        [Test]
+        public void IsExtensionMethod_WithNullMethod_ReturnsFalse()
+        {
+            Assert.IsFalse(DocUtils.IsExtensionMethod(null));
+        }
+
+        [Test]
+        public void IsExtensionProperty_WithNullProperty_ReturnsFalse()
+        {
+            Assert.IsFalse(DocUtils.IsExtensionProperty(null));
+        }
+
+        [Test]
+        public void IsExtensionProperty_WithRegularProperty_ReturnsFalse()
+        {
+            var property = GetProperty(typeof(SomeClass), nameof(SomeClass.Property));
+
+            Assert.IsFalse(DocUtils.IsExtensionProperty(property));
+        }
+
+        [Test]
+        public void IsExtensionIndexer_WithNullProperty_ReturnsFalse()
+        {
+            Assert.IsFalse(DocUtils.IsExtensionIndexer(null));
+        }
+
+        [Test]
+        public void IsExtensionIndexer_WithRegularProperty_ReturnsFalse()
+        {
+            var property = GetProperty(typeof(SomeClass), nameof(SomeClass.Property));
+
+            Assert.IsFalse(DocUtils.IsExtensionIndexer(property));
+        }
+
+        [Test]
+        public void IsExtensionOperator_WithNullMethod_ReturnsFalse()
+        {
+            Assert.IsFalse(DocUtils.IsExtensionOperator(null));
+        }
+
+        [Test]
+        public void IsExtensionOperator_WithRegularMethod_ReturnsFalse()
+        {
+            var method = GetMethod(typeof(SomeClass), nameof(SomeClass.get_Method));
+
+            Assert.IsFalse(DocUtils.IsExtensionOperator(method));
+        }
+
+        [Test]
+        public void IsExtensionOperator_WithRegularOperator_ReturnsFalse()
+        {
+            // Get a regular operator that doesn't have ExtensionAttribute
+            var type = GetType("DocTest.dll", "Mono.DocTest.Widget");
+            var operatorMethod = type.Methods.FirstOrDefault(m => m.Name == "op_Addition");
+
+            if (operatorMethod != null)
+            {
+                Assert.IsFalse(DocUtils.IsExtensionOperator(operatorMethod));
+            }
+        }
     }
 }

@@ -301,6 +301,38 @@ namespace Mono.Documentation.Updater
                         .Any (m => m.AttributeType.FullName == "System.Runtime.CompilerServices.ExtensionAttribute");
         }
 
+        public static bool IsExtensionProperty (PropertyDefinition property)
+        {
+            if (property == null) return false;
+
+            return
+                property.CustomAttributes
+                        .Any (m => m.AttributeType.FullName == "System.Runtime.CompilerServices.ExtensionAttribute")
+                && property.DeclaringType.CustomAttributes
+                        .Any (m => m.AttributeType.FullName == "System.Runtime.CompilerServices.ExtensionAttribute");
+        }
+
+        public static bool IsExtensionIndexer (PropertyDefinition property)
+        {
+            if (property == null) return false;
+
+            // Indexers have parameters and are extension properties
+            return IsExtensionProperty(property) && property.Parameters.Count > 0;
+        }
+
+        public static bool IsExtensionOperator (MethodDefinition method)
+        {
+            if (method == null) return false;
+
+            // Extension operators are special methods that start with "op_" and have the ExtensionAttribute
+            return method.IsSpecialName
+                && method.Name.StartsWith("op_", StringComparison.Ordinal)
+                && method.CustomAttributes
+                        .Any (m => m.AttributeType.FullName == "System.Runtime.CompilerServices.ExtensionAttribute")
+                && method.DeclaringType.CustomAttributes
+                        .Any (m => m.AttributeType.FullName == "System.Runtime.CompilerServices.ExtensionAttribute");
+        }
+
         public static bool IsDelegate (TypeDefinition type)
         {
             TypeReference baseRef = type.BaseType;

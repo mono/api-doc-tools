@@ -3002,6 +3002,7 @@ namespace Mono.Documentation
         "param",
         "summary",
         "typeparam",
+        "value", // for properties
     };
 
         private void UpdateExtensionMethods (XmlElement e, DocsNodeInfo info)
@@ -3009,31 +3010,55 @@ namespace Mono.Documentation
             if (!writeIndex)
                 return;
 
-            MethodDefinition me = info.Member as MethodDefinition;
-            if (me == null)
-                return;
-            if (info.Parameters.Count < 1)
-                return;
-            if (!DocUtils.IsExtensionMethod (me))
-                return;
-
-            XmlNode em = e.OwnerDocument.CreateElement ("ExtensionMethod");
-            XmlNode member = e.CloneNode (true);
-            em.AppendChild (member);
-            RemoveExcept (member, ValidExtensionMembers);
-            RemoveExcept (member.SelectSingleNode ("Docs"), ValidExtensionDocMembers);
-            WriteElementText (member, "MemberType", "ExtensionMethod");
-            XmlElement link = member.OwnerDocument.CreateElement ("Link");
-            var linktype = FormatterManager.SlashdocFormatter.GetName (me.DeclaringType);
-            var linkmember = FormatterManager.SlashdocFormatter.GetDeclaration (me);
-            link.SetAttribute ("Type", linktype);
-            link.SetAttribute ("Member", linkmember);
-            member.AppendChild (link);
-            AddTargets (em, info);
-
-            if (!IsMultiAssembly || (IsMultiAssembly && !extensionMethods.Any (ex => ex.SelectSingleNode ("Member/Link/@Type").Value == linktype && ex.SelectSingleNode ("Member/Link/@Member").Value == linkmember)))
+            // Handle extension methods
+            if (info.Member is MethodDefinition method)
             {
-                extensionMethods.Add (em);
+                if (info.Parameters.Count < 1)
+                    return;
+                if (!DocUtils.IsExtensionMethod(method))
+                    return;
+
+                CreateExtensionMemberXml(e, info, "ExtensionMethod");
+            }
+            // Handle extension properties (including indexers)
+            else if (info.Member is PropertyDefinition property)
+            {
+                if (!DocUtils.IsExtensionProperty(property))
+                    return;
+
+                // Check if it's an indexer (has parameters) or regular property
+                string extensionType = DocUtils.IsExtensionIndexer(property) ? "ExtensionIndexer" : "ExtensionProperty";
+                CreateExtensionMemberXml(e, info, extensionType);
+            }
+            // Handle extension operators
+            else if (info.Member is MethodDefinition operatorMethod && DocUtils.IsExtensionOperator(operatorMethod))
+            {
+                if (info.Parameters.Count < 1)
+                    return;
+
+                CreateExtensionMemberXml(e, info, "ExtensionOperator");
+            }
+        }
+
+        private void CreateExtensionMemberXml(XmlElement e, DocsNodeInfo info, string extensionMemberType)
+        {
+            XmlNode em = e.OwnerDocument.CreateElement(extensionMemberType);
+            XmlNode member = e.CloneNode(true);
+            em.AppendChild(member);
+            RemoveExcept(member, ValidExtensionMembers);
+            RemoveExcept(member.SelectSingleNode("Docs"), ValidExtensionDocMembers);
+            WriteElementText(member, "MemberType", extensionMemberType);
+            XmlElement link = member.OwnerDocument.CreateElement("Link");
+            var linktype = FormatterManager.SlashdocFormatter.GetName(info.Member.DeclaringType);
+            var linkmember = FormatterManager.SlashdocFormatter.GetDeclaration(info.Member);
+            link.SetAttribute("Type", linktype);
+            link.SetAttribute("Member", linkmember);
+            member.AppendChild(link);
+            AddTargets(em, info);
+
+            if (!IsMultiAssembly || (IsMultiAssembly && !extensionMethods.Any(ex => ex.SelectSingleNode("Member/Link/@Type").Value == linktype && ex.SelectSingleNode("Member/Link/@Member").Value == linkmember)))
+            {
+                extensionMethods.Add(em);
             }
         }
 

@@ -1447,7 +1447,7 @@
 	<xsl:template name="membertypeplural">
 		<xsl:param name="name"/>
 		<xsl:choose>
-		<xsl:when test="$name='ExtensionMethod'">Extension Methods</xsl:when>
+		<xsl:when test="$name='ExtensionMethod' or $name='ExtensionProperty' or $name='ExtensionIndexer' or $name='ExtensionOperator'">Extension Methods</xsl:when>
 		<xsl:when test="$name='Constructor'">Constructors</xsl:when>
 		<xsl:when test="$name='Property'">Properties</xsl:when>
 		<xsl:when test="$name='Method'">Methods</xsl:when>
@@ -1460,7 +1460,7 @@
 	<xsl:template name="membertypeplurallc">
 		<xsl:param name="name"/>
 		<xsl:choose>
-		<xsl:when test="$name='ExtensionMethod'">extension methods</xsl:when>
+		<xsl:when test="$name='ExtensionMethod' or $name='ExtensionProperty' or $name='ExtensionIndexer' or $name='ExtensionOperator'">extension methods</xsl:when>
 		<xsl:when test="$name='Constructor'">constructors</xsl:when>
 		<xsl:when test="$name='Property'">properties</xsl:when>
 		<xsl:when test="$name='Method'">methods</xsl:when>

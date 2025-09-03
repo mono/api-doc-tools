@@ -655,7 +655,23 @@ namespace Mono.Documentation.Updater
 
             if (property.Parameters.Count != 0)
             {
-                AppendParameters(buf, method, property.Parameters, '(', ')');
+                // Handle extension indexers by adding extension marker to first parameter
+                if (DocUtils.IsExtensionIndexer(property))
+                {
+                    buf.Append('(');
+                    buf.Append("<Extension> ");
+                    AppendParameter(buf, property.Parameters[0]);
+                    for (int i = 1; i < property.Parameters.Count; ++i)
+                    {
+                        buf.Append(", ");
+                        AppendParameter(buf, property.Parameters[i]);
+                    }
+                    buf.Append(')');
+                }
+                else
+                {
+                    AppendParameters(buf, method, property.Parameters, '(', ')');
+                }
             }
             buf.Append(" As ");
             buf.Append(GetTypeName(property.PropertyType, AttributeParserContext.Create(property)));

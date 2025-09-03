@@ -122,7 +122,7 @@ namespace mdoc.Test
 
             ///Note : (The following operation will not be carried out, just prompt)
             //   foreach (var delitem in delList)
-            // delitem.ParentNode.RemoveChild(child);        
+            // delitem.ParentNode.RemoveChild(child);
         }
 
         [Test]
@@ -252,6 +252,17 @@ namespace mdoc.Test
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "TestLibrary", "TestClass.xml")));
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "index.xml")));
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "ns-TestLibrary.xml")));
+        }
+
+        [Test]
+        public void ExtensionMethod_ExistsInTestAssembly()
+        {
+            // Basic test to verify extension method detection works
+            var extensionsType = GetType("DocTest.dll", "Mono.DocTest.Generic.Extensions");
+            var toEnumerableMethod = extensionsType.Methods.FirstOrDefault(m => m.Name == "ToEnumerable");
+
+            Assert.NotNull(toEnumerableMethod, "ToEnumerable extension method should exist");
+            Assert.IsTrue(DocUtils.IsExtensionMethod(toEnumerableMethod), "ToEnumerable should be detected as extension method");
         }
     }
 }
