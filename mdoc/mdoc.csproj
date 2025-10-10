@@ -4,18 +4,29 @@
     <TargetFrameworks>net471;net6.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <RollForward>Major</RollForward>
+
+    <!-- Package metadata -->
+    <PackageId>mdoc</PackageId>
+    <Version>5.9.4</Version>
+    <Title>mdoc</Title>
+    <Authors>Microsoft</Authors>
+    <Owners>Microsoft</Owners>
+    <PackageProjectUrl>https://github.com/mono/api-doc-tools</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>.NET API Documentation toolchain</Description>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <PackageTags>mdoc documentation ecmaxml dotnet .net C# F# VB.NET</PackageTags>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net471' ">
-    <OutputPath>$(MSBuildThisFileDirectory)..\bin\$(Configuration)</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' != 'net471' ">
-    <OutputPath>$(MSBuildThisFileDirectory)..\bin\$(Configuration)-$(TargetFramework)</OutputPath>
+  <!-- .NET Tool packaging - only for .NET Core targets -->
+  <PropertyGroup Condition="'$(TargetFramework)' != 'net471'">
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>mdoc</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
