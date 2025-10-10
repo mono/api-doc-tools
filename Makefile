@@ -25,7 +25,7 @@ check-mdoc:
 	cd mdoc; $(MAKE) check -B
 
 nuget:
-	nuget pack mdoc/mdoc.nuspec -outputdirectory bin/Nuget
+	dotnet pack mdoc/mdoc.csproj -c Release -o bin/Nuget
 
 check-monodoc:
 	cd monodoc; $(MAKE) check -B

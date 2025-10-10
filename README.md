@@ -17,6 +17,31 @@ This repository uses submodules, so firstly, you have several options:
 - If you already have it local, you can use `git submodule update --init --recursive`
 - If you have all CLI dependencies (see below), you can `make prepare`
 
+### Modern .NET Build
+
+The project can be built using modern .NET SDK tools:
+
+```bash
+# Restore dependencies
+dotnet restore apidoctools.sln
+
+# Build the solution
+dotnet build apidoctools.sln --configuration Release
+
+# Create a .NET tool package
+dotnet pack mdoc/mdoc.csproj --configuration Release
+```
+
+The `dotnet pack` command creates a NuGet package in `mdoc/bin/Release/mdoc.5.9.4.nupkg` that can be installed as a .NET tool:
+
+```bash
+# Install globally from local package
+dotnet tool install --global mdoc --add-source ./mdoc/bin/Release/
+
+# Or install from NuGet.org (once published)
+dotnet tool install --global mdoc
+```
+
 ### Visual Studio
 
 On windows, you can build and compile [`apidoctools.sln`](apidoctools.sln). And you can run unit tests if you have NUnit installed. If you use [Visual Studio for Mac](https://www.visualstudio.com/vs/visual-studio-mac/), you can use its built-in support for NUnit tests to also run tests.
