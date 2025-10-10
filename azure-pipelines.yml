@@ -195,12 +195,13 @@ stages:
       inputs:
         filePath: 'mdoc/CheckNugetPublish.ps1'
 
-    - task: NuGetCommand@2
+    - task: DotNetCoreCLI@2
       displayName: 'Create a NuGet package for mdoc'
       condition: eq(variables['mdocVersion.NeedUpdate'], true)
       inputs:
         command: 'pack'
-        packagesToPack: 'mdoc/mdoc.nuspec'
+        packagesToPack: 'mdoc/mdoc.csproj'
+        configuration: '$(buildConfiguration)'
 
     - task: EsrpCodeSigning@1
       displayName: 'Sign NuGet packages'
