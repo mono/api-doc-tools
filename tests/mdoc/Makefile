@@ -6,44 +6,6 @@ VBCOMPILE = vbnc
 TEST_CSCFLAGS = -target:library
 ENVIRONMENT = notwsl#use 'wsl' when running on wsl
 
-MDOC_COMMON_FLAGS = \
-	/resource:../../class/monodoc/Resources/mdoc-html-format.xsl,mdoc-html-format.xsl    \
-	/resource:../../class/monodoc/Resources/mdoc-html-utils.xsl,mdoc-html-utils.xsl      \
-	/resource:../../class/monodoc/Resources/mdoc-sections-css.xsl,mdoc-sections-css.xsl  \
-	/resource:../../class/monodoc/Resources/mono-ecma-css.xsl,mono-ecma-css.xsl          \
-	/resource:Resources/defaulttemplate.xsl,defaulttemplate.xsl                 \
-	/resource:Resources/monodoc-ecma.xsd,monodoc-ecma.xsd                       \
-	/resource:Resources/msitomsx.xsl,msitomsx.xsl                               \
-	/resource:Resources/overview.xsl,overview.xsl                               \
-	/resource:Resources/stylesheet.xsl,stylesheet.xsl                           \
-
-
-MONODOC_RESOURCES = \
-	../../class/monodoc/Resources/mdoc-html-utils.xsl    \
-	../../class/monodoc/Resources/mdoc-sections-css.xsl  \
-	../../class/monodoc/Resources/mono-ecma-css.xsl
-
-MDOC_RESOURCES = \
-	Resources/defaulttemplate.xsl     \
-	Resources/monodoc-ecma.xsd        \
-	Resources/msitomsx.xsl            \
-	Resources/overview.xsl            \
-	Resources/stylesheet.xsl
-
-MDOC_TEST_FILES = \
-	Test/CLILibraryTypes.dtd				  \
-	Test/DocTest-v1.cs                                        \
-	Test/DocTest-v2.patch                                     \
-	Test/msxdoc-expected.importslashdoc.xml                   \
-	Test/TestEcmaDocs.xml                                     \
-	Test/validate.check.monodocer                             \
-	Test/validate.check.monodocer.importslashdoc              \
-	Test/validate.check.monodocer.since
-
-EXTRA_DISTFILES = \
-	$(MDOC_RESOURCES) \
-	$(MDOC_TEST_FILES)
-
 MULTI-CLASSIC = Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll
 MULTI-UNIFIED = Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll
 
