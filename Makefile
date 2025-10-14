@@ -9,10 +9,13 @@ build:
 clean:
 	dotnet clean apidoctools.sln -c $(CONFIGURATION)
 
-check: build check-monodoc check-mdoc
+check: build test check-monodoc check-mdoc
 
 nuget:
 	dotnet pack src/mdoc/mdoc.csproj -o bin/Nuget
+
+test:
+	dotnet test apidoctools.sln -c $(CONFIGURATION)
 
 check-mdoc:
 	cd tests/mdoc; $(MAKE) check -B

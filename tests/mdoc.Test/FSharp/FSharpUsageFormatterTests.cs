@@ -134,7 +134,7 @@ nameof(Methods.SomeType.SomeOtherStaticMethod3));
             "left + right")]
         public void FSharpStaticOperatorImplementation(string typeFullName, string methodName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../external/Test/StaticVirtualMembers.dll";
             TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
         }
 
