@@ -825,35 +825,35 @@ override this.Rotate : double -> unit",
 @"static member method : obj * obj -> unit",
                 nameof(Constraints.Class18.method));
         
-        [Test]
-        [Ignore("No constraint info in IL code")]
-        public void TestFSharpConstraints()
-        {
-            Constraints.Class1<Exception> c1 = new Constraints.Class1<Exception>();
-            Constraints.Class2<IComparable> c2 = new Constraints.Class2<IComparable>();
-            Constraints.Class2_1<ComparableException> c2_1 = new Constraints.Class2_1<ComparableException>();
-            Constraints.Class3<EmptyClass> c3 = new Constraints.Class3<EmptyClass>();
-            Constraints.Class4<EmptyClass> c4 = new Constraints.Class4<EmptyClass>();
-            Constraints.Class5<EmptyClass> c5 = new Constraints.Class5<EmptyClass>();
-            Constraints.Class6<EmptyClass> c6 = new Constraints.Class6<EmptyClass>();
-            Constraints.Class7<EmptyClass> c7 = new Constraints.Class7<EmptyClass>();
-            Constraints.Class8<EmptyClass> c8 = new Constraints.Class8<EmptyClass>();
-            Constraints.Class9<EmptyClass> c9 = new Constraints.Class9<EmptyClass>();
-            Constraints.Class10<EmptyClass> c10 = new Constraints.Class10<EmptyClass>();
-            Constraints.Class11<EmptyClass> c11 = new Constraints.Class11<EmptyClass>();
-            Constraints.Class12<EmptyClass> c12 = new Constraints.Class12<EmptyClass>();
-            Constraints.Class13<EmptyClass> c13 = new Constraints.Class13<EmptyClass>();
-            Constraints.Class14<EmptyClass, EmptyClass> c14 = new Constraints.Class14<EmptyClass, EmptyClass>();
-            Constraints.Class15 c15 = new Constraints.Class15();
+        // [Test]
+        // [Ignore("No constraint info in IL code")]
+        // public void TestFSharpConstraints()
+        // {
+        //     Constraints.Class1<Exception> c1 = new Constraints.Class1<Exception>();
+        //     Constraints.Class2<IComparable> c2 = new Constraints.Class2<IComparable>();
+        //     Constraints.Class2_1<ComparableException> c2_1 = new Constraints.Class2_1<ComparableException>();
+        //     Constraints.Class3<EmptyClass> c3 = new Constraints.Class3<EmptyClass>();
+        //     Constraints.Class4<EmptyClass> c4 = new Constraints.Class4<EmptyClass>();
+        //     Constraints.Class5<EmptyClass> c5 = new Constraints.Class5<EmptyClass>();
+        //     Constraints.Class6<EmptyClass> c6 = new Constraints.Class6<EmptyClass>();
+        //     Constraints.Class7<EmptyClass> c7 = new Constraints.Class7<EmptyClass>();
+        //     Constraints.Class8<EmptyClass> c8 = new Constraints.Class8<EmptyClass>();
+        //     Constraints.Class9<EmptyClass> c9 = new Constraints.Class9<EmptyClass>();
+        //     Constraints.Class10<EmptyClass> c10 = new Constraints.Class10<EmptyClass>();
+        //     Constraints.Class11<EmptyClass> c11 = new Constraints.Class11<EmptyClass>();
+        //     Constraints.Class12<EmptyClass> c12 = new Constraints.Class12<EmptyClass>();
+        //     Constraints.Class13<EmptyClass> c13 = new Constraints.Class13<EmptyClass>();
+        //     Constraints.Class14<EmptyClass, EmptyClass> c14 = new Constraints.Class14<EmptyClass, EmptyClass>();
+        //     Constraints.Class15 c15 = new Constraints.Class15();
 
 
-            Constraints.Class16.method(new EmptyClass(), new EmptyClass());
-            Constraints.Class17.method(new EmptyClass(), new EmptyClass());
-            Constraints.Class18.method(new EmptyClass(), new EmptyClass());
+        //     Constraints.Class16.method(new EmptyClass(), new EmptyClass());
+        //     Constraints.Class17.method(new EmptyClass(), new EmptyClass());
+        //     Constraints.Class18.method(new EmptyClass(), new EmptyClass());
 
-            Constraints.Class15.add(new EmptyClass(), new EmptyClass());
-            Constraints.Class15.heterogenousAdd(new EmptyClass(), new EmptyStruct());
-        }
+        //     Constraints.Class15.add(new EmptyClass(), new EmptyClass());
+        //     Constraints.Class15.heterogenousAdd(new EmptyClass(), new EmptyStruct());
+        // }
 
         private class ComparableException : Exception, IComparable
         {

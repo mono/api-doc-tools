@@ -42,7 +42,7 @@ jobs:
     displayName: Compare xml files
     timeoutInMinutes: 600
     inputs:
-      filePath: mdoc/compareXmlFiles.ps1
+      filePath: tools/compareXmlFiles.ps1
       arguments: -paramsJson '$(params)' -githubTokenBase64 '$(githubTokenBase64)' -githubOptionsAccountName $(githubOptionsAccountName) -githubOptionsAccountEmail $(githubOptionsAccountEmail) -vstsTokenBase64 '$(vstsTokenBase64)' -step '1' -commit1 ''
     enabled: true
     name: job1output
@@ -93,7 +93,7 @@ jobs:
     displayName: Compare xml files
     timeoutInMinutes: 600
     inputs:
-      filePath: mdoc/compareXmlFiles.ps1
+      filePath: tools/compareXmlFiles.ps1
       arguments: -paramsJson '$(params)' -githubTokenBase64 '$(githubTokenBase64)' -githubOptionsAccountName $(githubOptionsAccountName) -githubOptionsAccountEmail $(githubOptionsAccountEmail) -vstsTokenBase64 '$(vstsTokenBase64)' -step '2' -commit1 '$(commit1)'
     enabled: true
     name: job2output

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="src/mdoc/mdoc.csproj" />
+  <Project Path="src/monodoc/monodoc.csproj" />
+  <Project Path="tests/mdoc/mdoc.Test/mdoc.Test.csproj" />
+  <Project Path="tests/mdoc/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj" />
+  <Project Path="tests/monodoc/Test/Monodoc.Test.csproj" />
+</Solution>

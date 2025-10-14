@@ -7,7 +7,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Diagnostics;
-using System.Runtime.Remoting.Contexts;
 
 namespace mdoc.Test
 {

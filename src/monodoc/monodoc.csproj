@@ -1,44 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;LEGACY_MODE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
+    <DefineConstants>$(DefineConstants);LEGACY_MODE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release</OutputPath>
-    <DefineConstants>LEGACY_MODE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Assembly\" />
-  </ItemGroup>
-  <ItemGroup>
-    <!-- TODO: Consider moving this generation stuff -->
-    <Compile Remove="Monodoc.Ecma\EcmaUrlParserDriver.cs" />
-    <Compile Remove="Monodoc.Ecma\jay\**\*.cs" />
 
-    <!-- TODO: Consider moving tests to an adjacent folder -->
-    <Compile Remove="Test\**\*.cs" />
-
-    <!-- TODO: Consider just deleting these unused files -->
-    <Compile Remove="Assembly\**\*.cs" />
-    <Compile Remove="Monodoc\providers\simple-provider.cs" />
-    <Compile Remove="Mono.Utilities\MemoryLRU.cs" />
-  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources/monodoc.xml">
       <LogicalName>monodoc.xml</LogicalName>
@@ -221,17 +190,17 @@
       <LogicalName>treebg.png</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="monodoc.dll.config">
+    <Content Update="monodoc.dll.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="SharpZipLib" Version="$(NuGetVersionSharpZipLib)" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="$(NuGetVersionSystemConfigurationConfigurationManager)" />
     <PackageReference Include="Lucene.Net" Version="$(NuGetVersionLuceneDotNet)" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Monodoc.Ecma\EcmaUrlParser.jay" />
-  </ItemGroup>
+
 </Project>

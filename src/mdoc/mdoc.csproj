@@ -1,21 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFrameworks>net471;net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net471</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <RollForward>Major</RollForward>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net471' ">
-    <OutputPath>$(MSBuildThisFileDirectory)..\bin\$(Configuration)</OutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' != 'net471' ">
-    <OutputPath>$(MSBuildThisFileDirectory)..\bin\$(Configuration)-$(TargetFramework)</OutputPath>
+    
+    <!-- NuGet Package Properties -->
+    <PackageId>mdoc</PackageId>
+    <PackageVersion>5.9.4</PackageVersion>
+    <Title>mdoc</Title>
+    <Authors>Microsoft</Authors>
+    <Company>Microsoft</Company>
+    <PackageProjectUrl>https://github.com/mono/api-doc-tools</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Description>.NET API Documentation toolchain</Description>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <PackageTags>mdoc documentation ecmaxml dotnet .net C# F# VB.NET</PackageTags>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>mdoc</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -67,4 +75,9 @@
   <ItemGroup>
     <ProjectReference Include="..\monodoc\monodoc.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\monodoc\monodoc.dll.config" Pack="true" PackagePath="tools/$(TargetFramework)/any/" />
+  </ItemGroup>
+
 </Project>
