@@ -532,7 +532,7 @@ namespace mdoc.Test
         [TestCase("UnsafeCombine5", "public static delegate* unmanaged[Cdecl, Fastcall]<delegate* unmanaged[Thiscall, MemberFunction]<string, int>, delegate*<string, int>> UnsafeCombine5 ();")]
         public void CSharpFuctionPointersUnmanagedExtTest(string methodName, string expectedSignature)
         {
-            var functionPointersDllPath = "../../../../external/Test/FunctionPointersTest.dll";
+            var functionPointersDllPath = "../../../../../../external/Test/FunctionPointersTest.dll";
             TestMethodSignature(functionPointersDllPath, "FunctionPointersTest.FunctionPointers", methodName, expectedSignature);
         }
 
@@ -549,7 +549,7 @@ namespace mdoc.Test
         [TestCase("StaticVirtualMembers.InterfaceI`1", "op_CheckedAddition", "public static virtual T op_CheckedAddition (T l, T r);")]
         public void CSharpStaticVirtualMethodTest(string typeFullName, string methodName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
             TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
         }
 
@@ -557,7 +557,7 @@ namespace mdoc.Test
         [TestCase("StaticVirtualMembers.InterfaceI`1", "P1", "public static virtual T P1 { get; set; }")]
         public void CSharpStaticVirtualPropertyTest(string typeFullName, string propertyName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
             TestPropertySignature(staticVirtualMemberDllPath, typeFullName, propertyName, expectedSignature);
         }
 
@@ -565,7 +565,7 @@ namespace mdoc.Test
         [TestCase("StaticVirtualMembers.InterfaceI`1", "E1", "static virtual event Action E1;")]
         public void CSharpStaticVirtualEventTest(string typeFullName, string eventName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
             TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
@@ -581,7 +581,7 @@ namespace mdoc.Test
             "static int StaticVirtualMemberInInterface<Derived,Derived,int>.operator + (Derived left, Derived right);")]
         public void CSharpStaticMethodImplementation(string typeFullName, string methodName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
             TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
         }
 
@@ -589,7 +589,7 @@ namespace mdoc.Test
             "static ClassC StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.P { get; set; }")]
         public void CSharpStaticPropertyImplementation(string typeFullName, string propertyName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
             TestPropertySignature(staticVirtualMemberDllPath, typeFullName, propertyName, expectedSignature);
         }
 
@@ -597,7 +597,7 @@ namespace mdoc.Test
             "static event Action StaticVirtualMembers.InterfaceI<StaticVirtualMembers.ClassC>.E;")]
         public void CSharpStaticEventImplementation(string typeFullName, string eventName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
             TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
@@ -605,7 +605,7 @@ namespace mdoc.Test
             "public interface IRefStructProcessor<T> where T : allows ref struct")]
         public void CSharpAllowsRefStructForTypeTest(string typeFullName, string expectedSignature)
         {
-            var allowsRefStructDllPath = "../../../../external/Test/AllowsRefStructDemo.dll";
+            var allowsRefStructDllPath = "../../../../../../external/Test/AllowsRefStructDemo.dll";
             TestTypeSignature(allowsRefStructDllPath, typeFullName, expectedSignature);
         }
 
@@ -615,7 +615,7 @@ namespace mdoc.Test
             "public void Handle<T> (ref T item) where T : new(), allows ref struct;")]
         public void CSharpAllowsRefStructForMemberTest(string typeFullName, string methodName, string expectedSignature)
         {
-            var allowsRefStructDllPath = "../../../../external/Test/AllowsRefStructDemo.dll";
+            var allowsRefStructDllPath = "../../../../../../external/Test/AllowsRefStructDemo.dll";
             TestMethodSignature(allowsRefStructDllPath, typeFullName, methodName, expectedSignature);
         }
 

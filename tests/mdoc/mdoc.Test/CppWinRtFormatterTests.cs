@@ -16,9 +16,9 @@ namespace mdoc.Test
         private static readonly CppWinRtMemberFormatter CppWinRtMemberFormatter = new CppWinRtMemberFormatter();
         protected override CppWinRtMemberFormatter formatter => CppWinRtMemberFormatter;
 
-        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
-        private string _cppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
-        private const string CSharpTestLib = "../../../../external/Test/CSharpExample.dll";
+        private string _cppWinRtTestLibName = "../../../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
+        private string _cppCxTestLibName = "../../../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
+        private const string CSharpTestLib = "../../../../../../external/Test/CSharpExample.dll";
 
         protected override TypeDefinition GetType(Type type)
         {

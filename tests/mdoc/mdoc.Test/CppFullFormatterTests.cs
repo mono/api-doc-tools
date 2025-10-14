@@ -15,7 +15,7 @@ namespace mdoc.Test
     {
         private static readonly CppFullMemberFormatter cppFullMemberFormatter = new CppFullMemberFormatter();
         protected override CppFullMemberFormatter formatter => cppFullMemberFormatter;
-        private const string CSharpTestLib = "../../../../external/Test/CSharpExample.dll";
+        private const string CSharpTestLib = "../../../../../../external/Test/CSharpExample.dll";
         [Test]
         [Category("Methods")]
         public void MethodSignature_Bar() =>
@@ -327,7 +327,7 @@ generic <typename T>
             " static int StaticVirtualMembers.StaticVirtualMemberInInterface<StaticVirtualMembers.Derived,StaticVirtualMembers.Derived,System.Int32>.operator +(StaticVirtualMembers::Derived ^ left, StaticVirtualMembers::Derived ^ right) = StaticVirtualMembers::StaticVirtualMemberInInterface<StaticVirtualMembers::Derived ^, StaticVirtualMembers::Derived ^, int>::op_Addition;")]
         public void CppCLIStaticOperatorImplementation(string typeFullName, string methodName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
             TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
         }
 

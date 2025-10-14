@@ -137,7 +137,7 @@ namespace mdoc.Test
             " Shared Operator + (left As Derived, right As Derived) As Integer Implements StaticVirtualMemberInInterface(Of Derived, Derived, Integer).op_Addition")]
         public void VBStaticOperatorImplementation(string typeFullName, string methodName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../../external/Test/StaticVirtualMembers.dll";
             TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
         }
 

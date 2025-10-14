@@ -15,9 +15,9 @@ namespace mdoc.Test
     {
         protected override CppCxFullMemberFormatter formatter { get; } = new CppCxFullMemberFormatter();
 
-        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
-        private const string CppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
-        private const string CSharpTestLib = "../../../../external/Test/CSharpExample.dll";
+        private string _cppWinRtTestLibName = "../../../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
+        private const string CppCxTestLibName = "../../../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
+        private const string CSharpTestLib = "../../../../../../external/Test/CSharpExample.dll";
 
         [Test]
         [Category("Method")]
