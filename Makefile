@@ -11,11 +11,11 @@ clean:
 
 check: build check-monodoc check-mdoc
 
-check-mdoc:
-	cd mdoc; $(MAKE) check -B
-
 nuget:
-	dotnet pack mdoc/mdoc.csproj -o bin/Nuget
+	dotnet pack src/mdoc/mdoc.csproj -o bin/Nuget
+
+check-mdoc:
+	cd tests/mdoc; $(MAKE) check -B
 
 check-monodoc:
-	cd monodoc; $(MAKE) check -B
+	dotnet test -c $(CONFIGURATION)

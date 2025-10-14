@@ -8,8 +8,11 @@
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <RollForward>Major</RollForward>
+    <IsPackable>true</IsPackable>
+    <PackAsTool Condition="'$(TargetFramework)' != 'net471'">true</PackAsTool>
+    <ToolCommandName>mdoc</ToolCommandName>
     
-    <!-- NuGet Package Properties -->
+    <!-- NuGet package info -->
     <PackageId>mdoc</PackageId>
     <PackageVersion>5.9.4</PackageVersion>
     <Title>mdoc</Title>
@@ -21,9 +24,6 @@
     <Description>.NET API Documentation toolchain</Description>
     <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
     <PackageTags>mdoc documentation ecmaxml dotnet .net C# F# VB.NET</PackageTags>
-    <IsPackable>true</IsPackable>
-    <PackAsTool>true</PackAsTool>
-    <ToolCommandName>mdoc</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
