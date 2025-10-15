@@ -9,7 +9,7 @@
     <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <RollForward>Major</RollForward>
     <IsPackable>true</IsPackable>
-    <PackAsTool Condition="'$(TargetFramework)' != 'net471'">true</PackAsTool>
+    <PackAsTool>true</PackAsTool>
     <ToolCommandName>mdoc</ToolCommandName>
     
     <!-- NuGet package info -->
@@ -76,8 +76,37 @@
     <ProjectReference Include="..\monodoc\monodoc.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\monodoc\monodoc.dll.config" Pack="true" PackagePath="tools/$(TargetFramework)/any/" />
-  </ItemGroup>
+  <!--
+    Include the monodoc.dll.config file in the package from the monodoc project.
+  -->
+  <PropertyGroup>
+    <TargetsForTfmSpecificContentInPackage>
+      $(TargetsForTfmSpecificContentInPackage);
+      AddExtraFilesToPackage
+    </TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+  <Target Name="AddExtraFilesToPackage">
+    <ItemGroup>
+      <TfmSpecificPackageFileWithRecursiveDir Include="..\monodoc\monodoc.dll.config" PackagePath="tools/$(_NuGetShortFolderName)/any/monodoc.dll.config" />
+    </ItemGroup>
+  </Target>
+
+  <!--
+    Workaround for .NET tools not supporting full .NET Framework.
+    We don't actually care about the target framework here, we just want
+    the files in the package for backwards compatibility.
+  -->
+  <Target Name="HacksBefore" BeforeTargets="_PackToolValidation">
+    <PropertyGroup>
+      <OriginalTargetFrameworkIdentifier>$(TargetFrameworkIdentifier)</OriginalTargetFrameworkIdentifier>
+      <TargetFrameworkIdentifier>.NETCoreApp</TargetFrameworkIdentifier>
+    </PropertyGroup>
+  </Target>
+  <Target Name="HacksAfter" AfterTargets="_PackToolValidation">
+    <PropertyGroup>
+      <TargetFrameworkIdentifier>$(OriginalTargetFrameworkIdentifier)</TargetFrameworkIdentifier>
+      <OriginalTargetFrameworkIdentifier></OriginalTargetFrameworkIdentifier>
+    </PropertyGroup>
+  </Target>
 
 </Project>
