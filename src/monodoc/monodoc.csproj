@@ -192,9 +192,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="monodoc.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Update="monodoc.dll.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

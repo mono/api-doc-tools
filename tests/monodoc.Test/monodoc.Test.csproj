@@ -18,9 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\src\monodoc\monodoc.dll.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="..\..\src\monodoc\monodoc.dll.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
