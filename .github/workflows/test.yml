@@ -43,7 +43,7 @@ jobs:
     - name: Install Mono (required for mdoc tests) - macOS
       if: matrix.os == 'macos-latest'
       run: |
-        brew install mono
+        brew install --cask mono-mdk
 
     - name: Restore dependencies
       run: dotnet restore apidoctools.sln
