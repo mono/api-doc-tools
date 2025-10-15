@@ -1,5 +1,5 @@
 CONFIGURATION = Release
-PROGRAM = ../bin/$(CONFIGURATION)/mdoc.exe
+PROGRAM = ../../src/mdoc/bin/$(CONFIGURATION)/net471/mdoc.exe
 MONO = mono
 CSCOMPILE = mcs
 VBCOMPILE = vbnc
@@ -19,9 +19,6 @@ endif
 
 cleanup:
 	-rm -Rf Test/en.actual Test/html.actual
-
-nunit: 
-	mono ../packages/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe mdoc.Test/bin/$(CONFIGURATION)/mdoc.Test.dll
 
 Test/DocTest-VB-Eii.dll:
 	$(VBCOMPILE) -out:Test/DocTest-VB-Eii.dll  Test/ClassEnumerator.vb
@@ -339,7 +336,7 @@ check-monodocer-cppcli: Test/FrameworkTestData
 
 check-monodocer-cppwinrtUwp: 
 	-rm -Rf Test/en.actual
-	$(MONO) $(PROGRAM) update -lib ../external/Windows --lang c++/winrt -o Test/en.actual Test/UwpTestWinRtComponentCpp.winmd
+	$(MONO) $(PROGRAM) update -lib ../../external/Windows --lang c++/winrt -o Test/en.actual Test/UwpTestWinRtComponentCpp.winmd
 	$(DIFF) Test/ex.expected-cppwinrtuwp Test/en.actual
 	
 check-monodocer-cppcx: Test/FrameworkTestData
@@ -632,8 +629,8 @@ check-monodocer-fx-statistics-remove:
 	
 check-monodocer-fsharp:
 	-rm -Rf Test/en.actual
-	msbuild ../mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
-	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
+	msbuild ../mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
+	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 
 ifeq ($(ENVIRONMENT), wsl)
 	$(DIFF) Test/en.expected-fsharp-wsl Test/en.actual
@@ -644,8 +641,8 @@ endif
 
 check-monodocer-members-implementation:
 	-rm -Rf Test/en.actual
-	msbuild ../mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj -property:Configuration=Release
-	$(MONO) $(PROGRAM) update -o Test/en.actual Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
+	msbuild TestInterfaceImplementation/TestInterfaceImplementation.csproj -property:Configuration=Release
+	$(MONO) $(PROGRAM) update -o Test/en.actual TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
 	$(DIFF) Test/en.expected.members-implementation Test/en.actual
 
 # ------- Framework Alternate Test(s) -------
@@ -730,26 +727,26 @@ check-monodocer-import-fx-update: check-monodocer-import-fx-work
 
 check-monodocer-attached-entities:
 	-rm -Rf Test/en.actual
-	msbuild ../mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
-	$(MONO) $(PROGRAM) update --debug -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+	msbuild AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
+	$(MONO) $(PROGRAM) update --debug -o Test/en.actual AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected-attached-entities Test/en.actual
 
 	# now make sure it will delete a previously run/duplicated attachedproperty/property
-	cp Test/AttachedEventsAndProperties/AttachedPropertyExample.xml Test/en.actual/AttachedEventsAndProperties/
-	$(MONO) $(PROGRAM) update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll --delete -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+	cp AttachedEventsAndProperties/AttachedPropertyExample.xml Test/en.actual/AttachedEventsAndProperties/
+	$(MONO) $(PROGRAM) update -o Test/en.actual AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll --delete -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected-attached-entities Test/en.actual
 	
 Test/TestClass.dll:
-	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/Test*.cs
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ ../mdoc.Test/SampleClasses/Test*.cs
 
 Test/GuidClass.dll:
-	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ mdoc.Test/SampleClasses/GuidClass.cs
+	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ ../mdoc.Test/SampleClasses/GuidClass.cs
 
 .PHONY: check-monodocer-operators-work
 check-monodocer-operators-work: Test/TestClass.dll
 	rm -Rf Test/en.actual
 	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual
-	cp mdoc.Test/SampleClasses/TestClass-OldOpSig.xml Test/en.actual/mdoc.Test.SampleClasses/TestClass.xml
+	cp ../mdoc.Test/SampleClasses/TestClass-OldOpSig.xml Test/en.actual/mdoc.Test.SampleClasses/TestClass.xml
 	$(MONO) $(PROGRAM) update Test/TestClass.dll -o Test/en.actual --delete
 
 .PHONY: check-monodocer-operators
@@ -946,5 +943,5 @@ check-doc-tools-update: check-monodocer-since-update \
 	check-mdoc-export-msxdoc-update \
 	check-mdoc-validate-update 
 
-check: nunit check-doc-tools
+check: check-doc-tools
 	@echo "mdoc Tests Complete!"
