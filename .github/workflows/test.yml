@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest] # Tests were not written to support Windows
-        configuration: [Release, Debug]
+        configuration: [Release] # mono F# generates different APIs in Debug vs Release
 
     steps:
     - name: Checkout code
