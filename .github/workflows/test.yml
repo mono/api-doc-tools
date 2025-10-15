@@ -49,11 +49,11 @@ jobs:
       if: matrix.os != 'windows-latest'
       run: |
         cd tests/mdoc
-        make check -B
+        make check -B CONFIGURATION=${{ matrix.configuration }}
       
     - name: Run mdoc tests - Windows
       if: matrix.os == 'windows-latest'
       shell: bash
       run: |
         cd tests/mdoc
-        make check -B MONO=""
+        make check -B MONO="" CONFIGURATION=${{ matrix.configuration }}
