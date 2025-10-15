@@ -1,4 +1,4 @@
-cd mdoc; /Applications/Xcode.app/Contents/Developer/usr/bin/make check -B
+cd tests/mdoc; /Applications/Xcode.app/Contents/Developer/usr/bin/make check -B
 rm -f Test/DocTest-differentTypeDefinitions-First.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-differentTypeDefinitions-First.dll Test/DocTest-differentTypeDefinitions.cs /define:FIRST
 rm -f Test/DocTest-differentTypeDefinitions-Second.dll
@@ -9,10 +9,10 @@ mkdir Test/FrameworkTestData-fx-differentTypeDefinitions
 mkdir Test/FrameworkTestData-fx-differentTypeDefinitions/One
 cp Test/DocTest-differentTypeDefinitions-First.dll Test/FrameworkTestData-fx-differentTypeDefinitions/One
 cp Test/DocTest-differentTypeDefinitions-Second.dll Test/FrameworkTestData-fx-differentTypeDefinitions/One
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-differentTypeDefinitions
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-differentTypeDefinitions
 One
 Framework configuration file written to Test/FrameworkTestData-fx-differentTypeDefinitions/frameworks.xml
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeDefinitions
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeDefinitions
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-fx-differentTypeDefinitions/frameworks.xml'
 Frameworks Configuration contains 2 assemblies
@@ -66,13 +66,13 @@ cp Test/DocTest-typeForwards-Second-First.dll Test/FrameworkTestData-fx-typeForw
 cp Test/DocTest-typeForwards-Third-First.dll Test/FrameworkTestData-fx-typeForwards/Three
 cp Test/DocTest-typeForwards-Second.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
 cp Test/DocTest-typeForwards-Third.dll Test/FrameworkTestData-fx-typeForwards/dependencies/Three
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-typeForwards
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-typeForwards
 One
 Three
 Two
 Framework configuration file written to Test/FrameworkTestData-fx-typeForwards/frameworks.xml
 # now run mdoc update
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-typeForwards
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-typeForwards
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-fx-typeForwards/frameworks.xml'
 Frameworks Configuration contains 6 assemblies
@@ -133,13 +133,13 @@ cp Test/DocTest-nestedType-typeForwards-Second-First.dll Test/FrameworkTestData-
 cp Test/DocTest-nestedType-typeForwards-Third-First.dll Test/FrameworkTestData-fx-nestedType-typeForwards/Three
 cp Test/DocTest-nestedType-typeForwards-Second.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
 cp Test/DocTest-nestedType-typeForwards-Third.dll Test/FrameworkTestData-fx-nestedType-typeForwards/dependencies/Three
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-nestedType-typeForwards
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-nestedType-typeForwards
 One
 Three
 Two
 Framework configuration file written to Test/FrameworkTestData-fx-nestedType-typeForwards/frameworks.xml
 # now run mdoc update
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-nestedType-typeForwards
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-nestedType-typeForwards
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-fx-nestedType-typeForwards/frameworks.xml'
 Frameworks Configuration contains 6 assemblies
@@ -189,10 +189,10 @@ vbnc -out:Test/DocTest-VB-Eii.dll  Test/ClassEnumerator.vb
 Visual Basic.Net Compiler version 0.0.0.5943 (Mono 4.8 - (HEAD/3bd44f6)
 Copyright (C) 2004-2010 Rolf Bjarne Kvinge. All rights reserved.
 
-Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/DocTest-VB-Eii.dll'.
+Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/Test/DocTest-VB-Eii.dll'.
 Compilation successful
-Compilation took 00:00:01.2081760
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt -import Test/ClassEnumeratorSlashDoc.xml
+Compilation took 00:00:01.4800270
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt -import Test/ClassEnumeratorSlashDoc.xml
 mdoc 5.9.4
 Updating DocTest-VB-Eii, Version=0.0.65535.65535, Culture=neutral, PublicKeyToken=null from Test/DocTest-VB-Eii.dll
 New Type: CustomNamespace.ClassEnumerator
@@ -213,10 +213,10 @@ vbnc -out:Test/DocTest-VB-Eii.dll  Test/ClassEnumerator.vb
 Visual Basic.Net Compiler version 0.0.0.5943 (Mono 4.8 - (HEAD/3bd44f6)
 Copyright (C) 2004-2010 Rolf Bjarne Kvinge. All rights reserved.
 
-Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/DocTest-VB-Eii.dll'.
+Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/Test/DocTest-VB-Eii.dll'.
 Compilation successful
-Compilation took 00:00:01.3417450
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt -import Test/ClassEnumeratorECMA.xml
+Compilation took 00:00:01.4740630
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt -import Test/ClassEnumeratorECMA.xml
 mdoc 5.9.4
 Updating DocTest-VB-Eii, Version=0.0.65535.65535, Culture=neutral, PublicKeyToken=null from Test/DocTest-VB-Eii.dll
   Import: CustomNamespace.ClassEnumerator
@@ -238,10 +238,10 @@ vbnc -out:Test/DocTest-VB-Eii.dll  Test/ClassEnumerator.vb
 Visual Basic.Net Compiler version 0.0.0.5943 (Mono 4.8 - (HEAD/3bd44f6)
 Copyright (C) 2004-2010 Rolf Bjarne Kvinge. All rights reserved.
 
-Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/DocTest-VB-Eii.dll'.
+Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/Test/DocTest-VB-Eii.dll'.
 Compilation successful
-Compilation took 00:00:01.3101620
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+Compilation took 00:00:01.3640620
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
 Updating DocTest-VB-Eii, Version=0.0.65535.65535, Culture=neutral, PublicKeyToken=null from Test/DocTest-VB-Eii.dll
 New Type: CustomNamespace.ClassEnumerator
@@ -277,7 +277,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
-mono ../bin/Release/mdoc.exe --debug update -o Test/en.actual Test/DocTest.dll 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update -o Test/en.actual Test/DocTest.dll 
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 New Type: NoNamespace
@@ -470,7 +470,7 @@ Test/DocTest.cs(414,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(581,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(584,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 6 warning(s)
-mono ../bin/Release/mdoc.exe --debug update --since="Version 2.0" \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update --since="Version 2.0" \
 		-o Test/en.actual Test/DocTest.dll 
 mdoc 5.9.4
 Updating DocTest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
@@ -532,7 +532,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
-mono ../bin/Release/mdoc.exe --debug update -i Test/TestEcmaDocs.xml \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update -i Test/TestEcmaDocs.xml \
 		'--type=System.Action`1' --type=System.AsyncCallback \
 		--type=System.Environment --type=System.Array \
 		-o Test/en.actual Test/DocTest.dll 
@@ -674,7 +674,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 16 warning(s)
-mono ../bin/Release/mdoc.exe --debug update -i Test/DocTest.xml \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update -i Test/DocTest.xml \
 		-o Test/en.actual Test/DocTest.dll 
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
@@ -894,7 +894,7 @@ cp Test/DocTest-DropNS-classic.xml Test/fx-import/DocTest-DropNS-classic.xml
 cp Test/DocTest.xml Test/fx-import/TestEcmaDocs.xml
 cp Test/CLILibraryTypes.dtd Test/fx-import/
 cp Test/fx-import-configuration.xml Test/fx-import/frameworks.xml
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/fx-import -statistics Test/actual_statistics.txt
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/fx-import -statistics Test/actual_statistics.txt
 mdoc 5.9.4
 Opening frameworks file 'Test/fx-import/frameworks.xml'
 Frameworks Configuration contains 3 assemblies
@@ -1117,7 +1117,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
-mono ../bin/Release/mdoc.exe update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 New Type: NoNamespace
@@ -1292,7 +1292,7 @@ Member Added: public A Current { get; }
 Member Added: public int Count { get; }
 Members Added: 129, Members Deleted: 0
 diff -rup  Test/en.expected Test/en.actual
-mono ../bin/Release/mdoc.exe update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 Updating: NoNamespace
@@ -1351,7 +1351,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
-mono ../bin/Release/mdoc.exe --debug update -o Test/en.actual Test/DocTest.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update -o Test/en.actual Test/DocTest.dll
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 New Type: NoNamespace
@@ -1544,7 +1544,7 @@ Test/DocTest.cs(414,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(581,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(584,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 6 warning(s)
-mono ../bin/Release/mdoc.exe --debug update -o Test/en.actual Test/DocTest.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update -o Test/en.actual Test/DocTest.dll
 mdoc 5.9.4
 Updating DocTest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 Updating: NoNamespace
@@ -1603,7 +1603,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
-mono ../bin/Release/mdoc.exe --debug update -fno-assembly-versions --delete -o Test/en.actual Test/DocTest.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update -fno-assembly-versions --delete -o Test/en.actual Test/DocTest.dll
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 Updating: NoNamespace
@@ -1644,7 +1644,7 @@ Class no longer present; file deleted: Mono.DocTest/AddedType.xml
 Members Added: 0, Members Deleted: 1
 diff -rup  Test/en.expected.delete Test/en.actual
 rm -Rf Test/html.actual
-mono ../bin/Release/mdoc.exe export-html -o Test/html.actual \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe export-html -o Test/html.actual \
 		Test/en.expected.importslashdoc
 .NoNamespace
 Mono.DocTest.Color
@@ -1681,7 +1681,7 @@ System.Environment
 System.Environment+SpecialFolder
 diff -rup  Test/html.expected Test/html.actual
 rm -Rf Test/html.actual.v0 Test/html.actual.since-with-v0 .v0.txt .v2.txt
-mono ../bin/Release/mdoc.exe export-html -o Test/html.actual.v0 \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe export-html -o Test/html.actual.v0 \
 		Test/en.expected
 .NoNamespace
 Mono.DocTest.Color
@@ -1716,7 +1716,7 @@ System.Array
 System.AsyncCallback
 System.Environment
 System.Environment+SpecialFolder
-mono ../bin/Release/mdoc.exe export-html -o Test/html.actual.since-with-v0 \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe export-html -o Test/html.actual.since-with-v0 \
 		Test/en.expected.since -with-version 0.0.0.0
 .NoNamespace
 Mono.DocTest.Color
@@ -1777,7 +1777,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
-mono ../bin/Release/mdoc.exe update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 New Type: NoNamespace
@@ -1952,7 +1952,7 @@ Member Added: public A Current { get; }
 Member Added: public int Count { get; }
 Members Added: 129, Members Deleted: 0
 diff -rup  Test/en.expected Test/en.actual
-mono ../bin/Release/mdoc.exe update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update --debug -o Test/en.actual Test/DocTest.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 Updating: NoNamespace
@@ -1990,7 +1990,7 @@ Updating: Mono.DocTest.Generic.CompoundConstraints`1
 Updating: Mono.DocTest.Generic.MyList`2
 Members Added: 0, Members Deleted: 0
 diff -rup  Test/en.expected Test/en.actual
-mono ../bin/Release/mdoc.exe export-html -o Test/html.actual \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe export-html -o Test/html.actual \
 		Test/en.actual
 .NoNamespace
 Mono.DocTest.Color
@@ -2026,16 +2026,16 @@ System.AsyncCallback
 System.Environment
 System.Environment+SpecialFolder
 diff -rup  Test/html.expected-with-array-extension Test/html.actual
-mono ../bin/Release/mdoc.exe export-msxdoc -o - Test/en.expected.importslashdoc \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe export-msxdoc -o - Test/en.expected.importslashdoc \
 		| diff -rup  - Test/msxdoc-expected.importslashdoc.xml
-mono ../bin/Release/mdoc.exe validate -f ecma Test/en.expected 2>&1 | \
-		sed 's#file:///Users/matthew/Documents/GitHub/api-doc-tools/mdoc/##g' | \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe validate -f ecma Test/en.expected 2>&1 | \
+		sed 's#file:///Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/##g' | \
 		diff --brief - Test/validate.check.monodocer
-mono ../bin/Release/mdoc.exe validate -f ecma Test/en.expected.importslashdoc 2>&1 | \
-		sed 's#file:///Users/matthew/Documents/GitHub/api-doc-tools/mdoc/##g' | \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe validate -f ecma Test/en.expected.importslashdoc 2>&1 | \
+		sed 's#file:///Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/##g' | \
 		diff --brief - Test/validate.check.monodocer.importslashdoc
-mono ../bin/Release/mdoc.exe validate -f ecma Test/en.expected.since 2>&1 | \
-		sed 's#file:///Users/matthew/Documents/GitHub/api-doc-tools/mdoc/##g' | \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe validate -f ecma Test/en.expected.since 2>&1 | \
+		sed 's#file:///Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/##g' | \
 		diff --brief - Test/validate.check.monodocer.since
 # tests the simplest --dropns case, a single class where the root namespace was dropped.
 rm -Rf Test/en.actual
@@ -2047,7 +2047,7 @@ Test/DocTest-DropNS-classic.cs(10,17): warning CS1591: Missing XML comment for p
 Test/DocTest-DropNS-classic.cs(27,22): warning CS1591: Missing XML comment for publicly visible type or member `MyFramework.MyNamespace.MyClassExtensions'
 Test/DocTest-DropNS-classic.cs(28,22): warning CS1591: Missing XML comment for publicly visible type or member `MyFramework.MyNamespace.MyClassExtensions.AnExtension(this MyFramework.MyNamespace.MyClass)'
 Compilation succeeded - 4 warning(s)
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll --api-style=classic
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll --api-style=classic
 mdoc 5.9.4
 Updating DocTest-DropNS-classic, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-classic.dll
 New Type: MyFramework.MyNamespace.MyClass
@@ -2063,7 +2063,7 @@ Members Added: 5, Members Deleted: 0
 /Applications/Xcode.app/Contents/Developer/usr/bin/make update-monodocer-dropns-unified
 /Applications/Xcode.app/Contents/Developer/usr/bin/make Test/DocTest-DropNS-unified.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified.cs
-mono ../bin/Release/mdoc.exe update --debug -o Test/en.actual Test/DocTest-DropNS-unified.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update --debug -o Test/en.actual Test/DocTest-DropNS-unified.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework
 mdoc 5.9.4
 Updating DocTest-DropNS-unified, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-unified.dll
 Updating: MyNamespace.MyClass
@@ -2088,7 +2088,7 @@ Test/DocTest-DropNS-classic-secondary.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-DropNS-classic-secondary.dll Test/DocTest-DropNS-classic-secondary.cs -doc:Test/DocTest-DropNS-classic-secondary.xml
 Test/DocTest-DropNS-classic-secondary.cs(4,17): warning CS1591: Missing XML comment for publicly visible type or member `MyFramework.MyOtherNamespace.MyOtherClass.MyProperty'
 Compilation succeeded - 1 warning(s)
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll --api-style=classic
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-secondary.dll --api-style=classic
 mdoc 5.9.4
 Updating DocTest-DropNS-classic, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-classic.dll
 New Type: MyFramework.MyNamespace.MyClass
@@ -2112,7 +2112,7 @@ Members Added: 9, Members Deleted: 0
 /Applications/Xcode.app/Contents/Developer/usr/bin/make update-monodocer-dropns-unified-withsecondary
 /Applications/Xcode.app/Contents/Developer/usr/bin/make Test/DocTest-DropNS-unified.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified.cs
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-classic-secondary.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-classic-secondary.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework
 mdoc 5.9.4
 Updating DocTest-DropNS-unified, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-unified.dll
 Updating: MyNamespace.MyClass
@@ -2128,7 +2128,7 @@ diff -rup  Test/en.expected-dropns-classic-withsecondary Test/en.actual
 rm -Rf Test/en.actual
 /Applications/Xcode.app/Contents/Developer/usr/bin/make Test/DocTest-InternalInterface.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-InternalInterface.dll Test/DocTest-InternalInterface.cs
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-InternalInterface.dll -lang VB.NET
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-InternalInterface.dll -lang VB.NET
 mdoc 5.9.4
 Updating DocTest-InternalInterface, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-InternalInterface.dll
 New Type: MyNamespace.MyPublicInterface
@@ -2149,7 +2149,7 @@ rm -Rf Test/en.actual
 # first, make a docset with the generic method
 /Applications/Xcode.app/Contents/Developer/usr/bin/make Test/DocTest-addNonGeneric.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-addNonGeneric.dll Test/DocTest-addNonGeneric.cs
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-addNonGeneric.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-addNonGeneric.dll
 mdoc 5.9.4
 Updating DocTest-addNonGeneric, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-addNonGeneric.dll
 New Type: MyNamespace.MyClass
@@ -2161,18 +2161,18 @@ Members Added: 2, Members Deleted: 0
 # now add a non-generic version of the method and update several times
 /Applications/Xcode.app/Contents/Developer/usr/bin/make Test/DocTest-addNonGeneric-v2.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-addNonGeneric-v2.dll Test/DocTest-addNonGeneric.cs /define:V2
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
 mdoc 5.9.4
 Updating DocTest-addNonGeneric-v2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-addNonGeneric-v2.dll
 Updating: MyNamespace.MyClass
 Member Added: public string SomeMethod ();
 Members Added: 1, Members Deleted: 0
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
 mdoc 5.9.4
 Updating DocTest-addNonGeneric-v2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-addNonGeneric-v2.dll
 Updating: MyNamespace.MyClass
 Members Added: 0, Members Deleted: 0
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
 mdoc 5.9.4
 Updating DocTest-addNonGeneric-v2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-addNonGeneric-v2.dll
 Updating: MyNamespace.MyClass
@@ -2182,16 +2182,16 @@ mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-a
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-addNonGeneric.dll Test/DocTest-addNonGeneric.cs
 rm -Rf Test/en.actual
 cp -r Test/en.expected-membergroup Test/en.actual
-mono ../bin/Release/mdoc.exe update --debug -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update --debug -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll
 mdoc 5.9.4
 Updating DocTest-addNonGeneric-v2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-addNonGeneric-v2.dll
 Updating: MyNamespace.MyClass
 Members Added: 0, Members Deleted: 0
 diff -rup  Test/en.expected-membergroup Test/en.actual
-mono ../bin/Release/mdoc.exe validate -f ecma Test/en.actual
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe validate -f ecma Test/en.actual
 rm -Rf Test/en.actual
 touch Test/notActuallyA.dll
-mono ../bin/Release/mdoc.exe --debug update -o Test/en.actual Test/DocTest-addNonGeneric.dll Test/notActuallyA.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update -o Test/en.actual Test/DocTest-addNonGeneric.dll Test/notActuallyA.dll
 mdoc 5.9.4
 mdoc: Unable to load assembly 'Test/notActuallyA.dll': Format of the executable (.exe) or library (.dll) is invalid.
 Updating DocTest-addNonGeneric, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-addNonGeneric.dll
@@ -2202,7 +2202,7 @@ Namespace Directory Created: MyNamespace
 New Namespace File: MyNamespace
 mdoc: Unable to load assembly 'Test/notActuallyA.dll': Format of the executable (.exe) or library (.dll) is invalid.
 Members Added: 2, Members Deleted: 0
-mono ../bin/Release/mdoc.exe --debug update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll Test/notActuallyA.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update -o Test/en.actual Test/DocTest-addNonGeneric-v2.dll Test/notActuallyA.dll
 mdoc 5.9.4
 mdoc: Unable to load assembly 'Test/notActuallyA.dll': Format of the executable (.exe) or library (.dll) is invalid.
 Updating DocTest-addNonGeneric-v2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-addNonGeneric-v2.dll
@@ -2214,7 +2214,7 @@ diff -rup  Test/en.expected-addNonGeneric Test/en.actual
 rm -Rf Test/en.actual
 /Applications/Xcode.app/Contents/Developer/usr/bin/make Test/DocTest-enumerations.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-enumerations.dll Test/DocTest-enumerations.cs
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-enumerations.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-enumerations.dll
 mdoc 5.9.4
 Updating DocTest-enumerations, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-enumerations.dll
 New Type: ObjCRuntime.Platform
@@ -2300,7 +2300,7 @@ mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-D
 rm -f Test/DocTest-DropNS-unified-multitest.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-DropNS-unified-multitest.dll Test/DocTest-DropNS-unified.cs /define:MULTITEST
 # mdoc update for both classic and unified
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll --api-style=classic 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll --api-style=classic 
 mdoc 5.9.4
 Updating DocTest-DropNS-classic, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-classic.dll
 New Type: MyFramework.MyNamespace.MyClass
@@ -2318,7 +2318,7 @@ Updating: MyFramework.MyNamespace.MyClassExtensions
 New Type: MyFramework.MyNamespace.OnlyInMulti
 Member Added: public OnlyInMulti ();
 Members Added: 6, Members Deleted: 0
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
 mdoc 5.9.4
 Updating DocTest-DropNS-unified, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-unified.dll
 Updating: MyNamespace.MyClass
@@ -2334,7 +2334,7 @@ Updating: MyNamespace.MyClassExtensions
 Updating: MyNamespace.OnlyInMulti
 Members Added: 1, Members Deleted: 0
 # now run it again to verify idempotency
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll --api-style=classic 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll --api-style=classic 
 mdoc 5.9.4
 Updating DocTest-DropNS-classic, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-classic.dll
 Updating: MyFramework.MyNamespace.MyClass
@@ -2348,7 +2348,7 @@ mdoc: Removing classic from 'public char OnlyInUnified { get; set; }' ... will b
 Updating: MyFramework.MyNamespace.MyClassExtensions
 Updating: MyFramework.MyNamespace.OnlyInMulti
 Members Added: 0, Members Deleted: 0
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
 mdoc 5.9.4
 Updating DocTest-DropNS-unified, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-unified.dll
 Updating: MyNamespace.MyClass
@@ -2381,7 +2381,7 @@ mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-D
 rm -f Test/DocTest-DropNS-unified-multitest.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-DropNS-unified-multitest.dll Test/DocTest-DropNS-unified.cs /define:MULTITEST
 # mdoc update to show a pre-existing set of documents
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll --api-style=classic
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll --api-style=classic
 mdoc 5.9.4
 Updating DocTest-DropNS-classic, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-classic.dll
 New Type: MyFramework.MyNamespace.MyClass
@@ -2394,7 +2394,7 @@ New Namespace File: MyFramework.MyNamespace
 New Type: MyFramework.MyNamespace.MyClassExtensions
 Member Added: public static bool AnExtension (this MyFramework.MyNamespace.MyClass value);
 Members Added: 5, Members Deleted: 0
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework 
 mdoc 5.9.4
 Updating DocTest-DropNS-unified, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-unified.dll
 Updating: MyNamespace.MyClass
@@ -2404,7 +2404,7 @@ Member Added: public char OnlyInUnified { get; set; }
 Updating: MyNamespace.MyClassExtensions
 Members Added: 1, Members Deleted: 0
 # mdoc update for both classic and unified
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll --api-style=classic 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll --api-style=classic 
 mdoc 5.9.4
 Updating DocTest-DropNS-classic, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-classic.dll
 Updating: MyFramework.MyNamespace.MyClass
@@ -2419,7 +2419,7 @@ Updating: MyFramework.MyNamespace.MyClassExtensions
 New Type: MyFramework.MyNamespace.OnlyInMulti
 Member Added: public OnlyInMulti ();
 Members Added: 1, Members Deleted: 0
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll --api-style=unified --dropns Test/DocTest-DropNS-unified.dll=MyFramework --dropns Test/DocTest-DropNS-unified-multitest.dll=MyFramework 
 mdoc 5.9.4
 Updating DocTest-DropNS-unified, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-DropNS-unified.dll
 Updating: MyNamespace.MyClass
@@ -2442,12 +2442,12 @@ cp Test/DocTest-addNonGeneric.dll Test/FrameworkTestData/One/
 cp Test/DocTest-DropNS-classic.dll Test/FrameworkTestData/One/
 cp Test/DocTest-addNonGeneric.dll Test/FrameworkTestData/Two/
 cp Test/DocTest-DropNS-classic-secondary.dll Test/FrameworkTestData/Two/
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData
 One
 Two
 Framework configuration file written to Test/FrameworkTestData/frameworks.xml
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData/frameworks.xml'
 Frameworks Configuration contains 4 assemblies
@@ -2496,13 +2496,13 @@ mkdir Test/FrameworkTestData-fx-inheritance/Three
 cp Test/DocTest-framework-inheritance-one.dll Test/FrameworkTestData-fx-inheritance/One/
 cp Test/DocTest-framework-inheritance-two.dll Test/FrameworkTestData-fx-inheritance/Two/
 cp Test/DocTest-framework-inheritance-three.dll Test/FrameworkTestData-fx-inheritance/Three/
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-inheritance
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-inheritance
 One
 Three
 Two
 Framework configuration file written to Test/FrameworkTestData-fx-inheritance/frameworks.xml
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-inheritance
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-inheritance
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-fx-inheritance/frameworks.xml'
 Frameworks Configuration contains 3 assemblies
@@ -2538,7 +2538,7 @@ Updating: MyNamespace.MyClass
 Members Added: 10, Members Deleted: 0
 diff -rup  Test/en.expected-frameworks-inheritance Test/en.actual
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -use-docid -o Test/en.actual -frameworks Test/FrameworkTestData
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -use-docid -o Test/en.actual -frameworks Test/FrameworkTestData
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData/frameworks.xml'
 Frameworks Configuration contains 4 assemblies
@@ -2576,12 +2576,12 @@ Namespace Directory Created: MyFramework.MyOtherNamespace
 New Namespace File: MyFramework.MyOtherNamespace
 Members Added: 11, Members Deleted: 0
 diff -rup  Test/en.expected-docid Test/en.actual
-mcs -target:library -unsafe -debug -optimize -target:library -out:Test/TestClass.dll mdoc.Test/SampleClasses/Test*.cs
-mdoc.Test/SampleClasses/TestClass.cs(4,18): warning CS0660: `mdoc.Test.SampleClasses.TestClass' defines operator == or operator != but does not override Object.Equals(object o)
-mdoc.Test/SampleClasses/TestClass.cs(4,18): warning CS0661: `mdoc.Test.SampleClasses.TestClass' defines operator == or operator != but does not override Object.GetHashCode()
+mcs -target:library -unsafe -debug -optimize -target:library -out:Test/TestClass.dll ../mdoc.Test/SampleClasses/Test*.cs
+../mdoc.Test/SampleClasses/TestClass.cs(4,18): warning CS0660: `mdoc.Test.SampleClasses.TestClass' defines operator == or operator != but does not override Object.Equals(object o)
+../mdoc.Test/SampleClasses/TestClass.cs(4,18): warning CS0661: `mdoc.Test.SampleClasses.TestClass' defines operator == or operator != but does not override Object.GetHashCode()
 Compilation succeeded - 2 warning(s)
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update Test/TestClass.dll -o Test/en.actual
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update Test/TestClass.dll -o Test/en.actual
 mdoc 5.9.4
 Updating TestClass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/TestClass.dll
 New Type: mdoc.Test.SampleClasses.TestClass
@@ -2639,8 +2639,8 @@ Member Added: public mdoc.Test.SampleClasses.TestClassTwo this[string key] { get
 New Type: mdoc.Test.SampleClasses.TestClassTwo
 Member Added: public TestClassTwo ();
 Members Added: 49, Members Deleted: 0
-cp mdoc.Test/SampleClasses/TestClass-OldOpSig.xml Test/en.actual/mdoc.Test.SampleClasses/TestClass.xml
-mono ../bin/Release/mdoc.exe update Test/TestClass.dll -o Test/en.actual --delete
+cp ../mdoc.Test/SampleClasses/TestClass-OldOpSig.xml Test/en.actual/mdoc.Test.SampleClasses/TestClass.xml
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update Test/TestClass.dll -o Test/en.actual --delete
 mdoc 5.9.4
 Updating TestClass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/TestClass.dll
 Updating: mdoc.Test.SampleClasses.TestClass
@@ -2651,9 +2651,9 @@ Updating: mdoc.Test.SampleClasses.TestClassThree
 Updating: mdoc.Test.SampleClasses.TestClassTwo
 Members Added: 2, Members Deleted: 1
 diff -rup  Test/en.expected-operators Test/en.actual
-mcs -target:library -unsafe -debug -optimize -target:library -out:Test/GuidClass.dll mdoc.Test/SampleClasses/GuidClass.cs
+mcs -target:library -unsafe -debug -optimize -target:library -out:Test/GuidClass.dll ../mdoc.Test/SampleClasses/GuidClass.cs
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/GuidClass.dll -lang c++/cx -lang c++/winrt
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/GuidClass.dll -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
 Updating GuidClass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/GuidClass.dll
 New Type: mdoc.Test.SampleClasses.GuidClass
@@ -2676,7 +2676,7 @@ rm -Rf Test/DocTest-DropNS-unified-deletetest.dll
 rm -f Test/DocTest-DropNS-unified-deletetest.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-DropNS-unified-deletetest.dll Test/DocTest-DropNS-unified.cs /define:DELETETEST
 cp Test/DocTest-DropNS-unified-deletetest.dll Test/fx-import/one/DocTest.dll
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/fx-import
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/fx-import
 mdoc 5.9.4
 Opening frameworks file 'Test/fx-import/frameworks.xml'
 Frameworks Configuration contains 1 assemblies
@@ -2708,7 +2708,7 @@ rm -Rf Test/DocTest-DropNS-unified.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified.cs
 rm -rf Test/fx-import/one/DocTest.dll
 cp Test/DocTest-DropNS-unified.dll Test/fx-import/one/DocTest.dll
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/fx-import -statistics Test/actual_statistics.txt
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/fx-import -statistics Test/actual_statistics.txt
 mdoc 5.9.4
 Opening frameworks file 'Test/fx-import/frameworks.xml'
 Frameworks Configuration contains 1 assemblies
@@ -2730,7 +2730,7 @@ Members Added: 0, Members Deleted: 5
 diff -rup  Test/expected_fx_remove_statistics.txt Test/actual_statistics.txt
 rm -Rf Test/en.actual
 mcs -target:library -target:library Test/test-overwrite-attribute/SomeClass.cs -doc:Test/test-overwrite-attribute/SomeClass.xml
-mono ../bin/Release/mdoc.exe update Test/test-overwrite-attribute/SomeClass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update Test/test-overwrite-attribute/SomeClass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
 mdoc 5.9.4
 Updating SomeClass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/test-overwrite-attribute/SomeClass.dll
 New Type: SomeClass
@@ -2742,14 +2742,14 @@ Namespace Directory Created:
 New Namespace File: 
 Members Added: 4, Members Deleted: 0
 cp Test/test-overwrite-attribute/Input_SomeClass.xml Test/en.actual/SomeClass.xml
-mono ../bin/Release/mdoc.exe update Test/test-overwrite-attribute/SomeClass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update Test/test-overwrite-attribute/SomeClass.dll -o Test/en.actual/ -import Test/test-overwrite-attribute/SomeClass.xml
 mdoc 5.9.4
 Updating SomeClass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/test-overwrite-attribute/SomeClass.dll
 Updating: SomeClass
 Members Added: 0, Members Deleted: 0
 diff -rup  Test/test-overwrite-attribute/Expected_SomeClass.xml Test/en.actual/SomeClass.xml
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -lang vb.net -o Test/en.actual -frameworks Test/FrameworkTestData
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang vb.net -o Test/en.actual -frameworks Test/FrameworkTestData
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData/frameworks.xml'
 Frameworks Configuration contains 4 assemblies
@@ -2808,7 +2808,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
-mono ../bin/Release/mdoc.exe update -lang vb.net -o Test/en.actual Test/DocTest.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang vb.net -o Test/en.actual Test/DocTest.dll
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 New Type: NoNamespace
@@ -3004,7 +3004,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
-mono ../bin/Release/mdoc.exe update -lang javascript -o Test/en.actual Test/DocTest.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang javascript -o Test/en.actual Test/DocTest.dll
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 New Type: NoNamespace
@@ -3189,7 +3189,7 @@ cp Test/DocTest-DropNS-classic.dll Test/test-nuget-information/input_data/One/
 cp Test/DocTest-addNonGeneric.dll Test/test-nuget-information/input_data/Two/
 cp Test/DocTest-DropNS-classic-secondary.dll Test/test-nuget-information/input_data/Two/
 cp Test/frameworks.xml Test/test-nuget-information/input_data/
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/test-nuget-information/input_data
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/test-nuget-information/input_data
 mdoc 5.9.4
 Opening frameworks file 'Test/test-nuget-information/input_data/frameworks.xml'
 Frameworks Configuration contains 4 assemblies
@@ -3228,12 +3228,12 @@ New Namespace File: MyFramework.MyOtherNamespace
 Members Added: 11, Members Deleted: 0
 diff -rup  Test/test-nuget-information/en.expected-frameworks-with-nuget-information Test/en.actual
 rm -Rf Test/en.actual
-msbuild ../mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
+msbuild ../mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
 Microsoft (R) Build Engine version 16.10.1 for Mono
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-Build started 2025/10/15 6:19:40 PM.
-Project "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj" on node 1 (default targets).
+Build started 2025/10/15 6:24:18 PM.
+Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj" on node 1 (default targets).
 ResolveAssemblyReferences:
   Could not read state file "obj/Release/mdoc.Test.FSharp.fsproj.AssemblyReference.cache". The format of this state file is not valid.
 GenerateTargetFrameworkMonikerAttribute:
@@ -3241,21 +3241,21 @@ Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output fil
 CoreCompile:
 Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
 _CopyFilesMarkedCopyLocal:
-  Touching "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/mdoc.Test/mdoc.Test.FSharp/obj/Release/mdoc.Test.FSharp.fsproj.CopyComplete".
+  Touching "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc.Test.FSharp/obj/Release/mdoc.Test.FSharp.fsproj.CopyComplete".
 CopyFilesToOutputDirectory:
-  mdoc.Test.FSharp -> /Users/matthew/Documents/GitHub/api-doc-tools/mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
+  mdoc.Test.FSharp -> /Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 IncrementalClean:
-  Deleting file "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/mdoc.Test/mdoc.Test.FSharp/obj/Release/mdoc.Test.FSharp.fsproj.CoreCompileInputs.cache".
-Done Building Project "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj" (default targets).
+  Deleting file "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc.Test.FSharp/obj/Release/mdoc.Test.FSharp.fsproj.CoreCompileInputs.cache".
+Done Building Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj" (default targets).
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.29
-mono ../bin/Release/mdoc.exe update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
+Time Elapsed 00:00:02.44
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang fsharp -o Test/en.actual ../mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 mdoc 5.9.4
-Updating mdoc.Test.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
+Updating mdoc.Test.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from ../mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 New Type: Widgets.MyWidget1
 Member Added: public string WidgetName { get; }
 Namespace Directory Created: Widgets
@@ -4174,12 +4174,12 @@ Member Added: public override double Area { get; }
 Members Added: 713, Members Deleted: 0
 diff -rup  Test/en.expected-fsharp Test/en.actual
 rm -Rf Test/en.actual
-msbuild ../mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
+msbuild AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
 Microsoft (R) Build Engine version 16.10.1 for Mono
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-Build started 2025/10/15 6:19:46 PM.
-Project "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj" on node 1 (default targets).
+Build started 2025/10/15 6:24:24 PM.
+Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj" on node 1 (default targets).
 PrepareForBuild:
   Creating directory "bin/Release/".
   Creating directory "obj/Release/".
@@ -4187,19 +4187,19 @@ CoreCompile:
   /Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/Roslyn/csc.exe /noconfig /nowarn:1701,1702 /fullpaths /nostdlib+ /errorreport:prompt /warn:4 /define:TRACE /highentropyva+ /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/Microsoft.CSharp.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/mscorlib.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Core.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Data.DataSetExtensions.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Data.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Net.Http.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Xml.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Xml.Linq.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/WindowsBase.dll /debug:pdbonly /filealign:512 /optimize+ /out:obj/Release/AttachedEventsAndProperties.dll /subsystemversion:6.00 /target:library /utf8output /langversion:7.3 AquariumFilter.cs AquariumObject.cs AttachedEventExample.cs AttachedPropertyExample.cs Properties/AssemblyInfo.cs RoutedEvent.cs System.Windows/DragEventArgs.cs System.Windows/DragEventHandler.cs System.Windows/RoutedEventArgs.cs System.Windows/RoutedEventHandler.cs System.Windows/UIElement.cs "obj/Release/.NETFramework,Version=v4.6.1.AssemblyAttributes.cs"
   Using shared compilation with compiler from directory: /Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/Roslyn
 CopyFilesToOutputDirectory:
-  Copying file from "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/AttachedEventsAndProperties/obj/Release/AttachedEventsAndProperties.dll" to "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll".
-  AttachedEventsAndProperties -> /Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
-  Copying file from "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/AttachedEventsAndProperties/obj/Release/AttachedEventsAndProperties.pdb" to "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.pdb".
-Done Building Project "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj" (default targets).
+  Copying file from "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/AttachedEventsAndProperties/obj/Release/AttachedEventsAndProperties.dll" to "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll".
+  AttachedEventsAndProperties -> /Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
+  Copying file from "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/AttachedEventsAndProperties/obj/Release/AttachedEventsAndProperties.pdb" to "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.pdb".
+Done Building Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj" (default targets).
 
 Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:05.56
-mono ../bin/Release/mdoc.exe update --debug -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+Time Elapsed 00:00:02.06
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update --debug -o Test/en.actual AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
-Updating AttachedEventsAndProperties, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
+Updating AttachedEventsAndProperties, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
 New Type: System.Windows.RoutedEvent
 Member Added: public RoutedEvent ();
 Namespace Directory Created: System.Windows
@@ -4263,10 +4263,10 @@ Member Added: see SetIsBubbleSource2
 Members Added: 46, Members Deleted: 0
 diff -rup  Test/en.expected-attached-entities Test/en.actual
 # now make sure it will delete a previously run/duplicated attachedproperty/property
-cp Test/AttachedEventsAndProperties/AttachedPropertyExample.xml Test/en.actual/AttachedEventsAndProperties/
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll --delete -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
+cp AttachedEventsAndProperties/AttachedPropertyExample.xml Test/en.actual/AttachedEventsAndProperties/
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll --delete -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
-Updating AttachedEventsAndProperties, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
+Updating AttachedEventsAndProperties, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
 Updating: System.Windows.RoutedEvent
 Updating: System.Windows.DragEventArgs
 Updating: System.Windows.DragEventHandler
@@ -4282,44 +4282,44 @@ Member Added: see SetIsBubbleSource2
 Members Added: 1, Members Deleted: 1
 diff -rup  Test/en.expected-attached-entities Test/en.actual
 rm -Rf Test/en.actual
-msbuild ../mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj -property:Configuration=Release
+msbuild TestInterfaceImplementation/TestInterfaceImplementation.csproj -property:Configuration=Release
 Microsoft (R) Build Engine version 16.10.1 for Mono
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-Build started 2025/10/15 6:19:55 PM.
-Project "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj" on node 1 (default targets).
+Build started 2025/10/15 6:24:30 PM.
+Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj" on node 1 (default targets).
 PrepareForBuild:
   Creating directory "bin/Release/".
   Creating directory "obj/Release/".
 CoreCompile:
   /Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/Roslyn/csc.exe /noconfig /nowarn:1701,1702 /fullpaths /nostdlib+ /errorreport:prompt /warn:4 /define:TRACE /highentropyva+ /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/Microsoft.CSharp.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/mscorlib.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Core.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Data.DataSetExtensions.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Data.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Net.Http.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Xml.dll /reference:/Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/4.6.1-api/System.Xml.Linq.dll /debug:pdbonly /filealign:512 /optimize+ /out:obj/Release/TestInterfaceImplementation.dll /subsystemversion:6.00 /target:library /utf8output /langversion:7.3 Class1.cs Class2.cs Class2_1.cs Class3.cs Class4.cs Class5.cs Class6.cs Interface1.cs Interface2.cs Interface3.cs Interface3_1.cs Interface4.cs Interface5.cs Interface6.cs Interface7.cs IScorable.cs Properties/AssemblyInfo.cs ScorableBase.cs "obj/Release/.NETFramework,Version=v4.6.1.AssemblyAttributes.cs"
   Using shared compilation with compiler from directory: /Library/Frameworks/Mono.framework/Versions/6.12.0/lib/mono/msbuild/Current/bin/Roslyn
-/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/Interface5.cs(5,13): warning CS0108: 'Interface5.Method()' hides inherited member 'Interface4.Method()'. Use the new keyword if hiding was intended. [/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
-/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/Interface7.cs(6,21): warning CS0693: Type parameter 'T' has the same name as the type parameter from outer type 'Interface7<T>' [/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
-/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/Class6.cs(15,28): warning CS0693: Type parameter 'F' has the same name as the type parameter from outer type 'Class6<F>' [/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
-/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/Class1.cs(19,35): warning CS0067: The event 'Class1.Event1' is never used [/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
+/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/Interface5.cs(5,13): warning CS0108: 'Interface5.Method()' hides inherited member 'Interface4.Method()'. Use the new keyword if hiding was intended. [/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
+/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/Interface7.cs(6,21): warning CS0693: Type parameter 'T' has the same name as the type parameter from outer type 'Interface7<T>' [/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
+/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/Class6.cs(15,28): warning CS0693: Type parameter 'F' has the same name as the type parameter from outer type 'Class6<F>' [/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
+/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/Class1.cs(19,35): warning CS0067: The event 'Class1.Event1' is never used [/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
 CopyFilesToOutputDirectory:
-  Copying file from "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/obj/Release/TestInterfaceImplementation.dll" to "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll".
-  TestInterfaceImplementation -> /Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
-  Copying file from "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/obj/Release/TestInterfaceImplementation.pdb" to "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.pdb".
-Done Building Project "/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj" (default targets).
+  Copying file from "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/obj/Release/TestInterfaceImplementation.dll" to "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll".
+  TestInterfaceImplementation -> /Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
+  Copying file from "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/obj/Release/TestInterfaceImplementation.pdb" to "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.pdb".
+Done Building Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj" (default targets).
 
 Build succeeded.
 
-"/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj" (default target) (1) ->
+"/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj" (default target) (1) ->
 (CoreCompile target) -> 
-  /Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/Interface5.cs(5,13): warning CS0108: 'Interface5.Method()' hides inherited member 'Interface4.Method()'. Use the new keyword if hiding was intended. [/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
-  /Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/Interface7.cs(6,21): warning CS0693: Type parameter 'T' has the same name as the type parameter from outer type 'Interface7<T>' [/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
-  /Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/Class6.cs(15,28): warning CS0693: Type parameter 'F' has the same name as the type parameter from outer type 'Class6<F>' [/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
-  /Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/Class1.cs(19,35): warning CS0067: The event 'Class1.Event1' is never used [/Users/matthew/Documents/GitHub/api-doc-tools/mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
+  /Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/Interface5.cs(5,13): warning CS0108: 'Interface5.Method()' hides inherited member 'Interface4.Method()'. Use the new keyword if hiding was intended. [/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
+  /Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/Interface7.cs(6,21): warning CS0693: Type parameter 'T' has the same name as the type parameter from outer type 'Interface7<T>' [/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
+  /Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/Class6.cs(15,28): warning CS0693: Type parameter 'F' has the same name as the type parameter from outer type 'Class6<F>' [/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
+  /Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/Class1.cs(19,35): warning CS0067: The event 'Class1.Event1' is never used [/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj]
 
     4 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.21
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
+Time Elapsed 00:00:01.90
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
 mdoc 5.9.4
-Updating TestInterfaceImplementation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
+Updating TestInterfaceImplementation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
 New Type: TestInterfaceImplementation.Class1
 Member Added: public Class1 ();
 Member Added: public event EventHandler Event1;
@@ -4406,7 +4406,7 @@ Member Added: Score IScorable<Item,Score>.GetScore (Item item, object opaque);
 Members Added: 64, Members Deleted: 0
 diff -rup  Test/en.expected.members-implementation Test/en.actual
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -lang c++/cli -o Test/en.actual -frameworks Test/FrameworkTestData
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang c++/cli -o Test/en.actual -frameworks Test/FrameworkTestData
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData/frameworks.xml'
 Frameworks Configuration contains 4 assemblies
@@ -4460,7 +4460,7 @@ Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.Generic
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 7 warning(s)
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -lang c++/cx -o Test/en.actual Test/DocTest.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang c++/cx -o Test/en.actual Test/DocTest.dll
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 New Type: NoNamespace
@@ -4636,7 +4636,7 @@ Member Added: public int Count { get; }
 Members Added: 129, Members Deleted: 0
 diff -rup  Test/en.expected-cppcx2 Test/en.actual
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -lang c++/cx -o Test/en.actual -frameworks Test/FrameworkTestData
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang c++/cx -o Test/en.actual -frameworks Test/FrameworkTestData
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData/frameworks.xml'
 Frameworks Configuration contains 4 assemblies
@@ -4675,7 +4675,7 @@ New Namespace File: MyFramework.MyOtherNamespace
 Members Added: 11, Members Deleted: 0
 diff -rup  Test/en.expected-cppcx Test/en.actual
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -lang c++/winrt -o Test/en.actual Test/DocTest.dll 
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang c++/winrt -o Test/en.actual Test/DocTest.dll 
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
 New Type: NoNamespace
@@ -4851,7 +4851,7 @@ Member Added: public int Count { get; }
 Members Added: 129, Members Deleted: 0
 diff -rup  Test/en.expected-cppwinrt2 Test/en.actual
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -lang c++/winrt -o Test/en.actual -frameworks Test/FrameworkTestData
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lang c++/winrt -o Test/en.actual -frameworks Test/FrameworkTestData
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData/frameworks.xml'
 Frameworks Configuration contains 4 assemblies
@@ -4890,7 +4890,7 @@ New Namespace File: MyFramework.MyOtherNamespace
 Members Added: 11, Members Deleted: 0
 diff -rup  Test/en.expected-cppwinrt Test/en.actual
 rm -Rf Test/en.actual
-mono ../bin/Release/mdoc.exe update -lib ../external/Windows --lang c++/winrt -o Test/en.actual Test/UwpTestWinRtComponentCpp.winmd
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -lib ../../external/Windows --lang c++/winrt -o Test/en.actual Test/UwpTestWinRtComponentCpp.winmd
 mdoc 5.9.4
 Updating UwpTestWinRtComponentCpp, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null from Test/UwpTestWinRtComponentCpp.winmd
 New Type: UwpTestWinRtComponentCpp.PrimeFoundHandler
@@ -4943,7 +4943,7 @@ mkdir Test/FrameworkTestData-frameworkalternate-fromold/Three
 cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate-fromold/One/
 cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate-fromold/Two/
 cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate-fromold/Three/
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-frameworkalternate-fromold
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-frameworkalternate-fromold
 One
 Three
 Two
@@ -4951,7 +4951,7 @@ Framework configuration file written to Test/FrameworkTestData-frameworkalternat
 rm -Rf Test/en.actual
 # synchronize all frameworks
 yes | cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate-fromold/Two/DocTest-frameworkalternate-two.dll
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate-fromold
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate-fromold
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-frameworkalternate-fromold/frameworks.xml'
 Frameworks Configuration contains 3 assemblies
@@ -4980,7 +4980,7 @@ Updating: Monodoc.Test.SecondAttribute
 Updating: Monodoc.Test.MyClass
 Members Added: 4, Members Deleted: 0
 yes | cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate-fromold/Two/DocTest-frameworkalternate-two.dll
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate-fromold
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate-fromold
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-frameworkalternate-fromold/frameworks.xml'
 Frameworks Configuration contains 3 assemblies
@@ -5011,7 +5011,7 @@ mkdir Test/FrameworkTestData-frameworkalternate/Three
 cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate/One/
 cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate/Two/
 cp Test/DocTest-frameworkalternate-one.dll Test/FrameworkTestData-frameworkalternate/Three/
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-frameworkalternate
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-frameworkalternate
 One
 Three
 Two
@@ -5020,7 +5020,7 @@ rm -Rf Test/en.actual
 # Run Test
 echo "First run"
 First run
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-frameworkalternate/frameworks.xml'
 Frameworks Configuration contains 3 assemblies
@@ -5052,7 +5052,7 @@ diff -rup  Test/en.expected-frameworkalternate Test/en.actual
 # run test again to make sure subsequent runs maintain data
 echo "Second run"
 Second run
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-frameworkalternate/frameworks.xml'
 Frameworks Configuration contains 3 assemblies
@@ -5082,7 +5082,7 @@ rm Test/DocTest-frameworkalternate-two.dll
 mcs -target:library -debug -target:library -out:Test/DocTest-frameworkalternate-two.dll Test/DocTest-frameworkalternate.cs /define:FXONE
 yes | cp Test/DocTest-frameworkalternate-two.dll Test/FrameworkTestData-frameworkalternate/Two/DocTest-frameworkalternate-two.dll
 # mdoc update fxmode again
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-frameworkalternate
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-frameworkalternate/frameworks.xml'
 Frameworks Configuration contains 3 assemblies
@@ -5109,7 +5109,7 @@ diff -rup  Test/en.expected-frameworkalternate-aligned Test/en.actual
 rm -Rf Test/en.actual	
 /Applications/Xcode.app/Contents/Developer/usr/bin/make Test/DocTest-embedded-type.dll
 mcs -target:library -unsafe -debug -optimize -target:library -out:Test/DocTest-embedded-type.dll Test/DocTest-embedded-type.cs
-mono ../bin/Release/mdoc.exe update -o Test/en.actual Test/DocTest-embedded-type.dll
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-embedded-type.dll
 mdoc 5.9.4
 Updating DocTest-embedded-type, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest-embedded-type.dll
 Embedded Type: Issue212Example.ICustomInterface. Skip it.
@@ -5131,7 +5131,7 @@ diff -rup  Test/en.expected-embedded-type Test/en.actual
 rm -Rf Test/en.actual
 rm -f Test/test-generic-ignored-namespace/ReadOnlySpan.dll
 mcs -target:library -target:library Test/test-generic-ignored-namespace/ReadOnlySpan.cs
-mono ../bin/Release/mdoc.exe update Test/test-generic-ignored-namespace/ReadOnlySpan.dll -o Test/en.actual/
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update Test/test-generic-ignored-namespace/ReadOnlySpan.dll -o Test/en.actual/
 mdoc 5.9.4
 Updating ReadOnlySpan, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/test-generic-ignored-namespace/ReadOnlySpan.dll
 New Type: mdoc.Test.SampleClasses.ReadOnlySpan`1
@@ -5165,7 +5165,7 @@ Test/DocTest.cs(420,30): warning CS0067: The event `Mono.DocTest.Widget.DynamicE
 Test/DocTest.cs(582,43): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.MyEvent' is never used
 Test/DocTest.cs(585,58): warning CS0067: The event `Mono.DocTest.Generic.GenericBase<U>.ItemChanged' is never used
 Compilation succeeded - 16 warning(s)
-mono ../bin/Release/mdoc.exe --debug update --exceptions=asm -i Test/DocTest.xml \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update --exceptions=asm -i Test/DocTest.xml \
 		-o Test/en.actual Test/DocTest.dll 
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
@@ -5341,7 +5341,7 @@ Member Added: public A Current { get; }
 Member Added: public int Count { get; }
 Members Added: 129, Members Deleted: 0
 cp Test/test-multiple-mdoc/Widget.xml Test/en.actual/Mono.DocTest/Widget.xml	
-mono ../bin/Release/mdoc.exe --debug update --exceptions=asm -i Test/DocTest.xml \
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe --debug update --exceptions=asm -i Test/DocTest.xml \
 		-o Test/en.actual Test/DocTest.dll 
 mdoc 5.9.4
 Updating DocTest, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null from Test/DocTest.dll
@@ -5390,10 +5390,10 @@ mkdir Test/en.actual
 cp Test/DocTest-TypeProjection.dll Test/test-type-projection/DocTest-TypeProjection
 cp Test/TestTypeMap.xml Test/test-type-projection/
 mv Test/test-type-projection/TestTypeMap.xml Test/test-type-projection/TypeMap.xml
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/test-type-projection
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/test-type-projection
 DocTest-TypeProjection
 Framework configuration file written to Test/test-type-projection/frameworks.xml
-mono ../bin/Release/mdoc.exe update -fx Test/test-type-projection/ -o Test/en.actual/
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -fx Test/test-type-projection/ -o Test/en.actual/
 mdoc 5.9.4
 Loading typemap file at Test/test-type-projection/TypeMap.xml
 Opening frameworks file 'Test/test-type-projection/frameworks.xml'
@@ -5420,10 +5420,10 @@ mkdir Test/test-long-file-name
 mkdir Test/test-long-file-name/DocTest-LongFileName
 mkdir Test/en.actual
 cp Test/DocTest-LongFileName.dll Test/test-long-file-name/DocTest-LongFileName
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/test-long-file-name
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/test-long-file-name
 DocTest-LongFileName
 Framework configuration file written to Test/test-long-file-name/frameworks.xml
-mono ../bin/Release/mdoc.exe update -fx Test/test-long-file-name -o Test/en.actual/
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -fx Test/test-long-file-name -o Test/en.actual/
 mdoc 5.9.4
 Opening frameworks file 'Test/test-long-file-name/frameworks.xml'
 Frameworks Configuration contains 1 assemblies
@@ -5448,11 +5448,11 @@ mkdir Test/FrameworkTestData-fx-differentTypeParameterNames/One
 mkdir Test/FrameworkTestData-fx-differentTypeParameterNames/Two
 cp Test/DocTest-differentTypeParameterNames-First.dll Test/FrameworkTestData-fx-differentTypeParameterNames/One
 cp Test/DocTest-differentTypeParameterNames-Second.dll Test/FrameworkTestData-fx-differentTypeParameterNames/Two
-mono ../bin/Release/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-differentTypeParameterNames
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe fx-bootstrap -fx Test/FrameworkTestData-fx-differentTypeParameterNames
 One
 Two
 Framework configuration file written to Test/FrameworkTestData-fx-differentTypeParameterNames/frameworks.xml
-mono ../bin/Release/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeParameterNames
+mono ../../src/mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual -frameworks Test/FrameworkTestData-fx-differentTypeParameterNames
 mdoc 5.9.4
 Opening frameworks file 'Test/FrameworkTestData-fx-differentTypeParameterNames/frameworks.xml'
 Frameworks Configuration contains 2 assemblies
