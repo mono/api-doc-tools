@@ -51,7 +51,7 @@ jobs:
       run: dotnet build apidoctools.sln -c ${{ matrix.configuration }} --no-restore
 
     - name: Run .NET tests
-      run: dotnet test apidoctools.sln -c ${{ matrix.configuration }} --no-build --verbosity normal
+      run: dotnet test apidoctools.sln -c ${{ matrix.configuration }} --no-build --verbosity normal --arch x86
 
     - name: Run mdoc tests
       shell: bash
