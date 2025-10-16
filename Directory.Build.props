@@ -2,7 +2,7 @@
   <PropertyGroup>
     <NuGetVersionFSharpCore>4.3.4</NuGetVersionFSharpCore>
     <NuGetVersionMonoCecil>0.10.0</NuGetVersionMonoCecil>
-    <NuGetVersionNUnit>3.13.3</NuGetVersionNUnit>
+    <NuGetVersionNUnit>3.10.1</NuGetVersionNUnit>
     <NuGetVersionNUnitAnalyzers>3.10.0</NuGetVersionNUnitAnalyzers>
     <NuGetVersionNUnit3TestAdapter>5.0.0</NuGetVersionNUnit3TestAdapter>
     <NuGetVersionMicrosoftNETTestSdk>17.1.0</NuGetVersionMicrosoftNETTestSdk>
