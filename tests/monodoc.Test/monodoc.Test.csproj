@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\monodoc\monodoc.csproj" />
+    <ProjectReference Include="..\..\monodoc\monodoc.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\src\monodoc\monodoc.dll.config" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\..\monodoc\monodoc.dll.config" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

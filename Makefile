@@ -10,7 +10,7 @@ build:
 	dotnet build apidoctools.sln -c $(CONFIGURATION)
 
 nuget:
-	dotnet pack src/mdoc/mdoc.csproj -o bin/Nuget
+	dotnet pack mdoc/mdoc.csproj -o bin/Nuget
 
 check: build test check-monodoc check-mdoc
 

@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\monodoc\monodoc.csproj" />
-    <ProjectReference Include="..\..\src\mdoc\mdoc.csproj" />
+    <ProjectReference Include="..\..\monodoc\monodoc.csproj" />
+    <ProjectReference Include="..\..\mdoc\mdoc.csproj" />
     <ProjectReference Include="..\mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj" />
   </ItemGroup>
 

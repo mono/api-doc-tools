@@ -1,5 +1,5 @@
 CONFIGURATION = Release
-PROGRAM = ../../src/mdoc/bin/$(CONFIGURATION)/net471/mdoc.exe
+PROGRAM = ../../mdoc/bin/$(CONFIGURATION)/net471/mdoc.exe
 MONO = mono
 CSCOMPILE = mcs
 VBCOMPILE = vbnc
