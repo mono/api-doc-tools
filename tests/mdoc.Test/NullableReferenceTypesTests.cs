@@ -8,7 +8,7 @@ namespace mdoc.Test
 {
     public class NullableReferenceTypesTests : BasicFormatterTests<CSharpMemberFormatter>
     {
-        private const string NullableReferenceTypesAssemblyPath = "../../../../../external/Test/mdoc.Test.NullableReferenceTypes.dll";
+        private const string NullableReferenceTypesAssemblyPath = "mdoc.Test.NullableReferenceTypes.dll";
 
         private CSharpMemberFormatter csharpMemberFormatter = new CSharpMemberFormatter();
 

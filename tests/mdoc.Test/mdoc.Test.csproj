@@ -1,18 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFrameworks>net6.0;net471</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>false</IsPackable>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>preview</LangVersion>
+    <NoWarn>$(NoWarn);NUnit2005;NUnit2007;NUnit1032</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="$(NuGetVersionMicrosoftNETTestSdk)" />
     <PackageReference Include="NUnit" Version="$(NuGetVersionNUnit)" />
   	<PackageReference Include="NUnit3TestAdapter" Version="$(NuGetVersionNUnit3TestAdapter)" />
+    <PackageReference Include="NUnit.Analyzers" Version="$(NuGetVersionNUnitAnalyzers)" />
+    <PackageReference Include="coverlet.collector" Version="$(NuGetVersionCoverletCollector)" />
     <PackageReference Include="Mono.Cecil" Version="$(NuGetVersionMonoCecil)" />
   </ItemGroup>
 
@@ -20,6 +23,7 @@
     <ProjectReference Include="..\..\monodoc\monodoc.csproj" />
     <ProjectReference Include="..\..\mdoc\mdoc.csproj" />
     <ProjectReference Include="..\mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj" />
+    <ProjectReference Include="..\mdoc.Test.NullableReferenceTypes\mdoc.Test.NullableReferenceTypes.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +31,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\external\Test\mdoc.Test.Cplusplus.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net471'">
     <Reference Include="PresentationFramework">
       <Private>True</Private>
       <HintPath>..\..\external\Windows\PresentationFramework.dll</HintPath>

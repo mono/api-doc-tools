@@ -36,6 +36,7 @@ namespace mdoc.Test
             }
         }
 
+#if !NETCOREAPP
         [Test]
         public void TestStartProcessingAssembly()
         {
@@ -59,6 +60,7 @@ namespace mdoc.Test
             Assert.AreEqual(entry, set.Framework);
             Assert.Contains(entry, frameworkIndex.Frameworks.ToList());
         }
+#endif
 
         [Test]
         public void TestGetFrameworkNameFromPath()
