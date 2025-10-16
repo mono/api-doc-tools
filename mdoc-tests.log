@@ -191,7 +191,7 @@ Copyright (C) 2004-2010 Rolf Bjarne Kvinge. All rights reserved.
 
 Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/Test/DocTest-VB-Eii.dll'.
 Compilation successful
-Compilation took 00:00:01.4816790
+Compilation took 00:00:01.2395340
 mono ../../mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt -import Test/ClassEnumeratorSlashDoc.xml
 mdoc 5.9.4
 Updating DocTest-VB-Eii, Version=0.0.65535.65535, Culture=neutral, PublicKeyToken=null from Test/DocTest-VB-Eii.dll
@@ -215,7 +215,7 @@ Copyright (C) 2004-2010 Rolf Bjarne Kvinge. All rights reserved.
 
 Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/Test/DocTest-VB-Eii.dll'.
 Compilation successful
-Compilation took 00:00:01.3519150
+Compilation took 00:00:01.2494190
 mono ../../mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt -import Test/ClassEnumeratorECMA.xml
 mdoc 5.9.4
 Updating DocTest-VB-Eii, Version=0.0.65535.65535, Culture=neutral, PublicKeyToken=null from Test/DocTest-VB-Eii.dll
@@ -240,7 +240,7 @@ Copyright (C) 2004-2010 Rolf Bjarne Kvinge. All rights reserved.
 
 Assembly 'DocTest-VB-Eii, Version=0.0, Culture=neutral, PublicKeyToken=null' saved successfully to '/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/Test/DocTest-VB-Eii.dll'.
 Compilation successful
-Compilation took 00:00:01.4805110
+Compilation took 00:00:01.2921780
 mono ../../mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual Test/DocTest-VB-Eii.dll -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
 Updating DocTest-VB-Eii, Version=0.0.65535.65535, Culture=neutral, PublicKeyToken=null from Test/DocTest-VB-Eii.dll
@@ -3232,7 +3232,7 @@ msbuild ../mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Rele
 Microsoft (R) Build Engine version 16.10.1 for Mono
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-Build started 2025/10/16 9:11:10 PM.
+Build started 2025/10/17 12:50:05 AM.
 Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj" on node 1 (default targets).
 ResolveAssemblyReferences:
   Could not read state file "obj/Release/mdoc.Test.FSharp.fsproj.AssemblyReference.cache". The format of this state file is not valid.
@@ -3252,7 +3252,7 @@ Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.38
+Time Elapsed 00:00:02.34
 mono ../../mdoc/bin/Release/net471/mdoc.exe update -lang fsharp -o Test/en.actual ../mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 mdoc 5.9.4
 Updating mdoc.Test.FSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from ../mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
@@ -4178,7 +4178,7 @@ msbuild AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property
 Microsoft (R) Build Engine version 16.10.1 for Mono
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-Build started 2025/10/16 9:11:15 PM.
+Build started 2025/10/17 12:50:11 AM.
 Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj" on node 1 (default targets).
 PrepareForBuild:
   Creating directory "bin/Release/".
@@ -4196,7 +4196,7 @@ Build succeeded.
     0 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:04.74
+Time Elapsed 00:00:05.10
 mono ../../mdoc/bin/Release/net471/mdoc.exe update --debug -o Test/en.actual AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 mdoc 5.9.4
 Updating AttachedEventsAndProperties, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
@@ -4286,7 +4286,7 @@ msbuild TestInterfaceImplementation/TestInterfaceImplementation.csproj -property
 Microsoft (R) Build Engine version 16.10.1 for Mono
 Copyright (C) Microsoft Corporation. All rights reserved.
 
-Build started 2025/10/16 9:11:23 PM.
+Build started 2025/10/17 12:50:19 AM.
 Project "/Users/matthew/Documents/GitHub/api-doc-tools/tests/mdoc/TestInterfaceImplementation/TestInterfaceImplementation.csproj" on node 1 (default targets).
 PrepareForBuild:
   Creating directory "bin/Release/".
@@ -4316,7 +4316,7 @@ Build succeeded.
     4 Warning(s)
     0 Error(s)
 
-Time Elapsed 00:00:02.07
+Time Elapsed 00:00:02.31
 mono ../../mdoc/bin/Release/net471/mdoc.exe update -o Test/en.actual TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
 mdoc 5.9.4
 Updating TestInterfaceImplementation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null from TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
