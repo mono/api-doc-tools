@@ -48,7 +48,7 @@ jobs:
       run: dotnet restore apidoctools.sln
 
     - name: Build
-      run: dotnet build apidoctools.sln -c ${{ matrix.configuration }} --no-restore
+      run: dotnet build apidoctools.sln -c ${{ matrix.configuration }} --no-restore --arch x86
 
     - name: Run .NET tests
       run: dotnet test apidoctools.sln -c ${{ matrix.configuration }} --no-build --verbosity normal --arch x86
