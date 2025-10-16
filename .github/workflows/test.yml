@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest] # Tests were not written to support Windows, Linux is having Telemetry issues
+        os: [macos-latest, windows-latest] # Tests were not written to support Windows, Linux is having Telemetry issues
         configuration: [Release] # mono F# generates different APIs in Debug vs Release
 
     steps:
