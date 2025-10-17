@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net6.0;net471</TargetFrameworks>
     <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);NUnit2005;NUnit2007;NUnit1032;NUnit2048;NUnit2049</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

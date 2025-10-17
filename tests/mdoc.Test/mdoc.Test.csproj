@@ -7,7 +7,7 @@
     <RunPostBuildEvent>Always</RunPostBuildEvent>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>preview</LangVersion>
-    <NoWarn>$(NoWarn);NUnit2005;NUnit2007;NUnit1032</NoWarn>
+    <NoWarn>$(NoWarn);NUnit2005;NUnit2007;NUnit1032;NUnit2048;NUnit2049</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -81,11 +81,28 @@
 	  </Content>
   </ItemGroup>
 
-  <Target Name="BuildCplusplus" BeforeTargets="Build" Condition="'$(TargetFramework)' == 'net471' and $([MSBuild]::IsOSPlatform('windows'))">
+  <Target
+      Name="BuildCplusplus"
+      BeforeTargets="ResolveAssemblyReferences"
+      Condition="'$(TargetFramework)' == 'net471' and $([MSBuild]::IsOSPlatform('windows')) and !Exists('..\..\external\Test\$(_CurrentArch)\mdoc.Test.Cplusplus.dll')">
+
+    <PropertyGroup>
+      <_ArchOutputFolderName>$(_CurrentArch)</_ArchOutputFolderName>
+      <_ArchOutputFolderName Condition="'$(_CurrentArch)' == 'x86'"></_ArchOutputFolderName>
+    </PropertyGroup>
+
     <Message Importance="high" Text="Building C++/CLI project..." />
-    <Exec Command="msbuild ..\mdoc.Test.Cplusplus\mdoc.Test.Cplusplus.vcxproj /p:Configuration=Debug /p:Platform=$(_CurrentArch)" />
-    <Copy SourceFiles="..\mdoc.Test.Cplusplus\$(OutDir)mdoc.Test.Cplusplus.dll" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    
+    <Exec Command="msbuild ..\mdoc.Test.Cplusplus\mdoc.Test.Cplusplus.vcxproj /p:Configuration=Debug /p:Platform=$(_CurrentArch)"
+          IgnoreExitCode="True" /> 
+    
+    <Copy SourceFiles="..\mdoc.Test.Cplusplus\$(_ArchOutputFolderName)\Debug\mdoc.Test.Cplusplus.dll"
+          DestinationFolder="..\..\external\Test\$(_CurrentArch)\"
+          Condition="Exists('..\mdoc.Test.Cplusplus\$(_ArchOutputFolderName)\Debug\mdoc.Test.Cplusplus.dll')"
+          SkipUnchangedFiles="true" />
+    
     <Message Importance="high" Text="Done building C++/CLI project." />
+
   </Target>
 
 </Project>
