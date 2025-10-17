@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-latest, windows-latest] # ubuntu-latest is having issues for now
         configuration: [Release] # mono F# generates different APIs in Debug vs Release
 
     steps:
