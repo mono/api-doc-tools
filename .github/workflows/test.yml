@@ -59,10 +59,12 @@ jobs:
         cd tests/mdoc
         if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
           MONO_CMD=""
+          MAKE_CMD="nmake"
         else
           MONO_CMD="mono"
+          MAKE_CMD="make"
         fi
-        make check -B MONO="$MONO_CMD" CONFIGURATION=${{ matrix.configuration }}
+        $MAKE_CMD check -B MONO="$MONO_CMD" CONFIGURATION=${{ matrix.configuration }}
 
     - name: Upload Test Results
       if: always()
