@@ -54,17 +54,8 @@ jobs:
       run: dotnet test apidoctools.sln -c ${{ matrix.configuration }} --no-build --verbosity normal --logger trx --collect "XPlat Code Coverage"
 
     - name: Run mdoc tests
-      shell: bash
-      run: |
-        cd tests/mdoc
-        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-          MONO_CMD=""
-          MAKE_CMD="nmake"
-        else
-          MONO_CMD="mono"
-          MAKE_CMD="make"
-        fi
-        $MAKE_CMD check -B MONO="$MONO_CMD" CONFIGURATION=${{ matrix.configuration }}
+      if: matrix.os != 'windows-latest'
+      run: make check-mdoc CONFIGURATION=${{ matrix.configuration }}
 
     - name: Upload Test Results
       if: always()
