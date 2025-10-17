@@ -24,6 +24,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Replace PackageId and PackageVersion in mdoc.csproj
+      shell: pwsh
+      run: |
+        $csprojPath = "mdoc/mdoc.csproj"
+        $content = Get-Content $csprojPath -Raw
+        $content = $content -replace '<PackageId>mdoc</PackageId>', '<PackageId>notmdoc</PackageId>'
+        $content = $content -replace '<PackageVersion>5\.9\.4</PackageVersion>', '<PackageVersion>0.0.1</PackageVersion>'
+        Set-Content $csprojPath $content -NoNewline
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
