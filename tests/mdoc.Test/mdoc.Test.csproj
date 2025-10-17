@@ -9,9 +9,14 @@
     <NoWarn>$(NoWarn);NUnit2005;NUnit2007;NUnit1032;NUnit2048;NUnit2049</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <!-- Load the correct architecture on Windows as it actually loaded -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('windows'))">
     <_CurrentArch>$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)</_CurrentArch>
     <_CurrentArch>$(_CurrentArch.ToLower())</_CurrentArch>
+  </PropertyGroup>
+  <!-- The other platforms don't load so use x64 as we know that exists -->
+  <PropertyGroup Condition="!$([MSBuild]::IsOSPlatform('windows'))">
+    <_CurrentArch>x64</_CurrentArch>
   </PropertyGroup>
 
   <ItemGroup>
