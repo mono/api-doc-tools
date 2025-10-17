@@ -66,9 +66,9 @@ jobs:
 
     - name: Upload Test Results
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: Test Results ${{ matrix.os }} ${{ matrix.configuration }}
+        name: test-results-${{ matrix.os }}-${{ matrix.configuration }}
         path: |
           **/TestResults/**
         retention-days: 30
@@ -77,7 +77,7 @@ jobs:
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: code-coverage-${{ matrix.os }}
+        name: code-coverage-${{ matrix.os }}-${{ matrix.configuration }}
         path: |
           **/TestResults/**/coverage.*
         retention-days: 30
