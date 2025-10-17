@@ -51,7 +51,7 @@ jobs:
       run: dotnet build apidoctools.sln -c ${{ matrix.configuration }} --no-restore
 
     - name: Run .NET tests
-      run: dotnet test apidoctools.sln -c ${{ matrix.configuration }} --no-build --verbosity normal
+      run: dotnet test apidoctools.sln -c ${{ matrix.configuration }} --no-build --verbosity normal --logger trx --collect "XPlat Code Coverage"
 
     - name: Run mdoc tests
       shell: bash
@@ -63,3 +63,29 @@ jobs:
           MONO_CMD="mono"
         fi
         make check -B MONO="$MONO_CMD" CONFIGURATION=${{ matrix.configuration }}
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: Test Results ${{ matrix.os }} ${{ matrix.configuration }}
+        path: |
+          **/TestResults/**
+        retention-days: 30
+
+    - name: Upload code coverage
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: code-coverage-${{ matrix.os }}
+        path: |
+          **/TestResults/**/coverage.*
+        retention-days: 30
+
+    - name: Report test results
+      uses: dorny/test-reporter@v2
+      if: always()
+      with:
+        name: Test Report (${{ matrix.os }})
+        path: '**/*.trx'
+        reporter: dotnet-trx

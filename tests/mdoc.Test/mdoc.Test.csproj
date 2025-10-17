@@ -4,7 +4,6 @@
     <TargetFrameworks>net6.0;net471</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>false</IsPackable>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>preview</LangVersion>
     <NoWarn>$(NoWarn);NUnit2005;NUnit2007;NUnit1032;NUnit2048;NUnit2049</NoWarn>
