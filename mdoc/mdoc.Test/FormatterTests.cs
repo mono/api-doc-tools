@@ -619,6 +619,12 @@ namespace mdoc.Test
             TestMethodSignature(allowsRefStructDllPath, typeFullName, methodName, expectedSignature);
         }
 
+        [TestCase("SomeClass", "MethodWithRefReadOnlyParam", "public void MethodWithRefReadOnlyParam (ref readonly int i);")]
+        public void CSharpRefReadonlyTest(string typeFullName, string methodName, string expectedSignature)
+        {
+            TestMethodSignature("../../../../external/Test/RefReadonlyParameter.dll", typeFullName, methodName, expectedSignature);
+        }
+
         #region Helper Methods
         string RealTypeName(string name){
             switch (name) {
