@@ -181,6 +181,7 @@ namespace Mono.Documentation.Updater.Formatters
 		    "System.Runtime.CompilerServices.DynamicAttribute",
 		    // F# compiler attribute
 		    "Microsoft.FSharp.Core.CompilationMapping",
+            "System.Runtime.CompilerServices.NullableContextAttribute",
         };
     }
 }

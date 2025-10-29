@@ -11,17 +11,17 @@ using Mono.Documentation.Updater.Formatters;
 
 namespace mdoc.Test
 {
-    [TestFixture ()]
+    [TestFixture()]
     public class FormatterTests : BasicFormatterTests<CSharpMemberFormatter>
     {
         private CSharpMemberFormatter csharpMemberFormatter = new CSharpMemberFormatter();
         protected override CSharpMemberFormatter formatter => csharpMemberFormatter;
 
-        [Test ()]
-        public void Formatters_VerifyPrivateConstructorNull ()
+        [Test()]
+        public void Formatters_VerifyPrivateConstructorNull()
         {
             // this is a private constructor
-            var method = GetMethod (typeof(TestClass), m => m.IsConstructor && !m.IsPublic && m.Parameters.Count () == 1);
+            var method = GetMethod(typeof(TestClass), m => m.IsConstructor && !m.IsPublic && m.Parameters.Count() == 1);
 
             MemberFormatter[] formatters = new MemberFormatter[]
             {
@@ -32,156 +32,156 @@ namespace mdoc.Test
                 new VBFullMemberFormatter (),
                 new VBMemberFormatter(),
                 new FSharpMemberFormatter(),
-                new FSharpFullMemberFormatter(), 
+                new FSharpFullMemberFormatter(),
             };
-            var sigs = formatters.Select (f => f.GetDeclaration (method));
+            var sigs = formatters.Select(f => f.GetDeclaration(method));
 
             foreach (var sig in sigs)
-                Assert.IsNull (sig);
+                Assert.IsNull(sig);
         }
 
         [Test]
-        public void CSharp_op_Addition () =>
-            TestBinaryOp ("Addition", "+");
+        public void CSharp_op_Addition() =>
+            TestBinaryOp("Addition", "+");
 
         [Test]
-        public void CSharp_op_Subtraction () =>
-            TestBinaryOp ("Subtraction", "-");
+        public void CSharp_op_Subtraction() =>
+            TestBinaryOp("Subtraction", "-");
 
         [Test]
-        public void CSharp_op_Division () =>
-            TestBinaryOp ("Division", "/");
+        public void CSharp_op_Division() =>
+            TestBinaryOp("Division", "/");
 
         [Test]
-        public void CSharp_op_Multiplication () =>
-            TestBinaryOp ("Multiply", "*");
+        public void CSharp_op_Multiplication() =>
+            TestBinaryOp("Multiply", "*");
 
         [Test]
-        public void CSharp_op_Modulus () =>
-            TestBinaryOp ("Modulus", "%");
+        public void CSharp_op_Modulus() =>
+            TestBinaryOp("Modulus", "%");
 
         [Test]
-        public void CSharp_op_BitwiseAnd () =>
-            TestBinaryOp ("BitwiseAnd", "&");
+        public void CSharp_op_BitwiseAnd() =>
+            TestBinaryOp("BitwiseAnd", "&");
 
         [Test]
-        public void CSharp_op_BitwiseOr () =>
-            TestBinaryOp ("BitwiseOr", "|");
+        public void CSharp_op_BitwiseOr() =>
+            TestBinaryOp("BitwiseOr", "|");
 
         [Test]
-        public void CSharp_op_ExclusiveOr () =>
-            TestBinaryOp ("ExclusiveOr", "^");
+        public void CSharp_op_ExclusiveOr() =>
+            TestBinaryOp("ExclusiveOr", "^");
 
         [Test]
-        public void CSharp_op_LeftShift () =>
-            TestBinaryOp ("LeftShift", "<<", secondType: "int");
+        public void CSharp_op_LeftShift() =>
+            TestBinaryOp("LeftShift", "<<", secondType: "int");
 
         [Test]
-        public void CSharp_op_RightShift () =>
-            TestBinaryOp ("RightShift", ">>", secondType: "int");
+        public void CSharp_op_RightShift() =>
+            TestBinaryOp("RightShift", ">>", secondType: "int");
 
         [Test]
-        public void CSharp_op_UnaryPlus () =>
-			TestUnaryOp ("UnaryPlus", "+");
-
-		[Test]
-		public void CSharp_op_UnaryNegation () =>
-			TestUnaryOp ("UnaryNegation", "-");
-
-		[Test]
-		public void CSharp_op_LogicalNot () =>
-			TestUnaryOp ("LogicalNot", "!");
+        public void CSharp_op_UnaryPlus() =>
+            TestUnaryOp("UnaryPlus", "+");
 
         [Test]
-        public void CSharp_op_OnesComplement () =>
-            TestUnaryOp ("OnesComplement", "~");
+        public void CSharp_op_UnaryNegation() =>
+            TestUnaryOp("UnaryNegation", "-");
 
         [Test]
-        public void CSharp_op_Decrement () =>
-            TestUnaryOp ("Decrement", "--");
-
-		[Test]
-		public void CSharp_op_Increment () =>
-			TestUnaryOp ("Increment", "++");
+        public void CSharp_op_LogicalNot() =>
+            TestUnaryOp("LogicalNot", "!");
 
         [Test]
-        public void CSharp_op_True () =>
-            TestUnaryOp ("True", "true", returnType: "bool");
-
-		[Test]
-		public void CSharp_op_False () =>
-            TestUnaryOp ("False", "false", returnType: "bool");
+        public void CSharp_op_OnesComplement() =>
+            TestUnaryOp("OnesComplement", "~");
 
         [Test]
-        public void CSharp_op_Equality () =>
-            TestComparisonOp ("Equality", "==");
+        public void CSharp_op_Decrement() =>
+            TestUnaryOp("Decrement", "--");
 
         [Test]
-        public void CSharp_op_Inequality () =>
-            TestComparisonOp ("Inequality", "!=");
+        public void CSharp_op_Increment() =>
+            TestUnaryOp("Increment", "++");
 
         [Test]
-        public void CSharp_op_LessThan () =>
-            TestComparisonOp ("LessThan", "<");
+        public void CSharp_op_True() =>
+            TestUnaryOp("True", "true", returnType: "bool");
 
         [Test]
-        public void CSharp_op_GreaterThan () =>
-            TestComparisonOp ("GreaterThan", ">");
+        public void CSharp_op_False() =>
+            TestUnaryOp("False", "false", returnType: "bool");
 
         [Test]
-        public void CSharp_op_LessThanOrEqual () =>
-            TestComparisonOp ("LessThanOrEqual", "<=");
+        public void CSharp_op_Equality() =>
+            TestComparisonOp("Equality", "==");
 
         [Test]
-        public void CSharp_op_GreaterThanOrEqual () =>
-            TestComparisonOp ("GreaterThanOrEqual", ">=");
+        public void CSharp_op_Inequality() =>
+            TestComparisonOp("Inequality", "!=");
 
         [Test]
-        public void CSharp_op_Implicit () =>
-            TestConversionOp ("Implicit", "implicit", "TestClass", "TestClassTwo");
+        public void CSharp_op_LessThan() =>
+            TestComparisonOp("LessThan", "<");
 
         [Test]
-        public void CSharp_op_Implicit_inverse () =>
-            TestConversionOp ("Implicit", "implicit", "TestClassTwo", "TestClass");
+        public void CSharp_op_GreaterThan() =>
+            TestComparisonOp("GreaterThan", ">");
 
         [Test]
-        public void CSharp_op_Explicit () =>
-            TestConversionOp ("Explicit", "explicit", "int", "TestClass");
+        public void CSharp_op_LessThanOrEqual() =>
+            TestComparisonOp("LessThanOrEqual", "<=");
 
         [Test]
-        public void CSharp_op_Explicit_inverse () =>
-            TestConversionOp ("Explicit", "explicit", "TestClass", "int");
+        public void CSharp_op_GreaterThanOrEqual() =>
+            TestComparisonOp("GreaterThanOrEqual", ">=");
 
         [Test]
-        public void CSharp_modopt () =>
-            TestMod ("SomeFunc2", "public SomeClass* SomeFunc2 (SomeClass param);", returnType: "SomeClass*");
+        public void CSharp_op_Implicit() =>
+            TestConversionOp("Implicit", "implicit", "TestClass", "TestClassTwo");
 
         [Test]
-        public void CSharp_modreq () =>
-            TestMod ("SomeFunc", "public int SomeFunc (SomeClass* param);", returnType: "int");
+        public void CSharp_op_Implicit_inverse() =>
+            TestConversionOp("Implicit", "implicit", "TestClassTwo", "TestClass");
 
         [Test]
-        public void CSharp_doublepointer () =>
-            TestMod ("SomeFunc3", "public SomeClass** SomeFunc3 (int param);", returnType: "cppcli.SomeClass**");
+        public void CSharp_op_Explicit() =>
+            TestConversionOp("Explicit", "explicit", "int", "TestClass");
+
+        [Test]
+        public void CSharp_op_Explicit_inverse() =>
+            TestConversionOp("Explicit", "explicit", "TestClass", "int");
+
+        [Test]
+        public void CSharp_modopt() =>
+            TestMod("SomeFunc2", "public SomeClass* SomeFunc2 (SomeClass param);", returnType: "SomeClass*");
+
+        [Test]
+        public void CSharp_modreq() =>
+            TestMod("SomeFunc", "public int SomeFunc (SomeClass* param);", returnType: "int");
+
+        [Test]
+        public void CSharp_doublepointer() =>
+            TestMod("SomeFunc3", "public SomeClass** SomeFunc3 (int param);", returnType: "cppcli.SomeClass**");
 
         [Test]
         public void CSharp_pointerref_modreqparam() =>
             TestMod("SomeFunc4", "public int SomeFunc4 (SomeClass** param, int param2);", returnType: "int");
 
         [Test]
-        public void DoubleMod ()
+        public void DoubleMod()
         {
             string doubledUp = "System.ValueType modopt(System.DateTime) modopt(System.Runtime.CompilerServices.IsBoxed)";
-            string result = MemberFormatter.RemoveMod (doubledUp);
-            Assert.AreEqual ("System.ValueType", result);
+            string result = MemberFormatter.RemoveMod(doubledUp);
+            Assert.AreEqual("System.ValueType", result);
         }
 
         [Test]
-        public void DoubleMod_Mixed ()
+        public void DoubleMod_Mixed()
         {
             string doubledUp = "System.ValueType modreq(System.DateTime) modopt(System.Runtime.CompilerServices.IsBoxed)";
-            string result = MemberFormatter.RemoveMod (doubledUp);
-            Assert.AreEqual ("System.ValueType", result);
+            string result = MemberFormatter.RemoveMod(doubledUp);
+            Assert.AreEqual("System.ValueType", result);
         }
 
         [Test]
@@ -203,9 +203,9 @@ namespace mdoc.Test
         [Test]
         public void Params()
         {
-            var member = GetMethod (typeof(TestClass), m => m.Name == "DoSomethingWithParams");
-            var sig = formatter.GetDeclaration (member);
-            Assert.AreEqual ("public void DoSomethingWithParams (params int[] values);", sig);
+            var member = GetMethod(typeof(TestClass), m => m.Name == "DoSomethingWithParams");
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual("public void DoSomethingWithParams (params int[] values);", sig);
         }
 
         [Test]
@@ -219,12 +219,12 @@ namespace mdoc.Test
         }
 
         [Test]
-        public void IL_RefAndOut ()
+        public void IL_RefAndOut()
         {
-            var member = GetMethod (typeof(TestClass), m => m.Name == "RefAndOut");
-            var formatter = new ILFullMemberFormatter ();
-            var sig = formatter.GetDeclaration (member);
-            Assert.AreEqual (".method public hidebysig instance void RefAndOut(int32& a, [out] int32& b) cil managed", sig);
+            var member = GetMethod(typeof(TestClass), m => m.Name == "RefAndOut");
+            var formatter = new ILFullMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(".method public hidebysig instance void RefAndOut(int32& a, [out] int32& b) cil managed", sig);
         }
 
         [Test]
@@ -322,8 +322,8 @@ namespace mdoc.Test
         public void PItest()
         {
             string sig = "";
-            var member  = GetType(typeof(System.Math)).Fields.FirstOrDefault(t=>t.Name=="PI");
-            BindingFlags flags    = BindingFlags.NonPublic | BindingFlags.Static;
+            var member = GetType(typeof(System.Math)).Fields.FirstOrDefault(t => t.Name == "PI");
+            BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Static;
             BindingFlags flagsPub = BindingFlags.Public | BindingFlags.Static;
 
             Type type1 = typeof(MDocUpdater);
@@ -338,22 +338,22 @@ namespace mdoc.Test
 #endif //NETCOREAPP
 
             Assert.AreEqual(piValue, sig);
-          
+
             Type type2 = typeof(ILFullMemberFormatter);
             sig = "";
             MethodInfo mInfo2 = type2.GetMethod("AppendFieldValue", flags);
-            Object[] parametors2 = new Object[] { new StringBuilder(), member};
+            Object[] parametors2 = new Object[] { new StringBuilder(), member };
             sig = mInfo2.Invoke(null, parametors2).ToString();
             Assert.AreEqual($" = ({piValue})", sig);
- 
+
             Type type3 = typeof(DocUtils);
-            sig = "";                      
+            sig = "";
             MethodInfo mInfo3 = type3.GetMethod("AppendFieldValue", flagsPub);
             Object[] parametors3 = new Object[] { new StringBuilder(), member };
             mInfo3.Invoke(null, parametors3);
             sig = parametors3[0].ToString();
             Assert.AreEqual($" = {piValue}", sig);
- 
+
             Type type4 = typeof(CppFullMemberFormatter);
             sig = "";
             MethodInfo mInfo4 = type4.GetMethod("AppendFieldValue", flags);
@@ -403,7 +403,7 @@ namespace mdoc.Test
             var sig2 = formatter2.GetDeclaration(member2);
             Assert.NotNull(sig2);
         }
-        
+
         [Test]
         public void ClassInterface()
         {
@@ -601,6 +601,24 @@ namespace mdoc.Test
             TestEventSignature(staticVirtualMemberDllPath, typeFullName, eventName, expectedSignature);
         }
 
+        [TestCase("AllowsRefStructDemo.IRefStructProcessor`1",
+            "public interface IRefStructProcessor<T> where T : allows ref struct")]
+        public void CSharpAllowsRefStructForTypeTest(string typeFullName, string expectedSignature)
+        {
+            var allowsRefStructDllPath = "../../../../external/Test/AllowsRefStructDemo.dll";
+            TestTypeSignature(allowsRefStructDllPath, typeFullName, expectedSignature);
+        }
+
+        [TestCase("AllowsRefStructDemo.Immutable", "Update",
+            "public bool Update<TArg> (TArg transformerArgument) where TArg : new(), allows ref struct;")]
+        [TestCase("AllowsRefStructDemo.RefStructHandler", "Handle",
+            "public void Handle<T> (ref T item) where T : new(), allows ref struct;")]
+        public void CSharpAllowsRefStructForMemberTest(string typeFullName, string methodName, string expectedSignature)
+        {
+            var allowsRefStructDllPath = "../../../../external/Test/AllowsRefStructDemo.dll";
+            TestMethodSignature(allowsRefStructDllPath, typeFullName, methodName, expectedSignature);
+        }
+
         [TestCase("MethodWithRefReadonlyParam", "public void MethodWithRefReadonlyParam (ref readonly int i);")]
         public void CSharpRefReadonlyTest(string methodName, string expectedSignature)
         {
@@ -610,8 +628,10 @@ namespace mdoc.Test
         }
 
         #region Helper Methods
-        string RealTypeName(string name){
-            switch (name) {
+        string RealTypeName(string name)
+        {
+            switch (name)
+            {
                 case "bool": return "Boolean";
                 case "int": return "Int32";
                 default: return name;
@@ -619,42 +639,43 @@ namespace mdoc.Test
         }
 
 
-        void TestConversionOp (string name, string type, string leftType, string rightType) {
-            TestOp (name, $"public static {type} operator {leftType} ({rightType} c1);", argCount: 1, returnType: leftType);
+        void TestConversionOp(string name, string type, string leftType, string rightType)
+        {
+            TestOp(name, $"public static {type} operator {leftType} ({rightType} c1);", argCount: 1, returnType: leftType);
         }
 
-        void TestComparisonOp (string name, string op)
+        void TestComparisonOp(string name, string op)
         {
-            TestOp (name, $"public static bool operator {op} (TestClass c1, TestClass c2);", argCount: 2, returnType: "Boolean");    
+            TestOp(name, $"public static bool operator {op} (TestClass c1, TestClass c2);", argCount: 2, returnType: "Boolean");
         }
 
-        void TestUnaryOp (string name, string op, string returnType = "TestClass")
+        void TestUnaryOp(string name, string op, string returnType = "TestClass")
         {
-            TestOp (name, $"public static {returnType} operator {op} (TestClass c1);", argCount: 1, returnType: returnType);
+            TestOp(name, $"public static {returnType} operator {op} (TestClass c1);", argCount: 1, returnType: returnType);
         }
 
-        void TestBinaryOp (string name, string op, string returnType = "TestClass", string secondType = "TestClass")
+        void TestBinaryOp(string name, string op, string returnType = "TestClass", string secondType = "TestClass")
         {
-            TestOp (name, $"public static {returnType} operator {op} (TestClass c1, {secondType} c2);", argCount: 2, returnType: returnType);
+            TestOp(name, $"public static {returnType} operator {op} (TestClass c1, {secondType} c2);", argCount: 2, returnType: returnType);
         }
 
-        void TestOp (string name, string expectedSig, int argCount, string returnType = "TestClass")
+        void TestOp(string name, string expectedSig, int argCount, string returnType = "TestClass")
         {
-            var member = GetMethod (typeof(TestClass), m => m.Name == $"op_{name}" && m.Parameters.Count == argCount && m.ReturnType.Name == RealTypeName (returnType));
-            var formatter = new CSharpMemberFormatter ();
-            var sig = formatter.GetDeclaration (member);
-            Assert.AreEqual (expectedSig, sig);
+            var member = GetMethod(typeof(TestClass), m => m.Name == $"op_{name}" && m.Parameters.Count == argCount && m.ReturnType.Name == RealTypeName(returnType));
+            var formatter = new CSharpMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSig, sig);
         }
 
-        void TestMod (string name, string expectedSig, int argCount = 1, string returnType = "SomeClass")
+        void TestMod(string name, string expectedSig, int argCount = 1, string returnType = "SomeClass")
         {
-            var member = GetMethod (
-                    GetType ("SampleClasses/cppcli.dll", "cppcli.SomeInterface"), 
+            var member = GetMethod(
+                    GetType("SampleClasses/cppcli.dll", "cppcli.SomeInterface"),
                     m => m.Name == name
             );
-            var formatter = new CSharpMemberFormatter ();
-			var sig = formatter.GetDeclaration (member);
-			Assert.AreEqual (expectedSig, sig);
+            var formatter = new CSharpMemberFormatter();
+            var sig = formatter.GetDeclaration(member);
+            Assert.AreEqual(expectedSig, sig);
         }
         #endregion
     }

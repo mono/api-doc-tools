@@ -64,6 +64,22 @@
       <Link>SampleClasses\testImportDoc.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+	  <Content Include="SampleClasses\testImportDoc2.xml">
+		  <Link>SampleClasses\testImportDoc2.xml</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="SampleClasses\TestUpdate\net-8.0\TestLibrary.dll">
+		  <Link>SampleClasses\TestUpdate\net-8.0\TestLibrary.dll</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="SampleClasses\TestUpdate\frameworks.xml">
+		  <Link>SampleClasses\TestUpdate\frameworks.xml</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="SampleClasses\testImportDoc2.xml">
+		  <Link>SampleClasses\testImportDoc2.xml</Link>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="mdoc.Test.NullableReferenceTypes\**\*" />
