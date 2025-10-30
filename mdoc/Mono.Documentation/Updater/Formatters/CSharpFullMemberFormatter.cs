@@ -619,7 +619,7 @@ namespace Mono.Documentation.Updater.Formatters
         protected override StringBuilder AppendParameter(StringBuilder buf, ParameterDefinition parameter)
         {
             TypeReference parameterType = parameter.ParameterType;
-            var refType = new BitArray(3);
+            var refType = new BitArray(4);
 
             if (parameter.HasCustomAttributes)
             {
@@ -650,6 +650,10 @@ namespace Mono.Documentation.Updater.Formatters
                 {
                     refType.Set(0, true);
                 }
+                else if (parameter.IsIn && DocUtils.HasCustomAttribute(parameter, Consts.RequiresLocationAttribute))
+                {
+                    refType.Set(3, true);
+                }
                 else
                 {
                     refType.Set(2, true);
@@ -657,7 +661,7 @@ namespace Mono.Documentation.Updater.Formatters
                 parameterType = byReferenceType.ElementType;
             }
 
-            buf.Append(refType.Get(0) ? "in " : (refType.Get(1) ? "out " : (refType.Get(2) ? "ref ": "")));
+            buf.Append(refType.Get(0) ? "in " : (refType.Get(1) ? "out " : (refType.Get(2) ? "ref ": (refType.Get(3) ? "ref readonly " : ""))));
 
             if (parameter.HasCustomAttributes)
             {
