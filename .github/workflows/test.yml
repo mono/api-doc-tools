@@ -1,0 +1,37 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, master, dev/** ]
+  pull_request:
+    branches: [ main, master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' }}
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        configuration: [Release]
+          
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.x'
+
+    - name: Install Mono
+      run: |
+        brew install --cask mono-mdk
+
+    - name: Run tests
+      run: make prepare all check CONFIGURATION=${{ matrix.configuration }}
