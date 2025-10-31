@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
         configuration: [Release]
 
     steps:
@@ -34,8 +34,20 @@ jobs:
       run: |
         brew install --cask mono-mdk
 
+    - name: Install Mono - Ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt install ca-certificates gnupg
+        sudo gpg --homedir /tmp --no-default-keyring --keyring gnupg-ring:/usr/share/keyrings/mono-official-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+        sudo chmod +r /usr/share/keyrings/mono-official-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/mono-official-archive-keyring.gpg] https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+        sudo apt update
+        sudo apt install mono-complete mono-vbnc
+        sudo curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+        echo "alias nuget='mono /usr/local/bin/nuget.exe'" >> $HOME/.bashrc
+
     - name: Build and pack
-      run: make prepare build nuget CONFIGURATION=${{ matrix.configuration }}
+      run: make prepare build nuget CONFIGURATION=${{ matrix.configuration }} NUGET="${{ matrix.os == 'ubuntu-latest' && 'mono /usr/local/bin/nuget.exe' || 'nuget' }}"
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
