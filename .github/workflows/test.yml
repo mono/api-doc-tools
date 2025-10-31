@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [macos-latest, windows-latest]
         configuration: [Release]
           
     steps:
@@ -29,9 +29,16 @@ jobs:
       with:
         dotnet-version: '6.x'
 
-    - name: Install Mono
+    - name: Install Mono - macOS
+      if: matrix.os == 'macos-latest'
       run: |
         brew install --cask mono-mdk
+
+    - name: Install Mono - Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        winget install Mono.Mono --accept-source-agreements --accept-package-agreements
+        echo "PATH=$env:PATH;C:\Program Files\Mono\bin" >> $env:GITHUB_ENV
 
     - name: Run tests
       run: make prepare all check CONFIGURATION=${{ matrix.configuration }}

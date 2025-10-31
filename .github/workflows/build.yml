@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [windows-latest, macos-latest]
         configuration: [Release]
 
     steps:
@@ -29,7 +29,8 @@ jobs:
       with:
         dotnet-version: '6.x'
 
-    - name: Install Mono
+    - name: Install Mono - macOS
+      if: matrix.os == 'macos-latest'
       run: |
         brew install --cask mono-mdk
 
