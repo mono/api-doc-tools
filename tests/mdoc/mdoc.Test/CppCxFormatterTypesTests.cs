@@ -17,8 +17,8 @@ namespace mdoc.Test
     {
         protected override CppCxMemberFormatter formatter => new CppCxMemberFormatter();
 
-        private string _cppWinRtTestLibName = "../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
-        private string _cppCxTestLibName = "../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
+        private string _cppWinRtTestLibName = "../../../../../external/Windows/Windows.Foundation.UniversalApiContract.winmd";
+        private string _cppCxTestLibName = "../../../../../external/Test/UwpTestWinRtComponentCpp.winmd";
 
         protected override TypeDefinition GetType(Type type)
         {

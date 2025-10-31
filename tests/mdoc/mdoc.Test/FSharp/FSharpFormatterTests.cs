@@ -910,7 +910,7 @@ override this.Rotate : double -> unit",
             "static member ( + ) : Derived * Derived -> int")]
         public void FSharpStaticOperatorImplementation(string typeFullName, string methodName, string expectedSignature)
         {
-            var staticVirtualMemberDllPath = "../../../../external/Test/StaticVirtualMembers.dll";
+            var staticVirtualMemberDllPath = "../../../../../external/Test/StaticVirtualMembers.dll";
             TestMethodSignature(staticVirtualMemberDllPath, typeFullName, methodName, expectedSignature);
         }
 

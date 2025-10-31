@@ -21,20 +21,20 @@
   <ItemGroup>
     <Reference Include="mdoc.Test.Cplusplus, Version=1.0.6709.28740, Culture=neutral, processorArchitecture=x64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\external\Test\mdoc.Test.Cplusplus.dll</HintPath>
+      <HintPath>..\..\..\external\Test\mdoc.Test.Cplusplus.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework">
       <Private>True</Private>
-      <HintPath>..\..\external\Windows\PresentationFramework.dll</HintPath>
+      <HintPath>..\..\..\external\Windows\PresentationFramework.dll</HintPath>
     </Reference>
     <Reference Include="Windows">
-      <HintPath>..\..\external\Windows\Windows.WinMD</HintPath>
+      <HintPath>..\..\..\external\Windows\Windows.WinMD</HintPath>
     </Reference>
     <Reference Include="Windows.Foundation.FoundationContract">
-      <HintPath>..\..\external\Windows\Windows.Foundation.FoundationContract.winmd</HintPath>
+      <HintPath>..\..\..\external\Windows\Windows.Foundation.FoundationContract.winmd</HintPath>
     </Reference>
     <Reference Include="Windows.Foundation.UniversalApiContract">
-      <HintPath>..\..\external\Windows\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <HintPath>..\..\..\external\Windows\Windows.Foundation.UniversalApiContract.winmd</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -43,20 +43,20 @@
 	<PackageReference Include="NUnit3TestAdapter" Version="$(NuGetVersionNUnit3TestAdapter)" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="cppcli\cppcli\cppcli.h">
+    <None Update="..\cppcli\cppcli\cppcli.h">
       <Link>SampleClasses\cppcli.h</Link>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\monodoc\monodoc.csproj" />
-    <ProjectReference Include="..\mdoc.csproj" />
-    <ProjectReference Include="mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj" />
+    <ProjectReference Include="..\..\..\monodoc\monodoc.csproj" />
+    <ProjectReference Include="..\..\..\mdoc\mdoc.csproj" />
+    <ProjectReference Include="..\mdoc.Test.FSharp\mdoc.Test.FSharp.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cppcli\Debug\cppcli.dll">
+    <Content Include="..\cppcli\Debug\cppcli.dll">
       <Link>SampleClasses\cppcli.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

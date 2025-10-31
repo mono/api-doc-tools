@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\monodoc.csproj" />
+    <ProjectReference Include="..\..\..\monodoc\monodoc.csproj" />
   </ItemGroup>
 
   <ItemGroup>
