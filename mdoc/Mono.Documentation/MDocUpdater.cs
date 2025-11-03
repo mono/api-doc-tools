@@ -818,7 +818,7 @@ namespace Mono.Documentation
         /// <param name="result">A typle that contains 1) the 'reltypefile', 2) the 'typefile', and 3) the file info</param>
         bool TryFindTypeFile (string nsname, string typename, string basepath, out Tuple<string, string, FileInfo> result)
         {
-            string reltypefile = DocUtils.PathCombine (nsname, typename + ".xml");
+            string reltypefile = DocUtils.PathCombine (nsname, typename.Replace("<", "&lt;").Replace(">", "&gt;") + ".xml");
             string typefile = Path.Combine (basepath, reltypefile);
             System.IO.FileInfo file = new System.IO.FileInfo (typefile);
 
@@ -1127,7 +1127,7 @@ namespace Mono.Documentation
             foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null))
             {
                 string typename = GetTypeFileName (type);
-                if (!DocUtils.IsPublic (type) || DocUtils.IsIgnored(type) || typename.IndexOfAny (InvalidFilenameChars) >= 0)
+                if (!DocUtils.IsPublic (type) || DocUtils.IsIgnored(type) || (typename.IndexOfAny (InvalidFilenameChars) >= 0 && !(typename.Contains("<G>$") || !typename.Contains("<M>$"))))
                     continue;
 
                 var typeEntry = frameworkEntry.ProcessType (type, assembly);
@@ -1437,7 +1437,7 @@ namespace Mono.Documentation
             MyXmlNodeList remove = new MyXmlNodeList ();
             foreach (XmlElement typenode in index_types.SelectNodes ("Namespace/Type"))
             {
-                string fulltypename = Path.Combine (((XmlElement)typenode.ParentNode).GetAttribute ("Name"), typenode.GetAttribute ("Name") + ".xml");
+                string fulltypename = Path.Combine (((XmlElement)typenode.ParentNode).GetAttribute ("Name"), typenode.GetAttribute ("Name").Replace("<", "&lt;").Replace(">", "&gt;") + ".xml");
                 if (!goodfiles.Contains (fulltypename))
                 {
                     remove.Add (typenode);
