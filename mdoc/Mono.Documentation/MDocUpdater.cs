@@ -1127,7 +1127,7 @@ namespace Mono.Documentation
             foreach (TypeDefinition type in docEnum.GetDocumentationTypes (assembly, null))
             {
                 string typename = GetTypeFileName (type);
-                if (!DocUtils.IsPublic (type) || DocUtils.IsIgnored(type) || (typename.IndexOfAny (InvalidFilenameChars) >= 0 && !(typename.Contains("<G>$") || !typename.Contains("<M>$"))))
+                if (!DocUtils.IsPublic (type) || DocUtils.IsIgnored(type) || (typename.IndexOfAny (InvalidFilenameChars) >= 0 && (!typename.Contains("<G>$") || !typename.Contains("<M>$"))))
                     continue;
 
                 var typeEntry = frameworkEntry.ProcessType (type, assembly);
