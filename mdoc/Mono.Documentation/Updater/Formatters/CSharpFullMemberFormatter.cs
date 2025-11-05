@@ -401,6 +401,9 @@ namespace Mono.Documentation.Updater.Formatters
                 methodName = ifaceMethod.Name;
             }
 
+            // TODO this is liable to register false positives, but that's only likely to happen
+            // in an adversarial situation. Operators have to be public static, with the
+            // specialname bit set, with the right parameters for the type of operation.
             if (methodName.StartsWith("op_", StringComparison.Ordinal))
             {
                 // this is an operator
@@ -408,6 +411,7 @@ namespace Mono.Documentation.Updater.Formatters
                 {
                     case "op_Implicit":
                     case "op_Explicit":
+                    case "op_CheckedExplicit":
                         buf.Length--; // remove the last space, which assumes a member name is coming
                         return buf;
                     case "op_Addition":
@@ -456,6 +460,22 @@ namespace Mono.Documentation.Updater.Formatters
                         return buf.Append("operator >");
                     case "op_GreaterThanOrEqual":
                         return buf.Append("operator >=");
+                    case "op_UnsignedRightShift":
+                        return buf.Append("operator >>>");
+                    case "op_CheckedIncrement":
+                        return buf.Append("operator checked ++");
+                    case "op_CheckedDecrement":
+                        return buf.Append("operator checked --");
+                    case "op_CheckedUnaryNegation":
+                        return buf.Append("operator checked -");
+                    case "op_CheckedAddition":
+                        return buf.Append("operator checked +");
+                    case "op_CheckedSubtraction":
+                        return buf.Append("operator checked -");
+                    case "op_CheckedMultiply":
+                        return buf.Append("operator checked *");
+                    case "op_CheckedDivision":
+                        return buf.Append("operator checked /");
                     default:
                         return buf.Append(methodName);
                 }
@@ -544,6 +564,9 @@ namespace Mono.Documentation.Updater.Formatters
                 modifiers += buf.Length == 0 ? "readonly" : " readonly";
             }
 
+            // TODO this is liable to register false positives, but that's only likely to happen
+            // in an adversarial situation. Operators have to be public static, with the
+            // specialname bit set, with the right parameters for the type of operation.
             switch (method.Name)
             {
                 case "op_Implicit":
@@ -551,6 +574,9 @@ namespace Mono.Documentation.Updater.Formatters
                     break;
                 case "op_Explicit":
                     modifiers += " explicit operator";
+                    break;
+                case "op_CheckedExplicit":
+                    modifiers += " explicit operator checked";
                     break;
             }
 
