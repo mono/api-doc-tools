@@ -7,7 +7,7 @@ namespace mdoc.Test
     [TestFixture]
     public class UWPDocUtilsTests : BasicTests
     {
-        private const string UWPTestComponentWinMD = "../../../../external/Test/UWPTestComponentCSharp.winmd";
+        private const string UWPTestComponentWinMD = "../../../../../external/Test/UWPTestComponentCSharp.winmd";
 
         [Test]
         public void IsIgnored_PutMethodIsGeneratedByProperty_IsIgnoredTrue()
