@@ -16,17 +16,16 @@ namespace Mono.Documentation.Updater
             slashDocMemberFormatter = new SlashDocMemberFormatter(map);
         }
 
-        public override string GetDeclaration (TypeReference tref)
+        public override string GetDeclaration(TypeReference tref)
         {
-            return DocCommentId.GetDocCommentId (tref.Resolve ());
+            return DocCommentId.GetDocCommentId(tref.Resolve());
         }
-        public override string GetDeclaration (MemberReference mreference)
+        public override string GetDeclaration(MemberReference mreference)
         {
-            if (mreference is AttachedEventReference || mreference is AttachedPropertyReference)
-            {
-                return slashDocMemberFormatter.GetDeclaration(mreference);
-            }
-            return DocCommentId.GetDocCommentId (mreference.Resolve ());
+            string ret = mreference is AttachedEventReference || mreference is AttachedPropertyReference
+                ? slashDocMemberFormatter.GetDeclaration(mreference)
+                : DocCommentId.GetDocCommentId(mreference.Resolve());
+            return ret.Replace("|System.Runtime.InteropServices.InAttribute", string.Empty);
         }
     }
 }
