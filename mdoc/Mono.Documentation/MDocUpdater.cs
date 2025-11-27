@@ -3944,25 +3944,31 @@ namespace Mono.Documentation
 
                 pe.SetAttribute ("Name", param.Name);
                 pe.SetAttribute ("Type", paramType);
-                switch (param.ParameterType)
+
+                TypeReference parameterType = param.ParameterType;
+                if (parameterType is RequiredModifierType requiredModifierType)
                 {
-                    case RequiredModifierType requiredModifierType:
-                        switch (requiredModifierType.ModifierType.FullName)
-                        {
-                            case Consts.InAttribute:
-                                pe.SetAttribute("RefType", "in");
-                                break;
-                            case Consts.OutAttribute:
-                                pe.SetAttribute("RefType", "out");
-                                break;
-                        }
-                        break;
-                    case ByReferenceType byReferenceType:
-                        pe.SetAttribute("RefType", param.IsOut ? "out" : param.IsIn && DocUtils.HasCustomAttribute(param, Consts.IsReadOnlyAttribute) ? "in" : "ref");
-                        break;
-                    default:
-                        break;
+                    switch (requiredModifierType.ModifierType.FullName)
+                    {
+                        case Consts.InAttribute:
+                            pe.SetAttribute("RefType", "in");
+                            break;
+                        case Consts.OutAttribute:
+                            pe.SetAttribute("RefType", "out");
+                            break;
+                    }
+                    parameterType = requiredModifierType.ElementType;
                 }
+                if (parameterType is ByReferenceType)
+                {
+                    if (param.IsOut)
+                        pe.SetAttribute("RefType", "out");
+                    else if (param.IsIn && DocUtils.HasCustomAttribute(param, Consts.IsReadOnlyAttribute))
+                        pe.SetAttribute("RefType", "in");
+                    else
+                        pe.SetAttribute("RefType", "ref");
+                }
+
                 //if (addIndex)
                 pe.SetAttribute (Consts.Index, index.ToString ());
                 //if (addfx)
