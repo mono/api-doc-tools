@@ -164,6 +164,8 @@ namespace Mono.Documentation.Updater.Formatters
                     var underlyingTypeName = GetTypeName(item, context, appendGeneric, useTypeProjection) + GetTypeNullableSymbol(item, isNullableType);
                     genArgTypeList.Add(underlyingTypeName);
                 }
+
+                // System.ValueTuple with more than 7 generic arguments is represented as nested ValueTuple, with the 8th generic argument being another ValueTuple for the rest of the tuple elements.
                 const int restTupleIndex = 7;
                 var restTuple = genInst.GenericArguments.Count > restTupleIndex ? genInst.GenericArguments[restTupleIndex] as GenericInstanceType : null;
                 if (restTuple != null && restTuple.Name.StartsWith("ValueTuple`"))
