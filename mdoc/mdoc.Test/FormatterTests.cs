@@ -473,6 +473,8 @@ namespace mdoc.Test
 
         [TestCase("TupleMethod", "public (int a, int, int b) TupleMethod ((int, int) t1, (int b, int c, int d) t2, (int, int) t3);")]
         [TestCase("RecursiveTupleMethod", "public ((int a, long b) c, int d) RecursiveTupleMethod ((((int a, long) b, string c) d, (int e, (float f, float g) h) i, int j) t);")]
+        [TestCase("EightTupleMethod", "public static (T1, T2, T3, T4, T5, T6, T7, T8) EightTupleMethod<T3,T4,T5,T6,T7,T8> (T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8);")]
+        [TestCase("SeventeenTupleMethod", "public static (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17) SeventeenTupleMethod<T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17> (T1 item1, T2 item2, T3 item3, T4 item4, T5 item5, T6 item6, T7 item7, T8 item8, T9 item9, T10 item10, T11 item11, T12 item12, T13 item13, T14 item14, T15 item15, T16 item16, T17 item17);")]
         public void CSharpTupleNamesMethodTest(string methodName, string expectedSignature)
         {
             var method = GetMethod(typeof(SampleClasses.TupleNamesTestClass<,>), m => m.Name == methodName);
