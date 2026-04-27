@@ -146,10 +146,10 @@ namespace Mono.Documentation.Updater.Formatters
                 return buf;
             }
 
-            if (genInst.Name.StartsWith ("ValueTuple`"))
+            if (genInst.Name.StartsWith("ValueTuple`"))
             {
-                buf.Append ("(");
-                var genArgTypeList = new List<string> ();
+                buf.Append("(");
+                var genArgTypeList = new List<string>();
                 // tuple element names should be traversed before recursion.
                 var genArgNameList = genInst.GenericArguments.Select(arg => context.GetTupleElementName()).ToList();
                 foreach (var item in genInst.GenericArguments)
@@ -157,15 +157,31 @@ namespace Mono.Documentation.Updater.Formatters
                     var isNullableType = false;
                     if (!item.IsValueType)
                     {
-                        isNullableType = context.IsNullable ();
+                        isNullableType = context.IsNullable();
                     }
 
-                    var underlyingTypeName = GetTypeName (item, context, appendGeneric, useTypeProjection) + GetTypeNullableSymbol (item, isNullableType);
-                    genArgTypeList.Add (underlyingTypeName);
+                    var underlyingTypeName = GetTypeName(item, context, appendGeneric, useTypeProjection) + GetTypeNullableSymbol(item, isNullableType);
+                    genArgTypeList.Add(underlyingTypeName);
                 }
-                var genArgList = genInst.GenericArguments.Select((_, index) => string.Format("{0}{1}", genArgTypeList[index], genArgNameList[index] == null ? String.Empty : (" " + genArgNameList[index])));
-                buf.Append (string.Join (", ", genArgList));
-                buf.Append (")");
+
+                // System.ValueTuple with more than 7 generic arguments is represented as nested ValueTuple, with the 8th generic argument being another ValueTuple for the rest of the tuple elements.
+                const int restTupleIndex = 7;
+                var restTuple = genInst.GenericArguments.Count > restTupleIndex ? genInst.GenericArguments[restTupleIndex] as GenericInstanceType : null;
+                if (restTuple != null && restTuple.Name.StartsWith("ValueTuple`"))
+                {
+                    // Build T1..T7 part, then inline the rest tuple by stripping its leading "(".
+                    // The rest tuple's trailing ")" becomes the closing paren for the outer tuple.
+                    var mainArgList = Enumerable.Range(0, restTupleIndex).Select(index => string.Format("{0}{1}", genArgTypeList[index], genArgNameList[index] == null ? String.Empty : (" " + genArgNameList[index])));
+                    buf.Append(string.Join(", ", mainArgList));
+                    buf.Append(", ");
+                    buf.Append(genArgTypeList[restTupleIndex].Substring(1));
+                }
+                else
+                {
+                    var genArgList = genInst.GenericArguments.Select((_, index) => string.Format("{0}{1}", genArgTypeList[index], genArgNameList[index] == null ? String.Empty : (" " + genArgNameList[index])));
+                    buf.Append(string.Join(", ", genArgList));
+                    buf.Append(")");
+                }
                 return buf;
             }
 
