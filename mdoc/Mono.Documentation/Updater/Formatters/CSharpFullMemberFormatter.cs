@@ -152,9 +152,8 @@ namespace Mono.Documentation.Updater.Formatters
                 var genArgTypeList = new List<string>();
                 // tuple element names should be traversed before recursion.
                 var genArgNameList = genInst.GenericArguments.Select(arg => context.GetTupleElementName()).ToList();
-                for (int index = 0; index < genInst.GenericArguments.Count; index++)
+                foreach (var item in genInst.GenericArguments)
                 {
-                    var item = genInst.GenericArguments[index];
                     var isNullableType = false;
                     if (!item.IsValueType)
                     {
