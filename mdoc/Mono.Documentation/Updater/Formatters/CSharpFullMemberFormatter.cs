@@ -757,7 +757,23 @@ namespace Mono.Documentation.Updater.Formatters
 
             if (property.Parameters.Count != 0)
             {
-                AppendParameters (buf, method, property.Parameters, '[', ']');
+                // Handle extension indexers by adding "this" to the first parameter if it's an extension
+                if (DocUtils.IsExtensionIndexer(property))
+                {
+                    buf.Append ('[');
+                    buf.Append ("this ");
+                    AppendParameter(buf, property.Parameters[0]);
+                    for (int i = 1; i < property.Parameters.Count; ++i)
+                    {
+                        buf.Append(", ");
+                        AppendParameter(buf, property.Parameters[i]);
+                    }
+                    buf.Append (']');
+                }
+                else
+                {
+                    AppendParameters (buf, method, property.Parameters, '[', ']');
+                }
             }
 
             buf.Append (" {");

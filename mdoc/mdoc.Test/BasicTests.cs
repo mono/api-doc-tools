@@ -97,6 +97,11 @@ namespace mdoc.Test
             return member;
         }
 
+        protected PropertyDefinition GetProperty(Type type, string name)
+        {
+            return GetProperty(type, p => p.Name == name);
+        }
+
         protected Dictionary<string, List<MemberReference>> GetClassInterface(TypeDefinition type)
         {
             return DocUtils.GetImplementedMembersFingerprintLookup(type);
