@@ -2966,27 +2966,36 @@ namespace Mono.Documentation
 
         static void ReorderNodes (XmlNode node, XmlNodeList children, string[] ordering)
         {
-            MyXmlNodeList newChildren = new MyXmlNodeList (children.Count);
-            for (int i = 0; i < ordering.Length; ++i)
+            var allChildren = children.Cast<XmlNode>().ToList();
+            var ordered = new List<XmlNode>();
+
+            foreach (var name in ordering)
             {
-                for (int j = 0; j < children.Count; ++j)
+                // Get all nodes with the same name
+                var group = allChildren.Where(n => n.Name == name).ToList();
+                // For nodes with the same name, perform a stable sort (e.g., by cref, name, or innerText)
+                if (group.Count > 1 && name == "altmember")
                 {
-                    XmlNode c = children[j];
-                    if (c.Name == ordering[i])
+                    // Sort by cref attribute (suitable for altmember/exception/seealso), or fallback to other attributes
+                    group.Sort((a, b) =>
                     {
-                        newChildren.Add (c);
-                    }
+                        var ca = a.Attributes?["cref"]?.Value ?? a.Attributes?["name"]?.Value ?? a.InnerText;
+                        var cb = b.Attributes?["cref"]?.Value ?? b.Attributes?["name"]?.Value ?? b.InnerText;
+                        return string.Compare(ca, cb, StringComparison.Ordinal);
+                    });
                 }
+                ordered.AddRange(group);
+                foreach (var n in group)
+                    allChildren.Remove(n);
             }
-            if (newChildren.Count >= 0)
-                node.PrependChild ((XmlNode)newChildren[0]);
-            for (int i = 1; i < newChildren.Count; ++i)
-            {
-                XmlNode prev = (XmlNode)newChildren[i - 1];
-                XmlNode cur = (XmlNode)newChildren[i];
-                node.RemoveChild (cur);
-                node.InsertAfter (cur, prev);
-            }
+            // Add remaining nodes that are not in the ordering list, preserving their original order
+            ordered.AddRange(allChildren);
+
+            // Remove all original child nodes and re-append them in the new order
+            while (node.HasChildNodes)
+                node.RemoveChild(node.FirstChild);
+            foreach (var n in ordered)
+                node.AppendChild(n);
         }
 
         static readonly string[] ValidExtensionMembers = {
@@ -3479,8 +3488,7 @@ namespace Mono.Documentation
         }
 
         static readonly string[] DocsNodeOrder = {
-        "typeparam", "param", "summary", "returns", "value", "remarks",
-    };
+        "typeparam", "param", "summary", "returns", "value", "remarks", "exception", "altmember", "seealso" };
 
         private static void OrderDocsNodes (XmlNode docs, XmlNodeList children)
         {
