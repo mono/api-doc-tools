@@ -365,7 +365,6 @@ namespace Mono.Documentation
                 Func<string, string, IEnumerable<string>> getFiles = (string path, string filters) =>
                 {
                     var assemblyFiles = filters.Split('|').SelectMany(v => Directory.GetFiles(path, v));
-                    //var assemblyFiles = filters.Split('|').SelectMany(v => Directory.GetFiles(path, v)).Where(x => x.Contains("System.Formats.Asn1.dll"));
 
                     // Directory.GetFiles method returned file names is not sort, 
                     // this makes the order of the assembly elements of our generated XML files is inconsistent in different environments,
@@ -3475,30 +3474,13 @@ namespace Mono.Documentation
                     i.ImportDocumentation (info);
             }
 
-            // // Solution 2:  deterministic altmember placement.
-            // // 1) Sort altmember nodes by cref using the existing CrefComparer.
-            // // 2) Re-anchor them as a contiguous block at the end of <Docs>
-            // //    so they can never be interleaved with <exception>/<permission>.
-            // SortXmlNodes (e, e.SelectNodes ("altmember"), new CrefComparer ());
-            // foreach (XmlNode am in e.SelectNodes ("altmember").Cast<XmlNode> ().ToList ())
-            // {
-            //     e.RemoveChild (am);
-            //     e.AppendChild (am);
-            // }
 
-            // Solution 1: deterministic <altmember> placement.
-            // Sort altmember nodes by cref using the existing CrefComparer so
-            // multiple altmembers have a stable intra-name order. Inter-name
-            // order (exception/permission/altmember/related) is enforced by
-            // DocsNodeOrder below via OrderDocsNodes -> ReorderNodes.
             SortXmlNodes(e, e.SelectNodes("altmember"), new CrefComparer());
 
             OrderDocsNodes (e, e.ChildNodes);
             NormalizeWhitespace (e);
         }
 
-        //static readonly string[] DocsNodeOrder = {
-        //"typeparam", "param", "summary", "returns", "value", "remarks",
         static readonly string[] DocsNodeOrder = {
         "typeparam", "param", "summary", "returns", "value", "remarks",
         "exception", "permission", "altmember", "related",
