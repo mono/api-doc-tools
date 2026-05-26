@@ -3497,11 +3497,11 @@ namespace Mono.Documentation
             NormalizeWhitespace (e);
         }
 
-        static readonly string[] DocsNodeOrder = {
-        "typeparam", "param", "summary", "returns", "value", "remarks",
         //static readonly string[] DocsNodeOrder = {
         //"typeparam", "param", "summary", "returns", "value", "remarks",
-        //"exception", "permission", "altmember", "related",
+        static readonly string[] DocsNodeOrder = {
+        "typeparam", "param", "summary", "returns", "value", "remarks",
+        "exception", "permission", "altmember", "related",
     };
 
         private static void OrderDocsNodes (XmlNode docs, XmlNodeList children)
