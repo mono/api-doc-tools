@@ -3475,7 +3475,7 @@ namespace Mono.Documentation
                     i.ImportDocumentation (info);
             }
 
-            // // Solution 2:   deterministic altmember placement.
+            // // Solution 2: deterministic altmember placement.
             // // 1) Sort altmember nodes by cref using the existing CrefComparer.
             // // 2) Re-anchor them as a contiguous block at the end of <Docs>
             // //    so they can never be interleaved with <exception>/<permission>.
