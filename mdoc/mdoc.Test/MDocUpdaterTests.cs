@@ -253,5 +253,69 @@ namespace mdoc.Test
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "index.xml")));
             Assert.IsTrue(File.Exists(Path.Combine(outputDir, "ns-TestLibrary.xml")));
         }
+
+        // Tests for the deterministic <altmember> ordering applied in MDocUpdater.MakeDocNode:
+        // SortXmlNodes(..., new CrefComparer()) followed by OrderDocsNodes (DocsNodeOrder).
+        static XmlElement LoadDocs(string innerXml)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml("<Docs>" + innerXml + "</Docs>");
+            return doc.DocumentElement;
+        }
+
+        static void ApplyAltMemberOrdering(XmlElement docs)
+        {
+            MDocUpdater.SortXmlNodes(docs, docs.SelectNodes("altmember"), new MDocUpdater.CrefComparer());
+            MDocUpdater.OrderDocsNodes(docs, docs.ChildNodes);
+        }
+
+        [Test]
+        public void MakeDocNode_AltMembers_AreSortedByCref()
+        {
+            var docs = LoadDocs(@"
+                <summary>s</summary>
+                <altmember cref='T:System.B' />
+                <altmember cref='T:System.A' />
+                <altmember cref='M:Other.Ns.X' />");
+
+            ApplyAltMemberOrdering(docs);
+
+            var crefs = docs.SelectNodes("altmember")
+                .Cast<XmlElement>()
+                .Select(e => e.GetAttribute("cref"))
+                .ToArray();
+
+            // CrefComparer orders by namespace first, then full cref.
+            CollectionAssert.AreEqual(
+                new[] { "M:Other.Ns.X", "T:System.A", "T:System.B" },
+                crefs);
+        }
+
+        [Test]
+        public void MakeDocNode_AltMembers_AreContiguousBetweenPermissionAndRelated()
+        {
+            var docs = LoadDocs(@"
+                <summary>s</summary>
+                <altmember cref='T:System.B' />
+                <exception cref='T:System.E1'>e1</exception>
+                <altmember cref='T:System.A' />
+                <permission cref='T:System.P'>p</permission>
+                <altmember cref='M:Other.Ns.X' />
+                <related>r</related>");
+
+            ApplyAltMemberOrdering(docs);
+
+            var names = docs.ChildNodes.Cast<XmlNode>().Select(n => n.Name).ToArray();
+            int firstAlt = System.Array.IndexOf(names, "altmember");
+            int lastAlt = System.Array.LastIndexOf(names, "altmember");
+            int lastPerm = System.Array.LastIndexOf(names, "permission");
+            int firstRel = System.Array.IndexOf(names, "related");
+
+            // All three altmembers form a single contiguous block...
+            Assert.AreEqual(3, lastAlt - firstAlt + 1, "altmembers should be contiguous");
+            // ...sitting after permission and before related per DocsNodeOrder.
+            Assert.Greater(firstAlt, lastPerm, "altmember block must come after permission");
+            Assert.Less(lastAlt, firstRel, "altmember block must come before related");
+        }
     }
 }
