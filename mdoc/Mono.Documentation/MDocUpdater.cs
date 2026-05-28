@@ -1178,7 +1178,7 @@ namespace Mono.Documentation
                 SortXmlNodes (namespaces[i], namespaces[i].SelectNodes ("Type"), c);
         }
 
-        private static void SortXmlNodes (XmlNode parent, XmlNodeList children, XmlNodeComparer comparer)
+        internal static void SortXmlNodes (XmlNode parent, XmlNodeList children, XmlNodeComparer comparer)
         {
             MyXmlNodeList l = new MyXmlNodeList (children.Count);
             for (int i = 0; i < children.Count; ++i)
@@ -3474,15 +3474,19 @@ namespace Mono.Documentation
                     i.ImportDocumentation (info);
             }
 
+
+            SortXmlNodes(e, e.SelectNodes("altmember"), new CrefComparer());
+
             OrderDocsNodes (e, e.ChildNodes);
             NormalizeWhitespace (e);
         }
 
         static readonly string[] DocsNodeOrder = {
         "typeparam", "param", "summary", "returns", "value", "remarks",
+        "exception", "permission", "altmember", "related",
     };
 
-        private static void OrderDocsNodes (XmlNode docs, XmlNodeList children)
+        internal static void OrderDocsNodes (XmlNode docs, XmlNodeList children)
         {
             ReorderNodes (docs, children, DocsNodeOrder);
         }
@@ -3587,7 +3591,7 @@ namespace Mono.Documentation
                     paramref.SetAttribute ("name", newName);
         }
 
-        class CrefComparer : XmlNodeComparer
+        internal class CrefComparer : XmlNodeComparer
         {
 
             public override int Compare (XmlNode x, XmlNode y)
