@@ -1,0 +1,44 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, master, dev/** ]
+  pull_request:
+    branches: [ main, master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' }}
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        configuration: [Release]
+          
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '6.x'
+
+    - name: Install Mono - macOS
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew install --cask mono-mdk
+
+    - name: Install Mono - Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        winget install Mono.Mono --accept-source-agreements --accept-package-agreements
+        echo "PATH=$env:PATH;C:\Program Files\Mono\bin" >> $env:GITHUB_ENV
+
+    - name: Run tests
+      run: make prepare all check CONFIGURATION=${{ matrix.configuration }}

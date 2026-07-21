@@ -1,6 +1,7 @@
 CONFIGURATION = Release
 BIN = bin/$(CONFIGURATION)
 MDOC = $(BIN)/mdoc.exe
+NUGET = $(if $(filter Windows_NT,$(OS)),nuget,$(if $(NUGET_EXE),$(NUGET_EXE),nuget))
 ENVIRONMENT = notwsl#use 'wsl' when running on wsl
 
 all: build
@@ -13,7 +14,7 @@ $(MDOC):
 prepare:
 	git submodule update --init --recursive
 	dotnet restore apidoctools.sln
-	nuget install NUnit.Console -version 3.6.0 -NoCache -o packages
+	$(NUGET) install NUnit.Console -version 3.6.0 -NoCache -o packages
 
 clean:
 	dotnet build -v:n apidoctools.sln /t:clean /p:Configuration=$(CONFIGURATION)
@@ -22,13 +23,13 @@ clean:
 check: build check-monodoc check-mdoc
 
 check-mdoc:
-	cd mdoc; $(MAKE) check -B
+	$(MAKE) check -B -C mdoc
 
 nuget:
-	nuget pack mdoc/mdoc.nuspec -outputdirectory bin/Nuget
+	$(NUGET) pack mdoc/mdoc.nuspec -outputdirectory bin/Nuget
 
 check-monodoc:
-	cd monodoc; $(MAKE) check -B
+	$(MAKE) check -B -C monodoc
 
 zip:
 	rm -f $(BIN)/mdoc*.zip

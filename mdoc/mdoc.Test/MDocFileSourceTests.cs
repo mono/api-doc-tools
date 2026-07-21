@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using Mono.Documentation;
 using Mono.Documentation.Framework;
@@ -406,7 +407,9 @@ namespace mdoc.Test
             string result = fileSource.GetTypeXmlPath(basePath, nsName, typeName);
 
             // Assert
-            string expectedResult = "basePath/DroppedNamespace.Namespace/TypeName.xml";
+            string expectedResult = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                ? "basePath\\DroppedNamespace.Namespace\\TypeName.xml"
+                : "basePath/DroppedNamespace.Namespace/TypeName.xml";
             Assert.AreEqual(expectedResult, result);
         }
 
