@@ -3,6 +3,7 @@
 
 #include <ppltasks.h>
 #include <concurrent_vector.h>
+#include <cmath>
 
 using namespace concurrency;
 using namespace Platform::Collections;
@@ -22,25 +23,18 @@ Class1::Class1()
 IVector<double>^ Class1::ComputeResult(double input)
 {
 	// Implement your function in ISO C++ or
-	// call into your C++ lib or DLL here. This example uses AMP.
+	// call into your C++ lib or DLL here. This example uses standard C++.
 	float numbers[] = { 1.0, 10.0, 60.0, 100.0, 600.0, 10000.0 };
-	array_view<float, 1> logs(6, numbers);
-
-	// See http://msdn.microsoft.com/en-us/library/hh305254.aspx
-	parallel_for_each(
-		logs.extent,
-		[=](index<1> idx) restrict(amp)
+	for (float& value : numbers)
 	{
-		logs[idx] = concurrency::fast_math::log10(logs[idx]);
+		value = std::log10(value);
 	}
-	);
 
 	// Return a Windows Runtime-compatible type across the ABI
 	auto res = ref new Vector<double>();
-	int len = safe_cast<int>(logs.extent.size());
-	for (int i = 0; i < len; i++)
+	for (float value : numbers)
 	{
-		res->Append(logs[i]);
+		res->Append(value);
 	}
 
 	// res is implicitly cast to IVector<double>

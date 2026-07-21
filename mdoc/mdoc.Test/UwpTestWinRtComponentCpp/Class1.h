@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include <collection.h>
 #include <ppl.h>
-#include <amp.h>
-#include <amp_math.h>
 using namespace Windows::Foundation::Collections;
 
 namespace UwpTestWinRtComponentCpp
