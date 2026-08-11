@@ -1,6 +1,6 @@
 CONFIGURATION = Release
 PROGRAM = ../bin/$(CONFIGURATION)/mdoc.exe
-MONO = mono
+MONO = $(if $(filter Windows_NT,$(OS)),,mono)
 CSCOMPILE = mcs
 VBCOMPILE = vbnc
 TEST_CSCFLAGS = -target:library
@@ -47,8 +47,8 @@ EXTRA_DISTFILES = \
 MULTI-CLASSIC = Test/DocTest-DropNS-classic.dll Test/DocTest-DropNS-classic-multitest.dll
 MULTI-UNIFIED = Test/DocTest-DropNS-unified.dll Test/DocTest-DropNS-unified-multitest.dll
 
-DIFF = diff -rup 
-DIFF_QUIET = diff --brief
+DIFF = diff -rup $(if $(filter Windows_NT,$(OS)),--strip-trailing-cr,)
+DIFF_QUIET = diff --brief $(if $(filter Windows_NT,$(OS)),--strip-trailing-cr,)
 
 ifeq ($(ENVIRONMENT),wsl)
 DIFF = diff -rup -Z
@@ -59,11 +59,40 @@ cleanup:
 	-rm -Rf Test/en.actual Test/html.actual
 
 nunit: 
-	mono ../packages/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe mdoc.Test/bin/$(CONFIGURATION)/mdoc.Test.dll
+	$(MONO) ../packages/NUnit.ConsoleRunner.3.6.0/tools/nunit3-console.exe mdoc.Test/bin/$(CONFIGURATION)/mdoc.Test.dll
+
+ifeq ($(filter Windows_NT,$(OS)),)
 
 Test/DocTest-VB-Eii.dll:
 	$(VBCOMPILE) -out:Test/DocTest-VB-Eii.dll  Test/ClassEnumerator.vb
 	
+../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll:
+	msbuild ../mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
+
+Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll:
+	msbuild ../mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj -property:Configuration=Release
+
+Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll:
+	msbuild ../mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
+
+else # Full .NET Framework has extra attributes and slightly different generated types
+
+Test/DocTest-VB-Eii.dll:
+	cp ../external/Test/DocTest-VB-Eii.dll Test/DocTest-VB-Eii.dll
+
+../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll:
+	cp ../external/Test/mdoc.Test.FSharp.dll ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
+
+Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll:
+	mkdir -p Test/TestInterfaceImplementation/bin/Release/
+	cp ../external/Test/TestInterfaceImplementation.dll Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
+
+Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll:
+	mkdir -p Test/AttachedEventsAndProperties/bin/Release/
+	cp ../external/Test/AttachedEventsAndProperties.dll Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
+
+endif
+
 Test/DocTest-addNonGeneric.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-addNonGeneric.cs
 
@@ -174,7 +203,7 @@ Test/DocTest-typeForwards-Third.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:Test/DocTest-typeForwards-Third-First.dll /reference:$@ Test/DocTest-typeForwards.cs /define:THIRD
 
 Test/DocTest-TypeProjection.dll:
-	rm -f DocTest-TypeProjection.dll
+	rm -f $@
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-TypeProjection.cs
 
 # build test dll to test forwardings nested type
@@ -183,7 +212,7 @@ Test/DocTest-nestedType-typeForwards-First.dll:
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-nestedType-typeForwards.cs /define:FIRST
 
 Test/DocTest-LongFileName.dll:
-	rm -f DocTest-LongFileName.dll
+	rm -f $@
 	$(CSCOMPILE) $(TEST_CSCFLAGS) -unsafe -debug -optimize -target:library -out:$@ Test/DocTest-LongFileName.cs
 
 .PHONY: Test/DocTest-nestedType-typeForwards-Second.dll
@@ -670,7 +699,7 @@ check-monodocer-fx-statistics-remove:
 	
 check-monodocer-fsharp:
 	-rm -Rf Test/en.actual
-	msbuild ../mdoc/mdoc.Test/mdoc.Test.FSharp/mdoc.Test.FSharp.fsproj -property:Configuration=Release
+	$(MAKE) ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 	$(MONO) $(PROGRAM) update -lang fsharp -o Test/en.actual ../mdoc/mdoc.Test/mdoc.Test.FSharp/bin/Release/mdoc.Test.FSharp.dll
 
 ifeq ($(ENVIRONMENT), wsl)
@@ -682,7 +711,7 @@ endif
 
 check-monodocer-members-implementation:
 	-rm -Rf Test/en.actual
-	msbuild ../mdoc/Test/TestInterfaceImplementation/TestInterfaceImplementation.csproj -property:Configuration=Release
+	$(MAKE) Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
 	$(MONO) $(PROGRAM) update -o Test/en.actual Test/TestInterfaceImplementation/bin/Release/TestInterfaceImplementation.dll
 	$(DIFF) Test/en.expected.members-implementation Test/en.actual
 
@@ -768,7 +797,7 @@ check-monodocer-import-fx-update: check-monodocer-import-fx-work
 
 check-monodocer-attached-entities:
 	-rm -Rf Test/en.actual
-	msbuild ../mdoc/Test/AttachedEventsAndProperties/AttachedEventsAndProperties.csproj -property:Configuration=Release
+	$(MAKE) Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll
 	$(MONO) $(PROGRAM) update --debug -o Test/en.actual Test/AttachedEventsAndProperties/bin/Release/AttachedEventsAndProperties.dll -lang docid -lang vb.net -lang fsharp -lang javascript -lang c++/cli -lang c++/cx -lang c++/winrt
 	$(DIFF) Test/en.expected-attached-entities Test/en.actual
 
