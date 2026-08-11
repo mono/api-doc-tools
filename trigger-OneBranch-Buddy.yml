@@ -9,7 +9,7 @@ resources:
     - repository: templates
       type: git
       name: Engineering/api-doc-tools
-      ref: main
+      ref: danni-update-service-connection
 
 extends:
   template: .pipelines/bootstrap/trigger-Buddy.yml@templates
